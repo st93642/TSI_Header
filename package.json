@@ -11,7 +11,7 @@
   "icon": "tsi.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/st93642/vscode-tsi-header"
+    "url": "https://github.com/st93642/TSI_Header"
   },
   "license": "MIT",
   "keywords": [
