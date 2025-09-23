@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 02:40 Igors Oleinikovs                              */
+/*  Updated: Sep 24 2025 02:50 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -380,11 +380,77 @@ function activate(context) {
                 fullContent += `\npackage ${packageName};\n\npublic class ${className} {\n    // Class attributes\n    private String name;\n    private int id;\n\n    // Default constructor\n    public ${className}() {\n        this.name = "";\n        this.id = 0;\n    }\n\n    // Parameterized constructor\n    public ${className}(String name, int id) {\n        this.name = name;\n        this.id = id;\n    }\n\n    // Getter for name\n    public String getName() {\n        return name;\n    }\n\n    // Setter for name\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    // Getter for id\n    public int getId() {\n        return id;\n    }\n\n    // Setter for id\n    public void setId(int id) {\n        this.id = id;\n    }\n\n    // Override toString method\n    @Override\n    public String toString() {\n        return "${className}{" +\n                "name='" + name + '\\'' +\n                ", id=" + id +\n                '}';\n    }\n\n    // Override equals method\n    @Override\n    public boolean equals(Object obj) {\n        if (this == obj) return true;\n        if (obj == null || getClass() != obj.getClass()) return false;\n        ${className} that = (${className}) obj;\n        return id == that.id && name.equals(that.name);\n    }\n\n    // Override hashCode method\n    @Override\n    public int hashCode() {\n        return name.hashCode() * 31 + id;\n    }\n}\n`;
                 
             } else if (languageId === 'cpp' || languageId === 'c++') {
-                // For C++, we need to create both header and implementation
-                const headerGuard = `${className.toUpperCase()}_H`;
+                // For C++, create separate .hpp and .cpp files
+                const headerGuard = `${className.toUpperCase()}_HPP`;
+                const currentDir = path.dirname(fileName);
+                const headerFileName = `${className}.hpp`;
+                const implFileName = `${className}.cpp`;
+                const headerFilePath = path.join(currentDir, headerFileName);
+                const implFilePath = path.join(currentDir, implFileName);
+
+                // Check if files already exist
+                try {
+                    await vscode.workspace.fs.stat(vscode.Uri.file(headerFilePath));
+                    const overwrite = await vscode.window.showWarningMessage(
+                        `File '${headerFileName}' already exists. Overwrite?`,
+                        'Yes', 'No'
+                    );
+                    if (overwrite !== 'Yes') {
+                        return;
+                    }
+                } catch (e) {
+                    // File doesn't exist, continue
+                }
                 
-                // Header file content
-                fullContent += `\n#ifndef ${headerGuard}\n#define ${headerGuard}\n\n#include <string>\n#include <iostream>\n\nclass ${className} {\nprivate:\n    std::string name;\n    int id;\n\npublic:\n    // Default constructor\n    ${className}();\n\n    // Parameterized constructor\n    ${className}(const std::string& name, int id);\n\n    // Copy constructor\n    ${className}(const ${className}& other);\n\n    // Destructor\n    ~${className}();\n\n    // Assignment operator\n    ${className}& operator=(const ${className}& other);\n\n    // Getters\n    std::string getName() const;\n    int getId() const;\n\n    // Setters\n    void setName(const std::string& name);\n    void setId(int id);\n\n    // Utility methods\n    void display() const;\n    bool equals(const ${className}& other) const;\n};\n\n#endif // ${headerGuard}\n`;
+                try {
+                    await vscode.workspace.fs.stat(vscode.Uri.file(implFilePath));
+                    const overwrite = await vscode.window.showWarningMessage(
+                        `File '${implFileName}' already exists. Overwrite?`,
+                        'Yes', 'No'
+                    );
+                    if (overwrite !== 'Yes') {
+                        return;
+                    }
+                } catch (e) {
+                    // File doesn't exist, continue
+                }
+
+                // Generate header file content
+                const headerCommand = `ruby "${cliPath}" insert "${languageId}" "${headerFilePath}"`;
+                const headerResult = execSync(headerCommand, { encoding: 'utf8', cwd: extensionPath, env: env });
+                const headerResponse = JSON.parse(headerResult);
+                
+                if (!headerResponse.success) {
+                    vscode.window.showErrorMessage(`Failed to generate header for ${headerFileName}: ${headerResponse.message}`);
+                    return;
+                }
+
+                let headerContent = headerResponse.header;
+                headerContent += `\n#ifndef ${headerGuard}\n#define ${headerGuard}\n\n#include <string>\n#include <iostream>\n\nclass ${className} {\nprivate:\n    std::string name;\n    int id;\n\npublic:\n    // Default constructor\n    ${className}();\n\n    // Parameterized constructor\n    ${className}(const std::string& name, int id);\n\n    // Copy constructor\n    ${className}(const ${className}& other);\n\n    // Destructor\n    ~${className}();\n\n    // Assignment operator\n    ${className}& operator=(const ${className}& other);\n\n    // Getters\n    std::string getName() const;\n    int getId() const;\n\n    // Setters\n    void setName(const std::string& name);\n    void setId(int id);\n\n    // Utility methods\n    void display() const;\n    bool equals(const ${className}& other) const;\n};\n\n#endif // ${headerGuard}\n`;
+
+                // Generate implementation file content
+                const implCommand = `ruby "${cliPath}" insert "${languageId}" "${implFilePath}"`;
+                const implResult = execSync(implCommand, { encoding: 'utf8', cwd: extensionPath, env: env });
+                const implResponse = JSON.parse(implResult);
+                
+                if (!implResponse.success) {
+                    vscode.window.showErrorMessage(`Failed to generate header for ${implFileName}: ${implResponse.message}`);
+                    return;
+                }
+
+                let implContent = implResponse.header;
+                implContent += `\n#include "${headerFileName}"\n\n// Default constructor\n${className}::${className}() : name(""), id(0) {}\n\n// Parameterized constructor\n${className}::${className}(const std::string& name, int id) : name(name), id(id) {}\n\n// Copy constructor\n${className}::${className}(const ${className}& other) : name(other.name), id(other.id) {}\n\n// Destructor\n${className}::~${className}() {}\n\n// Assignment operator\n${className}& ${className}::operator=(const ${className}& other) {\n    if (this != &other) {\n        name = other.name;\n        id = other.id;\n    }\n    return *this;\n}\n\n// Getters\nstd::string ${className}::getName() const {\n    return name;\n}\n\nint ${className}::getId() const {\n    return id;\n}\n\n// Setters\nvoid ${className}::setName(const std::string& name) {\n    this->name = name;\n}\n\nvoid ${className}::setId(int id) {\n    this->id = id;\n}\n\n// Utility methods\nvoid ${className}::display() const {\n    std::cout << "${className}{name='" << name << "', id=" << id << "}" << std::endl;\n}\n\nbool ${className}::equals(const ${className}& other) const {\n    return name == other.name && id == other.id;\n}\n`;
+
+                // Write both files
+                await vscode.workspace.fs.writeFile(vscode.Uri.file(headerFilePath), Buffer.from(headerContent));
+                await vscode.workspace.fs.writeFile(vscode.Uri.file(implFilePath), Buffer.from(implContent));
+
+                // Open the header file in editor
+                const document = await vscode.workspace.openTextDocument(headerFilePath);
+                await vscode.window.showTextDocument(document);
+
+                vscode.window.showInformationMessage(`TSI Header: Created C++ class "${className}" (${headerFileName} + ${implFileName})`);
+                return; // Don't continue with the insert logic below
                 
             } else if (languageId === 'python') {
                 fullContent += `\nclass ${className}:\n    """${className} class with basic functionality."""\n\n    def __init__(self, name="", id_num=0):\n        """Initialize ${className} instance.\n\n        Args:\n            name (str): The name attribute\n            id_num (int): The ID attribute\n        """\n        self._name = name\n        self._id = id_num\n\n    @property\n    def name(self):\n        """Get the name attribute."""\n        return self._name\n\n    @name.setter\n    def name(self, value):\n        """Set the name attribute."""\n        if not isinstance(value, str):\n            raise TypeError("Name must be a string")\n        self._name = value\n\n    @property\n    def id(self):\n        """Get the ID attribute."""\n        return self._id\n\n    @id.setter\n    def id(self, value):\n        """Set the ID attribute."""\n        if not isinstance(value, int):\n            raise TypeError("ID must be an integer")\n        self._id = value\n\n    def __str__(self):\n        """String representation of the object."""\n        return f"${className}{{name='{self._name}', id={self._id}}}"\n\n    def __repr__(self):\n        """Official string representation of the object."""\n        return f"${className}('{self._name}', {self._id})"\n\n    def __eq__(self, other):\n        """Check equality with another object."""\n        if not isinstance(other, ${className}):\n            return NotImplemented\n        return self._name == other._name and self._id == other._id\n\n    def __hash__(self):\n        """Hash function for the object."""\n        return hash((self._name, self._id))\n\n    def display(self):\n        """Display the object information."""\n        print(f"${className}{{name='{self._name}', id={self._id}}}")\n\n\n# Example usage\nif __name__ == "__main__":\n    # Create an instance\n    obj = ${className}("Example", 123)\n    obj.display()\n\n    # Test property setters\n    obj.name = "Updated Name"\n    obj.id = 456\n    obj.display()\n`;
