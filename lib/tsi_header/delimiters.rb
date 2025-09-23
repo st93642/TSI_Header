@@ -1,18 +1,5 @@
 #!/usr/bin/env ruby
 
-#*****************************************************************************#
-#                                                                             #
-#  delimiters.rb                                          TTTTTTTT SSSSSSS II #
-#                                                            TT    SS      II #
-#  By: st93642@students.tsi.lv                      TT    SSSSSSS II #
-#                                                            TT         SS II #
-#  Created: Sep 23 2025 11:19 st93642               TT    SSSSSSS II #
-#  Updated: Sep 23 2025 11:19 st93642                                #
-#                                                                             #
-#   Transport and Telecommunication Institute - Riga, Latvia                  #
-#                       https://tsi.lv                                        #
-#*****************************************************************************#
-
 module TSIHeader
   class Delimiters
     SLASHES = ['/*', '*/', '/*', '*/', '/*', '*/']
@@ -46,6 +33,7 @@ module TSIHeader
       'coffeescript' => HASHES,
       'coldfusion' => COLDFUSION,
       'cpp' => SLASHES,
+      'csharp' => SLASHES,
       'css' => SLASHES,
       'dart' => SLASHES,
       'dockerfile' => HASHES,
