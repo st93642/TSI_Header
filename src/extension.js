@@ -18,6 +18,30 @@ const path = require('path');
 function activate(context) {
     console.log('TSI Header extension is now active!');
 
+    // Helper function to show configuration instructions
+    function showConfigurationInstructions(type) {
+        const message = type === 'username' 
+            ? '🔧 TSI Header Setup: Please configure your username to get started!\n\n' +
+              '📝 Choose one option:\n' +
+              '• VS Code Settings: Search "tsiheader.username"\n' +
+              '• Git config: git config --global user.name "YourUsername"\n' +
+              '• Environment: Set TSI_USERNAME variable'
+            : '🔧 TSI Header Setup: Please configure your email to get started!\n\n' +
+              '📝 Choose one option:\n' +
+              '• VS Code Settings: Search "tsiheader.email"\n' +
+              '• Git config: git config --global user.email "your.email@example.com"\n' +
+              '• Environment: Set TSI_EMAIL variable';
+        
+        vscode.window.showInformationMessage(message, 'Open Settings', 'Git Config Help')
+            .then(selection => {
+                if (selection === 'Open Settings') {
+                    vscode.commands.executeCommand('workbench.action.openSettings', `@ext:st93642.tsi-header`);
+                } else if (selection === 'Git Config Help') {
+                    vscode.env.openExternal(vscode.Uri.parse('https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup'));
+                }
+            });
+    }
+
     // Register insert header command
     const insertHeaderCommand = vscode.commands.registerCommand('tsiheader.insertHeader', async () => {
         const editor = vscode.window.activeTextEditor;
@@ -35,6 +59,33 @@ function activate(context) {
             const config = vscode.workspace.getConfiguration('tsiheader');
             const username = config.get('username');
             const email = config.get('email');
+            
+            // Check for credentials and show helpful setup instructions if missing
+            const hasUsername = username && username.trim() !== '';
+            const hasEmail = email && email.trim() !== '';
+            
+            // Check git config as fallback
+            let gitUsername = '';
+            let gitEmail = '';
+            try {
+                gitUsername = execSync('git config --global user.name', { encoding: 'utf8' }).trim();
+            } catch (e) { /* ignore */ }
+            try {
+                gitEmail = execSync('git config --global user.email', { encoding: 'utf8' }).trim();
+            } catch (e) { /* ignore */ }
+            
+            const hasAnyUsername = hasUsername || gitUsername;
+            const hasAnyEmail = hasEmail || gitEmail;
+            
+            // Show configuration instructions if credentials are missing
+            if (!hasAnyUsername) {
+                showConfigurationInstructions('username');
+                return;
+            }
+            if (!hasAnyEmail) {
+                showConfigurationInstructions('email');
+                return;
+            }
             
             // Get Ruby CLI path
             const extensionPath = context.extensionPath;
@@ -94,6 +145,33 @@ function activate(context) {
             const config = vscode.workspace.getConfiguration('tsiheader');
             const username = config.get('username');
             const email = config.get('email');
+            
+            // Check for credentials and show helpful setup instructions if missing
+            const hasUsername = username && username.trim() !== '';
+            const hasEmail = email && email.trim() !== '';
+            
+            // Check git config as fallback
+            let gitUsername = '';
+            let gitEmail = '';
+            try {
+                gitUsername = execSync('git config --global user.name', { encoding: 'utf8' }).trim();
+            } catch (e) { /* ignore */ }
+            try {
+                gitEmail = execSync('git config --global user.email', { encoding: 'utf8' }).trim();
+            } catch (e) { /* ignore */ }
+            
+            const hasAnyUsername = hasUsername || gitUsername;
+            const hasAnyEmail = hasEmail || gitEmail;
+            
+            // Show configuration instructions if credentials are missing
+            if (!hasAnyUsername) {
+                showConfigurationInstructions('username');
+                return;
+            }
+            if (!hasAnyEmail) {
+                showConfigurationInstructions('email');
+                return;
+            }
             
             // Get Ruby CLI path
             const extensionPath = context.extensionPath;
