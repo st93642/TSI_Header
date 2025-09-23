@@ -17,7 +17,7 @@ module TSIHeader
 
     # Extract created info from line 6 (0-indexed)
     created_line = lines[6] || ""
-    # Format: "/*  Created: Sep 23 2025 12:30 Igors Oleinikovs                        TT    SSSSSSS II */"
+    # Format: "/*  Created: Sep 23 2025 12:30 st93642                        TT    SSSSSSS II */"
     created_match = created_line.match(/Created:\s+(\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}:\d{2})\s+([a-zA-Z0-9._\s-]+?)\s+TT/)
     if created_match
       created_at_str = created_match[1]
@@ -30,7 +30,7 @@ module TSIHeader
 
     # Extract updated info from line 7 (0-indexed)
     updated_line = lines[7] || ""
-    # Format: "/*  Updated: Sep 23 2025 12:31 Igors Oleinikovs                              */"
+    # Format: "/*  Updated: Sep 23 2025 12:31 st93642                              */"
     updated_match = updated_line.match(/Updated:\s+(\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}:\d{2})\s+([a-zA-Z0-9._\s-]+?)\s+\*\//)
     if updated_match
       updated_at_str = updated_match[1]

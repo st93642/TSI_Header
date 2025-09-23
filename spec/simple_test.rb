@@ -6,8 +6,8 @@
 #                                                            TT    SS      II #
 #  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
 #                                                            TT         SS II #
-#  Created: Sep 23 2025 11:19 igors.oleinikovs               TT    SSSSSSS II #
-#  Updated: Sep 23 2025 11:19 igors.oleinikovs                                #
+#  Created: Sep 23 2025 11:19 st93642               TT    SSSSSSS II #
+#  Updated: Sep 23 2025 11:19 st93642                                #
 #                                                                             #
 #   Transport and Telecommunication Institute - Riga, Latvia                  #
 #                       https://tsi.lv                                        #
@@ -60,7 +60,7 @@ def run_tests
   # Test 4: Header extraction
   test_count += 1
   begin
-    sample_file = '/home/altin/vscode-42header/tsi_example.c'
+    sample_file = './examples/tsi_example.c'
     if File.exist?(sample_file)
       content = File.read(sample_file)
       extracted = TSIHeader::HeaderExtractor.extract_header(content)
@@ -81,7 +81,7 @@ def run_tests
   # Test 5: Header parsing
   test_count += 1
   begin
-    sample_file = '/home/altin/vscode-42header/tsi_example.c'
+    sample_file = './examples/tsi_example.c'
     if File.exist?(sample_file)
       content = File.read(sample_file)
       extracted = TSIHeader::HeaderExtractor.extract_header(content)

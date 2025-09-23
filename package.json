@@ -34,7 +34,7 @@
   "activationEvents": [
     "*"
   ],
-  "main": "./out/extension.js",
+  "main": "./src/extension.js",
   "contributes": {
     "configuration": {
       "title": "TSI Header",
