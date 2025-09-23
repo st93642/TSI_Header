@@ -2,16 +2,21 @@
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
   "description": "Professional header generator for 84+ programming languages with TSI institutional branding - Transport and Telecommunication Institute",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
     "email": "st93642@students.tsi.lv"
   },
   "icon": "tsi.png",
+  "homepage": "https://github.com/st93642/TSI_Header#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/st93642/TSI_Header"
+  },
+  "bugs": {
+    "url": "https://github.com/st93642/TSI_Header/issues",
+    "email": "st93642@students.tsi.lv"
   },
   "license": "MIT",
   "keywords": [
