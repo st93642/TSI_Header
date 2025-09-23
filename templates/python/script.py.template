@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+/*****************************************************************************/
+/*                                                                           */
+/*  {{FILENAME}}                                     TTTTTTTT SSSSSSS II     */
+/*                                                          TT    SS      II */
+/*  By: {{USERNAME}}                                       TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: {{DATE}}                                       TT    SSSSSSS II */
+/*  Updated: {{DATE}}                                                        */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+def main():
+    """Main function - entry point of the program."""
+    print("Hello, World!")
+    print("This is a basic Python script template.")
+
+
+if __name__ == "__main__":
+    main()

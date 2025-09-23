@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+/*****************************************************************************/
+/*                                                                           */
+/*  {{FILENAME}}                                     TTTTTTTT SSSSSSS II     */
+/*                                                          TT    SS      II */
+/*  By: {{USERNAME}}                                       TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: {{DATE}}                                       TT    SSSSSSS II */
+/*  Updated: {{DATE}}                                                        */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+/**
+ * Main function - entry point of the program
+ */
+function main() {
+    console.log('Hello, World!');
+    console.log('This is a basic JavaScript script template.');
+}
+
+// Execute main function
+main();
+
+// Export for use as module
+module.exports = { main };

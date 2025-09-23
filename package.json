@@ -74,8 +74,13 @@
         "category": "TSI Header"
       },
       {
-        "command": "tsiheader.createCodeStructure",
-        "title": "Create class/base code",
+        "command": "tsiheader.addClass",
+        "title": "Add class",
+        "category": "TSI Header"
+      },
+      {
+        "command": "tsiheader.addCodeBase",
+        "title": "Add code base",
         "category": "TSI Header"
       }
     ],
@@ -90,7 +95,11 @@
           "group": "navigation"
         },
         {
-          "command": "tsiheader.createCodeStructure",
+          "command": "tsiheader.addClass",
+          "group": "navigation"
+        },
+        {
+          "command": "tsiheader.addCodeBase",
           "group": "navigation"
         }
       ],
@@ -104,7 +113,11 @@
           "group": "navigation"
         },
         {
-          "command": "tsiheader.createCodeStructure",
+          "command": "tsiheader.addClass",
+          "group": "navigation"
+        },
+        {
+          "command": "tsiheader.addCodeBase",
           "group": "navigation"
         }
       ],
@@ -118,7 +131,12 @@
           "when": "editorTextFocus"
         },
         {
-          "command": "tsiheader.createCodeStructure",
+          "command": "tsiheader.addClass",
+          "when": "explorerViewletVisible && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|kt|ts|js)$/)",
+          "group": "navigation"
+        },
+        {
+          "command": "tsiheader.addCodeBase",
           "when": "explorerViewletVisible"
         }
       ]

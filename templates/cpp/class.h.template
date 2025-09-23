@@ -1,0 +1,54 @@
+#ifndef {{HEADER_GUARD}}
+#define {{HEADER_GUARD}}
+
+/*****************************************************************************/
+/*                                                                           */
+/*  {{FILENAME}}                                     TTTTTTTT SSSSSSS II     */
+/*                                                          TT    SS      II */
+/*  By: {{USERNAME}}                                       TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: {{DATE}}                                       TT    SSSSSSS II */
+/*  Updated: {{DATE}}                                                        */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+#include <string>
+#include <iostream>
+
+class {{CLASSNAME}} {
+private:
+    std::string name;
+    int id;
+
+public:
+    // Default constructor
+    {{CLASSNAME}}();
+
+    // Parameterized constructor
+    {{CLASSNAME}}(const std::string& name, int id);
+
+    // Copy constructor
+    {{CLASSNAME}}(const {{CLASSNAME}}& other);
+
+    // Destructor
+    ~{{CLASSNAME}}();
+
+    // Assignment operator
+    {{CLASSNAME}}& operator=(const {{CLASSNAME}}& other);
+
+    // Getters
+    std::string getName() const;
+    int getId() const;
+
+    // Setters
+    void setName(const std::string& name);
+    void setId(int id);
+
+    // Utility methods
+    void display() const;
+    bool equals(const {{CLASSNAME}}& other) const;
+};
+
+#endif // {{HEADER_GUARD}}
