@@ -1,0 +1,19 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  {{FILENAME}}                                     TTTTTTTT SSSSSSS II     */
+/*                                                          TT    SS      II */
+/*  By: {{USERNAME}}                                       TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: {{DATE}}                                       TT    SSSSSSS II */
+/*  Updated: {{DATE}}                                                        */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+#include <stdio.h>
+
+int main(int argc, char *argv[]) {
+    printf("Hello, World!\n");
+    return 0;
+}

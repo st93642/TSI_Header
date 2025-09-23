@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 23 2025 11:39 st93642                                       */
+/*  Updated: Sep 24 2025 02:00 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -293,8 +293,97 @@ function activate(context) {
         }
     });
 
+    // Register create code structure command
+    const createCodeStructureCommand = vscode.commands.registerCommand('tsiheader.createCodeStructure', async (uri) => {
+        // Get the target directory from the URI (clicked folder in explorer)
+        let targetDir = uri ? vscode.Uri.parse(uri.path).fsPath : vscode.workspace.workspaceFolders[0].uri.fsPath;
+
+        // For now, let's start with a simple C main file
+        const fileName = await vscode.window.showInputBox({
+            prompt: 'Enter filename (without extension)',
+            placeHolder: 'main'
+        });
+
+        if (!fileName) {
+            return; // User cancelled
+        }
+
+        const fullFileName = `${fileName}.c`;
+        const filePath = path.join(targetDir, fullFileName);
+
+        // Check if file already exists
+        try {
+            await vscode.workspace.fs.stat(vscode.Uri.file(filePath));
+            const overwrite = await vscode.window.showWarningMessage(
+                `File '${fullFileName}' already exists. Overwrite?`,
+                'Yes', 'No'
+            );
+            if (overwrite !== 'Yes') {
+                return;
+            }
+        } catch (e) {
+            // File doesn't exist, which is fine
+        }
+
+        // Get credentials for template
+        const config = vscode.workspace.getConfiguration('tsiheader');
+        const username = config.get('username');
+        const email = config.get('email');
+
+        let finalUsername = username || 'unknown';
+        let finalEmail = email || 'unknown@students.tsi.lv';
+
+        // Check git config as fallback
+        try {
+            if (!username) {
+                finalUsername = execSync('git config --global user.name', { encoding: 'utf8' }).trim();
+            }
+            if (!email) {
+                finalEmail = execSync('git config --global user.email', { encoding: 'utf8' }).trim();
+            }
+        } catch (e) {
+            // Git config not available, use defaults
+        }
+
+        // Read template
+        const extensionPath = context.extensionPath;
+        const templatePath = path.join(extensionPath, 'templates', 'c', 'main.c.template');
+
+        try {
+            const templateContent = await vscode.workspace.fs.readFile(vscode.Uri.file(templatePath));
+            let content = templateContent.toString();
+
+            // Replace template variables
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            content = content.replace(/\{\{FILENAME\}\}/g, fullFileName);
+            content = content.replace(/\{\{USERNAME\}\}/g, finalUsername);
+            content = content.replace(/\{\{EMAIL\}\}/g, finalEmail);
+            content = content.replace(/\{\{DATE\}\}/g, dateStr);
+
+            // Write the file
+            await vscode.workspace.fs.writeFile(vscode.Uri.file(filePath), Buffer.from(content));
+
+            // Open the file in editor
+            const document = await vscode.workspace.openTextDocument(filePath);
+            await vscode.window.showTextDocument(document);
+
+            vscode.window.showInformationMessage(`TSI Header: Created ${fullFileName} with main function`);
+        } catch (error) {
+            vscode.window.showErrorMessage(`Failed to create file: ${error.message}`);
+        }
+    });
+
     context.subscriptions.push(insertHeaderCommand);
     context.subscriptions.push(updateHeaderCommand);
+    context.subscriptions.push(createCodeStructureCommand);
     context.subscriptions.push(onSaveListener);
 }
 

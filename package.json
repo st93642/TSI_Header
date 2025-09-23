@@ -72,6 +72,11 @@
         "command": "tsiheader.updateHeader",
         "title": "Update Header",
         "category": "TSI Header"
+      },
+      {
+        "command": "tsiheader.createCodeStructure",
+        "title": "Create class/base code",
+        "category": "TSI Header"
       }
     ],
     "menus": {
@@ -83,6 +88,10 @@
         {
           "command": "tsiheader.updateHeader",
           "group": "navigation"
+        },
+        {
+          "command": "tsiheader.createCodeStructure",
+          "group": "navigation"
         }
       ],
       "editor/title": [
@@ -92,6 +101,10 @@
         },
         {
           "command": "tsiheader.updateHeader",
+          "group": "navigation"
+        },
+        {
+          "command": "tsiheader.createCodeStructure",
           "group": "navigation"
         }
       ],
@@ -103,6 +116,10 @@
         {
           "command": "tsiheader.updateHeader",
           "when": "editorTextFocus"
+        },
+        {
+          "command": "tsiheader.createCodeStructure",
+          "when": "explorerViewletVisible"
         }
       ]
     },
