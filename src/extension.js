@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 02:30 Igors Oleinikovs                              */
+/*  Updated: Sep 24 2025 02:37 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -327,13 +327,9 @@ function activate(context) {
 
         const extensionPath = context.extensionPath;
         const now = new Date();
-        const dateStr = now.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
+        // Format date to match Ruby header generator format: "Sep 24 2025 02:32"
+        const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).replace(',', '') + 
+                       ' ' + now.toTimeString().slice(0, 5);
 
         try {
             let templatePath, classContent;
@@ -448,13 +444,9 @@ function activate(context) {
 
         const extensionPath = context.extensionPath;
         const now = new Date();
-        const dateStr = now.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
+        // Format date to match Ruby header generator format: "Sep 24 2025 02:32"
+        const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).replace(',', '') + 
+                       ' ' + now.toTimeString().slice(0, 5);
 
         try {
             let templatePath, codeContent;
