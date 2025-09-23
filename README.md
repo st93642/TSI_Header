@@ -102,6 +102,17 @@ Comprehensive test coverage with 84+ programming languages validated for:
 - ✅ All comment styles working correctly
 - ✅ Dynamic alignment algorithms
 
+## 🤝 Contributing
+
+Pull requests and contributions are welcome! Whether you want to:
+
+- Add support for new programming languages
+- Improve existing functionality
+- Fix bugs or enhance performance
+- Update documentation
+
+Feel free to open an issue or submit a pull request. All contributions help make this extension better.
+
 ## 📄 License
 
 This project is licensed under the MIT License.
