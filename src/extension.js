@@ -206,8 +206,96 @@ function activate(context) {
         }
     });
 
+    // Auto-save functionality: Listen for file save events
+    const onSaveListener = vscode.workspace.onDidSaveTextDocument(async (document) => {
+        // Check if auto-update is enabled
+        const config = vscode.workspace.getConfiguration('tsiheader');
+        const autoUpdate = config.get('autoUpdate');
+        
+        if (!autoUpdate) {
+            return; // Auto-update is disabled
+        }
+
+        // Check if file has a TSI header to update
+        const text = document.getText();
+        const lines = text.split('\n');
+        
+        // Look for TSI header pattern in first few lines
+        let hasHeader = false;
+        for (let i = 0; i < Math.min(15, lines.length); i++) {
+            if (lines[i].includes('Transport and Telecommunication Institute')) {
+                hasHeader = true;
+                break;
+            }
+        }
+        
+        if (!hasHeader) {
+            return; // No TSI header found, nothing to update
+        }
+
+        // Check for credentials (same logic as manual update)
+        const username = config.get('username');
+        const email = config.get('email');
+        
+        const hasUsername = username && username.trim() !== '';
+        const hasEmail = email && email.trim() !== '';
+        
+        // Check git config as fallback
+        let gitUsername = '';
+        let gitEmail = '';
+        try {
+            gitUsername = execSync('git config --global user.name', { encoding: 'utf8' }).trim();
+        } catch (e) { /* ignore */ }
+        try {
+            gitEmail = execSync('git config --global user.email', { encoding: 'utf8' }).trim();
+        } catch (e) { /* ignore */ }
+        
+        const hasAnyUsername = hasUsername || gitUsername;
+        const hasAnyEmail = hasEmail || gitEmail;
+        
+        if (!hasAnyUsername || !hasAnyEmail) {
+            return; // Skip auto-update if credentials are missing
+        }
+
+        // Perform the auto-update
+        try {
+            const languageId = document.languageId;
+            const fileName = document.fileName;
+            
+            // Get Ruby CLI path
+            const extensionPath = context.extensionPath;
+            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            
+            // Set environment variables for configuration
+            const env = {
+                ...process.env
+            };
+            
+            if (hasUsername) {
+                env.TSI_USERNAME = username;
+            }
+            if (hasEmail) {
+                env.TSI_EMAIL = email;
+            }
+            
+            // Execute Ruby CLI for auto-update
+            const command = `ruby "${cliPath}" update "${languageId}" "${fileName}"`;
+            const result = execSync(command, { encoding: 'utf8', cwd: extensionPath, env: env });
+            const response = JSON.parse(result);
+            
+            if (response.success) {
+                // Silent success for auto-update - no notification needed
+                console.log('TSI Header auto-updated successfully');
+            }
+        } catch (error) {
+            // Silent failure for auto-update - no error notifications for background operations
+            console.log('TSI Header auto-update failed:', error.message);
+        }
+    });
+
     context.subscriptions.push(insertHeaderCommand);
     context.subscriptions.push(updateHeaderCommand);
+    context.subscriptions.push(onSaveListener);
 }
 
 function deactivate() {}

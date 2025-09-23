@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
   "description": "Professional header generator for 84+ programming languages with TSI institutional branding - Transport and Telecommunication Institute",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -52,6 +52,12 @@
         "tsiheader.email": {
           "type": "string", 
           "description": "Email address to use in TSI headers",
+          "scope": "resource"
+        },
+        "tsiheader.autoUpdate": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically update TSI header when file is saved",
           "scope": "resource"
         }
       }
