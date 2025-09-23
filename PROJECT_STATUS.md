@@ -172,4 +172,4 @@ The TSI Header Extension is now a fully functional, professionally published VS 
 
 ---
 
-*Developed by st93642 for the Transport and Telecommunication Institute Computer Science program*
+Developed by st93642 for the Transport and Telecommunication Institute Computer Science program
