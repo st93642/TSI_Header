@@ -1,0 +1,123 @@
+{
+  "name": "tsi-header",
+  "displayName": "TSI Header - st93642",
+  "description": "Professional header generator for 84+ programming languages with TSI institutional branding - Transport and Telecommunication Institute",
+  "version": "1.0.0",
+  "publisher": "st93642",
+  "author": {
+    "name": "st93642",
+    "email": "st93642@students.tsi.lv"
+  },
+  "icon": "tsi.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/st93642/vscode-tsi-header"
+  },
+  "license": "MIT",
+  "keywords": [
+    "header",
+    "tsi",
+    "transport-telecommunication-institute",
+    "code-header",
+    "institutional-branding",
+    "ruby",
+    "multi-language"
+  ],
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Formatters",
+    "Snippets"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "TSI Header",
+      "properties": {
+        "tsiheader.username": {
+          "type": "string",
+          "description": "Username to use in TSI headers",
+          "scope": "resource"
+        },
+        "tsiheader.email": {
+          "type": "string", 
+          "description": "Email address to use in TSI headers",
+          "scope": "resource"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "tsiheader.insertHeader",
+        "title": "Insert Header",
+        "category": "TSI Header"
+      },
+      {
+        "command": "tsiheader.updateHeader",
+        "title": "Update Header",
+        "category": "TSI Header"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "tsiheader.insertHeader",
+          "group": "navigation"
+        },
+        {
+          "command": "tsiheader.updateHeader",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "tsiheader.insertHeader",
+          "group": "navigation"
+        },
+        {
+          "command": "tsiheader.updateHeader",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "tsiheader.insertHeader",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "tsiheader.updateHeader",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "tsiheader.insertHeader",
+        "key": "ctrl+alt+h",
+        "mac": "cmd+alt+h",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "tsiheader.updateHeader",
+        "key": "ctrl+alt+u",
+        "mac": "cmd+alt+u", 
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "ruby scripts/compile.rb",
+    "watch": "ruby scripts/watch.rb",
+    "test": "ruby spec/production_test.rb"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0"
+  },
+  "dependencies": {}
+}

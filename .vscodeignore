@@ -1,0 +1,38 @@
+# Development files
+.vscode/
+.gitignore
+.git/
+node_modules/
+npm-debug.log*
+
+# Test files
+spec/
+scripts/
+*.test.js
+*.test.rb
+
+# Documentation and development
+*.md
+!README.md
+docs/
+
+# Temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+
+# Ruby specific
+Gemfile
+Gemfile.lock
+.bundle/
+
+# Build artifacts
+out/test/
+.nyc_output/
+coverage/
+
+# Development scripts (keep only essential ones)
+scripts/add_headers.rb
+scripts/project_status.rb
+scripts/installation_guide.rb
