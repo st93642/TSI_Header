@@ -5,6 +5,46 @@ All notable changes to the TSI Header extension will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-09-24
+
+### ✨ Added
+
+- **Auto-Save Functionality**: New `tsiheader.autoUpdate` setting enables automatic header updates when files are saved
+- **Smart Header Detection**: Only files with existing TSI headers are processed during auto-updates  
+- **Proactive Credential Checking**: Extension now validates credentials before execution and provides helpful setup guidance
+- **Multi-Source Credential Detection**: Checks VS Code settings, git config, and environment variables automatically
+- **Configuration Assistant**: Friendly setup instructions with direct links to settings and git config help
+- **Silent Background Operations**: Auto-updates work quietly without interrupting workflow
+
+### 🛠️ Improved  
+
+- **Enhanced Error Handling**: Replaced error messages with welcoming configuration instructions
+- **User Experience**: Eliminated scary error popups in favor of helpful guidance with emojis and clear steps
+- **Performance Optimization**: Quick header detection without full file parsing
+- **Credential Management**: Graceful fallback chain from VS Code settings → git config → environment variables
+
+### 🔧 Technical Changes
+
+- Added `onDidSaveTextDocument` listener for auto-update functionality
+- Enhanced credential validation logic with comprehensive error handling
+- Implemented selective file processing based on existing TSI header detection
+- Added comprehensive logging for debugging auto-update operations
+- Improved extension activation and command registration flow
+
+### 📋 New Configuration Options
+
+- `tsiheader.autoUpdate` (boolean, default: false) - Enable automatic header updates on file save
+
+### 🎯 Breaking Changes
+
+None - fully backward compatible with v1.0.1
+
+### 🐛 Fixed
+
+- Credential detection edge cases where git config might be missing
+- Error message handling for various failure scenarios
+- Extension stability during background auto-update operations
+
 ## [1.0.1] - 2025-09-23
 
 ### 🔧 Fixed

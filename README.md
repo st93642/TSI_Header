@@ -10,6 +10,20 @@ A VS Code extension that automatically generates professional headers for source
 
 ## ✨ Features
 
+### ⚡ **Auto-Save Functionality** (New in v1.1.0!)
+
+- **🔄 Automatic Updates**: Headers update automatically when you save files
+- **🎯 Smart Detection**: Only processes files with existing TSI headers  
+- **🔇 Silent Operation**: Works quietly in the background
+- **⚙️ Configurable**: Enable/disable via `tsiheader.autoUpdate` setting
+
+### 🎨 **Enhanced User Experience** (New in v1.1.0!)
+
+- **🔧 Helpful Setup**: Friendly configuration guidance instead of error messages
+- **🔍 Smart Credentials**: Checks VS Code settings, git config, and environment variables
+- **📖 Direct Assistance**: One-click links to settings and documentation
+- **🛡️ Proactive Validation**: Prevents errors with upfront credential checking
+
 ### 🏛️ **Institutional Branding**
 
 - TSI ASCII logo
