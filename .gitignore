@@ -2,6 +2,11 @@
 out/
 *.vsix
 
+# Personal Development Notes
+NEXT_STEPS.md
+DEVELOPMENT_NOTES.md
+TODO.md
+
 # Ruby
 *.gem
 *.rbc
