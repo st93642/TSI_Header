@@ -96,10 +96,12 @@
         },
         {
           "command": "tsiheader.addClass",
+          "when": "editorTextFocus && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|kt|ts|js)$/)",
           "group": "navigation"
         },
         {
           "command": "tsiheader.addCodeBase",
+          "when": "editorTextFocus",
           "group": "navigation"
         }
       ],
@@ -114,10 +116,12 @@
         },
         {
           "command": "tsiheader.addClass",
+          "when": "editorTextFocus && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|kt|ts|js)$/)",
           "group": "navigation"
         },
         {
           "command": "tsiheader.addCodeBase",
+          "when": "editorTextFocus",
           "group": "navigation"
         }
       ],
@@ -132,12 +136,11 @@
         },
         {
           "command": "tsiheader.addClass",
-          "when": "explorerViewletVisible && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|kt|ts|js)$/)",
-          "group": "navigation"
+          "when": "editorTextFocus && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|kt|ts|js)$/)"
         },
         {
           "command": "tsiheader.addCodeBase",
-          "when": "explorerViewletVisible"
+          "when": "editorTextFocus"
         }
       ]
     },

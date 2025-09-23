@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 02:18 Igors Oleinikovs                              */
+/*  Updated: Sep 24 2025 02:30 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -294,19 +294,16 @@ function activate(context) {
     });
 
     // Register add class command
-    const addClassCommand = vscode.commands.registerCommand('tsiheader.addClass', async (uri) => {
-        // Get the target directory from the URI (clicked folder in explorer)
-        let targetDir = uri ? vscode.Uri.parse(uri.path).fsPath : vscode.workspace.workspaceFolders[0].uri.fsPath;
-
-        // Ask for class name
-        const className = await vscode.window.showInputBox({
-            prompt: 'Enter class name',
-            placeHolder: 'MyClass'
-        });
-
-        if (!className) {
-            return; // User cancelled
+    const addClassCommand = vscode.commands.registerCommand('tsiheader.addClass', async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showErrorMessage('No active editor found');
+            return;
         }
+
+        const document = editor.document;
+        const languageId = document.languageId;
+        const fileName = document.fileName;
 
         // Get credentials for template
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -328,21 +325,6 @@ function activate(context) {
             // Git config not available, use defaults
         }
 
-        // Determine language from current file or ask user
-        let language = 'java'; // default
-        const activeEditor = vscode.window.activeTextEditor;
-        if (activeEditor) {
-            language = activeEditor.document.languageId;
-        }
-
-        // Normalize language for template selection
-        let templateLang = language;
-        if (language === 'cpp' || language === 'c++') {
-            templateLang = 'cpp';
-        } else if (language === 'javascript') {
-            templateLang = 'javascript';
-        }
-
         const extensionPath = context.extensionPath;
         const now = new Date();
         const dateStr = now.toLocaleDateString('en-US', {
@@ -354,175 +336,95 @@ function activate(context) {
         });
 
         try {
-            if (templateLang === 'java') {
-                // Java class - single file
-                const fileName = `${className}.java`;
-                const filePath = path.join(targetDir, fileName);
-                const templatePath = path.join(extensionPath, 'templates', 'java', 'class.java.template');
+            let templatePath, classContent;
 
-                // Check if file exists
-                try {
-                    await vscode.workspace.fs.stat(vscode.Uri.file(filePath));
-                    const overwrite = await vscode.window.showWarningMessage(
-                        `File '${fileName}' already exists. Overwrite?`,
-                        'Yes', 'No'
-                    );
-                    if (overwrite !== 'Yes') {
-                        return;
-                    }
-                } catch (e) {
-                    // File doesn't exist, continue
+            if (languageId === 'java') {
+                templatePath = path.join(extensionPath, 'templates', 'java', 'class.java.template');
+            } else if (languageId === 'cpp' || languageId === 'c++') {
+                templatePath = path.join(extensionPath, 'templates', 'cpp', 'class.h.template');
+            } else if (languageId === 'python') {
+                templatePath = path.join(extensionPath, 'templates', 'python', 'class.py.template');
+            } else {
+                vscode.window.showErrorMessage(`Class generation not supported for language: ${languageId}`);
+                return;
+            }
+
+            const templateContent = await vscode.workspace.fs.readFile(vscode.Uri.file(templatePath));
+            classContent = templateContent.toString();
+
+            // Replace template variables
+            classContent = classContent.replace(/\{\{FILENAME\}\}/g, path.basename(fileName));
+            classContent = classContent.replace(/\{\{USERNAME\}\}/g, finalUsername);
+            classContent = classContent.replace(/\{\{EMAIL\}\}/g, finalEmail);
+            classContent = classContent.replace(/\{\{DATE\}\}/g, dateStr);
+
+            // For Java, we need to ask for class name and package
+            if (languageId === 'java') {
+                const className = await vscode.window.showInputBox({
+                    prompt: 'Enter class name',
+                    placeHolder: 'MyClass'
+                });
+
+                if (!className) {
+                    return; // User cancelled
                 }
 
-                const templateContent = await vscode.workspace.fs.readFile(vscode.Uri.file(templatePath));
-                let content = templateContent.toString();
+                const packageName = await vscode.window.showInputBox({
+                    prompt: 'Enter package name',
+                    placeHolder: 'com.example'
+                });
 
-                // Replace template variables
-                content = content.replace(/\{\{FILENAME\}\}/g, fileName);
-                content = content.replace(/\{\{USERNAME\}\}/g, finalUsername);
-                content = content.replace(/\{\{EMAIL\}\}/g, finalEmail);
-                content = content.replace(/\{\{DATE\}\}/g, dateStr);
-                content = content.replace(/\{\{CLASSNAME\}\}/g, className);
-                content = content.replace(/\{\{PACKAGE\}\}/g, 'com.tsi.example');
+                classContent = classContent.replace(/\{\{CLASSNAME\}\}/g, className);
+                classContent = classContent.replace(/\{\{PACKAGE\}\}/g, packageName || 'com.example');
+            } else if (languageId === 'cpp' || languageId === 'c++') {
+                const className = await vscode.window.showInputBox({
+                    prompt: 'Enter class name',
+                    placeHolder: 'MyClass'
+                });
 
-                // Write the file
-                await vscode.workspace.fs.writeFile(vscode.Uri.file(filePath), Buffer.from(content));
-
-                // Open the file in editor
-                const document = await vscode.workspace.openTextDocument(filePath);
-                await vscode.window.showTextDocument(document);
-
-                vscode.window.showInformationMessage(`TSI Header: Created Java class ${fileName}`);
-
-            } else if (templateLang === 'cpp') {
-                // C++ class - header and implementation files
-                const headerFile = `${className}.h`;
-                const implFile = `${className}.cpp`;
-                const headerPath = path.join(targetDir, headerFile);
-                const implPath = path.join(targetDir, implFile);
-
-                // Check if files exist
-                try {
-                    await vscode.workspace.fs.stat(vscode.Uri.file(headerPath));
-                    const overwrite = await vscode.window.showWarningMessage(
-                        `File '${headerFile}' already exists. Overwrite?`,
-                        'Yes', 'No'
-                    );
-                    if (overwrite !== 'Yes') {
-                        return;
-                    }
-                } catch (e) {}
-                try {
-                    await vscode.workspace.fs.stat(vscode.Uri.file(implPath));
-                    const overwrite = await vscode.window.showWarningMessage(
-                        `File '${implFile}' already exists. Overwrite?`,
-                        'Yes', 'No'
-                    );
-                    if (overwrite !== 'Yes') {
-                        return;
-                    }
-                } catch (e) {}
-
-                // Create header file
-                const headerTemplatePath = path.join(extensionPath, 'templates', 'cpp', 'class.h.template');
-                const headerTemplate = await vscode.workspace.fs.readFile(vscode.Uri.file(headerTemplatePath));
-                let headerContent = headerTemplate.toString();
+                if (!className) {
+                    return; // User cancelled
+                }
 
                 const headerGuard = `${className.toUpperCase()}_H`;
-                headerContent = headerContent.replace(/\{\{FILENAME\}\}/g, headerFile);
-                headerContent = headerContent.replace(/\{\{USERNAME\}\}/g, finalUsername);
-                headerContent = headerContent.replace(/\{\{EMAIL\}\}/g, finalEmail);
-                headerContent = headerContent.replace(/\{\{DATE\}\}/g, dateStr);
-                headerContent = headerContent.replace(/\{\{CLASSNAME\}\}/g, className);
-                headerContent = headerContent.replace(/\{\{HEADER_GUARD\}\}/g, headerGuard);
+                classContent = classContent.replace(/\{\{CLASSNAME\}\}/g, className);
+                classContent = classContent.replace(/\{\{HEADER_GUARD\}\}/g, headerGuard);
+            } else if (languageId === 'python') {
+                const className = await vscode.window.showInputBox({
+                    prompt: 'Enter class name',
+                    placeHolder: 'MyClass'
+                });
 
-                await vscode.workspace.fs.writeFile(vscode.Uri.file(headerPath), Buffer.from(headerContent));
+                if (!className) {
+                    return; // User cancelled
+                }
 
-                // Create implementation file
-                const implTemplatePath = path.join(extensionPath, 'templates', 'cpp', 'class.cpp.template');
-                const implTemplate = await vscode.workspace.fs.readFile(vscode.Uri.file(implTemplatePath));
-                let implContent = implTemplate.toString();
-
-                implContent = implContent.replace(/\{\{FILENAME\}\}/g, implFile);
-                implContent = implContent.replace(/\{\{USERNAME\}\}/g, finalUsername);
-                implContent = implContent.replace(/\{\{EMAIL\}\}/g, finalEmail);
-                implContent = implContent.replace(/\{\{DATE\}\}/g, dateStr);
-                implContent = implContent.replace(/\{\{CLASSNAME\}\}/g, className);
-                implContent = implContent.replace(/\{\{HEADER_FILE\}\}/g, headerFile);
-
-                await vscode.workspace.fs.writeFile(vscode.Uri.file(implPath), Buffer.from(implContent));
-
-                // Open the header file in editor
-                const document = await vscode.workspace.openTextDocument(headerPath);
-                await vscode.window.showTextDocument(document);
-
-                vscode.window.showInformationMessage(`TSI Header: Created C++ class ${className} (${headerFile} + ${implFile})`);
-
-            } else if (templateLang === 'python') {
-                // Python class - single file
-                const fileName = `${className}.py`;
-                const filePath = path.join(targetDir, fileName);
-                const templatePath = path.join(extensionPath, 'templates', 'python', 'class.py.template');
-
-                // Check if file exists
-                try {
-                    await vscode.workspace.fs.stat(vscode.Uri.file(filePath));
-                    const overwrite = await vscode.window.showWarningMessage(
-                        `File '${fileName}' already exists. Overwrite?`,
-                        'Yes', 'No'
-                    );
-                    if (overwrite !== 'Yes') {
-                        return;
-                    }
-                } catch (e) {}
-
-                const templateContent = await vscode.workspace.fs.readFile(vscode.Uri.file(templatePath));
-                let content = templateContent.toString();
-
-                // Replace template variables
-                content = content.replace(/\{\{FILENAME\}\}/g, fileName);
-                content = content.replace(/\{\{USERNAME\}\}/g, finalUsername);
-                content = content.replace(/\{\{EMAIL\}\}/g, finalEmail);
-                content = content.replace(/\{\{DATE\}\}/g, dateStr);
-                content = content.replace(/\{\{CLASSNAME\}\}/g, className);
-
-                // Write the file
-                await vscode.workspace.fs.writeFile(vscode.Uri.file(filePath), Buffer.from(content));
-
-                // Open the file in editor
-                const document = await vscode.workspace.openTextDocument(filePath);
-                await vscode.window.showTextDocument(document);
-
-                vscode.window.showInformationMessage(`TSI Header: Created Python class ${fileName}`);
-            } else {
-                vscode.window.showErrorMessage(`Class generation not supported for language: ${language}`);
+                classContent = classContent.replace(/\{\{CLASSNAME\}\}/g, className);
             }
+
+            // Insert the class content at cursor position or end of file
+            const position = editor.selection.isEmpty ? editor.selection.active : editor.selection.end;
+            await editor.edit(editBuilder => {
+                editBuilder.insert(position, classContent);
+            });
+
+            vscode.window.showInformationMessage(`TSI Header: Added ${languageId} class to current file`);
         } catch (error) {
-            vscode.window.showErrorMessage(`Failed to create class: ${error.message}`);
+            vscode.window.showErrorMessage(`Failed to add class: ${error.message}`);
         }
     });
 
     // Register add code base command
-    const addCodeBaseCommand = vscode.commands.registerCommand('tsiheader.addCodeBase', async (uri) => {
-        // Get the target directory from the URI (clicked folder in explorer)
-        let targetDir = uri ? vscode.Uri.parse(uri.path).fsPath : vscode.workspace.workspaceFolders[0].uri.fsPath;
-
-        // Ask for filename without extension
-        const fileName = await vscode.window.showInputBox({
-            prompt: 'Enter filename (without extension)',
-            placeHolder: 'main'
-        });
-
-        if (!fileName) {
-            return; // User cancelled
+    const addCodeBaseCommand = vscode.commands.registerCommand('tsiheader.addCodeBase', async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showErrorMessage('No active editor found');
+            return;
         }
 
-        // Determine language from current file or ask user
-        let language = 'c'; // default
-        const activeEditor = vscode.window.activeTextEditor;
-        if (activeEditor) {
-            language = activeEditor.document.languageId;
-        }
+        const document = editor.document;
+        const languageId = document.languageId;
+        const fileName = document.fileName;
 
         // Get credentials for template
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -555,58 +457,37 @@ function activate(context) {
         });
 
         try {
-            let templatePath, fullFileName, content;
+            let templatePath, codeContent;
 
-            if (language === 'c') {
-                fullFileName = `${fileName}.c`;
+            if (languageId === 'c') {
                 templatePath = path.join(extensionPath, 'templates', 'c', 'main.c.template');
-            } else if (language === 'python') {
-                fullFileName = `${fileName}.py`;
+            } else if (languageId === 'python') {
                 templatePath = path.join(extensionPath, 'templates', 'python', 'script.py.template');
-            } else if (language === 'javascript') {
-                fullFileName = `${fileName}.js`;
+            } else if (languageId === 'javascript') {
                 templatePath = path.join(extensionPath, 'templates', 'javascript', 'script.js.template');
             } else {
-                // Default to C for unsupported languages
-                fullFileName = `${fileName}.c`;
+                // Default to C template for unsupported languages
                 templatePath = path.join(extensionPath, 'templates', 'c', 'main.c.template');
-            }
-
-            const filePath = path.join(targetDir, fullFileName);
-
-            // Check if file already exists
-            try {
-                await vscode.workspace.fs.stat(vscode.Uri.file(filePath));
-                const overwrite = await vscode.window.showWarningMessage(
-                    `File '${fullFileName}' already exists. Overwrite?`,
-                    'Yes', 'No'
-                );
-                if (overwrite !== 'Yes') {
-                    return;
-                }
-            } catch (e) {
-                // File doesn't exist, which is fine
             }
 
             const templateContent = await vscode.workspace.fs.readFile(vscode.Uri.file(templatePath));
-            content = templateContent.toString();
+            codeContent = templateContent.toString();
 
             // Replace template variables
-            content = content.replace(/\{\{FILENAME\}\}/g, fullFileName);
-            content = content.replace(/\{\{USERNAME\}\}/g, finalUsername);
-            content = content.replace(/\{\{EMAIL\}\}/g, finalEmail);
-            content = content.replace(/\{\{DATE\}\}/g, dateStr);
+            codeContent = codeContent.replace(/\{\{FILENAME\}\}/g, path.basename(fileName));
+            codeContent = codeContent.replace(/\{\{USERNAME\}\}/g, finalUsername);
+            codeContent = codeContent.replace(/\{\{EMAIL\}\}/g, finalEmail);
+            codeContent = codeContent.replace(/\{\{DATE\}\}/g, dateStr);
 
-            // Write the file
-            await vscode.workspace.fs.writeFile(vscode.Uri.file(filePath), Buffer.from(content));
+            // Insert the code content at cursor position or end of file
+            const position = editor.selection.isEmpty ? editor.selection.active : editor.selection.end;
+            await editor.edit(editBuilder => {
+                editBuilder.insert(position, codeContent);
+            });
 
-            // Open the file in editor
-            const document = await vscode.workspace.openTextDocument(filePath);
-            await vscode.window.showTextDocument(document);
-
-            vscode.window.showInformationMessage(`TSI Header: Created ${fullFileName} with basic code structure`);
+            vscode.window.showInformationMessage(`TSI Header: Added ${languageId} code base to current file`);
         } catch (error) {
-            vscode.window.showErrorMessage(`Failed to create file: ${error.message}`);
+            vscode.window.showErrorMessage(`Failed to add code base: ${error.message}`);
         }
     });
 
