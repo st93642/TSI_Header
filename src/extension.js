@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 02:37 Igors Oleinikovs                              */
+/*  Updated: Sep 24 2025 02:40 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -332,79 +332,75 @@ function activate(context) {
                        ' ' + now.toTimeString().slice(0, 5);
 
         try {
-            let templatePath, classContent;
+            // Generate proper TSI header using Ruby CLI
+            const extensionPath = context.extensionPath;
+            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            
+            // Set environment variables for configuration
+            const env = {
+                ...process.env
+            };
+            
+            if (finalUsername && finalUsername.trim() !== '') {
+                env.TSI_USERNAME = finalUsername;
+            }
+            if (finalEmail && finalEmail.trim() !== '') {
+                env.TSI_EMAIL = finalEmail;
+            }
+            
+            // Generate header using Ruby CLI
+            const headerCommand = `ruby "${cliPath}" insert "${languageId}" "${fileName}"`;
+            const headerResult = execSync(headerCommand, { encoding: 'utf8', cwd: extensionPath, env: env });
+            const headerResponse = JSON.parse(headerResult);
+            
+            if (!headerResponse.success) {
+                vscode.window.showErrorMessage(`Failed to generate header: ${headerResponse.message}`);
+                return;
+            }
+            
+            let fullContent = headerResponse.header;
+            
+            // Ask for class name
+            const className = await vscode.window.showInputBox({
+                prompt: 'Enter class name',
+                placeHolder: 'MyClass'
+            });
 
+            if (!className) {
+                return; // User cancelled
+            }
+
+            // Generate class code based on language
             if (languageId === 'java') {
-                templatePath = path.join(extensionPath, 'templates', 'java', 'class.java.template');
+                const packageName = await vscode.window.showInputBox({
+                    prompt: 'Enter package name',
+                    placeHolder: 'com.example'
+                }) || 'com.example';
+                
+                fullContent += `\npackage ${packageName};\n\npublic class ${className} {\n    // Class attributes\n    private String name;\n    private int id;\n\n    // Default constructor\n    public ${className}() {\n        this.name = "";\n        this.id = 0;\n    }\n\n    // Parameterized constructor\n    public ${className}(String name, int id) {\n        this.name = name;\n        this.id = id;\n    }\n\n    // Getter for name\n    public String getName() {\n        return name;\n    }\n\n    // Setter for name\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    // Getter for id\n    public int getId() {\n        return id;\n    }\n\n    // Setter for id\n    public void setId(int id) {\n        this.id = id;\n    }\n\n    // Override toString method\n    @Override\n    public String toString() {\n        return "${className}{" +\n                "name='" + name + '\\'' +\n                ", id=" + id +\n                '}';\n    }\n\n    // Override equals method\n    @Override\n    public boolean equals(Object obj) {\n        if (this == obj) return true;\n        if (obj == null || getClass() != obj.getClass()) return false;\n        ${className} that = (${className}) obj;\n        return id == that.id && name.equals(that.name);\n    }\n\n    // Override hashCode method\n    @Override\n    public int hashCode() {\n        return name.hashCode() * 31 + id;\n    }\n}\n`;
+                
             } else if (languageId === 'cpp' || languageId === 'c++') {
-                templatePath = path.join(extensionPath, 'templates', 'cpp', 'class.h.template');
+                // For C++, we need to create both header and implementation
+                const headerGuard = `${className.toUpperCase()}_H`;
+                
+                // Header file content
+                fullContent += `\n#ifndef ${headerGuard}\n#define ${headerGuard}\n\n#include <string>\n#include <iostream>\n\nclass ${className} {\nprivate:\n    std::string name;\n    int id;\n\npublic:\n    // Default constructor\n    ${className}();\n\n    // Parameterized constructor\n    ${className}(const std::string& name, int id);\n\n    // Copy constructor\n    ${className}(const ${className}& other);\n\n    // Destructor\n    ~${className}();\n\n    // Assignment operator\n    ${className}& operator=(const ${className}& other);\n\n    // Getters\n    std::string getName() const;\n    int getId() const;\n\n    // Setters\n    void setName(const std::string& name);\n    void setId(int id);\n\n    // Utility methods\n    void display() const;\n    bool equals(const ${className}& other) const;\n};\n\n#endif // ${headerGuard}\n`;
+                
             } else if (languageId === 'python') {
-                templatePath = path.join(extensionPath, 'templates', 'python', 'class.py.template');
+                fullContent += `\nclass ${className}:\n    """${className} class with basic functionality."""\n\n    def __init__(self, name="", id_num=0):\n        """Initialize ${className} instance.\n\n        Args:\n            name (str): The name attribute\n            id_num (int): The ID attribute\n        """\n        self._name = name\n        self._id = id_num\n\n    @property\n    def name(self):\n        """Get the name attribute."""\n        return self._name\n\n    @name.setter\n    def name(self, value):\n        """Set the name attribute."""\n        if not isinstance(value, str):\n            raise TypeError("Name must be a string")\n        self._name = value\n\n    @property\n    def id(self):\n        """Get the ID attribute."""\n        return self._id\n\n    @id.setter\n    def id(self, value):\n        """Set the ID attribute."""\n        if not isinstance(value, int):\n            raise TypeError("ID must be an integer")\n        self._id = value\n\n    def __str__(self):\n        """String representation of the object."""\n        return f"${className}{{name='{self._name}', id={self._id}}}"\n\n    def __repr__(self):\n        """Official string representation of the object."""\n        return f"${className}('{self._name}', {self._id})"\n\n    def __eq__(self, other):\n        """Check equality with another object."""\n        if not isinstance(other, ${className}):\n            return NotImplemented\n        return self._name == other._name and self._id == other._id\n\n    def __hash__(self):\n        """Hash function for the object."""\n        return hash((self._name, self._id))\n\n    def display(self):\n        """Display the object information."""\n        print(f"${className}{{name='{self._name}', id={self._id}}}")\n\n\n# Example usage\nif __name__ == "__main__":\n    # Create an instance\n    obj = ${className}("Example", 123)\n    obj.display()\n\n    # Test property setters\n    obj.name = "Updated Name"\n    obj.id = 456\n    obj.display()\n`;
+                
             } else {
                 vscode.window.showErrorMessage(`Class generation not supported for language: ${languageId}`);
                 return;
             }
 
-            const templateContent = await vscode.workspace.fs.readFile(vscode.Uri.file(templatePath));
-            classContent = templateContent.toString();
-
-            // Replace template variables
-            classContent = classContent.replace(/\{\{FILENAME\}\}/g, path.basename(fileName));
-            classContent = classContent.replace(/\{\{USERNAME\}\}/g, finalUsername);
-            classContent = classContent.replace(/\{\{EMAIL\}\}/g, finalEmail);
-            classContent = classContent.replace(/\{\{DATE\}\}/g, dateStr);
-
-            // For Java, we need to ask for class name and package
-            if (languageId === 'java') {
-                const className = await vscode.window.showInputBox({
-                    prompt: 'Enter class name',
-                    placeHolder: 'MyClass'
-                });
-
-                if (!className) {
-                    return; // User cancelled
-                }
-
-                const packageName = await vscode.window.showInputBox({
-                    prompt: 'Enter package name',
-                    placeHolder: 'com.example'
-                });
-
-                classContent = classContent.replace(/\{\{CLASSNAME\}\}/g, className);
-                classContent = classContent.replace(/\{\{PACKAGE\}\}/g, packageName || 'com.example');
-            } else if (languageId === 'cpp' || languageId === 'c++') {
-                const className = await vscode.window.showInputBox({
-                    prompt: 'Enter class name',
-                    placeHolder: 'MyClass'
-                });
-
-                if (!className) {
-                    return; // User cancelled
-                }
-
-                const headerGuard = `${className.toUpperCase()}_H`;
-                classContent = classContent.replace(/\{\{CLASSNAME\}\}/g, className);
-                classContent = classContent.replace(/\{\{HEADER_GUARD\}\}/g, headerGuard);
-            } else if (languageId === 'python') {
-                const className = await vscode.window.showInputBox({
-                    prompt: 'Enter class name',
-                    placeHolder: 'MyClass'
-                });
-
-                if (!className) {
-                    return; // User cancelled
-                }
-
-                classContent = classContent.replace(/\{\{CLASSNAME\}\}/g, className);
-            }
-
-            // Insert the class content at cursor position or end of file
+            // Insert the content at cursor position or end of file
             const position = editor.selection.isEmpty ? editor.selection.active : editor.selection.end;
             await editor.edit(editBuilder => {
-                editBuilder.insert(position, classContent);
+                editBuilder.insert(position, fullContent);
             });
 
-            vscode.window.showInformationMessage(`TSI Header: Added ${languageId} class to current file`);
+            vscode.window.showInformationMessage(`TSI Header: Added ${languageId} class "${className}" to current file`);
         } catch (error) {
             vscode.window.showErrorMessage(`Failed to add class: ${error.message}`);
         }
@@ -449,32 +445,50 @@ function activate(context) {
                        ' ' + now.toTimeString().slice(0, 5);
 
         try {
-            let templatePath, codeContent;
-
+            // Generate proper TSI header using Ruby CLI
+            const extensionPath = context.extensionPath;
+            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            
+            // Set environment variables for configuration
+            const env = {
+                ...process.env
+            };
+            
+            if (finalUsername && finalUsername.trim() !== '') {
+                env.TSI_USERNAME = finalUsername;
+            }
+            if (finalEmail && finalEmail.trim() !== '') {
+                env.TSI_EMAIL = finalEmail;
+            }
+            
+            // Generate header using Ruby CLI
+            const headerCommand = `ruby "${cliPath}" insert "${languageId}" "${fileName}"`;
+            const headerResult = execSync(headerCommand, { encoding: 'utf8', cwd: extensionPath, env: env });
+            const headerResponse = JSON.parse(headerResult);
+            
+            if (!headerResponse.success) {
+                vscode.window.showErrorMessage(`Failed to generate header: ${headerResponse.message}`);
+                return;
+            }
+            
+            let fullContent = headerResponse.header;
+            
+            // Generate code structure based on language
             if (languageId === 'c') {
-                templatePath = path.join(extensionPath, 'templates', 'c', 'main.c.template');
+                fullContent += `\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    printf("Hello, World!\\n");\n    return 0;\n}\n`;
             } else if (languageId === 'python') {
-                templatePath = path.join(extensionPath, 'templates', 'python', 'script.py.template');
+                fullContent += `\ndef main():\n    """Main function - entry point of the program."""\n    print("Hello, World!")\n    print("This is a basic Python script.")\n\n\nif __name__ == "__main__":\n    main()\n`;
             } else if (languageId === 'javascript') {
-                templatePath = path.join(extensionPath, 'templates', 'javascript', 'script.js.template');
+                fullContent += `\n/**\n * Main function - entry point of the program\n */\nfunction main() {\n    console.log('Hello, World!');\n    console.log('This is a basic JavaScript script.');\n}\n\n// Execute main function\nmain();\n\n// Export for use as module\nmodule.exports = { main };\n`;
             } else {
-                // Default to C template for unsupported languages
-                templatePath = path.join(extensionPath, 'templates', 'c', 'main.c.template');
+                // Default to C for unsupported languages
+                fullContent += `\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    printf("Hello, World!\\n");\n    return 0;\n}\n`;
             }
 
-            const templateContent = await vscode.workspace.fs.readFile(vscode.Uri.file(templatePath));
-            codeContent = templateContent.toString();
-
-            // Replace template variables
-            codeContent = codeContent.replace(/\{\{FILENAME\}\}/g, path.basename(fileName));
-            codeContent = codeContent.replace(/\{\{USERNAME\}\}/g, finalUsername);
-            codeContent = codeContent.replace(/\{\{EMAIL\}\}/g, finalEmail);
-            codeContent = codeContent.replace(/\{\{DATE\}\}/g, dateStr);
-
-            // Insert the code content at cursor position or end of file
+            // Insert the content at cursor position or end of file
             const position = editor.selection.isEmpty ? editor.selection.active : editor.selection.end;
             await editor.edit(editBuilder => {
-                editBuilder.insert(position, codeContent);
+                editBuilder.insert(position, fullContent);
             });
 
             vscode.window.showInformationMessage(`TSI Header: Added ${languageId} code base to current file`);
