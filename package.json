@@ -70,7 +70,7 @@
         {
           "id": "tsi-header-explorer",
           "title": "TSI Header",
-          "icon": "tsi.png"
+          "icon": "resources/tsi-icon.png"
         }
       ]
     },
@@ -116,35 +116,7 @@
         "icon": "$(folder-opened)"
       }
     ],
-    "menus": {
-      "view/title": [
-        {
-          "command": "tsiheader.insertHeader",
-          "when": "view == tsi-commands",
-          "group": "navigation@1"
-        },
-        {
-          "command": "tsiheader.updateHeader",
-          "when": "view == tsi-commands",
-          "group": "navigation@2"
-        },
-        {
-          "command": "tsiheader.addClass",
-          "when": "view == tsi-commands",
-          "group": "navigation@3"
-        },
-        {
-          "command": "tsiheader.addCodeBase",
-          "when": "view == tsi-commands",
-          "group": "navigation@4"
-        },
-        {
-          "command": "tsiheader.createTSIProject",
-          "when": "view == tsi-projects",
-          "group": "navigation@1"
-        }
-      ]
-    }
+    "menus": {}
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
