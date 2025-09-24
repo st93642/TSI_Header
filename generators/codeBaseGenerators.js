@@ -21,6 +21,64 @@ function generateCodeBase(languageId, fileName) {
         case 'java':
             content = generateJavaCodeBase();
             break;
+        case 'python':
+            content = generatePythonCodeBase();
+            break;
+        case 'ruby':
+            content = generateRubyCodeBase();
+            break;
+        case 'rust':
+            content = generateRustCodeBase();
+            break;
+        case 'go':
+            content = generateGoCodeBase();
+            break;
+        case 'php':
+            content = generatePhpCodeBase();
+            break;
+        case 'swift':
+            content = generateSwiftCodeBase();
+            break;
+        case 'dart':
+            content = generateDartCodeBase();
+            break;
+        case 'scala':
+            content = generateScalaCodeBase();
+            break;
+        case 'sql':
+            content = generateSqlCodeBase();
+            break;
+        case 'html':
+            content = generateHtmlCodeBase();
+            break;
+        case 'delphi':
+            content = generateDelphiCodeBase();
+            break;
+        case 'pascal':
+        case 'objectpascal':
+            content = generateObjectPascalCodeBase();
+            break;
+        case 'basic':
+            content = generateBasicCodeBase();
+            break;
+        case 'fortran':
+            content = generateFortranCodeBase();
+            break;
+        case 'r':
+            content = generateRCodeBase();
+            break;
+        case 'matlab':
+            content = generateMatlabCodeBase();
+            break;
+        case 'assembly':
+            content = generateAssemblyCodeBase();
+            break;
+        case 'cobol':
+            content = generateCobolCodeBase();
+            break;
+        case 'prolog':
+            content = generatePrologCodeBase();
+            break;
         case 'makefile':
             content = generateMakefileCodeBase();
             break;
@@ -203,6 +261,27 @@ function generateKotlinCodeBase() {
  */
 function generatePhpCodeBase() {
     return `\n<?php\n\n/**\n * Main function - entry point of the program\n */\nfunction main()\n{\n    echo "Hello, World!" . PHP_EOL;\n    echo "This is a basic PHP script." . PHP_EOL;\n}\n\n// Execute main function\nmain();\n`;
+}
+
+/**
+ * Generates Swift code base
+ */
+function generateSwiftCodeBase() {
+    return `\n// Basic Swift program\n\nprint("Hello, World!")\nprint("This is a basic Swift program.")\n\n// You can also use a main function:\n// func main() {\n//     print("Hello, World!")\n//     print("This is a basic Swift program.")\n// }\n// main()\n`;
+}
+
+/**
+ * Generates Dart code base
+ */
+function generateDartCodeBase() {
+    return `\n// Basic Dart program\n\nvoid main() {\n  print('Hello, World!');\n  print('This is a basic Dart program.');\n}\n\n// Alternative functional style:\n// void main() => print('Hello, World!');\n`;
+}
+
+/**
+ * Generates Scala code base
+ */
+function generateScalaCodeBase() {
+    return `\n// Basic Scala program\n\nobject Main extends App {\n  println("Hello, World!")\n  println("This is a basic Scala program.")\n}\n\n// Alternative with main method:\n// object Main {\n//   def main(args: Array[String]): Unit = {\n//     println("Hello, World!")\n//     println("This is a basic Scala program.")\n//   }\n// }\n`;
 }
 
 /**

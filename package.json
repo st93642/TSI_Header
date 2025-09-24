@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
   "description": "Professional header generator for 84+ programming languages with TSI institutional branding - Transport and Telecommunication Institute",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -96,7 +96,7 @@
         },
         {
           "command": "tsiheader.addClass",
-          "when": "editorTextFocus && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|kt|ts|js)$/)",
+          "when": "editorTextFocus && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|dart|scala|kt|ts|js)$/)",
           "group": "navigation"
         },
         {
@@ -116,7 +116,7 @@
         },
         {
           "command": "tsiheader.addClass",
-          "when": "editorTextFocus && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|kt|ts|js)$/)",
+          "when": "editorTextFocus && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|dart|scala|kt|ts|js)$/)",
           "group": "navigation"
         },
         {
@@ -136,7 +136,7 @@
         },
         {
           "command": "tsiheader.addClass",
-          "when": "editorTextFocus && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|kt|ts|js)$/)"
+          "when": "editorTextFocus && (resourceExtname =~ /\\.(java|cpp|cxx|cc|c\\+\\+|cs|py|rb|php|swift|dart|scala|kt|ts|js)$/)"
         },
         {
           "command": "tsiheader.addCodeBase",
