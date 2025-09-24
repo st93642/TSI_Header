@@ -15,19 +15,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
-- **Class Generation Menu Conditions**: Fixed menu visibility for Dart and Scala files (`.dart`, `.scala` extensions now properly recognized)
-- **Code Base Generation**: Fixed 15+ languages that were falling back to C boilerplate instead of using proper language-specific templates:
-  - PHP (`.php`) - Now generates proper PHP class structure
-  - Swift (`.swift`) - Now generates proper Swift class structure  
-  - Dart (`.dart`) - Now generates proper Dart class structure
-  - Scala (`.scala`) - Now generates proper Scala class structure
-  - Python (`.py`) - Now generates proper Python class structure
-  - Ruby (`.rb`) - Now generates proper Ruby class structure
-  - Go (`.go`) - Now generates proper Go struct/function structure
-  - Rust (`.rs`) - Now generates proper Rust struct/impl structure
-  - And 7+ additional languages with proper boilerplate
+- **C++ Code Generation**: Fixed C++ files (`.cpp`) generating generic C code instead of proper C++ boilerplate with `std::cout` and `<iostream>`
+- **Scala Language Detection**: Fixed Scala files (`.scala`) being detected as plaintext, now properly generates Scala-specific code and classes via extension-based fallback
+- **Plaintext File Handling**: Enhanced plaintext file detection to support both Kotlin (`.kt`) and Scala (`.scala`) files with appropriate language-specific generation
 
 ### 🛠️ Improved
+
+- **Language-Specific Boilerplate**: All code base generation now uses appropriate language syntax and conventions instead of generic C fallbacks
+- **Extension-Based Detection**: Added robust file extension detection for cases where VS Code language detection fails
+- **Code Quality**: Eliminated generic fallbacks in favor of comprehensive language-specific implementations
 
 - **Language-Specific Boilerplate**: All code base generation now uses appropriate language syntax and conventions instead of generic C fallbacks
 - **Menu System Reliability**: File extension regex patterns updated to include all supported languages for class and code base generation

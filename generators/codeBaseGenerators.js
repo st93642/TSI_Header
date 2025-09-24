@@ -15,6 +15,10 @@ function generateCodeBase(languageId, fileName) {
         case 'c':
             content = generateCCodeBase();
             break;
+        case 'cpp':
+        case 'c++':
+            content = generateCppCodeBase();
+            break;
         case 'csharp':
             content = generateCSharpCodeBase();
             break;
@@ -92,10 +96,12 @@ function generateCodeBase(languageId, fileName) {
             content = generateTypeScriptCodeBase();
             break;
         case 'plaintext':
-            // Handle plaintext files (may be Kotlin .kt files)
+            // Handle plaintext files (may be Kotlin .kt files or Scala .scala files)
             const fileExtension = fileName.split('.').pop().toLowerCase();
             if (fileExtension === 'kt') {
                 content = generateKotlinCodeBase();
+            } else if (fileExtension === 'scala') {
+                content = generateScalaCodeBase();
             } else {
                 // Default to C for other plaintext files
                 content = generateCCodeBase();
@@ -114,6 +120,13 @@ function generateCodeBase(languageId, fileName) {
  */
 function generateCCodeBase() {
     return `\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    printf("Hello, World!\\n");\n    return 0;\n}\n`;
+}
+
+/**
+ * Generates C++ code base
+ */
+function generateCppCodeBase() {
+    return `\n#include <iostream>\n#include <string>\n\nint main(int argc, char* argv[]) {\n    std::cout << "Hello, World!" << std::endl;\n    std::cout << "This is a basic C++ program." << std::endl;\n    return 0;\n}\n`;
 }
 
 /**

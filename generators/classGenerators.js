@@ -43,10 +43,12 @@ function generateClass(languageId, className, fileName, extensionPath, cliPath, 
         case 'scala':
             return { success: true, content: generateScalaClass(className) };
         case 'plaintext':
-            // Handle plaintext files (may be Kotlin .kt files)
+            // Handle plaintext files (may be Kotlin .kt files or Scala .scala files)
             const fileExtension = fileName.split('.').pop().toLowerCase();
             if (fileExtension === 'kt') {
                 return { success: true, content: generateKotlinClass(className) };
+            } else if (fileExtension === 'scala') {
+                return { success: true, content: generateScalaClass(className) };
             } else {
                 return { success: false, message: `Class generation not supported for plaintext files with extension: ${fileExtension}` };
             }
