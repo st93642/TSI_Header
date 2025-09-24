@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 03:14 Igors Oleinikovs                              */
+/*  Updated: Sep 24 2025 11:37 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -481,11 +481,55 @@ function activate(context) {
                 return;
             }
 
-            // Insert the content at cursor position or end of file
-            const position = editor.selection.isEmpty ? editor.selection.active : editor.selection.end;
-            await editor.edit(editBuilder => {
-                editBuilder.insert(position, fullContent);
-            });
+            // Check if file has substantial content beyond header
+            const currentText = document.getText();
+            const lines = currentText.split('\n');
+            let hasSubstantialContent = false;
+            
+            // Skip header (usually first 12-15 lines) and check for real content
+            for (let i = 12; i < lines.length; i++) {
+                const line = lines[i].trim();
+                // Ignore empty lines, comments, and basic boilerplate
+                if (line && !line.startsWith('//') && !line.startsWith('/*') && 
+                    !line.startsWith('*') && !line.startsWith('import') && 
+                    !line.startsWith('using') && !line.startsWith('#include') &&
+                    !line.startsWith('public class') && !line.startsWith('def ') &&
+                    !line.startsWith('class ') && !line.includes('main(')) {
+                    hasSubstantialContent = true;
+                    break;
+                }
+            }
+            
+            if (hasSubstantialContent) {
+                const choice = await vscode.window.showWarningMessage(
+                    'File already contains code. Add class anyway?',
+                    'Add at Cursor', 'Add at End', 'Cancel'
+                );
+                
+                if (choice === 'Cancel' || !choice) {
+                    return;
+                }
+                
+                // Insert at cursor position for "Add at Cursor", or end of file for "Add at End"
+                const position = choice === 'Add at Cursor' 
+                    ? (editor.selection.isEmpty ? editor.selection.active : editor.selection.end)
+                    : new vscode.Position(lines.length, 0);
+                
+                await editor.edit(editBuilder => {
+                    editBuilder.insert(position, '\n' + fullContent);
+                });
+            } else {
+                // File is mostly empty (just header), replace content after header
+                const headerEndLine = Math.min(15, lines.length); // Assume header ends by line 15
+                const range = new vscode.Range(
+                    new vscode.Position(headerEndLine, 0),
+                    new vscode.Position(lines.length, 0)
+                );
+                
+                await editor.edit(editBuilder => {
+                    editBuilder.replace(range, fullContent);
+                });
+            }
 
             vscode.window.showInformationMessage(`TSI Header: Added ${languageId} class "${className}" to current file`);
         } catch (error) {
@@ -565,6 +609,8 @@ function activate(context) {
                 fullContent += `\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    printf("Hello, World!\\n");\n    return 0;\n}\n`;
             } else if (languageId === 'csharp') {
                 fullContent += `\nusing System;\n\nclass Program\n{\n    static void Main(string[] args)\n    {\n        Console.WriteLine("Hello, World!");\n        Console.WriteLine("This is a basic C# program.");\n    }\n}\n`;
+            } else if (languageId === 'java') {
+                fullContent += `\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n        System.out.println("This is a basic Java program.");\n    }\n}\n`;
             } else if (languageId === 'python') {
                 fullContent += `\ndef main():\n    """Main function - entry point of the program."""\n    print("Hello, World!")\n    print("This is a basic Python script.")\n\n\nif __name__ == "__main__":\n    main()\n`;
             } else if (languageId === 'javascript') {
