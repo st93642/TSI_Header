@@ -1,1 +1,0 @@
--- Test Ada file for code base generation

@@ -155,6 +155,9 @@ function generateCodeBase(languageId, fileName) {
         case 'javascriptreact':
             content = generateJavaScriptReactCodeBase();
             break;
+        case 'json':
+            content = generateJSONCodeBase();
+            break;
         case 'julia':
             content = generateJuliaCodeBase();
             break;
@@ -169,6 +172,9 @@ function generateCodeBase(languageId, fileName) {
             break;
         case 'lua':
             content = generateLuaCodeBase();
+            break;
+        case 'markdown':
+            content = generateMarkdownCodeBase();
             break;
         case 'maple':
             content = generateMapleCodeBase();
@@ -226,6 +232,9 @@ function generateCodeBase(languageId, fileName) {
         case 'vb':
             content = generateVbCodeBase();
             break;
+        case 'verilog':
+            content = generateVerilogCodeBase();
+            break;
         case 'vhdl':
             content = generateVhdlCodeBase();
             break;
@@ -246,12 +255,14 @@ function generateCodeBase(languageId, fileName) {
             content = generateTypeScriptCodeBase();
             break;
         case 'plaintext':
-            // Handle plaintext files (may be Kotlin .kt files or Scala .scala files)
+            // Handle plaintext files (may be Kotlin .kt files, Scala .scala files, Ada .adb files, etc.)
             const fileExtension = fileName.split('.').pop().toLowerCase();
             if (fileExtension === 'kt') {
                 content = generateKotlinCodeBase();
             } else if (fileExtension === 'scala') {
                 content = generateScalaCodeBase();
+            } else if (fileExtension === 'adb' || fileExtension === 'ads') {
+                content = generateAdaCodeBase();
             } else {
                 // Default to C for other plaintext files
                 content = generateCCodeBase();
@@ -574,7 +585,29 @@ function generateFSharpCodeBase() {
  * Generates Groovy code base
  */
 function generateGroovyCodeBase() {
-    return `\n// Basic Groovy program\n\n// Main method (optional in Groovy)\ndef main(args) {\n    println "Hello, World!"\n    println "This is a basic Groovy script."\n}\n\n// Groovy can also run without main method\n// println "Hello, World!"\n// println "This is a basic Groovy script."\n\n// Call main method\nmain(args)\n\n// Example of Groovy features\ndef greet(name = "World") {\n    "Hello, ${name}!"\n}\n\n// println greet("TSI Student")\n`;
+    return `
+// Basic Groovy program
+
+// Main method (optional in Groovy)
+def main(args) {
+    println "Hello, World!"
+    println "This is a basic Groovy script."
+}
+
+// Groovy can also run without main method
+// println "Hello, World!"
+// println "This is a basic Groovy script."
+
+// Call main method
+main(args)
+
+// Example of Groovy features
+def greet(name = "World") {
+    "Hello, " + name + "!"
+}
+
+// println greet("TSI Student")
+`;
 }
 
 /**
@@ -610,6 +643,48 @@ function generateJadeCodeBase() {
  */
 function generateJavaScriptReactCodeBase() {
     return `\nimport React from 'react';\nimport ReactDOM from 'react-dom/client';\n\n/**\n * Main React component\n */\nfunction App() {\n  return (\n    <div className="app">\n      <header className="app-header">\n        <h1>Hello, World!</h1>\n        <p>This is a basic React application.</p>\n      </header>\n      <main>\n        <section>\n          <h2>Welcome to TSI</h2>\n          <p>Transport and Telecommunication Institute</p>\n          <p>Building the future of technology education.</p>\n        </section>\n      </main>\n    </div>\n  );\n}\n\n/**\n * Render the application\n */\nconst root = ReactDOM.createRoot(document.getElementById('root'));\nroot.render(<App />);\n\nexport default App;\n`;
+}
+
+/**
+ * Generates JSON code base
+ */
+function generateJSONCodeBase() {
+    return `{
+  "name": "TSI Header Application",
+  "version": "1.0.0",
+  "description": "Basic JSON template for configuration or data structure",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "npm test"
+  },
+  "author": "TSI Student",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "tsi",
+    "template",
+    "configuration"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/example/tsi-project"
+  },
+  "config": {
+    "environment": "development",
+    "debug": true,
+    "settings": {
+      "theme": "default",
+      "language": "en"
+    }
+  },
+  "data": {
+    "message": "Hello, World!",
+    "timestamp": "2024-01-01T00:00:00.000Z",
+    "status": "active"
+  }
+}`;
 }
 
 /**
@@ -841,6 +916,20 @@ function generateSasCodeBase() {
  */
 function generateObjectiveJCodeBase() {
     return `\n// Basic Objective-J program\n// Note: Objective-J is used with Cappuccino framework\n\n@import <Foundation/Foundation.j>\n@import <AppKit/AppKit.j>\n\n@implementation HelloWorld : CPObject\n{\n    CPString message;\n}\n\n// Main function - entry point\n+ (void)main\n{\n    console.log("Hello, World!");\n    console.log("This is a basic Objective-J program.");\n    \n    var app = [[HelloWorld alloc] init];\n    [app greet:@"TSI Student"];\n}\n\n// Initialize\n- (id)init\n{\n    self = [super init];\n    if (self)\n    {\n        message = @"Hello from TSI!";\n    }\n    return self;\n}\n\n// Example method with parameter\n- (void)greet:(CPString)name\n{\n    console.log("Hello, " + name + "!");\n}\n\n// Getter for message\n- (CPString)message\n{\n    return message;\n}\n\n@end\n\n// Execute main\n[HelloWorld main];\n`;
+}
+
+/**
+ * Generates Markdown code base
+ */
+function generateMarkdownCodeBase() {
+    return `\n# Hello, World!\n\nThis is a basic Markdown document.\n\n## Welcome to TSI\n\n**Transport and Telecommunication Institute** - Riga, Latvia\n\n### Features\n\n- Professional education\n- Modern technology\n- International standards\n\n### Example Code Block\n\n\`\`\`javascript\nconsole.log("Hello, World!");\nconsole.log("This is a basic program.");\n\`\`\`\n\n### Links\n\n- [TSI Website](https://tsi.lv)\n- [Programming Courses](https://tsi.lv/courses)\n\n### Contact\n\n**Email:** info@tsi.lv  \n**Address:** Riga, Latvia\n\n---\n\n*Created by TSI Student*\n`;
+}
+
+/**
+ * Generates Verilog code base
+ */
+function generateVerilogCodeBase() {
+    return `\n// Basic Verilog module\n\nmodule hello_world(\n    input wire clk,\n    input wire reset,\n    output reg [7:0] data_out\n);\n\n// Internal registers\nreg [31:0] counter;\n\n// Main logic\nalways @(posedge clk or posedge reset) begin\n    if (reset) begin\n        counter <= 32'h0;\n        data_out <= 8'h0;\n    end else begin\n        counter <= counter + 1;\n        data_out <= counter[7:0];\n    end\nend\n\n// Example combinational logic\nalways @(*) begin\n    // Add combinational logic here\n    // data_out = some_function(inputs);\nend\n\n// Example initial block for simulation\ninitial begin\n    $display("Hello, World!");\n    $display("This is a basic Verilog module.");\nend\n\nendmodule\n\n// Testbench (uncomment for simulation)\n/*\nmodule hello_world_tb;\n\nreg clk, reset;\nwire [7:0] data_out;\n\n// Instantiate the module\nhello_world uut (\n    .clk(clk),\n    .reset(reset),\n    .data_out(data_out)\n);\n\n// Clock generation\nalways #5 clk = ~clk;\n\n// Test sequence\ninitial begin\n    clk = 0;\n    reset = 1;\n    #10 reset = 0;\n    #100 $finish;\nend\n\ninitial begin\n    $monitor("Time=%0t, data_out=%h", $time, data_out);\nend\n\nendmodule\n*/\n`;
 }
 
 module.exports = {

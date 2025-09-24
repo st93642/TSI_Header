@@ -2,12 +2,14 @@
 .vscode/
 .gitignore
 .git/
+.env
 node_modules/
 npm-debug.log*
 
 # Test files
 spec/
 scripts/
+!scripts/comprehensive_language_test.rb
 *.test.js
 *.test.rb
 

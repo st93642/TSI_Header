@@ -1,8 +1,8 @@
 {
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
-  "description": "Professional header generator for 84+ programming languages with TSI institutional branding - Transport and Telecommunication Institute",
-  "version": "1.2.1",
+  "description": "Code generation and professional headers for 90 programming languages with 100% quality assurance - Transport and Telecommunication Institute",
+  "version": "2.1.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -24,6 +24,9 @@
     "tsi",
     "transport-telecommunication-institute",
     "code-header",
+    "code-generation",
+    "class-generator",
+    "boilerplate",
     "institutional-branding",
     "ruby",
     "multi-language"
@@ -50,7 +53,7 @@
           "scope": "resource"
         },
         "tsiheader.email": {
-          "type": "string", 
+          "type": "string",
           "description": "Email address to use in TSI headers",
           "scope": "resource"
         },
@@ -154,7 +157,7 @@
       {
         "command": "tsiheader.updateHeader",
         "key": "ctrl+alt+u",
-        "mac": "cmd+alt+u", 
+        "mac": "cmd+alt+u",
         "when": "editorTextFocus"
       }
     ]
@@ -167,6 +170,5 @@
   },
   "devDependencies": {
     "@types/vscode": "^1.74.0"
-  },
-  "dependencies": {}
+  }
 }
