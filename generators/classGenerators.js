@@ -30,6 +30,18 @@ function generateClass(languageId, className, fileName, extensionPath, cliPath, 
             return { success: true, content: generateKotlinClass(className) };
         case 'php':
             return { success: true, content: generatePhpClass(className) };
+        case 'typescript':
+            return { success: true, content: generateTypeScriptClass(className) };
+        case 'ruby':
+            return { success: true, content: generateRubyClass(className) };
+        case 'go':
+            return { success: true, content: generateGoClass(className) };
+        case 'swift':
+            return { success: true, content: generateSwiftClass(className) };
+        case 'dart':
+            return { success: true, content: generateDartClass(className) };
+        case 'scala':
+            return { success: true, content: generateScalaClass(className) };
         case 'plaintext':
             // Handle plaintext files (may be Kotlin .kt files)
             const fileExtension = fileName.split('.').pop().toLowerCase();
@@ -604,6 +616,516 @@ class ${className}
 // Example usage
 // $obj = new ${className}("Example", 123);
 // $obj->display();`;
+}
+
+/**
+ * Generates TypeScript class code
+ */
+function generateTypeScriptClass(className) {
+    return `/**
+ * ${className} class with basic functionality
+ */
+class ${className} {
+    /**
+     * Create a ${className} instance
+     * @param name - The name attribute
+     * @param id - The ID attribute
+     */
+    constructor(private _name: string = "", private _id: number = 0) {}
+
+    /**
+     * Get the name attribute
+     * @returns The name
+     */
+    get name(): string {
+        return this._name;
+    }
+
+    /**
+     * Set the name attribute
+     * @param value - The new name
+     */
+    set name(value: string) {
+        if (typeof value !== 'string') {
+            throw new TypeError('Name must be a string');
+        }
+        this._name = value;
+    }
+
+    /**
+     * Get the ID attribute
+     * @returns The ID
+     */
+    get id(): number {
+        return this._id;
+    }
+
+    /**
+     * Set the ID attribute
+     * @param value - The new ID
+     */
+    set id(value: number) {
+        if (typeof value !== 'number') {
+            throw new TypeError('ID must be a number');
+        }
+        this._id = value;
+    }
+
+    /**
+     * String representation of the object
+     * @returns String representation
+     */
+    toString(): string {
+        return \`${className}{name='\${this._name}', id=\${this._id}}\`;
+    }
+
+    /**
+     * Check equality with another object
+     * @param other - Object to compare with
+     * @returns True if equal
+     */
+    equals(other: any): boolean {
+        if (!(other instanceof ${className})) {
+            return false;
+        }
+        return this._name === other._name && this._id === other._id;
+    }
+
+    /**
+     * Display the object information
+     */
+    display(): void {
+        console.log(this.toString());
+    }
+}
+
+// Example usage
+// const obj = new ${className}("Example", 123);
+// obj.display();
+
+// Export for use as module
+export { ${className} };`;
+}
+
+/**
+ * Generates Ruby class code
+ */
+function generateRubyClass(className) {
+    return `# ${className} class with basic functionality
+class ${className}
+  # Accessors for instance variables
+  attr_accessor :name, :id
+
+  # Initialize method (constructor)
+  def initialize(name = "", id = 0)
+    @name = name
+    @id = id
+  end
+
+  # Alternative constructor with only name
+  def self.create_with_name(name)
+    new(name, 0)
+  end
+
+  # Class method to create instance with default values
+  def self.create_default
+    new("Default", 0)
+  end
+
+  # String representation
+  def to_s
+    "${className}{name='\#{@name}', id=\#{@id}}"
+  end
+
+  # Inspect method for debugging
+  def inspect
+    to_s
+  end
+
+  # Equality check
+  def ==(other)
+    return false unless other.is_a?(#{className})
+    @name == other.name && @id == other.id
+  end
+
+  # Hash method for using in hashes/sets
+  def hash
+    [@name, @id].hash
+  end
+
+  # Eql? method for hash equality
+  def eql?(other)
+    self == other
+  end
+
+  # Display method
+  def display
+    puts to_s
+  end
+
+  # Clone method
+  def clone
+    #{className}.new(@name, @id)
+  end
+end
+
+# Example usage
+# obj = #{className}.new("Example", 123)
+# obj.display
+
+# Test class methods
+# default_obj = #{className}.create_default
+# named_obj = #{className}.create_with_name("Test")`;
+}
+
+/**
+ * Generates Go struct code (Go doesn't have classes, but structs with methods)
+ */
+function generateGoClass(className) {
+    return 'package main\n\n' +
+'import (\n' +
+'\t"fmt"\n' +
+')\n\n' +
+'// ' + className + ' represents a ' + className + ' with basic functionality\n' +
+'type ' + className + ' struct {\n' +
+'\tname string\n' +
+'\tid   int\n' +
+'}\n\n' +
+'// New' + className + ' creates a new ' + className + ' instance\n' +
+'func New' + className + '(name string, id int) *' + className + ' {\n' +
+'\treturn &' + className + '{\n' +
+'\t\tname: name,\n' +
+'\t\tid:   id,\n' +
+'\t}\n' +
+'}\n\n' +
+'// New' + className + 'WithDefaults creates a ' + className + ' with default values\n' +
+'func New' + className + 'WithDefaults() *' + className + ' {\n' +
+'\treturn &' + className + '{\n' +
+'\t\tname: "",\n' +
+'\t\tid:   0,\n' +
+'\t}\n' +
+'}\n\n' +
+'// GetName returns the name field\n' +
+'func (c *' + className + ') GetName() string {\n' +
+'\treturn c.name\n' +
+'}\n\n' +
+'// SetName sets the name field\n' +
+'func (c *' + className + ') SetName(name string) {\n' +
+'\tc.name = name\n' +
+'}\n\n' +
+'// GetID returns the id field\n' +
+'func (c *' + className + ') GetID() int {\n' +
+'\treturn c.id\n' +
+'}\n\n' +
+'// SetID sets the id field\n' +
+'func (c *' + className + ') SetID(id int) {\n' +
+'\tc.id = id\n' +
+'}\n\n' +
+'// String returns string representation of ' + className + '\n' +
+'func (c *' + className + ') String() string {\n' +
+'\treturn fmt.Sprintf("' + className + '{name=\\"%s\\", id=%d}", c.name, c.id)\n' +
+'}\n\n' +
+'// Equals checks equality with another ' + className + '\n' +
+'func (c *' + className + ') Equals(other *' + className + ') bool {\n' +
+'\tif other == nil {\n' +
+'\t\treturn false\n' +
+'\t}\n' +
+'\treturn c.name == other.name && c.id == other.id\n' +
+'}\n\n' +
+'// Clone creates a copy of the ' + className + '\n' +
+'func (c *' + className + ') Clone() *' + className + ' {\n' +
+'\treturn &' + className + '{\n' +
+'\t\tname: c.name,\n' +
+'\t\tid:   c.id,\n' +
+'\t}\n' +
+'}\n\n' +
+'// Display prints the ' + className + ' information\n' +
+'func (c *' + className + ') Display() {\n' +
+'\tfmt.Println(c.String())\n' +
+'}\n\n' +
+'// Example usage\n' +
+'func main() {\n' +
+'\t// Create a new instance\n' +
+'\tobj := New' + className + '("Example", 123)\n' +
+'\tobj.Display()\n\n' +
+'\t// Test getters and setters\n' +
+'\tobj.SetName("Updated Name")\n' +
+'\tobj.SetID(456)\n' +
+'\tobj.Display()\n\n' +
+'\t// Test clone\n' +
+'\tcloned := obj.Clone()\n' +
+'\tfmt.Printf("Original equals cloned: %t\\n", obj.Equals(cloned))\n\n' +
+'\t// Test with defaults\n' +
+'\tdefaultObj := New' + className + 'WithDefaults()\n' +
+'\tdefaultObj.Display()\n' +
+'}';
+}
+
+/**
+ * Generates Swift class code
+ */
+function generateSwiftClass(className) {
+    return `/**
+ * ${className} class with basic functionality
+ */
+class ${className} {
+    // Properties
+    var name: String
+    var id: Int
+    
+    // Designated initializer
+    init(name: String = "", id: Int = 0) {
+        self.name = name
+        self.id = id
+    }
+    
+    // Convenience initializer
+    convenience init(name: String) {
+        self.init(name: name, id: 0)
+    }
+    
+    // Getters and setters (Swift properties provide this automatically)
+    func getName() -> String {
+        return name
+    }
+    
+    func setName(_ name: String) {
+        self.name = name
+    }
+    
+    func getId() -> Int {
+        return id
+    }
+    
+    func setId(_ id: Int) {
+        self.id = id
+    }
+    
+    // CustomStringConvertible protocol implementation
+    var description: String {
+        return "${className}{name='\\(name)', id=\\(id)}"
+    }
+    
+    // Equatable protocol implementation
+    static func == (lhs: ${className}, rhs: ${className}) -> Bool {
+        return lhs.name == rhs.name && lhs.id == rhs.id
+    }
+    
+    // Hashable protocol implementation
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(id)
+    }
+    
+    // Display method
+    func display() {
+        print(description)
+    }
+    
+    // Clone method
+    func clone() -> ${className} {
+        return ${className}(name: name, id: id)
+    }
+    
+    // Class method
+    class func createDefault() -> ${className} {
+        return ${className}(name: "Default", id: 0)
+    }
+}
+
+// Example usage
+// let obj = ${className}(name: "Example", id: 123)
+// obj.display()
+
+// Test class method
+// let defaultObj = ${className}.createDefault()`;
+}
+
+/**
+ * Generates Dart class code
+ */
+function generateDartClass(className) {
+    return '/**\n' +
+' * ' + className + ' class with basic functionality\n' +
+' */\n' +
+'class ' + className + ' {\n' +
+'  // Properties\n' +
+'  String name;\n' +
+'  int id;\n' +
+'  \n' +
+'  // Constructor with optional parameters\n' +
+'  ' + className + '({this.name = "", this.id = 0});\n' +
+'  \n' +
+'  // Named constructor\n' +
+'  ' + className + '.withName(String name) : this(name: name, id: 0);\n' +
+'  \n' +
+'  // Factory constructor\n' +
+'  factory ' + className + '.createDefault() {\n' +
+'    return ' + className + '(name: "Default", id: 0);\n' +
+'  }\n' +
+'  \n' +
+'  // Getters (automatic in Dart, but explicit for clarity)\n' +
+'  String get getName => name;\n' +
+'  int get getId => id;\n' +
+'  \n' +
+'  // Setters\n' +
+'  set setName(String value) => name = value;\n' +
+'  set setId(int value) => id = value;\n' +
+'  \n' +
+'  // Override toString method\n' +
+'  @override\n' +
+'  String toString() {\n' +
+'    return "' + className + '{name=\\"$name\\", id=$id}";\n' +
+'  }\n' +
+'  \n' +
+'  // Override == operator\n' +
+'  @override\n' +
+'  bool operator ==(Object other) {\n' +
+'    if (identical(this, other)) return true;\n' +
+'    if (other is! ' + className + ') return false;\n' +
+'    return name == other.name && id == other.id;\n' +
+'  }\n' +
+'  \n' +
+'  // Override hashCode\n' +
+'  @override\n' +
+'  int get hashCode => name.hashCode ^ id.hashCode;\n' +
+'  \n' +
+'  // Display method\n' +
+'  void display() {\n' +
+'    print(toString());\n' +
+'  }\n' +
+'  \n' +
+'  // Clone method\n' +
+'  ' + className + ' clone() {\n' +
+'    return ' + className + '(name: name, id: id);\n' +
+'  }\n' +
+'  \n' +
+'  // Additional utility methods\n' +
+'  bool isEmpty() {\n' +
+'    return name.isEmpty && id == 0;\n' +
+'  }\n' +
+'  \n' +
+'  void reset() {\n' +
+'    name = "";\n' +
+'    id = 0;\n' +
+'  }\n' +
+'}\n' +
+'\n' +
+'// Example usage\n' +
+'// void main() {\n' +
+'//   var obj = ' + className + '(name: "Example", id: 123);\n' +
+'//   obj.display();\n' +
+'//   \n' +
+'//   // Test named constructor\n' +
+'//   var namedObj = ' + className + '.withName("Test");\n' +
+'//   namedObj.display();\n' +
+'//   \n' +
+'//   // Test factory constructor\n' +
+'//   var defaultObj = ' + className + '.createDefault();\n' +
+'//   defaultObj.display();\n' +
+'// }';
+}
+
+/**
+ * Generates Scala class code
+ */
+function generateScalaClass(className) {
+    return '/**\n' +
+' * ' + className + ' class with basic functionality\n' +
+' */\n' +
+'class ' + className + '(var name: String = "", var id: Int = 0) {\n' +
+'  \n' +
+'  // Auxiliary constructor\n' +
+'  def this(name: String) = {\n' +
+'    this(name, 0)\n' +
+'  }\n' +
+'  \n' +
+'  // Copy constructor equivalent\n' +
+'  def copy(name: String = this.name, id: Int = this.id): ' + className + ' = {\n' +
+'    new ' + className + '(name, id)\n' +
+'  }\n' +
+'  \n' +
+'  // Getters (automatically provided by Scala for var fields)\n' +
+'  def getName: String = name\n' +
+'  def getId: Int = id\n' +
+'  \n' +
+'  // Setters (automatically provided by Scala for var fields)\n' +
+'  def setName(name: String): Unit = {\n' +
+'    this.name = name\n' +
+'  }\n' +
+'  \n' +
+'  def setId(id: Int): Unit = {\n' +
+'    this.id = id\n' +
+'  }\n' +
+'  \n' +
+'  // Override toString method\n' +
+'  override def toString: String = {\n' +
+'    s"' + className + '{name=\\${name}, id=\\${id}}"\n' +
+'  }\n' +
+'  \n' +
+'  // Override equals method\n' +
+'  override def equals(other: Any): Boolean = other match {\n' +
+'    case that: ' + className + ' => name == that.name && id == that.id\n' +
+'    case _ => false\n' +
+'  }\n' +
+'  \n' +
+'  // Override hashCode method\n' +
+'  override def hashCode: Int = {\n' +
+'    val state = Seq(name, id)\n' +
+'    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)\n' +
+'  }\n' +
+'  \n' +
+'  // Display method\n' +
+'  def display(): Unit = {\n' +
+'    println(toString)\n' +
+'  }\n' +
+'  \n' +
+'  // Clone method\n' +
+'  def clone(): ' + className + ' = {\n' +
+'    new ' + className + '(name, id)\n' +
+'  }\n' +
+'  \n' +
+'  // Additional utility methods\n' +
+'  def isEmpty: Boolean = {\n' +
+'    name.isEmpty && id == 0\n' +
+'  }\n' +
+'  \n' +
+'  def reset(): Unit = {\n' +
+'    name = ""\n' +
+'    id = 0\n' +
+'  }\n' +
+'}\n' +
+'\n' +
+'// Companion object with factory methods\n' +
+'object ' + className + ' {\n' +
+'  \n' +
+'  // Factory method for creating default instance\n' +
+'  def createDefault(): ' + className + ' = {\n' +
+'    new ' + className + '("Default", 0)\n' +
+'  }\n' +
+'  \n' +
+'  // Factory method with name only\n' +
+'  def withName(name: String): ' + className + ' = {\n' +
+'    new ' + className + '(name, 0)\n' +
+'  }\n' +
+'  \n' +
+'  // Apply method for convenient construction\n' +
+'  def apply(name: String = "", id: Int = 0): ' + className + ' = {\n' +
+'    new ' + className + '(name, id)\n' +
+'  }\n' +
+'}\n' +
+'\n' +
+'// Example usage\n' +
+'// object Main extends App {\n' +
+'//   val obj = ' + className + '("Example", 123)\n' +
+'//   obj.display()\n' +
+'//   \n' +
+'//   // Test companion object methods\n' +
+'//   val defaultObj = ' + className + '.createDefault()\n' +
+'//   val namedObj = ' + className + '.withName("Test")\n' +
+'//   \n' +
+'//   println(s"Objects equal: \\${obj == defaultObj}")\n' +
+'// }';
 }
 
 module.exports = {
