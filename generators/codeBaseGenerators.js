@@ -66,6 +66,8 @@ function generateCodeBase(languageId, fileName) {
             content = generateBasicCodeBase();
             break;
         case 'fortran':
+        case 'fortran90':
+        case 'FortranFreeForm':
             content = generateFortranCodeBase();
             break;
         case 'r':
@@ -141,6 +143,7 @@ function generateCodeBase(languageId, fileName) {
             content = generateGroovyCodeBase();
             break;
         case 'haskell':
+        case 'Haskell':
             content = generateHaskellCodeBase();
             break;
         case 'idl':
@@ -233,6 +236,8 @@ function generateCodeBase(languageId, fileName) {
             content = generateVbCodeBase();
             break;
         case 'verilog':
+        case 'systemverilog':
+        case 'Verilog':
             content = generateVerilogCodeBase();
             break;
         case 'vhdl':
@@ -255,14 +260,163 @@ function generateCodeBase(languageId, fileName) {
             content = generateTypeScriptCodeBase();
             break;
         case 'plaintext':
-            // Handle plaintext files (may be Kotlin .kt files, Scala .scala files, Ada .adb files, etc.)
+            // Handle plaintext files (may be detected incorrectly by VS Code)
             const fileExtension = fileName.split('.').pop().toLowerCase();
-            if (fileExtension === 'kt') {
+            
+            // Ada
+            if (fileExtension === 'adb' || fileExtension === 'ads') {
+                content = generateAdaCodeBase();
+            // APL
+            } else if (fileExtension === 'apl') {
+                content = generateAplCodeBase();
+            // Assembly
+            } else if (fileExtension === 'asm') {
+                content = generateAssemblyCodeBase();
+            // AWK
+            } else if (fileExtension === 'awk') {
+                content = generateAwkCodeBase();
+            // Basic
+            } else if (fileExtension === 'bas') {
+                content = generateBasicCodeBase();
+            // Batch
+            } else if (fileExtension === 'bat') {
+                content = generateBatchCodeBase();
+            // ColdFusion
+            } else if (fileExtension === 'cfm') {
+                content = generateColdFusionCodeBase();
+            // Clojure
+            } else if (fileExtension === 'clj') {
+                content = generateClojureCodeBase();
+            // COBOL
+            } else if (fileExtension === 'cob') {
+                content = generateCobolCodeBase();
+            // CoffeeScript
+            } else if (fileExtension === 'coffee') {
+                content = generateCoffeeScriptCodeBase();
+            // Docker
+            } else if (fileExtension === 'dockerfile') {
+                content = generateDockerfileCodeBase();
+            // Elixir
+            } else if (fileExtension === 'ex') {
+                content = generateElixirCodeBase();
+            // Erlang
+            } else if (fileExtension === 'erl') {
+                content = generateErlangCodeBase();
+            // Factor
+            } else if (fileExtension === 'factor') {
+                content = generateFactorCodeBase();
+            // Forth
+            } else if (fileExtension === 'fth') {
+                content = generateForthCodeBase();
+            // Fortran
+            } else if (fileExtension === 'f90' || fileExtension === 'f95' || fileExtension === 'f03') {
+                content = generateFortranCodeBase();
+            // F#
+            } else if (fileExtension === 'fs') {
+                content = generateFSharpCodeBase();
+            // Groovy
+            } else if (fileExtension === 'groovy') {
+                content = generateGroovyCodeBase();
+            // Haskell
+            } else if (fileExtension === 'hs' || fileExtension === 'lhs') {
+                content = generateHaskellCodeBase();
+            // IDL
+            } else if (fileExtension === 'idl') {
+                content = generateIdlCodeBase();
+            // INI
+            } else if (fileExtension === 'ini') {
+                content = generateIniCodeBase();
+            // Jade
+            } else if (fileExtension === 'jade') {
+                content = generateJadeCodeBase();
+            // Julia
+            } else if (fileExtension === 'jl') {
+                content = generateJuliaCodeBase();
+            // Kotlin
+            } else if (fileExtension === 'kt') {
                 content = generateKotlinCodeBase();
+            // LaTeX
+            } else if (fileExtension === 'tex') {
+                content = generateLatexCodeBase();
+            // Less
+            } else if (fileExtension === 'less') {
+                content = generateLessCodeBase();
+            // Lisp
+            } else if (fileExtension === 'lisp') {
+                content = generateLispCodeBase();
+            // Lua
+            } else if (fileExtension === 'lua') {
+                content = generateLuaCodeBase();
+            // Maple
+            } else if (fileExtension === 'mpl') {
+                content = generateMapleCodeBase();
+            // MATLAB/Mathematica/Mercury/Objective-C (.m is ambiguous)
+            } else if (fileExtension === 'm') {
+                // Try to detect based on file content or default to Objective-C
+                content = generateObjectiveCCodeBase();
+            // Objective-C++
+            } else if (fileExtension === 'mm') {
+                content = generateObjectiveCppCodeBase();
+            // Objective-J
+            } else if (fileExtension === 'j') {
+                content = generateObjectiveJCodeBase();
+            // OCaml
+            } else if (fileExtension === 'ml') {
+                content = generateOcamlCodeBase();
+            // Pascal/Delphi/ObjectPascal
+            } else if (fileExtension === 'pas') {
+                content = generateObjectPascalCodeBase();
+            // Perl/Prolog (.pl is ambiguous)
+            } else if (fileExtension === 'pl') {
+                content = generatePerlCodeBase();
+            // Perl6
+            } else if (fileExtension === 'pl6') {
+                content = generatePerlCodeBase();
+            // Raku
+            } else if (fileExtension === 'raku') {
+                content = generatePerlCodeBase();
+            // PostScript
+            } else if (fileExtension === 'ps') {
+                content = generatePostScriptCodeBase();
+            // PowerShell
+            } else if (fileExtension === 'ps1') {
+                content = generatePowerShellCodeBase();
+            // Scala
             } else if (fileExtension === 'scala') {
                 content = generateScalaCodeBase();
-            } else if (fileExtension === 'adb' || fileExtension === 'ads') {
-                content = generateAdaCodeBase();
+            // Scheme
+            } else if (fileExtension === 'scm') {
+                content = generateSchemeCodeBase();
+            // Sed
+            } else if (fileExtension === 'sed') {
+                content = generateSedCodeBase();
+            // Smalltalk
+            } else if (fileExtension === 'st') {
+                content = generateSmalltalkCodeBase();
+            // Solidity
+            } else if (fileExtension === 'sol') {
+                content = generateSolidityCodeBase();
+            // SQL
+            } else if (fileExtension === 'sql') {
+                content = generateSqlCodeBase();
+            // TCL
+            } else if (fileExtension === 'tcl') {
+                content = generateTclCodeBase();
+            // Verilog
+            } else if (fileExtension === 'v' || fileExtension === 'vh' || fileExtension === 'sv') {
+                content = generateVerilogCodeBase();
+            // VHDL
+            } else if (fileExtension === 'vhdl') {
+                content = generateVhdlCodeBase();
+            // Verse
+            } else if (fileExtension === 'verse') {
+                content = generateVerseCodeBase();
+            // Vimscript
+            } else if (fileExtension === 'vim') {
+                content = generateVimscriptCodeBase();
+            // SAS
+            } else if (fileExtension === 'sas') {
+                content = generateSasCodeBase();
             } else {
                 // Default to C for other plaintext files
                 content = generateCCodeBase();
