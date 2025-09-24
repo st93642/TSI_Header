@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
   "description": "Code generation and professional headers for 90 programming languages with 100% quality assurance - Transport and Telecommunication Institute",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -173,6 +173,12 @@
           "group": "1_tsi@1"
         }
       ],
+      "menuBar/file": [
+        {
+          "command": "tsiheader.createTSIProject",
+          "group": "1_new@2"
+        }
+      ],
       "commandPalette": [
         {
           "command": "tsiheader.insertHeader",
@@ -207,6 +213,11 @@
         "key": "ctrl+alt+u",
         "mac": "cmd+alt+u",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "tsiheader.createTSIProject",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p"
       }
     ]
   },
