@@ -184,7 +184,8 @@ function getLanguageDisplayName(language) {
     const displayNames = {
         'c': 'C',
         'cpp': 'C++',
-        'rust': 'Rust'
+        'rust': 'Rust',
+        'ruby': 'Ruby'
     };
     return displayNames[language] || language.toUpperCase();
 }
@@ -197,6 +198,8 @@ function getBuildCommand(language) {
         return 'make';
     } else if (language === 'rust') {
         return 'cargo build';
+    } else if (language === 'ruby') {
+        return 'bundle install';
     }
     return 'make';
 }
@@ -209,6 +212,8 @@ function getRunCommand(language, projectName) {
         return 'make run';
     } else if (language === 'rust') {
         return 'cargo run';
+    } else if (language === 'ruby') {
+        return 'ruby bin/main.rb';
     }
     return `./build/${projectName}`;
 }
@@ -245,6 +250,20 @@ function getProjectStructure(language, projectName) {
 ├── docs/                     # Documentation
 ├── README.md                 # This file
 └── .gitignore               # Git ignore patterns`;
+    } else if (language === 'ruby') {
+        return `${projectName}/
+├── bin/
+│   └── main.rb               # Executable script with TSI header
+├── lib/
+│   └── base_class.rb         # Base class implementation
+├── spec/                     # RSpec tests
+├── config/                   # Configuration files
+├── Gemfile                   # Ruby dependencies
+├── Rakefile                  # Build automation
+├── ${projectName}.gemspec    # Gem specification
+├── docs/                     # Documentation
+├── README.md                 # This file
+└── .gitignore               # Git ignore patterns`;
     }
     
     return `${projectName}/
@@ -272,6 +291,12 @@ function getPrerequisites(language) {
         return `- **Rust Toolchain**: \`rustc --version\` and \`cargo --version\` (install via [rustup.rs](https://rustup.rs/))
 - **Git**: \`git --version\` (for version control)
 - **Recommended**: Install Rust via rustup for easy toolchain management`;
+    } else if (language === 'ruby') {
+        return `- **Ruby**: \`ruby --version\` (recommended: Ruby 3.0+)
+- **RubyGems**: \`gem --version\` (usually included with Ruby)
+- **Bundler**: \`bundle --version\` (install with \`gem install bundler\`)
+- **Git**: \`git --version\` (for version control)
+- **Recommended**: Use [RVM](https://rvm.io/) or [rbenv](https://github.com/rbenv/rbenv) for Ruby version management`;
     }
     
     return '- Basic development environment';
@@ -297,6 +322,13 @@ function getLanguageResources(language) {
 - [Rust Standard Library Documentation](https://doc.rust-lang.org/std/)
 - [Cargo Guide](https://doc.rust-lang.org/cargo/guide/)
 - [Rustlings Exercises](https://github.com/rust-lang/rustlings)`;
+    } else if (language === 'ruby') {
+        return `- [The Ruby Programming Language](https://www.ruby-lang.org/en/documentation/)
+- [Ruby Documentation](https://ruby-doc.org/)
+- [Ruby on Rails Guides](https://guides.rubyonrails.org/) (if using Rails)
+- [Ruby Style Guide](https://rubystyle.guide/)
+- [Ruby Koans](http://rubykoans.com/) - Learning exercises
+- [Try Ruby](https://try.ruby-lang.org/) - Interactive learning`;
     }
     
     return '- Language documentation and tutorials';
