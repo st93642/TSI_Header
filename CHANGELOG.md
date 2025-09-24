@@ -5,9 +5,56 @@ All notable changes to the TSI Header extension will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2025-09-24
+## [1.2.1] - 2025-09-24
 
 ### ✨ Added
+
+- **Class Generation Support**: Added class generation for 13 programming languages (Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala)
+- **Code Base Generation**: Added boilerplate code generation for 23+ programming languages with language-specific templates
+- **Enhanced Menu Integration**: Context-aware command availability based on file extensions for all supported languages
+
+### 🐛 Fixed
+
+- **Class Generation Menu Conditions**: Fixed menu visibility for Dart and Scala files (`.dart`, `.scala` extensions now properly recognized)
+- **Code Base Generation**: Fixed 15+ languages that were falling back to C boilerplate instead of using proper language-specific templates:
+  - PHP (`.php`) - Now generates proper PHP class structure
+  - Swift (`.swift`) - Now generates proper Swift class structure  
+  - Dart (`.dart`) - Now generates proper Dart class structure
+  - Scala (`.scala`) - Now generates proper Scala class structure
+  - Python (`.py`) - Now generates proper Python class structure
+  - Ruby (`.rb`) - Now generates proper Ruby class structure
+  - Go (`.go`) - Now generates proper Go struct/function structure
+  - Rust (`.rs`) - Now generates proper Rust struct/impl structure
+  - And 7+ additional languages with proper boilerplate
+
+### 🛠️ Improved
+
+- **Language-Specific Boilerplate**: All code base generation now uses appropriate language syntax and conventions instead of generic C fallbacks
+- **Menu System Reliability**: File extension regex patterns updated to include all supported languages for class and code base generation
+- **Code Quality**: Eliminated generic fallbacks in favor of comprehensive language-specific implementations
+
+### 📋 Technical Changes
+
+- Added `generateClass()` function with 13 language-specific implementations
+- Added `generateCodeBase()` function with 23+ language-specific templates
+- Updated menu conditions in `package.json` to include Dart and Scala extensions
+- Enhanced language detection logic for proper template selection
+- Improved error handling for unsupported language edge cases
+
+### 🎯 Compatibility
+
+None - fully backward compatible with v1.1.0
+
+### 📊 Statistics
+
+- **Header Languages**: 84+ (unchanged)
+- **Code Base Languages**: 23+ (new feature)
+- **Class Languages**: 13 (new feature)
+- **Test Coverage**: 22 languages validated with 100% pass rate
+
+## [1.1.0] - 2025-09-24
+
+### ✨ New Features
 
 - **Auto-Save Functionality**: New `tsiheader.autoUpdate` setting enables automatic header updates when files are saved
 - **Smart Header Detection**: Only files with existing TSI headers are processed during auto-updates  
@@ -16,7 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Configuration Assistant**: Friendly setup instructions with direct links to settings and git config help
 - **Silent Background Operations**: Auto-updates work quietly without interrupting workflow
 
-### 🛠️ Improved  
+### 🛠️ Improvements  
 
 - **Enhanced Error Handling**: Replaced error messages with welcoming configuration instructions
 - **User Experience**: Eliminated scary error popups in favor of helpful guidance with emojis and clear steps
@@ -39,7 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 None - fully backward compatible with v1.0.1
 
-### 🐛 Fixed
+### 🐛 Bug Fixes
 
 - Credential detection edge cases where git config might be missing
 - Error message handling for various failure scenarios
@@ -53,7 +100,7 @@ None - fully backward compatible with v1.0.1
 - **VS Code Marketplace Integration** - Fixed broken links in extension details page
 - **User Support** - Added clear issue reporting channels for better user experience
 
-### 📋 Technical Changes
+### 📋 Metadata Updates
 
 - Added `homepage` field pointing to README
 - Added `bugs` object with GitHub issues URL and support email
@@ -111,7 +158,7 @@ Install directly from VS Code Marketplace:
 
 This extension is a complete rework of the original [42 header extension](https://github.com/kube/vscode-42header) created by 42 students, released under the MIT License. The original concept has been completely reimplemented with TSI branding, expanded language support, and enhanced functionality.
 
-### 📊 Statistics
+### 📊 Statistics (1.0.0)
 
 - **Languages Tested**: 84+
 - **Extension Size**: 156.51KB
