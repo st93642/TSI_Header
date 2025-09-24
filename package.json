@@ -92,22 +92,26 @@
       {
         "command": "tsiheader.insertHeader",
         "title": "Insert Header",
-        "category": "TSI Header"
+        "category": "TSI Header",
+        "icon": "$(add)"
       },
       {
         "command": "tsiheader.updateHeader",
         "title": "Update Header",
-        "category": "TSI Header"
+        "category": "TSI Header",
+        "icon": "$(sync)"
       },
       {
         "command": "tsiheader.addClass",
         "title": "Add class",
-        "category": "TSI Header"
+        "category": "TSI Header",
+        "icon": "$(symbol-class)"
       },
       {
         "command": "tsiheader.addCodeBase",
         "title": "Add code base",
-        "category": "TSI Header"
+        "category": "TSI Header",
+        "icon": "$(code)"
       },
       {
         "command": "tsiheader.createTSIProject",
