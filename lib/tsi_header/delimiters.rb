@@ -101,7 +101,11 @@ module TSIHeader
       'xml' => ANGLE_BRACKETS,
       'xsl' => SLASHES,
       'yaml' => HASHES,
-      'yml' => HASHES
+      'yml' => HASHES,
+      'scala' => SLASHES,
+      'delphi' => BRACES,
+      'objectpascal' => BRACES,
+      'c++' => SLASHES
     }.freeze
 
     def self.for_language(language_id)
