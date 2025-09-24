@@ -4,16 +4,16 @@
 
 ## Code Generation & Professional Headers for TSI Students
 
-Generate complete classes, boilerplate code, and professional TSI-branded headers for **90 programming languages** with **100% quality assurance**.
+Generate complete classes, boilerplate code, and professional TSI-branded headers for **90 programming languages** with **quality assurance**.
 
 ## 🏗️ **Primary Features**
 
-### **Code Generation** (Main Feature)
+### **Code Generation**
 
 - **Generate Classes**: Complete class templates with constructors, methods, and documentation
 - **Generate Code Boilerplates**: Ready-to-run program templates for any language
 - **90 Languages Supported** for code generation (see full list below)
-- **Quality Assured**: 100% comprehensive testing ensures correct code generation
+- **Quality Assured**: comprehensive testing ensures correct code generation
 
 ### **Professional Headers**
 
@@ -55,7 +55,7 @@ Same languages as boilerplate generation - every language that can generate code
 
 ### **Usage**
 
-#### **Code Generation**
+#### **Generation**
 
 - **Add Class**: Right-click → "TSI Header: Add class"
 - **Add Code Base**: Right-click → "TSI Header: Add code base"
@@ -99,7 +99,3 @@ git config --global user.email "your_email@students.tsi.lv"
 /*                       https://tsi.lv                                      */
 /*****************************************************************************/
 ```
-
----
-
-Developed for the Transport and Telecommunication Institute Computer Science Program
