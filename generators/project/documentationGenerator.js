@@ -183,7 +183,8 @@ This project is created for educational purposes at Transport and Telecommunicat
 function getLanguageDisplayName(language) {
     const displayNames = {
         'c': 'C',
-        'cpp': 'C++'
+        'cpp': 'C++',
+        'rust': 'Rust'
     };
     return displayNames[language] || language.toUpperCase();
 }
@@ -194,6 +195,8 @@ function getLanguageDisplayName(language) {
 function getBuildCommand(language) {
     if (language === 'c' || language === 'cpp') {
         return 'make';
+    } else if (language === 'rust') {
+        return 'cargo build';
     }
     return 'make';
 }
@@ -204,6 +207,8 @@ function getBuildCommand(language) {
 function getRunCommand(language, projectName) {
     if (language === 'c' || language === 'cpp') {
         return 'make run';
+    } else if (language === 'rust') {
+        return 'cargo run';
     }
     return `./build/${projectName}`;
 }
@@ -224,6 +229,20 @@ function getProjectStructure(language, projectName) {
 ├── build/                    # Build artifacts (generated)
 ├── docs/                     # Documentation
 ├── Makefile                  # Build configuration
+├── README.md                 # This file
+└── .gitignore               # Git ignore patterns`;
+    } else if (language === 'rust') {
+        return `${projectName}/
+├── src/
+│   ├── main.rs               # Main source file with TSI header
+│   ├── lib.rs                # Library interface
+│   └── base_struct.rs        # Base struct implementation
+├── tests/                    # Integration tests
+├── examples/                 # Example programs
+├── benches/                  # Benchmark tests
+├── Cargo.toml                # Project configuration
+├── Cargo.lock                # Dependency lock file (generated)
+├── docs/                     # Documentation
 ├── README.md                 # This file
 └── .gitignore               # Git ignore patterns`;
     }
@@ -249,6 +268,10 @@ function getPrerequisites(language) {
         return `- **G++ Compiler**: \`g++ --version\` (recommended: GCC 9.0+)
 - **Make**: \`make --version\`
 - **Git**: \`git --version\` (for version control)`;
+    } else if (language === 'rust') {
+        return `- **Rust Toolchain**: \`rustc --version\` and \`cargo --version\` (install via [rustup.rs](https://rustup.rs/))
+- **Git**: \`git --version\` (for version control)
+- **Recommended**: Install Rust via rustup for easy toolchain management`;
     }
     
     return '- Basic development environment';
@@ -268,6 +291,12 @@ function getLanguageResources(language) {
 - [Learn C++ Tutorial](https://www.learncpp.com/)
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
 - [Modern C++ Features](https://github.com/AnthonyCalandra/modern-cpp-features)`;
+    } else if (language === 'rust') {
+        return `- [The Rust Programming Language Book](https://doc.rust-lang.org/book/)
+- [Rust by Example](https://doc.rust-lang.org/rust-by-example/)
+- [Rust Standard Library Documentation](https://doc.rust-lang.org/std/)
+- [Cargo Guide](https://doc.rust-lang.org/cargo/guide/)
+- [Rustlings Exercises](https://github.com/rust-lang/rustlings)`;
     }
     
     return '- Language documentation and tutorials';
