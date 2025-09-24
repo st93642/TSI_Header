@@ -112,6 +112,10 @@
           "command": "tsiheader.addCodeBase",
           "when": "editorTextFocus",
           "group": "navigation"
+        },
+        {
+          "command": "tsiheader.createTSIProject",
+          "group": "1_tsi@1"
         }
       ],
       "editor/title": [
@@ -132,6 +136,10 @@
           "command": "tsiheader.addCodeBase",
           "when": "editorTextFocus",
           "group": "navigation"
+        },
+        {
+          "command": "tsiheader.createTSIProject",
+          "group": "1_tsi@1"
         }
       ],
       "explorer/context": [
@@ -151,6 +159,11 @@
         {
           "command": "tsiheader.createTSIProject",
           "when": "view == explorer && viewItem == folder",
+          "group": "1_tsi@1"
+        },
+        {
+          "command": "tsiheader.createTSIProject",
+          "when": "view == explorer && viewItem",
           "group": "1_tsi@1"
         }
       ],
