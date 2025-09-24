@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 03:10 Igors Oleinikovs                              */
+/*  Updated: Sep 24 2025 03:14 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -461,6 +461,21 @@ function activate(context) {
             } else if (languageId === 'javascript') {
                 fullContent += `\n/**\n * ${className} class with basic functionality\n */\nclass ${className} {\n    /**\n     * Create a ${className} instance\n     * @param {string} name - The name attribute\n     * @param {number} id - The ID attribute\n     */\n    constructor(name = "", id = 0) {\n        this._name = name;\n        this._id = id;\n    }\n\n    /**\n     * Get the name attribute\n     * @returns {string} The name\n     */\n    get name() {\n        return this._name;\n    }\n\n    /**\n     * Set the name attribute\n     * @param {string} value - The new name\n     */\n    set name(value) {\n        if (typeof value !== 'string') {\n            throw new TypeError('Name must be a string');\n        }\n        this._name = value;\n    }\n\n    /**\n     * Get the ID attribute\n     * @returns {number} The ID\n     */\n    get id() {\n        return this._id;\n    }\n\n    /**\n     * Set the ID attribute\n     * @param {number} value - The new ID\n     */\n    set id(value) {\n        if (typeof value !== 'number') {\n            throw new TypeError('ID must be a number');\n        }\n        this._id = value;\n    }\n\n    /**\n     * String representation of the object\n     * @returns {string} String representation\n     */\n    toString() {\n        return \`${className}{name='\${this._name}', id=\${this._id}}\`;\n    }\n\n    /**\n     * Check equality with another object\n     * @param {*} other - Object to compare with\n     * @returns {boolean} True if equal\n     */\n    equals(other) {\n        if (!(other instanceof ${className})) {\n            return false;\n        }\n        return this._name === other._name && this._id === other._id;\n    }\n\n    /**\n     * Display the object information\n     */\n    display() {\n        console.log(this.toString());\n    }\n}\n\n// Example usage\n// const obj = new ${className}("Example", 123);\n// obj.display();\n\n// Export for use as module\nmodule.exports = { ${className} };\n`;
                 
+            } else if (languageId === 'kotlin') {
+                fullContent += `\n/**\n * ${className} class with basic functionality\n */\nclass ${className}(\n    var name: String = "",\n    var id: Int = 0\n) {\n    /**\n     * Secondary constructor\n     */\n    constructor(name: String) : this(name, 0)\n\n    /**\n     * Copy constructor equivalent\n     */\n    constructor(other: ${className}) : this(other.name, other.id)\n\n    /**\n     * Override toString method\n     */\n    override fun toString(): String {\n        return "${className}(name='\${name}', id=\${id})"\n    }\n\n    /**\n     * Override equals method\n     */\n    override fun equals(other: Any?): Boolean {\n        if (this === other) return true\n        if (other !is ${className}) return false\n        return name == other.name && id == other.id\n    }\n\n    /**\n     * Override hashCode method\n     */\n    override fun hashCode(): Int {\n        return name.hashCode() * 31 + id\n    }\n\n    /**\n     * Display method\n     */\n    fun display() {\n        println(toString())\n    }\n\n    /**\n     * Companion object for static methods\n     */\n    companion object {\n        /**\n         * Create instance with default values\n         */\n        fun create(): ${className} {\n            return ${className}("Default", 0)\n        }\n    }\n}\n\n// Example usage\n// val obj = ${className}("Example", 123)\n// obj.display()\n\n// Test companion object\n// val defaultObj = ${className}.create()\n`;
+                
+            } else if (languageId === 'plaintext') {
+                // For plaintext files, assume they might be Kotlin (.kt files detected as plaintext)
+                // Try to detect based on file extension
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+                if (fileExtension === 'kt') {
+                    // Treat as Kotlin
+                    fullContent += `\n/**\n * ${className} class with basic functionality\n */\nclass ${className}(\n    var name: String = "",\n    var id: Int = 0\n) {\n    /**\n     * Secondary constructor\n     */\n    constructor(name: String) : this(name, 0)\n\n    /**\n     * Copy constructor equivalent\n     */\n    constructor(other: ${className}) : this(other.name, other.id)\n\n    /**\n     * Override toString method\n     */\n    override fun toString(): String {\n        return "${className}(name='\${name}', id=\${id})"\n    }\n\n    /**\n     * Override equals method\n     */\n    override fun equals(other: Any?): Boolean {\n        if (this === other) return true\n        if (other !is ${className}) return false\n        return name == other.name && id == other.id\n    }\n\n    /**\n     * Override hashCode method\n     */\n    override fun hashCode(): Int {\n        return name.hashCode() * 31 + id\n    }\n\n    /**\n     * Display method\n     */\n    fun display() {\n        println(toString())\n    }\n\n    /**\n     * Companion object for static methods\n     */\n    companion object {\n        /**\n         * Create instance with default values\n         */\n        fun create(): ${className} {\n            return ${className}("Default", 0)\n        }\n    }\n}\n\n// Example usage\n// val obj = ${className}("Example", 123)\n// obj.display()\n\n// Test companion object\n// val defaultObj = ${className}.create()\n`;
+                } else {
+                    vscode.window.showErrorMessage(`Class generation not supported for plaintext files with extension: ${fileExtension}`);
+                    return;
+                }
+                
             } else {
                 vscode.window.showErrorMessage(`Class generation not supported for language: ${languageId}`);
                 return;
@@ -554,6 +569,18 @@ function activate(context) {
                 fullContent += `\ndef main():\n    """Main function - entry point of the program."""\n    print("Hello, World!")\n    print("This is a basic Python script.")\n\n\nif __name__ == "__main__":\n    main()\n`;
             } else if (languageId === 'javascript') {
                 fullContent += `\n/**\n * Main function - entry point of the program\n */\nfunction main() {\n    console.log('Hello, World!');\n    console.log('This is a basic JavaScript script.');\n}\n\n// Execute main function\nmain();\n\n// Export for use as module\nmodule.exports = { main };\n`;
+            } else if (languageId === 'kotlin') {
+                fullContent += `\n/**\n * Main function - entry point of the program\n */\nfun main(args: Array<String>) {\n    println("Hello, World!")\n    println("This is a basic Kotlin program.")\n}\n`;
+            } else if (languageId === 'plaintext') {
+                // For plaintext files, assume they might be Kotlin (.kt files detected as plaintext)
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+                if (fileExtension === 'kt') {
+                    // Treat as Kotlin
+                    fullContent += `\n/**\n * Main function - entry point of the program\n */\nfun main(args: Array<String>) {\n    println("Hello, World!")\n    println("This is a basic Kotlin program.")\n}\n`;
+                } else {
+                    // Default to C for other plaintext files
+                    fullContent += `\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    printf("Hello, World!\\n");\n    return 0;\n}\n`;
+                }
             } else {
                 // Default to C for unsupported languages
                 fullContent += `\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    printf("Hello, World!\\n");\n    return 0;\n}\n`;
