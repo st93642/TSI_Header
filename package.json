@@ -70,7 +70,7 @@
         {
           "id": "tsi-header-explorer",
           "title": "TSI Header",
-          "icon": "resources/tsi-24.png"
+          "icon": "$(mortar-board)"
         }
       ]
     },
