@@ -140,6 +140,26 @@
           "group": "1_tsi@1"
         }
       ],
+      "view/title": [
+        {
+          "command": "tsiheader.createTSIProject",
+          "when": "view == explorer",
+          "group": "navigation@1"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "tsiheader.createTSIProject",
+          "when": "view == explorer && viewItem == folder",
+          "group": "1_tsi@1"
+        }
+      ],
+      "scm/resourceGroup/context": [
+        {
+          "command": "tsiheader.createTSIProject",
+          "group": "1_tsi@1"
+        }
+      ],
       "commandPalette": [
         {
           "command": "tsiheader.insertHeader",
