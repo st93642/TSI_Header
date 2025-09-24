@@ -1,0 +1,278 @@
+/**
+ * Documentation Generator
+ * Creates README.md and project documentation
+ */
+
+let vscode;
+try {
+    vscode = require('vscode');
+} catch (e) {
+    // vscode not available (running outside VS Code)
+    vscode = null;
+}
+
+/**
+ * Create documentation files for the project
+ */
+async function createDocumentationFiles(language, projectName, projectUri) {
+    if (!vscode) {
+        throw new Error('VS Code API not available');
+    }
+
+    await createReadmeFile(language, projectName, projectUri);
+    // Future: Create additional docs like CONTRIBUTING.md, API docs, etc.
+}
+
+/**
+ * Create README.md file with TSI branding and project information
+ */
+async function createReadmeFile(language, projectName, projectUri) {
+    const readmeContent = generateReadmeContent(language, projectName);
+    const readmeUri = vscode.Uri.joinPath(projectUri, 'README.md');
+    
+    const encoder = new TextEncoder();
+    await vscode.workspace.fs.writeFile(readmeUri, encoder.encode(readmeContent));
+}
+
+/**
+ * Generate README.md content
+ */
+function generateReadmeContent(language, projectName) {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: '2-digit', 
+        year: 'numeric' 
+    });
+    
+    // Get user info from settings
+    const config = vscode.workspace.getConfiguration('tsiheader');
+    const username = config.get('username') || 'TSI Student';
+    const email = config.get('email') || 'student@tsi.lv';
+    
+    const languageDisplayName = getLanguageDisplayName(language);
+    const buildCommand = getBuildCommand(language);
+    const runCommand = getRunCommand(language, projectName);
+    const projectStructure = getProjectStructure(language, projectName);
+    const languageResources = getLanguageResources(language);
+    
+    return `# ${projectName}
+
+**Transport and Telecommunication Institute - ${languageDisplayName} Programming Project**
+
+![TSI Logo](https://tsi.lv/themes/custom/tsi/logo.svg)
+
+## 📋 Project Information
+
+- **Language**: ${languageDisplayName}
+- **Author**: ${username}
+- **Email**: ${email}
+- **Created**: ${dateStr}
+- **Institution**: Transport and Telecommunication Institute (TSI)
+- **Website**: [https://tsi.lv](https://tsi.lv)
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+Make sure you have the following installed:
+${getPrerequisites(language)}
+
+### Build the Project
+
+\`\`\`bash
+${buildCommand}
+\`\`\`
+
+### Run the Project
+
+\`\`\`bash
+${runCommand}
+\`\`\`
+
+### Clean Build Artifacts
+
+\`\`\`bash
+make clean
+\`\`\`
+
+## 📁 Project Structure
+
+\`\`\`
+${projectStructure}
+\`\`\`
+
+## 🛠️ Development
+
+### Build Options
+
+- **Debug Build**: \`make debug\` - Includes debugging symbols and debug output
+- **Release Build**: \`make release\` - Optimized for production
+- **Clean**: \`make clean\` - Remove all build artifacts
+- **Install**: \`make install\` - Install to system (requires sudo)
+
+### Code Style
+
+This project follows TSI programming standards:
+
+- ✅ Professional TSI headers in all source files
+- ✅ Proper indentation and formatting
+- ✅ Meaningful variable and function names
+- ✅ Comprehensive documentation
+- ✅ Error handling and input validation
+
+## 🎓 TSI Academic Requirements
+
+This project includes all required elements for TSI programming courses:
+
+- ✅ **Professional Headers**: All source files include TSI institutional headers
+- ✅ **Project Structure**: Industry-standard directory organization  
+- ✅ **Build System**: Complete Makefile with multiple targets
+- ✅ **Documentation**: Comprehensive README and code comments
+- ✅ **Version Control**: Git-ready with appropriate .gitignore
+
+## 📚 Learning Resources
+
+### ${languageDisplayName} Programming
+${languageResources}
+
+### TSI Resources
+- [TSI Official Website](https://tsi.lv)
+- [Study Programs](https://tsi.lv/study)
+- [Programming Courses](https://tsi.lv/study/undergraduate)
+- [Library Resources](https://tsi.lv/library)
+
+### Development Tools
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [TSI Header Extension](https://marketplace.visualstudio.com/items?itemName=st93642.tsi-header)
+- [Git Documentation](https://git-scm.com/doc)
+- [GNU Make Manual](https://www.gnu.org/software/make/manual/)
+
+## 🤝 Contributing
+
+If this is a collaborative project, please:
+
+1. Fork the repository
+2. Create a feature branch (\`git checkout -b feature/amazing-feature\`)
+3. Commit your changes with TSI headers (\`git commit -m 'Add amazing feature'\`)
+4. Push to the branch (\`git push origin feature/amazing-feature\`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is created for educational purposes at Transport and Telecommunication Institute (TSI). Please respect TSI's academic integrity policies.
+
+## 📞 Contact
+
+- **Author**: ${username}
+- **Email**: ${email}
+- **Institution**: Transport and Telecommunication Institute
+- **Address**: Lomonosova 1, Riga, LV-1019, Latvia
+- **Website**: [https://tsi.lv](https://tsi.lv)
+
+---
+
+*Generated by [TSI Header Extension](https://marketplace.visualstudio.com/items?itemName=st93642.tsi-header) for Visual Studio Code*
+
+**🎓 Excellence in Technical Education - Transport and Telecommunication Institute**`;
+}
+
+/**
+ * Get language display name
+ */
+function getLanguageDisplayName(language) {
+    const displayNames = {
+        'c': 'C',
+        'cpp': 'C++'
+    };
+    return displayNames[language] || language.toUpperCase();
+}
+
+/**
+ * Get build command for language
+ */
+function getBuildCommand(language) {
+    if (language === 'c' || language === 'cpp') {
+        return 'make';
+    }
+    return 'make';
+}
+
+/**
+ * Get run command for language and project
+ */
+function getRunCommand(language, projectName) {
+    if (language === 'c' || language === 'cpp') {
+        return 'make run';
+    }
+    return `./build/${projectName}`;
+}
+
+/**
+ * Get project structure for language
+ */
+function getProjectStructure(language, projectName) {
+    if (language === 'c' || language === 'cpp') {
+        const extension = language === 'c' ? 'c' : 'cpp';
+        const headerExt = language === 'c' ? 'h' : 'hpp';
+        
+        return `${projectName}/
+├── src/
+│   └── main.${extension}              # Main source file with TSI header
+├── include/
+│   └── ${projectName}.${headerExt}     # Project header file
+├── build/                    # Build artifacts (generated)
+├── docs/                     # Documentation
+├── Makefile                  # Build configuration
+├── README.md                 # This file
+└── .gitignore               # Git ignore patterns`;
+    }
+    
+    return `${projectName}/
+├── src/                      # Source code files
+├── docs/                     # Documentation
+├── build/                    # Build artifacts (generated)
+├── Makefile                  # Build configuration
+├── README.md                 # This file
+└── .gitignore               # Git ignore patterns`;
+}
+
+/**
+ * Get prerequisites for language
+ */
+function getPrerequisites(language) {
+    if (language === 'c') {
+        return `- **GCC Compiler**: \`gcc --version\` (recommended: GCC 9.0+)
+- **Make**: \`make --version\`
+- **Git**: \`git --version\` (for version control)`;
+    } else if (language === 'cpp') {
+        return `- **G++ Compiler**: \`g++ --version\` (recommended: GCC 9.0+)
+- **Make**: \`make --version\`
+- **Git**: \`git --version\` (for version control)`;
+    }
+    
+    return '- Basic development environment';
+}
+
+/**
+ * Get language-specific learning resources
+ */
+function getLanguageResources(language) {
+    if (language === 'c') {
+        return `- [C Programming Reference](https://en.cppreference.com/w/c)
+- [Learn C - Tutorial](https://www.learn-c.org/)
+- [The C Programming Language (K&R Book)](https://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628)
+- [C Programming Exercises](https://www.w3resource.com/c-programming-exercises/)`;
+    } else if (language === 'cpp') {
+        return `- [C++ Reference](https://en.cppreference.com/w/cpp)
+- [Learn C++ Tutorial](https://www.learncpp.com/)
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+- [Modern C++ Features](https://github.com/AnthonyCalandra/modern-cpp-features)`;
+    }
+    
+    return '- Language documentation and tutorials';
+}
+
+module.exports = {
+    createDocumentationFiles
+};

@@ -85,6 +85,12 @@
         "command": "tsiheader.addCodeBase",
         "title": "Add code base",
         "category": "TSI Header"
+      },
+      {
+        "command": "tsiheader.createTSIProject",
+        "title": "Create TSI Project",
+        "category": "TSI Header",
+        "icon": "$(folder-opened)"
       }
     ],
     "menus": {
@@ -128,6 +134,12 @@
           "group": "navigation"
         }
       ],
+      "explorer/context": [
+        {
+          "command": "tsiheader.createTSIProject",
+          "group": "1_tsi@1"
+        }
+      ],
       "commandPalette": [
         {
           "command": "tsiheader.insertHeader",
@@ -144,6 +156,9 @@
         {
           "command": "tsiheader.addCodeBase",
           "when": "editorTextFocus"
+        },
+        {
+          "command": "tsiheader.createTSIProject"
         }
       ]
     },

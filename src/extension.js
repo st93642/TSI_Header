@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 11:46 Igors Oleinikovs                              */
+/*  Updated: Sep 24 2025 18:38 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -19,6 +19,7 @@ const path = require('path');
 const { generateClass } = require('../generators/classGenerators');
 const { generateCodeBase } = require('../generators/codeBaseGenerators');
 const { hasSubstantialContent, findHeaderEndLine } = require('../utils/contentAnalyzer');
+const { createTSIProject } = require('../generators/project/projectCreator');
 
 function activate(context) {
     console.log('TSI Header extension is now active!');
@@ -526,6 +527,10 @@ function activate(context) {
     context.subscriptions.push(addClassCommand);
     context.subscriptions.push(addCodeBaseCommand);
     context.subscriptions.push(onSaveListener);
+
+    // Register create TSI project command
+    const createTSIProjectCommand = vscode.commands.registerCommand('tsiheader.createTSIProject', createTSIProject);
+    context.subscriptions.push(createTSIProjectCommand);
 }
 
 function deactivate() {}

@@ -67,6 +67,36 @@
   - Testing verification
   - Marketplace update
 
+---
+
+## 🚀 **Version 3.0.0 Planning - MAJOR RELEASE**
+
+### **🎯 TSI Project Creator Feature**
+
+- **Branch**: `feature/tsi-project-creator` ✅ **ACTIVE**
+- **Goal**: Transform TSI Header into complete academic project management system
+- **Timeline**: Major release (3.0.0)
+- **Status**: **IN DEVELOPMENT** 🔧
+
+### **🌟 Revolutionary Features**
+
+#### **🎯 Right-Click Project Creation**
+- **Context Menu Integration**: "Create TSI Project" option in VS Code workspace
+- **Language Selection**: QuickPick UI for C, C++ (expandable to more languages)
+- **Instant Setup**: Complete project structures with single right-click
+
+#### **🏗️ Complete Project Templates**
+- **Directory Structure**: Professional src/, include/, build/, docs/ organization
+- **Build Systems**: Auto-generated Makefiles with TSI branding
+- **Documentation**: README.md with TSI academic standards
+- **Source Files**: Main files with TSI headers and working code
+
+#### **🎓 Educational Excellence**
+- **TSI Branding**: Institutional headers in all generated files
+- **Professional Standards**: Industry-standard project organization
+- **Learning Tool**: Students understand project structure from day one
+- **Time Saving**: Skip hours of boilerplate setup, focus on coding
+
 ### **📦 Release Tasks**
 
 - [ ] **Development**
