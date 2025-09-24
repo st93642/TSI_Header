@@ -2,39 +2,39 @@
 
 ![TSI Logo](tsi.jpg)
 
-A VS Code extension that automatically generates professional headers for source code files with Transport and Telecommunication Institute (TSI) branding.
-
-## 👨‍💻 Author
-
-**st93642** - Former 42 Student, TSI Computer Science program
+A professional VS Code extension that generates standardized headers for source code files with Transport and Telecommunication Institute (TSI) branding. Supports 84+ programming languages with comprehensive code generation features.
 
 ## ✨ Features
 
-### ⚡ **Auto-Save Functionality** (New in v1.1.0!)
+### 🎯 **Header Management**
 
-- **🔄 Automatic Updates**: Headers update automatically when you save files
-- **🎯 Smart Detection**: Only processes files with existing TSI headers  
-- **🔇 Silent Operation**: Works quietly in the background
-- **⚙️ Configurable**: Enable/disable via `tsiheader.autoUpdate` setting
+- **Insert Headers**: Add professional TSI-branded headers to any source file
+- **Update Headers**: Automatically update timestamps and author information
+- **Auto-Save Updates**: Optional automatic header updates when files are saved
+- **Smart Detection**: Only processes files with existing TSI headers during auto-updates
 
-### 🎨 **Enhanced User Experience** (New in v1.1.0!)
+### 🏗️ **Code Generation**
 
-- **🔧 Helpful Setup**: Friendly configuration guidance instead of error messages
-- **🔍 Smart Credentials**: Checks VS Code settings, git config, and environment variables
-- **📖 Direct Assistance**: One-click links to settings and documentation
-- **🛡️ Proactive Validation**: Prevents errors with upfront credential checking
+- **Class Generation**: Create complete class templates with constructors, getters/setters, and methods
+- **Code Base Generation**: Generate boilerplate code structures (main functions, basic program templates)
+- **Multi-Language Support**: Full class and code base generation for 7 languages:
+  - Java (with package support)
+  - C++ (header + implementation files)
+  - C# (with properties and methods)
+  - Python (with property decorators)
+  - JavaScript (ES6 classes with modules)
+  - Kotlin (data classes with companion objects)
+  - PHP (with namespaces and methods)
 
-### 🏛️ **Institutional Branding**
+### 🌍 **Language Support (84+ Languages)**
 
-- TSI ASCII logo
-- University contact information and website
-- Professional institutional formatting
-
-### 🌍 **Extensive Language Support (84+ Languages)**
-
-C, C++, Rust, Go, Assembly, JavaScript, TypeScript, HTML, CSS, Python, Ruby, Java, Swift, Kotlin, Haskell, OCaml, F#, Clojure, R, MATLAB, Julia, PHP, Perl, Shell, and many more...
+Supports header generation for: C, C++, Rust, Go, Assembly, JavaScript, TypeScript, HTML, CSS, Python, Ruby, Java, Swift, Kotlin, Haskell, OCaml, F#, Clojure, R, MATLAB, Julia, PHP, Perl, Shell, and many more...
 
 ### 🎨 **Smart Formatting**
+
+- **79-Character Alignment**: Perfect alignment for all header elements
+- **Multi-Character Delimiters**: Proper comment syntax for each language
+- **Dynamic Spacing**: Intelligent spacing algorithms for different comment styles
 
 **Standard Format (C/Java/JavaScript):**
 
@@ -45,8 +45,8 @@ C, C++, Rust, Go, Assembly, JavaScript, TypeScript, HTML, CSS, Python, Ruby, Jav
 /*                                                          TT    SS      II */
 /*  By: username@students.tsi.lv                            TT    SSSSSSS II */
 /*                                                          TT         SS II */
-/*  Created: Sep 23 2025 13:30 Full Name                    TT    SSSSSSS II */
-/*  Updated: Sep 23 2025 13:30 Full Name                                     */
+/*  Created: Sep 24 2025 11:47 Full Name                    TT    SSSSSSS II */
+/*  Updated: Sep 24 2025 11:47 Full Name                                     */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -62,8 +62,8 @@ C, C++, Rust, Go, Assembly, JavaScript, TypeScript, HTML, CSS, Python, Ruby, Jav
 #                                                            TT    SS      II #
 #  By: username@students.tsi.lv                              TT    SSSSSSS II #
 #                                                            TT         SS II #
-#  Created: Sep 23 2025 13:30 Full Name                      TT    SSSSSSS II #
-#  Updated: Sep 23 2025 13:30 Full Name                                       #
+#  Created: Sep 24 2025 11:47 Full Name                      TT    SSSSSSS II #
+#  Updated: Sep 24 2025 11:47 Full Name                                       #
 #                                                                             #
 #   Transport and Telecommunication Institute - Riga, Latvia                  #
 #                       https://tsi.lv                                        #
@@ -74,58 +74,84 @@ C, C++, Rust, Go, Assembly, JavaScript, TypeScript, HTML, CSS, Python, Ruby, Jav
 
 ### **Installation**
 
-1. Install the extension in VS Code
-2. Ensure Ruby 2.7+ is installed
-3. Configure your information in VS Code settings or git config
+1. Install from VS Code Marketplace or download .vsix file
+2. Ensure Ruby 2.7+ is installed on your system
+3. Configure your credentials (see Configuration section)
 
 ### **Usage**
 
-- **Right-click menu**: "Insert Header" / "Update Header"
-- **Keyboard shortcuts**: `Ctrl+Alt+H` (Insert) / `Ctrl+Alt+U` (Update)
-- **Command palette**: `Ctrl+Shift+P` → "TSI Header"
+#### **Header Commands**
+
+- **Insert Header**: `Ctrl+Alt+H` (Cmd+Alt+H on Mac) or right-click → "TSI Header: Insert Header"
+- **Update Header**: `Ctrl+Alt+U` (Cmd+Alt+U on Mac) or right-click → "TSI Header: Update Header"
+- **Command Palette**: `Ctrl+Shift+P` → Search for "TSI Header"
+
+#### **Code Generation**
+
+- **Add Class**: Right-click in editor → "TSI Header: Add class" (available for Java, C++, C#, Python, JavaScript, Kotlin, PHP)
+- **Add Code Base**: Right-click in editor → "TSI Header: Add code base" (works with any file)
 
 ### **Configuration**
 
-The extension automatically uses your git configuration. Alternatively, set in VS Code settings:
+The extension automatically detects credentials in this priority order:
+
+1. VS Code settings (`tsiheader.username`, `tsiheader.email`)
+2. Git configuration (`git config user.name/email`)
+3. Environment variables (`TSI_USERNAME`, `TSI_EMAIL`)
+
+#### **VS Code Settings**
 
 ```json
 {
-  "tsiHeader.username": "your_username",
-  "tsiHeader.email": "your_email@students.tsi.lv"
+  "tsiheader.username": "your_username",
+  "tsiheader.email": "your_email@students.tsi.lv",
+  "tsiheader.autoUpdate": false
 }
 ```
 
-## 🛠️ Technical Implementation
+#### **Git Configuration**
 
-- **Language**: Ruby with JavaScript VS Code wrapper
+```bash
+git config --global user.name "Your Full Name"
+git config --global user.email "your_email@students.tsi.lv"
+```
+
+## 🏛️ **Institutional Branding**
+
+- Official TSI ASCII logo
+- Complete university information
+- Professional academic formatting
+- Riga, Latvia location details
+- Official TSI website reference
+
+## 🛠️ **Technical Architecture**
+
+- **Frontend**: JavaScript VS Code extension
+- **Backend**: Ruby CLI for header generation
 - **Architecture**: Modular design with separated concerns
-- **Features**: 79-character alignment, multi-character delimiters, dynamic spacing
+- **Core Components**:
+  - `header_generator.rb` - Template rendering engine
+  - `delimiters.rb` - Language-specific comment syntax
+  - `classGenerators.js` - Multi-language class templates
+  - `codeBaseGenerators.js` - Boilerplate code generation
+  - `contentAnalyzer.js` - Smart content analysis utilities
 
-### **Core Components**
+## 🧪 **Quality Assurance**
 
-- `header_generator.rb` - Template rendering engine
-- `delimiters.rb` - Language-specific comment syntax (84+ languages)  
-- `tsi_header_cli.rb` - Command-line interface
-
-## 🧪 Testing
-
-Comprehensive test coverage with 84+ programming languages validated for:
-
-- ✅ Perfect 79-character alignment
-- ✅ Multi-character delimiter support
-- ✅ All comment styles working correctly
-- ✅ Dynamic alignment algorithms
+- **84+ Languages Tested**: Comprehensive test coverage
+- **Perfect Alignment**: 79-character formatting validated
+- **Multi-Character Support**: All comment delimiters verified
+- **Production Ready**: All features thoroughly tested
 
 ## 🤝 Contributing
 
-Pull requests and contributions are welcome! Whether you want to:
+Contributions are welcome! Areas for improvement:
 
-- Add support for new programming languages
-- Improve existing functionality
-- Fix bugs or enhance performance
-- Update documentation
-
-Feel free to open an issue or submit a pull request. All contributions help make this extension better.
+- Adding support for new programming languages
+- Enhancing existing code generation templates
+- Improving user experience and error handling
+- Performance optimizations
+- Documentation updates
 
 ## 📄 License
 
@@ -133,7 +159,7 @@ This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
-This extension is a complete rework of the original [42 header extension](https://github.com/kube/vscode-42header) created by 42 students, released under the MIT License. The original concept has been completely reimplemented with TSI branding, expanded language support (84+ languages), and enhanced functionality.
+This extension builds upon the original [42 header extension](https://github.com/kube/vscode-42header) concept, completely reimplemented with TSI branding, expanded language support, and enhanced functionality including comprehensive code generation features.
 
 ---
 
