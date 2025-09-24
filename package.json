@@ -65,6 +65,29 @@
         }
       }
     },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "tsi-header-explorer",
+          "title": "TSI Header",
+          "icon": "tsi.png"
+        }
+      ]
+    },
+    "views": {
+      "tsi-header-explorer": [
+        {
+          "id": "tsi-commands",
+          "name": "TSI Commands",
+          "when": "true"
+        },
+        {
+          "id": "tsi-projects",
+          "name": "TSI Projects",
+          "when": "true"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "tsiheader.insertHeader",
@@ -152,6 +175,31 @@
         {
           "command": "tsiheader.createTSIProject",
           "when": "view == explorer",
+          "group": "navigation@1"
+        },
+        {
+          "command": "tsiheader.insertHeader",
+          "when": "view == tsi-commands",
+          "group": "navigation@1"
+        },
+        {
+          "command": "tsiheader.updateHeader",
+          "when": "view == tsi-commands",
+          "group": "navigation@2"
+        },
+        {
+          "command": "tsiheader.addClass",
+          "when": "view == tsi-commands",
+          "group": "navigation@3"
+        },
+        {
+          "command": "tsiheader.addCodeBase",
+          "when": "view == tsi-commands",
+          "group": "navigation@4"
+        },
+        {
+          "command": "tsiheader.createTSIProject",
+          "when": "view == tsi-projects",
           "group": "navigation@1"
         }
       ],

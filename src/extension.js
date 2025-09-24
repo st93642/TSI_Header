@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 18:38 Igors Oleinikovs                              */
+/*  Updated: Sep 24 2025 19:44 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -20,6 +20,7 @@ const { generateClass } = require('../generators/classGenerators');
 const { generateCodeBase } = require('../generators/codeBaseGenerators');
 const { hasSubstantialContent, findHeaderEndLine } = require('../utils/contentAnalyzer');
 const { createTSIProject } = require('../generators/project/projectCreator');
+const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvider');
 
 function activate(context) {
     console.log('TSI Header extension is now active!');
@@ -531,6 +532,25 @@ function activate(context) {
     // Register create TSI project command
     const createTSIProjectCommand = vscode.commands.registerCommand('tsiheader.createTSIProject', createTSIProject);
     context.subscriptions.push(createTSIProjectCommand);
+
+    // Register TSI Tree View Providers
+    const tsiCommandsProvider = new TSITreeDataProvider();
+    const tsiProjectsProvider = new TSIProjectDataProvider();
+    
+    vscode.window.registerTreeDataProvider('tsi-commands', tsiCommandsProvider);
+    vscode.window.registerTreeDataProvider('tsi-projects', tsiProjectsProvider);
+    
+    // Add refresh commands for the views
+    const refreshCommandsCommand = vscode.commands.registerCommand('tsiheader.refreshCommands', () => {
+        tsiCommandsProvider.refresh();
+    });
+    
+    const refreshProjectsCommand = vscode.commands.registerCommand('tsiheader.refreshProjects', () => {
+        tsiProjectsProvider.refresh();
+    });
+    
+    context.subscriptions.push(refreshCommandsCommand);
+    context.subscriptions.push(refreshProjectsCommand);
 }
 
 function deactivate() {}
