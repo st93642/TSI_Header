@@ -74,6 +74,12 @@ async function showLanguageQuickPick() {
             description: 'Modern C++ with object-oriented design',
             detail: 'Creates: main.cpp, classes, Makefile, documentation',
             value: 'cpp'
+        },
+        {
+            label: '$(code) Python Project',
+            description: 'Python scripting and development',
+            detail: 'Creates: main.py, classes, requirements.txt, documentation',
+            value: 'python'
         }
     ];
 
@@ -152,6 +158,11 @@ async function createProjectStructure(language, projectName, workspaceUri) {
         await createBaseClassFiles(projectName, projectUri);
     }
     
+    // Create Python-specific files
+    if (language === 'python') {
+        await createPythonFiles(projectName, projectUri);
+    }
+    
     // Create build system files
     await createBuildFiles(language, projectName, projectUri);
     
@@ -166,10 +177,12 @@ async function createProjectStructure(language, projectName, workspaceUri) {
  * Get directory structure for language
  */
 function getDirectoryStructure(language) {
-    const commonDirs = ['src', 'docs', 'build'];
+    const commonDirs = ['src', 'docs'];
     
     if (language === 'c' || language === 'cpp') {
-        return [...commonDirs, 'include'];
+        return [...commonDirs, 'include', 'build'];
+    } else if (language === 'python') {
+        return [...commonDirs, 'tests', 'scripts'];
     }
     
     return commonDirs;
@@ -329,190 +342,243 @@ public:
 }
 
 /**
- * Create BaseClass.cpp file
+ * Create Python-specific files
  */
-async function createBaseClassSource(projectName, projectUri) {
-    const fileName = 'BaseClass.cpp';
-    const fileUri = vscode.Uri.joinPath(projectUri, 'src', fileName);
+async function createPythonFiles(projectName, projectUri) {
+    await createRequirementsTxt(projectName, projectUri);
+    await createSetupPy(projectName, projectUri);
+    await createBaseClassPy(projectName, projectUri);
+}
+
+/**
+ * Create requirements.txt file
+ */
+async function createRequirementsTxt(projectName, projectUri) {
+    const fileUri = vscode.Uri.joinPath(projectUri, 'requirements.txt');
+    
+    const content = `# ${projectName} requirements
+# Add your project dependencies here
+# Example:
+# requests>=2.25.1
+# numpy>=1.21.0
+# pandas>=1.3.0
+`;
+    
+    const encoder = new TextEncoder();
+    await vscode.workspace.fs.writeFile(fileUri, encoder.encode(content));
+}
+
+/**
+ * Create setup.py file
+ */
+async function createSetupPy(projectName, projectUri) {
+    const fileUri = vscode.Uri.joinPath(projectUri, 'setup.py');
     
     // Generate TSI header
-    const headerContent = await generateTSIHeaderContent(fileName);
+    const headerContent = await generateTSIHeaderContent('setup.py');
     
     const content = `${headerContent}
 
-#include "BaseClass.hpp"
-#include <sstream>
-#include <iomanip>
+"""
+Setup script for ${projectName}
+"""
 
-// Static member initialization
-int BaseClass::nextId = 1;
+from setuptools import setup, find_packages
 
-/**
- * Default constructor
- * Initializes BaseClass with default values
- */
-BaseClass::BaseClass() : name("DefaultObject"), id(nextId++) {
-    initialize();
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
+setup(
+    name="${projectName}",
+    version="0.1.0",
+    author="TSI Student",
+    author_email="student@tsi.lv",
+    description="A ${projectName} project created with TSI Header",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/yourusername/${projectName}",
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+    ],
+    python_requires=">=3.8",
+    install_requires=[
+        # Add your dependencies here
+    ],
+    extras_require={
+        "dev": [
+            "pytest>=6.0",
+            "pytest-cov>=2.0",
+            "black>=21.0",
+            "flake8>=3.9",
+            "mypy>=0.910",
+        ],
+    },
+)
+`;
+    
+    const encoder = new TextEncoder();
+    await vscode.workspace.fs.writeFile(fileUri, encoder.encode(content));
 }
 
 /**
- * Constructor with name
- * @param name The name for this object
+ * Create BaseClass.py file for Python projects
  */
-BaseClass::BaseClass(const std::string& name) : name(name), id(nextId++) {
-    initialize();
-}
+async function createBaseClassPy(projectName, projectUri) {
+    const fileUri = vscode.Uri.joinPath(projectUri, 'src', 'base_class.py');
+    
+    // Generate TSI header
+    const headerContent = await generateTSIHeaderContent('base_class.py');
+    
+    const content = `${headerContent}
 
-/**
- * Constructor with name and id
- * @param name The name for this object
- * @param id The ID for this object
- */
-BaseClass::BaseClass(const std::string& name, int id) : name(name), id(id) {
-    if (id >= nextId) {
-        nextId = id + 1;
-    }
-    initialize();
-}
+"""
+BaseClass - Foundation class for ${projectName}
 
-/**
- * Copy constructor
- * @param other The BaseClass object to copy from
- */
-BaseClass::BaseClass(const BaseClass& other) : name(other.name), id(nextId++) {
-    initialize();
-}
+This class provides basic functionality and serves as a base
+for other classes in the ${projectName} project.
 
-/**
- * Assignment operator
- * @param other The BaseClass object to assign from
- * @return Reference to this object
- */
-BaseClass& BaseClass::operator=(const BaseClass& other) {
-    if (this != &other) {
-        name = other.name;
-        // Note: ID is not copied in assignment, each object keeps its unique ID
-    }
-    return *this;
-}
+Features:
+- Basic object initialization
+- String-based naming system
+- Unique ID generation
+- Display functionality
+- JSON serialization support
+"""
 
-/**
- * Virtual destructor
- * Ensures proper cleanup for derived classes
- */
-BaseClass::~BaseClass() {
-    // Cleanup code if needed
-}
+import json
+from typing import Dict, Any, Optional
+from datetime import datetime
 
-/**
- * Get the object name
- * @return Constant reference to the name string
- */
-const std::string& BaseClass::getName() const {
-    return name;
-}
 
-/**
- * Get the object ID
- * @return The object ID
- */
-int BaseClass::getId() const {
-    return id;
-}
+class BaseClass:
+    """Base class providing common functionality for ${projectName} objects."""
+    
+    # Class variable for ID generation
+    _next_id = 1
+    
+    def __init__(self, name: str = "DefaultObject", obj_id: Optional[int] = None):
+        """
+        Initialize BaseClass object.
+        
+        Args:
+            name: Name for this object
+            obj_id: Optional specific ID, auto-generated if not provided
+        """
+        self._name = name if name else "UnnamedObject"
+        self._id = obj_id if obj_id is not None else BaseClass._next_id
+        if obj_id is None or obj_id >= BaseClass._next_id:
+            BaseClass._next_id = self._id + 1
+        
+        self._created_at = datetime.now()
+        self._initialize()
+    
+    def _initialize(self) -> None:
+        """Initialize common object properties."""
+        pass
+    
+    @property
+    def name(self) -> str:
+        """Get the object name."""
+        return self._name
+    
+    @name.setter
+    def name(self, new_name: str) -> None:
+        """Set the object name."""
+        if new_name and isinstance(new_name, str):
+            self._name = new_name
+    
+    @property
+    def id(self) -> int:
+        """Get the object ID."""
+        return self._id
+    
+    @classmethod
+    def get_next_id(cls) -> int:
+        """Get the next available ID."""
+        return cls._next_id
+    
+    def display(self) -> None:
+        """Display object information."""
+        print(f"{self.__class__.__name__} Object:")
+        print(f"  Name: {self._name}")
+        print(f"  ID: {self._id}")
+        print(f"  Created: {self._created_at.strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert object to dictionary for serialization."""
+        return {
+            'name': self._name,
+            'id': self._id,
+            'class': self.__class__.__name__,
+            'created_at': self._created_at.isoformat()
+        }
+    
+    def to_json(self) -> str:
+        """Convert object to JSON string."""
+        return json.dumps(self.to_dict(), indent=2, default=str)
+    
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'BaseClass':
+        """Create object from dictionary."""
+        return cls(
+            name=data.get('name', 'DefaultObject'),
+            obj_id=data.get('id')
+        )
+    
+    @classmethod
+    def from_json(cls, json_str: str) -> 'BaseClass':
+        """Create object from JSON string."""
+        data = json.loads(json_str)
+        return cls.from_dict(data)
+    
+    def __str__(self) -> str:
+        """String representation of the object."""
+        return f"{self.__class__.__name__}(name=\"{self._name}\", id={self._id})"
+    
+    def __repr__(self) -> str:
+        """Detailed string representation."""
+        return self.__str__()
+    
+    def __eq__(self, other: object) -> bool:
+        """Check equality with another object."""
+        if not isinstance(other, BaseClass):
+            return False
+        return self._name == other._name and self._id == other._id
+    
+    def __hash__(self) -> int:
+        """Hash function for use in sets/dicts."""
+        return hash((self._name, self._id))
 
-/**
- * Get the next available ID
- * @return The next ID that will be assigned
- */
-int BaseClass::getNextId() {
-    return nextId;
-}
 
-/**
- * Set the object name
- * @param newName The new name for this object
- */
-void BaseClass::setName(const std::string& newName) {
-    if (!newName.empty()) {
-        name = newName;
-    }
-}
-
-/**
- * Set the object ID (protected method)
- * @param newId The new ID for this object
- */
-void BaseClass::setId(int newId) {
-    id = newId;
-}
-
-/**
- * Display object information
- * Virtual method that can be overridden by derived classes
- */
-void BaseClass::display() const {
-    std::cout << "BaseClass Object:" << std::endl;
-    std::cout << "  Name: " << name << std::endl;
-    std::cout << "  ID: " << id << std::endl;
-}
-
-/**
- * Convert object to string representation
- * @return String representation of the object
- */
-std::string BaseClass::toString() const {
-    std::stringstream ss;
-    ss << "BaseClass(name=\"" << name << "\", id=" << id << ")";
-    return ss.str();
-}
-
-/**
- * Initialize the object
- * Called by constructors to set up common initialization
- */
-void BaseClass::initialize() {
-    // Common initialization logic
-    if (name.empty()) {
-        name = "UnnamedObject";
-    }
-}
-
-/**
- * Check if the object is in a valid state
- * @return true if the object is valid, false otherwise
- */
-bool BaseClass::isValid() const {
-    return !name.empty() && id > 0;
-}
-
-/**
- * Equality operator
- * @param other The BaseClass object to compare with
- * @return true if objects are equal, false otherwise
- */
-bool BaseClass::operator==(const BaseClass& other) const {
-    return name == other.name && id == other.id;
-}
-
-/**
- * Inequality operator
- * @param other The BaseClass object to compare with
- * @return true if objects are not equal, false otherwise
- */
-bool BaseClass::operator!=(const BaseClass& other) const {
-    return !(*this == other);
-}
-
-/**
- * Output stream operator
- * @param os The output stream
- * @param obj The BaseClass object to output
- * @return Reference to the output stream
- */
-std::ostream& operator<<(std::ostream& os, const BaseClass& obj) {
-    os << obj.toString();
-    return os;
-}
+# Example usage
+if __name__ == "__main__":
+    # Create some example objects
+    obj1 = BaseClass("Example Object 1")
+    obj2 = BaseClass("Example Object 2")
+    
+    print("Created objects:")
+    obj1.display()
+    print()
+    obj2.display()
+    print()
+    
+    print("JSON representation:")
+    print(obj1.to_json())
+    print()
+    
+    print("String representations:")
+    print(f"str(): {str(obj1)}")
+    print(f"repr(): {repr(obj1)}")
 `;
     
     const encoder = new TextEncoder();
@@ -525,7 +591,8 @@ std::ostream& operator<<(std::ostream& os, const BaseClass& obj) {
 function getFileExtension(language) {
     const extensions = {
         'c': 'c',
-        'cpp': 'cpp'
+        'cpp': 'cpp',
+        'python': 'py'
     };
     return extensions[language] || 'txt';
 }
