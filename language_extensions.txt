@@ -1,0 +1,35 @@
+TSI Header Extension - Quick Reference
+=====================================
+
+FULL CODE GENERATION SUPPORT (Header + Class + Code Base):
+- Java: .java
+- C++: .cpp, .cxx, .cc, .c++, .hpp, .hxx, .h++
+- C#: .cs
+- Python: .py
+- JavaScript: .js
+- Kotlin: .kt
+- PHP: .php
+
+HEADER-ONLY SUPPORT (60+ languages):
+- C: .c, .h
+- Ruby: .rb
+- Rust: .rs
+- Swift: .swift
+- TypeScript: .ts
+- Go: .go
+- Scala: .scala
+- R: .r, .R
+- Perl: .pl, .pm
+- Shell: .sh, .bash
+- SQL: .sql
+- HTML: .html, .htm
+- CSS: .css
+- XML: .xml
+- JSON: .json
+- YAML: .yaml, .yml
+- Markdown: .md
+- Dockerfile: Dockerfile
+- Makefile: Makefile
+- And 50+ more languages...
+
+For complete list, see: supported_languages.md
