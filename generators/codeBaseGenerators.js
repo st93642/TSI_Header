@@ -72,11 +72,7 @@ function generateCodeBase(languageId, fileName) {
                 }
                 break;
             case 'scala':
-                if (typeof generateScalaCodeBase === 'function') {
-                    content = generateScalaCodeBase();
-                } else {
-                    content = generateDefaultCodeBase(languageId);
-                }
+                content = generateScalaCodeBase();
                 break;
             case 'sql':
                 if (typeof generateSqlCodeBase === 'function') {
@@ -1232,6 +1228,104 @@ function generateVerilogCodeBase() {
  */
 function generateKotlinCodeBase() {
     return `\n// Basic Kotlin program\n\n// Main function - entry point of the program\nfun main() {\n    println("Hello, World!")\n    println("This is a basic Kotlin program.")\n}\n\n// Alternative direct approach\n// println("Hello, World!")\n// println("This is a basic Kotlin program.")\n\n// Example function with parameters\nfun greet(name: String = "World"): String {\n    return "Hello, \$name!"\n}\n\n// Example usage\n// println(greet("TSI Student"))\n\n// Example class definition\nclass TSIStudent(val name: String, val program: String) {\n    fun introduce() {\n        println("Hello, I'm \$name from TSI!")\n    }\n}\n\n// Example usage\n// val student = TSIStudent("TSI Student", "Computer Science")\n// student.introduce()\n\n// Example with collections\n// val languages = listOf("Kotlin", "Java", "Python")\n// val config = mapOf(\n//     "version" to "1.0",\n//     "debug" to true,\n//     "author" to "TSI Student"\n// )\n\n// languages.forEach { lang ->\n//     println("Language: \$lang")\n// }\n\n// println("Version: \${config["version"]}")\n`;
+}
+
+/**
+ * Generates Go code base
+ */
+function generateGoCodeBase() {
+    return `\npackage main\n\nimport "fmt"\n\n// Main function - entry point of the program\nfunc main() {\n    fmt.Println("Hello, World!")\n    fmt.Println("This is a basic Go program.")\n}\n\n// Example function with parameters\nfunc greet(name string) string {\n    return "Hello, " + name + "!"\n}\n\n// Example struct definition\ntype Person struct {\n    Name string\n    Age  int\n}\n\n// Example method\nfunc (p Person) Introduce() {\n    fmt.Printf("Hello, I'm %s and I'm %d years old!\\n", p.Name, p.Age)\n}\n\n// Example usage (uncomment to use)\n/*\nfunc main() {\n    // Basic greeting\n    fmt.Println("Hello, World!")\n    fmt.Println("This is a basic Go program.")\n\n    // Function usage\n    greeting := greet("TSI Student")\n    fmt.Println(greeting)\n\n    // Struct usage\n    person := Person{Name: "TSI Student", Age: 20}\n    person.Introduce()\n}\n*/\n`;
+}
+
+/**
+ * Generates PHP code base
+ */
+function generatePhpCodeBase() {
+    return `\n<?php\n\n/**\n * Main function - entry point of the program\n */\nfunction main() {\n    echo "Hello, World!\\n";\n    echo "This is a basic PHP script.\\n";\n}\n\n// Execute main function\nmain();\n\n// Alternative direct approach\n// echo "Hello, World!\\n";\n// echo "This is a basic PHP script.\\n";\n\n/**\n * Example function with parameters\n */\nfunction greet($name = "World") {\n    return "Hello, " . $name . "!";\n}\n\n// Example usage\n// echo greet("TSI Student") . "\\n";\n\n/**\n * Example class definition\n */\nclass TSIStudent {\n    private $name;\n    private $program;\n    \n    public function __construct($name, $program) {\n        $this->name = $name;\n        $this->program = $program;\n    }\n    \n    public function introduce() {\n        echo "Hello, I'm " . $this->name . " from TSI!\\n";\n    }\n}\n\n// Example usage\n// $student = new TSIStudent("TSI Student", "Computer Science");\n// $student->introduce();\n\n?>\n`;
+}
+
+/**
+ * Generates Swift code base
+ */
+function generateSwiftCodeBase() {
+    return `\n// Basic Swift program\n\n// Main function - entry point of the program\nfunc main() {\n    print("Hello, World!")\n    print("This is a basic Swift program.")\n}\n\n// Execute main function\nmain()\n\n// Alternative direct approach\n// print("Hello, World!")\n// print("This is a basic Swift program.")\n\n// Example function with parameters\nfunc greet(name: String = "World") -> String {\n    return "Hello, \\(name)!"\n}\n\n// Example usage\n// print(greet(name: "TSI Student"))\n\n// Example class definition\nclass TSIStudent {\n    var name: String\n    var program: String\n    \n    init(name: String, program: String) {\n        self.name = name\n        self.program = program\n    }\n    \n    func introduce() {\n        print("Hello, I'm \\(name) from TSI!")\n    }\n}\n\n// Example usage\n// let student = TSIStudent(name: "TSI Student", program: "Computer Science")\n// student.introduce()\n\n// Example with arrays and optionals\n// let languages = ["Swift", "Objective-C", "Python"]\n// var optionalName: String? = "TSI Student"\n// if let name = optionalName {\n//     print("Hello, \\(name)!")\n// }\n`;
+}
+
+/**
+ * Generates Dart code base
+ */
+function generateDartCodeBase() {
+    return `\n// Basic Dart program\n\n// Main function - entry point of the program\nvoid main() {\n  print('Hello, World!');\n  print('This is a basic Dart program.');\n}\n\n// Alternative direct approach\n// void main() => print('Hello, World!');\n\n// Example function with parameters\nString greet(String name) {\n  return 'Hello, $name!';\n}\n\n// Example usage\n// void main() {\n//   print(greet('TSI Student'));\n// }\n\n// Example class definition\nclass TSIStudent {\n  String name;\n  String program;\n  \n  TSIStudent(this.name, this.program);\n  \n  void introduce() {\n    print('Hello, I\\'m $name from TSI!');\n  }\n}\n\n// Example usage\n// void main() {\n//   var student = TSIStudent('TSI Student', 'Computer Science');\n//   student.introduce();\n// }\n\n// Example with collections\n// void main() {\n//   var languages = ['Dart', 'Flutter', 'JavaScript'];\n//   var config = {\n//     'version': '1.0',\n//     'debug': true,\n//     'author': 'TSI Student'\n//   };\n//   \n//   languages.forEach((lang) => print('Language: $lang'));\n//   print('Version: ${config['version']}');\n// }\n`;
+}
+
+/**
+ * Generates Assembly code base
+ */
+function generateAssemblyCodeBase() {
+    return `\n; Basic Assembly program (x86-64 Linux)\n; Note: This is a basic assembly program template\n\nsection .data\n    hello db 'Hello, World!', 0xA  ; String with newline\n    hello_len equ $ - hello         ; Length of string\n    \n    message db 'This is a basic Assembly program.', 0xA\n    message_len equ $ - message\n\nsection .text\n    global _start\n\n_start:\n    ; Write "Hello, World!" to stdout\n    mov rax, 1          ; syscall: write\n    mov rdi, 1          ; file descriptor: stdout\n    mov rsi, hello      ; pointer to string\n    mov rdx, hello_len  ; length of string\n    syscall\n    \n    ; Write message to stdout\n    mov rax, 1          ; syscall: write\n    mov rdi, 1          ; file descriptor: stdout\n    mov rsi, message    ; pointer to message\n    mov rdx, message_len ; length of message\n    syscall\n    \n    ; Exit program\n    mov rax, 60         ; syscall: exit\n    xor rdi, rdi        ; exit code 0\n    syscall\n\n; Example function (uncomment to use)\n; greet:\n;     ; Function to print greeting\n;     ; Parameters would be passed in registers\n;     ret\n`;
+}
+
+/**
+ * Generates COBOL code base
+ */
+function generateCobolCodeBase() {
+    return `\n      * Basic COBOL program\n       IDENTIFICATION DIVISION.\n       PROGRAM-ID. HELLO-WORLD.\n       AUTHOR. TSI-STUDENT.\n       \n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n       01  WS-MESSAGE         PIC X(50) VALUE 'Hello, World!'.\n       01  WS-PROGRAM         PIC X(50) VALUE 'This is a basic COBOL program.'.\n       \n       PROCEDURE DIVISION.\n       MAIN-PROCEDURE.\n           DISPLAY WS-MESSAGE.\n           DISPLAY WS-PROGRAM.\n           \n           STOP RUN.\n           \n       END PROGRAM HELLO-WORLD.\n\n      * Example subroutine (uncomment to use)\n      * IDENTIFICATION DIVISION.\n      * PROGRAM-ID. GREET.\n      * \n      * DATA DIVISION.\n      * LINKAGE SECTION.\n      * 01  LS-NAME            PIC X(20).\n      * \n      * PROCEDURE DIVISION USING LS-NAME.\n      *     DISPLAY 'Hello, ' LS-NAME '!'.\n      *     EXIT PROGRAM.\n      * END PROGRAM GREET.\n`;
+}
+
+/**
+ * Generates Prolog code base
+ */
+function generatePrologCodeBase() {
+    return `\n% Basic Prolog program\n\n% Main predicate - entry point\nmain :- \n    write('Hello, World!'), nl,\n    write('This is a basic Prolog program.'), nl.\n\n% Execute main predicate\n:- main.\n\n% Alternative direct approach\n% :- write('Hello, World!'), nl,\n%    write('This is a basic Prolog program.'), nl.\n\n% Example predicate with parameters\n% greet(Name) :-\n%     write('Hello, '),\n%     write(Name),\n%     write('!'), nl.\n\n% Example usage\n% :- greet('TSI Student').\n\n% Example with facts and rules\n% student(tsi_student, computer_science).\n% student(jane_doe, electrical_engineering).\n% \n% is_computer_science_student(Name) :-\n%     student(Name, computer_science).\n% \n% Example query\n% ?- is_computer_science_student(tsi_student).\n% ?- student(Name, Program).\n`;
+}
+
+/**
+ * Generates Makefile code base
+ */
+function generateMakefileCodeBase() {
+    return `\n# Basic Makefile template\n\n# Compiler and flags\nCC = gcc\nCFLAGS = -Wall -Wextra -std=c99 -O2\nLDFLAGS = \n\n# Target executable\nTARGET = hello_world\n\n# Source files\nSRCS = main.c utils.c\n\n# Object files\nOBJS = $(SRCS:.c=.o)\n\n# Default target\nall: $(TARGET)\n\n# Link object files to create executable\n$(TARGET): $(OBJS)\n\t$(CC) $(LDFLAGS) -o $@ $^ \n\n# Compile source files to object files\n%.o: %.c\n\t$(CC) $(CFLAGS) -c $< -o $@\n\n# Clean build artifacts\nclean:\n\trm -f $(OBJS) $(TARGET)\n\n# Run the program\nrun: $(TARGET)\n\t./$(TARGET)\n\n# Debug build\ndebug: CFLAGS += -g -DDEBUG\ndebug: clean all\n\n# Install (example)\ninstall: $(TARGET)\n\tinstall -m 755 $(TARGET) /usr/local/bin/\n\n# Uninstall\nuninstall:\n\trm -f /usr/local/bin/$(TARGET)\n\n# Help target\nhelp:\n\t@echo "Available targets:"\n\t@echo "  all      - Build the program (default)"\n\t@echo "  clean    - Remove build artifacts"\n\t@echo "  run      - Build and run the program"\n\t@echo "  debug    - Build with debug symbols"\n\t@echo "  install  - Install the program"\n\t@echo "  help     - Show this help"\n\n.PHONY: all clean run debug install uninstall help\n`;
+}
+
+/**
+ * Generates Basic code base
+ */
+function generateBasicCodeBase() {
+    return `\n' Basic BASIC program\n\n' Main program - entry point\nPRINT "Hello, World!"\nPRINT "This is a basic BASIC program."\n\n' Example subroutine\n' SUB Greet(name$)\n'     PRINT "Hello, "; name$; "!"\n' END SUB\n\n' Example usage\n' CALL Greet("TSI Student")\n\n' Example with variables and loops\n' DIM languages$(3)\n' languages$(1) = "BASIC"\n' languages$(2) = "Pascal"\n' languages$(3) = "C"\n' \n' FOR i = 1 TO 3\n'     PRINT "Language: "; languages$(i)\n' NEXT i\n\nEND\n`;
+}
+
+/**
+ * Generates Fortran code base
+ */
+function generateFortranCodeBase() {
+    return `\n! Basic Fortran program\n\nprogram hello_world\n    implicit none\n    \n    ! Variable declarations\n    character(len=50) :: message\n    character(len=50) :: program_desc\n    \n    ! Initialize variables\n    message = 'Hello, World!'\n    program_desc = 'This is a basic Fortran program.'\n    \n    ! Print messages\n    write(*,*) trim(message)\n    write(*,*) trim(program_desc)\n    \nend program hello_world\n\n! Alternative main program\n! program main\n!     write(*,*) 'Hello, World!'\n!     write(*,*) 'This is a basic Fortran program.'\n! end program main\n\n! Example subroutine (uncomment to use)\n! subroutine greet(name)\n!     character(len=*), intent(in) :: name\n!     write(*,*) 'Hello, ', trim(name), '!'\n! end subroutine greet\n\n! Example usage\n! call greet('TSI Student')\n\n! Example with arrays\n! program array_example\n!     implicit none\n!     integer :: i\n!     real, dimension(5) :: numbers = (/1.0, 2.0, 3.0, 4.0, 5.0/)\n!     \n!     do i = 1, 5\n!         write(*,*) 'Number:', numbers(i)\n!     end do\n! end program array_example\n`;
+}
+
+/**
+ * Generates R code base
+ */
+function generateRCodeBase() {
+    return `\n# Basic R program\n\n# Main function - entry point of the program\nmain <- function() {\n  cat("Hello, World!\\n")\n  cat("This is a basic R script.\\n")\n}\n\n# Execute main function\nmain()\n\n# Alternative direct approach\n# cat("Hello, World!\\n")\n# cat("This is a basic R script.\\n")\n\n# Example function with parameters\ngreet <- function(name = "World") {\n  return(paste("Hello,", name, "!"))\n}\n\n# Example usage\n# cat(greet("TSI Student"), "\\n")\n\n# Example with vectors and data frames\n# languages <- c("R", "Python", "JavaScript")\n# versions <- c(4.2, 3.9, 16)\n# \n# df <- data.frame(\n#   language = languages,\n#   version = versions\n# )\n# \n# print(df)\n# \n# # Plot example (uncomment to use)\n# # plot(df$language, df$version, \n# #      main = "Language Versions",\n# #      xlab = "Language", \n# #      ylab = "Version")\n\n# Example statistical operations\n# data <- rnorm(100, mean = 0, sd = 1)  # Generate random data\n# summary(data)  # Summary statistics\n# hist(data)     # Histogram\n`;
+}
+
+/**
+ * Generates MATLAB code base
+ */
+function generateMatlabCodeBase() {
+    return `\n% Basic MATLAB program\n\n% Main script - entry point\nfprintf('Hello, World!\\n');\nfprintf('This is a basic MATLAB script.\\n');\n\n% Example function definition (save as separate greet.m file)\n% function greet(name)\n%     if nargin < 1\n%         name = 'World';\n%     end\n%     fprintf('Hello, %s!\\n', name);\n% end\n\n% Example usage\n% greet('TSI Student');\n\n% Example with matrices and plotting\n% Clear workspace\n% clear; clc;\n% \n% % Create sample data\n% x = linspace(0, 2*pi, 100);\n% y = sin(x);\n% \n% % Plot the data\n% figure;\n% plot(x, y);\n% title('Sine Wave');\n% xlabel('x');\n% ylabel('sin(x)');\n% grid on;\n% \n% % Matrix operations\n% A = [1, 2, 3; 4, 5, 6; 7, 8, 9];\n% B = A * 2;\n% disp('Original matrix:');\n% disp(A);\n% disp('Doubled matrix:');\n% disp(B);\n\n% Example data analysis\n% data = randn(1000, 1);  % Generate random data\n% mean_val = mean(data);\n% std_val = std(data);\n% fprintf('Mean: %.4f, Standard deviation: %.4f\\n', mean_val, std_val);\n`;
+}
+
+/**
+ * Generates Object Pascal/Delphi code base
+ */
+function generateObjectPascalCodeBase() {
+    return `\n{ Basic Object Pascal/Delphi program }\n\nprogram HelloWorld;\n\n{$APPTYPE CONSOLE}\n\nuses\n  SysUtils;\n\ntype\n  { Example class definition }\n  TTSIStudent = class\n  private\n    FName: string;\n    FProgram: string;\n  public\n    constructor Create(const AName, AProgram: string);\n    procedure Introduce;\n    property Name: string read FName;\n    property Program: string read FProgram;\n  end;\n\n{ TTSIStudent implementation }\nconstructor TTSIStudent.Create(const AName, AProgram: string);\nbegin\n  FName := AName;\n  FProgram := AProgram;\nend;\n\nprocedure TTSIStudent.Introduce;\nbegin\n  Writeln('Hello, I''m ', FName, ' from TSI!');\nend;\n\n{ Main program }\nvar\n  Student: TTSIStudent;\nbegin\n  try\n    Writeln('Hello, World!');\n    Writeln('This is a basic Object Pascal program.');\n    \n    { Example usage }\n    Student := TTSIStudent.Create('TSI Student', 'Computer Science');\n    try\n      Student.Introduce;\n    finally\n      Student.Free;\n    end;\n    \n  except\n    on E: Exception do\n      Writeln(E.ClassName, ': ', E.Message);\n  end;\nend.\n`;
+}
+
+/**
+ * Generates SQL code base
+ */
+function generateSqlCodeBase() {
+    return `\n-- Basic SQL script template\n-- Note: This is a generic SQL template that works with most SQL databases\n\n-- Create database (if needed)\n-- CREATE DATABASE IF NOT EXISTS tsi_database;\n-- USE tsi_database;\n\n-- Create tables\nCREATE TABLE IF NOT EXISTS students (\n    id INTEGER PRIMARY KEY AUTO_INCREMENT,\n    name VARCHAR(100) NOT NULL,\n    program VARCHAR(100),\n    enrollment_year INTEGER,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE IF NOT EXISTS courses (\n    id INTEGER PRIMARY KEY AUTO_INCREMENT,\n    code VARCHAR(20) UNIQUE NOT NULL,\n    title VARCHAR(200) NOT NULL,\n    credits INTEGER,\n    semester INTEGER\n);\n\n-- Insert sample data\nINSERT INTO students (name, program, enrollment_year) VALUES\n('TSI Student', 'Computer Science', 2024),\n('Jane Doe', 'Electrical Engineering', 2023);\n\nINSERT INTO courses (code, title, credits, semester) VALUES\n('CS101', 'Programming Fundamentals', 6, 1),\n('MATH201', 'Advanced Mathematics', 4, 2);\n\n-- Basic queries\n-- SELECT * FROM students;\n-- SELECT * FROM courses WHERE credits >= 4;\n\n-- Example JOIN query\n-- SELECT s.name, s.program, c.title, c.credits\n-- FROM students s\n-- JOIN courses c ON s.program = 'Computer Science';\n\n-- Update example\n-- UPDATE students SET enrollment_year = 2025 WHERE name = 'TSI Student';\n\n-- Delete example (be careful!)\n-- DELETE FROM students WHERE name = 'Test Student';\n\n-- Drop tables (cleanup)\n-- DROP TABLE IF EXISTS students;\n-- DROP TABLE IF EXISTS courses;\n\n-- Comments:\n-- This script demonstrates basic SQL operations\n-- Modify table names, column names, and data types as needed\n-- Always backup your data before running DDL statements\n`;
 }
 
 /**
