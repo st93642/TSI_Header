@@ -109,7 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-### 🐛 **Bug Fixes**
+### 🐛 **Bug Fix**
 
 #### **Kotlin Code Generation**
 
@@ -297,7 +297,7 @@ Fully backward compatible with previous versions. All existing functionality pre
 
 ## [1.2.1] - 2025-09-24
 
-### ✨ Added
+### Added
 
 - **Class Generation Support**: Added class generation for 13 programming languages (Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala)
 - **Code Base Generation**: Added boilerplate code generation for 23+ programming languages with language-specific templates
@@ -324,7 +324,7 @@ Fully backward compatible with previous versions. All existing functionality pre
 - Enhanced language detection logic for proper template selection
 - Improved error handling for unsupported language edge cases
 
-### 🎯 Compatibility
+### 🎯Compatibility
 
 None - fully backward compatible with v1.1.0
 
