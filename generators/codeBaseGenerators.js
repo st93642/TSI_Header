@@ -1228,10 +1228,10 @@ function generateVerilogCodeBase() {
 }
 
 /**
- * Generates default code base for unsupported languages
+ * Generates Kotlin code base
  */
-function generateDefaultCodeBase(languageId) {
-    return `\n// Basic ${languageId} program\n\n// Main function - entry point of the program\n// This is a placeholder for ${languageId} code\n// The actual implementation would depend on the language syntax\n\n// Example comment in ${languageId}\n// Hello, World!\n// This is a basic ${languageId} program.\n\n// Note: This is a generic template.\n// For actual ${languageId} development, please refer to language-specific documentation.\n`;
+function generateKotlinCodeBase() {
+    return `\n// Basic Kotlin program\n\n// Main function - entry point of the program\nfun main() {\n    println("Hello, World!")\n    println("This is a basic Kotlin program.")\n}\n\n// Alternative direct approach\n// println("Hello, World!")\n// println("This is a basic Kotlin program.")\n\n// Example function with parameters\nfun greet(name: String = "World"): String {\n    return "Hello, \$name!"\n}\n\n// Example usage\n// println(greet("TSI Student"))\n\n// Example class definition\nclass TSIStudent(val name: String, val program: String) {\n    fun introduce() {\n        println("Hello, I'm \$name from TSI!")\n    }\n}\n\n// Example usage\n// val student = TSIStudent("TSI Student", "Computer Science")\n// student.introduce()\n\n// Example with collections\n// val languages = listOf("Kotlin", "Java", "Python")\n// val config = mapOf(\n//     "version" to "1.0",\n//     "debug" to true,\n//     "author" to "TSI Student"\n// )\n\n// languages.forEach { lang ->\n//     println("Language: \$lang")\n// }\n\n// println("Version: \${config["version"]}")\n`;
 }
 
 module.exports = {
