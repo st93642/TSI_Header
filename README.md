@@ -10,15 +10,23 @@ Generate professional headers and boilerplate code for 101 programming languages
 - **101 Languages Supported**: Headers, code bases, and classes
 - **Quality Assured**: 100% test success rate (227/227 tests pass)
 
+## Prerequisites
+
+- **Ruby 2.7+** must be installed and available in your PATH
+- VS Code 1.74.0 or later
+
 ## Supported Languages
 
 ### Class Generation (13 languages)
+
 Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala
 
 ### Code Boilerplate (101 languages)
+
 Ada, APL, Assembly, AWK, Basic, Batch, C, C++, CoffeeScript, ColdFusion, Clojure, COBOL, CSS, Dart, Delphi, Dockerfile, Elixir, Erlang, F#, Factor, Forth, Fortran, Go, Groovy, Haskell, HTML, IDL, INI, Jade, Java, JavaScript, JSON, Julia, Kotlin, LaTeX, Less, Lisp, Lua, Maple, Markdown, Mathematica, MATLAB, Mercury, Objective-C, OCaml, Octave, Pascal, Perl, PHP, PostScript, PowerShell, Prolog, Python, R, Ruby, Rust, SAS, SCSS, Scheme, Sed, Shell Script, Smalltalk, Solidity, SQL, Swift, SystemVerilog, TCL, TypeScript, VB, VBScript, Verilog, VHDL, Vimscript, Vue, XML, YAML
 
 ### Project Creation (6 languages)
+
 C, C++, Java, Python, Ruby, Rust - complete projects with build systems
 
 ## Quick Start
@@ -55,17 +63,27 @@ npm test
 - **100% success rate** with full validation
 - Cross-platform support (Linux, macOS, Windows)
 
-## Example Header
+## Code Boilerplate Example
 
-```c
-/*****************************************************************************/
-/*                                                                           */
-/*  filename.c                                           TTTTTTTT SSSSSSS II */
-/*                                                          TT    SS      II */
-/*  By: username                                            TT    SSSSSSS II */
-/*                                                          TT         SS II */
-/*  Created: Sep 24 2025 11:47 Full Name                    TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 11:47 Full Name                                     */
-/*                                                                           */
-/*****************************************************************************/
+```python
+#*****************************************************************************#
+#                                                                             #
+#  demo.py                                                TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 23 2025 11:19 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 23 2025 11:19 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+#!/usr/bin/env python3
+
+def main():
+    print("Hello from TSI - Python!")
+
+if __name__ == "__main__":
+    main()
 ```
