@@ -1,6 +1,6 @@
-# TSI_Header Project Map
+# Code Header Extension Project Map
 
-This document provides a comprehensive overview of the TSI_Header project, detailing all modules, APIs, interfaces, and their interconnections. It serves as a reference for debugging and development.
+This document provides a comprehensive overview of the Code Header extension project, detailing all modules, APIs, interfaces, and their interconnections. It serves as a reference for debugging and development.
 
 ---
 
