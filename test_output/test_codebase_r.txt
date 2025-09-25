@@ -1,0 +1,25 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_r.txt                                    TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 25 2025 14:14 Igors Oleinikovs               TT    SSSSSSS II #
+#  Updated: Sep 25 2025 14:14 Igors Oleinikovs                                #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+// Basic r program
+
+// Main function - entry point of the program
+// Note: This is a generic template for r
+
+// Hello, World! implementation
+// This is a basic r program.
+
+// Example comments for r
+// Add your code here
+
+// End of program

@@ -1,0 +1,58 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_ruby.txt                                 TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 25 2025 14:14 Igors Oleinikovs               TT    SSSSSSS II #
+#  Updated: Sep 25 2025 14:14 Igors Oleinikovs                                #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+#!/usr/bin/env ruby
+
+# Basic Ruby program
+
+# Main function - entry point of the program
+def main
+  puts "Hello, World!"
+  puts "This is a basic Ruby program."
+end
+
+# Execute main function
+main
+
+# Alternative direct approach
+# puts "Hello, World!"
+# puts "This is a basic Ruby program."
+
+# Example class definition
+# class Greeter
+#   def initialize(name = "World")
+#     @name = name
+#   end
+#   
+#   def greet
+#     "Hello, #{@name}!"
+#   end
+# end
+
+# Example usage
+# greeter = Greeter.new("TSI Student")
+# puts greeter.greet
+
+# Example with arrays and hashes
+# languages = ["Ruby", "Python", "JavaScript"]
+# config = {
+#   version: "1.0",
+#   debug: true,
+#   author: "TSI Student"
+# }
+
+# languages.each do |lang|
+#   puts "Language: #{lang}"
+# end
+
+# puts "Version: #{config[:version]}"

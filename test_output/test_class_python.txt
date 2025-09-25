@@ -1,0 +1,29 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_class_python.txt                                  TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 25 2025 14:14 Igors Oleinikovs               TT    SSSSSSS II #
+#  Updated: Sep 25 2025 14:14 Igors Oleinikovs                                #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+class TestClass:
+    def __init__(self, name="", id_num=0):
+        self.name = name
+        self.id = id_num
+
+    def get_name(self):
+        return self.name
+
+    def set_name(self, name):
+        self.name = name
+
+    def get_id(self):
+        return self.id
+
+    def set_id(self, id_num):
+        self.id = id_num

@@ -1,0 +1,29 @@
+%% ************************************************************************* %%
+%%                                                                           %%
+%%  test_codebase_erlang.txt                             TTTTTTTT SSSSSSS II %%
+%%                                                          TT    SS      II %%
+%%  By: st93642@students.tsi.lv                             TT    SSSSSSS II %%
+%%                                                          TT         SS II %%
+%%  Created: Sep 25 2025 14:14 Igors Oleinikovs             TT    SSSSSSS II %%
+%%  Updated: Sep 25 2025 14:14 Igors Oleinikovs                              %%
+%%                                                                           %%
+%%   Transport and Telecommunication Institute - Riga, Latvia                %%
+%%                       https://tsi.lv                                      %%
+%% ************************************************************************* %%
+
+%% Basic Erlang program
+-module(hello_world).
+-export([main/0, start/0]).
+
+%% Main function - entry point of the program
+main() ->
+    io:format("Hello, World!~n"),
+    io:format("This is a basic Erlang program.~n").
+
+%% Start function for application
+start() ->
+    main().
+
+%% To run this program:
+%% 1. Compile: erlc hello_world.erl
+%% 2. Run: erl -noshell -s hello_world start -s init stop

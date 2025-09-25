@@ -1,7 +1,7 @@
 {
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
-  "description": "Code generation and professional headers for 90 programming languages with 100% quality assurance - Transport and Telecommunication Institute",
+  "description": "Code generation and professional headers for 101 programming languages with 100% quality assurance - Transport and Telecommunication Institute",
   "version": "3.0.5",
   "publisher": "st93642",
   "author": {
@@ -126,7 +126,7 @@
     "vscode:prepublish": "npm run compile",
     "compile": "ruby scripts/compile.rb",
     "watch": "ruby scripts/watch.rb",
-    "test": "ruby spec/production_test.rb"
+    "test": "node unified_test_suite.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.74.0"

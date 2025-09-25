@@ -8,7 +8,7 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 - `CHANGELOG.md`, `LICENSE`, `PROJECT_MAP.md`, `README.md`: Project documentation and metadata.
 - `package.json`: Node.js package configuration.
-- `comprehensive_test_suite.js`: Comprehensive test suite for all 88 supported languages.
+- `unified_test_suite.js`: Comprehensive unified test suite for all 101 supported languages.
 - `tsi.jpg`, `tsi.png`: Project images.
 
 ---
@@ -134,10 +134,11 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 ### 9. `test_output/`
 
-- **Purpose:** Output directory for comprehensive test suite results.
+- **Purpose:** Output directory for unified test suite results.
 - **Files:**
   - `test_*.txt`: Generated test files for each language.
-  - `test_report.json`: Detailed test results and statistics.
+  - `unified_test_report.json`: Detailed test results and statistics.
+  - `TestClass.hpp`, `TestClass.cpp`: C++ class generation test files.
 
 ### 10. `utils/`
 
@@ -152,7 +153,7 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 - **Entry Point:** `lib/tsi_header_cli.rb`
 - **Interfaces:**
   - Command-line arguments for header generation, extraction, and parsing.
-  - Supports 88 programming languages with appropriate comment delimiters.
+  - Supports 101 programming languages with appropriate comment delimiters.
   - Uses classes from `lib/tsi_header/` for implementation.
 
 ### JavaScript Extension API
@@ -162,13 +163,14 @@ This document provides a comprehensive overview of the TSI_Header project, detai
   - VS Code commands and events.
   - Custom views via `tsiViewProvider.js`.
 
-### Comprehensive Test Suite API
+### Unified Test Suite API
 
-- **Entry Point:** `comprehensive_test_suite.js`
+- **Entry Point:** `unified_test_suite.js`
 - **Interfaces:**
-  - Command-line options for testing scope (--all, --max=N, --*-only flags).
-  - Validates header generation, code base generation, and class creation.
+  - Single command execution with comprehensive reporting.
+  - Validates header generation, code base generation, class creation, and Extension API integration.
   - Generates detailed JSON reports and console output.
+  - Supports 101 languages for headers and code bases, 13 languages for classes.
 
 ### Generators API
 
@@ -188,7 +190,7 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 - **Header Management:**
   - Ruby CLI (`tsi_header_cli.rb`) parses, generates, and extracts headers using core library modules.
-  - Comprehensive test suite (`comprehensive_test_suite.js`) validates all header functionality across 88 languages.
+  - Unified test suite (`unified_test_suite.js`) validates all header functionality across 101 languages.
   - Utility scripts and tests (`scripts/`, `spec/`) validate header functionality.
 
 - **Quality Assurance:**
@@ -206,15 +208,15 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 | Module/Folder                | Responsibility                                      |
 |------------------------------|-----------------------------------------------------|
-| `comprehensive_test_suite.js`| Comprehensive testing for all 88 languages         |
+| `unified_test_suite.js`      | Comprehensive testing for all 101 languages        |
 | `generators/`                | Code/project file generation                        |
 | `generators/project/projectcreators/` | Language-specific project file creation (C, C++, Java, Python, Ruby, Rust) |
-| `lib/tsi_header_cli.rb`      | Ruby CLI for header management (88 languages)      |
+| `lib/tsi_header_cli.rb`      | Ruby CLI for header management (101 languages)     |
 | `lib/tsi_header/`            | Core header parsing/generation logic                |
 | `src/extension.js`           | VS Code extension entry point                       |
 | `src/tsiViewProvider.js`     | Custom VS Code views                                |
 | `test/`                      | JavaScript unit tests                               |
-| `test_output/`               | Comprehensive test suite output                     |
+| `test_output/`               | Unified test suite output                           |
 | `utils/contentAnalyzer.js`   | File content analysis                               |
 | `scripts/`                   | Compilation and testing scripts                     |
 | `spec/`                      | Ruby test suite                                     |
@@ -225,18 +227,19 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 ## Quality Assurance & Testing
 
-### Comprehensive Test Suite
+### Unified Test Suite
 
-- **Location**: `comprehensive_test_suite.js`
-- **Coverage**: 88 programming languages
+- **Location**: `unified_test_suite.js`
+- **Coverage**: 101 programming languages for headers and code bases, 13 for classes
 - **Test Types**:
   - Header insertion validation
   - Code base generation validation
-  - Class creation validation (13 languages)
+  - Class creation validation (13 languages including C++)
+  - Extension API integration testing with VS Code mocking
   - Comment marker validation
   - Syntax correctness checking
-- **Output**: `test_output/test_report.json`
-- **Success Rate**: 100% (225/225 tests pass)
+- **Output**: `test_output/unified_test_report.json`
+- **Success Rate**: 100% (227/227 tests pass)
 
 ### Ruby Test Suite
 
@@ -255,4 +258,6 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 - This map will be updated as the project evolves.
 - Use this document for debugging, onboarding, and architectural reference.
-- The project now supports 88 programming languages with comprehensive testing.
+- The project now supports 101 programming languages with comprehensive testing.
+- Extension API testing is now fully implemented with VS Code mocking.
+- C++ class generation testing is now fully implemented.

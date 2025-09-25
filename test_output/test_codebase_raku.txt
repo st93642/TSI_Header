@@ -1,0 +1,54 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_raku.txt                                 TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 25 2025 14:14 Igors Oleinikovs               TT    SSSSSSS II #
+#  Updated: Sep 25 2025 14:14 Igors Oleinikovs                                #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+#!/usr/bin/env perl
+
+# Basic Perl program
+
+use strict;
+use warnings;
+use v5.10;
+
+# Main subroutine - entry point of the program
+sub main {
+    say "Hello, World!";
+    say "This is a basic Perl script.";
+}
+
+# Execute main subroutine
+main();
+
+# Alternative direct approach
+# say "Hello, World!";
+# say "This is a basic Perl script.";
+
+# Example subroutine with parameters
+# sub greet {
+#     my ($name) = @_;
+#     return "Hello, " . ($name // "World") . "!";
+# }
+
+# Example usage
+# say greet("TSI Student");
+
+# Example with arrays and hashes
+# my @languages = ("Perl", "Python", "Ruby");
+# my %config = (
+#     version => "1.0",
+#     debug   => 1,
+#     author  => "TSI Student"
+# );
+
+# foreach my $lang (@languages) {
+#     say "Language: $lang";
+# }
