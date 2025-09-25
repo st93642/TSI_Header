@@ -1,0 +1,25 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_sql.txt                                  TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 25 2025 12:40 Igors Oleinikovs               TT    SSSSSSS II #
+#  Updated: Sep 25 2025 12:40 Igors Oleinikovs                                #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+// Basic sql program
+
+// Main function - entry point of the program
+// This is a placeholder for sql code
+// The actual implementation would depend on the language syntax
+
+// Example comment in sql
+// Hello, World!
+// This is a basic sql program.
+
+// Note: This is a generic template.
+// For actual sql development, please refer to language-specific documentation.

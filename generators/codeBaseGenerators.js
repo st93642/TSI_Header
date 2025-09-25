@@ -19,439 +19,744 @@ const { generateTypeScriptCodeBase } = require('./languages/typescript');
  */
 function generateCodeBase(languageId, fileName) {
     let content;
-    switch (languageId) {
-        case 'c':
-            content = generateCCodeBase();
-            break;
-        case 'cpp':
-        case 'c++':
-            content = generateCppCodeBase();
-            break;
-        case 'csharp':
-            content = generateCSharpCodeBase();
-            break;
-        case 'java':
-            content = generateJavaCodeBase();
-            break;
-        case 'python':
-            content = generatePythonCodeBase();
-            break;
-        case 'ruby':
-            content = generateRubyCodeBase();
-            break;
-        case 'rust':
-            content = generateRustCodeBase();
-            break;
-        case 'go':
-            content = generateGoCodeBase();
-            break;
-        case 'php':
-            content = generatePhpCodeBase();
-            break;
-        case 'swift':
-            content = generateSwiftCodeBase();
-            break;
-        case 'dart':
-            content = generateDartCodeBase();
-            break;
-        case 'scala':
-            content = generateScalaCodeBase();
-            break;
-        case 'sql':
-            content = generateSqlCodeBase();
-            break;
-        case 'html':
-            content = generateHtmlCodeBase();
-            break;
-        case 'delphi':
-            content = generateDelphiCodeBase();
-            break;
-        case 'pascal':
-        case 'objectpascal':
-            content = generateObjectPascalCodeBase();
-            break;
-        case 'basic':
-            content = generateBasicCodeBase();
-            break;
-        case 'fortran':
-        case 'fortran90':
-        case 'FortranFreeForm':
-            content = generateFortranCodeBase();
-            break;
-        case 'r':
-            content = generateRCodeBase();
-            break;
-        case 'matlab':
-            content = generateMatlabCodeBase();
-            break;
-        case 'assembly':
-            content = generateAssemblyCodeBase();
-            break;
-        case 'cobol':
-            content = generateCobolCodeBase();
-            break;
-        case 'prolog':
-            content = generatePrologCodeBase();
-            break;
-        case 'makefile':
-            content = generateMakefileCodeBase();
-            break;
-        case 'javascript':
-            content = generateJavaScriptCodeBase();
-            break;
-        case 'ada':
-            content = generateAdaCodeBase();
-            break;
-        case 'apl':
-            content = generateAplCodeBase();
-            break;
-        case 'asm':
-        case 'assembly':
-            content = generateAssemblyCodeBase();
-            break;
-        case 'awk':
-            content = generateAwkCodeBase();
-            break;
-        case 'bat':
-        case 'batch':
-            content = generateBatchCodeBase();
-            break;
-        case 'cfml':
-        case 'coldfusion':
-            content = generateColdFusionCodeBase();
-            break;
-        case 'clojure':
-            content = generateClojureCodeBase();
-            break;
-        case 'coffeescript':
-            content = generateCoffeeScriptCodeBase();
-            break;
-        case 'css':
-            content = generateCssCodeBase();
-            break;
-        case 'dockerfile':
-            content = generateDockerfileCodeBase();
-            break;
-        case 'elixir':
-            content = generateElixirCodeBase();
-            break;
-        case 'erlang':
-            content = generateErlangCodeBase();
-            break;
-        case 'factor':
-            content = generateFactorCodeBase();
-            break;
-        case 'forth':
-            content = generateForthCodeBase();
-            break;
-        case 'fsharp':
-            content = generateFSharpCodeBase();
-            break;
-        case 'groovy':
-            content = generateGroovyCodeBase();
-            break;
-        case 'haskell':
-        case 'Haskell':
-            content = generateHaskellCodeBase();
-            break;
-        case 'idl':
-            content = generateIdlCodeBase();
-            break;
-        case 'ini':
-            content = generateIniCodeBase();
-            break;
-        case 'jade':
-            content = generateJadeCodeBase();
-            break;
-        case 'javascriptreact':
-            content = generateJavaScriptReactCodeBase();
-            break;
-        case 'json':
-            content = generateJSONCodeBase();
-            break;
-        case 'julia':
-            content = generateJuliaCodeBase();
-            break;
-        case 'latex':
-            content = generateLatexCodeBase();
-            break;
-        case 'less':
-            content = generateLessCodeBase();
-            break;
-        case 'lisp':
-            content = generateLispCodeBase();
-            break;
-        case 'lua':
-            content = generateLuaCodeBase();
-            break;
-        case 'markdown':
-            content = generateMarkdownCodeBase();
-            break;
-        case 'maple':
-            content = generateMapleCodeBase();
-            break;
-        case 'mathematica':
-            content = generateMathematicaCodeBase();
-            break;
-        case 'mercury':
-            content = generateMercuryCodeBase();
-            break;
-        case 'objective-c':
-            content = generateObjectiveCCodeBase();
-            break;
-        case 'objective-cpp':
-            content = generateObjectiveCppCodeBase();
-            break;
-        case 'ocaml':
-            content = generateOcamlCodeBase();
-            break;
-        case 'octave':
-            content = generateOctaveCodeBase();
-            break;
-        case 'perl':
-        case 'perl6':
-        case 'raku':
-            content = generatePerlCodeBase();
-            break;
-        case 'postscript':
-            content = generatePostScriptCodeBase();
-            break;
-        case 'powershell':
-            content = generatePowerShellCodeBase();
-            break;
-        case 'scheme':
-            content = generateSchemeCodeBase();
-            break;
-        case 'scss':
-            content = generateScssCodeBase();
-            break;
-        case 'shellscript':
-            content = generateShellScriptCodeBase();
-            break;
-        case 'smalltalk':
-            content = generateSmalltalkCodeBase();
-            break;
-        case 'solidity':
-            content = generateSolidityCodeBase();
-            break;
-        case 'tcl':
-            content = generateTclCodeBase();
-            break;
-        case 'typescriptreact':
-            content = generateTypeScriptReactCodeBase();
-            break;
-        case 'vb':
-            content = generateVbCodeBase();
-            break;
-        case 'verilog':
-        case 'systemverilog':
-        case 'Verilog':
-            content = generateVerilogCodeBase();
-            break;
-        case 'vhdl':
-            content = generateVhdlCodeBase();
-            break;
-        case 'vue':
-            content = generateVueCodeBase();
-            break;
-        case 'xml':
-            content = generateXmlCodeBase();
-            break;
-        case 'yaml':
-        case 'yml':
-            content = generateYamlCodeBase();
-            break;
-        case 'kotlin':
-            content = generateKotlinCodeBase();
-            break;
-        case 'typescript':
-            content = generateTypeScriptCodeBase();
-            break;
-        case 'plaintext':
-            // Handle plaintext files (may be detected incorrectly by VS Code)
-            const fileExtension = fileName.split('.').pop().toLowerCase();
-            
-            // Ada
-            if (fileExtension === 'adb' || fileExtension === 'ads') {
-                content = generateAdaCodeBase();
-            // APL
-            } else if (fileExtension === 'apl') {
-                content = generateAplCodeBase();
-            // Assembly
-            } else if (fileExtension === 'asm') {
-                content = generateAssemblyCodeBase();
-            // AWK
-            } else if (fileExtension === 'awk') {
-                content = generateAwkCodeBase();
-            // Basic
-            } else if (fileExtension === 'bas') {
-                content = generateBasicCodeBase();
-            // Batch
-            } else if (fileExtension === 'bat') {
-                content = generateBatchCodeBase();
-            // ColdFusion
-            } else if (fileExtension === 'cfm') {
-                content = generateColdFusionCodeBase();
-            // Clojure
-            } else if (fileExtension === 'clj') {
-                content = generateClojureCodeBase();
-            // COBOL
-            } else if (fileExtension === 'cob') {
-                content = generateCobolCodeBase();
-            // CoffeeScript
-            } else if (fileExtension === 'coffee') {
-                content = generateCoffeeScriptCodeBase();
-            // Docker
-            } else if (fileExtension === 'dockerfile') {
-                content = generateDockerfileCodeBase();
-            // Elixir
-            } else if (fileExtension === 'ex') {
-                content = generateElixirCodeBase();
-            // Erlang
-            } else if (fileExtension === 'erl') {
-                content = generateErlangCodeBase();
-            // Factor
-            } else if (fileExtension === 'factor') {
-                content = generateFactorCodeBase();
-            // Forth
-            } else if (fileExtension === 'fth') {
-                content = generateForthCodeBase();
-            // Fortran
-            } else if (fileExtension === 'f90' || fileExtension === 'f95' || fileExtension === 'f03') {
-                content = generateFortranCodeBase();
-            // F#
-            } else if (fileExtension === 'fs') {
-                content = generateFSharpCodeBase();
-            // Groovy
-            } else if (fileExtension === 'groovy') {
-                content = generateGroovyCodeBase();
-            // Haskell
-            } else if (fileExtension === 'hs' || fileExtension === 'lhs') {
-                content = generateHaskellCodeBase();
-            // IDL
-            } else if (fileExtension === 'idl') {
-                content = generateIdlCodeBase();
-            // INI
-            } else if (fileExtension === 'ini') {
-                content = generateIniCodeBase();
-            // Jade
-            } else if (fileExtension === 'jade') {
-                content = generateJadeCodeBase();
-            // Julia
-            } else if (fileExtension === 'jl') {
-                content = generateJuliaCodeBase();
-            // Kotlin
-            } else if (fileExtension === 'kt') {
-                content = generateKotlinCodeBase();
-            // LaTeX
-            } else if (fileExtension === 'tex') {
-                content = generateLatexCodeBase();
-            // Less
-            } else if (fileExtension === 'less') {
-                content = generateLessCodeBase();
-            // Lisp
-            } else if (fileExtension === 'lisp') {
-                content = generateLispCodeBase();
-            // Lua
-            } else if (fileExtension === 'lua') {
-                content = generateLuaCodeBase();
-            // Maple
-            } else if (fileExtension === 'mpl') {
-                content = generateMapleCodeBase();
-            // MATLAB/Mathematica/Mercury/Objective-C (.m is ambiguous)
-            } else if (fileExtension === 'm') {
-                // Try to detect based on file content or default to Objective-C
-                content = generateObjectiveCCodeBase();
-            // Objective-C++
-            } else if (fileExtension === 'mm') {
-                content = generateObjectiveCppCodeBase();
-            // Objective-J
-            } else if (fileExtension === 'j') {
-                content = generateObjectiveJCodeBase();
-            // OCaml
-            } else if (fileExtension === 'ml') {
-                content = generateOcamlCodeBase();
-            // Pascal/Delphi/ObjectPascal
-            } else if (fileExtension === 'pas') {
-                content = generateObjectPascalCodeBase();
-            // Perl/Prolog (.pl is ambiguous)
-            } else if (fileExtension === 'pl') {
-                content = generatePerlCodeBase();
-            // Perl6
-            } else if (fileExtension === 'pl6') {
-                content = generatePerlCodeBase();
-            // Raku
-            } else if (fileExtension === 'raku') {
-                content = generatePerlCodeBase();
-            // PostScript
-            } else if (fileExtension === 'ps') {
-                content = generatePostScriptCodeBase();
-            // PowerShell
-            } else if (fileExtension === 'ps1') {
-                content = generatePowerShellCodeBase();
-            // Scala
-            } else if (fileExtension === 'scala') {
-                content = generateScalaCodeBase();
-            // Scheme
-            } else if (fileExtension === 'scm') {
-                content = generateSchemeCodeBase();
-            // Sed
-            } else if (fileExtension === 'sed') {
-                content = generateSedCodeBase();
-            // Smalltalk
-            } else if (fileExtension === 'st') {
-                content = generateSmalltalkCodeBase();
-            // Solidity
-            } else if (fileExtension === 'sol') {
-                content = generateSolidityCodeBase();
-            // SQL
-            } else if (fileExtension === 'sql') {
-                content = generateSqlCodeBase();
-            // TCL
-            } else if (fileExtension === 'tcl') {
-                content = generateTclCodeBase();
-            // Verilog
-            } else if (fileExtension === 'v' || fileExtension === 'vh' || fileExtension === 'sv') {
-                content = generateVerilogCodeBase();
-            // VHDL
-            } else if (fileExtension === 'vhdl') {
-                content = generateVhdlCodeBase();
-            // Verse
-            } else if (fileExtension === 'verse') {
-                content = generateVerseCodeBase();
-            // Vimscript
-            } else if (fileExtension === 'vim') {
-                content = generateVimscriptCodeBase();
-            // SAS
-            } else if (fileExtension === 'sas') {
-                content = generateSasCodeBase();
-            } else {
-                // Default to C for other plaintext files
+    try {
+        switch (languageId) {
+            case 'c':
                 content = generateCCodeBase();
-            }
-            break;
-        case 'xsl':
-            content = generateXslCodeBase();
-            break;
-        case 'verse':
-            content = generateVerseCodeBase();
-            break;
-        case 'vimscript':
-            content = generateVimscriptCodeBase();
-            break;
-        case 'sed':
-            content = generateSedCodeBase();
-            break;
-        case 'sas':
-            content = generateSasCodeBase();
-            break;
-        case 'objective-j':
-            content = generateObjectiveJCodeBase();
-            break;
-        default:
-            // Default to C for unsupported languages
-            content = generateCCodeBase();
-            break;
+                break;
+            case 'cpp':
+            case 'c++':
+                content = generateCppCodeBase();
+                break;
+            case 'csharp':
+                content = generateCSharpCodeBase();
+                break;
+            case 'java':
+                content = generateJavaCodeBase();
+                break;
+            case 'python':
+                content = generatePythonCodeBase();
+                break;
+            case 'ruby':
+                content = generateRubyCodeBase();
+                break;
+            case 'rust':
+                content = generateRustCodeBase();
+                break;
+            case 'go':
+                if (typeof generateGoCodeBase === 'function') {
+                    content = generateGoCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'php':
+                if (typeof generatePhpCodeBase === 'function') {
+                    content = generatePhpCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'swift':
+                if (typeof generateSwiftCodeBase === 'function') {
+                    content = generateSwiftCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'dart':
+                if (typeof generateDartCodeBase === 'function') {
+                    content = generateDartCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'scala':
+                if (typeof generateScalaCodeBase === 'function') {
+                    content = generateScalaCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'sql':
+                if (typeof generateSqlCodeBase === 'function') {
+                    content = generateSqlCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'html':
+                if (typeof generateHtmlCodeBase === 'function') {
+                    content = generateHtmlCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'delphi':
+                if (typeof generateDelphiCodeBase === 'function') {
+                    content = generateDelphiCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'pascal':
+            case 'objectpascal':
+                if (typeof generateObjectPascalCodeBase === 'function') {
+                    content = generateObjectPascalCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'basic':
+                if (typeof generateBasicCodeBase === 'function') {
+                    content = generateBasicCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'fortran':
+            case 'fortran90':
+            case 'FortranFreeForm':
+                if (typeof generateFortranCodeBase === 'function') {
+                    content = generateFortranCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'r':
+                if (typeof generateRCodeBase === 'function') {
+                    content = generateRCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'matlab':
+                if (typeof generateMatlabCodeBase === 'function') {
+                    content = generateMatlabCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'assembly':
+                if (typeof generateAssemblyCodeBase === 'function') {
+                    content = generateAssemblyCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'cobol':
+                if (typeof generateCobolCodeBase === 'function') {
+                    content = generateCobolCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'prolog':
+                if (typeof generatePrologCodeBase === 'function') {
+                    content = generatePrologCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'makefile':
+                if (typeof generateMakefileCodeBase === 'function') {
+                    content = generateMakefileCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'javascript':
+                content = generateJavaScriptCodeBase();
+                break;
+            case 'ada':
+                if (typeof generateAdaCodeBase === 'function') {
+                    content = generateAdaCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'apl':
+                if (typeof generateAplCodeBase === 'function') {
+                    content = generateAplCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'asm':
+            case 'assembly':
+                if (typeof generateAssemblyCodeBase === 'function') {
+                    content = generateAssemblyCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'awk':
+                if (typeof generateAwkCodeBase === 'function') {
+                    content = generateAwkCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'bat':
+            case 'batch':
+                if (typeof generateBatchCodeBase === 'function') {
+                    content = generateBatchCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'cfml':
+            case 'coldfusion':
+                if (typeof generateColdFusionCodeBase === 'function') {
+                    content = generateColdFusionCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'clojure':
+                if (typeof generateClojureCodeBase === 'function') {
+                    content = generateClojureCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'coffeescript':
+                if (typeof generateCoffeeScriptCodeBase === 'function') {
+                    content = generateCoffeeScriptCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'css':
+                if (typeof generateCssCodeBase === 'function') {
+                    content = generateCssCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'dockerfile':
+                if (typeof generateDockerfileCodeBase === 'function') {
+                    content = generateDockerfileCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'elixir':
+                if (typeof generateElixirCodeBase === 'function') {
+                    content = generateElixirCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'erlang':
+                if (typeof generateErlangCodeBase === 'function') {
+                    content = generateErlangCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'factor':
+                if (typeof generateFactorCodeBase === 'function') {
+                    content = generateFactorCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'forth':
+                if (typeof generateForthCodeBase === 'function') {
+                    content = generateForthCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'fsharp':
+                if (typeof generateFSharpCodeBase === 'function') {
+                    content = generateFSharpCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'groovy':
+                if (typeof generateGroovyCodeBase === 'function') {
+                    content = generateGroovyCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'haskell':
+            case 'Haskell':
+                if (typeof generateHaskellCodeBase === 'function') {
+                    content = generateHaskellCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'idl':
+                if (typeof generateIdlCodeBase === 'function') {
+                    content = generateIdlCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'ini':
+                if (typeof generateIniCodeBase === 'function') {
+                    content = generateIniCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'jade':
+                if (typeof generateJadeCodeBase === 'function') {
+                    content = generateJadeCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'javascriptreact':
+                if (typeof generateJavaScriptReactCodeBase === 'function') {
+                    content = generateJavaScriptReactCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'json':
+                if (typeof generateJSONCodeBase === 'function') {
+                    content = generateJSONCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'julia':
+                if (typeof generateJuliaCodeBase === 'function') {
+                    content = generateJuliaCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'latex':
+                if (typeof generateLatexCodeBase === 'function') {
+                    content = generateLatexCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'less':
+                if (typeof generateLessCodeBase === 'function') {
+                    content = generateLessCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'lisp':
+                if (typeof generateLispCodeBase === 'function') {
+                    content = generateLispCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'lua':
+                if (typeof generateLuaCodeBase === 'function') {
+                    content = generateLuaCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'markdown':
+                if (typeof generateMarkdownCodeBase === 'function') {
+                    content = generateMarkdownCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'maple':
+                if (typeof generateMapleCodeBase === 'function') {
+                    content = generateMapleCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'mathematica':
+                if (typeof generateMathematicaCodeBase === 'function') {
+                    content = generateMathematicaCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'mercury':
+                if (typeof generateMercuryCodeBase === 'function') {
+                    content = generateMercuryCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'objective-c':
+                if (typeof generateObjectiveCCodeBase === 'function') {
+                    content = generateObjectiveCCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'objective-cpp':
+                if (typeof generateObjectiveCppCodeBase === 'function') {
+                    content = generateObjectiveCppCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'ocaml':
+                if (typeof generateOcamlCodeBase === 'function') {
+                    content = generateOcamlCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'octave':
+                if (typeof generateOctaveCodeBase === 'function') {
+                    content = generateOctaveCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'perl':
+            case 'perl6':
+            case 'raku':
+                if (typeof generatePerlCodeBase === 'function') {
+                    content = generatePerlCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'postscript':
+                if (typeof generatePostScriptCodeBase === 'function') {
+                    content = generatePostScriptCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'powershell':
+                if (typeof generatePowerShellCodeBase === 'function') {
+                    content = generatePowerShellCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'scheme':
+                if (typeof generateSchemeCodeBase === 'function') {
+                    content = generateSchemeCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'scss':
+                if (typeof generateScssCodeBase === 'function') {
+                    content = generateScssCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'shellscript':
+                if (typeof generateShellScriptCodeBase === 'function') {
+                    content = generateShellScriptCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'smalltalk':
+                if (typeof generateSmalltalkCodeBase === 'function') {
+                    content = generateSmalltalkCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'solidity':
+                if (typeof generateSolidityCodeBase === 'function') {
+                    content = generateSolidityCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'tcl':
+                if (typeof generateTclCodeBase === 'function') {
+                    content = generateTclCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'typescriptreact':
+                if (typeof generateTypeScriptReactCodeBase === 'function') {
+                    content = generateTypeScriptReactCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'vb':
+                if (typeof generateVbCodeBase === 'function') {
+                    content = generateVbCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'verilog':
+            case 'systemverilog':
+            case 'Verilog':
+                if (typeof generateVerilogCodeBase === 'function') {
+                    content = generateVerilogCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'vhdl':
+                if (typeof generateVhdlCodeBase === 'function') {
+                    content = generateVhdlCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'vue':
+                if (typeof generateVueCodeBase === 'function') {
+                    content = generateVueCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'xml':
+                if (typeof generateXmlCodeBase === 'function') {
+                    content = generateXmlCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'yaml':
+            case 'yml':
+                if (typeof generateYamlCodeBase === 'function') {
+                    content = generateYamlCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'kotlin':
+                if (typeof generateKotlinCodeBase === 'function') {
+                    content = generateKotlinCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'typescript':
+                content = generateTypeScriptCodeBase();
+                break;
+            case 'plaintext':
+                // Handle plaintext files (may be detected incorrectly by VS Code)
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+                
+                // Ada
+                if (fileExtension === 'adb' || fileExtension === 'ads') {
+                    content = typeof generateAdaCodeBase === 'function' ? generateAdaCodeBase() : generateDefaultCodeBase(languageId);
+                // APL
+                } else if (fileExtension === 'apl') {
+                    content = typeof generateAplCodeBase === 'function' ? generateAplCodeBase() : generateDefaultCodeBase(languageId);
+                // Assembly
+                } else if (fileExtension === 'asm') {
+                    content = typeof generateAssemblyCodeBase === 'function' ? generateAssemblyCodeBase() : generateDefaultCodeBase(languageId);
+                // AWK
+                } else if (fileExtension === 'awk') {
+                    content = typeof generateAwkCodeBase === 'function' ? generateAwkCodeBase() : generateDefaultCodeBase(languageId);
+                // Basic
+                } else if (fileExtension === 'bas') {
+                    content = typeof generateBasicCodeBase === 'function' ? generateBasicCodeBase() : generateDefaultCodeBase(languageId);
+                // Batch
+                } else if (fileExtension === 'bat') {
+                    content = typeof generateBatchCodeBase === 'function' ? generateBatchCodeBase() : generateDefaultCodeBase(languageId);
+                // ColdFusion
+                } else if (fileExtension === 'cfm') {
+                    content = typeof generateColdFusionCodeBase === 'function' ? generateColdFusionCodeBase() : generateDefaultCodeBase(languageId);
+                // Clojure
+                } else if (fileExtension === 'clj') {
+                    content = typeof generateClojureCodeBase === 'function' ? generateClojureCodeBase() : generateDefaultCodeBase(languageId);
+                // COBOL
+                } else if (fileExtension === 'cob') {
+                    content = typeof generateCobolCodeBase === 'function' ? generateCobolCodeBase() : generateDefaultCodeBase(languageId);
+                // CoffeeScript
+                } else if (fileExtension === 'coffee') {
+                    content = typeof generateCoffeeScriptCodeBase === 'function' ? generateCoffeeScriptCodeBase() : generateDefaultCodeBase(languageId);
+                // Docker
+                } else if (fileExtension === 'dockerfile') {
+                    content = typeof generateDockerfileCodeBase === 'function' ? generateDockerfileCodeBase() : generateDefaultCodeBase(languageId);
+                // Elixir
+                } else if (fileExtension === 'ex') {
+                    content = typeof generateElixirCodeBase === 'function' ? generateElixirCodeBase() : generateDefaultCodeBase(languageId);
+                // Erlang
+                } else if (fileExtension === 'erl') {
+                    content = typeof generateErlangCodeBase === 'function' ? generateErlangCodeBase() : generateDefaultCodeBase(languageId);
+                // Factor
+                } else if (fileExtension === 'factor') {
+                    content = typeof generateFactorCodeBase === 'function' ? generateFactorCodeBase() : generateDefaultCodeBase(languageId);
+                // Forth
+                } else if (fileExtension === 'fth') {
+                    content = typeof generateForthCodeBase === 'function' ? generateForthCodeBase() : generateDefaultCodeBase(languageId);
+                // Fortran
+                } else if (fileExtension === 'f90' || fileExtension === 'f95' || fileExtension === 'f03') {
+                    content = typeof generateFortranCodeBase === 'function' ? generateFortranCodeBase() : generateDefaultCodeBase(languageId);
+                // F#
+                } else if (fileExtension === 'fs') {
+                    content = typeof generateFSharpCodeBase === 'function' ? generateFSharpCodeBase() : generateDefaultCodeBase(languageId);
+                // Groovy
+                } else if (fileExtension === 'groovy') {
+                    content = typeof generateGroovyCodeBase === 'function' ? generateGroovyCodeBase() : generateDefaultCodeBase(languageId);
+                // Haskell
+                } else if (fileExtension === 'hs' || fileExtension === 'lhs') {
+                    content = typeof generateHaskellCodeBase === 'function' ? generateHaskellCodeBase() : generateDefaultCodeBase(languageId);
+                // IDL
+                } else if (fileExtension === 'idl') {
+                    content = typeof generateIdlCodeBase === 'function' ? generateIdlCodeBase() : generateDefaultCodeBase(languageId);
+                // INI
+                } else if (fileExtension === 'ini') {
+                    content = typeof generateIniCodeBase === 'function' ? generateIniCodeBase() : generateDefaultCodeBase(languageId);
+                // Jade
+                } else if (fileExtension === 'jade') {
+                    content = typeof generateJadeCodeBase === 'function' ? generateJadeCodeBase() : generateDefaultCodeBase(languageId);
+                // Julia
+                } else if (fileExtension === 'jl') {
+                    content = typeof generateJuliaCodeBase === 'function' ? generateJuliaCodeBase() : generateDefaultCodeBase(languageId);
+                // Kotlin
+                } else if (fileExtension === 'kt') {
+                    content = typeof generateKotlinCodeBase === 'function' ? generateKotlinCodeBase() : generateDefaultCodeBase(languageId);
+                // LaTeX
+                } else if (fileExtension === 'tex') {
+                    content = typeof generateLatexCodeBase === 'function' ? generateLatexCodeBase() : generateDefaultCodeBase(languageId);
+                // Less
+                } else if (fileExtension === 'less') {
+                    content = typeof generateLessCodeBase === 'function' ? generateLessCodeBase() : generateDefaultCodeBase(languageId);
+                // Lisp
+                } else if (fileExtension === 'lisp') {
+                    content = typeof generateLispCodeBase === 'function' ? generateLispCodeBase() : generateDefaultCodeBase(languageId);
+                // Lua
+                } else if (fileExtension === 'lua') {
+                    content = typeof generateLuaCodeBase === 'function' ? generateLuaCodeBase() : generateDefaultCodeBase(languageId);
+                // Maple
+                } else if (fileExtension === 'mpl') {
+                    content = typeof generateMapleCodeBase === 'function' ? generateMapleCodeBase() : generateDefaultCodeBase(languageId);
+                // MATLAB/Mathematica/Mercury/Objective-C (.m is ambiguous)
+                } else if (fileExtension === 'm') {
+                    // Try to detect based on file content or default to Objective-C
+                    content = typeof generateObjectiveCCodeBase === 'function' ? generateObjectiveCCodeBase() : generateDefaultCodeBase(languageId);
+                // Objective-C++
+                } else if (fileExtension === 'mm') {
+                    content = typeof generateObjectiveCppCodeBase === 'function' ? generateObjectiveCppCodeBase() : generateDefaultCodeBase(languageId);
+                // Objective-J
+                } else if (fileExtension === 'j') {
+                    content = typeof generateObjectiveJCodeBase === 'function' ? generateObjectiveJCodeBase() : generateDefaultCodeBase(languageId);
+                // OCaml
+                } else if (fileExtension === 'ml') {
+                    content = typeof generateOcamlCodeBase === 'function' ? generateOcamlCodeBase() : generateDefaultCodeBase(languageId);
+                // Pascal/Delphi/ObjectPascal
+                } else if (fileExtension === 'pas') {
+                    content = typeof generateObjectPascalCodeBase === 'function' ? generateObjectPascalCodeBase() : generateDefaultCodeBase(languageId);
+                // Perl/Prolog (.pl is ambiguous)
+                } else if (fileExtension === 'pl') {
+                    content = typeof generatePerlCodeBase === 'function' ? generatePerlCodeBase() : generateDefaultCodeBase(languageId);
+                // Perl6
+                } else if (fileExtension === 'pl6') {
+                    content = typeof generatePerlCodeBase === 'function' ? generatePerlCodeBase() : generateDefaultCodeBase(languageId);
+                // Raku
+                } else if (fileExtension === 'raku') {
+                    content = typeof generatePerlCodeBase === 'function' ? generatePerlCodeBase() : generateDefaultCodeBase(languageId);
+                // PostScript
+                } else if (fileExtension === 'ps') {
+                    content = typeof generatePostScriptCodeBase === 'function' ? generatePostScriptCodeBase() : generateDefaultCodeBase(languageId);
+                // PowerShell
+                } else if (fileExtension === 'ps1') {
+                    content = typeof generatePowerShellCodeBase === 'function' ? generatePowerShellCodeBase() : generateDefaultCodeBase(languageId);
+                // Scala
+                } else if (fileExtension === 'scala') {
+                    content = typeof generateScalaCodeBase === 'function' ? generateScalaCodeBase() : generateDefaultCodeBase(languageId);
+                // Scheme
+                } else if (fileExtension === 'scm') {
+                    content = typeof generateSchemeCodeBase === 'function' ? generateSchemeCodeBase() : generateDefaultCodeBase(languageId);
+                // Sed
+                } else if (fileExtension === 'sed') {
+                    content = typeof generateSedCodeBase === 'function' ? generateSedCodeBase() : generateDefaultCodeBase(languageId);
+                // Smalltalk
+                } else if (fileExtension === 'st') {
+                    content = typeof generateSmalltalkCodeBase === 'function' ? generateSmalltalkCodeBase() : generateDefaultCodeBase(languageId);
+                // Solidity
+                } else if (fileExtension === 'sol') {
+                    content = typeof generateSolidityCodeBase === 'function' ? generateSolidityCodeBase() : generateDefaultCodeBase(languageId);
+                // SQL
+                } else if (fileExtension === 'sql') {
+                    content = typeof generateSqlCodeBase === 'function' ? generateSqlCodeBase() : generateDefaultCodeBase(languageId);
+                // TCL
+                } else if (fileExtension === 'tcl') {
+                    content = typeof generateTclCodeBase === 'function' ? generateTclCodeBase() : generateDefaultCodeBase(languageId);
+                // Verilog
+                } else if (fileExtension === 'v' || fileExtension === 'vh' || fileExtension === 'sv') {
+                    content = typeof generateVerilogCodeBase === 'function' ? generateVerilogCodeBase() : generateDefaultCodeBase(languageId);
+                // VHDL
+                } else if (fileExtension === 'vhdl') {
+                    content = typeof generateVhdlCodeBase === 'function' ? generateVhdlCodeBase() : generateDefaultCodeBase(languageId);
+                // Verse
+                } else if (fileExtension === 'verse') {
+                    content = typeof generateVerseCodeBase === 'function' ? generateVerseCodeBase() : generateDefaultCodeBase(languageId);
+                // Vimscript
+                } else if (fileExtension === 'vim') {
+                    content = typeof generateVimscriptCodeBase === 'function' ? generateVimscriptCodeBase() : generateDefaultCodeBase(languageId);
+                // SAS
+                } else if (fileExtension === 'sas') {
+                    content = typeof generateSasCodeBase === 'function' ? generateSasCodeBase() : generateDefaultCodeBase(languageId);
+                } else {
+                    // Default to C for other plaintext files
+                    content = generateCCodeBase();
+                }
+                break;
+            case 'xsl':
+                if (typeof generateXslCodeBase === 'function') {
+                    content = generateXslCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'verse':
+                if (typeof generateVerseCodeBase === 'function') {
+                    content = generateVerseCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'vimscript':
+                if (typeof generateVimscriptCodeBase === 'function') {
+                    content = generateVimscriptCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'sed':
+                if (typeof generateSedCodeBase === 'function') {
+                    content = generateSedCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'sas':
+                if (typeof generateSasCodeBase === 'function') {
+                    content = generateSasCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'objective-j':
+                if (typeof generateObjectiveJCodeBase === 'function') {
+                    content = generateObjectiveJCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            default:
+                // Default to C for unsupported languages
+                content = generateDefaultCodeBase(languageId);
+                break;
+        }
+    } catch (error) {
+        // If any error occurs, use default code base
+        content = generateDefaultCodeBase(languageId);
     }
     return { success: true, content: content };
 }
@@ -920,6 +1225,13 @@ function generateMarkdownCodeBase() {
  */
 function generateVerilogCodeBase() {
     return `\n// Basic Verilog module\n\nmodule hello_world(\n    input wire clk,\n    input wire reset,\n    output reg [7:0] data_out\n);\n\n// Internal registers\nreg [31:0] counter;\n\n// Main logic\nalways @(posedge clk or posedge reset) begin\n    if (reset) begin\n        counter <= 32'h0;\n        data_out <= 8'h0;\n    end else begin\n        counter <= counter + 1;\n        data_out <= counter[7:0];\n    end\nend\n\n// Example combinational logic\nalways @(*) begin\n    // Add combinational logic here\n    // data_out = some_function(inputs);\nend\n\n// Example initial block for simulation\ninitial begin\n    $display("Hello, World!");\n    $display("This is a basic Verilog module.");\nend\n\nendmodule\n\n// Testbench (uncomment for simulation)\n/*\nmodule hello_world_tb;\n\nreg clk, reset;\nwire [7:0] data_out;\n\n// Instantiate the module\nhello_world uut (\n    .clk(clk),\n    .reset(reset),\n    .data_out(data_out)\n);\n\n// Clock generation\nalways #5 clk = ~clk;\n\n// Test sequence\ninitial begin\n    clk = 0;\n    reset = 1;\n    #10 reset = 0;\n    #100 $finish;\nend\n\ninitial begin\n    $monitor("Time=%0t, data_out=%h", $time, data_out);\nend\n\nendmodule\n*/\n`;
+}
+
+/**
+ * Generates default code base for unsupported languages
+ */
+function generateDefaultCodeBase(languageId) {
+    return `\n// Basic ${languageId} program\n\n// Main function - entry point of the program\n// This is a placeholder for ${languageId} code\n// The actual implementation would depend on the language syntax\n\n// Example comment in ${languageId}\n// Hello, World!\n// This is a basic ${languageId} program.\n\n// Note: This is a generic template.\n// For actual ${languageId} development, please refer to language-specific documentation.\n`;
 }
 
 module.exports = {

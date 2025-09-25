@@ -1,0 +1,25 @@
+{ *************************************************************************** }
+{                                                                             }
+{  test_codebase_delphi.txt                               TTTTTTTT SSSSSSS II }
+{                                                            TT    SS      II }
+{  By: st93642@students.tsi.lv                               TT    SSSSSSS II }
+{                                                            TT         SS II }
+{  Created: Sep 25 2025 12:40 Igors Oleinikovs               TT    SSSSSSS II }
+{  Updated: Sep 25 2025 12:40 Igors Oleinikovs                                }
+{                                                                             }
+{   Transport and Telecommunication Institute - Riga, Latvia                  }
+{                       https://tsi.lv                                        }
+{ *************************************************************************** }
+
+// Basic delphi program
+
+// Main function - entry point of the program
+// This is a placeholder for delphi code
+// The actual implementation would depend on the language syntax
+
+// Example comment in delphi
+// Hello, World!
+// This is a basic delphi program.
+
+// Note: This is a generic template.
+// For actual delphi development, please refer to language-specific documentation.

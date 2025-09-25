@@ -1,0 +1,27 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_class_java.txt                                  TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 25 2025 12:40 Igors Oleinikovs             TT    SSSSSSS II */
+/*  Updated: Sep 25 2025 12:40 Igors Oleinikovs                              */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+public class TestClass {
+    private String name;
+    private int id;
+
+    public TestClass() {
+        this.name = "";
+        this.id = 0;
+    }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+}

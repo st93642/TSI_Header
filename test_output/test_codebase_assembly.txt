@@ -1,0 +1,25 @@
+;; ************************************************************************* ;;
+;;                                                                           ;;
+;;  test_codebase_assembly.txt                           TTTTTTTT SSSSSSS II ;;
+;;                                                          TT    SS      II ;;
+;;  By: st93642@students.tsi.lv                             TT    SSSSSSS II ;;
+;;                                                          TT         SS II ;;
+;;  Created: Sep 25 2025 12:40 Igors Oleinikovs             TT    SSSSSSS II ;;
+;;  Updated: Sep 25 2025 12:40 Igors Oleinikovs                              ;;
+;;                                                                           ;;
+;;   Transport and Telecommunication Institute - Riga, Latvia                ;;
+;;                       https://tsi.lv                                      ;;
+;; ************************************************************************* ;;
+
+// Basic assembly program
+
+// Main function - entry point of the program
+// This is a placeholder for assembly code
+// The actual implementation would depend on the language syntax
+
+// Example comment in assembly
+// Hello, World!
+// This is a basic assembly program.
+
+// Note: This is a generic template.
+// For actual assembly development, please refer to language-specific documentation.

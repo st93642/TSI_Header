@@ -1,0 +1,25 @@
+{ *************************************************************************** }
+{                                                                             }
+{  test_codebase_pascal.txt                               TTTTTTTT SSSSSSS II }
+{                                                            TT    SS      II }
+{  By: st93642@students.tsi.lv                               TT    SSSSSSS II }
+{                                                            TT         SS II }
+{  Created: Sep 25 2025 12:40 Igors Oleinikovs               TT    SSSSSSS II }
+{  Updated: Sep 25 2025 12:40 Igors Oleinikovs                                }
+{                                                                             }
+{   Transport and Telecommunication Institute - Riga, Latvia                  }
+{                       https://tsi.lv                                        }
+{ *************************************************************************** }
+
+// Basic pascal program
+
+// Main function - entry point of the program
+// This is a placeholder for pascal code
+// The actual implementation would depend on the language syntax
+
+// Example comment in pascal
+// Hello, World!
+// This is a basic pascal program.
+
+// Note: This is a generic template.
+// For actual pascal development, please refer to language-specific documentation.

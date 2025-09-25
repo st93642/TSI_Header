@@ -1,0 +1,126 @@
+<!-- ********************************************************************** -->
+<!--                                                                        -->
+<!--  test_codebase_vue.txt                             TTTTTTTT SSSSSSS II -->
+<!--                                                       TT    SS      II -->
+<!--  By: st93642@students.tsi.lv                          TT    SSSSSSS II -->
+<!--                                                       TT         SS II -->
+<!--  Created: Sep 25 2025 12:40 Igors Oleinikovs          TT    SSSSSSS II -->
+<!--  Updated: Sep 25 2025 12:40 Igors Oleinikovs                           -->
+<!--                                                                        -->
+<!--   Transport and Telecommunication Institute - Riga, Latvia             -->
+<!--                       https://tsi.lv                                   -->
+<!-- ********************************************************************** -->
+
+<template>
+  <div id="app" class="app">
+    <header class="app-header">
+      <h1>{{ message }}</h1>
+      <p>This is a basic Vue.js application.</p>
+      <p>Count: {{ count }}</p>
+    </header>
+    
+    <main>
+      <section>
+        <h2>Welcome to TSI</h2>
+        <p>Transport and Telecommunication Institute</p>
+        
+        <div class="buttons">
+          <button @click="increment" class="btn">
+            Increment Counter
+          </button>
+          <button @click="changeMessage" class="btn">
+            Change Message
+          </button>
+          <button @click="reset" class="btn btn--secondary">
+            Reset
+          </button>
+        </div>
+        
+        <div v-if="showWelcome" class="welcome">
+          <p>Welcome, {{ studentName }}!</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      message: 'Hello, World!',
+      count: 0,
+      studentName: 'TSI Student',
+      showWelcome: false
+    }
+  },
+  methods: {
+    increment() {
+      this.count++;
+    },
+    changeMessage() {
+      this.message = 'Hello, TSI Student!';
+      this.showWelcome = true;
+    },
+    reset() {
+      this.message = 'Hello, World!';
+      this.count = 0;
+      this.showWelcome = false;
+    }
+  },
+  mounted() {
+    console.log('Vue app mounted successfully!');
+  }
+}
+</script>
+
+<style scoped>
+.app {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  line-height: 1.6;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+.btn--secondary {
+  background-color: #95a5a6;
+}
+
+.btn--secondary:hover {
+  background-color: #7f8c8d;
+}
+
+.welcome {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #e8f5e8;
+  border-radius: 5px;
+}
+</style>

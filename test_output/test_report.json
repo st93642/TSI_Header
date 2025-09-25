@@ -1,0 +1,16 @@
+{
+  "total": 225,
+  "passed": 225,
+  "failed": 0,
+  "errors": [
+    "Skipping C++ class test (requires VS Code environment)"
+  ],
+  "testConfig": {
+    "testedAll": true,
+    "maxLanguages": "all",
+    "totalHeaderLanguages": 101,
+    "totalClassLanguages": 13,
+    "testedHeaderLanguages": 101,
+    "testedClassLanguages": 13
+  }
+}

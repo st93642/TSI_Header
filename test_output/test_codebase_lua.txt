@@ -1,0 +1,44 @@
+-- ************************************************************************* --
+--                                                                           --
+--  test_codebase_lua.txt                                TTTTTTTT SSSSSSS II --
+--                                                          TT    SS      II --
+--  By: st93642@students.tsi.lv                             TT    SSSSSSS II --
+--                                                          TT         SS II --
+--  Created: Sep 25 2025 12:40 Igors Oleinikovs             TT    SSSSSSS II --
+--  Updated: Sep 25 2025 12:40 Igors Oleinikovs                              --
+--                                                                           --
+--   Transport and Telecommunication Institute - Riga, Latvia                --
+--                       https://tsi.lv                                      --
+-- ************************************************************************* --
+
+-- Basic Lua program
+
+-- Main function - entry point of the program
+function main()
+    print("Hello, World!")
+    print("This is a basic Lua script.")
+end
+
+-- Execute main function
+main()
+
+-- Alternative direct approach
+-- print("Hello, World!")
+-- print("This is a basic Lua script.")
+
+-- Example function with parameters
+function greet(name)
+    return "Hello, " .. (name or "World") .. "!"
+end
+
+-- Example usage
+-- print(greet("TSI Student"))
+
+-- Example table (Lua's main data structure)
+local config = {
+    version = "1.0",
+    debug = true,
+    features = {"logging", "caching"}
+}
+
+-- print("Version: " .. config.version)

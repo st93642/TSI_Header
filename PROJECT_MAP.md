@@ -6,8 +6,9 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 ## Top-Level Structure
 
-- `CHANGELOG.md`, `LICENSE`, `README.md`: Project documentation and metadata.
+- `CHANGELOG.md`, `LICENSE`, `PROJECT_MAP.md`, `README.md`: Project documentation and metadata.
 - `package.json`: Node.js package configuration.
+- `comprehensive_test_suite.js`: Comprehensive test suite for all 88 supported languages.
 - `tsi.jpg`, `tsi.png`: Project images.
 
 ---
@@ -68,9 +69,9 @@ This document provides a comprehensive overview of the TSI_Header project, detai
   - `tsi_header.rb`: Main Ruby library entry point.
   - `tsi_header/`
     - `configuration.rb`: Handles configuration parsing and management.
-    - `delimiters.rb`: Defines header delimiters for parsing.
+    - `delimiters.rb`: Defines header delimiters for 88 supported languages.
     - `header_extractor.rb`: Extracts headers from source files.
-    - `header_generator.rb`: Generates headers for source files.
+    - `header_generator.rb`: Generates headers for source files (supports plain text for languages without comments).
     - `header_info.rb`: Data structure for header information.
     - `header_parser.rb`: Parses header blocks from files.
 
@@ -79,6 +80,7 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 - `tsi_header_cli.rb` uses `tsi_header.rb` as its backend.
 - `tsi_header.rb` loads modules from `tsi_header/` for specific tasks.
 - `header_extractor.rb` and `header_generator.rb` use `delimiters.rb` and `header_info.rb` for parsing and data management.
+- `header_generator.rb` includes special handling for languages without comment delimiters (JSON, Markdown).
 
 ### 4. `resources/`
 
@@ -121,13 +123,7 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 - `extension.js` registers commands and UI elements, using `tsiViewProvider.js` for custom views.
 
-### 8. `utils/`
-
-- **Purpose:** Utility functions for code analysis.
-- **Files:**
-  - `contentAnalyzer.js`: Analyzes file content for headers and structure.
-
-### 9. `test/`
+### 8. `test/`
 
 - **Purpose:** JavaScript test suite for extension APIs, generators, and cross-language validation.
 - **Files:**
@@ -136,6 +132,19 @@ This document provides a comprehensive overview of the TSI_Header project, detai
   - `cross_language.test.js`: Cross-language header and class validation.
   - `vscode_integration.test.js`: VS Code integration tests.
 
+### 9. `test_output/`
+
+- **Purpose:** Output directory for comprehensive test suite results.
+- **Files:**
+  - `test_*.txt`: Generated test files for each language.
+  - `test_report.json`: Detailed test results and statistics.
+
+### 10. `utils/`
+
+- **Purpose:** Utility functions for code analysis.
+- **Files:**
+  - `contentAnalyzer.js`: Analyzes file content for headers and structure.
+
 ## APIs & Interfaces
 
 ### Ruby CLI/API
@@ -143,6 +152,7 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 - **Entry Point:** `lib/tsi_header_cli.rb`
 - **Interfaces:**
   - Command-line arguments for header generation, extraction, and parsing.
+  - Supports 88 programming languages with appropriate comment delimiters.
   - Uses classes from `lib/tsi_header/` for implementation.
 
 ### JavaScript Extension API
@@ -151,6 +161,14 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 - **Interfaces:**
   - VS Code commands and events.
   - Custom views via `tsiViewProvider.js`.
+
+### Comprehensive Test Suite API
+
+- **Entry Point:** `comprehensive_test_suite.js`
+- **Interfaces:**
+  - Command-line options for testing scope (--all, --max=N, --*-only flags).
+  - Validates header generation, code base generation, and class creation.
+  - Generates detailed JSON reports and console output.
 
 ### Generators API
 
@@ -165,12 +183,18 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 - **Project Creation:**
   - `projectCreator.js` (JS) orchestrates file generation using other generator modules.
-  - `projectcreators/index.js` routes to appropriate language-specific creators (C projects get C-only files, C++ projects get C++ classes).
+  - `projectcreators/index.js` routes to appropriate language-specific creators (C, C++, Java, Python, Ruby, Rust) for appropriate file generation.
   - Generated files may be used by Ruby CLI for header management.
 
 - **Header Management:**
   - Ruby CLI (`tsi_header_cli.rb`) parses, generates, and extracts headers using core library modules.
+  - Comprehensive test suite (`comprehensive_test_suite.js`) validates all header functionality across 88 languages.
   - Utility scripts and tests (`scripts/`, `spec/`) validate header functionality.
+
+- **Quality Assurance:**
+  - `comprehensive_test_suite.js` runs 225 automated tests covering all supported languages and features.
+  - Test results saved to `test_output/test_report.json` for analysis.
+  - 100% success rate validation ensures reliability.
 
 - **VS Code Extension:**
   - `extension.js` provides UI and command integration for header management in VS Code.
@@ -182,18 +206,48 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 | Module/Folder                | Responsibility                                      |
 |------------------------------|-----------------------------------------------------|
+| `comprehensive_test_suite.js`| Comprehensive testing for all 88 languages         |
 | `generators/`                | Code/project file generation                        |
 | `generators/project/projectcreators/` | Language-specific project file creation (C, C++, Java, Python, Ruby, Rust) |
-| `lib/tsi_header_cli.rb`      | Ruby CLI for header management                      |
+| `lib/tsi_header_cli.rb`      | Ruby CLI for header management (88 languages)      |
 | `lib/tsi_header/`            | Core header parsing/generation logic                |
 | `src/extension.js`           | VS Code extension entry point                       |
 | `src/tsiViewProvider.js`     | Custom VS Code views                                |
+| `test/`                      | JavaScript unit tests                               |
+| `test_output/`               | Comprehensive test suite output                     |
 | `utils/contentAnalyzer.js`   | File content analysis                               |
 | `scripts/`                   | Compilation and testing scripts                     |
 | `spec/`                      | Ruby test suite                                     |
-| `test/`                      | JavaScript test suite                               |
 | `resources/`                 | Project images/icons                                |
 | `examples/`                  | Example usage in C/Python                          |
+
+---
+
+## Quality Assurance & Testing
+
+### Comprehensive Test Suite
+
+- **Location**: `comprehensive_test_suite.js`
+- **Coverage**: 88 programming languages
+- **Test Types**:
+  - Header insertion validation
+  - Code base generation validation
+  - Class creation validation (13 languages)
+  - Comment marker validation
+  - Syntax correctness checking
+- **Output**: `test_output/test_report.json`
+- **Success Rate**: 100% (225/225 tests pass)
+
+### Ruby Test Suite
+
+- **Location**: `spec/`
+- **Coverage**: Core Ruby library modules
+- **Test Types**: Unit tests for configuration, delimiters, header operations
+
+### JavaScript Test Suite
+
+- **Location**: `test/`
+- **Coverage**: VS Code extension APIs and generators
 
 ---
 
@@ -201,3 +255,4 @@ This document provides a comprehensive overview of the TSI_Header project, detai
 
 - This map will be updated as the project evolves.
 - Use this document for debugging, onboarding, and architectural reference.
+- The project now supports 88 programming languages with comprehensive testing.

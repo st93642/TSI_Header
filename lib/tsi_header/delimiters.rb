@@ -105,7 +105,15 @@ module TSIHeader
       'scala' => SLASHES,
       'delphi' => BRACES,
       'objectpascal' => BRACES,
-      'c++' => SLASHES
+      'c++' => SLASHES,
+      'json' => [],
+      'markdown' => [],
+      'verilog' => SLASHES,
+      'fortran90' => EXCLAMATIONS,
+      'FortranFreeForm' => EXCLAMATIONS,
+      'systemverilog' => SLASHES,
+      'Verilog' => SLASHES,
+      'vbscript' => QUOTES
     }.freeze
 
     def self.for_language(language_id)
