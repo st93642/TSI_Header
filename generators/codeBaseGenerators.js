@@ -3,6 +3,14 @@
  * Contains language-specific code base generation logic
  */
 
+// Import language-specific generators
+const { generateCCodeBase } = require('./languages/c');
+const { generateCppCodeBase } = require('./languages/cpp');
+const { generatePythonCodeBase } = require('./languages/python');
+const { generateJavaCodeBase } = require('./languages/java');
+const { generateJavaScriptCodeBase } = require('./languages/javascript');
+const { generateTypeScriptCodeBase } = require('./languages/typescript');
+
 /**
  * Generates code base/boilerplate code for the specified language
  * @param {string} languageId - The language identifier
@@ -449,68 +457,6 @@ function generateCodeBase(languageId, fileName) {
 }
 
 /**
- * Generates C code base
- */
-function generateCCodeBase() {
-    return `\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    printf("Hello, World!\\n");\n    return 0;\n}\n`;
-}
-
-/**
- * Generates C++ code base
- */
-function generateCppCodeBase() {
-    return `
-#include <iostream>
-#include <string>
-#include <memory>
-#include "BaseClass.hpp"
-
-/**
- * Main function - Entry point of the C++ program
- * 
- * This function demonstrates:
- * - Basic C++ output
- * - Object creation and usage
- * - Memory management with smart pointers
- * - BaseClass functionality
- */
-int main(int argc, char* argv[]) {
-    std::cout << "=== TSI C++ Project Demo ===" << std::endl;
-    std::cout << "Hello, World!" << std::endl;
-    std::cout << "This is a professional C++ program." << std::endl;
-    
-    // Demonstrate BaseClass usage
-    std::cout << "\\n--- BaseClass Demonstration ---" << std::endl;
-    
-    // Create BaseClass objects
-    BaseClass obj1;
-    BaseClass obj2("TestObject");
-    BaseClass obj3("CustomObject", 100);
-    
-    // Display object information
-    std::cout << "Object 1: " << obj1 << std::endl;
-    std::cout << "Object 2: " << obj2 << std::endl;
-    std::cout << "Object 3: " << obj3 << std::endl;
-    
-    // Demonstrate object methods
-    std::cout << "\\n--- Object Methods ---" << std::endl;
-    obj1.display();
-    
-    std::cout << "\\nIs obj1 valid? " << (obj1.isValid() ? "Yes" : "No") << std::endl;
-    std::cout << "Next available ID: " << BaseClass::getNextId() << std::endl;
-    
-    // Smart pointer demonstration
-    std::cout << "\\n--- Smart Pointer Usage ---" << std::endl;
-    auto smartObj = std::make_unique<BaseClass>("SmartPointerObject");
-    std::cout << "Smart pointer object: " << *smartObj << std::endl;
-    
-    std::cout << "\\n=== Program completed successfully! ===" << std::endl;
-    return 0;
-}
-`;
-}
-
-/**
  * Generates C# code base
  */
 function generateCSharpCodeBase() {
@@ -518,176 +464,18 @@ function generateCSharpCodeBase() {
 }
 
 /**
- * Generates Java code base
- */
-function generateJavaCodeBase() {
-    return `\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n        System.out.println("This is a basic Java program.");\n    }\n}\n`;
-}
-
-/**
- * Generates Python code base
- */
-function generatePythonCodeBase() {
-    return `\ndef main():\n    """Main function - entry point of the program."""\n    print("Hello, World!")\n    print("This is a basic Python script.")\n\n\nif __name__ == "__main__":\n    main()\n`;
-}
-
-/**
  * Generates Ruby code base
  */
 function generateRubyCodeBase() {
-    return `\n# Main function - entry point of the program\ndef main\n  puts "Hello, World!"\n  puts "This is a basic Ruby script."\nend\n\n# Execute main function\nmain\n`;
+    return `\n#!/usr/bin/env ruby\n\n# Basic Ruby program\n\n# Main function - entry point of the program\ndef main\n  puts "Hello, World!"\n  puts "This is a basic Ruby program."\nend\n\n# Execute main function\nmain\n\n# Alternative direct approach\n# puts "Hello, World!"\n# puts "This is a basic Ruby program."\n\n# Example class definition\n# class Greeter\n#   def initialize(name = "World")\n#     @name = name\n#   end\n#   \n#   def greet\n#     "Hello, #{@name}!"\n#   end\n# end\n\n# Example usage\n# greeter = Greeter.new("TSI Student")\n# puts greeter.greet\n\n# Example with arrays and hashes\n# languages = ["Ruby", "Python", "JavaScript"]\n# config = {\n#   version: "1.0",\n#   debug: true,\n#   author: "TSI Student"\n# }\n\n# languages.each do |lang|\n#   puts "Language: #{lang}"\n# end\n\n# puts "Version: #{config[:version]}"\n`;
 }
 
 /**
  * Generates Rust code base
  */
 function generateRustCodeBase() {
-    return `\nfn main() {\n    println!("Hello, World!");\n    println!("This is a basic Rust program.");\n}\n`;
+    return `\n//! Basic Rust program\n\n/// Main function - entry point of the program\nfn main() {\n    println!("Hello, World!");\n    println!("This is a basic Rust program.");\n}\n\n/// Example function with parameters\nfn greet(name: &str) -> String {\n    format!("Hello, {}!", name)\n}\n\n/// Example struct definition\n#[derive(Debug)]\nstruct Person {\n    name: String,\n    age: u32,\n}\n\nimpl Person {\n    /// Create a new Person\n    fn new(name: String, age: u32) -> Self {\n        Person { name, age }\n    }\n\n    /// Display person information\n    fn display(&self) {\n        println!("Name: {}, Age: {}", self.name, self.age);\n    }\n}\n\n/// Example usage (uncomment to use)\n/*\nfn main() {\n    // Basic greeting\n    println!("Hello, World!");\n    println!("This is a basic Rust program.");\n\n    // Function usage\n    let greeting = greet("TSI Student");\n    println!("{}", greeting);\n\n    // Struct usage\n    let person = Person::new("TSI Student".to_string(), 20);\n    person.display();\n    println!("Person: {:?}", person);\n}\n*/\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_greet() {\n        assert_eq!(greet("World"), "Hello, World!");\n    }\n\n    #[test]\n    fn test_person() {\n        let person = Person::new("Test".to_string(), 25);\n        assert_eq!(person.name, "Test");\n        assert_eq!(person.age, 25);\n    }\n}\n`;
 }
-
-/**
- * Generates Go code base
- */
-function generateGoCodeBase() {
-    return `\npackage main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("Hello, World!")\n    fmt.Println("This is a basic Go program.")\n}\n`;
-}
-
-/**
- * Generates SQL code base
- */
-function generateSqlCodeBase() {
-    return `\n-- Basic SQL script template\n\n-- Create a sample table\nCREATE TABLE users (\n    id INTEGER PRIMARY KEY AUTO_INCREMENT,\n    name VARCHAR(100) NOT NULL,\n    email VARCHAR(255) UNIQUE,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\n\n-- Insert sample data\nINSERT INTO users (name, email) VALUES\n    ('John Doe', 'john@example.com'),\n    ('Jane Smith', 'jane@example.com');\n\n-- Select data\nSELECT * FROM users;\n\n-- This is a basic SQL script template.\n`;
-}
-
-/**
- * Generates HTML code base
- */
-function generateHtmlCodeBase() {
-    return `\n<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>TSI Header - Basic HTML Template</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            margin: 40px;\n            line-height: 1.6;\n        }\n        .container {\n            max-width: 800px;\n            margin: 0 auto;\n        }\n    </style>\n</head>\n<body>\n    <div class="container">\n        <h1>Hello, World!</h1>\n        <p>This is a basic HTML template.</p>\n        <p>Welcome to the Transport and Telecommunication Institute!</p>\n    </div>\n</body>\n</html>\n`;
-}
-
-/**
- * Generates Delphi code base
- */
-function generateDelphiCodeBase() {
-    return `\nprogram HelloWorld;\n\n{\$APPTYPE CONSOLE}\n\nuses\n  System.SysUtils;\n\nbegin\n  Writeln('Hello, World!');\n  Writeln('This is a basic Delphi program.');\n  Readln;\nend.\n`;
-}
-
-/**
- * Generates Object Pascal code base
- */
-function generateObjectPascalCodeBase() {
-    return `\nprogram HelloWorld;\n\n{\$MODE OBJFPC}\n{\$APPTYPE CONSOLE}\n\nuses\n  SysUtils;\n\nbegin\n  Writeln('Hello, World!');\n  Writeln('This is a basic Object Pascal program.');\n  Readln;\nend.\n`;
-}
-
-/**
- * Generates BASIC code base
- */
-function generateBasicCodeBase() {
-    return `\n10 PRINT "Hello, World!"\n20 PRINT "This is a basic BASIC program."\n30 END\n`;
-}
-
-/**
- * Generates Fortran code base
- */
-function generateFortranCodeBase() {
-    return `\nPROGRAM HelloWorld\n    IMPLICIT NONE\n    \n    PRINT *, 'Hello, World!'\n    PRINT *, 'This is a basic Fortran program.'\n    \nEND PROGRAM HelloWorld\n`;
-}
-
-/**
- * Generates R code base
- */
-function generateRCodeBase() {
-    return `\n# Main script - basic R program\n\n# Print messages\ncat("Hello, World!\\n")\ncat("This is a basic R script.\\n")\n\n# This is a basic R script template.\n`;
-}
-
-/**
- * Generates MATLAB code base
- */
-function generateMatlabCodeBase() {
-    return `\n% Main script - basic MATLAB program\n\n% Display messages\ndisp('Hello, World!');\ndisp('This is a basic MATLAB script.');\n\n% This is a basic MATLAB script template.\n`;
-}
-
-/**
- * Generates Assembly code base
- */
-function generateAssemblyCodeBase() {
-    return `\n; Basic x86 Assembly program (NASM syntax for Linux)\n; Assemble with: nasm -f elf64 hello.asm\n; Link with: ld hello.o -o hello\n\nsection .data\n    hello db 'Hello, World!', 0xA\n    hello_len equ $ - hello\n    message db 'This is a basic Assembly program.', 0xA\n    message_len equ $ - message\n\nsection .text\n    global _start\n\n_start:\n    ; Write "Hello, World!" to stdout\n    mov rax, 1          ; syscall: write\n    mov rdi, 1          ; file descriptor: stdout\n    mov rsi, hello      ; message address\n    mov rdx, hello_len  ; message length\n    syscall\n\n    ; Write message to stdout\n    mov rax, 1          ; syscall: write\n    mov rdi, 1          ; file descriptor: stdout\n    mov rsi, message    ; message address\n    mov rdx, message_len ; message length\n    syscall\n\n    ; Exit program\n    mov rax, 60         ; syscall: exit\n    xor rdi, rdi        ; exit code: 0\n    syscall\n`;
-}
-
-/**
- * Generates COBOL code base
- */
-function generateCobolCodeBase() {
-    return `\nIDENTIFICATION DIVISION.\nPROGRAM-ID. HELLO-WORLD.\n\nDATA DIVISION.\nWORKING-STORAGE SECTION.\n\nPROCEDURE DIVISION.\nMAIN-PROCEDURE.\n    DISPLAY "Hello, World!".\n    DISPLAY "This is a basic COBOL program.".\n    STOP RUN.\n`;
-}
-
-/**
- * Generates Prolog code base
- */
-function generatePrologCodeBase() {
-    return `\n% Basic Prolog program\n\n% Main predicate\nhello_world :-\n    write('Hello, World!'), nl,\n    write('This is a basic Prolog program.'), nl.\n\n% Query to run the program\n% ?- hello_world.\n`;
-}
-
-/**
- * Generates Makefile code base
- */
-function generateMakefileCodeBase() {
-    return `\n# Basic Makefile template\n\n# Compiler and flags\nCC = gcc\nCFLAGS = -Wall -Wextra -std=c99\n\n# Target executable\nTARGET = program\n\n# Source files\nSRCS = main.c\n\n# Object files\nOBJS = \$(SRCS:.c=.o)\n\n# Default target\nall: \$(TARGET)\n\n# Link object files to create executable\n\$(TARGET): \$(OBJS)\n\t\$(CC) \$(CFLAGS) -o \$(TARGET) \$(OBJS)\n\n# Compile source files to object files\n%.o: %.c\n\t\$(CC) \$(CFLAGS) -c $< -o $@\n\n# Clean build artifacts\nclean:\n\trm -f \$(OBJS) \$(TARGET)\n\n# Run the program\nrun: \$(TARGET)\n\t./\$(TARGET)\n\n# Phony targets\n.PHONY: all clean run\n`;
-}
-
-/**
- * Generates JavaScript code base
- */
-function generateJavaScriptCodeBase() {
-    return `\n/**\n * Main function - entry point of the program\n */\nfunction main() {\n    console.log('Hello, World!');\n    console.log('This is a basic JavaScript script.');\n}\n\n// Execute main function\nmain();\n\n// Export for use as module\nmodule.exports = { main };\n`;
-}
-
-/**
- * Generates Kotlin code base
- */
-function generateKotlinCodeBase() {
-    return `\n/**\n * Main function - entry point of the program\n */\nfun main(args: Array<String>) {\n    println("Hello, World!")\n    println("This is a basic Kotlin program.")\n}\n`;
-}
-
-/**
- * Generates PHP code base
- */
-function generatePhpCodeBase() {
-    return `\n<?php\n\n/**\n * Main function - entry point of the program\n */\nfunction main()\n{\n    echo "Hello, World!" . PHP_EOL;\n    echo "This is a basic PHP script." . PHP_EOL;\n}\n\n// Execute main function\nmain();\n`;
-}
-
-/**
- * Generates Swift code base
- */
-function generateSwiftCodeBase() {
-    return `\n// Basic Swift program\n\nprint("Hello, World!")\nprint("This is a basic Swift program.")\n\n// You can also use a main function:\n// func main() {\n//     print("Hello, World!")\n//     print("This is a basic Swift program.")\n// }\n// main()\n`;
-}
-
-/**
- * Generates Dart code base
- */
-function generateDartCodeBase() {
-    return `\n// Basic Dart program\n\nvoid main() {\n  print('Hello, World!');\n  print('This is a basic Dart program.');\n}\n\n// Alternative functional style:\n// void main() => print('Hello, World!');\n`;
-}
-
-/**
- * Generates Scala code base
- */
-function generateScalaCodeBase() {
-    return `\n// Basic Scala program\n\nobject Main extends App {\n  println("Hello, World!")\n  println("This is a basic Scala program.")\n}\n\n// Alternative with main method:\n// object Main {\n//   def main(args: Array[String]): Unit = {\n//     println("Hello, World!")\n//     println("This is a basic Scala program.")\n//   }\n// }\n`;
-}
-
-/**
- * Generates TypeScript code base
- */
-function generateTypeScriptCodeBase() {
-    return `\n/**\n * Main function - entry point of the program\n */\nfunction main(): void {\n    console.log('Hello, World!');\n    console.log('This is a basic TypeScript script.');\n}\n\n// Execute main function\nmain();\n\n// Export for use as module\nexport { main };\n`;
-}
-
-/**
- * Generates Ada code base
- */
 function generateAdaCodeBase() {
     return `\nwith Ada.Text_IO;\n\nprocedure Hello_World is\nbegin\n   Ada.Text_IO.Put_Line("Hello, World!");\n   Ada.Text_IO.Put_Line("This is a basic Ada program.");\nend Hello_World;\n`;
 }
