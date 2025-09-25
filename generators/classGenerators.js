@@ -331,7 +331,7 @@ function generatePythonClass(className) {
         print(f"${className}{{name='{self._name}', id={self._id}}}")
 
 
-// Example usage
+# Example usage
 if __name__ == "__main__":
     # Create an instance
     obj = ${className}("Example", 123)
@@ -427,7 +427,7 @@ class ${className} {
     }
 }
 
-// Example usage
+# Example usage
 // const obj = new ${className}("Example", 123);
 // obj.display();
 
@@ -499,7 +499,7 @@ class ${className}(
     }
 }
 
-// Example usage
+# Example usage
 // val obj = ${className}("Example", 123)
 // obj.display()
 
@@ -615,7 +615,7 @@ class ${className}
     }
 }
 
-// Example usage
+# Example usage
 // $obj = new ${className}("Example", 123);
 // $obj->display();`;
 }
@@ -701,7 +701,7 @@ class ${className} {
     }
 }
 
-// Example usage
+# Example usage
 // const obj = new ${className}("Example", 123);
 // obj.display();
 
@@ -845,7 +845,7 @@ function generateGoClass(className) {
 'func (c *' + className + ') Display() {\n' +
 '\tfmt.Println(c.String())\n' +
 '}\n\n' +
-'// Example usage\n' +
+'# Example usage\n' +
 'func main() {\n' +
 '\t// Create a new instance\n' +
 '\tobj := New' + className + '("Example", 123)\n' +
@@ -935,7 +935,7 @@ class ${className} {
     }
 }
 
-// Example usage
+# Example usage
 // let obj = ${className}(name: "Example", id: 123)
 // obj.display()
 
@@ -1013,7 +1013,7 @@ function generateDartClass(className) {
 '  }\n' +
 '}\n' +
 '\n' +
-'// Example usage\n' +
+'# Example usage\n' +
 '// void main() {\n' +
 '//   var obj = ' + className + '(name: "Example", id: 123);\n' +
 '//   obj.display();\n' +
@@ -1117,7 +1117,7 @@ function generateScalaClass(className) {
 '  }\n' +
 '}\n' +
 '\n' +
-'// Example usage\n' +
+'# Example usage\n' +
 '// object Main extends App {\n' +
 '//   val obj = ' + className + '("Example", 123)\n' +
 '//   obj.display()\n' +

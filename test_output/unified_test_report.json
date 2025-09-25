@@ -1,0 +1,48 @@
+{
+  "total": 227,
+  "passed": 227,
+  "failed": 0,
+  "errors": [],
+  "sections": {
+    "headers": {
+      "total": 101,
+      "passed": 101,
+      "failed": 0
+    },
+    "codebases": {
+      "total": 101,
+      "passed": 101,
+      "failed": 0
+    },
+    "classes": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0
+    },
+    "syntax": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "api": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "ruby": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "testConfig": {
+    "totalHeaderLanguages": 101,
+    "totalCodebaseLanguages": 101,
+    "totalClassLanguages": 13,
+    "testedHeaderLanguages": 101,
+    "testedCodebaseLanguages": 101,
+    "testedClassLanguages": 13
+  },
+  "timestamp": "2025-09-25T15:21:00.238Z",
+  "version": "3.0.5"
+}

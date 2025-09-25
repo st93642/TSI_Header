@@ -65,11 +65,7 @@ function generateCodeBase(languageId, fileName) {
                 }
                 break;
             case 'dart':
-                if (typeof generateDartCodeBase === 'function') {
-                    content = generateDartCodeBase();
-                } else {
-                    content = generateDefaultCodeBase(languageId);
-                }
+                content = generateDartCodeBase();
                 break;
             case 'scala':
                 content = generateScalaCodeBase();
@@ -82,15 +78,11 @@ function generateCodeBase(languageId, fileName) {
                 }
                 break;
             case 'html':
-                if (typeof generateHtmlCodeBase === 'function') {
-                    content = generateHtmlCodeBase();
-                } else {
-                    content = generateDefaultCodeBase(languageId);
-                }
+                content = generateHtmlCodeBase();
                 break;
             case 'delphi':
-                if (typeof generateDelphiCodeBase === 'function') {
-                    content = generateDelphiCodeBase();
+                if (typeof generateObjectPascalCodeBase === 'function') {
+                    content = generateObjectPascalCodeBase();
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
@@ -113,11 +105,7 @@ function generateCodeBase(languageId, fileName) {
             case 'fortran':
             case 'fortran90':
             case 'FortranFreeForm':
-                if (typeof generateFortranCodeBase === 'function') {
-                    content = generateFortranCodeBase();
-                } else {
-                    content = generateDefaultCodeBase(languageId);
-                }
+                content = generateFortranCodeBase();
                 break;
             case 'r':
                 if (typeof generateRCodeBase === 'function') {
@@ -148,11 +136,7 @@ function generateCodeBase(languageId, fileName) {
                 }
                 break;
             case 'prolog':
-                if (typeof generatePrologCodeBase === 'function') {
-                    content = generatePrologCodeBase();
-                } else {
-                    content = generateDefaultCodeBase(languageId);
-                }
+                content = generatePrologCodeBase();
                 break;
             case 'makefile':
                 if (typeof generateMakefileCodeBase === 'function') {
@@ -488,6 +472,13 @@ function generateCodeBase(languageId, fileName) {
             case 'vb':
                 if (typeof generateVbCodeBase === 'function') {
                     content = generateVbCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'vbscript':
+                if (typeof generateVBScriptCodeBase === 'function') {
+                    content = generateVBScriptCodeBase();
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
@@ -1133,10 +1124,17 @@ function generateTypeScriptReactCodeBase() {
 }
 
 /**
- * Generates VB code base
+ * Generates VB.NET code base
  */
 function generateVbCodeBase() {
     return `\n' Basic VB.NET program\n\nImports System\n\nModule HelloWorld\n    ' Main subroutine - entry point of the program\n    Sub Main()\n        Console.WriteLine("Hello, World!")\n        Console.WriteLine("This is a basic VB.NET program.")\n        \n        ' Wait for user input\n        Console.ReadLine()\n    End Sub\n    \n    ' Example function\n    ' Function Greet(name As String) As String\n    '     If String.IsNullOrEmpty(name) Then\n    '         name = "World"\n    '     End If\n    '     Return "Hello, " & name & "!"\n    ' End Function\n    \n    ' Example usage\n    ' Console.WriteLine(Greet("TSI Student"))\nEnd Module\n\n' Alternative class-based approach\n' Public Class HelloWorldClass\n'     Public Shared Sub Main(args() As String)\n'         Console.WriteLine("Hello, World!")\n'         Console.WriteLine("This is a basic VB.NET program.")\n'     End Sub\n' End Class\n`;
+}
+
+/**
+ * Generates VBScript code base
+ */
+function generateVBScriptCodeBase() {
+    return `\n' Basic VBScript program\n\n' Main subroutine - entry point of the program\nSub Main()\n    MsgBox "Hello, World!"\n    MsgBox "This is a basic VBScript program."\n    \n    ' Alternative console output (for WSH)\n    ' WScript.Echo "Hello, World!"\n    ' WScript.Echo "This is a basic VBScript program."\nEnd Sub\n\n' Execute main subroutine\nMain()\n\n' Example function with parameters\n' Function Greet(name)\n'     If IsEmpty(name) Or name = "" Then\n'         name = "World"\n'     End If\n'     Greet = "Hello, " & name & "!"\n' End Function\n\n' Example usage\n' MsgBox Greet("TSI Student")\n' WScript.Echo Greet("TSI Student")\n\n' Example with variables and conditional logic\n' Dim message\n' message = "Hello from TSI!"\n' If message <> "" Then\n'     MsgBox message\n' End If\n\n' Example with loops\n' Dim i\n' For i = 1 To 3\n'     MsgBox "Count: " & i\n' Next\n`;
 }
 
 /**
@@ -1255,7 +1253,14 @@ function generateSwiftCodeBase() {
  * Generates Dart code base
  */
 function generateDartCodeBase() {
-    return `\n// Basic Dart program\n\n// Main function - entry point of the program\nvoid main() {\n  print('Hello, World!');\n  print('This is a basic Dart program.');\n}\n\n// Alternative direct approach\n// void main() => print('Hello, World!');\n\n// Example function with parameters\nString greet(String name) {\n  return 'Hello, $name!';\n}\n\n// Example usage\n// void main() {\n//   print(greet('TSI Student'));\n// }\n\n// Example class definition\nclass TSIStudent {\n  String name;\n  String program;\n  \n  TSIStudent(this.name, this.program);\n  \n  void introduce() {\n    print('Hello, I\\'m $name from TSI!');\n  }\n}\n\n// Example usage\n// void main() {\n//   var student = TSIStudent('TSI Student', 'Computer Science');\n//   student.introduce();\n// }\n\n// Example with collections\n// void main() {\n//   var languages = ['Dart', 'Flutter', 'JavaScript'];\n//   var config = {\n//     'version': '1.0',\n//     'debug': true,\n//     'author': 'TSI Student'\n//   };\n//   \n//   languages.forEach((lang) => print('Language: $lang'));\n//   print('Version: ${config['version']}');\n// }\n`;
+    return `\n// Basic Dart program\n\n// Main function - entry point of the program\nvoid main() {\n  print('Hello, World!');\n  print('This is a basic Dart program.');\n}\n\n// Alternative direct approach\n// void main() => print('Hello, World!');\n\n// Example function with parameters\nString greet(String name) {\n  return 'Hello, $name!';\n}\n\n// Example usage\n// void main() {\n//   print(greet('TSI Student'));\n// }\n\n// Example class definition\nclass TSIStudent {\n  String name;\n  String program;\n  \n  TSIStudent(this.name, this.program);\n  \n  void introduce() {\n    print('Hello, I\\'m $name from TSI!');\n  }\n}\n\n// Example usage\n// void main() {\n//   var student = TSIStudent('TSI Student', 'Computer Science');\n//   student.introduce();\n// }\n\n// Example with collections\n// void main() {\n//   var languages = ['Dart', 'Flutter', 'JavaScript'];\n//   var config = {\n//     'version': '1.0',\n//     'debug': true,\n//     'author': 'TSI Student'\n//   };\n//   \n//   languages.forEach((lang) => print('Language: $lang'));\n//   print('Version: \${config['version']}');\n// }\n`;
+}
+
+/**
+ * Generates Scala code base
+ */
+function generateScalaCodeBase() {
+    return `\n// Basic Scala program\n\n// Main object - entry point of the program\nobject HelloWorld {\n  def main(args: Array[String]): Unit = {\n    println("Hello, World!")\n    println("This is a basic Scala program.")\n  }\n}\n\n// Alternative direct approach\n// println("Hello, World!")\n// println("This is a basic Scala program.")\n\n// Example function with parameters\ndef greet(name: String = "World"): String = {\n  s"Hello, \$name!"\n}\n\n// Example usage\n// println(greet("TSI Student"))\n\n// Example class definition\nclass TSIStudent(val name: String, val program: String) {\n  def introduce(): Unit = {\n    println(s"Hello, I'm \$name from TSI!")\n  }\n}\n\n// Example usage\n// val student = new TSIStudent("TSI Student", "Computer Science")\n// student.introduce()\n\n// Example with collections\n// val languages = List("Scala", "Java", "Python")\n// val config = Map(\n//   "version" -> "1.0",\n//   "debug" -> true,\n//   "author" -> "TSI Student"\n// )\n\n// languages.foreach(lang => println(s"Language: \$lang"))\n// println(s"Version: \${config("version")}")\n`;
 }
 
 /**
@@ -1276,7 +1281,7 @@ function generateCobolCodeBase() {
  * Generates Prolog code base
  */
 function generatePrologCodeBase() {
-    return `\n% Basic Prolog program\n\n% Main predicate - entry point\nmain :- \n    write('Hello, World!'), nl,\n    write('This is a basic Prolog program.'), nl.\n\n% Execute main predicate\n:- main.\n\n% Alternative direct approach\n% :- write('Hello, World!'), nl,\n%    write('This is a basic Prolog program.'), nl.\n\n% Example predicate with parameters\n% greet(Name) :-\n%     write('Hello, '),\n%     write(Name),\n%     write('!'), nl.\n\n% Example usage\n% :- greet('TSI Student').\n\n% Example with facts and rules\n% student(tsi_student, computer_science).\n% student(jane_doe, electrical_engineering).\n% \n% is_computer_science_student(Name) :-\n%     student(Name, computer_science).\n% \n% Example query\n% ?- is_computer_science_student(tsi_student).\n% ?- student(Name, Program).\n`;
+    return `\n% Basic Prolog program\n\n% Main predicate - entry point\nhello_world :- \n    write('Hello, World!'), nl,\n    write('This is a basic Prolog program.'), nl.\n\n% Execute main predicate\n:- hello_world.\n\n% Alternative direct approach\n% :- write('Hello, World!'), nl,\n%    write('This is a basic Prolog program.'), nl.\n\n% Example predicate with parameters\n% greet(Name) :-\n%     write('Hello, '),\n%     write(Name),\n%     write('!'), nl.\n\n% Example usage\n% :- greet('TSI Student').\n\n% Example with facts and rules\n% student(tsi_student, computer_science).\n% student(jane_doe, electrical_engineering).\n% \n% is_computer_science_student(Name) :-\n%     student(Name, computer_science).\n% \n% Example query\n% ?- is_computer_science_student(tsi_student).\n% ?- student(Name, Program).\n`;
 }
 
 /**
@@ -1297,7 +1302,7 @@ function generateBasicCodeBase() {
  * Generates Fortran code base
  */
 function generateFortranCodeBase() {
-    return `\n! Basic Fortran program\n\nprogram hello_world\n    implicit none\n    \n    ! Variable declarations\n    character(len=50) :: message\n    character(len=50) :: program_desc\n    \n    ! Initialize variables\n    message = 'Hello, World!'\n    program_desc = 'This is a basic Fortran program.'\n    \n    ! Print messages\n    write(*,*) trim(message)\n    write(*,*) trim(program_desc)\n    \nend program hello_world\n\n! Alternative main program\n! program main\n!     write(*,*) 'Hello, World!'\n!     write(*,*) 'This is a basic Fortran program.'\n! end program main\n\n! Example subroutine (uncomment to use)\n! subroutine greet(name)\n!     character(len=*), intent(in) :: name\n!     write(*,*) 'Hello, ', trim(name), '!'\n! end subroutine greet\n\n! Example usage\n! call greet('TSI Student')\n\n! Example with arrays\n! program array_example\n!     implicit none\n!     integer :: i\n!     real, dimension(5) :: numbers = (/1.0, 2.0, 3.0, 4.0, 5.0/)\n!     \n!     do i = 1, 5\n!         write(*,*) 'Number:', numbers(i)\n!     end do\n! end program array_example\n`;
+    return `\n! Basic Fortran program\n\nPROGRAM HelloWorld\n    implicit none\n    \n    ! Variable declarations\n    character(len=50) :: message\n    character(len=50) :: program_desc\n    \n    ! Initialize variables\n    message = 'Hello, World!'\n    program_desc = 'This is a basic Fortran program.'\n    \n    ! Print messages\n    write(*,*) trim(message)\n    write(*,*) trim(program_desc)\n    \nEND PROGRAM HelloWorld\n\n! Alternative main program\n! program main\n!     write(*,*) 'Hello, World!'\n!     write(*,*) 'This is a basic Fortran program.'\n! end program main\n\n! Example subroutine (uncomment to use)\n! subroutine greet(name)\n!     character(len=*), intent(in) :: name\n!     write(*,*) 'Hello, ', trim(name), '!'\n! end subroutine greet\n\n! Example usage\n! call greet('TSI Student')\n\n! Example with arrays\n! program array_example\n!     implicit none\n!     integer :: i\n!     real, dimension(5) :: numbers = (/1.0, 2.0, 3.0, 4.0, 5.0/)\n!     \n!     do i = 1, 5\n!         write(*,*) 'Number:', numbers(i)\n!     end do\n! end program array_example\n`;
 }
 
 /**
@@ -1326,6 +1331,13 @@ function generateObjectPascalCodeBase() {
  */
 function generateSqlCodeBase() {
     return `\n-- Basic SQL script template\n-- Note: This is a generic SQL template that works with most SQL databases\n\n-- Create database (if needed)\n-- CREATE DATABASE IF NOT EXISTS tsi_database;\n-- USE tsi_database;\n\n-- Create tables\nCREATE TABLE IF NOT EXISTS students (\n    id INTEGER PRIMARY KEY AUTO_INCREMENT,\n    name VARCHAR(100) NOT NULL,\n    program VARCHAR(100),\n    enrollment_year INTEGER,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE IF NOT EXISTS courses (\n    id INTEGER PRIMARY KEY AUTO_INCREMENT,\n    code VARCHAR(20) UNIQUE NOT NULL,\n    title VARCHAR(200) NOT NULL,\n    credits INTEGER,\n    semester INTEGER\n);\n\n-- Insert sample data\nINSERT INTO students (name, program, enrollment_year) VALUES\n('TSI Student', 'Computer Science', 2024),\n('Jane Doe', 'Electrical Engineering', 2023);\n\nINSERT INTO courses (code, title, credits, semester) VALUES\n('CS101', 'Programming Fundamentals', 6, 1),\n('MATH201', 'Advanced Mathematics', 4, 2);\n\n-- Basic queries\n-- SELECT * FROM students;\n-- SELECT * FROM courses WHERE credits >= 4;\n\n-- Example JOIN query\n-- SELECT s.name, s.program, c.title, c.credits\n-- FROM students s\n-- JOIN courses c ON s.program = 'Computer Science';\n\n-- Update example\n-- UPDATE students SET enrollment_year = 2025 WHERE name = 'TSI Student';\n\n-- Delete example (be careful!)\n-- DELETE FROM students WHERE name = 'Test Student';\n\n-- Drop tables (cleanup)\n-- DROP TABLE IF EXISTS students;\n-- DROP TABLE IF EXISTS courses;\n\n-- Comments:\n-- This script demonstrates basic SQL operations\n-- Modify table names, column names, and data types as needed\n-- Always backup your data before running DDL statements\n`;
+}
+
+/**
+ * Generates HTML code base
+ */
+function generateHtmlCodeBase() {
+    return `\n<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>TSI Header - Basic HTML Template</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            margin: 40px;\n            line-height: 1.6;\n            background-color: #f4f4f4;\n        }\n        .container {\n            max-width: 800px;\n            margin: 0 auto;\n            background-color: white;\n            padding: 20px;\n            border-radius: 5px;\n            box-shadow: 0 2px 5px rgba(0,0,0,0.1);\n        }\n        header {\n            text-align: center;\n            margin-bottom: 2rem;\n        }\n        h1 {\n            color: #2c3e50;\n        }\n        .content {\n            margin: 2rem 0;\n        }\n        footer {\n            text-align: center;\n            margin-top: 2rem;\n            padding-top: 1rem;\n            border-top: 1px solid #eee;\n            color: #666;\n        }\n    </style>\n</head>\n<body>\n    <div class="container">\n        <header>\n            <h1>Hello, World!</h1>\n            <p>This is a basic HTML page.</p>\n        </header>\n        \n        <main class="content">\n            <section>\n                <h2>Welcome to TSI</h2>\n                <p><strong>Transport and Telecommunication Institute</strong> - Riga, Latvia</p>\n                <p>Building the future of technology education and innovation.</p>\n                \n                <h3>Our Programs</h3>\n                <ul>\n                    <li>Computer Science</li>\n                    <li>Electrical Engineering</li>\n                    <li>Telecommunications</li>\n                    <li>Information Technology</li>\n                </ul>\n                \n                <h3>Contact Information</h3>\n                <p>\n                    <strong>Website:</strong> <a href="https://tsi.lv">https://tsi.lv</a><br>\n                    <strong>Email:</strong> info@tsi.lv<br>\n                    <strong>Address:</strong> Riga, Latvia\n                </p>\n            </section>\n        </main>\n        \n        <footer>\n            <p>&copy; 2025 Transport and Telecommunication Institute. All rights reserved.</p>\n        </footer>\n    </div>\n</body>\n</html>\n`;
 }
 
 /**

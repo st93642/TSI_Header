@@ -409,14 +409,13 @@ function testClassCreation(language) {
     const className = 'TestClass';
     const testFile = path.join(TEST_DIR, `test_class_${language}.txt`);
 
-    // Use a simplified approach - just test the language generators directly
-    // Special handling for C++ which requires VS Code mocking
+    // Special handling for C++ which requires VS Code mocking and creates separate files
     if (language === 'cpp' || language === 'c++') {
         return testCppClassCreation(className);
     }
 
     try {
-        // Get header and combine with class content
+        // Get header first
         fs.writeFileSync(testFile, '');
         const headerCommand = `ruby "${CLI_PATH}" insert "${language}" "${testFile}"`;
         const headerResult = runCommand(headerCommand, { cwd: EXTENSION_PATH });
@@ -442,9 +441,19 @@ function testClassCreation(language) {
             return false;
         }
 
-        // Generate simple class content
-        const classContent = generateSimpleClass(language, className);
-        const fullContent = headerOutput.header + '\n' + classContent;
+        // Generate comprehensive class content using the proper generateClass function
+        const classResult = generateClass(language, className, testFile, EXTENSION_PATH, CLI_PATH, {
+            TSI_USERNAME: 'testuser',
+            TSI_EMAIL: 'test@example.com'
+        });
+
+        if (!classResult.success) {
+            testResults.errors.push(`Class generation failed for ${language}: ${classResult.message}`);
+            return false;
+        }
+
+        // Combine header and class content
+        const fullContent = headerOutput.header + '\n' + classResult.content;
         fs.writeFileSync(testFile, fullContent);
 
         // Validate
@@ -592,59 +601,7 @@ function testCppClassCreation(className) {
         return false;
     }
 }
-function generateSimpleClass(language, className) {
-    switch (language) {
-        case 'java':
-            return `public class ${className} {
-    private String name;
-    private int id;
 
-    public ${className}() {
-        this.name = "";
-        this.id = 0;
-    }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-}`;
-        case 'python':
-            return `class ${className}:
-    def __init__(self, name="", id_num=0):
-        self.name = name
-        self.id = id_num
-
-    def get_name(self):
-        return self.name
-
-    def set_name(self, name):
-        self.name = name
-
-    def get_id(self):
-        return self.id
-
-    def set_id(self, id_num):
-        self.id = id_num`;
-        case 'javascript':
-            return `class ${className} {
-    constructor(name = "", id = 0) {
-        this.name = name;
-        this.id = id;
-    }
-
-    getName() { return this.name; }
-    setName(name) { this.name = name; }
-    getId() { return this.id; }
-    setId(id) { this.id = id; }
-}`;
-        default:
-            return `// Simple ${language} class
-class ${className} {
-    // Basic implementation
-}`;
-    }
-}
 
 /**
  * Test extension API functionality

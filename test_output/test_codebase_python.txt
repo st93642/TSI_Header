@@ -1,0 +1,21 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_python.txt                               TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 25 2025 18:20 Igors Oleinikovs               TT    SSSSSSS II #
+#  Updated: Sep 25 2025 18:20 Igors Oleinikovs                                #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+def main():
+    """Main function - entry point of the program."""
+    print("Hello, World!")
+    print("This is a basic Python script.")
+
+
+if __name__ == "__main__":
+    main()

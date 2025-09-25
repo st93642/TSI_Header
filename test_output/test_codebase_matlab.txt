@@ -1,0 +1,59 @@
+%% ************************************************************************* %%
+%%                                                                           %%
+%%  test_codebase_matlab.txt                             TTTTTTTT SSSSSSS II %%
+%%                                                          TT    SS      II %%
+%%  By: st93642@students.tsi.lv                             TT    SSSSSSS II %%
+%%                                                          TT         SS II %%
+%%  Created: Sep 25 2025 18:20 Igors Oleinikovs             TT    SSSSSSS II %%
+%%  Updated: Sep 25 2025 18:20 Igors Oleinikovs                              %%
+%%                                                                           %%
+%%   Transport and Telecommunication Institute - Riga, Latvia                %%
+%%                       https://tsi.lv                                      %%
+%% ************************************************************************* %%
+
+% Basic MATLAB program
+
+% Main script - entry point
+fprintf('Hello, World!\n');
+fprintf('This is a basic MATLAB script.\n');
+
+% Example function definition (save as separate greet.m file)
+% function greet(name)
+%     if nargin < 1
+%         name = 'World';
+%     end
+%     fprintf('Hello, %s!\n', name);
+% end
+
+% Example usage
+% greet('TSI Student');
+
+% Example with matrices and plotting
+% Clear workspace
+% clear; clc;
+% 
+% % Create sample data
+% x = linspace(0, 2*pi, 100);
+% y = sin(x);
+% 
+% % Plot the data
+% figure;
+% plot(x, y);
+% title('Sine Wave');
+% xlabel('x');
+% ylabel('sin(x)');
+% grid on;
+% 
+% % Matrix operations
+% A = [1, 2, 3; 4, 5, 6; 7, 8, 9];
+% B = A * 2;
+% disp('Original matrix:');
+% disp(A);
+% disp('Doubled matrix:');
+% disp(B);
+
+% Example data analysis
+% data = randn(1000, 1);  % Generate random data
+% mean_val = mean(data);
+% std_val = std(data);
+% fprintf('Mean: %.4f, Standard deviation: %.4f\n', mean_val, std_val);

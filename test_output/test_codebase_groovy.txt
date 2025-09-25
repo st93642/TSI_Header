@@ -1,0 +1,34 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_codebase_groovy.txt                             TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 25 2025 18:20 Igors Oleinikovs             TT    SSSSSSS II */
+/*  Updated: Sep 25 2025 18:20 Igors Oleinikovs                              */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+// Basic Groovy program
+
+// Main method (optional in Groovy)
+def main(args) {
+    println "Hello, World!"
+    println "This is a basic Groovy script."
+}
+
+// Groovy can also run without main method
+// println "Hello, World!"
+// println "This is a basic Groovy script."
+
+// Call main method
+main(args)
+
+// Example of Groovy features
+def greet(name = "World") {
+    "Hello, " + name + "!"
+}
+
+// println greet("TSI Student")

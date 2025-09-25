@@ -1,0 +1,47 @@
+*******************************************************************************
+                                                                               
+  test_codebase_markdown.txt                               TTTTTTTT SSSSSSS II 
+                                                              TT    SS      II 
+  By: st93642@students.tsi.lv                                 TT    SSSSSSS II 
+                                                              TT         SS II 
+  Created: Sep 25 2025 18:20 Igors Oleinikovs                 TT    SSSSSSS II 
+  Updated: Sep 25 2025 18:20 Igors Oleinikovs                                  
+                                                                               
+   Transport and Telecommunication Institute - Riga, Latvia                    
+                       https://tsi.lv                                          
+*******************************************************************************
+
+# Hello, World!
+
+This is a basic Markdown document.
+
+## Welcome to TSI
+
+**Transport and Telecommunication Institute** - Riga, Latvia
+
+### Features
+
+- Professional education
+- Modern technology
+- International standards
+
+### Example Code Block
+
+```javascript
+console.log("Hello, World!");
+console.log("This is a basic program.");
+```
+
+### Links
+
+- [TSI Website](https://tsi.lv)
+- [Programming Courses](https://tsi.lv/courses)
+
+### Contact
+
+**Email:** info@tsi.lv  
+**Address:** Riga, Latvia
+
+---
+
+*Created by TSI Student*

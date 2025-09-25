@@ -1,0 +1,45 @@
+;; ************************************************************************* ;;
+;;                                                                           ;;
+;;  test_codebase_ini.txt                                TTTTTTTT SSSSSSS II ;;
+;;                                                          TT    SS      II ;;
+;;  By: st93642@students.tsi.lv                             TT    SSSSSSS II ;;
+;;                                                          TT         SS II ;;
+;;  Created: Sep 25 2025 18:20 Igors Oleinikovs             TT    SSSSSSS II ;;
+;;  Updated: Sep 25 2025 18:20 Igors Oleinikovs                              ;;
+;;                                                                           ;;
+;;   Transport and Telecommunication Institute - Riga, Latvia                ;;
+;;                       https://tsi.lv                                      ;;
+;; ************************************************************************* ;;
+
+; Basic INI configuration file template
+
+[Application]
+Name=TSI Header Application
+Version=1.0.0
+Description=Basic application configuration
+
+[Database]
+Host=localhost
+Port=5432
+Name=tsi_database
+User=tsi_user
+; Password=your_password_here
+
+[Settings]
+Debug=true
+LogLevel=info
+MaxConnections=100
+Timeout=30
+
+[Paths]
+DataDir=/var/data
+LogDir=/var/log
+TempDir=/tmp
+
+; Comments can use semicolons or hash symbols
+# This is also a valid comment
+
+[Features]
+Feature1=enabled
+Feature2=disabled
+ExperimentalFeatures=false
