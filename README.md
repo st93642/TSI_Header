@@ -1,6 +1,6 @@
 # Code Header Extension for VS Code
 
-Generate professional headers and boilerplate code for 101 programming languages with comprehensive quality assurance.
+Generate professional headers and boilerplate code for 99 programming languages with comprehensive quality assurance.
 
 ## Features
 
