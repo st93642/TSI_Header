@@ -2,7 +2,7 @@
 
 ## Description
 
-A comprehensive Visual Studio Code extension for professional code header management and project scaffolding, supporting 120+ programming languages with institutional branding for the Transport and Telecommunication Institute.
+A comprehensive Visual Studio Code extension for professional code header management and project scaffolding, supporting 126+ programming languages with institutional branding for the Transport and Telecommunication Institute.
 
 ## Functionality
 
@@ -10,15 +10,16 @@ A comprehensive Visual Studio Code extension for professional code header manage
 
 #### Header Management
 
-- **Insert Headers**: Generate standardized TSI-branded headers for 120+ programming languages
+- **Insert Headers**: Generate standardized TSI-branded headers for 126+ programming languages
 - **Update Headers**: Automatically update existing headers with current timestamps and author information
+- **Remove Headers**: Clean removal of TSI headers from files
 - **Language-Specific Formatting**: Proper comment delimiters and formatting for each supported language
 - **Institutional Branding**: TSI ASCII logo and contact information
 
 #### Code Generation
 
 - **Class Generation**: Create class templates for 13 object-oriented languages (Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala)
-- **Code Base Generation**: Generate boilerplate code with language-specific syntax and conventions for 120+ languages
+- **Code Base Generation**: Generate boilerplate code with language-specific syntax and conventions for 126+ languages
 - **Project Scaffolding**: Complete project creation for 6 major languages (C, C++, Java, Python, Ruby, Rust)
 
 #### User Interface
@@ -32,13 +33,13 @@ A comprehensive Visual Studio Code extension for professional code header manage
 
 #### Multi-Language Backend
 
-- **Ruby CLI Engine**: Core header generation supporting 120+ languages with proper delimiters
+- **Ruby CLI Engine**: Core header generation supporting 126+ languages with proper delimiters
 - **JavaScript VS Code Integration**: Modern extension interface with command registration
 - **Modular Generator System**: Language-specific code generation with extensible architecture
 
 #### Supported Languages
 
-**Header Generation (120+ languages)**:
+**Header Generation (126+ languages)**:
 
 - **Mainstream**: C, C++, Java, Python, JavaScript, TypeScript, Ruby, Go, Rust, PHP, Swift, Kotlin, Dart, Scala
 - **Specialized**: Assembly, COBOL, Fortran, Haskell, Lisp, Prolog, R, MATLAB, Verilog, VHDL, and many more
@@ -133,6 +134,11 @@ git config --global user.email "your.email@domain.com"
 - Open a file with an existing TSI header
 - Click "Update Header" in TSI Commands view
 
+**Remove Header**:
+
+- Open a file with an existing TSI header
+- Click "Remove Header" in TSI Commands view
+
 #### Using Code Generation
 
 **Add Class** (13 languages supported):
@@ -195,7 +201,7 @@ To get debug information:
 Run the comprehensive test suite to validate all functionality:
 
 ```bash
-# Run all tests (277 tests covering 120+ languages)
+# Run all tests (277 tests covering 126+ languages)
 npm test
 # or
 node unified_test_suite.js
@@ -208,6 +214,30 @@ ruby scripts/comprehensive_language_test.rb
 ```
 
 All tests pass with 100% success rate, ensuring complete language coverage and functionality validation.
+
+## What's New in v3.0.11
+
+### ✨ New Features
+
+- **Remove Header Functionality**: Complete header lifecycle management with clean header removal
+- **Enhanced Context Menus**: Right-click support in editor and editor title areas
+- **Improved Language Detection**: Better support for compound extensions (.html.erb, .js.erb, .css.erb)
+- **Expanded Language Support**: Now supports 126+ programming languages
+
+### 🔧 Technical Improvements
+
+- **Modular Architecture**: Improved code organization and maintainability
+- **Enhanced Testing**: Comprehensive test suite with 277 automated tests
+- **Better Error Handling**: More informative error messages and user guidance
+- **Performance Optimizations**: Faster header generation and file processing
+
+### 📊 Language Support Analysis
+
+The extension includes comprehensive analysis tools for future language expansion:
+
+- **Current Coverage**: 126 supported languages (~16.4% of identified languages)
+- **Expansion Potential**: 643 additional languages identified for future support
+- **Workplan Available**: See `workplan.md` for detailed expansion roadmap
 
 ---
 

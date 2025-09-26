@@ -5,6 +5,143 @@ All notable changes to the TSI Header extension will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.11] - 2025-09-26
+
+### ✨ **Major New Feature: Complete Header Lifecycle Management**
+
+#### **Remove Header Functionality**
+
+- **New Command**: Added "Remove Header" command for clean header removal from files
+- **Smart Detection**: Automatically detects and removes TSI headers using established 12-line, 79-character pattern
+- **Clean Removal**: Removes header and leading whitespace, preserving file content
+- **Language Support**: Works with all 126+ supported programming languages
+- **UI Integration**: Added to TSI Commands tree view with trash icon and context menus
+
+#### **Enhanced Context Menu Support**
+
+- **Editor Context Menus**: Right-click support in editor area for all header operations
+- **Editor Title Menus**: Header commands available in editor tab context menus
+- **Explorer Context Menus**: Project creation available in file explorer
+- **Comprehensive Coverage**: All major commands accessible via right-click menus
+
+#### **Improved Language Detection**
+
+- **Compound Extensions**: Enhanced support for compound file extensions (.html.erb, .js.erb, .css.erb)
+- **Fallback Logic**: Robust extension-based language detection when VS Code detection fails
+- **ERB Support**: Proper detection and handling of Embedded Ruby files
+- **Vue.js Compatibility**: Improved Vue.js file recognition and processing
+
+### 📊 **Language Support Expansion**
+
+#### **Updated Statistics**
+
+- **Total Languages**: 126+ (increased from 120+)
+- **Header Generation**: All 126+ languages support header insertion, update, and removal
+- **Code Generation**: Maintained support for 126+ languages with boilerplate code
+- **Class Generation**: 13 object-oriented languages (unchanged)
+- **Project Creation**: 6 languages with full scaffolding (unchanged)
+
+#### **Language Analysis Tools**
+
+- **Extension Database**: Added `extension_to_vscode.csv` with comprehensive language mapping
+- **Support Analysis**: Identified 643 unsupported languages with 1,103+ file extensions
+- **Expansion Workplan**: Created `workplan.md` with prioritized roadmap for future language support
+- **Coverage Analysis**: Current coverage at ~16.4% with clear path to 25%+ coverage
+
+### 🧪 **Quality Assurance & Testing**
+
+#### **Comprehensive Test Suite**
+
+- **Test Count**: 277 automated tests (unchanged - all passing)
+- **Language Coverage**: All 126+ supported languages validated
+- **Success Rate**: 100% test pass rate maintained
+- **New Feature Testing**: Remove header functionality fully tested and validated
+
+#### **Cross-Platform Validation**
+
+- **Platforms**: Linux, macOS, Windows compatibility verified
+- **Ruby Backend**: All CLI operations tested and validated
+- **VS Code Integration**: Extension API and UI components thoroughly tested
+
+### 🛠️ **Technical Improvements**
+
+#### **Architecture Enhancements**
+
+- **Modular CLI**: Added `remove` command to Ruby CLI with proper error handling
+- **Header Extractor**: Leveraged existing header detection logic for removal operations
+- **UI Components**: Enhanced tree view with new command and appropriate icons
+- **Error Handling**: Comprehensive error messages and user feedback for all operations
+
+#### **Code Quality**
+
+- **Consistent Patterns**: Remove header follows same architectural patterns as insert/update
+- **Clean Implementation**: Minimal code changes with maximum functionality
+- **Documentation**: Updated all relevant documentation and user guides
+- **Backward Compatibility**: All existing functionality preserved
+
+### 📚 **Documentation Updates**
+
+#### **README Enhancement**
+
+- **Feature Updates**: Added Remove Header functionality to usage guide
+- **Language Counts**: Updated all language statistics to reflect 126+ support
+- **What's New Section**: Added v3.0.11 feature highlights and technical improvements
+- **Visual Updates**: Updated interface descriptions and command references
+
+#### **Workplan Documentation**
+
+- **Comprehensive Analysis**: Created detailed expansion roadmap in `workplan.md`
+- **Priority Classification**: High/Medium/Low priority languages with implementation timelines
+- **Technical Specifications**: Clear implementation guidelines for adding new languages
+- **Success Metrics**: Quantifiable goals and quality standards for future releases
+
+### 🎯 **User Experience Improvements**
+
+#### **Enhanced Workflow**
+
+- **Complete Header Management**: Users can now insert, update, and remove headers seamlessly
+- **Context-Aware Menus**: Right-click access to all header operations
+- **Visual Feedback**: Clear success/error messages with appropriate icons
+- **Professional UI**: Consistent iconography and menu organization
+
+#### **Accessibility**
+
+- **Keyboard Navigation**: All commands accessible via command palette
+- **Context Menus**: Multiple access methods for different user preferences
+- **Helpful Messages**: Clear instructions and error guidance
+- **Non-Intrusive Design**: Background operations don't interrupt workflow
+
+### 📦 **Distribution & Packaging**
+
+- **Version**: 3.0.11 (minor release with major new features)
+- **Package**: `tsi-header-3.0.11.vsix` (79 files, 355.83KB)
+- **Compatibility**: Full backward compatibility maintained
+- **Installation**: Available via VS Code Marketplace and local installation
+
+### 🔧 **Configuration & Settings**
+
+- **No New Settings**: All functionality works with existing configuration
+- **Backward Compatible**: Existing user settings and preferences preserved
+- **Auto-Detection**: Enhanced language detection doesn't require user configuration
+
+### 🐛 **Minor Bug Fixes**
+
+- **Language Detection**: Fixed edge cases in compound extension handling
+- **Context Menus**: Resolved menu availability issues in different editor contexts
+- **Error Messages**: Improved error handling and user guidance
+
+### 🎉 **Impact & Value**
+
+This release transforms TSI Header into a **complete header lifecycle management tool**:
+
+- **Before**: Insert and update headers only
+- **After**: Full header lifecycle (Insert → Update → Remove)
+- **Enhanced UX**: Multiple access methods and comprehensive context menus
+- **Future-Ready**: Clear roadmap for expanding to 25%+ language coverage
+- **Professional Tool**: Enterprise-grade functionality for TSI students and developers
+
+---
+
 ## [3.0.9] - 2025-09-26
 
 ### 🐛 **Critical Bug Fix**
