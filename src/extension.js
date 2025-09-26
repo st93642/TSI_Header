@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 24 2025 19:44 Igors Oleinikovs                              */
+/*  Updated: Sep 26 2025 15:57 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -62,6 +62,17 @@ function activate(context) {
             const languageId = document.languageId;
             const fileName = document.fileName;
             
+            // Detect correct language based on file extension for unsupported languages
+            let detectedLanguageId = languageId;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+            if (fileExtension === 'erb') {
+                detectedLanguageId = 'erb';
+            } else if (fileExtension === 'vue') {
+                detectedLanguageId = 'vue';
+            } else if (fileExtension === 'ejs') {
+                detectedLanguageId = 'ejs';
+            }
+            
             // Get configuration
             const config = vscode.workspace.getConfiguration('tsiheader');
             const username = config.get('username');
@@ -111,7 +122,7 @@ function activate(context) {
             }
             
             // Execute Ruby CLI
-            const command = `ruby "${cliPath}" insert "${languageId}" "${fileName}"`;
+            const command = `ruby "${cliPath}" insert "${detectedLanguageId}" "${fileName}"`;
             console.log('Executing command:', command);
             const result = execSync(command, { encoding: 'utf8', cwd: extensionPath, env: env });
             console.log('CLI result:', result);
@@ -147,6 +158,17 @@ function activate(context) {
             const document = editor.document;
             const languageId = document.languageId;
             const fileName = document.fileName;
+            
+            // Detect correct language based on file extension for unsupported languages
+            let detectedLanguageId = languageId;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+            if (fileExtension === 'erb') {
+                detectedLanguageId = 'erb';
+            } else if (fileExtension === 'vue') {
+                detectedLanguageId = 'vue';
+            } else if (fileExtension === 'ejs') {
+                detectedLanguageId = 'ejs';
+            }
             
             // Get configuration
             const config = vscode.workspace.getConfiguration('tsiheader');
@@ -197,7 +219,7 @@ function activate(context) {
             }
             
             // Execute Ruby CLI for update
-            const command = `ruby "${cliPath}" update "${languageId}" "${fileName}"`;
+            const command = `ruby "${cliPath}" update "${detectedLanguageId}" "${fileName}"`;
             console.log('Executing update command:', command);
             const result = execSync(command, { encoding: 'utf8', cwd: extensionPath, env: env });
             console.log('Update CLI result:', result);
@@ -269,6 +291,17 @@ function activate(context) {
             const languageId = document.languageId;
             const fileName = document.fileName;
             
+            // Detect correct language based on file extension for unsupported languages
+            let detectedLanguageId = languageId;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+            if (fileExtension === 'erb') {
+                detectedLanguageId = 'erb';
+            } else if (fileExtension === 'vue') {
+                detectedLanguageId = 'vue';
+            } else if (fileExtension === 'ejs') {
+                detectedLanguageId = 'ejs';
+            }
+            
             // Get Ruby CLI path
             const extensionPath = context.extensionPath;
             const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
@@ -286,7 +319,7 @@ function activate(context) {
             }
             
             // Execute Ruby CLI for auto-update
-            const command = `ruby "${cliPath}" update "${languageId}" "${fileName}"`;
+            const command = `ruby "${cliPath}" update "${detectedLanguageId}" "${fileName}"`;
             const result = execSync(command, { encoding: 'utf8', cwd: extensionPath, env: env });
             const response = JSON.parse(result);
             
@@ -311,6 +344,17 @@ function activate(context) {
         const document = editor.document;
         const languageId = document.languageId;
         const fileName = document.fileName;
+
+        // Detect correct language based on file extension for unsupported languages
+        let detectedLanguageId = languageId;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+        if (fileExtension === 'erb') {
+            detectedLanguageId = 'erb';
+        } else if (fileExtension === 'vue') {
+            detectedLanguageId = 'vue';
+        } else if (fileExtension === 'ejs') {
+            detectedLanguageId = 'ejs';
+        }
 
         // Get credentials for template
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -356,7 +400,7 @@ function activate(context) {
             }
             
             // Generate header using Ruby CLI
-            const headerCommand = `ruby "${cliPath}" insert "${languageId}" "${fileName}"`;
+            const headerCommand = `ruby "${cliPath}" insert "${detectedLanguageId}" "${fileName}"`;
             const headerResult = execSync(headerCommand, { encoding: 'utf8', cwd: extensionPath, env: env });
             const headerResponse = JSON.parse(headerResult);
             
@@ -378,7 +422,7 @@ function activate(context) {
             }
 
             // Generate class code using modular function
-            const classResult = generateClass(languageId, className, fileName, extensionPath, cliPath, env);
+            const classResult = generateClass(detectedLanguageId, className, fileName, extensionPath, cliPath, env);
             if (!classResult.success) {
                 vscode.window.showErrorMessage(classResult.message);
                 return;
@@ -429,7 +473,7 @@ function activate(context) {
                 });
             }
 
-            vscode.window.showInformationMessage(`TSI Header: Added ${languageId} class "${className}" to current file`);
+            vscode.window.showInformationMessage(`TSI Header: Added ${detectedLanguageId} class "${className}" to current file`);
         } catch (error) {
             vscode.window.showErrorMessage(`Failed to add class: ${error.message}`);
         }
@@ -446,6 +490,17 @@ function activate(context) {
         const document = editor.document;
         const languageId = document.languageId;
         const fileName = document.fileName;
+
+        // Detect correct language based on file extension for unsupported languages
+        let detectedLanguageId = languageId;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+        if (fileExtension === 'erb') {
+            detectedLanguageId = 'erb';
+        } else if (fileExtension === 'vue') {
+            detectedLanguageId = 'vue';
+        } else if (fileExtension === 'ejs') {
+            detectedLanguageId = 'ejs';
+        }
 
         // Get credentials for template
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -491,7 +546,7 @@ function activate(context) {
             }
             
             // Generate header using Ruby CLI
-            const headerCommand = `ruby "${cliPath}" insert "${languageId}" "${fileName}"`;
+            const headerCommand = `ruby "${cliPath}" insert "${detectedLanguageId}" "${fileName}"`;
             const headerResult = execSync(headerCommand, { encoding: 'utf8', cwd: extensionPath, env: env });
             const headerResponse = JSON.parse(headerResult);
             
@@ -503,7 +558,7 @@ function activate(context) {
             let fullContent = headerResponse.header;
             
             // Generate code structure using modular function
-            const codeBaseResult = generateCodeBase(languageId, fileName);
+            const codeBaseResult = generateCodeBase(detectedLanguageId, fileName);
             if (!codeBaseResult.success) {
                 vscode.window.showErrorMessage(codeBaseResult.message);
                 return;
@@ -517,7 +572,7 @@ function activate(context) {
                 editBuilder.insert(position, fullContent);
             });
 
-            vscode.window.showInformationMessage(`TSI Header: Added ${languageId} code base to current file`);
+            vscode.window.showInformationMessage(`TSI Header: Added ${detectedLanguageId} code base to current file`);
         } catch (error) {
             vscode.window.showErrorMessage(`Failed to add code base: ${error.message}`);
         }
