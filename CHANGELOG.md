@@ -5,6 +5,38 @@ All notable changes to the TSI Header extension will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.9] - 2025-09-26
+
+### 🐛 **Critical Bug Fix**
+
+#### **JavaScript Header Support**
+
+- **Issue**: JavaScript headers were not generating due to missing delimiters in Ruby CLI
+- **Fix**: Added JavaScript and JavaScriptReact support to `lib/tsi_header/delimiters.rb`
+- **Result**: JavaScript files now properly generate TSI-branded headers with `/* */` comment delimiters
+
+### 📚 **Documentation Enhancement**
+
+#### **Complete README Overhaul**
+
+- **Added**: Comprehensive README.md with full functionality description, setup instructions, and usage guide
+- **Added**: Visual interface guide with `tsi-menu.png` screenshot showing the extension menu
+- **Enhanced**: Professional documentation structure with dedicated sections for description, functionality, setup, testing, and troubleshooting
+
+### ✅ **Testing & Validation**
+
+- **Test Coverage**: All 277 automated tests passing with 100% success rate
+- **Language Support**: Verified JavaScript header generation and syntax validation
+- **Documentation**: Comprehensive user guide and visual references validated
+
+### 📦 **Distribution**
+
+- **Version**: 3.0.9 (patch release)
+- **Package**: `tsi-header-3.0.9.vsix` (75 files, 311.87KB)
+- **Compatibility**: Full backward compatibility maintained
+
+---
+
 ## [3.0.8] - 2025-09-25
 
 ### 🐛 **Bug Fixes**
