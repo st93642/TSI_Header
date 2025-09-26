@@ -119,6 +119,8 @@ git config --global user.email "your.email@domain.com"
 3. Use "TSI Commands" for header management and code generation
 4. Use "TSI Projects" for project creation
 
+![TSI Header Menu](tsi-menu.png)
+
 #### Using Header Management
 
 **Insert Header**:
