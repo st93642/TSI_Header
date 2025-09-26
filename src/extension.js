@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 26 2025 15:57 Igors Oleinikovs                              */
+/*  Updated: Sep 26 2025 16:04 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -24,6 +24,32 @@ const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvid
 
 function activate(context) {
     console.log('TSI Header extension is now active!');
+
+    // Helper function to detect language based on file extension
+    function detectLanguageFromExtension(languageId, fileName) {
+        let detectedLanguageId = languageId;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+        const fileNameParts = fileName.split('.');
+        
+        // Handle compound extensions (e.g., .html.erb, .js.erb)
+        if (fileNameParts.length > 2) {
+            const compoundExt = fileNameParts.slice(-2).join('.');
+            if (compoundExt === 'html.erb' || compoundExt === 'js.erb' || compoundExt === 'css.erb') {
+                detectedLanguageId = 'erb';
+            }
+        }
+        
+        // Handle single extensions
+        if (fileExtension === 'erb' || fileExtension === 'rhtml') {
+            detectedLanguageId = 'erb';
+        } else if (fileExtension === 'vue') {
+            detectedLanguageId = 'vue';
+        } else if (fileExtension === 'ejs' || fileExtension === 'ect' || fileExtension === 'jst') {
+            detectedLanguageId = 'ejs';
+        }
+        
+        return detectedLanguageId;
+    }
 
     // Helper function to show configuration instructions
     function showConfigurationInstructions(type) {
@@ -160,15 +186,7 @@ function activate(context) {
             const fileName = document.fileName;
             
             // Detect correct language based on file extension for unsupported languages
-            let detectedLanguageId = languageId;
-            const fileExtension = fileName.split('.').pop().toLowerCase();
-            if (fileExtension === 'erb') {
-                detectedLanguageId = 'erb';
-            } else if (fileExtension === 'vue') {
-                detectedLanguageId = 'vue';
-            } else if (fileExtension === 'ejs') {
-                detectedLanguageId = 'ejs';
-            }
+            const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
             
             // Get configuration
             const config = vscode.workspace.getConfiguration('tsiheader');
@@ -292,15 +310,7 @@ function activate(context) {
             const fileName = document.fileName;
             
             // Detect correct language based on file extension for unsupported languages
-            let detectedLanguageId = languageId;
-            const fileExtension = fileName.split('.').pop().toLowerCase();
-            if (fileExtension === 'erb') {
-                detectedLanguageId = 'erb';
-            } else if (fileExtension === 'vue') {
-                detectedLanguageId = 'vue';
-            } else if (fileExtension === 'ejs') {
-                detectedLanguageId = 'ejs';
-            }
+            const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
             
             // Get Ruby CLI path
             const extensionPath = context.extensionPath;
@@ -346,15 +356,7 @@ function activate(context) {
         const fileName = document.fileName;
 
         // Detect correct language based on file extension for unsupported languages
-        let detectedLanguageId = languageId;
-        const fileExtension = fileName.split('.').pop().toLowerCase();
-        if (fileExtension === 'erb') {
-            detectedLanguageId = 'erb';
-        } else if (fileExtension === 'vue') {
-            detectedLanguageId = 'vue';
-        } else if (fileExtension === 'ejs') {
-            detectedLanguageId = 'ejs';
-        }
+        const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
 
         // Get credentials for template
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -492,15 +494,7 @@ function activate(context) {
         const fileName = document.fileName;
 
         // Detect correct language based on file extension for unsupported languages
-        let detectedLanguageId = languageId;
-        const fileExtension = fileName.split('.').pop().toLowerCase();
-        if (fileExtension === 'erb') {
-            detectedLanguageId = 'erb';
-        } else if (fileExtension === 'vue') {
-            detectedLanguageId = 'vue';
-        } else if (fileExtension === 'ejs') {
-            detectedLanguageId = 'ejs';
-        }
+        const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
 
         // Get credentials for template
         const config = vscode.workspace.getConfiguration('tsiheader');
