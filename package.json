@@ -117,7 +117,59 @@
         "icon": "$(folder-opened)"
       }
     ],
-    "menus": {}
+    "menus": {
+      "editor/context": [
+        {
+          "command": "tsiheader.insertHeader",
+          "when": "editorTextFocus",
+          "group": "7_modification"
+        },
+        {
+          "command": "tsiheader.updateHeader",
+          "when": "editorTextFocus",
+          "group": "7_modification"
+        },
+        {
+          "command": "tsiheader.addClass",
+          "when": "editorTextFocus",
+          "group": "7_modification"
+        },
+        {
+          "command": "tsiheader.addCodeBase",
+          "when": "editorTextFocus",
+          "group": "7_modification"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "tsiheader.createTSIProject",
+          "when": "explorerResourceIsFolder",
+          "group": "7_modification"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "tsiheader.insertHeader",
+          "when": "editorTextFocus",
+          "group": "1_modification"
+        },
+        {
+          "command": "tsiheader.updateHeader",
+          "when": "editorTextFocus",
+          "group": "1_modification"
+        },
+        {
+          "command": "tsiheader.addClass",
+          "when": "editorTextFocus",
+          "group": "1_modification"
+        },
+        {
+          "command": "tsiheader.addCodeBase",
+          "when": "editorTextFocus",
+          "group": "1_modification"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
