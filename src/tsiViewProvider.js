@@ -28,6 +28,11 @@ class TSITreeDataProvider {
                     title: 'Update Header',
                     tooltip: 'Update existing TSI header'
                 }),
+                new TSITreeItem('Remove Header', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.removeHeader',
+                    title: 'Remove Header',
+                    tooltip: 'Remove TSI header from current file'
+                }),
                 new TSITreeItem('Add Class', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.addClass',
                     title: 'Add Class',
@@ -113,6 +118,8 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('add');
         } else if (command?.command === 'tsiheader.updateHeader') {
             this.iconPath = new vscode.ThemeIcon('sync');
+        } else if (command?.command === 'tsiheader.removeHeader') {
+            this.iconPath = new vscode.ThemeIcon('trash');
         } else if (command?.command === 'tsiheader.addClass') {
             this.iconPath = new vscode.ThemeIcon('symbol-class');
         } else if (command?.command === 'tsiheader.addCodeBase') {

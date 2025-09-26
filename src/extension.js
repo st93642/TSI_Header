@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 26 2025 16:04 Igors Oleinikovs                              */
+/*  Updated: Sep 26 2025 16:31 Igors Oleinikovs                              */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -247,6 +247,43 @@ function activate(context) {
                 vscode.window.showInformationMessage('TSI Header updated successfully!');
             } else {
                 vscode.window.showErrorMessage(`Failed to update header: ${response.message}`);
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error: ${error.message}`);
+        }
+    });
+
+    // Register remove header command
+    const removeHeaderCommand = vscode.commands.registerCommand('tsiheader.removeHeader', async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showErrorMessage('No active editor found');
+            return;
+        }
+
+        try {
+            const document = editor.document;
+            const languageId = document.languageId;
+            const fileName = document.fileName;
+            
+            // Detect correct language based on file extension for unsupported languages
+            const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
+            
+            // Get Ruby CLI path
+            const extensionPath = context.extensionPath;
+            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            
+            // Execute Ruby CLI for remove
+            const command = `ruby "${cliPath}" remove "${detectedLanguageId}" "${fileName}"`;
+            console.log('Executing remove command:', command);
+            const result = execSync(command, { encoding: 'utf8', cwd: extensionPath });
+            console.log('Remove CLI result:', result);
+            const response = JSON.parse(result);
+            
+            if (response.success) {
+                vscode.window.showInformationMessage('TSI Header removed successfully!');
+            } else {
+                vscode.window.showErrorMessage(`Failed to remove header: ${response.message}`);
             }
         } catch (error) {
             vscode.window.showErrorMessage(`Error: ${error.message}`);
@@ -574,6 +611,7 @@ function activate(context) {
 
     context.subscriptions.push(insertHeaderCommand);
     context.subscriptions.push(updateHeaderCommand);
+    context.subscriptions.push(removeHeaderCommand);
     context.subscriptions.push(addClassCommand);
     context.subscriptions.push(addCodeBaseCommand);
     context.subscriptions.push(onSaveListener);

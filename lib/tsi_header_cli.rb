@@ -13,6 +13,8 @@ def main
     handle_insert(language_id, file_path)
   when 'update'
     handle_update(language_id, file_path)
+  when 'remove'
+    handle_remove(language_id, file_path)
   else
     puts JSON.generate({ success: false, message: "Unknown command: #{command}" })
     exit 1
@@ -80,6 +82,34 @@ def handle_update(language_id, file_path)
       puts JSON.generate({
         success: false,
         message: "No header found to update"
+      })
+    end
+  else
+    puts JSON.generate({
+      success: false,
+      message: "No header support for language #{language_id}"
+    })
+  end
+end
+
+def handle_remove(language_id, file_path)
+  if TSIHeader::HeaderGenerator.supports_language?(language_id)
+    current_text = File.read(file_path) rescue ""
+    current_header = TSIHeader::HeaderExtractor.extract_header(current_text)
+    
+    if current_header
+      # Remove the header from the content
+      updated_content = current_text.sub(current_header, '').lstrip
+      File.write(file_path, updated_content)
+      
+      puts JSON.generate({
+        success: true,
+        message: "Header removed successfully"
+      })
+    else
+      puts JSON.generate({
+        success: false,
+        message: "No header found to remove"
       })
     end
   else
