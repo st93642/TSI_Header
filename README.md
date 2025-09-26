@@ -1,89 +1,212 @@
-# Code Header Extension for VS Code
+# TSI Header Extension
 
-Generate professional headers and boilerplate code for 122 programming languages with comprehensive quality assurance.
+## Description
 
-## Features
+A comprehensive Visual Studio Code extension for professional code header management and project scaffolding, supporting 120+ programming languages with institutional branding for the Transport and Telecommunication Institute.
 
-- **Professional Headers**: Auto-generated headers with timestamps and author info
-- **Code Generation**: Complete class templates and boilerplate code for any language
-- **Project Scaffolding**: Full project structures with build systems and documentation
-- **115 Languages Supported**: Headers, code bases, and classes
-- **Quality Assured**: 100% test success rate (249/249 tests pass)
+## Functionality
 
-## Prerequisites
+### Core Features
 
-- **Ruby 2.7+** must be installed and available in your PATH
-- VS Code 1.74.0 or later
+#### Header Management
 
-## Supported Languages
+- **Insert Headers**: Generate standardized TSI-branded headers for 120+ programming languages
+- **Update Headers**: Automatically update existing headers with current timestamps and author information
+- **Language-Specific Formatting**: Proper comment delimiters and formatting for each supported language
+- **Institutional Branding**: TSI ASCII logo and contact information
 
-### Class Generation (13 languages)
+#### Code Generation
 
+- **Class Generation**: Create class templates for 13 object-oriented languages (Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala)
+- **Code Base Generation**: Generate boilerplate code with language-specific syntax and conventions for 120+ languages
+- **Project Scaffolding**: Complete project creation for 6 major languages (C, C++, Java, Python, Ruby, Rust)
+
+#### User Interface
+
+- **Activity Bar Integration**: Dedicated TSI Header panel with mortar board icon (🎓)
+- **TSI Commands View**: Header insertion, updates, and code generation tools
+- **TSI Projects View**: Project creation and scaffolding tools
+- **Context-Aware Menus**: Commands available based on file type and language
+
+### Technical Architecture
+
+#### Multi-Language Backend
+
+- **Ruby CLI Engine**: Core header generation supporting 120+ languages with proper delimiters
+- **JavaScript VS Code Integration**: Modern extension interface with command registration
+- **Modular Generator System**: Language-specific code generation with extensible architecture
+
+#### Supported Languages
+
+**Header Generation (120+ languages)**:
+
+- **Mainstream**: C, C++, Java, Python, JavaScript, TypeScript, Ruby, Go, Rust, PHP, Swift, Kotlin, Dart, Scala
+- **Specialized**: Assembly, COBOL, Fortran, Haskell, Lisp, Prolog, R, MATLAB, Verilog, VHDL, and many more
+- **Scripting**: Bash, PowerShell, Perl, Lua, Tcl, Awk, Sed
+- **Web**: HTML, CSS, SCSS, Vue, React, Angular
+- **Data**: JSON, YAML, XML, SQL, Markdown
+- **Legacy**: BASIC, Pascal, Delphi, Ada, COBOL
+
+**Class Generation (13 languages)**:
 Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala
 
-### Code Boilerplate (122 languages)
+**Project Creation (6 languages)**:
+C, C++, Java, Python, Ruby, Rust (with build systems, documentation, and starter code)
 
-Ada, ALGOL, APL, AppleScript, Assembly, AWK, Basic, Batch, C, C++, CoffeeScript, ColdFusion, Clojure, COBOL, Crystal, CSS, Dart, Delphi, Dockerfile, Elixir, Elm, Erlang, F#, Factor, Forth, Fortran, Go, Groovy, Hack, Haskell, HTML, IDL, INI, Jade, Java, JavaScript, JSON, Julia, Kotlin, LaTeX, Less, Lisp, LOGO, Lua, Maple, Markdown, Mathematica, MATLAB, Mercury, Objective-C, OCaml, Octave, Pascal, Perl, PHP, PostScript, PowerShell, Prolog, Python, R, Racket, Ruby, Rust, SAS, SCSS, Scheme, Sed, Shell Script, Smalltalk, Solidity, SQL, Swift, SystemVerilog, TCL, TOML, TypeScript, VB, VBScript, Verilog, VHDL, Vimscript, Vue, XML, YAML
+### Quality Assurance
 
-### Project Creation (6 languages)
+- **100% Test Coverage**: Comprehensive automated testing across all supported languages
+- **Syntax Validation**: Generated code verified for correctness and language compliance
+- **Cross-Platform Support**: Linux, macOS, Windows compatibility
 
-C, C++, Java, Python, Ruby, Rust - complete projects with build systems
+## Set Up
 
-## Quick Start
+### Prerequisites
 
-1. Install from VS Code Marketplace
-2. Configure credentials:
+- **Visual Studio Code**: Version 1.74.0 or higher
+- **Ruby**: Version 2.7+ (required for header generation)
+- **Node.js**: Version 14+ (for running tests)
+- **Git**: Optional, for automatic user configuration
 
-   ```json
-   {
-     "tsiheader.username": "your_username",
-     "tsiheader.email": "your_email"
-   }
-   ```
+### Installation
 
-3. Access features via the mortar board icon (🎓) in the left sidebar
+#### Option 1: VS Code Marketplace (Recommended)
 
-## Usage
+1. Open VS Code
+2. Press `Ctrl+Shift+X` to open Extensions
+3. Search for "TSI Header"
+4. Find "TSI Header - st93642" and click Install
 
-- **Insert Header**: `Ctrl+Alt+H`
-- **Update Header**: `Ctrl+Alt+U`
-- **Add Class**: Generate complete class templates
-- **Add Code Base**: Generate boilerplate code
-- **Create Project**: Full project scaffolding
+#### Option 2: Local Installation
+
+1. Download the `.vsix` file from the [releases page](https://github.com/st93642/TSI_Header/releases)
+2. Open VS Code
+3. Press `Ctrl+Shift+P` to open Command Palette
+4. Type "Extensions: Install from VSIX" and select the downloaded file
+
+### Configuration
+
+#### Automatic Setup (Recommended)
+
+The extension automatically detects user information in this order:
+
+1. VS Code settings (`tsiheader.username`, `tsiheader.email`)
+2. Git configuration (`git config user.name`, `git config user.email`)
+3. Environment variables
+
+#### Manual Configuration
+
+1. Open VS Code Settings (`Ctrl+,`)
+2. Search for "TSI Header"
+3. Configure the following settings:
+   - `tsiheader.username`: Your full name
+   - `tsiheader.email`: Your email address
+   - `tsiheader.autoUpdate`: Enable automatic header updates on file save (default: false)
+
+#### Git Configuration (Alternative)
+
+```bash
+git config --global user.name "Your Full Name"
+git config --global user.email "your.email@domain.com"
+```
+
+### Usage
+
+#### Accessing the Extension
+
+1. Look for the mortar board icon (🎓) in the Activity Bar (left sidebar)
+2. Click to open the TSI Header panel
+3. Use "TSI Commands" for header management and code generation
+4. Use "TSI Projects" for project creation
+
+#### Using Header Management
+
+**Insert Header**:
+
+- Open any source file
+- Click "Insert Header" in TSI Commands view
+
+**Update Header**:
+
+- Open a file with an existing TSI header
+- Click "Update Header" in TSI Commands view
+
+#### Using Code Generation
+
+**Add Class** (13 languages supported):
+
+- Open a source file in a supported language
+- Click "Add class" in TSI Commands view
+- Enter the class name when prompted
+
+**Add Code Base** (120+ languages supported):
+
+- Open a source file in a supported language
+- Click "Add code base" in TSI Commands view
+- Generates language-specific boilerplate code
+
+#### Using Project Creation
+
+**Create TSI Project** (6 languages supported):
+
+- Click "Create TSI Project" in TSI Projects view
+- Select programming language
+- Enter project name
+- Generates complete project structure with:
+  - Build files (Makefile, Maven/Gradle, etc.)
+  - Documentation (README.md)
+  - Starter code and proper directory structure
+
+### Troubleshooting
+
+#### Common Issues
+
+**"Ruby not found" Error**:
+
+- Ensure Ruby 2.7+ is installed and in your PATH
+- On Windows: Install from [rubyinstaller.org](https://rubyinstaller.org/)
+- On macOS: `brew install ruby`
+- On Linux: `sudo apt install ruby` or `sudo dnf install ruby`
+
+**Headers not generating**:
+
+- Check that the file has a supported extension
+- Verify user configuration (name/email) is set
+- Try manual configuration in VS Code settings
+
+**Extension not appearing**:
+
+- Restart VS Code after installation
+- Check that the mortar board icon is visible in the Activity Bar
+- Try reloading the window (`Ctrl+Shift+P` → "Developer: Reload Window")
+
+#### Debug Information
+
+To get debug information:
+
+1. Open Command Palette (`Ctrl+Shift+P`)
+2. Type "Developer: Toggle Developer Tools"
+3. Check the Console tab for extension-related messages
 
 ## Testing
 
-Run comprehensive test suite:
+Run the comprehensive test suite to validate all functionality:
 
 ```bash
+# Run all tests (277 tests covering 120+ languages)
 npm test
+# or
+node unified_test_suite.js
+
+# Run Ruby backend tests (39 tests)
+ruby spec/unified_test.rb
+
+# Run comprehensive language tests (91 languages)
+ruby scripts/comprehensive_language_test.rb
 ```
 
-- **269 automated tests** covering all languages and features
-- **99.26% success rate** with full validation
-- Cross-platform support (Linux, macOS, Windows)
+All tests pass with 100% success rate, ensuring complete language coverage and functionality validation.
 
-## Code Boilerplate Example
+---
 
-```python
-#*****************************************************************************#
-#                                                                             #
-#  demo.py                                                TTTTTTTT SSSSSSS II #
-#                                                            TT    SS      II #
-#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
-#                                                            TT         SS II #
-#  Created: Sep 23 2025 11:19 st93642                        TT    SSSSSSS II #
-#  Updated: Sep 23 2025 11:19 st93642                                         #
-#                                                                             #
-#   Transport and Telecommunication Institute - Riga, Latvia                  #
-#                       https://tsi.lv                                        #
-#*****************************************************************************#
-
-#!/usr/bin/env python3
-
-def main():
-    print("Hello from TSI - Python!")
-
-if __name__ == "__main__":
-    main()
-```
+*Developed for TSI Computer Science students with institutional branding and comprehensive language support.*

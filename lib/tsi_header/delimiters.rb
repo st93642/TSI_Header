@@ -64,6 +64,8 @@ module TSIHeader
       'jade' => SLASHES,
       'jinja' => BLOCK_COMMENTS,
       'java' => SLASHES,
+      'javascript' => SLASHES,
+      'javascriptreact' => SLASHES,
       'julia' => HASHES,
       'kotlin' => SLASHES,
       'labview' => SLASHES_SINGLE,
