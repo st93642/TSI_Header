@@ -10,6 +10,71 @@ const { generatePythonCodeBase } = require('./languages/python');
 const { generateJavaCodeBase } = require('./languages/java');
 const { generateJavaScriptCodeBase } = require('./languages/javascript');
 const { generateTypeScriptCodeBase } = require('./languages/typescript');
+const { generateElmCodeBase } = require('./languages/elm');
+const { generateDCodeBase } = require('./languages/d');
+const { generateZigCodeBase } = require('./languages/zig');
+const { generateNimCodeBase } = require('./languages/nim');
+const { generateVCodeBase } = require('./languages/v');
+const { generateValaCodeBase } = require('./languages/vala');
+const { generateGenieCodeBase } = require('./languages/genie');
+const { generateAbapCodeBase } = require('./languages/abap');
+const { generateAppleScriptCodeBase } = require('./languages/applescript');
+const { generateRacketCodeBase } = require('./languages/racket');
+const { generateTomlCodeBase } = require('./languages/toml');
+const { generateAlgolCodeBase } = require('./languages/algol');
+const { generateLogoCodeBase } = require('./languages/logo');
+const { generateScratchCodeBase } = require('./languages/scratch');
+const { generateHackCodeBase } = require('./languages/hack');
+
+/**
+ * Generates RPG code base
+ */
+const { generateRpgCodeBase } = require('./languages/rpg');
+
+/**
+ * Generates Apex code base
+ */
+const { generateApexCodeBase } = require('./languages/apex');
+
+/**
+ * Generates Jinja code base
+ */
+const { generateJinjaCodeBase } = require('./languages/jinja');
+
+/**
+ * Generates EJS code base
+ */
+const { generateEjsCodeBase } = require('./languages/ejs');
+
+/**
+ * Generates ERB code base
+ */
+const { generateErbCodeBase } = require('./languages/erb');
+
+/**
+ * Generates Twig code base
+ */
+const { generateTwigCodeBase } = require('./languages/twig');
+
+/**
+ * Generates Crystal code base
+ */
+const { generateCrystalCodeBase } = require('./languages/crystal');
+
+/**
+ * Generates LabVIEW code base
+ */
+const { generateLabVIEWCodeBase } = require('./languages/labview');
+
+/**
+ * Generates CUDA code base
+ */
+const { generateCUDACodeBase } = require('./languages/cuda');
+
+/**
+ * Generates HLSL code base
+ */
+const { generateHLSLCodeBase } = require('./languages/hlsl');
 
 /**
  * Generates code base/boilerplate code for the specified language
@@ -67,8 +132,29 @@ function generateCodeBase(languageId, fileName) {
             case 'dart':
                 content = generateDartCodeBase();
                 break;
+            case 'd':
+                content = generateDCodeBase();
+                break;
+            case 'zig':
+                content = generateZigCodeBase();
+                break;
+            case 'nim':
+                content = generateNimCodeBase();
+                break;
+            case 'v':
+                content = generateVCodeBase();
+                break;
+            case 'vala':
+                content = generateValaCodeBase();
+                break;
+            case 'genie':
+                content = generateGenieCodeBase();
+                break;
             case 'scala':
                 content = generateScalaCodeBase();
+                break;
+            case 'scratch':
+                content = generateScratchCodeBase();
                 break;
             case 'sql':
                 if (typeof generateSqlCodeBase === 'function') {
@@ -114,6 +200,12 @@ function generateCodeBase(languageId, fileName) {
                     content = generateDefaultCodeBase(languageId);
                 }
                 break;
+            case 'racket':
+                content = generateRacketCodeBase();
+                break;
+            case 'rpg':
+                content = generateRpgCodeBase();
+                break;
             case 'matlab':
                 if (typeof generateMatlabCodeBase === 'function') {
                     content = generateMatlabCodeBase();
@@ -148,6 +240,9 @@ function generateCodeBase(languageId, fileName) {
             case 'javascript':
                 content = generateJavaScriptCodeBase();
                 break;
+            case 'abap':
+                content = generateAbapCodeBase();
+                break;
             case 'ada':
                 if (typeof generateAdaCodeBase === 'function') {
                     content = generateAdaCodeBase();
@@ -155,12 +250,21 @@ function generateCodeBase(languageId, fileName) {
                     content = generateDefaultCodeBase(languageId);
                 }
                 break;
+            case 'apex':
+                content = generateApexCodeBase();
+                break;
+            case 'algol':
+                content = generateAlgolCodeBase();
+                break;
             case 'apl':
                 if (typeof generateAplCodeBase === 'function') {
                     content = generateAplCodeBase();
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
+                break;
+            case 'applescript':
+                content = generateAppleScriptCodeBase();
                 break;
             case 'asm':
             case 'assembly':
@@ -207,9 +311,26 @@ function generateCodeBase(languageId, fileName) {
                     content = generateDefaultCodeBase(languageId);
                 }
                 break;
+            case 'crystal':
+                content = generateCrystalCodeBase();
+                break;
             case 'css':
                 if (typeof generateCssCodeBase === 'function') {
                     content = generateCssCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'cuda':
+                if (typeof generateCUDACodeBase === 'function') {
+                    content = generateCUDACodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'hlsl':
+                if (typeof generateHLSLCodeBase === 'function') {
+                    content = generateHLSLCodeBase();
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
@@ -227,6 +348,22 @@ function generateCodeBase(languageId, fileName) {
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
+                break;
+            case 'elm':
+                content = generateElmCodeBase();
+                break;
+            case 'ejs':
+                if (typeof generateEjsCodeBase === 'function') {
+                    content = generateEjsCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'erb':
+                content = generateErbCodeBase();
+                break;
+            case 'twig':
+                content = generateTwigCodeBase();
                 break;
             case 'erlang':
                 if (typeof generateErlangCodeBase === 'function') {
@@ -263,6 +400,9 @@ function generateCodeBase(languageId, fileName) {
                     content = generateDefaultCodeBase(languageId);
                 }
                 break;
+            case 'hack':
+                content = generateHackCodeBase();
+                break;
             case 'haskell':
             case 'Haskell':
                 if (typeof generateHaskellCodeBase === 'function') {
@@ -288,6 +428,13 @@ function generateCodeBase(languageId, fileName) {
             case 'jade':
                 if (typeof generateJadeCodeBase === 'function') {
                     content = generateJadeCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'jinja':
+                if (typeof generateJinjaCodeBase === 'function') {
+                    content = generateJinjaCodeBase();
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
@@ -333,6 +480,9 @@ function generateCodeBase(languageId, fileName) {
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
+                break;
+            case 'logo':
+                content = generateLogoCodeBase();
                 break;
             case 'lua':
                 if (typeof generateLuaCodeBase === 'function') {
@@ -462,6 +612,9 @@ function generateCodeBase(languageId, fileName) {
                     content = generateDefaultCodeBase(languageId);
                 }
                 break;
+            case 'toml':
+                content = generateTomlCodeBase();
+                break;
             case 'typescriptreact':
                 if (typeof generateTypeScriptReactCodeBase === 'function') {
                     content = generateTypeScriptReactCodeBase();
@@ -524,6 +677,13 @@ function generateCodeBase(languageId, fileName) {
             case 'kotlin':
                 if (typeof generateKotlinCodeBase === 'function') {
                     content = generateKotlinCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'labview':
+                if (typeof generateLabVIEWCodeBase === 'function') {
+                    content = generateLabVIEWCodeBase();
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }

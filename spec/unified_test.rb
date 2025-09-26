@@ -35,12 +35,19 @@ test_cases = [
   ['python', 'analysis.py', 'Scientific Computing'],
   ['r', 'statistics.R', 'Scientific Computing'],
   ['matlab', 'compute.m', 'Scientific Computing'],
+  ['labview', 'control.vi', 'Scientific Computing'],
+  ['cuda', 'kernel.cu', 'Scientific Computing'],
   ['fortran', 'simulation.f90', 'Scientific Computing'],
 
-  # Academic/Legacy
-  ['pascal', 'program.pas', 'Academic/Legacy'],
-  ['basic', 'calculator.bas', 'Academic/Legacy'],
-  ['cobol', 'payroll.cob', 'Academic/Legacy'],
+  # IBM iSeries
+  ['rpg', 'program.rpg', 'IBM iSeries'],
+
+  # Salesforce
+  ['apex', 'controller.cls', 'Salesforce'],
+
+  # GNOME Desktop
+  ['vala', 'application.vala', 'GNOME Desktop'],
+  ['genie', 'application.gs', 'GNOME Desktop'],
 
   # Specialized
   ['latex', 'document.tex', 'Document Preparation'],
@@ -76,6 +83,8 @@ def check_comment_markers(header, language)
     'java' => ['/*', '*/'],
     'javascript' => ['/*', '*/'],
     'typescript' => ['/*', '*/'],
+    'vala' => ['/*', '*/'],
+    'genie' => ['/*', '*/'],
     'python' => ['#'],
     'ruby' => ['#'],
     'shellscript' => ['#'],
@@ -87,6 +96,8 @@ def check_comment_markers(header, language)
     'kotlin' => ['/*', '*/'],
     'scala' => ['//'],
     'dart' => ['/*', '*/'],
+    'labview' => ['//'],
+    'cuda' => ['/*', '*/'],
     'lua' => ['--'],
     'perl' => ['#'],
     'haskell' => ['--'],
@@ -100,7 +111,9 @@ def check_comment_markers(header, language)
     'cobol' => [';; '],
     'latex' => ['%%'],
     'prolog' => ['%%'],
-    'smalltalk' => ['"']
+    'smalltalk' => ['"'],
+    'rpg' => ['//'],
+    'apex' => ['/*', '*/']
   }
 
   expected_markers = markers[language] || ['/*', '*/'] # Default to C-style

@@ -28,17 +28,18 @@ const EXTENSION_PATH = __dirname;
 // Language support matrices
 const HEADER_LANGUAGES = [
     // Mainstream languages
-    'c', 'cpp', 'csharp', 'java', 'python', 'ruby', 'rust', 'go', 'php', 'swift',
-    'dart', 'scala', 'sql', 'html', 'javascript', 'typescript', 'kotlin',
+    'abap', 'c', 'cpp', 'csharp', 'cuda', 'java', 'python', 'racket', 'ruby', 'rust', 'go', 'php', 'swift',
+    'dart', 'scala', 'scratch', 'sql', 'html', 'javascript', 'typescript', 'kotlin',
 
     // Specialized languages
-    'ada', 'apl', 'awk', 'basic', 'batch', 'cfml', 'clojure', 'coffeescript',
-    'css', 'dockerfile', 'elixir', 'erlang', 'factor', 'forth', 'fsharp',
-    'groovy', 'haskell', 'idl', 'ini', 'jade', 'json', 'julia', 'latex',
-    'less', 'lisp', 'lua', 'markdown', 'maple', 'mathematica', 'mercury',
+    'ada', 'apex', 'algol', 'apl', 'applescript', 'awk', 'basic', 'batch', 'cfml', 'clojure',     'coffeescript',
+    'crystal',
+    'css', 'd',     'zig', 'nim', 'v',     'dockerfile', 'elixir',     'ejs', 'erb', 'erlang', 'factor', 'forth', 'fsharp',
+    'groovy', 'hack', 'hlsl', 'haskell',     'idl', 'ini', 'jade', 'jinja', 'json', 'julia', 'latex',
+    'less', 'lisp', 'logo', 'lua', 'labview', 'markdown', 'maple', 'mathematica', 'mercury',
     'objective-c', 'objective-cpp', 'ocaml', 'octave', 'perl', 'postscript',
-    'powershell', 'prolog', 'scheme', 'scss', 'shellscript', 'smalltalk',
-    'solidity', 'tcl', 'vb', 'verilog', 'vhdl', 'vue', 'xml', 'yaml',
+    'powershell', 'prolog', 'rpg', 'scheme', 'scss', 'shellscript', 'smalltalk',
+    'solidity',     'tcl', 'toml', 'twig', 'vala', 'genie', 'vb', 'vbscript', 'verilog', 'vhdl', 'vue', 'xml', 'yaml',
 
     // Additional variants
     'c++', 'fortran', 'fortran90', 'FortranFreeForm', 'perl6', 'raku',
@@ -134,6 +135,7 @@ function validateTSIHeader(content, language) {
 function checkCommentMarkers(content, language) {
     // Define comment markers for different languages (matching Ruby delimiters.rb)
     const markers = {
+        'abap': ['*'],
         'python': ['#'],
         'ruby': ['#'],
         'shellscript': ['#'],
@@ -146,6 +148,9 @@ function checkCommentMarkers(content, language) {
         'haskell': ['--'],
         'lua': ['--'],
         'ada': ['--'],
+        'apex': ['/*', '*/'],
+        'algol': ['; '],
+        'applescript': ['--'],
         'vhdl': ['--'],
         'verilog': ['/*', '*/'],
         'scala': ['//'],
@@ -155,17 +160,23 @@ function checkCommentMarkers(content, language) {
         'cpp': ['/*', '*/'],
         'c': ['/*', '*/'],
         'csharp': ['/*', '*/'],
+        'cuda': ['/*', '*/'],
+        'hlsl': ['/*', '*/'],
         'php': ['/*', '*/'],
         'go': ['/*', '*/'],
+        'hack': ['/*', '*/'],
         'rust': ['/*', '*/'],
         'swift': ['/*', '*/'],
         'kotlin': ['/*', '*/'],
+        'labview': ['//'],
         'dart': ['/*', '*/'],
         'css': ['/*', '*/'],
         'scss': ['/*', '*/'],
         'less': ['/*', '*/'],
         'coffeescript': ['#'],  // HASHES
+        'crystal': ['#'],  // HASHES
         'jade': ['//'],
+        'jinja': ['<#', '#>'],
         'stylus': ['//'],
         'sass': ['//'],
         'objective-c': ['/*', '*/'],
@@ -176,7 +187,12 @@ function checkCommentMarkers(content, language) {
         'racket': [';;'],
         'commonlisp': [';;'],
         'lisp': [';;'],
+        'logo': ['; '],
         'elixir': ['#'],
+        'elm': ['--'],
+        'ejs': ['/*', '*/'],
+        'erb': ['<!--', '-->'],
+        'twig': ['{#', '#}'],
         'erlang': ['%%'],
         'fortran': ['!'],
         'fortran90': ['!'],
@@ -255,8 +271,14 @@ function checkCommentMarkers(content, language) {
         'apl': ['!'],  // EXCLAMATIONS
         'sas': ['/*', '*/'],  // SLASHES
         'julia': ['#'],
+        'nim': ['#'],
+        'v': ['/*', '*/'],
+        'vala': ['/*', '*/'],
+        'genie': ['/*', '*/'],
         'perl6': ['#'],
-        'raku': ['#']
+        'raku': ['#'],
+        'rpg': ['//'],
+        'scratch': []  // Scratch uses empty array delimiters
     };
 
     const languageMarkers = markers[language] || ['/*', '*/']; // Default to C-style

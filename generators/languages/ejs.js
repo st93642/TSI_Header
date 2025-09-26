@@ -1,0 +1,239 @@
+/**
+ * EJS Code Base Generator
+ * Generates comprehensive EJS template code with JavaScript templating concepts
+ */
+
+function generateEjsCodeBase() {
+    return `
+<% /*
+EJS (Embedded JavaScript) Template - JavaScript Templating Engine
+Comprehensive template demonstrating EJS features and best practices
+*/ %>
+
+<% /*
+Template variables and data structures
+*/ %>
+<% var pageTitle = "Welcome to EJS Templates"; %>
+<% var user = {
+    name: 'John Doe',
+    email: 'john@example.com',
+    role: 'Developer',
+    active: true,
+    skills: ['JavaScript', 'Node.js', 'Express']
+}; %>
+<% var navigation = [
+    {url: '/', title: 'Home', active: true},
+    {url: '/about', title: 'About', active: false},
+    {url: '/contact', title: 'Contact', active: false}
+]; %>
+<% var products = [
+    {id: 1, name: 'Laptop', price: 999, category: 'Electronics'},
+    {id: 2, name: 'Book', price: 25, category: 'Education'},
+    {id: 3, name: 'Coffee Mug', price: 15, category: 'Lifestyle'}
+]; %>
+
+<% /*
+Helper functions
+*/ %>
+<% function formatPrice(price) { return '$' + price.toFixed(2); } %>
+<% function isActive(item) { return item.active ? 'active' : ''; } %>
+<% function truncate(text, length) { return text.length > length ? text.substring(0, length) + '...' : text; } %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .nav { background: #f4f4f4; padding: 1rem; margin-bottom: 2rem; }
+        .nav-list { list-style: none; padding: 0; display: flex; gap: 1rem; justify-content: center; }
+        .nav-item { display: inline; }
+        .nav-link { text-decoration: none; color: #333; padding: 0.5rem 1rem; border-radius: 4px; }
+        .nav-link.active { background: #007bff; color: white; }
+        .user-card { border: 1px solid #ddd; padding: 1rem; margin: 1rem 0; border-radius: 4px; }
+        .status { padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8em; }
+        .status.active { background: #d4edda; color: #155724; }
+        .status.inactive { background: #f8d7da; color: #721c24; }
+        .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+        .product-card { border: 1px solid #ddd; padding: 1rem; border-radius: 4px; }
+        .price { font-weight: bold; color: #28a745; }
+        .category { color: #6c757d; font-size: 0.9em; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; }
+        input, textarea { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .alert { padding: 1rem; margin: 1rem 0; border-radius: 4px; }
+        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <% /* Page header with escaped output */ %>
+        <header class="header">
+            <h1><%= pageTitle %></h1>
+            <p>Welcome to our EJS-powered website!</p>
+        </header>
+
+        <% /* Navigation with conditional classes */ %>
+        <nav class="nav">
+            <ul class="nav-list">
+            <% navigation.forEach(function(item) { %>
+                <li class="nav-item">
+                    <a href="<%= item.url %>" class="nav-link <%= isActive(item) %>"><%= item.title %></a>
+                </li>
+            <% }); %>
+            </ul>
+        </nav>
+
+        <% /* Main content area */ %>
+        <main>
+            <% /* Conditional rendering */ %>
+            <% if (user.active) { %>
+                <div class="alert alert-success">
+                    <h2>Welcome back, <%= user.name %>!</h2>
+                    <p>It's great to see you again. Here's your personalized dashboard:</p>
+                </div>
+            <% } else { %>
+                <div class="alert alert-error">
+                    <h2>Account Inactive</h2>
+                    <p>Please contact support to reactivate your account.</p>
+                </div>
+            <% } %>
+
+            <% /* User information card */ %>
+            <div class="user-card">
+                <h3><%= user.name %></h3>
+                <p><strong>Email:</strong> <%= user.email %></p>
+                <p><strong>Role:</strong> <%= user.role %></p>
+                <p><strong>Status:</strong>
+                    <span class="status <%= user.active ? 'active' : 'inactive' %>">
+                        <%= user.active ? 'Active' : 'Inactive' %>
+                    </span>
+                </p>
+                <p><strong>Skills:</strong> <%= user.skills.join(', ') %></p>
+            </div>
+
+            <% /* Products grid with loops */ %>
+            <section>
+                <h2>Featured Products</h2>
+                <div class="products">
+                <% products.forEach(function(product, index) { %>
+                    <div class="product-card">
+                        <h3><%= product.name %></h3>
+                        <p class="price"><%= formatPrice(product.price) %></p>
+                        <p class="category"><%= product.category %></p>
+                        <% if (index === 0) { %>
+                            <span class="badge">Featured</span>
+                        <% } %>
+                    </div>
+                <% }); %>
+                </div>
+            </section>
+
+            <% /* Advanced EJS features */ %>
+            <section>
+                <h2>EJS Advanced Features</h2>
+
+                <% /* Complex expressions */ %>
+                <p>Total products: <%= products.length %></p>
+                <p>Average price: <%= formatPrice(products.reduce((sum, p) => sum + p.price, 0) / products.length) %></p>
+                <p>Active navigation items: <%= navigation.filter(item => item.active).length %></p>
+
+                <% /* Nested loops and conditionals */ %>
+                <% ['Electronics', 'Education', 'Lifestyle'].forEach(function(category) { %>
+                    <% var categoryProducts = products.filter(p => p.category === category); %>
+                    <% if (categoryProducts.length > 0) { %>
+                        <h3><%= category %> (<%= categoryProducts.length %> items)</h3>
+                        <ul>
+                        <% categoryProducts.forEach(function(product) { %>
+                            <li><%= product.name %> - <%= formatPrice(product.price) %></li>
+                        <% }); %>
+                        </ul>
+                    <% } %>
+                <% }); %>
+
+                <% /* Working with dates */ %>
+                <% var currentDate = new Date(); %>
+                <p>Current date: <%= currentDate.toLocaleDateString() %></p>
+                <p>Current time: <%= currentDate.toLocaleTimeString() %></p>
+            </section>
+
+            <% /* Form handling example */ %>
+            <section>
+                <h2>Contact Form</h2>
+                <form method="post" action="/contact">
+                    <% /* CSRF protection (conceptual) */ %>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken || '' %>">
+
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" value="<%= form ? form.name || '' : '' %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" value="<%= form ? form.email || '' : '' %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="5"><%= form ? form.message || '' : '' %></textarea>
+                    </div>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </section>
+
+            <% /* Error handling */ %>
+            <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                <div class="alert alert-error">
+                    <h3>Please fix the following errors:</h3>
+                    <ul>
+                    <% errors.forEach(function(error) { %>
+                        <li><%= error %></li>
+                    <% }); %>
+                    </ul>
+                </div>
+            <% } %>
+
+            <% /* Including other templates (conceptual) */ %>
+            <%- include('partials/footer') %>
+        </main>
+    </div>
+
+    <% /* Client-side JavaScript */ %>
+    <script>
+        // EJS can also pass data to client-side JavaScript
+        const userData = <%- JSON.stringify(user) %>;
+        const productsData = <%- JSON.stringify(products) %>;
+
+        console.log('User:', userData.name);
+        console.log('Products count:', productsData.length);
+
+        // Dynamic interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('EJS template loaded successfully!');
+
+            // Example: Add click handlers to product cards
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const productName = this.querySelector('h3').textContent;
+                    alert(\`Clicked on: \${productName}\`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+`;
+}
+
+module.exports = {
+    generateEjsCodeBase
+};

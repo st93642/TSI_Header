@@ -1,0 +1,304 @@
+/**
+ * Genie Code Base Generator
+ *
+ * Generates comprehensive Genie code boilerplate with GObject integration.
+ * Genie is a modern programming language that compiles to Vala/GLib.
+ * It features clean, indentation-based syntax with full GObject integration.
+ */
+
+function generateGenieCodeBase() {
+    return `
+// Basic Genie class with GObject integration
+// Note: Genie compiles to Vala and integrates with GLib/GObject
+// Genie uses indentation-based syntax similar to Python
+
+namespace TSI
+
+    // Basic class with properties
+    public class Person : Object
+
+        // Properties with automatic getters/setters
+        prop name: string
+        prop age: int
+        prop email: string
+
+        // Constructor
+        construct(name: string, age: int, email: string)
+            this.name = name
+            this.age = age
+            this.email = email
+
+        // Instance method
+        def greet(): string
+            return "Hello, I'm " + name + "!"
+
+        // Class method
+        def @create_default(): Person
+            return new Person("TSI Student", 20, "student@tsi.lv")
+
+    // Interface definition
+    public interface Printable : Object
+        def to_string(): string
+
+    // Class implementing interface
+    public class Document : Object, Printable
+
+        prop title: string
+        prop content: string
+        prop author: string
+
+        construct(title: string, content: string, author: string)
+            this.title = title
+            this.content = content
+            this.author = author
+
+        def to_string(): string
+            return @"Title: \$title\\nAuthor: \$author\\nContent: \$content"
+
+    // Abstract base class
+    public abstract class Shape : Object
+
+        prop name: string
+
+        construct(name: string)
+            this.name = name
+
+        // Abstract method (must be implemented by subclasses)
+        def abstract calculate_area(): double
+
+        // Concrete method
+        def describe(): string
+            return @"Shape: \$name, Area: \$(calculate_area())"
+
+    // Concrete implementation
+    public class Circle : Shape
+
+        prop radius: double
+
+        construct(name: string, radius: double)
+            base(name)
+            this.radius = radius
+
+        def calculate_area(): double
+            return Math.PI * radius * radius
+
+    // Generic collection example
+    public class DataStore[T] : Object
+
+        prop items: list of T = new list of T
+
+        def add(item: T)
+            items.add(item)
+
+        def get(index: int): T
+            return items[index]
+
+        def size(): int
+            return items.size
+
+    // Async method example
+    public class NetworkClient : Object
+
+        prop base_url: string
+
+        construct(base_url: string)
+            this.base_url = base_url
+
+        def async fetch_data(endpoint: string) throws IOError
+            var url = base_url + endpoint
+            var session = new Soup.Session()
+            var message = new Soup.Message("GET", url)
+
+            // Simulate async operation
+            var response = yield session.send_async(message)
+            return (string) response
+
+    // GTK+ application example
+    public class GenieApp : Gtk.Application
+
+        construct()
+            Object(application_id: "com.tsi.genieapp", flags: ApplicationFlags.FLAGS_NONE)
+
+        protected override void activate()
+            var window = new Gtk.ApplicationWindow(this)
+            window.title = "TSI Genie Application"
+            window.default_width = 400
+            window.default_height = 300
+
+            var box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6)
+            box.margin = 12
+
+            var label = new Gtk.Label("Hello from Genie!")
+            label.vexpand = true
+            label.valign = Gtk.Align.CENTER
+
+            var button = new Gtk.Button.with_label("Click me!")
+            button.clicked.connect(on_button_clicked)
+
+            box.append(label)
+            box.append(button)
+            window.set_child(box)
+
+            window.present()
+
+        def on_button_clicked()
+            var dialog = new Gtk.MessageDialog(null, Gtk.DialogFlags.MODAL,
+                Gtk.MessageType.INFO, Gtk.ButtonsType.OK,
+                "Button clicked from Genie code!")
+            dialog.response.connect(() => dialog.destroy())
+            dialog.present()
+
+    // Error handling example
+    public errordomain ConfigError
+        INVALID_FORMAT
+        FILE_NOT_FOUND
+        PERMISSION_DENIED
+
+    public class ConfigManager : Object
+
+        prop config_file: string
+
+        construct(config_file: string)
+            this.config_file = config_file
+
+        def load_config() throws ConfigError
+            if not FileUtils.test(config_file, FileTest.EXISTS)
+                raise new ConfigError.FILE_NOT_FOUND("Config file does not exist")
+
+            try
+                var file = File.new_for_path(config_file)
+                var stream = yield file.read_async()
+                var data = yield stream.read_bytes_async(uint64.MAX)
+
+                // Parse configuration data
+                return parse_config_data((string) data)
+
+            except IOError e
+                raise new ConfigError.PERMISSION_DENIED("Cannot read config file: " + e.message)
+
+        def parse_config_data(data: string): dict of string, string
+            var config = new dict of string, string
+
+            for var line in data.split("\\n")
+                if line.strip() == "" or line.has_prefix("#")
+                    continue
+
+                var parts = line.split("=", 2)
+                if parts.length == 2
+                    config[parts[0].strip()] = parts[1].strip()
+
+            return config
+
+    // Signal example
+    public class Counter : Object
+
+        prop count: int = 0
+
+        // Signal declaration
+        public signal void count_changed(old_value: int, new_value: int)
+
+        def increment()
+            var old_value = count
+            count++
+            count_changed(old_value, count)
+
+        def decrement()
+            var old_value = count
+            count--
+            count_changed(old_value, count)
+
+    // Main application entry point
+    public class Application
+
+        public static def main(args: array of string): int
+            try
+                // Test basic classes
+                var person = new Person("TSI Student", 20, "student@tsi.lv")
+                print(person.greet())
+
+                // Test interface implementation
+                var doc = new Document("TSI Report", "This is a sample document", "TSI Student")
+                print(doc.to_string())
+
+                // Test abstract class and inheritance
+                var circle = new Circle("My Circle", 5.0)
+                print(circle.describe())
+
+                // Test generic collection
+                var string_store = new DataStore of string()
+                string_store.add("Hello")
+                string_store.add("Genie")
+                string_store.add("World")
+                print(@"Stored \(string_store.size()) strings")
+
+                // Test GTK+ application (commented out for headless testing)
+                /*
+                var app = new GenieApp()
+                return app.run(args)
+                */
+
+                // Test configuration manager
+                var config_manager = new ConfigManager("config.ini")
+                try
+                    var config = config_manager.load_config()
+                    print("Configuration loaded successfully")
+                except ConfigError e
+                    print(@"Config error: \(e.message)")
+
+                // Test signals
+                var counter = new Counter()
+                counter.count_changed.connect((old_val, new_val) =>
+                    print(@"Counter changed from \(old_val) to \(new_val)")
+                )
+                counter.increment()
+                counter.decrement()
+
+                return 0
+
+            except e: Error
+                stderr.printf(@"Error: \(e.message)\\n")
+                return 1
+
+// Additional utility functions
+namespace TSI.Utils
+
+    public def factorial(n: int): int
+        if n <= 1
+            return 1
+        else
+            return n * factorial(n - 1)
+
+    public def fibonacci(n: int): int
+        if n <= 1
+            return n
+        else
+            return fibonacci(n - 1) + fibonacci(n - 2)
+
+    public def is_prime(num: int): bool
+        if num < 2
+            return false
+        if num == 2
+            return true
+        if num % 2 == 0
+            return false
+
+        for var i = 3 to Math.sqrt(num) step 2
+            if num % i == 0
+                return false
+
+        return true
+
+// Example of using the utilities
+public class MathDemo
+
+    public static def main()
+        print("Factorial of 5: " + factorial(5).to_string())
+        print("Fibonacci 10: " + fibonacci(10).to_string())
+        print("Is 17 prime? " + is_prime(17).to_string())
+        print("Is 18 prime? " + is_prime(18).to_string())
+`;
+}
+
+module.exports = {
+    generateGenieCodeBase
+};
