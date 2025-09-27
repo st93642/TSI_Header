@@ -28,26 +28,27 @@ const EXTENSION_PATH = __dirname;
 // Language support matrices
 const HEADER_LANGUAGES = [
     // Mainstream languages
-    'abap', 'c', 'cpp', 'csharp', 'cuda', 'java', 'python', 'racket', 'ruby', 'rust', 'go', 'php', 'swift',
+    'abap', 'c', 'cpp', 'csharp', 'cuda', 'cuda-cpp', 'java', 'python', 'racket', 'razor', 'ruby', 'rust', 'go', 'php', 'swift',
     'dart', 'scala', 'scratch', 'sql', 'html', 'javascript', 'typescript', 'kotlin',
 
     // Specialized languages
-    'ada', 'apex', 'algol', 'apl', 'applescript', 'awk', 'basic', 'batch', 'cfml', 'clojure',     'coffeescript',
+    'ada', 'apex', 'algol', 'apl', 'applescript', 'awk', 'basic', 'bat', 'batch', 'cfml', 'clojure',     'coffeescript',
     'crystal',
-    'css', 'd',     'zig', 'nim', 'v',     'dockerfile', 'elixir',     'ejs', 'erb', 'erlang', 'factor', 'forth', 'fsharp',
-    'groovy', 'hack', 'haml', 'hlsl', 'haskell',     'idl', 'ini', 'jade', 'jinja', 'json', 'jsonc', 'julia', 'latex',
+    'css', 'dockercompose', 'd',     'zig', 'nim', 'v',     'dockerfile', 'elixir',     'ejs', 'erb', 'erlang', 'factor', 'forth', 'fsharp',
+    'groovy', 'hack', 'haml', 'handlebars', 'hlsl', 'haskell',     'idl', 'ini', 'jade', 'jinja', 'json', 'jsonc', 'julia', 'latex', 'tex',
     'less', 'lisp', 'logo', 'lua', 'labview', 'markdown', 'maple', 'mathematica', 'mercury',
     'objective-c', 'objective-cpp', 'ocaml', 'octave', 'perl', 'postscript',
-    'powershell', 'prolog', 'rpg', 'scheme', 'scss', 'shellscript', 'smalltalk',
-    'solidity',     'tcl', 'toml', 'twig', 'vala', 'genie', 'vb', 'vbscript', 'verilog', 'vhdl', 'vue', 'xml', 'yaml',
+    'powershell', 'prolog', 'rpg', 'scheme', 'scss', 'shaderlab', 'shellscript', 'smalltalk',
+    'solidity',     'tcl', 'toml', 'twig', 'vala', 'genie', 'vb', 'vbscript', 'verilog', 'vhdl', 'vue', 'xml', 'xsl', 'yaml',
 
     // Additional variants
-    'c++', 'fortran', 'fortran90', 'FortranFreeForm', 'perl6', 'raku',
+    'c++', 'fortran', 'fortran90', 'FortranFreeForm', 'perl6', 'raku', 'plaintext',
     'systemverilog', 'Verilog', 'yml', 'coldfusion', 'haskell', 'javascriptreact',
     'typescriptreact', 'makefile', 'assembly', 'asm', 'cobol', 'delphi',
     'pascal', 'objectpascal', 'matlab', 'r', 'vbscript', 'verse', 'vimscript',
     'sed', 'sas', 'objective-j', 'vb', 'vbscript', 'verse', 'vimscript', 'sed', 'sas', 'bibtex', 'diff',
-    'pug'
+    'pug', 'slim', 'stylus', 'svelte', 'vue-html',
+    'git', 'git-commit', 'git-rebase'
 ];
 
 const CODEBASE_LANGUAGES = HEADER_LANGUAGES; // Same as header languages
@@ -142,6 +143,7 @@ function checkCommentMarkers(content, language) {
         'shellscript': ['#'],
         'yaml': ['#'],
         'dockerfile': ['#'],
+        'dockercompose': ['#'],
         'makefile': ['#'],
         'perl': ['#'],
         'r': ['#'],
@@ -162,6 +164,7 @@ function checkCommentMarkers(content, language) {
         'c': ['/*', '*/'],
         'csharp': ['/*', '*/'],
         'cuda': ['/*', '*/'],
+        'cuda-cpp': ['//'],
         'hlsl': ['/*', '*/'],
         'php': ['/*', '*/'],
         'go': ['/*', '*/'],
@@ -208,8 +211,13 @@ function checkCommentMarkers(content, language) {
         'vb': [';; '],
         'basic': [';; '],
         'batch': [';; '],
+        'bat': [';; '],
         'powershell': ['#'],
         'pug': ['//- ', ' -//'],
+        'razor': ['@*', '*@'],
+        'shaderlab': ['//'],
+        'slim': ['/'],
+        'svelte': ['<!--', '-->'],
         'tcl': ['#'],
         'awk': ['#'],
         'sed': ['#'],
@@ -234,6 +242,7 @@ function checkCommentMarkers(content, language) {
         'html': ['<!--', '-->'],
         'xml': ['<!--', '-->'],
         'vue': ['<!--', '-->'],
+        'vue-html': ['<!--', '-->'],
         'coldfusion': ['<!---', '--->'],
         'cfml': ['<!---', '--->'],
         'jsp': ['<%--', '--%>'],
@@ -282,6 +291,9 @@ function checkCommentMarkers(content, language) {
         'perl6': ['#'],
         'raku': ['#'],
         'rpg': ['//'],
+        'git': ['#'],
+        'git-commit': ['#'],
+        'git-rebase': ['#'],
         'scratch': []  // Scratch uses empty array delimiters
     };
 
@@ -592,6 +604,21 @@ function validateLanguageSpecificCode(content, language) {
             /if\s+/,                    // if statement
             /for\s+/,                   // for loop
             /goto\s+/,                  // goto statement
+        ],
+        'bat': [
+            /@echo/,                    // echo command
+            /set\s+/,                   // set variable
+            /if\s+/,                    // if statement
+            /for\s+/,                   // for loop
+            /goto\s+/,                  // goto statement
+        ],
+        'handlebars': [
+            /\{\{.*\}\}/,               // Handlebars expression
+            /\{\{#if.*\}\}/,            // if block
+            /\{\{#each.*\}\}/,          // each block
+            /\{\{#unless.*\}\}/,        // unless block
+            /\{\{!--.*--\}\}/,          // comment
+            /\{\{>.*\}\}/,              // partial
         ]
     };
 

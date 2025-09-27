@@ -17,6 +17,7 @@ const { generateNimCodeBase } = require('./languages/nim');
 const { generateVCodeBase } = require('./languages/v');
 const { generateValaCodeBase } = require('./languages/vala');
 const { generateGenieCodeBase } = require('./languages/genie');
+const { generateGitCodeBase } = require('./languages/git');
 const { generateAbapCodeBase } = require('./languages/abap');
 const { generateAppleScriptCodeBase } = require('./languages/applescript');
 const { generateRacketCodeBase } = require('./languages/racket');
@@ -37,9 +38,29 @@ const { generateHAMLCodeBase } = require('./languages/haml');
 const { generateHandlebarsCodeBase } = require('./languages/handlebars');
 
 /**
- * Generates Pug code base
+ * Generates Razor code base
  */
-const { generatePugCodeBase } = require('./languages/pug');
+const { generateRazorCodeBase } = require('./languages/razor');
+
+/**
+ * Generates ShaderLab code base
+ */
+const { generateShaderLabCodeBase } = require('./languages/shaderlab');
+
+/**
+ * Generates Slim code base
+ */
+const { generateSlimCodeBase } = require('./languages/slim');
+
+/**
+ * Generates Stylus code base
+ */
+const { generateStylusCodeBase } = require('./languages/stylus');
+
+/**
+ * Generates Svelte code base
+ */
+const { generateSvelteCodeBase } = require('./languages/svelte');
 
 /**
  * Generates BibTeX code base
@@ -160,6 +181,11 @@ const { generateCssCodeBase } = require('./languages/css');
  * Generates Dockerfile code base
  */
 const { generateDockerfileCodeBase } = require('./languages/dockerfile');
+
+/**
+ * Generates Docker Compose code base
+ */
+const { generateDockerComposeCodeBase } = require('./languages/dockercompose');
 
 /**
  * Generates Elixir code base
@@ -457,6 +483,11 @@ const { generateVhdlCodeBase } = require('./languages/vhdl');
 const { generateVueCodeBase } = require('./languages/vue');
 
 /**
+ * Generates Vue HTML code base
+ */
+const { generateVueHtmlCodeBase } = require('./languages/vue-html');
+
+/**
  * Generates XML code base
  */
 const { generateXmlCodeBase } = require('./languages/xml');
@@ -556,6 +587,9 @@ function generateCodeBase(languageId, fileName) {
             case 'genie':
                 content = generateGenieCodeBase();
                 break;
+            case 'git':
+                content = generateGitCodeBase();
+                break;
             case 'scala':
                 content = generateScalaCodeBase();
                 break;
@@ -603,6 +637,9 @@ function generateCodeBase(languageId, fileName) {
                 break;
             case 'racket':
                 content = generateRacketCodeBase();
+                break;
+            case 'razor':
+                content = generateRazorCodeBase();
                 break;
             case 'rpg':
                 content = generateRpgCodeBase();
@@ -738,6 +775,9 @@ function generateCodeBase(languageId, fileName) {
                     content = generateDefaultCodeBase(languageId);
                 }
                 break;
+            case 'dockercompose':
+                content = generateDockerComposeCodeBase();
+                break;
             case 'elixir':
                 if (typeof generateElixirCodeBase === 'function') {
                     content = generateElixirCodeBase();
@@ -872,6 +912,13 @@ function generateCodeBase(languageId, fileName) {
                     content = generateDefaultCodeBase(languageId);
                 }
                 break;
+            case 'tex':
+                if (typeof generateLatexCodeBase === 'function') {
+                    content = generateLatexCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
             case 'less':
                 if (typeof generateLessCodeBase === 'function') {
                     content = generateLessCodeBase();
@@ -989,6 +1036,9 @@ function generateCodeBase(languageId, fileName) {
                     content = generateDefaultCodeBase(languageId);
                 }
                 break;
+            case 'shaderlab':
+                content = generateShaderLabCodeBase();
+                break;
             case 'shellscript':
                 if (typeof generateShellScriptCodeBase === 'function') {
                     content = generateShellScriptCodeBase();
@@ -1002,6 +1052,15 @@ function generateCodeBase(languageId, fileName) {
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
+                break;
+            case 'slim':
+                content = generateSlimCodeBase();
+                break;
+            case 'stylus':
+                content = generateStylusCodeBase();
+                break;
+            case 'svelte':
+                content = generateSvelteCodeBase();
                 break;
             case 'solidity':
                 if (typeof generateSolidityCodeBase === 'function') {
@@ -1060,6 +1119,13 @@ function generateCodeBase(languageId, fileName) {
             case 'vue':
                 if (typeof generateVueCodeBase === 'function') {
                     content = generateVueCodeBase();
+                } else {
+                    content = generateDefaultCodeBase(languageId);
+                }
+                break;
+            case 'vue-html':
+                if (typeof generateVueHtmlCodeBase === 'function') {
+                    content = generateVueHtmlCodeBase();
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }

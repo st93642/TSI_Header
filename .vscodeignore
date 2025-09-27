@@ -12,6 +12,7 @@ scripts/
 !scripts/comprehensive_language_test.rb
 *.test.js
 *.test.rb
+test_output/
 
 # Documentation and development
 *.md

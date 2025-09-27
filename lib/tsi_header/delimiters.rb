@@ -22,6 +22,12 @@ module TSIHeader
     HAML_COMMENTS = ['-# ', ' -#', '-#', '-#', '-# ', ' -#']
     HANDLEBARS_COMMENTS = ['{{!-- ', ' --}}', '{{!--', '--}}', '{{!-- ', ' --}}']
     PUG_COMMENTS = ['//- ', ' -//', '//-', '//-', '//- ', ' -//']
+    SLIM_COMMENTS = ['/', '/', '/', '/', '/', '/']
+    STYLUS_COMMENTS = ['// ', ' //', '//', '//', '// ', ' //']
+    SHADERLAB_COMMENTS = ['// ', ' //', '//', '//', '// ', ' //']
+    RAZOR_COMMENTS = ['@* ', ' *@', '@*', '*@', '@* ', ' *@']
+    DOCKERCOMPOSE_COMMENTS = ['# ', ' #', '#', '#', '# ', ' #']
+    GIT_COMMENTS = ['# ', ' #', '#', '#', '# ', ' #']
 
     LANGUAGE_DELIMITERS = {
       'abap' => ASTERISKS,
@@ -44,11 +50,15 @@ module TSIHeader
       'coffeescript' => HASHES,
       'crystal' => HASHES,
       'cuda' => SLASHES,
+      'cuda-cpp' => SLASHES,
+      'git-commit' => GIT_COMMENTS,
+      'git-rebase' => GIT_COMMENTS,
       'coldfusion' => COLDFUSION,
       'cpp' => SLASHES,
       'csharp' => SLASHES,
       'css' => SLASHES,
       'dart' => SLASHES,
+      'dockercompose' => DOCKERCOMPOSE_COMMENTS,
       'dockerfile' => HASHES,
       'elixir' => HASHES,
       'erlang' => PERCENTS,
@@ -75,6 +85,7 @@ module TSIHeader
       'kotlin' => SLASHES,
       'labview' => SLASHES_SINGLE,
       'latex' => PERCENTS,
+      'tex' => PERCENTS,
       'less' => SLASHES,
       'lisp' => SEMICOLONS,
       'lua' => DASHES,
@@ -102,6 +113,7 @@ module TSIHeader
       'python' => HASHES,
       'r' => HASHES,
       'racket' => SEMICOLONS,
+      'razor' => RAZOR_COMMENTS,
       'rpg' => RPG_COMMENTS,
       'ruby' => HASHES,
       'rust' => SLASHES,
@@ -110,11 +122,15 @@ module TSIHeader
       'scratch' => [],
       'scss' => SLASHES,
       'sed' => HASHES,
+      'shaderlab' => SHADERLAB_COMMENTS,
       'shellscript' => HASHES,
       'smalltalk' => QUOTES,
+      'slim' => SLIM_COMMENTS,
       'solidity' => SLASHES,
       'sql' => HASHES,
       'swift' => SLASHES,
+      'svelte' => ANGLE_BRACKETS,
+      'stylus' => STYLUS_COMMENTS,
       'tcl' => HASHES,
       'toml' => HASHES,
       'twig' => TWIG_COMMENTS,
@@ -124,6 +140,7 @@ module TSIHeader
       'vhdl' => DASHES,
       'vimscript' => QUOTES,
       'vue' => ANGLE_BRACKETS,
+      'vue-html' => ANGLE_BRACKETS,
       'xml' => ANGLE_BRACKETS,
       'xsl' => SLASHES,
       'yaml' => HASHES,
@@ -137,6 +154,7 @@ module TSIHeader
       'nim' => HASHES,
       'v' => SLASHES,
       'vala' => SLASHES,
+      'git' => GIT_COMMENTS,
       'genie' => SLASHES,
       'elm' => DASHES,
       'ejs' => SLASHES,

@@ -2,7 +2,7 @@
 
 ## Description
 
-Visual Studio Code extension for code header management and project scaffolding, supporting 126+ programming languages with institutional branding.
+Visual Studio Code extension for code header management and project scaffolding, supporting 147+ programming languages with 100% VS Code language coverage and institutional branding.
 
 ## Functionality
 
@@ -10,7 +10,7 @@ Visual Studio Code extension for code header management and project scaffolding,
 
 #### Header Management
 
-- **Insert Headers**: Generate standardized TSI-branded headers for 126+ programming languages
+- **Insert Headers**: Generate standardized TSI-branded headers for 147+ programming languages
 - **Update Headers**: Automatically update existing headers with current timestamps and author information
 - **Remove Headers**: Clean removal of TSI headers from files
 - **Language-Specific Formatting**: Proper comment delimiters and formatting for each supported language
@@ -19,7 +19,7 @@ Visual Studio Code extension for code header management and project scaffolding,
 #### Code Generation
 
 - **Class Generation**: Create class templates for 13 object-oriented languages (Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala)
-- **Code Base Generation**: Generate boilerplate code with language-specific syntax and conventions for 126+ languages
+- **Code Base Generation**: Generate boilerplate code with language-specific syntax and conventions for 147+ languages
 - **Project Scaffolding**: Complete project creation for 6 major languages (C, C++, Java, Python, Ruby, Rust)
 
 #### User Interface
@@ -33,13 +33,13 @@ Visual Studio Code extension for code header management and project scaffolding,
 
 #### Multi-Language Backend
 
-- **Ruby CLI Engine**: Core header generation supporting 126+ languages with proper delimiters
+- **Ruby CLI Engine**: Core header generation supporting 147+ languages with proper delimiters
 - **JavaScript VS Code Integration**: Modern extension interface with command registration
 - **Modular Generator System**: Language-specific code generation with extensible architecture
 
 #### Supported Languages
 
-**Header Generation (126+ languages)**:
+**Header Generation (147+ languages)**:
 
 - **Mainstream**: C, C++, Java, Python, JavaScript, TypeScript, Ruby, Go, Rust, PHP, Swift, Kotlin, Dart, Scala
 - **Specialized**: Assembly, COBOL, Fortran, Haskell, Lisp, Prolog, R, MATLAB, Verilog, VHDL, and many more
@@ -56,7 +56,8 @@ C, C++, Java, Python, Ruby, Rust (with build systems, documentation, and starter
 
 ### Quality Assurance
 
-- **100% Test Coverage**: Comprehensive automated testing across all supported languages
+- **100% VS Code Language Coverage**: Complete support for all 68 VS Code languages
+- **100% Test Coverage**: Comprehensive automated testing across all supported languages (319 tests)
 - **Syntax Validation**: Generated code verified for correctness and language compliance
 - **Cross-Platform Support**: Linux, macOS, Windows compatibility
 
@@ -147,7 +148,7 @@ git config --global user.email "your.email@domain.com"
 - Click "Add class" in TSI Commands view
 - Enter the class name when prompted
 
-**Add Code Base** (120+ languages supported):
+**Add Code Base** (147+ languages supported):
 
 - Open a source file in a supported language
 - Click "Add code base" in TSI Commands view
@@ -196,4 +197,4 @@ To get debug information:
 2. Type "Developer: Toggle Developer Tools"
 3. Check the Console tab for extension-related messages
 
-*Developed for students with institutional branding and comprehensive language support.*
+*Developed for students with institutional branding and comprehensive language support. Now featuring 100% VS Code language coverage with 147+ programming languages.*
