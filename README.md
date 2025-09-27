@@ -2,7 +2,7 @@
 
 ## Description
 
-A comprehensive Visual Studio Code extension for professional code header management and project scaffolding, supporting 126+ programming languages with institutional branding for the Transport and Telecommunication Institute.
+Visual Studio Code extension for code header management and project scaffolding, supporting 126+ programming languages with institutional branding.
 
 ## Functionality
 
@@ -14,7 +14,7 @@ A comprehensive Visual Studio Code extension for professional code header manage
 - **Update Headers**: Automatically update existing headers with current timestamps and author information
 - **Remove Headers**: Clean removal of TSI headers from files
 - **Language-Specific Formatting**: Proper comment delimiters and formatting for each supported language
-- **Institutional Branding**: TSI ASCII logo and contact information
+- **Institutional Branding**: TSI contact information
 
 #### Code Generation
 
@@ -196,49 +196,4 @@ To get debug information:
 2. Type "Developer: Toggle Developer Tools"
 3. Check the Console tab for extension-related messages
 
-## Testing
-
-Run the comprehensive test suite to validate all functionality:
-
-```bash
-# Run all tests (277 tests covering 126+ languages)
-npm test
-# or
-node unified_test_suite.js
-
-# Run Ruby backend tests (39 tests)
-ruby spec/unified_test.rb
-
-# Run comprehensive language tests (91 languages)
-ruby scripts/comprehensive_language_test.rb
-```
-
-All tests pass with 100% success rate, ensuring complete language coverage and functionality validation.
-
-## What's New in v3.0.11
-
-### ✨ New Features
-
-- **Remove Header Functionality**: Complete header lifecycle management with clean header removal
-- **Enhanced Context Menus**: Right-click support in editor and editor title areas
-- **Improved Language Detection**: Better support for compound extensions (.html.erb, .js.erb, .css.erb)
-- **Expanded Language Support**: Now supports 126+ programming languages
-
-### 🔧 Technical Improvements
-
-- **Modular Architecture**: Improved code organization and maintainability
-- **Enhanced Testing**: Comprehensive test suite with 277 automated tests
-- **Better Error Handling**: More informative error messages and user guidance
-- **Performance Optimizations**: Faster header generation and file processing
-
-### 📊 Language Support Analysis
-
-The extension includes comprehensive analysis tools for future language expansion:
-
-- **Current Coverage**: 126 supported languages (~16.4% of identified languages)
-- **Expansion Potential**: 643 additional languages identified for future support
-- **Workplan Available**: See `workplan.md` for detailed expansion roadmap
-
----
-
-*Developed for TSI Computer Science students with institutional branding and comprehensive language support.*
+*Developed for students with institutional branding and comprehensive language support.*

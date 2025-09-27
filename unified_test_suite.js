@@ -298,6 +298,318 @@ function checkCommentMarkers(content, language) {
 }
 
 /**
+ * Validate that generated code contains language-specific syntax patterns
+ * rather than just generic placeholder text
+ */
+function validateLanguageSpecificCode(content, language) {
+    // Define language-specific patterns that indicate real code generation
+    const languagePatterns = {
+        // Programming languages with function definitions
+        'python': [
+            /def\s+\w+\s*\(/,           // function definition
+            /class\s+\w+/,              // class definition
+            /print\s*\(/,               // print statement
+            /import\s+\w+/,             // import statement
+            /if\s+__name__\s*==\s*['"]__main__['"]/, // main guard
+            /for\s+\w+\s+in\s+/,        // for loop
+            /while\s+/,                 // while loop
+        ],
+        'javascript': [
+            /function\s+\w+\s*\(/,      // function declaration
+            /const\s+\w+\s*=/,          // const variable
+            /let\s+\w+\s*=/,            // let variable
+            /console\.log\s*\(/,        // console.log
+            /class\s+\w+/,              // class declaration
+            /=>/,                       // arrow function
+            /export\s+/,                // export statement
+        ],
+        'typescript': [
+            /function\s+\w+\s*\(/,      // function declaration
+            /const\s+\w+\s*:/,          // typed const
+            /let\s+\w+\s*:/,            // typed let
+            /interface\s+\w+/,          // interface
+            /class\s+\w+/,              // class with types
+            /=>/,                       // arrow function
+            /export\s+/,                // export statement
+        ],
+        'java': [
+            /public\s+class\s+\w+/,     // public class
+            /public\s+static\s+void\s+main/, // main method
+            /System\.out\.println/,     // print statement
+            /import\s+java\./,          // java import
+            /private\s+\w+\s+\w+/,      // private field
+            /public\s+\w+\s+\w+\s*\(/,  // public method
+        ],
+        'c': [
+            /#include\s*<.*>/,          // include directive
+            /int\s+main\s*\(/,          // main function
+            /printf\s*\(/,              // printf call
+            /return\s+0/,               // return statement
+            /int\s+\w+\s*\(/,           // function declaration
+            /char\s*\*\s*\w+/,          // string pointer
+        ],
+        'cpp': [
+            /#include\s*<.*>/,          // include directive
+            /int\s+main\s*\(/,          // main function
+            /std::cout\s*<</,           // cout statement
+            /class\s+\w+/,              // class declaration
+            /public:/,                  // public access
+            /private:/,                 // private access
+            /std::string/,              // string type
+        ],
+        'c++': [
+            /#include\s*<.*>/,          // include directive
+            /int\s+main\s*\(/,          // main function
+            /std::cout\s*<</,           // cout statement
+            /class\s+\w+/,              // class declaration
+            /public:/,                  // public access
+            /private:/,                 // private access
+            /std::string/,              // string type
+        ],
+        'csharp': [
+            /using\s+System/,           // using directive
+            /class\s+\w+/,              // class declaration
+            /static\s+void\s+Main/,     // Main method
+            /Console\.WriteLine/,        // WriteLine call
+            /public\s+\w+\s+\w+/,       // public member
+            /private\s+\w+\s+\w+/,      // private member
+        ],
+        'php': [
+            /<\?php/,                   // PHP opening tag
+            /function\s+\w+\s*\(/,      // function definition
+            /echo\s+/,                  // echo statement
+            /class\s+\w+/,              // class declaration
+            /public\s+function/,        // public method
+            /\$[a-zA-Z_]/,              // variable
+        ],
+        'ruby': [
+            /def\s+\w+/,                // method definition
+            /class\s+\w+/,              // class definition
+            /puts\s+/,                  // puts statement
+            /require\s+/,               // require statement
+            /attr_accessor/,            // attribute accessor
+            /initialize/,               // initialize method
+        ],
+        'go': [
+            /package\s+main/,           // package declaration
+            /func\s+main\s*\(/,         // main function
+            /fmt\.Println/,             // Println call
+            /import\s+\(/,              // import block
+            /type\s+\w+\s+struct/,      // struct definition
+            /var\s+\w+\s+/,             // variable declaration
+        ],
+        'rust': [
+            /fn\s+main\s*\(/,           // main function
+            /println!/,                 // println macro
+            /struct\s+\w+/,             // struct definition
+            /impl\s+\w+/,               // implementation block
+            /let\s+mut\s+\w+/,          // mutable variable
+            /use\s+std::/,              // use statement
+        ],
+        'swift': [
+            /import\s+Foundation/,      // import statement
+            /func\s+\w+\s*\(/,          // function definition
+            /print\s*\(/,               // print call
+            /class\s+\w+/,              // class declaration
+            /var\s+\w+:/,               // variable declaration
+            /let\s+\w+:/,               // constant declaration
+        ],
+        'kotlin': [
+            /fun\s+main\s*\(/,          // main function
+            /println\s*\(/,             // println call
+            /class\s+\w+/,              // class declaration
+            /val\s+\w+:/,               // val declaration
+            /var\s+\w+:/,               // var declaration
+            /import\s+/,                // import statement
+        ],
+        'scala': [
+            /object\s+\w+/,             // object declaration
+            /def\s+main\s*\(/,          // main method
+            /println\s*\(/,             // println call
+            /class\s+\w+/,              // class declaration
+            /val\s+\w+:/,               // val declaration
+            /var\s+\w+:/,               // var declaration
+        ],
+        'perl': [
+            /#!/,                       // shebang
+            /sub\s+\w+/,                // subroutine
+            /print\s+/,                 // print statement
+            /my\s+\$/,                  // my variable
+            /use\s+strict/,             // use strict
+            /package\s+\w+/,            // package declaration
+        ],
+        'lua': [
+            /function\s+\w+\s*\(/,      // function definition
+            /print\s*\(/,               // print call
+            /local\s+\w+\s*=/,          // local variable
+            /if\s+/,                    // if statement
+            /for\s+/,                   // for loop
+            /require\s+/,               // require statement
+        ],
+        'r': [
+            /<-/,                       // assignment operator
+            /print\s*\(/,               // print call
+            /function\s*\(/,            // function definition
+            /library\s*\(/,             // library call
+            /data\.frame/,              // data frame
+            /ggplot/,                   // ggplot reference
+        ],
+        'matlab': [
+            /function\s+\w+\s*=/,       // function definition
+            /disp\s*\(/,                // display call
+            /plot\s*\(/,                // plot call
+            /zeros\s*\(/,               // zeros function
+            /ones\s*\(/,                // ones function
+            /for\s+\w+\s*=/,            // for loop
+        ],
+        'haskell': [
+            /main\s*=/,                 // main definition
+            /putStrLn\s+/,              // putStrLn call
+            /data\s+\w+/,               // data type
+            /import\s+/,                // import statement
+            /::/,                       // type annotation
+            /let\s+\w+\s*=/,            // let binding
+        ],
+        'clojure': [
+            /defn\s+-\w+/,              // main function
+            /println\s+/,               // println call
+            /def\s+\w+/,                // def declaration
+            /ns\s+\w+/,                 // namespace
+            /\(+\s*\w+/,                // function call
+            /let\s*\[/,                 // let binding
+        ],
+        'erlang': [
+            /-module\s*\(/,             // module declaration
+            /-export\s*\(/,             // export declaration
+            /io:format\s*\(/,           // format call
+            /start\s*\(/,               // start function
+            /init\s*\(/,                // init function
+            /terminate\s*\(/,           // terminate function
+        ],
+        'elixir': [
+            /defmodule\s+\w+/,          // module definition
+            /def\s+\w+/,                // function definition
+            /IO\.puts\s+/,              // puts call
+            /use\s+/,                   // use statement
+            /import\s+/,                // import statement
+            /alias\s+/,                 // alias statement
+        ],
+        // Markup and configuration languages (basic validation)
+        'html': [
+            /<html>/,                   // html tag
+            /<head>/,                   // head tag
+            /<body>/,                   // body tag
+            /<div>/,                    // div tag
+            /<p>/,                      // paragraph tag
+        ],
+        'xml': [
+            /<\?xml/,                   // xml declaration
+            /<[^>]+>/,                  // xml tags
+            /<\/[^>]+>/,                // closing tags
+        ],
+        'json': [
+            /{/,                        // object start
+            /}/,                        // object end
+            /\[/,                       // array start
+            /\]/,                       // array end
+            /"[^"]*"\s*:/,              // key-value pair
+        ],
+        'yaml': [
+            /^#/,                        // comment
+            /\w+:\s*/,                   // key-value pair (more flexible)
+            /^\s+\w+:\s*/,               // indented key
+            /^-\s/,                      // list item
+            /:\s*["']?[^"']*["']?$/,     // key-value with quotes or values
+        ],
+        'toml': [
+            /^\[.*\]$/,                 // section header
+            /^\w+\s*=/,                 // key-value
+            /^#/,                       // comment
+        ],
+        'css': [
+            /{/,                        // rule start
+            /}/,                        // rule end
+            /:/,                        // property separator
+            /;/,                        // property end
+            /\w+\s*\{/,                 // selector
+        ],
+        'scss': [
+            /{/,                        // rule start
+            /}/,                        // rule end
+            /\$/,                       // variable
+            /@mixin/,                   // mixin
+            /@include/,                 // include
+        ],
+        'sql': [
+            /SELECT\s+/,                // select statement
+            /FROM\s+/,                  // from clause
+            /WHERE\s+/,                 // where clause
+            /INSERT\s+INTO/,            // insert statement
+            /CREATE\s+TABLE/,           // create table
+        ],
+        'dockerfile': [
+            /FROM\s+/,                  // from instruction
+            /RUN\s+/,                   // run instruction
+            /COPY\s+/,                  // copy instruction
+            /WORKDIR\s+/,               // workdir instruction
+            /EXPOSE\s+/,                // expose instruction
+        ],
+        'makefile': [
+            /^\w+:\s*/,                 // target
+            /^\t/,                      // command line
+            /\$@/,                      // automatic variable
+            /\$</,                      // automatic variable
+            /\$^/,                      // automatic variable
+        ],
+        'shell': [
+            /#!/,                       // shebang
+            /echo\s+/,                  // echo command
+            /if\s+\[/,                  // if statement
+            /for\s+\w+\s+in/,           // for loop
+            /function\s+\w+/,           // function definition
+        ],
+        'bash': [
+            /#!/,                       // shebang
+            /echo\s+/,                  // echo command
+            /if\s+\[/,                  // if statement
+            /for\s+\w+\s+in/,           // for loop
+            /function\s+\w+/,           // function definition
+        ],
+        'powershell': [
+            /#/,                        // comment
+            /Write-Host/,               // write host
+            /function\s+\w+/,           // function definition
+            /\$/,                       // variable
+            /Get-/,                     // cmdlet
+        ],
+        'batch': [
+            /@echo/,                    // echo command
+            /set\s+/,                   // set variable
+            /if\s+/,                    // if statement
+            /for\s+/,                   // for loop
+            /goto\s+/,                  // goto statement
+        ]
+    };
+
+    // Get patterns for the language
+    const patterns = languagePatterns[language.toLowerCase()];
+    if (!patterns) {
+        // For unsupported languages, just check that content exists and has some structure
+        return content.length > 50 && /\w{3,}/.test(content);
+    }
+
+    // Check if content matches at least one language-specific pattern
+    for (const pattern of patterns) {
+        if (pattern.test(content)) {
+            return true;
+        }
+    }
+
+    // If no patterns matched, the code is likely just placeholder text
+    return false;
+}
+
+/**
  * Test header insertion for a language
  */
 function testHeaderInsertion(language) {
@@ -414,6 +726,12 @@ function testCodeBaseInsertion(language) {
         const codeLines = lines.filter(line => !line.includes('/*') && !line.includes('*/') && !line.includes('*') && line.trim() !== '');
         if (codeLines.length === 0) {
             testResults.errors.push(`No code content generated for ${language}`);
+            return false;
+        }
+
+        // Check that generated code contains language-specific syntax patterns
+        if (!validateLanguageSpecificCode(content, language)) {
+            testResults.errors.push(`Generated code for ${language} does not contain language-specific syntax patterns`);
             return false;
         }
 
