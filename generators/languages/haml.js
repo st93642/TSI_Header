@@ -1,0 +1,60 @@
+/**
+ * HAML Language Code Base Generator
+ * Generates HAML code base/boilerplate code
+ */
+
+/**
+ * Generates HAML code base
+ * @returns {string} HAML code base template
+ */
+function generateHAMLCodeBase() {
+    return `
+-# Basic HAML template structure
+-# This is a sample HAML file demonstrating common patterns
+
+!!! 5
+%html{lang: "en"}
+  %head
+    %meta{charset: "utf-8"}
+    %title Sample HAML Page
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1"}
+
+  %body
+    #container
+      %header
+        %h1 Welcome to HAML
+        %nav
+          %ul
+            %li
+              %a{href: "/"} Home
+            %li
+              %a{href: "/about"} About
+            %li
+              %a{href: "/contact"} Contact
+
+      #main
+        %section.hero
+          %h2 Getting Started with HAML
+          %p
+            HAML (HTML Abstraction Markup Language) is a markup language
+            that's used to cleanly and simply describe the HTML of any web document.
+
+        %section.features
+          %h3 Key Features
+          %ul
+            %li Clean, readable syntax
+            %li Automatic closing tags
+            %li Ruby integration
+            %li Whitespace-sensitive indentation
+
+      %footer
+        %p © 2024 Sample HAML Application
+
+-# Comments in HAML use -#
+-# This is another comment
+`;
+}
+
+module.exports = {
+    generateHAMLCodeBase
+};

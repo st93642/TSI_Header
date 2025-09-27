@@ -27,6 +27,31 @@ const { generateScratchCodeBase } = require('./languages/scratch');
 const { generateHackCodeBase } = require('./languages/hack');
 
 /**
+ * Generates HAML code base
+ */
+const { generateHAMLCodeBase } = require('./languages/haml');
+
+/**
+ * Generates Handlebars code base
+ */
+const { generateHandlebarsCodeBase } = require('./languages/handlebars');
+
+/**
+ * Generates Pug code base
+ */
+const { generatePugCodeBase } = require('./languages/pug');
+
+/**
+ * Generates BibTeX code base
+ */
+const { generateBibTeXCodeBase } = require('./languages/bibtex');
+
+/**
+ * Generates Diff code base
+ */
+const { generateDiffCodeBase } = require('./languages/diff');
+
+/**
  * Generates RPG code base
  */
 const { generateRpgCodeBase } = require('./languages/rpg');
@@ -195,6 +220,11 @@ const { generateJavaScriptReactCodeBase } = require('./languages/javascriptreact
  * Generates JSON code base
  */
 const { generateJSONCodeBase } = require('./languages/json');
+
+/**
+ * Generates JSONC code base
+ */
+const { generateJSONCCodeBase } = require('./languages/jsonc');
 
 /**
  * Generates Julia code base
@@ -487,6 +517,9 @@ function generateCodeBase(languageId, fileName) {
             case 'python':
                 content = generatePythonCodeBase();
                 break;
+            case 'pug':
+                content = generatePugCodeBase();
+                break;
             case 'ruby':
                 content = generateRubyCodeBase();
                 break;
@@ -541,6 +574,9 @@ function generateCodeBase(languageId, fileName) {
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
+                break;
+            case 'diff':
+                content = generateDiffCodeBase();
                 break;
             case 'pascal':
             case 'objectpascal':
@@ -645,6 +681,9 @@ function generateCodeBase(languageId, fileName) {
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
+                break;
+            case 'bibtex':
+                content = generateBibTeXCodeBase();
                 break;
             case 'cfml':
             case 'coldfusion':
@@ -760,6 +799,12 @@ function generateCodeBase(languageId, fileName) {
             case 'hack':
                 content = generateHackCodeBase();
                 break;
+            case 'haml':
+                content = generateHAMLCodeBase();
+                break;
+            case 'handlebars':
+                content = generateHandlebarsCodeBase();
+                break;
             case 'haskell':
             case 'Haskell':
                 if (typeof generateHaskellCodeBase === 'function') {
@@ -809,6 +854,9 @@ function generateCodeBase(languageId, fileName) {
                 } else {
                     content = generateDefaultCodeBase(languageId);
                 }
+                break;
+            case 'jsonc':
+                content = generateJSONCCodeBase();
                 break;
             case 'julia':
                 if (typeof generateJuliaCodeBase === 'function') {

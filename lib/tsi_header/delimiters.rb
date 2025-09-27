@@ -19,6 +19,9 @@ module TSIHeader
     SINGLE_SEMICOLONS = ['; ', ' ;', ';', ';', '; ', ' ;']
     TWIG_COMMENTS = ['{# ', ' #}', '{#', '#}', '{# ', ' #}']
     RPG_COMMENTS = ['// ', ' //', '//', '//', '// ', ' //']
+    HAML_COMMENTS = ['-# ', ' -#', '-#', '-#', '-# ', ' -#']
+    HANDLEBARS_COMMENTS = ['{{!-- ', ' --}}', '{{!--', '--}}', '{{!-- ', ' --}}']
+    PUG_COMMENTS = ['//- ', ' -//', '//-', '//-', '//- ', ' -//']
 
     LANGUAGE_DELIMITERS = {
       'abap' => ASTERISKS,
@@ -55,6 +58,8 @@ module TSIHeader
       'fsharp' => PARENS,
       'go' => SLASHES,
       'groovy' => SLASHES,
+      'haml' => HAML_COMMENTS,
+      'handlebars' => HANDLEBARS_COMMENTS,
       'haskell' => DASHES,
       'hack' => SLASHES,
       'hlsl' => SLASHES,
@@ -91,6 +96,7 @@ module TSIHeader
       'php' => SLASHES,
       'plaintext' => HASHES,
       'postscript' => PERCENTS,
+      'pug' => PUG_COMMENTS,
       'powershell' => HASHES,
       'prolog' => PERCENTS,
       'python' => HASHES,
@@ -142,7 +148,10 @@ module TSIHeader
       'FortranFreeForm' => EXCLAMATIONS,
       'systemverilog' => SLASHES,
       'Verilog' => SLASHES,
-      'vbscript' => QUOTES
+      'vbscript' => QUOTES,
+      'bibtex' => PERCENTS,
+      'diff' => HASHES,
+      'jsonc' => SLASHES
     }.freeze
 
     def self.for_language(language_id)

@@ -35,7 +35,7 @@ const HEADER_LANGUAGES = [
     'ada', 'apex', 'algol', 'apl', 'applescript', 'awk', 'basic', 'batch', 'cfml', 'clojure',     'coffeescript',
     'crystal',
     'css', 'd',     'zig', 'nim', 'v',     'dockerfile', 'elixir',     'ejs', 'erb', 'erlang', 'factor', 'forth', 'fsharp',
-    'groovy', 'hack', 'hlsl', 'haskell',     'idl', 'ini', 'jade', 'jinja', 'json', 'julia', 'latex',
+    'groovy', 'hack', 'haml', 'hlsl', 'haskell',     'idl', 'ini', 'jade', 'jinja', 'json', 'jsonc', 'julia', 'latex',
     'less', 'lisp', 'logo', 'lua', 'labview', 'markdown', 'maple', 'mathematica', 'mercury',
     'objective-c', 'objective-cpp', 'ocaml', 'octave', 'perl', 'postscript',
     'powershell', 'prolog', 'rpg', 'scheme', 'scss', 'shellscript', 'smalltalk',
@@ -46,7 +46,8 @@ const HEADER_LANGUAGES = [
     'systemverilog', 'Verilog', 'yml', 'coldfusion', 'haskell', 'javascriptreact',
     'typescriptreact', 'makefile', 'assembly', 'asm', 'cobol', 'delphi',
     'pascal', 'objectpascal', 'matlab', 'r', 'vbscript', 'verse', 'vimscript',
-    'sed', 'sas', 'objective-j', 'vb', 'vbscript', 'verse', 'vimscript', 'sed', 'sas'
+    'sed', 'sas', 'objective-j', 'vb', 'vbscript', 'verse', 'vimscript', 'sed', 'sas', 'bibtex', 'diff',
+    'pug'
 ];
 
 const CODEBASE_LANGUAGES = HEADER_LANGUAGES; // Same as header languages
@@ -165,6 +166,8 @@ function checkCommentMarkers(content, language) {
         'php': ['/*', '*/'],
         'go': ['/*', '*/'],
         'hack': ['/*', '*/'],
+        'haml': ['-# ', ' -#'],
+        'handlebars': ['{{!-- ', ' --}}'],
         'rust': ['/*', '*/'],
         'swift': ['/*', '*/'],
         'kotlin': ['/*', '*/'],
@@ -206,6 +209,7 @@ function checkCommentMarkers(content, language) {
         'basic': [';; '],
         'batch': [';; '],
         'powershell': ['#'],
+        'pug': ['//- ', ' -//'],
         'tcl': ['#'],
         'awk': ['#'],
         'sed': ['#'],
