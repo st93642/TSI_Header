@@ -1,0 +1,12 @@
+/**
+ * SCSS Code Base Generator
+ * Generates boilerplate SCSS (Sass) stylesheets
+ */
+
+function generateScssCodeBase() {
+    return `\n// Basic SCSS stylesheet template\n\n// Variables\n$primary-color: #2c3e50;\n$secondary-color: #3498db;\n$font-size-base: 16px;\n$line-height-base: 1.6;\n$border-radius: 5px;\n$container-width: 1200px;\n\n// Mixins\n@mixin border-radius($radius: $border-radius) {\n  border-radius: $radius;\n  -webkit-border-radius: $radius;\n  -moz-border-radius: $radius;\n}\n\n@mixin box-shadow($shadow: 0 2px 5px rgba(0,0,0,0.1)) {\n  box-shadow: $shadow;\n  -webkit-box-shadow: $shadow;\n  -moz-box-shadow: $shadow;\n}\n\n@mixin transition($property: all, $duration: 0.3s, $easing: ease) {\n  transition: $property $duration $easing;\n  -webkit-transition: $property $duration $easing;\n  -moz-transition: $property $duration $easing;\n}\n\n// Functions\n@function calculate-rem($px) {\n  @return #{$px / 16px}rem;\n}\n\n// Base styles\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nbody {\n  font-family: Arial, sans-serif;\n  font-size: $font-size-base;\n  line-height: $line-height-base;\n  color: #333;\n  background-color: #f4f4f4;\n}\n\n// Container\n.container {\n  max-width: $container-width;\n  margin: 0 auto;\n  padding: 20px;\n}\n\n// Header\nheader {\n  background-color: $primary-color;\n  color: white;\n  padding: 1rem 0;\n  text-align: center;\n  @include border-radius(0);\n  \n  h1 {\n    font-size: calculate-rem(32px);\n    margin-bottom: 0.5rem;\n  }\n}\n\n// Main content\nmain {\n  background-color: white;\n  padding: 2rem;\n  margin: 2rem 0;\n  @include border-radius();\n  @include box-shadow();\n  @include transition();\n  \n  &:hover {\n    @include box-shadow(0 4px 10px rgba(0,0,0,0.15));\n  }\n}\n\n// Buttons\n.btn {\n  display: inline-block;\n  padding: 0.5rem 1rem;\n  background-color: $secondary-color;\n  color: white;\n  text-decoration: none;\n  @include border-radius();\n  @include transition(background-color);\n  \n  &:hover {\n    background-color: darken($secondary-color, 10%);\n  }\n  \n  &--large {\n    padding: 1rem 2rem;\n    font-size: calculate-rem(18px);\n  }\n}\n`;
+}
+
+module.exports = {
+    generateScssCodeBase
+};

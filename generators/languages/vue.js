@@ -1,0 +1,12 @@
+/**
+ * Vue.js Code Base Generator
+ * Generates boilerplate Vue.js code
+ */
+
+function generateVueCodeBase() {
+    return `\n<template>\n  <div id="app" class="app">\n    <header class="app-header">\n      <h1>{{ message }}</h1>\n      <p>This is a basic Vue.js application.</p>\n      <p>Count: {{ count }}</p>\n    </header>\n    \n    <main>\n      <section>\n        <h2>Welcome to TSI</h2>\n        <p>Transport and Telecommunication Institute</p>\n        \n        <div class="buttons">\n          <button @click="increment" class="btn">\n            Increment Counter\n          </button>\n          <button @click="changeMessage" class="btn">\n            Change Message\n          </button>\n          <button @click="reset" class="btn btn--secondary">\n            Reset\n          </button>\n        </div>\n        \n        <div v-if="showWelcome" class="welcome">\n          <p>Welcome, {{ studentName }}!</p>\n        </div>\n      </section>\n    </main>\n  </div>\n</template>\n\n<script>\nexport default {\n  name: 'App',\n  data() {\n    return {\n      message: 'Hello, World!',\n      count: 0,\n      studentName: 'TSI Student',\n      showWelcome: false\n    }\n  },\n  methods: {\n    increment() {\n      this.count++;\n    },\n    changeMessage() {\n      this.message = 'Hello, TSI Student!';\n      this.showWelcome = true;\n    },\n    reset() {\n      this.message = 'Hello, World!';\n      this.count = 0;\n      this.showWelcome = false;\n    }\n  },\n  mounted() {\n    console.log('Vue app mounted successfully!');\n  }\n}\n</script>\n\n<style scoped>\n.app {\n  font-family: Arial, sans-serif;\n  margin: 40px;\n  line-height: 1.6;\n}\n\n.app-header {\n  text-align: center;\n  margin-bottom: 2rem;\n}\n\n.buttons {\n  display: flex;\n  gap: 1rem;\n  justify-content: center;\n  margin: 2rem 0;\n}\n\n.btn {\n  padding: 0.5rem 1rem;\n  background-color: #3498db;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n\n.btn:hover {\n  background-color: #2980b9;\n}\n\n.btn--secondary {\n  background-color: #95a5a6;\n}\n\n.btn--secondary:hover {\n  background-color: #7f8c8d;\n}\n\n.welcome {\n  text-align: center;\n  margin-top: 2rem;\n  padding: 1rem;\n  background-color: #e8f5e8;\n  border-radius: 5px;\n}\n</style>\n`;
+}
+
+module.exports = {
+    generateVueCodeBase
+};

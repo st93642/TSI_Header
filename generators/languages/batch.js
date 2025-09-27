@@ -1,0 +1,52 @@
+/**
+ * Batch Code Base Generator
+ * Generates boilerplate code for Windows Batch scripts
+ */
+
+function generateBatchCodeBase() {
+    return `@echo off
+REM Basic Windows Batch script
+
+echo Hello, World!
+echo This is a basic Batch script.
+
+REM Variable example
+set VERSION=1.0
+set MESSAGE=Welcome to TSI!
+
+echo Version: %VERSION%
+echo %MESSAGE%
+
+REM Array-like structure using variables
+set languages[0]=Batch
+set languages[1]=PowerShell
+set languages[2]=Bash
+
+echo Languages:
+echo   %languages[0]%
+echo   %languages[1]%
+echo   %languages[2]%
+
+REM Conditional logic
+if "%1"=="" (
+    echo No arguments provided
+) else (
+    echo First argument: %1
+)
+
+REM Subroutine example
+call :DisplayInfo
+goto :eof
+
+:DisplayInfo
+echo.
+echo Script Information:
+echo   Current directory: %CD%
+echo   Date: %DATE%
+echo   Time: %TIME%
+goto :eof`;
+}
+
+module.exports = {
+    generateBatchCodeBase
+};

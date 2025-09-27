@@ -1,0 +1,93 @@
+/**
+ * Elixir Code Base Generator
+ * Generates boilerplate code for Elixir projects
+ */
+
+function generateElixirCodeBase() {
+    return `# Basic Elixir program
+
+defmodule TSIApplication do
+  @moduledoc """
+  Main TSI Application module
+  """
+
+  # Module attributes
+  @version "1.0"
+  @message "Hello, World!"
+
+  @doc """
+  Main function - entry point of the program
+  """
+  def main do
+    IO.puts(@message)
+    IO.puts("This is a basic Elixir program.")
+    IO.puts("Version: #{@version}")
+
+    # Run the application
+    run()
+  end
+
+  @doc """
+  Run the application logic
+  """
+  def run do
+    # Example with lists
+    languages = ["Elixir", "Erlang", "Ruby"]
+    IO.puts("Languages:")
+    Enum.each(languages, fn lang ->
+      IO.puts("  #{lang}")
+    end)
+
+    # Example with maps
+    config = %{
+      debug: true,
+      port: 4000,
+      features: ["phoenix", "ecto", "plug"]
+    }
+
+    IO.puts("Configuration:")
+    IO.puts("  Debug: #{config.debug}")
+    IO.puts("  Port: #{config.port}")
+
+    # Example with pattern matching
+    process_data({:ok, "Success"})
+    process_data({:error, "Failed"})
+  end
+
+  @doc """
+  Process data with pattern matching
+  """
+  def process_data({:ok, message}) do
+    IO.puts("Success: #{message}")
+  end
+
+  def process_data({:error, message}) do
+    IO.puts("Error: #{message}")
+  end
+
+  @doc """
+  Get application info
+  """
+  def get_info do
+    %{name: "TSI Application", version: @version}
+  end
+
+  @doc """
+  Greet function
+  """
+  def greet(name) do
+    "Hello, #{name}!"
+  end
+end
+
+# Execute main function
+TSIApplication.main()
+
+# Example usage
+# IO.puts(TSIApplication.greet("TSI Student"))
+# IO.inspect(TSIApplication.get_info())`;
+}
+
+module.exports = {
+    generateElixirCodeBase
+};

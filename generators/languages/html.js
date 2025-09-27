@@ -1,0 +1,12 @@
+/**
+ * HTML Code Base Generator
+ * Generates boilerplate HTML code
+ */
+
+function generateHtmlCodeBase() {
+    return `\n<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>TSI Header - Basic HTML Template</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            margin: 40px;\n            line-height: 1.6;\n            background-color: #f4f4f4;\n        }\n        .container {\n            max-width: 800px;\n            margin: 0 auto;\n            background-color: white;\n            padding: 20px;\n            border-radius: 5px;\n            box-shadow: 0 2px 5px rgba(0,0,0,0.1);\n        }\n        header {\n            text-align: center;\n            margin-bottom: 2rem;\n        }\n        h1 {\n            color: #2c3e50;\n        }\n        .content {\n            margin: 2rem 0;\n        }\n        footer {\n            text-align: center;\n            margin-top: 2rem;\n            padding-top: 1rem;\n            border-top: 1px solid #eee;\n            color: #666;\n        }\n    </style>\n</head>\n<body>\n    <div class="container">\n        <header>\n            <h1>Hello, World!</h1>\n            <p>This is a basic HTML page.</p>\n        </header>\n        \n        <main class="content">\n            <section>\n                <h2>Welcome to TSI</h2>\n                <p><strong>Transport and Telecommunication Institute</strong> - Riga, Latvia</p>\n                <p>Building the future of technology education and innovation.</p>\n                \n                <h3>Our Programs</h3>\n                <ul>\n                    <li>Computer Science</li>\n                    <li>Electrical Engineering</li>\n                    <li>Telecommunications</li>\n                    <li>Information Technology</li>\n                </ul>\n                \n                <h3>Contact Information</h3>\n                <p>\n                    <strong>Website:</strong> <a href="https://tsi.lv">https://tsi.lv</a><br>\n                    <strong>Email:</strong> info@tsi.lv<br>\n                    <strong>Address:</strong> Riga, Latvia\n                </p>\n            </section>\n        </main>\n        \n        <footer>\n            <p>&copy; 2025 Transport and Telecommunication Institute. All rights reserved.</p>\n        </footer>\n    </div>\n</body>\n</html>\n`;
+}
+
+module.exports = {
+    generateHtmlCodeBase
+};
