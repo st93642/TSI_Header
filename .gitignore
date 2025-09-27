@@ -57,3 +57,4 @@ test_*.rb
 # Temporary files
 *.tmp
 *.temp
+.github/copilot-instructions.md
