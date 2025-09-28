@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 28 2025 23:48 st93642                                       */
+/*  Updated: Sep 29 2025 02:33 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -18,23 +18,26 @@ const path = require('path');
 // Import the core interface
 const { TSICore } = require('../index');
 // Import feature modules
-const { CodeQualityEnforcement } = require('../../modules/code-quality-enforcement');
+// Code quality enforcement module removed
 // Import project creator
 const { createTSIProject } = require('../generators/project/projectCreator');
-// Import tree data providers
-const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvider');
 // Import language-specific file creator
 const { createLanguageSpecificFiles } = require('../generators/project/projectcreators/index');
+// Import build system generator
+const { createBuildFiles } = require('../generators/project/buildSystemGenerator');
+// Import documentation generator
+const { createDocumentationFiles } = require('../generators/project/documentationGenerator');
+// Import git ignore generator
+const { createGitIgnoreFile } = require('../generators/project/gitIgnoreGenerator');
+// Import tree data providers
+const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvider');
 
 function activate(context) {
-    console.log('TSI Header extension is now active!');
-
     // Initialize core interface
     const core = new TSICore(context.extensionPath);
 
     // Initialize feature modules
-    const codeQualityModule = new CodeQualityEnforcement(core);
-    const diagnosticCollection = codeQualityModule.getDiagnosticCollection();
+    // Code quality enforcement module removed
 
     // Helper function to show configuration instructions
     function showConfigurationInstructions(type) {
@@ -675,20 +678,24 @@ function activate(context) {
         }
         
         // Generate main source file
-        await createMainSourceFile(language, projectName, projectUri);
+        await createMainSourceFile(language, projectName, projectUri, vscode);
         
         // Create header file (for C/C++)
         if (language === 'c' || language === 'cpp') {
-            await createHeaderFile(language, projectName, projectUri);
+            await createHeaderFile(language, projectName, projectUri, vscode);
         }
         
         // Create language-specific project files
         await createLanguageSpecificFiles(language, projectName, projectUri, vscode);
         
-        // Skip build files, documentation, and gitignore for now (they require VS Code API)
-        // await createBuildFiles(language, projectName, projectUri);
-        // await createDocumentationFiles(language, projectName, projectUri);
-        // await createGitIgnoreFile(language, projectUri);
+        // Create build files (Makefiles, etc.)
+        await createBuildFiles(language, projectName, projectUri);
+        
+        // Create documentation files (README.md)
+        await createDocumentationFiles(language, projectName, projectUri, vscode);
+        
+        // Create .gitignore file
+        await createGitIgnoreFile(language, projectUri, vscode);
     }
 
     // Helper function to get directory structure
@@ -713,7 +720,7 @@ function activate(context) {
     }
 
     // Helper function to create main source file
-    async function createMainSourceFile(language, projectName, projectUri) {
+    async function createMainSourceFile(language, projectName, projectUri, vscode) {
         const extension = getFileExtension(language);
         let fileName = `main.${extension}`;
         let fileUri;
@@ -746,7 +753,7 @@ function activate(context) {
     }
 
     // Helper function to create header file for C/C++
-    async function createHeaderFile(language, projectName, projectUri) {
+    async function createHeaderFile(language, projectName, projectUri, vscode) {
         const extension = language === 'c' ? 'h' : 'hpp';
         const fileName = `${projectName}.${extension}`;
         const fileUri = vscode.Uri.joinPath(projectUri, 'include', fileName);
@@ -868,26 +875,28 @@ extern "C" {
     context.subscriptions.push(refreshProjectsCommand);
 
     // Register feature module commands
-    codeQualityModule.registerCommands(context);
-    context.subscriptions.push(diagnosticCollection);
+    // Code quality enforcement module removed
+    // context.subscriptions.push(diagnosticCollection);
 
     // Set up real-time diagnostics for open documents
-    vscode.workspace.onDidOpenTextDocument(document => {
-        codeQualityModule.updateDiagnostics(document, diagnosticCollection);
-    });
+    // Code quality enforcement module removed
+    // vscode.workspace.onDidOpenTextDocument(document => {
+    //     codeQualityModule.updateDiagnostics(document, diagnosticCollection);
+    // });
 
-    vscode.workspace.onDidChangeTextDocument(event => {
-        codeQualityModule.updateDiagnostics(event.document, diagnosticCollection);
-    });
+    // vscode.workspace.onDidChangeTextDocument(event => {
+    //     codeQualityModule.updateDiagnostics(event.document, diagnosticCollection);
+    // });
 
-    vscode.workspace.onDidCloseTextDocument(document => {
-        diagnosticCollection.delete(document.uri);
-    });
+    // vscode.workspace.onDidCloseTextDocument(document => {
+    //     diagnosticCollection.delete(document.uri);
+    // });
 
     // Analyze currently open documents
-    vscode.workspace.textDocuments.forEach(document => {
-        codeQualityModule.updateDiagnostics(document, diagnosticCollection);
-    });
+    // Code quality enforcement module removed
+    // vscode.workspace.textDocuments.forEach(document => {
+    //     codeQualityModule.updateDiagnostics(document, diagnosticCollection);
+    // });
 }
 
 function deactivate() {}

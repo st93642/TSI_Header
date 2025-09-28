@@ -1,7 +1,7 @@
 {
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
-  "description": "Code generation and professional headers for 120+ programming languages with 100% quality assurance",
+  "description": "Code generation and headers for 120+ languages with 100% quality assurance",
   "version": "4.0.0",
   "publisher": "st93642",
   "author": {
@@ -76,11 +76,13 @@
         {
           "id": "tsi-commands",
           "name": "TSI Commands",
+          "icon": "$(list-unordered)",
           "when": "true"
         },
         {
           "id": "tsi-projects",
           "name": "TSI Projects",
+          "icon": "$(folder)",
           "when": "true"
         }
       ]
@@ -163,18 +165,6 @@
         "title": "Create PHP TSI Project",
         "category": "TSI Header",
         "icon": "$(globe)"
-      },
-      {
-        "command": "tsiheader.analyzeCodeQuality",
-        "title": "Analyze Code Quality",
-        "category": "TSI Header",
-        "icon": "$(checklist)"
-      },
-      {
-        "command": "tsiheader.configureQualityRules",
-        "title": "Configure Quality Rules",
-        "category": "TSI Header",
-        "icon": "$(settings-gear)"
       }
     ],
     "menus": {

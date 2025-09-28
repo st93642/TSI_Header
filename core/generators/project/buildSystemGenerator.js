@@ -20,17 +20,22 @@ try {
 /**
  * Create build system files for the project
  */
-async function createBuildFiles(language, projectName, projectUri) {
-    if (!vscode) {
-        throw new Error('VS Code API not available');
-    }
+async function createBuildFiles(language, projectName, projectUri, vscodeApi = null) {
+    // Use provided vscode API or try to require it
+    const vscode = vscodeApi || (() => {
+        try {
+            return require('vscode');
+        } catch (e) {
+            throw new Error('VS Code API not available');
+        }
+    })();
 
     if (language === 'c' || language === 'cpp') {
-        await createMakefile(language, projectName, projectUri);
+        await createMakefile(language, projectName, projectUri, vscode);
     } else if (language === 'python') {
-        await createPythonMakefile(projectName, projectUri);
+        await createPythonMakefile(projectName, projectUri, vscode);
     } else if (language === 'java') {
-        await createJavaBuildFiles(projectName, projectUri);
+        await createJavaBuildFiles(projectName, projectUri, vscode);
     }
 
     // Future: Add CMake, VS Code tasks.json, etc.
@@ -39,8 +44,8 @@ async function createBuildFiles(language, projectName, projectUri) {
 /**
  * Create Makefile for C/C++ projects
  */
-async function createMakefile(language, projectName, projectUri) {
-    const makefileContent = await generateMakefileContent(language, projectName);
+async function createMakefile(language, projectName, projectUri, vscode) {
+    const makefileContent = await generateMakefileContent(language, projectName, vscode);
     const makefileUri = vscode.Uri.joinPath(projectUri, 'Makefile');
     
     const encoder = new TextEncoder();
@@ -50,7 +55,7 @@ async function createMakefile(language, projectName, projectUri) {
 /**
  * Generate Makefile content based on language and project name
  */
-async function generateMakefileContent(language, projectName) {
+async function generateMakefileContent(language, projectName, vscode) {
     try {
         // Generate proper TSI header using Ruby CLI
         const { execSync } = require('child_process');
@@ -146,8 +151,8 @@ async function generateMakefileContent(language, projectName) {
 /**
  * Create Makefile for Python projects
  */
-async function createPythonMakefile(projectName, projectUri) {
-    const makefileContent = await generatePythonMakefileContentWithHeader(projectName);
+async function createPythonMakefile(projectName, projectUri, vscode) {
+    const makefileContent = await generatePythonMakefileContentWithHeader(projectName, vscode);
     const makefileUri = vscode.Uri.joinPath(projectUri, 'Makefile');
     
     const encoder = new TextEncoder();
@@ -157,7 +162,7 @@ async function createPythonMakefile(projectName, projectUri) {
 /**
  * Generate Python Makefile content
  */
-async function generatePythonMakefileContentWithHeader(projectName) {
+async function generatePythonMakefileContentWithHeader(projectName, vscode) {
     try {
         // Generate proper TSI header using Ruby CLI
         const { execSync } = require('child_process');
@@ -227,16 +232,16 @@ async function generatePythonMakefileContentWithHeader(projectName) {
 /**
  * Create Java build files (Maven pom.xml and Gradle build.gradle)
  */
-async function createJavaBuildFiles(projectName, projectUri) {
-    await createMavenPom(projectName, projectUri);
-    await createGradleBuild(projectName, projectUri);
+async function createJavaBuildFiles(projectName, projectUri, vscode) {
+    await createMavenPom(projectName, projectUri, vscode);
+    await createGradleBuild(projectName, projectUri, vscode);
 }
 
 /**
  * Create Maven pom.xml for Java projects
  */
-async function createMavenPom(projectName, projectUri) {
-    const pomContent = await generateMavenPomContentWithHeader(projectName);
+async function createMavenPom(projectName, projectUri, vscode) {
+    const pomContent = await generateMavenPomContentWithHeader(projectName, vscode);
     const pomUri = vscode.Uri.joinPath(projectUri, 'pom.xml');
     
     const encoder = new TextEncoder();
@@ -246,7 +251,7 @@ async function createMavenPom(projectName, projectUri) {
 /**
  * Generate Maven pom.xml content
  */
-async function generateMavenPomContentWithHeader(projectName) {
+async function generateMavenPomContentWithHeader(projectName, vscode) {
     try {
         // Generate proper TSI header using Ruby CLI
         const { execSync } = require('child_process');
@@ -331,8 +336,8 @@ async function generateMavenPomContentWithHeader(projectName) {
 /**
  * Create Gradle build.gradle for Java projects
  */
-async function createGradleBuild(projectName, projectUri) {
-    const gradleContent = await generateGradleBuildContentWithHeader(projectName);
+async function createGradleBuild(projectName, projectUri, vscode) {
+    const gradleContent = await generateGradleBuildContentWithHeader(projectName, vscode);
     const gradleUri = vscode.Uri.joinPath(projectUri, 'build.gradle');
     
     const encoder = new TextEncoder();
@@ -342,7 +347,7 @@ async function createGradleBuild(projectName, projectUri) {
 /**
  * Generate Gradle build.gradle content
  */
-async function generateGradleBuildContentWithHeader(projectName) {
+async function generateGradleBuildContentWithHeader(projectName, vscode) {
     try {
         // Generate proper TSI header using Ruby CLI
         const { execSync } = require('child_process');

@@ -14,20 +14,22 @@ try {
 /**
  * Create documentation files for the project
  */
-async function createDocumentationFiles(language, projectName, projectUri) {
+async function createDocumentationFiles(language, projectName, projectUri, vscodeInstance) {
+    // Use provided vscode instance or global vscode
+    const vscode = vscodeInstance || (typeof vscode !== 'undefined' ? vscode : null);
     if (!vscode) {
         throw new Error('VS Code API not available');
     }
 
-    await createReadmeFile(language, projectName, projectUri);
+    await createReadmeFile(language, projectName, projectUri, vscode);
     // Future: Create additional docs like CONTRIBUTING.md, API docs, etc.
 }
 
 /**
  * Create README.md file with TSI branding and project information
  */
-async function createReadmeFile(language, projectName, projectUri) {
-    const readmeContent = generateReadmeContent(language, projectName);
+async function createReadmeFile(language, projectName, projectUri, vscode) {
+    const readmeContent = generateReadmeContent(language, projectName, vscode);
     const readmeUri = vscode.Uri.joinPath(projectUri, 'README.md');
     
     const encoder = new TextEncoder();
@@ -37,7 +39,7 @@ async function createReadmeFile(language, projectName, projectUri) {
 /**
  * Generate README.md content
  */
-function generateReadmeContent(language, projectName) {
+function generateReadmeContent(language, projectName, vscode) {
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-US', { 
         month: 'short', 

@@ -29,27 +29,35 @@ const EXTENSION_PATH = __dirname;
 // Language support matrices
 const HEADER_LANGUAGES = [
     // Mainstream languages
-    'abap', 'c', 'cpp', 'csharp', 'cuda', 'cuda-cpp', 'java', 'python', 'racket', 'razor', 'ruby', 'rust', 'go', 'php', 'swift',
-    'dart', 'scala', 'scratch', 'sql', 'html', 'javascript', 'typescript', 'kotlin',
+    'abap', 'c', 'cpp', 'csharp', 'cuda', 'cuda-cpp', 'java', 'python',
+    'racket', 'razor', 'ruby', 'rust', 'go', 'php', 'swift',
+    'dart', 'scala', 'scratch', 'sql', 'html', 'javascript', 'typescript',
+    'kotlin',
 
     // Specialized languages
-    'ada', 'apex', 'algol', 'apl', 'applescript', 'awk', 'basic', 'bat', 'batch', 'cfml', 'clojure',     'coffeescript',
-    'crystal',
-    'css', 'dockercompose', 'd',     'zig', 'nim', 'v',     'dockerfile', 'elixir',     'ejs', 'erb', 'erlang', 'factor', 'forth', 'fsharp',
-    'groovy', 'hack', 'haml', 'handlebars', 'hlsl', 'haskell',     'idl', 'ini', 'jade', 'jinja', 'json', 'jsonc', 'julia', 'latex', 'tex',
-    'less', 'lisp', 'logo', 'lua', 'labview', 'markdown', 'maple', 'mathematica', 'mercury',
+    'ada', 'apex', 'algol', 'apl', 'applescript', 'awk', 'basic', 'bat',
+    'batch', 'cfml', 'clojure', 'coffeescript', 'crystal',
+    'css', 'dockercompose', 'd', 'zig', 'nim', 'v', 'dockerfile', 'elixir',
+    'ejs', 'erb', 'erlang', 'factor', 'forth', 'fsharp',
+    'groovy', 'hack', 'haml', 'handlebars', 'hlsl', 'haskell', 'idl', 'ini',
+    'jade', 'jinja', 'json', 'jsonc', 'julia', 'latex', 'tex',
+    'less', 'lisp', 'logo', 'lua', 'labview', 'markdown', 'maple',
+    'mathematica', 'mercury',
     'objective-c', 'objective-cpp', 'ocaml', 'octave', 'perl', 'postscript',
-    'powershell', 'prolog', 'rpg', 'scheme', 'scss', 'shaderlab', 'shellscript', 'smalltalk',
-    'solidity',     'tcl', 'toml', 'twig', 'vala', 'genie', 'vb', 'vbscript', 'verilog', 'vhdl', 'vue', 'xml', 'xsl', 'yaml',
+    'powershell', 'prolog', 'rpg', 'scheme', 'scss', 'shaderlab',
+    'shellscript', 'smalltalk',
+    'solidity', 'tcl', 'toml', 'twig', 'vala', 'genie', 'vb', 'vbscript',
+    'verilog', 'vhdl', 'vue', 'xml', 'xsl', 'yaml',
 
     // Additional variants
-    'c++', 'fortran', 'fortran90', 'FortranFreeForm', 'perl6', 'raku', 'plaintext',
-    'systemverilog', 'Verilog', 'yml', 'coldfusion', 'haskell', 'javascriptreact',
-    'typescriptreact', 'makefile', 'assembly', 'asm', 'cobol', 'delphi',
-    'pascal', 'objectpascal', 'matlab', 'r', 'vbscript', 'verse', 'vimscript',
-    'sed', 'sas', 'objective-j', 'vb', 'vbscript', 'verse', 'vimscript', 'sed', 'sas', 'bibtex', 'diff',
-    'pug', 'slim', 'stylus', 'svelte', 'vue-html',
-    'git', 'git-commit', 'git-rebase'
+    'c++', 'fortran', 'fortran90', 'FortranFreeForm', 'perl6', 'raku',
+    'plaintext', 'systemverilog', 'Verilog', 'yml', 'coldfusion', 'haskell',
+    'javascriptreact', 'typescriptreact', 'makefile', 'assembly', 'asm',
+    'cobol', 'delphi', 'pascal', 'objectpascal', 'matlab', 'r', 'vbscript',
+    'verse', 'vimscript', 'sed', 'sas', 'objective-j', 'vb', 'vbscript',
+    'verse', 'vimscript', 'sed', 'sas', 'bibtex', 'diff',
+    'pug', 'slim', 'stylus', 'svelte', 'vue-html', 'git', 'git-commit',
+    'git-rebase'
 ];
 
 const CODEBASE_LANGUAGES = HEADER_LANGUAGES; // Same as header languages
@@ -136,9 +144,12 @@ class ProgressBar {
         const empty = this.width - filled;
         const bar = '█'.repeat(filled) + '░'.repeat(empty);
         const elapsed = (Date.now() - this.startTime) / 1000;
-        const eta = this.current > 0 ? (elapsed / this.current) * (this.total - this.current) : 0;
-        
-        process.stdout.write(`\r[${bar}] ${percentage}% (${this.current}/${this.total}) ETA: ${eta.toFixed(1)}s`);
+        const eta = this.current > 0 ?
+            (elapsed / this.current) * (this.total - this.current) : 0;
+
+        process.stdout.write(
+            `\r[${bar}] ${percentage}% (${this.current}/${this.total}) ETA: ${eta.toFixed(1)}s`
+        );
     }
 
     complete() {
@@ -182,7 +193,8 @@ function validateTSIHeader(content, language) {
     const lines = content.split('\n');
 
     // Check for TSI branding
-    if (!content.includes('TSI') && !content.includes('Transport and Telecommunication Institute')) {
+    if (!content.includes('TSI') &&
+        !content.includes('Transport and Telecommunication Institute')) {
         return { valid: false, reason: 'Missing TSI branding in header' };
     }
 
@@ -193,7 +205,8 @@ function validateTSIHeader(content, language) {
     }
 
     // Check for basic header structure (filename, author, dates)
-    if (!content.includes('By:') || !content.includes('Created:') || !content.includes('Updated:')) {
+    if (!content.includes('By:') || !content.includes('Created:') ||
+        !content.includes('Updated:')) {
         return { valid: false, reason: 'Missing required header fields' };
     }
 
@@ -779,7 +792,8 @@ function testCodeBaseInsertion(language) {
         const headerOutput = JSON.parse(headerResult);
         if (!headerOutput.success) {
             // Check if it's an unsupported language message
-            if (headerOutput.message && headerOutput.message.includes('No header support for language')) {
+            if (headerOutput.message &&
+                headerOutput.message.includes('No header support for language')) {
                 return true; // Skip, not fail
             }
             return false;
@@ -810,7 +824,10 @@ function testCodeBaseInsertion(language) {
 
         // Check that code content exists (not just header)
         const lines = content.split('\n');
-        const codeLines = lines.filter(line => !line.includes('/*') && !line.includes('*/') && !line.includes('*') && line.trim() !== '');
+        const codeLines = lines.filter(line =>
+            !line.includes('/*') && !line.includes('*/') &&
+            !line.includes('*') && line.trim() !== ''
+        );
         if (codeLines.length === 0) {
             return false;
         }
@@ -855,7 +872,8 @@ function testClassCreation(language) {
         const headerOutput = JSON.parse(headerResult);
         if (!headerOutput.success) {
             // Check if it's an unsupported language message
-            if (headerOutput.message && headerOutput.message.includes('No header support for language')) {
+            if (headerOutput.message &&
+                headerOutput.message.includes('No header support for language')) {
                 return true; // Skip, not fail
             }
             return false;
@@ -906,7 +924,7 @@ function testCppClassCreation(className) {
         const Module = require('module');
         const originalRequire = Module.prototype.require;
 
-        Module.prototype.require = function(id) {
+        Module.prototype.require = function (id) {
             if (id === 'vscode') {
                 return mockVSCode;
             }
@@ -1021,7 +1039,7 @@ function testExtensionAPI() {
         const Module = require('module');
         const originalRequire = Module.prototype.require;
 
-        Module.prototype.require = function(id) {
+        Module.prototype.require = function (id) {
             if (id === 'vscode') {
                 return mockVSCode;
             }
@@ -1097,7 +1115,8 @@ function testExtensionAPI() {
                 'tsiheader.createTSIProject'
             ];
             const registeredCommands = commandSubscriptions.map(sub => sub.command);
-            const missingCommands = expectedCommands.filter(cmd => !registeredCommands.includes(cmd));
+            const missingCommands = expectedCommands.filter(cmd =>
+                !registeredCommands.includes(cmd));
 
             if (missingCommands.length === 0) {
                 testsPassed++;
@@ -1158,7 +1177,7 @@ function createMockVSCode() {
             registerCommand: (command, handler) => ({
                 command,
                 handler,
-                dispose: () => {}
+                dispose: () => { }
             }),
             executeCommand: (command, ...args) => Promise.resolve()
         },
@@ -1187,20 +1206,20 @@ function createMockVSCode() {
             },
             createOutputChannel: (name) => ({
                 name,
-                append: () => {},
-                appendLine: () => {},
-                clear: () => {},
-                show: () => {},
-                hide: () => {},
-                dispose: () => {}
+                append: () => { },
+                appendLine: () => { },
+                clear: () => { },
+                show: () => { },
+                hide: () => { },
+                dispose: () => { }
             }),
             createTextEditorDecorationType: (options) => ({
                 key: 'decoration',
-                dispose: () => {}
+                dispose: () => { }
             }),
             registerTreeDataProvider: (viewId, provider) => {
                 registeredTreeProviders.push({ viewId, provider });
-                return { dispose: () => {} };
+                return { dispose: () => { } };
             }
         },
         workspace: {
@@ -1220,12 +1239,54 @@ function createMockVSCode() {
                 name: 'TSI_Header',
                 index: 0
             }],
-            onDidChangeConfiguration: () => ({ dispose: () => {} }),
-            onDidChangeWorkspaceFolders: () => ({ dispose: () => {} }),
-            onDidSaveTextDocument: () => ({ dispose: () => {} }),
-            onDidOpenTextDocument: () => ({ dispose: () => {} }),
-            onDidChangeTextDocument: () => ({ dispose: () => {} }),
-            onDidCloseTextDocument: () => ({ dispose: () => {} }),
+            fs: {
+                createDirectory: async (uri) => {
+                    const dirPath = uri.fsPath;
+                    if (!fs.existsSync(dirPath)) {
+                        fs.mkdirSync(dirPath, { recursive: true });
+                    }
+                },
+                writeFile: async (uri, content) => {
+                    const filePath = uri.fsPath;
+                    const dirPath = path.dirname(filePath);
+                    if (!fs.existsSync(dirPath)) {
+                        fs.mkdirSync(dirPath, { recursive: true });
+                    }
+                    fs.writeFileSync(filePath, content);
+                },
+                readFile: async (uri) => {
+                    const filePath = uri.fsPath;
+                    return fs.readFileSync(filePath);
+                },
+                delete: async (uri, options) => {
+                    const filePath = uri.fsPath;
+                    if (fs.existsSync(filePath)) {
+                        const stat = fs.statSync(filePath);
+                        if (stat.isDirectory()) {
+                            fs.rmSync(filePath, { recursive: true, force: true });
+                        } else {
+                            fs.unlinkSync(filePath);
+                        }
+                    }
+                },
+                stat: async (uri) => {
+                    const filePath = uri.fsPath;
+                    const stat = fs.statSync(filePath);
+                    return {
+                        type: stat.isDirectory() ? 2 : 1,
+                        // FileType.Directory = 2, FileType.File = 1
+                        size: stat.size,
+                        mtime: stat.mtime.getTime(),
+                        ctime: stat.ctime.getTime()
+                    };
+                }
+            },
+            onDidChangeConfiguration: () => ({ dispose: () => { } }),
+            onDidChangeWorkspaceFolders: () => ({ dispose: () => { } }),
+            onDidSaveTextDocument: () => ({ dispose: () => { } }),
+            onDidOpenTextDocument: () => ({ dispose: () => { } }),
+            onDidChangeTextDocument: () => ({ dispose: () => { } }),
+            onDidCloseTextDocument: () => ({ dispose: () => { } }),
             textDocuments: [],
             findFiles: (pattern, exclude, maxResults) => Promise.resolve([]),
             openTextDocument: (uri) => Promise.resolve({
@@ -1241,18 +1302,19 @@ function createMockVSCode() {
             showTextDocument: (document, options) => Promise.resolve({
                 document,
                 viewColumn: 1,
-                dispose: () => {}
+                dispose: () => { }
             })
         },
         languages: {
             match: (selector, document) => 1,
-            getLanguages: () => Promise.resolve(['javascript', 'typescript', 'python', 'java', 'c', 'cpp']),
+            getLanguages: () =>
+                Promise.resolve(['javascript', 'typescript', 'python', 'java', 'c', 'cpp']),
             createDiagnosticCollection: (name) => ({
                 name,
-                set: (uri, diagnostics) => {},
-                delete: (uri) => {},
-                clear: () => {},
-                dispose: () => {}
+                set: (uri, diagnostics) => { },
+                delete: (uri) => { },
+                clear: () => { },
+                dispose: () => { }
             })
         },
         env: {
@@ -1260,7 +1322,12 @@ function createMockVSCode() {
         },
         Uri: {
             file: (path) => ({ fsPath: path, scheme: 'file' }),
-            parse: (uri) => ({ fsPath: uri, scheme: 'https' })
+            parse: (uri) => ({ fsPath: uri, scheme: 'https' }),
+            joinPath: (base, ...paths) => {
+                const basePath = base.fsPath || base;
+                const fullPath = path.join(basePath, ...paths);
+                return { fsPath: fullPath, scheme: 'file' };
+            }
         },
         Position: class {
             constructor(line, character) {
@@ -1293,7 +1360,7 @@ function createMockVSCode() {
             }
             event = (listener) => {
                 this.listeners.push(listener);
-                return { dispose: () => {} };
+                return { dispose: () => { } };
             };
             fire = (data) => {
                 this.listeners.forEach(listener => listener(data));
@@ -1325,8 +1392,6 @@ function testRubyBackend() {
         return false;
     }
 }
-
-
 
 /**
  * Test project scaffolding for a specific language
@@ -1392,6 +1457,15 @@ async function createTestProjectStructure(language, projectName, projectUri) {
 
     // Create language-specific project files
     await createTestLanguageSpecificFiles(language, projectName, projectUri);
+
+    // Create build files (Makefiles, etc.)
+    await createTestBuildFiles(language, projectName, projectUri);
+
+    // Create documentation files (README.md)
+    await createTestDocumentationFiles(language, projectName, projectUri);
+
+    // Create gitignore files (.gitignore)
+    await createTestGitIgnoreFiles(language, projectName, projectUri);
 }
 
 /**
@@ -1490,8 +1564,38 @@ extern "C" {
  * Create language-specific project files
  */
 async function createTestLanguageSpecificFiles(language, projectName, projectUri) {
-    const { createLanguageSpecificFiles } = require('./core/generators/project/projectcreators/index');
-    await createLanguageSpecificFiles(language, projectName, projectUri, vscode);
+    const { createLanguageSpecificFiles } =
+        require('./core/generators/project/projectcreators/index');
+    const { mockVSCode } = createMockVSCode();
+    await createLanguageSpecificFiles(language, projectName, projectUri, mockVSCode);
+}
+
+/**
+ * Create build files for test projects
+ */
+async function createTestBuildFiles(language, projectName, projectUri) {
+    const { createBuildFiles } = require('./core/generators/project/buildSystemGenerator');
+    const { mockVSCode } = createMockVSCode();
+    await createBuildFiles(language, projectName, projectUri, mockVSCode);
+}
+
+/**
+ * Create documentation files for test projects
+ */
+async function createTestDocumentationFiles(language, projectName, projectUri) {
+    const { createDocumentationFiles } =
+        require('./core/generators/project/documentationGenerator');
+    const { mockVSCode } = createMockVSCode();
+    await createDocumentationFiles(language, projectName, projectUri, mockVSCode);
+}
+
+/**
+ * Create gitignore files for test projects
+ */
+async function createTestGitIgnoreFiles(language, projectName, projectUri) {
+    const { createGitIgnoreFile } = require('./core/generators/project/gitIgnoreGenerator');
+    const { mockVSCode } = createMockVSCode();
+    await createGitIgnoreFile(language, projectUri, mockVSCode);
 }
 
 /**
@@ -1576,19 +1680,62 @@ function getExpectedFiles(language, projectName) {
     const files = [];
 
     if (language === 'c') {
-        files.push('src/main.c', `include/${projectName}.h`);
+        files.push(
+            'src/main.c',
+            `include/${projectName}.h`,
+            'Makefile',
+            'README.md',
+            '.gitignore'
+        );
     } else if (language === 'cpp') {
-        files.push('src/main.cpp', `include/${projectName}.hpp`);
+        files.push(
+            'src/main.cpp',
+            `include/${projectName}.hpp`,
+            'Makefile',
+            'README.md',
+            '.gitignore'
+        );
     } else if (language === 'python') {
-        files.push('src/main.py', 'src/base_class.py', 'requirements.txt', 'setup.py');
+        files.push(
+            'src/main.py',
+            'src/base_class.py',
+            'requirements.txt',
+            'setup.py',
+            'Makefile',
+            'README.md',
+            '.gitignore'
+        );
     } else if (language === 'java') {
-        files.push('src/main/java/Main.java');
+        files.push(
+            'src/main/java/Main.java',
+            'pom.xml',
+            'build.gradle',
+            'README.md',
+            '.gitignore'
+        );
     } else if (language === 'rust') {
-        files.push('src/main.rs', 'Cargo.toml');
+        files.push(
+            'src/main.rs',
+            'Cargo.toml',
+            'README.md',
+            '.gitignore'
+        );
     } else if (language === 'ruby') {
-        files.push('src/main.rb', 'lib/base_class.rb', 'Gemfile');
+        files.push(
+            'src/main.rb',
+            'lib/base_class.rb',
+            'Gemfile',
+            'README.md',
+            '.gitignore'
+        );
     } else if (language === 'php') {
-        files.push('public/index.php', 'src/BaseClass.php', 'composer.json');
+        files.push(
+            'public/index.php',
+            'src/BaseClass.php',
+            'composer.json',
+            'README.md',
+            '.gitignore'
+        );
     }
 
     return files;
@@ -1610,7 +1757,10 @@ async function verifyFileContents(language, projectPath, projectName) {
         const content = fs.readFileSync(filePath, 'utf8');
 
         // Check for TSI header (except for certain files)
-        const skipHeaderCheck = ['composer.json', 'Cargo.toml', 'requirements.txt', 'Gemfile'].some(skipFile =>
+        const skipFiles = ['composer.json', 'Cargo.toml', 'requirements.txt',
+            'Gemfile', 'Makefile', 'pom.xml', 'build.gradle',
+            'README.md', '.gitignore'];
+        const skipHeaderCheck = skipFiles.some(skipFile =>
             file.endsWith(skipFile)
         );
 
@@ -1622,18 +1772,21 @@ async function verifyFileContents(language, projectPath, projectName) {
             // Verify that the header contains the correct filename
             const fileName = path.basename(file);
             if (!content.includes(fileName)) {
-                throw new Error(`File ${file} header contains incorrect filename. Expected: ${fileName}`);
+                throw new Error(
+                    `File ${file} header contains incorrect filename. Expected: ${fileName}`
+                );
             }
         }
 
         // Check for basic content structure
-        if (file.endsWith('.c') || file.endsWith('.cpp') || file.endsWith('.py') || file.endsWith('.java') ||
-            file.endsWith('.rs') || file.endsWith('.rb') || file.endsWith('.php')) {
+        if (file.endsWith('.c') || file.endsWith('.cpp') || file.endsWith('.py') ||
+            file.endsWith('.java') || file.endsWith('.rs') || file.endsWith('.rb') ||
+            file.endsWith('.php')) {
             // Skip base class files and build files for content check
             const isBaseClass = file.includes('base_class') || file.includes('BaseClass');
             const isBuildFile = file.includes('setup.py') || file.includes('requirements.txt') ||
-                               file.includes('composer.json') || file.includes('Cargo.toml') ||
-                               file.includes('Gemfile');
+                file.includes('composer.json') || file.includes('Cargo.toml') ||
+                file.includes('Gemfile');
             if (!isBaseClass && !isBuildFile && !content.includes('Hello, World')) {
                 throw new Error(`File ${file} missing expected content`);
             }
@@ -1814,52 +1967,83 @@ async function runAllTests() {
             testResults.sections.projects.failures.push(language);
             testResults.failed++;
         }
-        projectProgress.update(testResults.sections.projects.passed + testResults.sections.projects.failed);
+        projectProgress.update(
+            testResults.sections.projects.passed + testResults.sections.projects.failed
+        );
     }
 
     projectProgress.complete();
 
     // Generate comprehensive test report
     console.log('\n📊 Test Results:');
-    console.log(`Total: ${testResults.total}, Passed: ${testResults.passed}, Failed: ${testResults.failed}, Success: ${((testResults.passed / testResults.total) * 100).toFixed(1)}%`);
+    const successRate = ((testResults.passed / testResults.total) * 100).toFixed(1);
+    console.log(`Total: ${testResults.total}, Passed: ${testResults.passed}, ` +
+        `Failed: ${testResults.failed}, Success: ${successRate}%`);
 
     // Display failures at the end
     if (testResults.failed > 0) {
         console.log('\n❌ Failed Tests:');
-        
+
         if (testResults.sections.headers.failures.length > 0) {
-            console.log(`\n📝 Header Insertion Failures (${testResults.sections.headers.failures.length}):`);
+            console.log(
+                `\n📝 Header Insertion Failures (${testResults.sections.headers.failures.length}):`
+            );
             testResults.sections.headers.failures.forEach(failure => console.log(`  - ${failure}`));
         }
-        
+
         if (testResults.sections.codebases.failures.length > 0) {
-            console.log(`\n🏗️  Code Base Insertion Failures (${testResults.sections.codebases.failures.length}):`);
-            testResults.sections.codebases.failures.forEach(failure => console.log(`  - ${failure}`));
+            console.log(
+                '\n🏗️  Code Base Insertion Failures (' +
+                testResults.sections.codebases.failures.length + '):'
+            );
+            testResults.sections.codebases.failures.forEach(failure =>
+                console.log('  - ' + failure)
+            );
         }
-        
+
         if (testResults.sections.classes.failures.length > 0) {
-            console.log(`\n🏛️  Class Creation Failures (${testResults.sections.classes.failures.length}):`);
-            testResults.sections.classes.failures.forEach(failure => console.log(`  - ${failure}`));
+            const msg = '\n🏛️  Class Creation Failures (' +
+                testResults.sections.classes.failures.length + '):';
+            console.log(msg);
+            testResults.sections.classes.failures.forEach(failure =>
+                console.log('  - ' + failure)
+            );
         }
-        
+
         if (testResults.sections.syntax.failures.length > 0) {
-            console.log(`\n🔍 Syntax Validation Failures (${testResults.sections.syntax.failures.length}):`);
-            testResults.sections.syntax.failures.forEach(failure => console.log(`  - ${failure}`));
+            const msg = '\n🔍 Syntax Validation Failures (' +
+                testResults.sections.syntax.failures.length + '):';
+            console.log(msg);
+            testResults.sections.syntax.failures.forEach(failure =>
+                console.log('  - ' + failure)
+            );
         }
-        
+
         if (testResults.sections.api.failures.length > 0) {
-            console.log(`\n🔧 Extension API Failures (${testResults.sections.api.failures.length}):`);
-            testResults.sections.api.failures.forEach(failure => console.log(`  - ${failure}`));
+            const msg = '\n🔧 Extension API Failures (' +
+                testResults.sections.api.failures.length + '):';
+            console.log(msg);
+            testResults.sections.api.failures.forEach(failure =>
+                console.log('  - ' + failure)
+            );
         }
-        
+
         if (testResults.sections.ruby.failures.length > 0) {
-            console.log(`\n💎 Ruby Backend Failures (${testResults.sections.ruby.failures.length}):`);
-            testResults.sections.ruby.failures.forEach(failure => console.log(`  - ${failure}`));
+            const msg = '\n💎 Ruby Backend Failures (' +
+                testResults.sections.ruby.failures.length + '):';
+            console.log(msg);
+            testResults.sections.ruby.failures.forEach(failure =>
+                console.log('  - ' + failure)
+            );
         }
-        
+
         if (testResults.sections.projects.failures.length > 0) {
-            console.log(`\n🏗️  Project Scaffolding Failures (${testResults.sections.projects.failures.length}):`);
-            testResults.sections.projects.failures.forEach(failure => console.log(`  - ${failure}`));
+            const msg = '\n🏗️  Project Scaffolding Failures (' +
+                testResults.sections.projects.failures.length + '):';
+            console.log(msg);
+            testResults.sections.projects.failures.forEach(failure =>
+                console.log('  - ' + failure)
+            );
         }
     }
 
@@ -1878,7 +2062,7 @@ async function runAllTests() {
         timestamp: new Date().toISOString(),
         version: '3.0.5'
     }, null, 2));
-    console.log(`\nReport saved: ${reportPath}`);
+    console.log('\nReport saved: ' + reportPath);
 
     return testResults.failed === 0;
 }

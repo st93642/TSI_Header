@@ -14,7 +14,9 @@ try {
 /**
  * Create .gitignore file for the project
  */
-async function createGitIgnoreFile(language, projectUri) {
+async function createGitIgnoreFile(language, projectUri, vscodeInstance) {
+    // Use provided vscode instance or global vscode
+    const vscode = vscodeInstance || (typeof vscode !== 'undefined' ? vscode : null);
     if (!vscode) {
         throw new Error('VS Code API not available');
     }

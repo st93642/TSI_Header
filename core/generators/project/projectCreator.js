@@ -172,11 +172,11 @@ async function createProjectStructure(language, projectName, workspaceUri) {
     }
     
     // Generate main source file
-    await createMainSourceFile(language, projectName, projectUri);
+    await createMainSourceFile(language, projectName, projectUri, vscode);
     
     // Create header file (for C/C++)
     if (language === 'c' || language === 'cpp') {
-        await createHeaderFile(language, projectName, projectUri);
+        await createHeaderFile(language, projectName, projectUri, vscode);
     }
     
     // Create language-specific project files
@@ -186,10 +186,10 @@ async function createProjectStructure(language, projectName, workspaceUri) {
     await createBuildFiles(language, projectName, projectUri);
     
     // Create documentation
-    await createDocumentationFiles(language, projectName, projectUri);
+    await createDocumentationFiles(language, projectName, projectUri, vscode);
     
     // Create .gitignore
-    await createGitIgnoreFile(language, projectUri);
+    await createGitIgnoreFile(language, projectUri, vscode);
 }
 
 /**
@@ -218,7 +218,7 @@ function getDirectoryStructure(language) {
 /**
  * Create main source file with TSI header and code
  */
-async function createMainSourceFile(language, projectName, projectUri) {
+async function createMainSourceFile(language, projectName, projectUri, vscode) {
     const extension = getFileExtension(language);
     let fileName = `main.${extension}`;
     let fileUri;
@@ -253,7 +253,7 @@ async function createMainSourceFile(language, projectName, projectUri) {
 /**
  * Create header file for C/C++
  */
-async function createHeaderFile(language, projectName, projectUri) {
+async function createHeaderFile(language, projectName, projectUri, vscode) {
     const extension = language === 'c' ? 'h' : 'hpp';
     const fileName = `${projectName}.${extension}`;
     const fileUri = vscode.Uri.joinPath(projectUri, 'include', fileName);

@@ -130,11 +130,11 @@ The TSI Header extension provides multiple ways to access its functionality:
 - Right-click on files for header operations and code generation
 - Right-click on folders for project creation
 
-![TSI Header Menu](tsi-menu.png)
+![TSI Header Menu](resources/tsi-menu.png)
 
 TSI Header extension menu with available commands
 
-![TSI Projects Panel](ui_panel_view.png)
+![TSI Projects Panel](resources/ui_panel_view.png)
 
 TSI Projects panel showing language-specific project creation options
 
@@ -202,7 +202,7 @@ All TSI Header commands are also available through right-click context menus:
   - Documentation (README.md)
   - Starter code and proper directory structure
 
-![C++ Project Creation](ui_cpp_project.png)
+![C++ Project Creation](resources/ui_cpp_project.png)
 
 C++ project creation interface with build system selection
 
