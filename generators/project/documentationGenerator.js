@@ -185,7 +185,8 @@ function getLanguageDisplayName(language) {
         'c': 'C',
         'cpp': 'C++',
         'rust': 'Rust',
-        'ruby': 'Ruby'
+        'ruby': 'Ruby',
+        'php': 'PHP'
     };
     return displayNames[language] || language.toUpperCase();
 }
@@ -200,6 +201,8 @@ function getBuildCommand(language) {
         return 'cargo build';
     } else if (language === 'ruby') {
         return 'bundle install';
+    } else if (language === 'php') {
+        return 'composer install';
     }
     return 'make';
 }
@@ -214,6 +217,8 @@ function getRunCommand(language, projectName) {
         return 'cargo run';
     } else if (language === 'ruby') {
         return 'ruby bin/main.rb';
+    } else if (language === 'php') {
+        return 'php -S localhost:8000 -t public/';
     }
     return `./build/${projectName}`;
 }
@@ -264,6 +269,18 @@ function getProjectStructure(language, projectName) {
 ├── docs/                     # Documentation
 ├── README.md                 # This file
 └── .gitignore               # Git ignore patterns`;
+    } else if (language === 'php') {
+        return `${projectName}/
+├── public/
+│   └── index.php             # Main entry point with TSI header
+├── src/
+│   └── BaseClass.php         # Base class implementation
+├── tests/                    # PHPUnit tests
+├── composer.json             # PHP dependencies and configuration
+├── composer.lock             # Dependency lock file (generated)
+├── docs/                     # Documentation
+├── README.md                 # This file
+└── .gitignore               # Git ignore patterns`;
     }
     
     return `${projectName}/
@@ -297,6 +314,12 @@ function getPrerequisites(language) {
 - **Bundler**: \`bundle --version\` (install with \`gem install bundler\`)
 - **Git**: \`git --version\` (for version control)
 - **Recommended**: Use [RVM](https://rvm.io/) or [rbenv](https://github.com/rbenv/rbenv) for Ruby version management`;
+    } else if (language === 'php') {
+        return `- **PHP**: \`php --version\` (recommended: PHP 8.0+)
+- **Composer**: \`composer --version\` (PHP dependency manager, install from [getcomposer.org](https://getcomposer.org/))
+- **Git**: \`git --version\` (for version control)
+- **Web Server**: Apache/Nginx or built-in PHP server for development
+- **Recommended**: Install PHP with extensions like mbstring, intl, and pdo`;
     }
     
     return '- Basic development environment';
@@ -329,6 +352,14 @@ function getLanguageResources(language) {
 - [Ruby Style Guide](https://rubystyle.guide/)
 - [Ruby Koans](http://rubykoans.com/) - Learning exercises
 - [Try Ruby](https://try.ruby-lang.org/) - Interactive learning`;
+    } else if (language === 'php') {
+        return `- [PHP Manual](https://www.php.net/manual/en/)
+- [PHP The Right Way](https://phptherightway.com/)
+- [Composer Documentation](https://getcomposer.org/doc/)
+- [Laravel Documentation](https://laravel.com/docs) (if using Laravel framework)
+- [Symfony Documentation](https://symfony.com/doc/) (if using Symfony framework)
+- [PHP Standards Recommendations (PSR)](https://www.php-fig.org/psr/)
+- [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) for code quality`;
     }
     
     return '- Language documentation and tutorials';

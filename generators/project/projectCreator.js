@@ -100,6 +100,12 @@ async function showLanguageQuickPick() {
             description: 'Dynamic programming with elegant syntax',
             detail: 'Creates: main.rb, classes, Gemfile, documentation',
             value: 'ruby'
+        },
+        {
+            label: '$(symbol-namespace) PHP Project',
+            description: 'Server-side web development',
+            detail: 'Creates: index.php, classes, composer.json, documentation',
+            value: 'php'
         }
     ];
 
@@ -202,6 +208,8 @@ function getDirectoryStructure(language) {
         return [...commonDirs, 'src', 'tests', 'examples', 'benches'];
     } else if (language === 'ruby') {
         return [...commonDirs, 'lib', 'spec', 'bin', 'config'];
+    } else if (language === 'php') {
+        return [...commonDirs, 'src', 'public', 'tests'];
     }
     
     return commonDirs;
@@ -219,6 +227,10 @@ async function createMainSourceFile(language, projectName, projectUri) {
         // For Java, create Main.java in the proper package structure
         fileName = 'Main.java';
         fileUri = vscode.Uri.joinPath(projectUri, 'src', 'main', 'java', fileName);
+    } else if (language === 'php') {
+        // For PHP, create index.php in the public directory
+        fileName = 'index.php';
+        fileUri = vscode.Uri.joinPath(projectUri, 'public', fileName);
     } else {
         fileUri = vscode.Uri.joinPath(projectUri, 'src', fileName);
     }
@@ -282,7 +294,8 @@ function getFileExtension(language) {
         'python': 'py',
         'java': 'java',
         'rust': 'rs',
-        'ruby': 'rb'
+        'ruby': 'rb',
+        'php': 'php'
     };
     return extensions[language] || 'txt';
 }

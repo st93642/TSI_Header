@@ -10,6 +10,7 @@ const { createPythonFiles } = require('./pythonProjectCreator');
 const { createJavaFiles } = require('./javaProjectCreator');
 const { createRustFiles } = require('./rustProjectCreator');
 const { createRubyFiles } = require('./rubyProjectCreator');
+const { createPhpFiles } = require('./phpProjectCreator');
 
 /**
  * Create language-specific project files
@@ -39,6 +40,9 @@ async function createLanguageSpecificFiles(language, projectName, projectUri, vs
         case 'ruby':
             return await createRubyFiles(vscode, projectName, projectUri);
 
+        case 'php':
+            return await createPhpFiles(vscode, projectName, projectUri);
+
         default:
             throw new Error(`Unsupported language: ${language}`);
     }
@@ -51,5 +55,6 @@ module.exports = {
     createPythonFiles,
     createJavaFiles,
     createRustFiles,
-    createRubyFiles
+    createRubyFiles,
+    createPhpFiles
 };
