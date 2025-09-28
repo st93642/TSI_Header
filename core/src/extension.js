@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 28 2025 23:07 st93642                                       */
+/*  Updated: Sep 28 2025 23:48 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -15,44 +15,26 @@ const vscode = require('vscode');
 const { execSync } = require('child_process');
 const path = require('path');
 
-// Import modular functions
-const { generateClass } = require('../generators/classGenerators');
-const { generateCodeBase } = require('../generators/codeBaseGenerators');
-const { hasSubstantialContent, findHeaderEndLine } = require('../utils/contentAnalyzer');
+// Import the core interface
+const { TSICore } = require('../index');
+// Import feature modules
+const { CodeQualityEnforcement } = require('../../modules/code-quality-enforcement');
+// Import project creator
 const { createTSIProject } = require('../generators/project/projectCreator');
-const { createLanguageSpecificFiles } = require('../generators/project/projectcreators/index');
+// Import tree data providers
 const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvider');
+// Import language-specific file creator
+const { createLanguageSpecificFiles } = require('../generators/project/projectcreators/index');
 
 function activate(context) {
     console.log('TSI Header extension is now active!');
 
-    // Helper function to detect language based on file extension
-    function detectLanguageFromExtension(languageId, fileName) {
-        let detectedLanguageId = languageId;
-        const fileExtension = fileName.split('.').pop().toLowerCase();
-        const fileNameParts = fileName.split('.');
-        
-        // Handle compound extensions (e.g., .html.erb, .js.erb)
-        if (fileNameParts.length > 2) {
-            const compoundExt = fileNameParts.slice(-2).join('.');
-            if (compoundExt === 'html.erb' || compoundExt === 'js.erb' || compoundExt === 'css.erb') {
-                detectedLanguageId = 'erb';
-            }
-        }
-        
-        // Handle single extensions
-        if (fileExtension === 'erb' || fileExtension === 'rhtml') {
-            detectedLanguageId = 'erb';
-        } else if (fileExtension === 'vue') {
-            detectedLanguageId = 'vue';
-        } else if (fileExtension === 'ejs' || fileExtension === 'ect' || fileExtension === 'jst') {
-            detectedLanguageId = 'ejs';
-        } else if (fileExtension === 'toml') {
-            detectedLanguageId = 'toml';
-        }
-        
-        return detectedLanguageId;
-    }
+    // Initialize core interface
+    const core = new TSICore(context.extensionPath);
+
+    // Initialize feature modules
+    const codeQualityModule = new CodeQualityEnforcement(core);
+    const diagnosticCollection = codeQualityModule.getDiagnosticCollection();
 
     // Helper function to show configuration instructions
     function showConfigurationInstructions(type) {
@@ -136,7 +118,7 @@ function activate(context) {
             
             // Get Ruby CLI path
             const extensionPath = context.extensionPath;
-            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
             
             // Set environment variables for configuration (only if they exist and are not empty)
             const env = {
@@ -189,7 +171,7 @@ function activate(context) {
             const fileName = document.fileName;
             
             // Detect correct language based on file extension for unsupported languages
-            const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
+            const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
             
             // Get configuration
             const config = vscode.workspace.getConfiguration('tsiheader');
@@ -225,7 +207,7 @@ function activate(context) {
             
             // Get Ruby CLI path
             const extensionPath = context.extensionPath;
-            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
             
             // Set environment variables for configuration (only if they exist and are not empty)
             const env = {
@@ -270,11 +252,11 @@ function activate(context) {
             const fileName = document.fileName;
             
             // Detect correct language based on file extension for unsupported languages
-            const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
+            const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
             
             // Get Ruby CLI path
             const extensionPath = context.extensionPath;
-            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
             
             // Execute Ruby CLI for remove
             const command = `ruby "${cliPath}" remove "${detectedLanguageId}" "${fileName}"`;
@@ -350,11 +332,11 @@ function activate(context) {
             const fileName = document.fileName;
             
             // Detect correct language based on file extension for unsupported languages
-            const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
+            const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
             
             // Get Ruby CLI path
             const extensionPath = context.extensionPath;
-            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
             
             // Set environment variables for configuration
             const env = {
@@ -396,7 +378,7 @@ function activate(context) {
         const fileName = document.fileName;
 
         // Detect correct language based on file extension for unsupported languages
-        const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
+        const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
 
         // Get credentials for template
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -427,7 +409,7 @@ function activate(context) {
         try {
             // Generate proper TSI header using Ruby CLI
             const extensionPath = context.extensionPath;
-            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
             
             // Set environment variables for configuration
             const env = {
@@ -463,8 +445,8 @@ function activate(context) {
                 return; // User cancelled
             }
 
-            // Generate class code using modular function
-            const classResult = generateClass(detectedLanguageId, className, fileName, extensionPath, cliPath, env);
+            // Generate class code using core interface
+            const classResult = core.codeGenerator.generateClass(detectedLanguageId, className, fileName, env);
             if (!classResult.success) {
                 vscode.window.showErrorMessage(classResult.message);
                 return;
@@ -480,9 +462,9 @@ function activate(context) {
                 fullContent += '\n' + classResult.content;
             }
 
-            // Check if file has substantial content beyond header using modular function
+            // Check if file has substantial content beyond header using core interface
             const currentText = document.getText();
-            const hasSubstantialContentFlag = hasSubstantialContent(currentText);
+            const hasSubstantialContentFlag = core.hasSubstantialContent(currentText);
             
             if (hasSubstantialContentFlag) {
                 const choice = await vscode.window.showWarningMessage(
@@ -504,7 +486,7 @@ function activate(context) {
                 });
             } else {
                 // File is mostly empty (just header), replace content after header
-                const headerEndLine = findHeaderEndLine(currentText);
+                const headerEndLine = core.findHeaderEndLine(currentText);
                 const range = new vscode.Range(
                     new vscode.Position(headerEndLine, 0),
                     new vscode.Position(document.lineCount, 0)
@@ -534,7 +516,7 @@ function activate(context) {
         const fileName = document.fileName;
 
         // Detect correct language based on file extension for unsupported languages
-        const detectedLanguageId = detectLanguageFromExtension(languageId, fileName);
+        const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
 
         // Get credentials for template
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -565,7 +547,7 @@ function activate(context) {
         try {
             // Generate proper TSI header using Ruby CLI
             const extensionPath = context.extensionPath;
-            const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+            const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
             
             // Set environment variables for configuration
             const env = {
@@ -591,8 +573,8 @@ function activate(context) {
             
             let fullContent = headerResponse.header;
             
-            // Generate code structure using modular function
-            const codeBaseResult = generateCodeBase(detectedLanguageId, fileName);
+            // Generate code structure using core interface
+            const codeBaseResult = core.codeGenerator.generateCodeBase(detectedLanguageId, fileName);
             if (!codeBaseResult.success) {
                 vscode.window.showErrorMessage(codeBaseResult.message);
                 return;
@@ -749,11 +731,10 @@ function activate(context) {
         }
         
         // Generate TSI header using Ruby CLI API
-        const { generateTSIHeaderContent } = require('../generators/project/headerUtils');
-        const headerContent = await generateTSIHeaderContent(fileName, vscode);
+        const headerContent = await core.generateTSIHeaderContent(fileName, vscode);
         
-        // Generate code base using existing API
-        const codeResult = generateCodeBase(language, fileName);
+        // Generate code base using core interface
+        const codeResult = core.codeGenerator.generateCodeBase(language, fileName);
         const codeContent = codeResult.success ? codeResult.content : '';
         
         // Combine header and code
@@ -771,8 +752,7 @@ function activate(context) {
         const fileUri = vscode.Uri.joinPath(projectUri, 'include', fileName);
         
         // Generate TSI header using Ruby CLI API
-        const { generateTSIHeaderContent } = require('../generators/project/headerUtils');
-        const headerContent = await generateTSIHeaderContent(fileName, vscode);
+        const headerContent = await core.generateTSIHeaderContent(fileName, vscode);
         
         // Generate header guard
         const guardName = `${projectName.toUpperCase().replace(/-/g, '_')}_${extension.toUpperCase()}`;
@@ -886,6 +866,28 @@ extern "C" {
     
     context.subscriptions.push(refreshCommandsCommand);
     context.subscriptions.push(refreshProjectsCommand);
+
+    // Register feature module commands
+    codeQualityModule.registerCommands(context);
+    context.subscriptions.push(diagnosticCollection);
+
+    // Set up real-time diagnostics for open documents
+    vscode.workspace.onDidOpenTextDocument(document => {
+        codeQualityModule.updateDiagnostics(document, diagnosticCollection);
+    });
+
+    vscode.workspace.onDidChangeTextDocument(event => {
+        codeQualityModule.updateDiagnostics(event.document, diagnosticCollection);
+    });
+
+    vscode.workspace.onDidCloseTextDocument(document => {
+        diagnosticCollection.delete(document.uri);
+    });
+
+    // Analyze currently open documents
+    vscode.workspace.textDocuments.forEach(document => {
+        codeQualityModule.updateDiagnostics(document, diagnosticCollection);
+    });
 }
 
 function deactivate() {}

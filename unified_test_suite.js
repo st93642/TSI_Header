@@ -23,7 +23,7 @@ const { execSync } = require('child_process');
 
 // Test configuration
 const TEST_DIR = path.join(__dirname, 'test_output');
-const CLI_PATH = path.join(__dirname, 'lib', 'tsi_header_cli.rb');
+const CLI_PATH = path.join(__dirname, 'core', 'lib', 'tsi_header_cli.rb');
 const EXTENSION_PATH = __dirname;
 
 // Language support matrices
@@ -77,9 +77,9 @@ let testResults = {
 };
 
 // Import generators
-const { generateCodeBase } = require('./generators/codeBaseGenerators');
-const { generateClass } = require('./generators/classGenerators');
-const { generateTSIHeaderContent } = require('./generators/project/headerUtils');
+const { generateCodeBase } = require('./core/generators/codeBaseGenerators');
+const { generateClass } = require('./core/generators/classGenerators');
+const { generateTSIHeaderContent } = require('./core/generators/project/headerUtils');
 
 // Mock VS Code for testing
 const vscode = {
@@ -915,10 +915,10 @@ function testCppClassCreation(className) {
 
         try {
             // Clear any cached class generators module
-            delete require.cache[require.resolve('./generators/classGenerators')];
+            delete require.cache[require.resolve('./core/generators/classGenerators')];
 
             // Import the class generators
-            const { generateClass } = require('./generators/classGenerators');
+            const { generateClass } = require('./core/generators/classGenerators');
 
             // Create test file paths in the test directory
             const headerFilePath = path.join(TEST_DIR, `${className}.hpp`);
@@ -999,7 +999,7 @@ function testCppClassCreation(className) {
             Module.prototype.require = originalRequire;
 
             // Clear cached modules
-            delete require.cache[require.resolve('./generators/classGenerators')];
+            delete require.cache[require.resolve('./core/generators/classGenerators')];
         }
 
     } catch (error) {
@@ -1031,10 +1031,10 @@ function testExtensionAPI() {
         let extension = null;
         try {
             // Clear any cached extension module
-            delete require.cache[require.resolve('./src/extension')];
+            delete require.cache[require.resolve('./core/src/extension')];
 
             // Load and test the extension
-            extension = require('./src/extension');
+            extension = require('./core/src/extension');
 
             // Test extension activation
             if (!extension.activate) {
@@ -1133,7 +1133,7 @@ function testExtensionAPI() {
 
             // Clear cached modules
             if (extension) {
-                delete require.cache[require.resolve('./src/extension')];
+                delete require.cache[require.resolve('./core/src/extension')];
             }
         }
 
@@ -1142,6 +1142,8 @@ function testExtensionAPI() {
         if (error.message.includes("Cannot find module 'vscode'") && !mockVSCode) {
             return true; // Skip, not fail
         }
+        console.error('Extension API test error:', error);
+        testResults.errors.push(`Extension API test error: ${error.message}`);
         return false;
     }
 }
@@ -1221,6 +1223,10 @@ function createMockVSCode() {
             onDidChangeConfiguration: () => ({ dispose: () => {} }),
             onDidChangeWorkspaceFolders: () => ({ dispose: () => {} }),
             onDidSaveTextDocument: () => ({ dispose: () => {} }),
+            onDidOpenTextDocument: () => ({ dispose: () => {} }),
+            onDidChangeTextDocument: () => ({ dispose: () => {} }),
+            onDidCloseTextDocument: () => ({ dispose: () => {} }),
+            textDocuments: [],
             findFiles: (pattern, exclude, maxResults) => Promise.resolve([]),
             openTextDocument: (uri) => Promise.resolve({
                 uri,
@@ -1240,7 +1246,14 @@ function createMockVSCode() {
         },
         languages: {
             match: (selector, document) => 1,
-            getLanguages: () => Promise.resolve(['javascript', 'typescript', 'python', 'java', 'c', 'cpp'])
+            getLanguages: () => Promise.resolve(['javascript', 'typescript', 'python', 'java', 'c', 'cpp']),
+            createDiagnosticCollection: (name) => ({
+                name,
+                set: (uri, diagnostics) => {},
+                delete: (uri) => {},
+                clear: () => {},
+                dispose: () => {}
+            })
         },
         env: {
             openExternal: (uri) => Promise.resolve()
@@ -1477,7 +1490,7 @@ extern "C" {
  * Create language-specific project files
  */
 async function createTestLanguageSpecificFiles(language, projectName, projectUri) {
-    const { createLanguageSpecificFiles } = require('./generators/project/projectcreators/index');
+    const { createLanguageSpecificFiles } = require('./core/generators/project/projectcreators/index');
     await createLanguageSpecificFiles(language, projectName, projectUri, vscode);
 }
 
@@ -1643,7 +1656,7 @@ async function testHeaderGenerationInScaffoldedProjects() {
         fs.mkdirSync(tempDir, { recursive: true });
 
         // Test the header generation function
-        const { generateTSIHeaderContent } = require('./generators/project/headerUtils');
+        const { generateTSIHeaderContent } = require('./core/generators/project/headerUtils');
         const { mockVSCode: mockVscode } = createMockVSCode();
         const header = await generateTSIHeaderContent(testFileName, mockVscode);
 

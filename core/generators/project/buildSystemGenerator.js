@@ -73,7 +73,7 @@ async function generateMakefileContent(language, projectName) {
             extensionPath = process.cwd();
         }
         
-        const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+        const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
         
         // Get user configuration
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -92,8 +92,8 @@ async function generateMakefileContent(language, projectName) {
             env.TSI_EMAIL = email;
         }
         
-        // Execute Ruby CLI for Makefile (shell script format)
-        const command = `ruby "${cliPath}" insert "shellscript" "${tempFile}"`;
+        // Execute Ruby CLI for Makefile
+        const command = `ruby "${cliPath}" insert "makefile" "${tempFile}"`;
         const result = execSync(command, { encoding: 'utf8', env: env });
         const response = JSON.parse(result);
         
@@ -180,7 +180,7 @@ async function generatePythonMakefileContentWithHeader(projectName) {
             extensionPath = process.cwd();
         }
         
-        const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+        const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
         
         // Get user configuration
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -269,7 +269,7 @@ async function generateMavenPomContentWithHeader(projectName) {
             extensionPath = process.cwd();
         }
         
-        const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+        const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
         
         // Get user configuration
         const config = vscode.workspace.getConfiguration('tsiheader');
@@ -365,7 +365,7 @@ async function generateGradleBuildContentWithHeader(projectName) {
             extensionPath = process.cwd();
         }
         
-        const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+        const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
         
         // Get user configuration
         const config = vscode.workspace.getConfiguration('tsiheader');

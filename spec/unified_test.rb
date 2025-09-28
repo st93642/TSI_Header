@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/tsi_header'
+require_relative '../core/lib/tsi_header'
 
 puts "🧪 UNIFIED TSI HEADER RUBY TEST SUITE"
 puts "=" * 60

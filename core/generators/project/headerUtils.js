@@ -34,7 +34,7 @@ async function generateTSIHeaderContent(fileName, vscode) {
             extensionPath = process.cwd();
         }
 
-        const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
+        const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
 
         // Get user configuration
         const config = vscode.workspace.getConfiguration('tsiheader');

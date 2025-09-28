@@ -149,9 +149,9 @@ JS
 puts "Copying current working files..."
 
 # Copy the current extension.js that has our fixes
-FileUtils.cp(File.join(__dir__, '..', 'src', 'extension.js'), File.join(output_dir, 'extension.js'))
+FileUtils.cp(File.join(__dir__, '..', 'core', 'src', 'extension.js'), File.join(output_dir, 'extension.js'))
 
 # The CLI file is already in the right place, no need to overwrite it
 puts "✓ Copied JavaScript extension from src/extension.js"
-puts "✓ Using current Ruby CLI interface at lib/tsi_header_cli.rb"
+puts "✓ Using current Ruby CLI interface at core/lib/tsi_header_cli.rb"
 puts "✓ Compilation complete!"

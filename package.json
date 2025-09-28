@@ -39,7 +39,7 @@
   "activationEvents": [
     "*"
   ],
-  "main": "./src/extension.js",
+  "main": "./core/src/extension.js",
   "contributes": {
     "configuration": {
       "title": "TSI Header",
@@ -163,6 +163,18 @@
         "title": "Create PHP TSI Project",
         "category": "TSI Header",
         "icon": "$(globe)"
+      },
+      {
+        "command": "tsiheader.analyzeCodeQuality",
+        "title": "Analyze Code Quality",
+        "category": "TSI Header",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "tsiheader.configureQualityRules",
+        "title": "Configure Quality Rules",
+        "category": "TSI Header",
+        "icon": "$(settings-gear)"
       }
     ],
     "menus": {

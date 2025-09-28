@@ -14,62 +14,8 @@ try {
 /**
  * Generate Python Makefile content with TSI header
  */
-async function generatePythonMakefileContent(projectName) {
-    try {
-        // Generate proper TSI header using Ruby CLI
-        const { execSync } = require('child_process');
-        const path = require('path');
-        const os = require('os');
-        const fs = require('fs');
-
-        // Create a temporary Makefile to generate header for
-        const tempDir = os.tmpdir();
-        const tempFile = path.join(tempDir, 'Makefile');
-
-        // Write a dummy file content
-        fs.writeFileSync(tempFile, '# Temporary Makefile for header generation\n');
-
-        // Get extension path
-        let extensionPath;
-        try {
-            extensionPath = vscode.extensions.getExtension('st93642.tsi-header').extensionPath;
-        } catch (e) {
-            extensionPath = process.cwd();
-        }
-
-        const cliPath = path.join(extensionPath, 'lib', 'tsi_header_cli.rb');
-
-        // Get user configuration
-        const config = vscode.workspace.getConfiguration('tsiheader');
-        const username = config.get('username');
-        const email = config.get('email');
-
-        // Set environment variables
-        const env = {
-            ...process.env
-        };
-
-        if (username && username.trim() !== '') {
-            env.TSI_USERNAME = username;
-        }
-        if (email && email.trim() !== '') {
-            env.TSI_EMAIL = email;
-        }
-
-        // Execute Ruby CLI
-        const command = `ruby "${cliPath}" insert "makefile" "${tempFile}"`;
-        const result = execSync(command, { encoding: 'utf8', env: env });
-        const response = JSON.parse(result);
-
-        // Clean up temp file
-        try {
-            fs.unlinkSync(tempFile);
-        } catch (e) {
-            // Ignore cleanup errors
-        }
-
-        if (response.success) {
-            return `${response.header}
+async function generatePythonMakefileContent(projectName, tsiHeader) {
+    return `${tsiHeader}
 # Makefile for ${projectName} Python project
 
 # Python settings
@@ -175,15 +121,6 @@ info: ## Show project information
 	@echo "Virtual Environment: \$(VENV)"
 	@echo "Main File: \$(MAIN_FILE)"
 `;
-        } else {
-            throw new Error(`Ruby CLI failed: ${response.message}`);
-        }
-
-    } catch (error) {
-        console.error('Failed to generate Python Makefile via Ruby CLI:', error);
-        // Fallback to simplified Makefile if Ruby CLI fails
-        return generateFallbackPythonMakefile(projectName);
-    }
 }
 
 /**

@@ -4,7 +4,10 @@
  */
 
 // Import language-specific generators
-const { generateCCodeBase } = require('./languages/c');
+/**
+ * Generates C code base
+ */
+const { generateCCodeBase, generateCHeaderCodeBase } = require('./languages/c');
 const { generateCppCodeBase } = require('./languages/cpp');
 const { generatePythonCodeBase } = require('./languages/python');
 const { generateJavaCodeBase } = require('./languages/java');
@@ -531,7 +534,11 @@ const { generateObjectiveJCodeBase } = require('./languages/objective-j');
 function generateCodeBase(languageId, fileName) {
     let content;
     try {
-        switch (languageId) {
+        // Special handling for C header files
+        if (languageId === 'c' && fileName && fileName.endsWith('.h')) {
+            content = generateCHeaderCodeBase(fileName);
+        } else {
+            switch (languageId) {
             case 'c':
                 content = generateCCodeBase();
                 break;
@@ -1363,6 +1370,7 @@ function generateCodeBase(languageId, fileName) {
                 // Default to C for unsupported languages
                 content = generateDefaultCodeBase(languageId);
                 break;
+        }
         }
     } catch (error) {
         // If any error occurs, use default code base
