@@ -20,13 +20,13 @@ Visual Studio Code extension for code header management and project scaffolding,
 
 - **Class Generation**: Create class templates for 13 object-oriented languages (Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala)
 - **Code Base Generation**: Generate boilerplate code with language-specific syntax and conventions for 147+ languages
-- **Project Scaffolding**: Complete project creation for 6 major languages (C, C++, Java, Python, Ruby, Rust)
+- **Project Scaffolding**: Complete project creation for 7 major languages (C, C++, Java, Python, Ruby, Rust, PHP)
 
 #### User Interface
 
 - **Activity Bar Integration**: Dedicated TSI Header panel with mortar board icon (🎓)
 - **TSI Commands View**: Header insertion, updates, and code generation tools
-- **TSI Projects View**: Project creation and scaffolding tools
+- **TSI Projects View**: Direct project creation for 7 languages (C, C++, Java, Python, Ruby, Rust, PHP) with streamlined workflow
 - **Context-Aware Menus**: Commands available based on file type and language
 
 ### Technical Architecture
@@ -51,8 +51,8 @@ Visual Studio Code extension for code header management and project scaffolding,
 **Class Generation (13 languages)**:
 Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala
 
-**Project Creation (6 languages)**:
-C, C++, Java, Python, Ruby, Rust (with build systems, documentation, and starter code)
+**Project Creation (7 languages)**:
+C, C++, Java, Python, Ruby, Rust, PHP (with build systems, documentation, and starter code)
 
 ### Quality Assurance
 
@@ -116,12 +116,49 @@ git config --global user.email "your.email@domain.com"
 
 #### Accessing the Extension
 
+The TSI Header extension provides multiple ways to access its functionality:
+
+**Activity Bar Panel**:
+
 1. Look for the mortar board icon (🎓) in the Activity Bar (left sidebar)
 2. Click to open the TSI Header panel
 3. Use "TSI Commands" for header management and code generation
 4. Use "TSI Projects" for project creation
 
+**Context Menus**:
+
+- Right-click on files for header operations and code generation
+- Right-click on folders for project creation
+
 ![TSI Header Menu](tsi-menu.png)
+
+TSI Header extension menu with available commands
+
+![TSI Projects Panel](ui_panel_view.png)
+
+TSI Projects panel showing language-specific project creation options
+
+#### Context Menu Access
+
+All TSI Header commands are also available through right-click context menus:
+
+**File Context Menu** (right-click on any file in the Explorer):
+
+- Insert Header
+- Update Header
+- Remove Header
+- Add Class (for supported languages)
+- Add Code Base
+
+**Folder Context Menu** (right-click on any folder in the Explorer):
+
+- Create C Project
+- Create C++ Project
+- Create Java Project
+- Create Python Project
+- Create Ruby Project
+- Create Rust Project
+- Create PHP Project
 
 #### Using Header Management
 
@@ -156,15 +193,18 @@ git config --global user.email "your.email@domain.com"
 
 #### Using Project Creation
 
-**Create TSI Project** (6 languages supported):
+**Create TSI Project** (7 languages supported):
 
-- Click "Create TSI Project" in TSI Projects view
-- Select programming language
-- Enter project name
+- Click any language template in TSI Projects view
+- Enter project name directly (no language selection needed)
 - Generates complete project structure with:
   - Build files (Makefile, Maven/Gradle, etc.)
   - Documentation (README.md)
   - Starter code and proper directory structure
+
+![C++ Project Creation](ui_cpp_project.png)
+
+C++ project creation interface with build system selection
 
 ### Troubleshooting
 

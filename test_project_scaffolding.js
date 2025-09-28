@@ -371,6 +371,12 @@ async function verifyFileContents(language, projectPath, projectName) {
             if (!content.includes('TTTTTTTT SSSSSSS II')) {
                 throw new Error(`File ${file} missing TSI header`);
             }
+
+            // Verify that the header contains the correct filename (not "file.c")
+            const fileName = path.basename(file);
+            if (!content.includes(fileName)) {
+                throw new Error(`File ${file} header contains incorrect filename. Expected: ${fileName}, Header: ${content.substring(0, 200)}`);
+            }
         }
 
         // Check for basic content structure
@@ -389,11 +395,72 @@ async function verifyFileContents(language, projectPath, projectName) {
 }
 
 /**
+ * Test header generation in scaffolded projects
+ */
+async function testHeaderGenerationInScaffoldedProjects() {
+    console.log('🧪 Testing header generation in scaffolded projects...');
+
+    const tempDir = path.join(os.tmpdir(), 'tsi-header-test');
+    const testFileName = 'test.php';
+    const testFilePath = path.join(tempDir, testFileName);
+
+    try {
+        // Clean up any existing test directory
+        if (fs.existsSync(tempDir)) {
+            fs.rmSync(tempDir, { recursive: true, force: true });
+        }
+        fs.mkdirSync(tempDir, { recursive: true });
+
+        // Create a test file
+        fs.writeFileSync(testFilePath, '// Test file for header generation\n');
+
+        // Test the actual header generation function
+        const { generateTSIHeaderContent } = require('./generators/project/headerUtils');
+        const header = await generateTSIHeaderContent(testFileName, mockVscode);
+
+        // Verify header contains correct filename
+        if (!header.includes(testFileName)) {
+            throw new Error(`Header does not contain correct filename. Expected: ${testFileName}, Header: ${header.substring(0, 200)}`);
+        }
+
+        // Verify header has proper TSI format
+        if (!header.includes('TTTTTTTT SSSSSSS II')) {
+            throw new Error('Header missing TSI branding');
+        }
+
+        // Verify header doesn't contain "file.c"
+        if (header.includes('file.c')) {
+            throw new Error('Header contains hardcoded "file.c" instead of actual filename');
+        }
+
+        console.log('✅ Header generation test passed');
+        return true;
+
+    } catch (error) {
+        console.error('❌ Header generation test failed:', error.message);
+        return false;
+    } finally {
+        // Clean up
+        try {
+            if (fs.existsSync(tempDir)) {
+                fs.rmSync(tempDir, { recursive: true, force: true });
+            }
+        } catch (cleanupError) {
+            console.warn(`Warning: Failed to clean up test directory: ${cleanupError.message}`);
+        }
+    }
+}
+
+/**
  * Run comprehensive project scaffolding tests
  */
 async function runProjectScaffoldingTests() {
     console.log('🚀 Starting Project Scaffolding Test Suite');
     console.log('Testing all supported project scaffoldings...\n');
+
+    // First test header generation
+    const headerTestResult = await testHeaderGenerationInScaffoldedProjects();
+    console.log('');
 
     const languages = ['c', 'cpp', 'python', 'java', 'rust', 'ruby', 'php'];
     const results = [];
@@ -409,6 +476,12 @@ async function runProjectScaffoldingTests() {
     let passed = 0;
     let failed = 0;
 
+    // Include header test in results
+    const status = headerTestResult ? '✅ PASSED' : '❌ FAILED';
+    console.log(`HEADER${' '.repeat(3)}: ${status}`);
+    if (headerTestResult) passed++;
+    else failed++;
+
     for (const result of results) {
         const status = result.passed ? '✅ PASSED' : '❌ FAILED';
         console.log(`${result.language.toUpperCase().padEnd(8)}: ${status}`);
@@ -417,7 +490,7 @@ async function runProjectScaffoldingTests() {
     }
 
     console.log('='.repeat(50));
-    console.log(`Total: ${results.length}, Passed: ${passed}, Failed: ${failed}`);
+    console.log(`Total: ${results.length + 1}, Passed: ${passed}, Failed: ${failed}`);
 
     if (failed === 0) {
         console.log('🎉 All project scaffolding tests passed!');
@@ -428,10 +501,68 @@ async function runProjectScaffoldingTests() {
     }
 }
 
+/**
+ * Test header generation in scaffolded projects
+ */
+async function testHeaderGenerationInScaffoldedProjects() {
+    console.log('🧪 Testing header generation in scaffolded projects...');
+
+    const tempDir = path.join(os.tmpdir(), 'tsi-header-test');
+    const testFileName = 'test.php';
+    const testFilePath = path.join(tempDir, testFileName);
+
+    try {
+        // Clean up any existing test directory
+        if (fs.existsSync(tempDir)) {
+            fs.rmSync(tempDir, { recursive: true, force: true });
+        }
+        fs.mkdirSync(tempDir, { recursive: true });
+
+        // Create a test file
+        fs.writeFileSync(testFilePath, '// Test file for header generation\n');
+
+        // Test the actual header generation function
+        const { generateTSIHeaderContent } = require('./generators/project/headerUtils');
+        const header = await generateTSIHeaderContent(testFileName, mockVscode);
+
+        // Verify header contains correct filename
+        if (!header.includes(testFileName)) {
+            throw new Error(`Header does not contain correct filename. Expected: ${testFileName}, Header: ${header.substring(0, 200)}`);
+        }
+
+        // Verify header has proper TSI format
+        if (!header.includes('TTTTTTTT SSSSSSS II')) {
+            throw new Error('Header missing TSI branding');
+        }
+
+        // Verify header doesn't contain "file.c"
+        if (header.includes('file.c')) {
+            throw new Error('Header contains hardcoded "file.c" instead of actual filename');
+        }
+
+        console.log('✅ Header generation test passed');
+        return true;
+
+    } catch (error) {
+        console.error('❌ Header generation test failed:', error.message);
+        return false;
+    } finally {
+        // Clean up
+        try {
+            if (fs.existsSync(tempDir)) {
+                fs.rmSync(tempDir, { recursive: true, force: true });
+            }
+        } catch (cleanupError) {
+            console.warn(`Warning: Failed to clean up test directory: ${cleanupError.message}`);
+        }
+    }
+}
+
 // Export for use in other test files
 module.exports = {
     runProjectScaffoldingTests,
-    testProjectScaffolding
+    testProjectScaffolding,
+    testHeaderGenerationInScaffoldedProjects
 };
 
 // Run tests if called directly

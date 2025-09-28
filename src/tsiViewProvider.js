@@ -88,14 +88,39 @@ class TSIProjectDataProvider {
         } else if (element.label === '⚙️ Project Templates') {
             return Promise.resolve([
                 new TSITreeItem('C/C++ Project', vscode.TreeItemCollapsibleState.None, {
-                    command: 'tsiheader.createTSIProject',
+                    command: 'tsiheader.createCppProject',
                     title: 'Create C++ TSI Project',
                     tooltip: 'Create C++ project with TSI headers and BaseClass'
                 }),
                 new TSITreeItem('C Project', vscode.TreeItemCollapsibleState.None, {
-                    command: 'tsiheader.createTSIProject',
+                    command: 'tsiheader.createCProject',
                     title: 'Create C TSI Project',
                     tooltip: 'Create C project with TSI headers'
+                }),
+                new TSITreeItem('Python Project', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.createPythonProject',
+                    title: 'Create Python TSI Project',
+                    tooltip: 'Create Python project with TSI headers and BaseClass'
+                }),
+                new TSITreeItem('Java Project', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.createJavaProject',
+                    title: 'Create Java TSI Project',
+                    tooltip: 'Create Java project with TSI headers and BaseClass'
+                }),
+                new TSITreeItem('Rust Project', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.createRustProject',
+                    title: 'Create Rust TSI Project',
+                    tooltip: 'Create Rust project with TSI headers and BaseClass'
+                }),
+                new TSITreeItem('Ruby Project', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.createRubyProject',
+                    title: 'Create Ruby TSI Project',
+                    tooltip: 'Create Ruby project with TSI headers and BaseClass'
+                }),
+                new TSITreeItem('PHP Project', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.createPhpProject',
+                    title: 'Create PHP TSI Project',
+                    tooltip: 'Create PHP project with TSI headers and BaseClass'
                 })
             ]);
         }
@@ -134,6 +159,18 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('gear');
         } else if (label.includes('C++') || label.includes('C/C++')) {
             this.iconPath = new vscode.ThemeIcon('file-code');
+        } else if (label.includes('C Project')) {
+            this.iconPath = new vscode.ThemeIcon('file-code');
+        } else if (label.includes('Python')) {
+            this.iconPath = new vscode.ThemeIcon('snake');
+        } else if (label.includes('Java')) {
+            this.iconPath = new vscode.ThemeIcon('coffee');
+        } else if (label.includes('Rust')) {
+            this.iconPath = new vscode.ThemeIcon('tools');
+        } else if (label.includes('Ruby')) {
+            this.iconPath = new vscode.ThemeIcon('ruby');
+        } else if (label.includes('PHP')) {
+            this.iconPath = new vscode.ThemeIcon('globe');
         }
     }
 }

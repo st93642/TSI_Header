@@ -64,6 +64,7 @@ async function generateTSIHeaderContent(fileName, vscode) {
         else if (ext === '.rs') language = 'rust';
         else if (ext === '.rb') language = 'ruby';
         else if (ext === '.py') language = 'python';
+        else if (ext === '.php') language = 'php';
 
         // Execute Ruby CLI
         const command = `ruby "${cliPath}" insert "${language}" "${tempFile}"`;

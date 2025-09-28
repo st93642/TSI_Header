@@ -121,6 +121,48 @@
         "title": "Remove Header",
         "category": "TSI Header",
         "icon": "$(trash)"
+      },
+      {
+        "command": "tsiheader.createCProject",
+        "title": "Create C TSI Project",
+        "category": "TSI Header",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "tsiheader.createCppProject",
+        "title": "Create C++ TSI Project",
+        "category": "TSI Header",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "tsiheader.createPythonProject",
+        "title": "Create Python TSI Project",
+        "category": "TSI Header",
+        "icon": "$(snake)"
+      },
+      {
+        "command": "tsiheader.createJavaProject",
+        "title": "Create Java TSI Project",
+        "category": "TSI Header",
+        "icon": "$(coffee)"
+      },
+      {
+        "command": "tsiheader.createRustProject",
+        "title": "Create Rust TSI Project",
+        "category": "TSI Header",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "tsiheader.createRubyProject",
+        "title": "Create Ruby TSI Project",
+        "category": "TSI Header",
+        "icon": "$(ruby)"
+      },
+      {
+        "command": "tsiheader.createPhpProject",
+        "title": "Create PHP TSI Project",
+        "category": "TSI Header",
+        "icon": "$(globe)"
       }
     ],
     "menus": {

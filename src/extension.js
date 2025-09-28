@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 26 2025 16:31 Igors Oleinikovs                              */
+/*  Updated: Sep 28 2025 17:58 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -20,6 +20,7 @@ const { generateClass } = require('../generators/classGenerators');
 const { generateCodeBase } = require('../generators/codeBaseGenerators');
 const { hasSubstantialContent, findHeaderEndLine } = require('../utils/contentAnalyzer');
 const { createTSIProject } = require('../generators/project/projectCreator');
+const { createLanguageSpecificFiles } = require('../generators/project/projectcreators/index');
 const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvider');
 
 function activate(context) {
@@ -616,9 +617,254 @@ function activate(context) {
     context.subscriptions.push(addCodeBaseCommand);
     context.subscriptions.push(onSaveListener);
 
+    // Helper function to create project for specific language (skips language selection)
+    async function createLanguageSpecificProject(language, uri) {
+        try {
+            // Skip language selection, go directly to project name input
+            const projectName = await vscode.window.showInputBox({
+                prompt: `Enter ${language.toUpperCase()} project name`,
+                placeHolder: `my-${language}-project`,
+                validateInput: (value) => {
+                    if (!value || value.trim().length === 0) {
+                        return 'Project name cannot be empty';
+                    }
+                    if (!/^[a-zA-Z0-9_-]+$/.test(value)) {
+                        return 'Project name can only contain letters, numbers, hyphens, and underscores';
+                    }
+                    return null;
+                }
+            });
+            
+            if (!projectName) return;
+
+            // Determine workspace location
+            const workspaceUri = uri || await selectWorkspaceLocation();
+            if (!workspaceUri) return;
+
+            // Create project structure using the existing function
+            await createProjectStructure(language, projectName, workspaceUri);
+            
+            // Show success message and open project
+            vscode.window.showInformationMessage(
+                `TSI ${language.toUpperCase()} project "${projectName}" created successfully!`,
+                'Open Project'
+            ).then(selection => {
+                if (selection === 'Open Project') {
+                    const projectUri = vscode.Uri.joinPath(workspaceUri, projectName);
+                    vscode.commands.executeCommand('vscode.openFolder', projectUri);
+                }
+            });
+            
+        } catch (error) {
+            console.error('TSI Project Creator Error:', error);
+            vscode.window.showErrorMessage(`Failed to create TSI project: ${error.message}`);
+        }
+    }
+
+    // Helper function to select workspace location (extracted from projectCreator.js)
+    async function selectWorkspaceLocation() {
+        // If we have workspace folders, use the first one
+        if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0) {
+            return vscode.workspace.workspaceFolders[0].uri;
+        }
+
+        // Otherwise, show folder picker
+        const uris = await vscode.window.showOpenDialog({
+            canSelectFiles: false,
+            canSelectFolders: true,
+            canSelectMany: false,
+            openLabel: 'Select Project Location'
+        });
+
+        return uris && uris.length > 0 ? uris[0] : undefined;
+    }
+
+    // Helper function to create project structure (imported from projectCreator.js)
+    async function createProjectStructure(language, projectName, workspaceUri) {
+        const projectUri = vscode.Uri.joinPath(workspaceUri, projectName);
+        
+        // Create base directories
+        const directories = getDirectoryStructure(language);
+        for (const dir of directories) {
+            const dirUri = vscode.Uri.joinPath(projectUri, dir);
+            await vscode.workspace.fs.createDirectory(dirUri);
+        }
+        
+        // Generate main source file
+        await createMainSourceFile(language, projectName, projectUri);
+        
+        // Create header file (for C/C++)
+        if (language === 'c' || language === 'cpp') {
+            await createHeaderFile(language, projectName, projectUri);
+        }
+        
+        // Create language-specific project files
+        await createLanguageSpecificFiles(language, projectName, projectUri, vscode);
+        
+        // Skip build files, documentation, and gitignore for now (they require VS Code API)
+        // await createBuildFiles(language, projectName, projectUri);
+        // await createDocumentationFiles(language, projectName, projectUri);
+        // await createGitIgnoreFile(language, projectUri);
+    }
+
+    // Helper function to get directory structure
+    function getDirectoryStructure(language) {
+        const commonDirs = ['src', 'docs'];
+        
+        if (language === 'c' || language === 'cpp') {
+            return [...commonDirs, 'include', 'build'];
+        } else if (language === 'python') {
+            return [...commonDirs, 'tests', 'scripts'];
+        } else if (language === 'java') {
+            return [...commonDirs, 'src/main/java', 'src/test/java', 'target'];
+        } else if (language === 'rust') {
+            return [...commonDirs, 'src', 'tests', 'examples', 'benches'];
+        } else if (language === 'ruby') {
+            return [...commonDirs, 'lib', 'spec', 'bin', 'config'];
+        } else if (language === 'php') {
+            return [...commonDirs, 'src', 'public', 'tests'];
+        }
+        
+        return commonDirs;
+    }
+
+    // Helper function to create main source file
+    async function createMainSourceFile(language, projectName, projectUri) {
+        const extension = getFileExtension(language);
+        let fileName = `main.${extension}`;
+        let fileUri;
+        
+        if (language === 'java') {
+            // For Java, create Main.java in the proper package structure
+            fileName = 'Main.java';
+            fileUri = vscode.Uri.joinPath(projectUri, 'src', 'main', 'java', fileName);
+        } else if (language === 'php') {
+            // For PHP, create index.php in the public directory
+            fileName = 'index.php';
+            fileUri = vscode.Uri.joinPath(projectUri, 'public', fileName);
+        } else {
+            fileUri = vscode.Uri.joinPath(projectUri, 'src', fileName);
+        }
+        
+        // Generate TSI header using Ruby CLI API
+        const { generateTSIHeaderContent } = require('../generators/project/headerUtils');
+        const headerContent = await generateTSIHeaderContent(fileName, vscode);
+        
+        // Generate code base using existing API
+        const codeResult = generateCodeBase(language, fileName);
+        const codeContent = codeResult.success ? codeResult.content : '';
+        
+        // Combine header and code
+        const fullContent = headerContent + '\n' + codeContent;
+        
+        // Write to file
+        const encoder = new TextEncoder();
+        await vscode.workspace.fs.writeFile(fileUri, encoder.encode(fullContent));
+    }
+
+    // Helper function to create header file for C/C++
+    async function createHeaderFile(language, projectName, projectUri) {
+        const extension = language === 'c' ? 'h' : 'hpp';
+        const fileName = `${projectName}.${extension}`;
+        const fileUri = vscode.Uri.joinPath(projectUri, 'include', fileName);
+        
+        // Generate TSI header using Ruby CLI API
+        const { generateTSIHeaderContent } = require('../generators/project/headerUtils');
+        const headerContent = await generateTSIHeaderContent(fileName, vscode);
+        
+        // Generate header guard
+        const guardName = `${projectName.toUpperCase().replace(/-/g, '_')}_${extension.toUpperCase()}`;
+        
+        const content = `${headerContent}
+
+#ifndef ${guardName}
+#define ${guardName}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Function declarations go here
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // ${guardName}
+`;
+        
+        const encoder = new TextEncoder();
+        await vscode.workspace.fs.writeFile(fileUri, encoder.encode(content));
+    }
+
+    // Helper function to generate test TSI header
+    function generateTestTSIHeader() {
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('en-US', {
+            month: 'short',
+            day: '2-digit',
+            year: 'numeric'
+        }).replace(',', '');
+        
+        const timeStr = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+        
+        const username = 'Test User';
+        const email = 'test@example.com';
+        const dateTime = `${dateStr} ${timeStr}`;
+        
+        return `/******************************************************************************/
+/*                                                                           */
+/*  file.c                               TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: ${email.padEnd(50, ' ')} TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: ${dateTime} ${username.padEnd(30, ' ')} TT    SSSSSSS II */
+/*  Updated: ${dateTime} ${username.padEnd(30, ' ')}                          */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/******************************************************************************/
+`;
+    }
+
+    // Helper function to get file extension
+    function getFileExtension(language) {
+        const extensions = {
+            'c': 'c',
+            'cpp': 'cpp',
+            'python': 'py',
+            'java': 'java',
+            'rust': 'rs',
+            'ruby': 'rb',
+            'php': 'php'
+        };
+        return extensions[language] || 'txt';
+    }
+
     // Register create TSI project command
     const createTSIProjectCommand = vscode.commands.registerCommand('tsiheader.createTSIProject', createTSIProject);
     context.subscriptions.push(createTSIProjectCommand);
+
+    // Register specific language project commands
+    const createCProjectCommand = vscode.commands.registerCommand('tsiheader.createCProject', (uri) => createLanguageSpecificProject('c', uri));
+    const createCppProjectCommand = vscode.commands.registerCommand('tsiheader.createCppProject', (uri) => createLanguageSpecificProject('cpp', uri));
+    const createPythonProjectCommand = vscode.commands.registerCommand('tsiheader.createPythonProject', (uri) => createLanguageSpecificProject('python', uri));
+    const createJavaProjectCommand = vscode.commands.registerCommand('tsiheader.createJavaProject', (uri) => createLanguageSpecificProject('java', uri));
+    const createRustProjectCommand = vscode.commands.registerCommand('tsiheader.createRustProject', (uri) => createLanguageSpecificProject('rust', uri));
+    const createRubyProjectCommand = vscode.commands.registerCommand('tsiheader.createRubyProject', (uri) => createLanguageSpecificProject('ruby', uri));
+    const createPhpProjectCommand = vscode.commands.registerCommand('tsiheader.createPhpProject', (uri) => createLanguageSpecificProject('php', uri));
+
+    context.subscriptions.push(createCProjectCommand);
+    context.subscriptions.push(createCppProjectCommand);
+    context.subscriptions.push(createPythonProjectCommand);
+    context.subscriptions.push(createJavaProjectCommand);
+    context.subscriptions.push(createRustProjectCommand);
+    context.subscriptions.push(createRubyProjectCommand);
+    context.subscriptions.push(createPhpProjectCommand);
 
     // Register TSI Tree View Providers
     const tsiCommandsProvider = new TSITreeDataProvider();
