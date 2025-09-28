@@ -1,0 +1,35 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_sed.txt                                  TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 28 2025 23:09 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 28 2025 23:09 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+#!/usr/bin/sed -f
+# Basic SED script
+# Note: SED is a stream editor for filtering and transforming text
+
+# Print a greeting message (insert at beginning)
+1i\
+Hello, World!\
+This is a basic SED script.
+
+# Example transformations (commented out)
+# s/old/new/g        # Replace 'old' with 'new' globally
+# /pattern/d         # Delete lines containing 'pattern'
+# p                  # Print current line
+# q                  # Quit after first line
+
+# Example: Convert text to uppercase
+# y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/
+
+# Example: Add line numbers
+# =
+# N
+# s/\n/: /

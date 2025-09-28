@@ -1,0 +1,19 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_codebase_zig.txt                                TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 28 2025 23:09 st93642                      TT    SSSSSSS II */
+/*  Updated: Sep 28 2025 23:09 st93642                                       */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+const std = @import("std");
+
+pub fn main() !void {
+    const stdout = std.io.getStdOut().writer();
+    try stdout.print("Hello, World! This is a basic Zig program.\n", .{});
+}

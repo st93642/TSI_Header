@@ -1,0 +1,452 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_codebase_vala.txt                               TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 28 2025 23:09 st93642                      TT    SSSSSSS II */
+/*  Updated: Sep 28 2025 23:09 st93642                                       */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+// Basic Vala class with GObject integration
+// Note: Vala compiles to C and integrates with GLib/GObject
+
+using GLib;
+
+namespace TSI {
+
+    // Basic class with properties
+    public class Person : Object {
+
+        // Properties with automatic getters/setters
+        public string name { get; set; }
+        public int age { get; set; }
+        public string email { get; set; }
+
+        // Constructor
+        public Person(string name, int age, string email) {
+            this.name = name;
+            this.age = age;
+            this.email = email;
+        }
+
+        // Default constructor
+        public Person() {
+            this.name = "Unknown";
+            this.age = 0;
+            this.email = "";
+        }
+
+        // Method
+        public string get_info() {
+            return @"Name: $(name), Age: $(age), Email: $(email)";
+        }
+
+        // Static method
+        public static string get_university_name() {
+            return "Transport and Telecommunication Institute";
+        }
+    }
+
+    // Class with signals
+    public class Counter : Object {
+
+        // Property with notification
+        private int _count = 0;
+        public int count {
+            get { return _count; }
+            set {
+                if (_count != value) {
+                    _count = value;
+                    count_changed(value);
+                }
+            }
+        }
+
+        // Signal declaration
+        public signal void count_changed(int new_count);
+
+        // Constructor
+        public Counter() {
+            count_changed.connect(on_count_changed);
+        }
+
+        // Method that emits signal
+        public void increment() {
+            count++;
+        }
+
+        // Signal handler
+        private void on_count_changed(int new_count) {
+            stdout.printf("Count changed to: %d\n", new_count);
+        }
+    }
+
+    // Interface example
+    public interface Printable {
+        public abstract string to_string();
+        public string get_type_name() {
+            return "Printable";
+        }
+    }
+
+    // Abstract class
+    public abstract class Shape : Object, Printable {
+
+        public string color { get; set; }
+
+        public Shape(string color) {
+            this.color = color;
+        }
+
+        // Abstract method
+        public abstract double calculate_area();
+
+        // Implemented interface method
+        public string to_string() {
+            return @"Shape with color: $(color)";
+        }
+    }
+
+    // Concrete class implementing abstract class
+    public class Circle : Shape {
+
+        public double radius { get; set; }
+
+        public Circle(string color, double radius) {
+            base(color);
+            this.radius = radius;
+        }
+
+        public override double calculate_area() {
+            return Math.PI * radius * radius;
+        }
+
+        public override string to_string() {
+            return @"Circle with radius $(radius) and color $(color), area: $(calculate_area())";
+        }
+    }
+
+    // Rectangle class
+    public class Rectangle : Shape {
+
+        public double width { get; set; }
+        public double height { get; set; }
+
+        public Rectangle(string color, double width, double height) {
+            base(color);
+            this.width = width;
+            this.height = height;
+        }
+
+        public override double calculate_area() {
+            return width * height;
+        }
+
+        public override string to_string() {
+            return @"Rectangle $(width)x$(height) with color $(color), area: $(calculate_area())";
+        }
+    }
+
+    // Generic class example
+    public class Stack<T> : Object {
+
+        private Gee.ArrayList<T> items;
+
+        public Stack() {
+            items = new Gee.ArrayList<T>();
+        }
+
+        public void push(T item) {
+            items.add(item);
+        }
+
+        public T? pop() {
+            if (items.size > 0) {
+                T item = items.get(items.size - 1);
+                items.remove_at(items.size - 1);
+                return item;
+            }
+            return null;
+        }
+
+        public bool is_empty() {
+            return items.size == 0;
+        }
+
+        public int size() {
+            return items.size;
+        }
+    }
+
+    // Enum example
+    public enum DayOfWeek {
+        MONDAY,
+        TUESDAY,
+        WEDNESDAY,
+        THURSDAY,
+        FRIDAY,
+        SATURDAY,
+        SUNDAY
+    }
+
+    // Struct example
+    public struct Point {
+        public double x;
+        public double y;
+
+        public Point(double x, double y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public double distance_to(Point other) {
+            double dx = x - other.x;
+            double dy = y - other.y;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+    }
+
+    // Error domain and custom exceptions
+    public errordomain FileError {
+        NOT_FOUND,
+        PERMISSION_DENIED,
+        READ_ERROR
+    }
+
+    // Class with error handling
+    public class FileProcessor : Object {
+
+        public string process_file(string filename) throws FileError {
+            if (!FileUtils.test(filename, FileTest.EXISTS)) {
+                throw new FileError.NOT_FOUND(@"File '$(filename)' not found");
+            }
+
+            if (!FileUtils.test(filename, FileTest.IS_REGULAR)) {
+                throw new FileError.PERMISSION_DENIED(@"'$(filename)' is not a regular file");
+            }
+
+            try {
+                string content;
+                FileUtils.get_contents(filename, out content);
+                return content;
+            } catch (FileError e) {
+                throw new FileError.READ_ERROR(@"Failed to read file: $(e.message)");
+            }
+        }
+    }
+
+    // Async method example
+    public async void download_data(string url) {
+        // Simulate async operation
+        Timeout.add(1000, () => {
+            stdout.printf("Downloaded data from: %s\n", url);
+            download_data.callback();
+            return false;
+        });
+
+        yield;
+    }
+
+    // Delegate and lambda examples
+    public delegate void ProcessCallback(string message);
+
+    public class Processor : Object {
+
+        public void process_with_callback(ProcessCallback callback) {
+            callback("Processing started");
+
+            // Simulate processing
+            Timeout.add(500, () => {
+                callback("Processing completed");
+                return false;
+            });
+        }
+
+        public void process_with_lambda() {
+            // Lambda expression
+            ProcessCallback lambda_callback = (message) => {
+                stdout.printf("Lambda received: %s\n", message);
+            };
+
+            process_with_callback(lambda_callback);
+        }
+    }
+
+    // GTK+ widget example (if GTK+ is available)
+    /*
+    public class SimpleWindow : Gtk.Window {
+
+        private Gtk.Button button;
+        private Gtk.Label label;
+
+        public SimpleWindow() {
+            this.title = "TSI Vala Application";
+            this.window_position = Gtk.WindowPosition.CENTER;
+            this.destroy.connect(Gtk.main_quit);
+            this.set_default_size(300, 200);
+
+            // Create layout
+            var vbox = new Gtk.Box(Gtk.Orientation.VERTICAL, 5);
+            this.add(vbox);
+
+            // Create label
+            label = new Gtk.Label("Hello from TSI!");
+            vbox.pack_start(label, false, false, 0);
+
+            // Create button
+            button = new Gtk.Button.with_label("Click me!");
+            button.clicked.connect(on_button_clicked);
+            vbox.pack_start(button, false, false, 0);
+
+            this.show_all();
+        }
+
+        private void on_button_clicked() {
+            label.label = "Button was clicked!";
+            stdout.printf("Button clicked at %s\n", new DateTime.now().to_string());
+        }
+
+        public static int main(string[] args) {
+            Gtk.init(ref args);
+
+            var window = new SimpleWindow();
+            window.show();
+
+            Gtk.main();
+            return 0;
+        }
+    }
+    */
+
+    // Main application class
+    public class Application : Object {
+
+        private Counter counter;
+        private Stack<string> string_stack;
+        private Gee.HashMap<string, Person> person_map;
+
+        public Application() {
+            counter = new Counter();
+            string_stack = new Stack<string>();
+            person_map = new Gee.HashMap<string, Person>();
+        }
+
+        public void demonstrate_features() {
+            stdout.printf("=== TSI Vala Demonstration ===\n\n");
+
+            // Demonstrate Person class
+            stdout.printf("1. Person Class:\n");
+            var person = new Person("John Doe", 25, "john.doe@tsi.lv");
+            stdout.printf("   %s\n", person.get_info());
+            stdout.printf("   University: %s\n\n", Person.get_university_name());
+
+            // Demonstrate Counter with signals
+            stdout.printf("2. Counter with Signals:\n");
+            counter.increment();
+            counter.increment();
+            stdout.printf("   Final count: %d\n\n", counter.count);
+
+            // Demonstrate Shapes
+            stdout.printf("3. Shapes (Polymorphism):\n");
+            Shape[] shapes = {
+                new Circle("Red", 5.0),
+                new Rectangle("Blue", 4.0, 6.0)
+            };
+
+            foreach (var shape in shapes) {
+                stdout.printf("   %s\n", shape.to_string());
+            }
+            stdout.printf("\n");
+
+            // Demonstrate Generic Stack
+            stdout.printf("4. Generic Stack:\n");
+            string_stack.push("First");
+            string_stack.push("Second");
+            string_stack.push("Third");
+
+            while (!string_stack.is_empty()) {
+                stdout.printf("   Popped: %s\n", string_stack.pop());
+            }
+            stdout.printf("\n");
+
+            // Demonstrate Struct
+            stdout.printf("5. Point Struct:\n");
+            var point1 = Point(0, 0);
+            var point2 = Point(3, 4);
+            stdout.printf("   Distance between (0,0) and (3,4): %.2f\n\n", point1.distance_to(point2));
+
+            // Demonstrate Error Handling
+            stdout.printf("6. Error Handling:\n");
+            var processor = new FileProcessor();
+            try {
+                var content = processor.process_file("nonexistent.txt");
+                stdout.printf("   File content: %s\n", content);
+            } catch (FileError e) {
+                stdout.printf("   Error: %s\n", e.message);
+            }
+            stdout.printf("\n");
+
+            // Demonstrate Delegates and Lambdas
+            stdout.printf("7. Delegates and Lambdas:\n");
+            var proc = new Processor();
+            proc.process_with_lambda();
+            stdout.printf("\n");
+
+            stdout.printf("=== Demonstration Complete ===\n");
+        }
+
+        public static int main(string[] args) {
+            var app = new Application();
+            app.demonstrate_features();
+            return 0;
+        }
+    }
+}
+
+// Alternative: Simple Vala program without namespaces
+/*
+public class SimpleValaProgram : Object {
+
+    public static int main(string[] args) {
+        stdout.printf("Hello, TSI!\n");
+        stdout.printf("This is a simple Vala program.\n");
+
+        // Variables and basic types
+        string name = "Vala";
+        int year = 2025;
+        double version = 0.56;
+        bool is_active = true;
+
+        stdout.printf("Language: %s\n", name);
+        stdout.printf("Year: %d\n", year);
+        stdout.printf("Version: %.2f\n", version);
+        stdout.printf("Active: %s\n", is_active.to_string());
+
+        // Arrays
+        string[] languages = {"C", "Vala", "Python", "Java"};
+        stdout.printf("Languages: ");
+        foreach (string lang in languages) {
+            stdout.printf("%s ", lang);
+        }
+        stdout.printf("\n");
+
+        // Collections
+        var list = new Gee.ArrayList<string>();
+        list.add("Transport");
+        list.add("and");
+        list.add("Telecommunication");
+        list.add("Institute");
+
+        stdout.printf("Institution: ");
+        foreach (string word in list) {
+            stdout.printf("%s ", word);
+        }
+        stdout.printf("\n");
+
+        return 0;
+    }
+}
+*/

@@ -18,6 +18,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { execSync } = require('child_process');
 
 // Test configuration
@@ -65,18 +66,86 @@ let testResults = {
     failed: 0,
     errors: [],
     sections: {
-        headers: { total: 0, passed: 0, failed: 0 },
-        codebases: { total: 0, passed: 0, failed: 0 },
-        classes: { total: 0, passed: 0, failed: 0 },
-        syntax: { total: 0, passed: 0, failed: 0 },
-        api: { total: 0, passed: 0, failed: 0 },
-        ruby: { total: 0, passed: 0, failed: 0 }
+        headers: { total: 0, passed: 0, failed: 0, failures: [] },
+        codebases: { total: 0, passed: 0, failed: 0, failures: [] },
+        classes: { total: 0, passed: 0, failed: 0, failures: [] },
+        syntax: { total: 0, passed: 0, failed: 0, failures: [] },
+        api: { total: 0, passed: 0, failed: 0, failures: [] },
+        ruby: { total: 0, passed: 0, failed: 0, failures: [] },
+        projects: { total: 0, passed: 0, failed: 0, failures: [] }
     }
 };
 
 // Import generators
 const { generateCodeBase } = require('./generators/codeBaseGenerators');
 const { generateClass } = require('./generators/classGenerators');
+const { generateTSIHeaderContent } = require('./generators/project/headerUtils');
+
+// Mock VS Code for testing
+const vscode = {
+    workspace: {
+        fs: {
+            createDirectory: async (uri) => {
+                const dirPath = uri.fsPath;
+                if (!fs.existsSync(dirPath)) {
+                    fs.mkdirSync(dirPath, { recursive: true });
+                }
+            },
+            writeFile: async (uri, content) => {
+                fs.writeFileSync(uri.fsPath, content);
+            }
+        },
+        getConfiguration: (section) => ({
+            get: (key, defaultValue) => {
+                const config = {
+                    'tsiheader.username': 'Test User',
+                    'tsiheader.email': 'test@example.com'
+                };
+                return config[`${section}.${key}`] || defaultValue;
+            },
+            update: (key, value, global) => Promise.resolve()
+        })
+    },
+    Uri: {
+        joinPath: (baseUri, ...pathSegments) => {
+            const fullPath = path.join(baseUri.fsPath, ...pathSegments);
+            return { fsPath: fullPath };
+        }
+    }
+};
+
+/**
+ * Progress bar utility
+ */
+class ProgressBar {
+    constructor(total, width = 50) {
+        this.total = total;
+        this.width = width;
+        this.current = 0;
+        this.startTime = Date.now();
+    }
+
+    update(current) {
+        this.current = current;
+        this.render();
+    }
+
+    render() {
+        const percentage = Math.floor((this.current / this.total) * 100);
+        const filled = Math.floor((this.current / this.total) * this.width);
+        const empty = this.width - filled;
+        const bar = '█'.repeat(filled) + '░'.repeat(empty);
+        const elapsed = (Date.now() - this.startTime) / 1000;
+        const eta = this.current > 0 ? (elapsed / this.current) * (this.total - this.current) : 0;
+        
+        process.stdout.write(`\r[${bar}] ${percentage}% (${this.current}/${this.total}) ETA: ${eta.toFixed(1)}s`);
+    }
+
+    complete() {
+        this.update(this.total);
+        process.stdout.write('\n');
+    }
+}
 
 /**
  * Utility function to run shell commands
@@ -656,10 +725,8 @@ function testHeaderInsertion(language) {
         if (result.error) {
             // Check if it's an unsupported language error
             if (result.error.includes('No header support for language')) {
-                testResults.errors.push(`Skipping ${language} - not supported by Ruby CLI`);
                 return true; // Skip, not fail
             }
-            testResults.errors.push(`Header insertion failed for ${language}: ${result.error}`);
             return false;
         }
 
@@ -667,10 +734,8 @@ function testHeaderInsertion(language) {
         if (!output.success) {
             // Check if it's an unsupported language message
             if (output.message && output.message.includes('No header support for language')) {
-                testResults.errors.push(`Skipping ${language} - not supported by Ruby CLI`);
                 return true; // Skip, not fail
             }
-            testResults.errors.push(`Header insertion failed for ${language}: ${output.message}`);
             return false;
         }
 
@@ -682,13 +747,11 @@ function testHeaderInsertion(language) {
         const validation = validateTSIHeader(content, language);
 
         if (!validation.valid) {
-            testResults.errors.push(`Invalid header for ${language}: ${validation.reason}`);
             return false;
         }
 
         return true;
     } catch (error) {
-        testResults.errors.push(`Header insertion error for ${language}: ${error.message}`);
         return false;
     }
 }
@@ -708,10 +771,8 @@ function testCodeBaseInsertion(language) {
         if (headerResult.error) {
             // Check if it's an unsupported language error
             if (headerResult.error.includes('No header support for language')) {
-                testResults.errors.push(`Skipping ${language} code base - not supported by Ruby CLI`);
                 return true; // Skip, not fail
             }
-            testResults.errors.push(`Header generation failed for ${language} code base: ${headerResult.error}`);
             return false;
         }
 
@@ -719,17 +780,14 @@ function testCodeBaseInsertion(language) {
         if (!headerOutput.success) {
             // Check if it's an unsupported language message
             if (headerOutput.message && headerOutput.message.includes('No header support for language')) {
-                testResults.errors.push(`Skipping ${language} code base - not supported by Ruby CLI`);
                 return true; // Skip, not fail
             }
-            testResults.errors.push(`Header generation failed for ${language} code base: ${headerOutput.message}`);
             return false;
         }
 
         // Then get the code base
         const codeBaseResult = generateCodeBase(language, testFile);
         if (!codeBaseResult.success) {
-            testResults.errors.push(`Code base generation failed for ${language}: ${codeBaseResult.message}`);
             return false;
         }
 
@@ -739,7 +797,6 @@ function testCodeBaseInsertion(language) {
 
         // Validate generated content
         if (!fs.existsSync(testFile)) {
-            testResults.errors.push(`Code base file not created for ${language}`);
             return false;
         }
 
@@ -748,7 +805,6 @@ function testCodeBaseInsertion(language) {
         // Check that header is included
         const headerValidation = validateTSIHeader(content, language);
         if (!headerValidation.valid) {
-            testResults.errors.push(`Invalid header in code base for ${language}: ${headerValidation.reason}`);
             return false;
         }
 
@@ -756,19 +812,16 @@ function testCodeBaseInsertion(language) {
         const lines = content.split('\n');
         const codeLines = lines.filter(line => !line.includes('/*') && !line.includes('*/') && !line.includes('*') && line.trim() !== '');
         if (codeLines.length === 0) {
-            testResults.errors.push(`No code content generated for ${language}`);
             return false;
         }
 
         // Check that generated code contains language-specific syntax patterns
         if (!validateLanguageSpecificCode(content, language)) {
-            testResults.errors.push(`Generated code for ${language} does not contain language-specific syntax patterns`);
             return false;
         }
 
         return true;
     } catch (error) {
-        testResults.errors.push(`Code base insertion error for ${language}: ${error.message}`);
         return false;
     }
 }
@@ -794,10 +847,8 @@ function testClassCreation(language) {
         if (headerResult.error) {
             // Check if it's an unsupported language error
             if (headerResult.error.includes('No header support for language')) {
-                testResults.errors.push(`Skipping ${language} class - not supported by Ruby CLI`);
                 return true; // Skip, not fail
             }
-            testResults.errors.push(`Header generation failed for ${language} class: ${headerResult.error}`);
             return false;
         }
 
@@ -805,10 +856,8 @@ function testClassCreation(language) {
         if (!headerOutput.success) {
             // Check if it's an unsupported language message
             if (headerOutput.message && headerOutput.message.includes('No header support for language')) {
-                testResults.errors.push(`Skipping ${language} class - not supported by Ruby CLI`);
                 return true; // Skip, not fail
             }
-            testResults.errors.push(`Header generation failed for ${language} class: ${headerOutput.message}`);
             return false;
         }
 
@@ -819,7 +868,6 @@ function testClassCreation(language) {
         });
 
         if (!classResult.success) {
-            testResults.errors.push(`Class generation failed for ${language}: ${classResult.message}`);
             return false;
         }
 
@@ -831,18 +879,15 @@ function testClassCreation(language) {
         const content = fs.readFileSync(testFile, 'utf8');
         const headerValidation = validateTSIHeader(content, language);
         if (!headerValidation.valid) {
-            testResults.errors.push(`Invalid header in class for ${language}: ${headerValidation.reason}`);
             return false;
         }
 
         if (!content.includes(className)) {
-            testResults.errors.push(`Class name not found in generated code for ${language}`);
             return false;
         }
 
         return true;
     } catch (error) {
-        testResults.errors.push(`Class creation error for ${language}: ${error.message}`);
         return false;
     }
 }
@@ -899,17 +944,14 @@ function testCppClassCreation(className) {
             });
 
             if (!result.success) {
-                testResults.errors.push(`C++ class generation failed: ${result.message}`);
                 return false;
             }
 
             // Check that files were created
             if (!fs.existsSync(headerFilePath)) {
-                testResults.errors.push(`C++ header file not created: ${headerFilePath}`);
                 return false;
             }
             if (!fs.existsSync(implFilePath)) {
-                testResults.errors.push(`C++ implementation file not created: ${implFilePath}`);
                 return false;
             }
 
@@ -917,7 +959,6 @@ function testCppClassCreation(className) {
             const headerContent = fs.readFileSync(headerFilePath, 'utf8');
             const headerValidation = validateTSIHeader(headerContent, 'cpp');
             if (!headerValidation.valid) {
-                testResults.errors.push(`Invalid TSI header in C++ header file: ${headerValidation.reason}`);
                 return false;
             }
 
@@ -925,35 +966,29 @@ function testCppClassCreation(className) {
             const implContent = fs.readFileSync(implFilePath, 'utf8');
             const implValidation = validateTSIHeader(implContent, 'cpp');
             if (!implValidation.valid) {
-                testResults.errors.push(`Invalid TSI header in C++ implementation file: ${implValidation.reason}`);
                 return false;
             }
 
             // Check that class name appears in both files
             if (!headerContent.includes(className)) {
-                testResults.errors.push(`Class name '${className}' not found in header file`);
                 return false;
             }
             if (!implContent.includes(className)) {
-                testResults.errors.push(`Class name '${className}' not found in implementation file`);
                 return false;
             }
 
             // Check for basic C++ class structure in header
             if (!headerContent.includes(`class ${className}`)) {
-                testResults.errors.push(`C++ class declaration not found in header file`);
                 return false;
             }
 
             // Check for include guard in header
             if (!headerContent.includes(`#ifndef ${className.toUpperCase()}_HPP`)) {
-                testResults.errors.push(`Include guard not found in header file`);
                 return false;
             }
 
             // Check for include statement in implementation
             if (!implContent.includes(`#include "${className}.hpp"`)) {
-                testResults.errors.push(`Include statement not found in implementation file`);
                 return false;
             }
 
@@ -968,7 +1003,6 @@ function testCppClassCreation(className) {
         }
 
     } catch (error) {
-        testResults.errors.push(`C++ class creation test error: ${error.message}`);
         return false;
     }
 }
@@ -1036,8 +1070,6 @@ function testExtensionAPI() {
             totalTests++;
             if (context.subscriptions && context.subscriptions.length > 0) {
                 testsPassed++;
-            } else {
-                testResults.errors.push('Extension API test failed: No subscriptions registered');
             }
 
             // Test 2: Should have command registrations
@@ -1047,16 +1079,12 @@ function testExtensionAPI() {
             );
             if (commandSubscriptions.length >= 5) { // Should have at least 5 commands
                 testsPassed++;
-            } else {
-                testResults.errors.push(`Extension API test failed: Expected at least 5 command registrations, got ${commandSubscriptions.length}`);
             }
 
             // Test 3: Should have tree data providers
             totalTests++;
             if (registeredTreeProviders.length >= 2) { // Should have at least 2 tree providers
                 testsPassed++;
-            } else {
-                testResults.errors.push(`Extension API test failed: Expected at least 2 tree data providers, got ${registeredTreeProviders.length}`);
             }
 
             // Test 4: Verify specific commands are registered
@@ -1073,8 +1101,6 @@ function testExtensionAPI() {
 
             if (missingCommands.length === 0) {
                 testsPassed++;
-            } else {
-                testResults.errors.push(`Extension API test failed: Missing commands: ${missingCommands.join(', ')}`);
             }
 
             // Test 5: Verify extension can handle basic operations without throwing
@@ -1084,7 +1110,7 @@ function testExtensionAPI() {
                 // This is a smoke test to ensure the extension is properly structured
                 testsPassed++;
             } catch (error) {
-                testResults.errors.push(`Extension API test failed: Extension threw error during basic operations: ${error.message}`);
+                // Error will be handled below
             }
 
             // Clean up
@@ -1099,12 +1125,7 @@ function testExtensionAPI() {
             });
 
             const successRate = testsPassed / totalTests;
-            if (successRate >= 0.8) { // Allow 80% success rate for API tests
-                return true;
-            } else {
-                testResults.errors.push(`Extension API test failed: Only ${testsPassed}/${totalTests} tests passed (${(successRate * 100).toFixed(1)}%)`);
-                return false;
-            }
+            return successRate >= 0.8; // Allow 80% success rate for API tests
 
         } finally {
             // Restore original require behavior
@@ -1119,10 +1140,8 @@ function testExtensionAPI() {
     } catch (error) {
         // Only skip if we can't create the mock (which should be very rare)
         if (error.message.includes("Cannot find module 'vscode'") && !mockVSCode) {
-            testResults.errors.push('Extension API test skipped - VS Code module not available in test environment');
             return true; // Skip, not fail
         }
-        testResults.errors.push(`Extension API test error: ${error.message}`);
         return false;
     }
 }
@@ -1285,32 +1304,384 @@ function testRubyBackend() {
         // Test unified Ruby test suite
         const rubyResult = runCommand('ruby spec/unified_test.rb', { cwd: EXTENSION_PATH });
         if (rubyResult.error) {
-            testResults.errors.push(`Ruby unified test failed: ${rubyResult.error}`);
             return false;
         }
 
         return true;
     } catch (error) {
-        testResults.errors.push(`Ruby backend test error: ${error.message}`);
         return false;
+    }
+}
+
+
+
+/**
+ * Test project scaffolding for a specific language
+ */
+async function testProjectScaffoldingForLanguage(language) {
+    const tempDir = path.join(os.tmpdir(), 'tsi-test-projects', `test-${language}-project`);
+    const projectUri = { fsPath: tempDir };
+
+    try {
+        // Clean up any existing test directory
+        if (fs.existsSync(tempDir)) {
+            fs.rmSync(tempDir, { recursive: true, force: true });
+        }
+
+        // Create base directory
+        fs.mkdirSync(tempDir, { recursive: true });
+
+        // Create project structure using actual functions
+        await createTestProjectStructure(language, `test-${language}-project`, projectUri);
+
+        // Verify project structure
+        await verifyProjectStructure(language, tempDir, `test-${language}-project`);
+
+        // Verify file contents
+        await verifyFileContents(language, tempDir, `test-${language}-project`);
+
+        return true;
+
+    } catch (error) {
+        return false;
+    } finally {
+        // Clean up
+        try {
+            if (fs.existsSync(tempDir)) {
+                fs.rmSync(tempDir, { recursive: true, force: true });
+            }
+        } catch (cleanupError) {
+            // Silent cleanup
+        }
+    }
+}
+
+/**
+ * Create test project structure
+ */
+async function createTestProjectStructure(language, projectName, projectUri) {
+    const fsPath = projectUri.fsPath;
+
+    // Create base directories
+    const directories = getDirectoryStructure(language);
+    for (const dir of directories) {
+        const dirUri = { fsPath: path.join(fsPath, dir) };
+        await vscode.workspace.fs.createDirectory(dirUri);
+    }
+
+    // Generate main source file
+    await createTestMainSourceFile(language, projectName, projectUri);
+
+    // Create header file (for C/C++)
+    if (language === 'c' || language === 'cpp') {
+        await createTestHeaderFile(language, projectName, projectUri);
+    }
+
+    // Create language-specific project files
+    await createTestLanguageSpecificFiles(language, projectName, projectUri);
+}
+
+/**
+ * Get directory structure for language
+ */
+function getDirectoryStructure(language) {
+    const commonDirs = ['src', 'docs'];
+
+    if (language === 'c' || language === 'cpp') {
+        return [...commonDirs, 'include', 'build'];
+    } else if (language === 'python') {
+        return [...commonDirs, 'tests', 'scripts'];
+    } else if (language === 'java') {
+        return [...commonDirs, 'src/main/java', 'src/test/java', 'target'];
+    } else if (language === 'rust') {
+        return [...commonDirs, 'src', 'tests', 'examples', 'benches'];
+    } else if (language === 'ruby') {
+        return [...commonDirs, 'lib', 'spec', 'bin', 'config'];
+    } else if (language === 'php') {
+        return [...commonDirs, 'src', 'public', 'tests'];
+    }
+
+    return commonDirs;
+}
+
+/**
+ * Create main source file with TSI header and code
+ */
+async function createTestMainSourceFile(language, projectName, projectUri) {
+    const extension = getFileExtension(language);
+    let fileName = `main.${extension}`;
+    let fileUri;
+
+    if (language === 'java') {
+        fileName = 'Main.java';
+        fileUri = vscode.Uri.joinPath(projectUri, 'src', 'main', 'java', fileName);
+    } else if (language === 'php') {
+        fileName = 'index.php';
+        fileUri = vscode.Uri.joinPath(projectUri, 'public', fileName);
+    } else {
+        fileUri = vscode.Uri.joinPath(projectUri, 'src', fileName);
+    }
+
+    // Generate TSI header
+    const headerContent = await generateTestTSIHeaderContent(fileName);
+
+    // Generate code base using existing API
+    const codeResult = generateCodeBase(language, fileName);
+    const codeContent = codeResult.success ? codeResult.content : '';
+
+    // Combine header and code
+    const fullContent = headerContent + '\n' + codeContent;
+
+    // Write to file
+    const encoder = new TextEncoder();
+    await vscode.workspace.fs.writeFile(fileUri, encoder.encode(fullContent));
+}
+
+/**
+ * Create header file for C/C++
+ */
+async function createTestHeaderFile(language, projectName, projectUri) {
+    const extension = language === 'c' ? 'h' : 'hpp';
+    const fileName = `${projectName}.${extension}`;
+    const fileUri = vscode.Uri.joinPath(projectUri, 'include', fileName);
+
+    // Generate TSI header
+    const headerContent = await generateTestTSIHeaderContent(fileName);
+
+    // Generate header guard
+    const guardName = `${projectName.toUpperCase().replace(/-/g, '_')}_${extension.toUpperCase()}`;
+
+    const content = `${headerContent}
+
+#ifndef ${guardName}
+#define ${guardName}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Function declarations go here
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // ${guardName}
+`;
+
+    const encoder = new TextEncoder();
+    await vscode.workspace.fs.writeFile(fileUri, encoder.encode(content));
+}
+
+/**
+ * Create language-specific project files
+ */
+async function createTestLanguageSpecificFiles(language, projectName, projectUri) {
+    const { createLanguageSpecificFiles } = require('./generators/project/projectcreators/index');
+    await createLanguageSpecificFiles(language, projectName, projectUri, vscode);
+}
+
+/**
+ * Get file extension for language
+ */
+function getFileExtension(language) {
+    const extensions = {
+        'c': 'c',
+        'cpp': 'cpp',
+        'python': 'py',
+        'java': 'java',
+        'rust': 'rs',
+        'ruby': 'rb',
+        'php': 'php'
+    };
+    return extensions[language] || 'txt';
+}
+
+/**
+ * Generate TSI header content for testing
+ */
+async function generateTestTSIHeaderContent(fileName) {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-US', {
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric'
+    }).replace(',', '');
+
+    const timeStr = now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+
+    const username = 'Test User';
+    const email = 'test@example.com';
+    const dateTime = `${dateStr} ${timeStr}`;
+
+    return `/*****************************************************************************/
+/*                                                                           */
+/*  ${fileName.padEnd(50, ' ')}         TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: ${email.padEnd(50, ' ')} TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: ${dateTime} ${username.padEnd(30, ' ')} TT    SSSSSSS II */
+/*  Updated: ${dateTime} ${username.padEnd(30, ' ')}                          */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/`;
+}
+
+/**
+ * Verify project structure
+ */
+async function verifyProjectStructure(language, projectPath, projectName) {
+    const expectedDirs = getDirectoryStructure(language);
+    const expectedFiles = getExpectedFiles(language, projectName);
+
+    // Check directories
+    for (const dir of expectedDirs) {
+        const dirPath = path.join(projectPath, dir);
+        if (!fs.existsSync(dirPath)) {
+            throw new Error(`Missing directory: ${dir}`);
+        }
+    }
+
+    // Check files
+    for (const file of expectedFiles) {
+        const filePath = path.join(projectPath, file);
+        if (!fs.existsSync(filePath)) {
+            throw new Error(`Missing file: ${file}`);
+        }
+    }
+}
+
+/**
+ * Get expected files for language
+ */
+function getExpectedFiles(language, projectName) {
+    const files = [];
+
+    if (language === 'c') {
+        files.push('src/main.c', `include/${projectName}.h`);
+    } else if (language === 'cpp') {
+        files.push('src/main.cpp', `include/${projectName}.hpp`);
+    } else if (language === 'python') {
+        files.push('src/main.py', 'src/base_class.py', 'requirements.txt', 'setup.py');
+    } else if (language === 'java') {
+        files.push('src/main/java/Main.java');
+    } else if (language === 'rust') {
+        files.push('src/main.rs', 'Cargo.toml');
+    } else if (language === 'ruby') {
+        files.push('src/main.rb', 'lib/base_class.rb', 'Gemfile');
+    } else if (language === 'php') {
+        files.push('public/index.php', 'src/BaseClass.php', 'composer.json');
+    }
+
+    return files;
+}
+
+/**
+ * Verify file contents
+ */
+async function verifyFileContents(language, projectPath, projectName) {
+    const expectedFiles = getExpectedFiles(language, projectName);
+
+    for (const file of expectedFiles) {
+        const filePath = path.join(projectPath, file);
+
+        if (!fs.existsSync(filePath)) {
+            continue;
+        }
+
+        const content = fs.readFileSync(filePath, 'utf8');
+
+        // Check for TSI header (except for certain files)
+        const skipHeaderCheck = ['composer.json', 'Cargo.toml', 'requirements.txt', 'Gemfile'].some(skipFile =>
+            file.endsWith(skipFile)
+        );
+
+        if (!skipHeaderCheck) {
+            if (!content.includes('TTTTTTTT SSSSSSS II')) {
+                throw new Error(`File ${file} missing TSI header`);
+            }
+
+            // Verify that the header contains the correct filename
+            const fileName = path.basename(file);
+            if (!content.includes(fileName)) {
+                throw new Error(`File ${file} header contains incorrect filename. Expected: ${fileName}`);
+            }
+        }
+
+        // Check for basic content structure
+        if (file.endsWith('.c') || file.endsWith('.cpp') || file.endsWith('.py') || file.endsWith('.java') ||
+            file.endsWith('.rs') || file.endsWith('.rb') || file.endsWith('.php')) {
+            // Skip base class files and build files for content check
+            const isBaseClass = file.includes('base_class') || file.includes('BaseClass');
+            const isBuildFile = file.includes('setup.py') || file.includes('requirements.txt') ||
+                               file.includes('composer.json') || file.includes('Cargo.toml') ||
+                               file.includes('Gemfile');
+            if (!isBaseClass && !isBuildFile && !content.includes('Hello, World')) {
+                throw new Error(`File ${file} missing expected content`);
+            }
+        }
+    }
+}
+
+/**
+ * Test header generation in scaffolded projects
+ */
+async function testHeaderGenerationInScaffoldedProjects() {
+    const tempDir = path.join(os.tmpdir(), 'tsi-header-test');
+    const testFileName = 'test.php';
+
+    try {
+        // Clean up any existing test directory
+        if (fs.existsSync(tempDir)) {
+            fs.rmSync(tempDir, { recursive: true, force: true });
+        }
+        fs.mkdirSync(tempDir, { recursive: true });
+
+        // Test the header generation function
+        const { generateTSIHeaderContent } = require('./generators/project/headerUtils');
+        const { mockVSCode: mockVscode } = createMockVSCode();
+        const header = await generateTSIHeaderContent(testFileName, mockVscode);
+
+        // Verify header contains correct filename
+        if (!header.includes(testFileName)) {
+            throw new Error(`Header does not contain correct filename. Expected: ${testFileName}`);
+        }
+
+        // Verify header has proper TSI format
+        if (!header.includes('TTTTTTTT SSSSSSS II')) {
+            throw new Error('Header missing TSI branding');
+        }
+
+        // Verify header doesn't contain "file.c"
+        if (header.includes('file.c')) {
+            throw new Error('Header contains hardcoded "file.c" instead of actual filename');
+        }
+
+        return true;
+
+    } catch (error) {
+        return false;
+    } finally {
+        // Clean up
+        try {
+            if (fs.existsSync(tempDir)) {
+                fs.rmSync(tempDir, { recursive: true, force: true });
+            }
+        } catch (cleanupError) {
+            // Silent cleanup
+        }
     }
 }
 
 /**
  * Run all tests
  */
-function runAllTests() {
-    console.log('🚀 Starting Unified TSI Header Extension Test Suite\n');
-
-    console.log('🎯 Testing ALL supported languages and functionality\n');
-    console.log('📊 This comprehensive test covers:');
-    console.log(`   • ${HEADER_LANGUAGES.length} programming languages for headers`);
-    console.log(`   • ${CODEBASE_LANGUAGES.length} programming languages for code bases`);
-    console.log(`   • ${CLASS_LANGUAGES.length} object-oriented languages for classes`);
-    console.log('   • Extension API and VS Code integration');
-    console.log('   • Ruby backend functionality');
-    console.log('   • Syntax validation and TSI header format verification\n');
-
+async function runAllTests() {
     setupTestDirectory();
 
     // Test extension API first
@@ -1323,6 +1694,7 @@ function runAllTests() {
         console.log('✅ Extension API: All tests passed');
     } else {
         testResults.sections.api.failed = 1;
+        testResults.sections.api.failures.push('Extension API tests failed');
         testResults.total++;
         testResults.failed++;
         console.log('❌ Extension API: Tests failed');
@@ -1338,6 +1710,7 @@ function runAllTests() {
         console.log('✅ Ruby Backend: All tests passed');
     } else {
         testResults.sections.ruby.failed = 1;
+        testResults.sections.ruby.failures.push('Ruby Backend tests failed');
         testResults.total++;
         testResults.failed++;
         console.log('❌ Ruby Backend: Tests failed');
@@ -1345,110 +1718,136 @@ function runAllTests() {
 
     // Test header insertion for all languages
     console.log('\n📝 Testing Header Insertion...');
-    HEADER_LANGUAGES.forEach(language => {
+    const headerProgress = new ProgressBar(HEADER_LANGUAGES.length);
+    HEADER_LANGUAGES.forEach((language, index) => {
         testResults.sections.headers.total++;
         testResults.total++;
         if (testHeaderInsertion(language)) {
             testResults.sections.headers.passed++;
             testResults.passed++;
-            console.log(`✅ Header insertion: ${language}`);
         } else {
             testResults.sections.headers.failed++;
+            testResults.sections.headers.failures.push(language);
             testResults.failed++;
-            console.log(`❌ Header insertion: ${language}`);
         }
+        headerProgress.update(index + 1);
     });
+    headerProgress.complete();
 
     // Test code base insertion for all languages
     console.log('\n🏗️  Testing Code Base Insertion...');
-    CODEBASE_LANGUAGES.forEach(language => {
+    const codebaseProgress = new ProgressBar(CODEBASE_LANGUAGES.length);
+    CODEBASE_LANGUAGES.forEach((language, index) => {
         testResults.sections.codebases.total++;
         testResults.total++;
         if (testCodeBaseInsertion(language)) {
             testResults.sections.codebases.passed++;
             testResults.passed++;
-            console.log(`✅ Code base insertion: ${language}`);
         } else {
             testResults.sections.codebases.failed++;
+            testResults.sections.codebases.failures.push(language);
             testResults.failed++;
-            console.log(`❌ Code base insertion: ${language}`);
         }
+        codebaseProgress.update(index + 1);
     });
+    codebaseProgress.complete();
 
     // Test class creation for supported languages
     console.log('\n🏛️  Testing Class Creation...');
-    CLASS_LANGUAGES.forEach(language => {
+    const classProgress = new ProgressBar(CLASS_LANGUAGES.length);
+    CLASS_LANGUAGES.forEach((language, index) => {
         testResults.sections.classes.total++;
         testResults.total++;
         if (testClassCreation(language)) {
             testResults.sections.classes.passed++;
             testResults.passed++;
-            console.log(`✅ Class creation: ${language}`);
         } else {
             testResults.sections.classes.failed++;
+            testResults.sections.classes.failures.push(language);
             testResults.failed++;
-            console.log(`❌ Class creation: ${language}`);
         }
+        classProgress.update(index + 1);
     });
+    classProgress.complete();
 
-    // Syntax validation for key languages
-    console.log('\n🔍 Running Syntax Validation...');
-    const syntaxLanguages = ['c', 'java', 'python', 'javascript', 'ruby'];
-    syntaxLanguages.forEach(language => {
-        // Test header syntax
-        const headerFile = path.join(TEST_DIR, `test_header_${language}.txt`);
-        if (fs.existsSync(headerFile)) {
-            const content = fs.readFileSync(headerFile, 'utf8');
-            const headerValidation = validateTSIHeader(content, language);
-            testResults.sections.syntax.total++;
-            testResults.total++;
-            if (headerValidation.valid) {
-                testResults.sections.syntax.passed++;
-                testResults.passed++;
-                console.log(`✅ Syntax validation: ${language} header`);
-            } else {
-                testResults.sections.syntax.failed++;
-                testResults.failed++;
-                console.log(`❌ Syntax validation: ${language} header`);
-            }
-        }
+    // Test project scaffolding
+    console.log('\n🏗️  Testing Project Scaffolding...');
+    const languages = ['c', 'cpp', 'python', 'java', 'rust', 'ruby', 'php'];
+    const projectProgress = new ProgressBar(languages.length + 1);
 
-        // Test code base syntax
-        const codeBaseFile = path.join(TEST_DIR, `test_codebase_${language}.txt`);
-        if (fs.existsSync(codeBaseFile)) {
-            const content = fs.readFileSync(codeBaseFile, 'utf8');
-            testResults.sections.syntax.total++;
-            testResults.total++;
-            if (content.length > 100) { // Basic check for content
-                testResults.sections.syntax.passed++;
-                testResults.passed++;
-                console.log(`✅ Syntax validation: ${language} codebase`);
-            } else {
-                testResults.sections.syntax.failed++;
-                testResults.failed++;
-                console.log(`❌ Syntax validation: ${language} codebase`);
-            }
+    // First test header generation
+    testResults.sections.projects.total++;
+    testResults.total++;
+    const headerTestResult = await testHeaderGenerationInScaffoldedProjects();
+    if (headerTestResult) {
+        testResults.sections.projects.passed++;
+        testResults.passed++;
+    } else {
+        testResults.sections.projects.failed++;
+        testResults.sections.projects.failures.push('header generation');
+        testResults.failed++;
+    }
+    projectProgress.update(1);
+
+    for (const language of languages) {
+        testResults.sections.projects.total++;
+        testResults.total++;
+        const result = await testProjectScaffoldingForLanguage(language);
+        if (result) {
+            testResults.sections.projects.passed++;
+            testResults.passed++;
+        } else {
+            testResults.sections.projects.failed++;
+            testResults.sections.projects.failures.push(language);
+            testResults.failed++;
         }
-    });
+        projectProgress.update(testResults.sections.projects.passed + testResults.sections.projects.failed);
+    }
+
+    projectProgress.complete();
 
     // Generate comprehensive test report
-    console.log('\n📊 Comprehensive Test Results Summary:');
-    console.log(`Total Tests: ${testResults.total}`);
-    console.log(`Passed: ${testResults.passed}`);
-    console.log(`Failed: ${testResults.failed}`);
-    console.log(`Success Rate: ${((testResults.passed / testResults.total) * 100).toFixed(2)}%`);
+    console.log('\n📊 Test Results:');
+    console.log(`Total: ${testResults.total}, Passed: ${testResults.passed}, Failed: ${testResults.failed}, Success: ${((testResults.passed / testResults.total) * 100).toFixed(1)}%`);
 
-    console.log('\n📋 Section Breakdown:');
-    console.log(`Headers (${HEADER_LANGUAGES.length} languages): ${testResults.sections.headers.passed}/${testResults.sections.headers.total} passed`);
-    console.log(`Code Bases (${CODEBASE_LANGUAGES.length} languages): ${testResults.sections.codebases.passed}/${testResults.sections.codebases.total} passed`);
-    console.log(`Classes (${CLASS_LANGUAGES.length} languages): ${testResults.sections.classes.passed}/${testResults.sections.classes.total} passed`);
-    console.log(`Syntax Validation: ${testResults.sections.syntax.passed}/${testResults.sections.syntax.total} passed`);
-    console.log(`Extension API: ${testResults.sections.api.passed}/${testResults.sections.api.total} passed`);
-    console.log(`Ruby Backend: ${testResults.sections.ruby.passed}/${testResults.sections.ruby.total} passed`);
-
-    if (testResults.errors.length > 0) {
-        console.log('\n❌ Errors:');
-        testResults.errors.forEach(error => console.log(`  - ${error}`));
+    // Display failures at the end
+    if (testResults.failed > 0) {
+        console.log('\n❌ Failed Tests:');
+        
+        if (testResults.sections.headers.failures.length > 0) {
+            console.log(`\n📝 Header Insertion Failures (${testResults.sections.headers.failures.length}):`);
+            testResults.sections.headers.failures.forEach(failure => console.log(`  - ${failure}`));
+        }
+        
+        if (testResults.sections.codebases.failures.length > 0) {
+            console.log(`\n🏗️  Code Base Insertion Failures (${testResults.sections.codebases.failures.length}):`);
+            testResults.sections.codebases.failures.forEach(failure => console.log(`  - ${failure}`));
+        }
+        
+        if (testResults.sections.classes.failures.length > 0) {
+            console.log(`\n🏛️  Class Creation Failures (${testResults.sections.classes.failures.length}):`);
+            testResults.sections.classes.failures.forEach(failure => console.log(`  - ${failure}`));
+        }
+        
+        if (testResults.sections.syntax.failures.length > 0) {
+            console.log(`\n🔍 Syntax Validation Failures (${testResults.sections.syntax.failures.length}):`);
+            testResults.sections.syntax.failures.forEach(failure => console.log(`  - ${failure}`));
+        }
+        
+        if (testResults.sections.api.failures.length > 0) {
+            console.log(`\n🔧 Extension API Failures (${testResults.sections.api.failures.length}):`);
+            testResults.sections.api.failures.forEach(failure => console.log(`  - ${failure}`));
+        }
+        
+        if (testResults.sections.ruby.failures.length > 0) {
+            console.log(`\n💎 Ruby Backend Failures (${testResults.sections.ruby.failures.length}):`);
+            testResults.sections.ruby.failures.forEach(failure => console.log(`  - ${failure}`));
+        }
+        
+        if (testResults.sections.projects.failures.length > 0) {
+            console.log(`\n🏗️  Project Scaffolding Failures (${testResults.sections.projects.failures.length}):`);
+            testResults.sections.projects.failures.forEach(failure => console.log(`  - ${failure}`));
+        }
     }
 
     // Save detailed report
@@ -1466,7 +1865,7 @@ function runAllTests() {
         timestamp: new Date().toISOString(),
         version: '3.0.5'
     }, null, 2));
-    console.log(`\n📄 Detailed report saved to: ${reportPath}`);
+    console.log(`\nReport saved: ${reportPath}`);
 
     return testResults.failed === 0;
 }
@@ -1475,8 +1874,14 @@ function runAllTests() {
  * Main execution
  */
 if (require.main === module) {
-    const success = runAllTests();
-    process.exit(success ? 0 : 1);
+    runAllTests()
+        .then(success => {
+            process.exit(success ? 0 : 1);
+        })
+        .catch(error => {
+            console.error('Test suite failed:', error);
+            process.exit(1);
+        });
 }
 
 module.exports = {

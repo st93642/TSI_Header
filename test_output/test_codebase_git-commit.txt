@@ -1,0 +1,25 @@
+# *************************************************************************** #
+#                                                                             #
+#  test_codebase_git-commit.txt                           TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 28 2025 23:09 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 28 2025 23:09 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+# *************************************************************************** #
+
+// Basic git-commit program
+
+// Main function - entry point of the program
+// Note: This is a generic template for git-commit
+
+// Hello, World! implementation
+// This is a basic git-commit program.
+
+// Example comments for git-commit
+// Add your code here
+
+// End of program

@@ -448,7 +448,7 @@ const { generateAssemblyCodeBase } = require('./languages/assembly');
 const { generateCobolCodeBase } = require('./languages/cobol');
 
 /**
- * Generates Basic code base
+ * Generates Basic(Language) code base
  */
 const { generateBasicCodeBase } = require('./languages/basic');
 

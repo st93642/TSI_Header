@@ -1,0 +1,87 @@
+-- ************************************************************************* --
+--                                                                           --
+--  test_codebase_vhdl.txt                               TTTTTTTT SSSSSSS II --
+--                                                          TT    SS      II --
+--  By: st93642@students.tsi.lv                             TT    SSSSSSS II --
+--                                                          TT         SS II --
+--  Created: Sep 28 2025 23:09 st93642                      TT    SSSSSSS II --
+--  Updated: Sep 28 2025 23:09 st93642                                       --
+--                                                                           --
+--   Transport and Telecommunication Institute - Riga, Latvia                --
+--                       https://tsi.lv                                      --
+-- ************************************************************************* --
+
+-- Basic VHDL program
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+-- Entity declaration
+entity HelloWorld is
+    Port (
+        clk : in STD_LOGIC;
+        reset : in STD_LOGIC;
+        output : out STD_LOGIC_VECTOR(7 downto 0)
+    );
+end HelloWorld;
+
+-- Architecture implementation
+architecture Behavioral of HelloWorld is
+    signal counter : unsigned(7 downto 0) := (others => '0');
+begin
+    -- Main process
+    process(clk, reset)
+    begin
+        if reset = '1' then
+            counter <= (others => '0');
+        elsif rising_edge(clk) then
+            counter <= counter + 1;
+        end if;
+    end process;
+    
+    -- Output assignment
+    output <= std_logic_vector(counter);
+    
+    -- Alternative combinational logic
+    -- output <= "10101010" when reset = '1' else
+    --           std_logic_vector(counter);
+    
+end Behavioral;
+
+-- Testbench (uncomment to use)
+-- library IEEE;
+-- use IEEE.STD_LOGIC_1164.ALL;
+-- 
+-- entity HelloWorld_TB is
+-- end HelloWorld_TB;
+-- 
+-- architecture Testbench of HelloWorld_TB is
+--     component HelloWorld
+--         Port (
+--             clk : in STD_LOGIC;
+--             reset : in STD_LOGIC;
+--             output : out STD_LOGIC_VECTOR(7 downto 0)
+--         );
+--     end component;
+--     
+--     signal clk : STD_LOGIC := '0';
+--     signal reset : STD_LOGIC := '0';
+--     signal output : STD_LOGIC_VECTOR(7 downto 0);
+--     
+-- begin
+--     uut: HelloWorld Port Map (
+--         clk => clk,
+--         reset => reset,
+--         output => output
+--     );
+--     
+--     clk_process: process
+--     begin
+--         clk <= '0';
+--         wait for 10 ns;
+--         clk <= '1';
+--         wait for 10 ns;
+--     end process;
+--     
+-- end Testbench;
