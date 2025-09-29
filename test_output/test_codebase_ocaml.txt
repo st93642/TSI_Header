@@ -1,0 +1,42 @@
+(* ************************************************************************* *)
+(*                                                                           *)
+(*  test_codebase_ocaml.txt                              TTTTTTTT SSSSSSS II *)
+(*                                                          TT    SS      II *)
+(*  By: st93642@students.tsi.lv                             TT    SSSSSSS II *)
+(*                                                          TT         SS II *)
+(*  Created: Sep 29 2025 13:53 st93642                      TT    SSSSSSS II *)
+(*  Updated: Sep 29 2025 13:53 st93642                                       *)
+(*                                                                           *)
+(*   Transport and Telecommunication Institute - Riga, Latvia                *)
+(*                       https://tsi.lv                                      *)
+(* ************************************************************************* *)
+
+(* Basic OCaml program *)
+
+(* Main function - entry point of the program *)
+let main () =
+  print_endline "Hello, World!";
+  print_endline "This is a basic OCaml program."
+
+(* Execute main function *)
+let () = main ()
+
+(* Alternative direct approach *)
+(* let () = *)
+(*   print_endline "Hello, World!"; *)
+(*   print_endline "This is a basic OCaml program." *)
+
+(* Example function with pattern matching *)
+(* let rec factorial n = *)
+(*   match n with *)
+(*   | 0 | 1 -> 1 *)
+(*   | n -> n * factorial (n - 1) *)
+
+(* Example usage *)
+(* let result = factorial 5 in *)
+(* Printf.printf "5! = %d\n" result *)
+
+(* Example with lists *)
+(* let numbers = [1; 2; 3; 4; 5] in *)
+(* let doubled = List.map (fun x -> x * 2) numbers in *)
+(* List.iter (Printf.printf "%d ") doubled *)

@@ -1,0 +1,36 @@
+%% ************************************************************************* %%
+%%                                                                           %%
+%%  test_codebase_mercury.txt                            TTTTTTTT SSSSSSS II %%
+%%                                                          TT    SS      II %%
+%%  By: st93642@students.tsi.lv                             TT    SSSSSSS II %%
+%%                                                          TT         SS II %%
+%%  Created: Sep 29 2025 13:53 st93642                      TT    SSSSSSS II %%
+%%  Updated: Sep 29 2025 13:53 st93642                                       %%
+%%                                                                           %%
+%%   Transport and Telecommunication Institute - Riga, Latvia                %%
+%%                       https://tsi.lv                                      %%
+%% ************************************************************************* %%
+
+%% Basic Mercury program
+
+:- module hello_world.
+:- interface.
+
+:- import_module io.
+
+:- pred main(io::di, io::uo) is det.
+
+:- implementation.
+
+main(!IO) :-
+    io.write_string("Hello, World!\n", !IO),
+    io.write_string("This is a basic Mercury program.\n", !IO).
+
+%% To compile and run:
+%% mmc --make hello_world
+%% ./hello_world
+
+%% Example predicate
+%% :- pred greet(string::in, string::out) is det.
+%% greet(Name, Greeting) :-
+%%     string.append_list(["Hello, ", Name, "!"], Greeting).

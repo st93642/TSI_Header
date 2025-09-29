@@ -1,0 +1,61 @@
+-- ************************************************************************* --
+--                                                                           --
+--  test_codebase_applescript.txt                        TTTTTTTT SSSSSSS II --
+--                                                          TT    SS      II --
+--  By: st93642@students.tsi.lv                             TT    SSSSSSS II --
+--                                                          TT         SS II --
+--  Created: Sep 29 2025 13:53 st93642                      TT    SSSSSSS II --
+--  Updated: Sep 29 2025 13:53 st93642                                       --
+--                                                                           --
+--   Transport and Telecommunication Institute - Riga, Latvia                --
+--                       https://tsi.lv                                      --
+-- ************************************************************************* --
+
+-- Basic AppleScript program
+
+-- Main script logic
+tell application "System Events"
+    display dialog "Hello, World! This is a basic AppleScript program."
+end tell
+
+-- Alternative simple approach
+-- display dialog "Hello, World! This is a basic AppleScript program."
+
+-- Example with variables and types
+-- set userName to "TSI Student"
+-- set userAge to 20
+-- set greeting to "Hello, " & userName & "! You are " & userAge & " years old."
+-- display dialog greeting
+
+-- Example handler definition (function)
+-- on greetUser(userName)
+--     return "Hello, " & userName & "!"
+-- end greetUser
+
+-- Example usage
+-- set greeting to greetUser("TSI Student")
+-- display dialog greeting
+
+-- Example with lists and loops
+-- set numberList to {1, 2, 3, 4, 5}
+-- repeat with currentNumber in numberList
+--     display dialog "Number: " & currentNumber
+-- end repeat
+
+-- Example with records (dictionaries/structs)
+-- set personRecord to {name:"TSI Student", age:20, program:"Computer Science"}
+-- display dialog "Hello, I'm " & name of personRecord & " and I'm " & age of personRecord & " years old!"
+
+-- Example with application scripting
+-- tell application "Finder"
+--     set desktopPath to desktop as string
+--     display dialog "Desktop path: " & desktopPath
+-- end tell
+
+-- Example with conditional logic
+-- set userChoice to button returned of (display dialog "Choose an option:" buttons {"Option 1", "Option 2"})
+-- if userChoice is "Option 1" then
+--     display dialog "You chose Option 1"
+-- else
+--     display dialog "You chose Option 2"
+-- end if

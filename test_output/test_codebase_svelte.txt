@@ -1,0 +1,92 @@
+<!-- ********************************************************************** -->
+<!--                                                                        -->
+<!--  test_codebase_svelte.txt                          TTTTTTTT SSSSSSS II -->
+<!--                                                       TT    SS      II -->
+<!--  By: st93642@students.tsi.lv                          TT    SSSSSSS II -->
+<!--                                                       TT         SS II -->
+<!--  Created: Sep 29 2025 13:53 st93642                   TT    SSSSSSS II -->
+<!--  Updated: Sep 29 2025 13:53 st93642                                    -->
+<!--                                                                        -->
+<!--   Transport and Telecommunication Institute - Riga, Latvia             -->
+<!--                       https://tsi.lv                                   -->
+<!-- ********************************************************************** -->
+<script>
+  import { onMount } from 'svelte';
+
+  // Component props
+  export let name = 'World';
+  export let count = 0;
+
+  // Reactive statements
+  $: doubled = count * 2;
+
+  // Component logic
+  function increment() {
+    count += 1;
+  }
+
+  function decrement() {
+    count -= 1;
+  }
+
+  onMount(() => {
+    console.log('Component mounted');
+  });
+</script>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+  }
+
+  .counter {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #f0f0f0;
+  }
+
+  .message {
+    font-size: 1.2rem;
+    color: #333;
+  }
+</style>
+
+<div class="container">
+  <h1>Hello {name}!</h1>
+
+  <div class="counter">
+    <button on:click={decrement}>-</button>
+    <span>Count: {count}</span>
+    <button on:click={increment}>+</button>
+  </div>
+
+  <p class="message">Doubled: {doubled}</p>
+
+  {#if count > 5}
+    <p>Count is high!</p>
+  {:else if count < -5}
+    <p>Count is low!</p>
+  {:else}
+    <p>Count is normal</p>
+  {/if}
+
+  {#each Array(3) as _, i}
+    <div>Item {i + 1}</div>
+  {/each}
+</div>
