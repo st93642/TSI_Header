@@ -80,7 +80,8 @@ let testResults = {
         syntax: { total: 0, passed: 0, failed: 0, failures: [] },
         api: { total: 0, passed: 0, failed: 0, failures: [] },
         ruby: { total: 0, passed: 0, failed: 0, failures: [] },
-        projects: { total: 0, passed: 0, failed: 0, failures: [] }
+        projects: { total: 0, passed: 0, failed: 0, failures: [] },
+        studyMode: { total: 0, passed: 0, failed: 0, failures: [] }
     }
 };
 
@@ -1795,6 +1796,35 @@ async function verifyFileContents(language, projectPath, projectName) {
 }
 
 /**
+ * Test Study Mode timer functionality
+ */
+function testStudyMode() {
+    try {
+        // Run the Study Mode timer tests
+        const timerTestResult = runCommand('node studyMode/timer.test.js', { cwd: EXTENSION_PATH });
+
+        // Parse the output to check for test results (TAP format)
+        const output = timerTestResult.toString ? timerTestResult.toString() : String(timerTestResult);
+        const passMatch = output.match(/# pass (\d+)/);
+        const failMatch = output.match(/# fail (\d+)/);
+
+        if (!passMatch || !failMatch) {
+            console.error('Could not parse test results from output. Looking for "# pass" and "# fail" patterns.');
+            return false;
+        }
+
+        const passed = parseInt(passMatch[1]);
+        const failed = parseInt(failMatch[1]);
+
+        // All tests should pass
+        return failed === 0 && passed > 0;
+    } catch (error) {
+        console.error('Study Mode test error:', error);
+        return false;
+    }
+}
+
+/**
  * Test header generation in scaffolded projects
  */
 async function testHeaderGenerationInScaffoldedProjects() {
@@ -1880,6 +1910,22 @@ async function runAllTests() {
         testResults.total++;
         testResults.failed++;
         console.log('❌ Ruby Backend: Tests failed');
+    }
+
+    // Test Study Mode timer
+    console.log('\n🍅 Testing Study Mode Timer...');
+    testResults.sections.studyMode.total = 1;
+    if (testStudyMode()) {
+        testResults.sections.studyMode.passed = 1;
+        testResults.total++;
+        testResults.passed++;
+        console.log('✅ Study Mode Timer: All tests passed');
+    } else {
+        testResults.sections.studyMode.failed = 1;
+        testResults.sections.studyMode.failures.push('Study Mode timer tests failed');
+        testResults.total++;
+        testResults.failed++;
+        console.log('❌ Study Mode Timer: Tests failed');
     }
 
     // Test header insertion for all languages
@@ -2037,6 +2083,15 @@ async function runAllTests() {
             );
         }
 
+        if (testResults.sections.studyMode.failures.length > 0) {
+            const msg = '\n🍅 Study Mode Timer Failures (' +
+                testResults.sections.studyMode.failures.length + '):';
+            console.log(msg);
+            testResults.sections.studyMode.failures.forEach(failure =>
+                console.log('  - ' + failure)
+            );
+        }
+
         if (testResults.sections.projects.failures.length > 0) {
             const msg = '\n🏗️  Project Scaffolding Failures (' +
                 testResults.sections.projects.failures.length + '):';
@@ -2088,5 +2143,6 @@ module.exports = {
     testClassCreation,
     validateTSIHeader,
     testExtensionAPI,
-    testRubyBackend
+    testRubyBackend,
+    testStudyMode
 };

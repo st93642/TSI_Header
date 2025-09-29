@@ -1,6 +1,6 @@
 {
-  "total": 317,
-  "passed": 317,
+  "total": 318,
+  "passed": 318,
   "failed": 0,
   "errors": [],
   "sections": {
@@ -45,6 +45,12 @@
       "passed": 8,
       "failed": 0,
       "failures": []
+    },
+    "studyMode": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "failures": []
     }
   },
   "testConfig": {
@@ -55,6 +61,6 @@
     "testedCodebaseLanguages": 147,
     "testedClassLanguages": 13
   },
-  "timestamp": "2025-09-29T07:49:44.002Z",
+  "timestamp": "2025-09-29T07:54:37.000Z",
   "version": "3.0.5"
 }
