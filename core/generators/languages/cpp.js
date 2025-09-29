@@ -59,6 +59,28 @@ int main(int argc, char* argv[]) {
 `;
 }
 
+/**
+ * Generates C++ header code base
+ * @param {string} fileName - The header file name for include guard
+ * @returns {string} C++ header code base template
+ */
+function generateCppHeaderCodeBase(fileName) {
+    // Extract base name from full path for include guard (remove path and .hpp/.h extension)
+    const baseFileName = fileName.split('/').pop();
+    const baseName = baseFileName.replace(/\.(hpp|h)$/i, '').toUpperCase().replace(/[^A-Z0-9_]/g, '_');
+    const includeGuard = `${baseName}_HPP`;
+
+    const headerContent = `\n#ifndef ${includeGuard}\n#define ${includeGuard}\n\n` +
+        `// Include standard libraries\n#include <iostream>\n#include <string>\n#include <vector>\n#include <memory>\n\n` +
+        `// Namespace declaration\n// namespace TSI {\n//     // Your code here\n// }\n\n` +
+        `// Class declarations\n// class ExampleClass {\n// public:\n//     ExampleClass();\n//     ~ExampleClass();\n//     \n//     void exampleMethod();\n//     int getValue() const;\n//     \n// private:\n//     int value_;\n//     std::string name_;\n// };\n\n` +
+        `// Function declarations\n// void exampleFunction(int param);\n// int calculateSum(int a, int b);\n// std::string processData(const std::vector<int>& data);\n\n` +
+        `// Template declarations\n// template<typename T>\n// T findMax(const std::vector<T>& values);\n\n` +
+        `// Constant definitions\n// const int MAX_SIZE = 100;\n// constexpr double PI = 3.14159;\n\n#endif // ${includeGuard}\n`;
+    return headerContent;
+}
+
 module.exports = {
-    generateCppCodeBase
+    generateCppCodeBase,
+    generateCppHeaderCodeBase
 };

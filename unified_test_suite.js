@@ -1799,29 +1799,83 @@ async function verifyFileContents(language, projectPath, projectName) {
  * Test Study Mode timer functionality
  */
 function testStudyMode() {
-    try {
-        // Run the Study Mode timer tests
-        const timerTestResult = runCommand('node studyMode/timer.test.js', { cwd: EXTENSION_PATH });
+    return new Promise((resolve) => {
+        const { spawn } = require('child_process');
 
-        // Parse the output to check for test results (TAP format)
-        const output = timerTestResult.toString ? timerTestResult.toString() : String(timerTestResult);
-        const passMatch = output.match(/# pass (\d+)/);
-        const failMatch = output.match(/# fail (\d+)/);
+        let timerTestsPassed = false;
+        let extensionTestsPassed = false;
+        let completedTests = 0;
 
-        if (!passMatch || !failMatch) {
-            console.error('Could not parse test results from output. Looking for "# pass" and "# fail" patterns.');
-            return false;
-        }
+        const checkCompletion = () => {
+            completedTests++;
+            if (completedTests === 2) {
+                console.log(`Timer tests passed: ${timerTestsPassed}, Extension tests passed: ${extensionTestsPassed}`);
+                resolve(timerTestsPassed && extensionTestsPassed);
+            }
+        };
 
-        const passed = parseInt(passMatch[1]);
-        const failed = parseInt(failMatch[1]);
+        // Run timer tests
+        console.log('Running timer tests...');
+        const timerProcess = spawn('node', ['studyMode/timer.test.js'], {
+            cwd: EXTENSION_PATH,
+            stdio: 'pipe'  // Changed from 'inherit' to 'pipe' to capture output
+        });
 
-        // All tests should pass
-        return failed === 0 && passed > 0;
-    } catch (error) {
-        console.error('Study Mode test error:', error);
-        return false;
-    }
+        let timerOutput = '';
+        timerProcess.stdout.on('data', (data) => {
+            timerOutput += data.toString();
+        });
+
+        timerProcess.stderr.on('data', (data) => {
+            timerOutput += data.toString();
+        });
+
+        timerProcess.on('close', (code) => {
+            console.log(`Timer process exited with code: ${code}`);
+            timerTestsPassed = code === 0;
+            checkCompletion();
+        });
+
+        timerProcess.on('error', (err) => {
+            console.log(`Timer process error: ${err.message}`);
+            timerTestsPassed = false;
+            checkCompletion();
+        });
+
+        // Run extension tests
+        console.log('Running extension tests...');
+        const extensionProcess = spawn('node', ['studyMode/extension.test.js'], {
+            cwd: EXTENSION_PATH,
+            stdio: 'pipe'  // Changed from 'inherit' to 'pipe' to capture output
+        });
+
+        let extensionOutput = '';
+        extensionProcess.stdout.on('data', (data) => {
+            extensionOutput += data.toString();
+        });
+
+        extensionProcess.stderr.on('data', (data) => {
+            extensionOutput += data.toString();
+        });
+
+        extensionProcess.on('close', (code) => {
+            console.log(`Extension process exited with code: ${code}`);
+            extensionTestsPassed = code === 0;
+            checkCompletion();
+        });
+
+        extensionProcess.on('error', (err) => {
+            console.log(`Extension process error: ${err.message}`);
+            extensionTestsPassed = false;
+            checkCompletion();
+        });
+
+        // Timeout after 60 seconds (increased for Study Mode tests)
+        setTimeout(() => {
+            console.log('Study Mode test timeout reached');
+            resolve(false);
+        }, 60000);
+    });
 }
 
 /**
@@ -1915,9 +1969,10 @@ async function runAllTests() {
     // Test Study Mode timer
     console.log('\n🍅 Testing Study Mode Timer...');
     testResults.sections.studyMode.total = 1;
-    if (testStudyMode()) {
+    testResults.total++;
+    const studyModeResult = await testStudyMode();
+    if (studyModeResult) {
         testResults.sections.studyMode.passed = 1;
-        testResults.total++;
         testResults.passed++;
         console.log('✅ Study Mode Timer: All tests passed');
     } else {

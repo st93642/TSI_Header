@@ -4,9 +4,10 @@
  */
 
 class StudyModeTimer {
-    constructor(vscode, context, config = {}) {
+    constructor(vscode, context, config = {}, onStateChange = null) {
         this.vscode = vscode;
         this.context = context;
+        this.onStateChange = onStateChange; // Callback for state persistence
 
         // Default configuration
         this.workDuration = (config.workDuration || 25) * 60 * 1000; // minutes to ms
@@ -49,14 +50,18 @@ class StudyModeTimer {
         this.pausedTime = null;
         this.startTimerInterval();
         this.updateStatusBar();
+        this.notifyStateChange();
     }
 
     pause() {
         if (this.isRunning) {
+            // Store the remaining time before setting isRunning to false
+            this.remainingTime = this.getRemainingTime();
             this.isRunning = false;
             this.pausedTime = Date.now();
             this.clearTimerInterval();
             this.updateStatusBar();
+            this.notifyStateChange();
         }
     }
 
@@ -68,6 +73,7 @@ class StudyModeTimer {
             this.pausedTime = null;
             this.startTimerInterval();
             this.updateStatusBar();
+            this.notifyStateChange();
         }
     }
 
@@ -76,6 +82,7 @@ class StudyModeTimer {
         this.logSession(false); // Log as incomplete
         this.reset();
         this.updateStatusBar();
+        this.notifyStateChange();
     }
 
     reset() {
@@ -136,6 +143,7 @@ class StudyModeTimer {
         this.startTime = Date.now();
         this.remainingTime = this.getCurrentDuration();
         this.showPhaseNotification();
+        this.notifyStateChange();
     }
 
     getCurrentDuration() {
@@ -171,17 +179,17 @@ class StudyModeTimer {
         switch (this.currentPhase) {
             case 'work':
                 icon = this.isRunning ? '🍅' : '⏸️🍅';
-                text = this.formatTime(this.getRemainingTime());
+                text = this.isRunning ? this.formatTime(this.getRemainingTime()) : this.formatTime(this.remainingTime);
                 tooltip = `Work Session ${this.currentSession + 1}/${this.sessionsBeforeLongBreak}`;
                 break;
             case 'shortBreak':
                 icon = this.isRunning ? '☕' : '⏸️☕';
-                text = this.formatTime(this.getRemainingTime());
+                text = this.isRunning ? this.formatTime(this.getRemainingTime()) : this.formatTime(this.remainingTime);
                 tooltip = 'Short Break';
                 break;
             case 'longBreak':
                 icon = this.isRunning ? '🏖️' : '⏸️🏖️';
-                text = this.formatTime(this.getRemainingTime());
+                text = this.isRunning ? this.formatTime(this.getRemainingTime()) : this.formatTime(this.remainingTime);
                 tooltip = 'Long Break';
                 break;
             case 'stopped':
@@ -234,6 +242,23 @@ class StudyModeTimer {
             };
             this.sessionLog.push(session);
         }
+    }
+
+    notifyStateChange() {
+        if (this.onStateChange) {
+            try {
+                this.onStateChange();
+            } catch (error) {
+                console.warn('Error in state change callback:', error.message);
+            }
+        }
+    }
+
+    updateConfiguration(config = {}) {
+        this.workDuration = (config.workDuration || 25) * 60 * 1000;
+        this.shortBreakDuration = (config.shortBreakDuration || 5) * 60 * 1000;
+        this.longBreakDuration = (config.longBreakDuration || 15) * 60 * 1000;
+        this.sessionsBeforeLongBreak = config.sessionsBeforeLongBreak || 4;
     }
 
     dispose() {

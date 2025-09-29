@@ -222,6 +222,12 @@
         "title": "Configure Study Mode",
         "category": "Study Mode",
         "icon": "$(settings-gear)"
+      },
+      {
+        "command": "tsiheader.resetStudyProgress",
+        "title": "Reset Study Progress",
+        "category": "Study Mode",
+        "icon": "$(clear-all)"
       }
     ],
     "menus": {
@@ -268,6 +274,11 @@
         },
         {
           "command": "tsiheader.viewStudyStats",
+          "when": "true",
+          "group": "8_study"
+        },
+        {
+          "command": "tsiheader.resetStudyProgress",
           "when": "true",
           "group": "8_study"
         }
@@ -322,6 +333,11 @@
         },
         {
           "command": "tsiheader.viewStudyStats",
+          "when": "true",
+          "group": "2_study"
+        },
+        {
+          "command": "tsiheader.resetStudyProgress",
           "when": "true",
           "group": "2_study"
         }

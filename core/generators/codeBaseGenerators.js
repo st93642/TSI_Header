@@ -8,7 +8,7 @@
  * Generates C code base
  */
 const { generateCCodeBase, generateCHeaderCodeBase } = require('./languages/c');
-const { generateCppCodeBase } = require('./languages/cpp');
+const { generateCppCodeBase, generateCppHeaderCodeBase } = require('./languages/cpp');
 const { generatePythonCodeBase } = require('./languages/python');
 const { generateJavaCodeBase } = require('./languages/java');
 const { generateJavaScriptCodeBase } = require('./languages/javascript');
@@ -537,6 +537,10 @@ function generateCodeBase(languageId, fileName) {
         // Special handling for C header files
         if (languageId === 'c' && fileName && fileName.endsWith('.h')) {
             content = generateCHeaderCodeBase(fileName);
+        } 
+        // Special handling for C++ header files
+        else if ((languageId === 'cpp' || languageId === 'c++') && fileName && (fileName.endsWith('.hpp') || fileName.endsWith('.h'))) {
+            content = generateCppHeaderCodeBase(fileName);
         } else {
             switch (languageId) {
             case 'c':

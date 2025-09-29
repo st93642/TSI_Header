@@ -2,7 +2,7 @@
 
 ## Description
 
-Visual Studio Code extension for code header management and project scaffolding, supporting 147+ programming languages with 100% VS Code language coverage and institutional branding.
+Visual Studio Code extension for code header management, project scaffolding, and productivity enhancement with integrated Pomodoro timer. Supporting 147+ programming languages with 100% VS Code language coverage and institutional branding.
 
 ## Functionality
 
@@ -28,6 +28,28 @@ Visual Studio Code extension for code header management and project scaffolding,
 - **TSI Commands View**: Header insertion, updates, and code generation tools
 - **TSI Projects View**: Direct project creation for 7 languages (C, C++, Java, Python, Ruby, Rust, PHP) with streamlined workflow
 - **Context-Aware Menus**: Commands available based on file type and language
+
+#### Study Mode (Pomodoro Timer)
+
+- **Pomodoro Technique**: 25-minute work sessions with 5-minute short breaks and 15-minute long breaks
+- **Session Tracking**: Automatic progression through work/break cycles with session counting
+- **State Persistence**: Timer state survives VS Code restarts - resume exactly where you left off
+- **Productivity Analytics**: Track focus time, completion rates, and session statistics (today, week, month, all-time)
+- **Status Bar Integration**: Real-time timer display with phase indicators (🍅 for work, ☕ for breaks)
+- **Configurable Settings**: Customize work duration, break lengths, and sessions before long breaks
+- **Progress Reset**: Selective reset options (today only or complete reset) with confirmation dialogs
+
+![Pomodoro Timer Interface](resources/pomodoro_1.png)
+
+Study Mode status bar showing current timer state and phase
+
+![Pomodoro Session Control](resources/pomodoro_2.png)
+
+Timer control commands available in context menus and command palette
+
+![Pomodoro Analytics](resources/pomodoro_3.png)
+
+Productivity statistics showing session completion rates and focus time tracking
 
 ### Technical Architecture
 
@@ -104,6 +126,11 @@ The extension automatically detects user information in this order:
    - `tsiheader.username`: Your full name
    - `tsiheader.email`: Your email address
    - `tsiheader.autoUpdate`: Enable automatic header updates on file save (default: false)
+   - `tsiheader.studyMode.workDuration`: Work session duration in minutes (default: 25)
+   - `tsiheader.studyMode.shortBreakDuration`: Short break duration in minutes (default: 5)
+   - `tsiheader.studyMode.longBreakDuration`: Long break duration in minutes (default: 15)
+   - `tsiheader.studyMode.sessionsBeforeLongBreak`: Sessions before long break (default: 4)
+   - `tsiheader.studyMode.enableSounds`: Enable audio notifications (default: false)
 
 #### Git Configuration (Alternative)
 
@@ -149,6 +176,11 @@ All TSI Header commands are also available through right-click context menus:
 - Remove Header
 - Add Class (for supported languages)
 - Add Code Base
+- Start Study Session
+- Pause/Resume Study Timer
+- Stop Study Session
+- View Study Statistics
+- Reset Study Progress
 
 **Folder Context Menu** (right-click on any folder in the Explorer):
 
@@ -206,6 +238,44 @@ All TSI Header commands are also available through right-click context menus:
 
 C++ project creation interface with build system selection
 
+#### Using Study Mode (Pomodoro Timer)
+
+**Starting a Study Session**:
+
+- Click "Start Study Session" in TSI Commands view or context menu
+- Timer begins with 25-minute work session (configurable)
+- Status bar shows 🍅 with remaining time
+
+**Controlling the Timer**:
+
+- **Pause/Resume**: Click the status bar timer or use "Pause/Resume Study Timer" command
+- **Stop Session**: Use "Stop Study Session" to end current session (progress lost)
+- **Session Progression**: Automatic transitions between work (🍅) → short break (☕) → work → long break (🏖️)
+
+**Viewing Statistics**:
+
+- Click "View Study Statistics" to see productivity analytics
+- Track completion rates, focus time, and session counts
+- Statistics available for today, this week, this month, and all-time
+
+**Configuring Study Mode**:
+
+- Click "Configure Study Mode" to open settings for timer customization
+- Adjust work duration, break lengths, and session cycles
+- Enable/disable audio notifications
+
+**Resetting Progress**:
+
+- Use "Reset Study Progress" for selective reset options
+- Choose between resetting today's progress or complete reset
+- Confirmation dialogs prevent accidental data loss
+
+**State Persistence**:
+
+- Timer state automatically saves and survives VS Code restarts
+- Resume exactly where you left off with correct remaining time
+- No progress lost when closing/reopening VS Code
+
 ### Troubleshooting
 
 #### Common Issues
@@ -237,4 +307,4 @@ To get debug information:
 2. Type "Developer: Toggle Developer Tools"
 3. Check the Console tab for extension-related messages
 
-*Developed for students with institutional branding and comprehensive language support. Now featuring 100% VS Code language coverage with 147+ programming languages.*
+*Developed for students with institutional branding, comprehensive language support, and integrated Pomodoro productivity timer. Now featuring 100% VS Code language coverage with 147+ programming languages and advanced study session management.*

@@ -178,10 +178,24 @@ test('StudyModeTimer - Status Bar Updates', async (t) => {
 
     await t.test('should update status bar when paused', () => {
         timer.start();
-        timer.pause();
-        timer.updateStatusBar();
-
-        assert(timer.statusBarItem.text.includes('⏸️'));
+        // Wait a moment and then pause
+        return new Promise(resolve => {
+            setTimeout(() => {
+                const remainingBeforePause = timer.getRemainingTime();
+                timer.pause();
+                
+                // Should show paused icon and remaining time
+                assert(timer.statusBarItem.text.includes('⏸️🍅'));
+                // Should show the remaining time that was stored when paused
+                const displayedTime = timer.statusBarItem.text.match(/(\d{2}:\d{2})/)[1];
+                const expectedTime = timer.formatTime(timer.remainingTime);
+                assert.equal(displayedTime, expectedTime);
+                // Remaining time should be stored correctly
+                assert(timer.remainingTime > 0);
+                assert(timer.remainingTime <= timer.workDuration);
+                resolve();
+            }, 100); // Wait 100ms
+        });
     });
 });
 
@@ -212,5 +226,78 @@ test('StudyModeTimer - Configuration', async (t) => {
         assert.equal(timer.shortBreakDuration, 10 * 60 * 1000);
         assert.equal(timer.longBreakDuration, 20 * 60 * 1000);
         assert.equal(timer.sessionsBeforeLongBreak, 3);
+    });
+
+    await t.test('should accept state change callback', () => {
+        const mockContext = {
+            subscriptions: [],
+            extensionPath: '/test/path'
+        };
+        let callbackCalled = false;
+        const callback = () => { callbackCalled = true; };
+
+        timer = new StudyModeTimer(mockVSCode, mockContext, {}, callback);
+        timer.start();
+
+        assert(callbackCalled, 'State change callback should be called on start');
+    });
+});
+
+test('StudyModeTimer - Session Logging', async (t) => {
+    let timer;
+    let mockContext;
+
+    t.beforeEach(() => {
+        mockContext = {
+            subscriptions: [],
+            extensionPath: '/test/path'
+        };
+        timer = new StudyModeTimer(mockVSCode, mockContext);
+    });
+
+    t.afterEach(() => {
+        if (timer) {
+            timer.dispose();
+        }
+    });
+
+    await t.test('should log completed work session', () => {
+        timer.start();
+        // Wait a bit to ensure duration > 0
+        return new Promise(resolve => {
+            setTimeout(() => {
+                timer.logSession(true);
+
+                assert.equal(timer.sessionLog.length, 1);
+                assert.equal(timer.sessionLog[0].type, 'work');
+                assert.equal(timer.sessionLog[0].completed, true);
+                assert(timer.sessionLog[0].startTime);
+                assert(timer.sessionLog[0].endTime);
+                assert(timer.sessionLog[0].duration > 0);
+                resolve();
+            }, 10); // Wait 10ms
+        });
+    });
+
+    await t.test('should log incomplete session on stop', () => {
+        timer.start();
+        timer.stop();
+
+        assert.equal(timer.sessionLog.length, 1);
+        assert.equal(timer.sessionLog[0].completed, false);
+    });
+
+    await t.test('should track session numbers', () => {
+        timer.start();
+        timer.logSession(true); // Complete first session
+
+        // Simulate transition to next session
+        timer.currentSession = 1;
+        timer.currentPhase = 'work';
+        timer.logSession(true); // Complete second session
+
+        assert.equal(timer.sessionLog.length, 2);
+        assert.equal(timer.sessionLog[0].sessionNumber, 0);
+        assert.equal(timer.sessionLog[1].sessionNumber, 1);
     });
 });
