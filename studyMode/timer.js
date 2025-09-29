@@ -66,11 +66,16 @@ class StudyModeTimer {
     }
 
     resume() {
-        if (!this.isRunning && this.pausedTime) {
-            const pausedDuration = Date.now() - this.pausedTime;
-            this.startTime += pausedDuration;
+        if (!this.isRunning && this.currentPhase !== 'stopped') {
+            // If pausedTime exists (normal pause/resume), adjust startTime for paused duration
+            if (this.pausedTime) {
+                const pausedDuration = Date.now() - this.pausedTime;
+                this.startTime += pausedDuration;
+                this.pausedTime = null;
+            }
+            // For timers loaded from persistence, startTime is already correctly set
+
             this.isRunning = true;
-            this.pausedTime = null;
             this.startTimerInterval();
             this.updateStatusBar();
             this.notifyStateChange();

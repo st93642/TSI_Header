@@ -1,0 +1,38 @@
+;; ************************************************************************* ;;
+;;                                                                           ;;
+;;  test_codebase_basic.txt                              TTTTTTTT SSSSSSS II ;;
+;;                                                          TT    SS      II ;;
+;;  By: st93642@students.tsi.lv                             TT    SSSSSSS II ;;
+;;                                                          TT         SS II ;;
+;;  Created: Sep 29 2025 14:28 st93642                      TT    SSSSSSS II ;;
+;;  Updated: Sep 29 2025 14:28 st93642                                       ;;
+;;                                                                           ;;
+;;   Transport and Telecommunication Institute - Riga, Latvia                ;;
+;;                       https://tsi.lv                                      ;;
+;; ************************************************************************* ;;
+
+' Basic BASIC program
+
+' Main program - entry point
+PRINT "Hello, World!"
+PRINT "This is a basic BASIC program."
+
+' Example subroutine
+' SUB Greet(name$)
+'     PRINT "Hello, "; name$; "!"
+' END SUB
+
+' Example usage
+' CALL Greet("TSI Student")
+
+' Example with variables and loops
+' DIM languages$(3)
+' languages$(1) = "BASIC"
+' languages$(2) = "Pascal"
+' languages$(3) = "C"
+' 
+' FOR i = 1 TO 3
+'     PRINT "Language: "; languages$(i)
+' NEXT i
+
+END

@@ -1,0 +1,61 @@
+;; ************************************************************************* ;;
+;;                                                                           ;;
+;;  test_codebase_racket.txt                             TTTTTTTT SSSSSSS II ;;
+;;                                                          TT    SS      II ;;
+;;  By: st93642@students.tsi.lv                             TT    SSSSSSS II ;;
+;;                                                          TT         SS II ;;
+;;  Created: Sep 29 2025 14:28 st93642                      TT    SSSSSSS II ;;
+;;  Updated: Sep 29 2025 14:28 st93642                                       ;;
+;;                                                                           ;;
+;;   Transport and Telecommunication Institute - Riga, Latvia                ;;
+;;                       https://tsi.lv                                      ;;
+;; ************************************************************************* ;;
+
+#lang racket
+
+;; Main module definition
+(define (main)
+  (displayln "Hello, World!")
+  (displayln "This is a basic Racket program."))
+
+;; Execute main function
+(main)
+
+;; Example function definition
+(define (greet-user name)
+  (string-append "Hello, " name "!"))
+
+;; Example usage
+;; (displayln (greet-user "TSI Student"))
+
+;; Example with variables and data types
+;; (define user-name "TSI Student")
+;; (define user-age 20)
+;; (define greeting (string-append "Hello, " user-name "! You are " (number->string user-age) " years old."))
+;; (displayln greeting)
+
+;; Example with lists
+;; (define number-list (list 1 2 3 4 5))
+;; (for-each (lambda (num) (displayln (string-append "Number: " (number->string num)))) number-list)
+
+;; Example with structs (records)
+;; (struct person (name age program))
+;; (define student (person "TSI Student" 20 "Computer Science"))
+;; (displayln (string-append "Hello, I'm " (person-name student) " and I'm " (number->string (person-age student)) " years old!"))
+
+;; Example with conditional logic
+;; (define (check-number num)
+;;   (cond
+;;     [(> num 10) "Greater than 10"]
+;;     [(= num 10) "Equal to 10"]
+;;     [else "Less than 10"]))
+;; (displayln (check-number 15))
+
+;; Example with hash tables
+;; (define user-table (hash 'name "TSI Student" 'age 20 'program "Computer Science"))
+;; (displayln (string-append "Name: " (hash-ref user-table 'name)))
+
+;; Example with modules and requires
+;; (require racket/list)
+;; (define doubled-list (map (lambda (x) (* x 2)) (list 1 2 3 4 5)))
+;; (displayln doubled-list)

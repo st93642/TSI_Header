@@ -1,0 +1,47 @@
+" *************************************************************************** "
+"                                                                             "
+"  test_codebase_vimscript.txt                            TTTTTTTT SSSSSSS II "
+"                                                            TT    SS      II "
+"  By: st93642@students.tsi.lv                               TT    SSSSSSS II "
+"                                                            TT         SS II "
+"  Created: Sep 29 2025 14:28 st93642                        TT    SSSSSSS II "
+"  Updated: Sep 29 2025 14:28 st93642                                         "
+"                                                                             "
+"   Transport and Telecommunication Institute - Riga, Latvia                  "
+"                       https://tsi.lv                                        "
+" *************************************************************************** "
+
+" Basic Vimscript code
+" Note: This is a Vim script for editor automation
+
+" Main function - entry point
+function! HelloWorld()
+    echo "Hello, World!"
+    echo "This is a basic Vimscript program."
+endfunction
+
+" Call main function
+call HelloWorld()
+
+" Example function with parameters
+function! Greet(name)
+    if a:name ==# ''
+        let name = 'World'
+    else
+        let name = a:name
+    endif
+    return 'Hello, ' . name . '!'
+endfunction
+
+" Example usage
+" echo Greet('TSI Student')
+
+" Example with variables and lists
+" let languages = ['Vim', 'Python', 'Ruby']
+" let config = {'version': '1.0', 'debug': 1}
+
+" for lang in languages
+"     echo 'Language: ' . lang
+" endfor
+
+" echo 'Version: ' . config.version

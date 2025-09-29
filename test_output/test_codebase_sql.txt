@@ -1,0 +1,69 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_sql.txt                                  TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 29 2025 14:28 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 29 2025 14:28 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+-- Basic SQL script template
+-- Note: This is a generic SQL template that works with most SQL databases
+
+-- Create database (if needed)
+-- CREATE DATABASE IF NOT EXISTS tsi_database;
+-- USE tsi_database;
+
+-- Create tables
+CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    program VARCHAR(100),
+    enrollment_year INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS courses (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(20) UNIQUE NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    credits INTEGER,
+    semester INTEGER
+);
+
+-- Insert sample data
+INSERT INTO students (name, program, enrollment_year) VALUES
+('TSI Student', 'Computer Science', 2024),
+('Jane Doe', 'Electrical Engineering', 2023);
+
+INSERT INTO courses (code, title, credits, semester) VALUES
+('CS101', 'Programming Fundamentals', 6, 1),
+('MATH201', 'Advanced Mathematics', 4, 2);
+
+-- Basic queries
+-- SELECT * FROM students;
+-- SELECT * FROM courses WHERE credits >= 4;
+
+-- Example JOIN query
+-- SELECT s.name, s.program, c.title, c.credits
+-- FROM students s
+-- JOIN courses c ON s.program = 'Computer Science';
+
+-- Update example
+-- UPDATE students SET enrollment_year = 2025 WHERE name = 'TSI Student';
+
+-- Delete example (be careful!)
+-- DELETE FROM students WHERE name = 'Test Student';
+
+-- Drop tables (cleanup)
+-- DROP TABLE IF EXISTS students;
+-- DROP TABLE IF EXISTS courses;
+
+-- Comments:
+-- This script demonstrates basic SQL operations
+-- Modify table names, column names, and data types as needed
+-- Always backup your data before running DDL statements

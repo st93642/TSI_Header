@@ -1,0 +1,66 @@
+(* ************************************************************************* *)
+(*                                                                           *)
+(*  test_codebase_fsharp.txt                             TTTTTTTT SSSSSSS II *)
+(*                                                          TT    SS      II *)
+(*  By: st93642@students.tsi.lv                             TT    SSSSSSS II *)
+(*                                                          TT         SS II *)
+(*  Created: Sep 29 2025 14:28 st93642                      TT    SSSSSSS II *)
+(*  Updated: Sep 29 2025 14:28 st93642                                       *)
+(*                                                                           *)
+(*   Transport and Telecommunication Institute - Riga, Latvia                *)
+(*                       https://tsi.lv                                      *)
+(* ************************************************************************* *)
+// Basic F# program
+
+// Main module
+module TSIApplication
+
+// Types
+type Config = {
+    Debug: bool
+    Port: int
+    Features: string list
+}
+
+// Main function - entry point
+[<EntryPoint>]
+let main argv =
+    printfn "Hello, World!"
+    printfn "This is a basic F# program."
+
+    // Run application
+    runApp ()
+    0 // return exit code
+
+// Application logic
+and runApp () =
+    let version = "1.0"
+    printfn "Version: %s" version
+
+    // Example with lists
+    let languages = ["F#"; "C#"; "VB.NET"]
+    printfn "Languages:"
+    languages |> List.iter (fun lang -> printfn "  %s" lang)
+
+    // Example with records
+    let config = {
+        Debug = true
+        Port = 8080
+        Features = ["logging"; "caching"; "auth"]
+    }
+
+    printfn "Configuration:"
+    printfn "  Debug: %b" config.Debug
+    printfn "  Port: %d" config.Port
+
+// Utility functions
+let greet name =
+    sprintf "Hello, %s!" name
+
+let getInfo () =
+    ("TSI Application", "1.0")
+
+// Example usage (uncomment to test)
+// printfn "%s" (greet "TSI Student")
+// let (name, version) = getInfo ()
+// printfn "%s v%s" name version

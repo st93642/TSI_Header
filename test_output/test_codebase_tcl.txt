@@ -1,0 +1,52 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_tcl.txt                                  TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 29 2025 14:28 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 29 2025 14:28 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+# Basic TCL script
+
+# Main procedure - entry point of the program
+proc main {} {
+    puts "Hello, World!"
+    puts "This is a basic TCL script."
+}
+
+# Execute main procedure
+main
+
+# Alternative direct approach
+# puts "Hello, World!"
+# puts "This is a basic TCL script."
+
+# Example procedure with parameters
+# proc greet {name} {
+#     if {$name eq ""} {
+#         set name "World"
+#     }
+#     return "Hello, $name!"
+# }
+
+# Example usage
+# puts [greet "TSI Student"]
+
+# Example with arrays and variables
+# set languages [list "TCL" "Python" "Ruby"]
+# array set config {
+#     version "1.0"
+#     debug 1
+#     author "TSI Student"
+# }
+
+# foreach lang $languages {
+#     puts "Language: $lang"
+# }
+
+# puts "Version: $config(version)"

@@ -324,8 +324,8 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
                         // Recalculate startTime so the timer resumes with correct remaining time
                         // startTime = now - (currentDuration - remainingTime)
                         this.timer.startTime = Date.now() - (currentDuration - this.timer.remainingTime);
-                        // Set pausedTime to current time so resume() works correctly
-                        this.timer.pausedTime = Date.now();
+                        // Don't set pausedTime for timers loaded from persistence - they are already paused
+                        this.timer.pausedTime = null;
                     }
                 } else {
                     this.timer.remainingTime = 0;
