@@ -8,7 +8,7 @@
     "name": "st93642",
     "email": "st93642@students.tsi.lv"
   },
-  "icon": "tsi.png",
+  "icon": "resources/tsi.png",
   "homepage": "https://github.com/st93642/TSI_Header#readme",
   "repository": {
     "type": "git",
@@ -54,11 +54,10 @@
           "description": "Email address to use in TSI headers",
           "scope": "resource"
         },
-        "tsiheader.autoUpdate": {
+        "tsiheader.studyMode.enableSounds": {
           "type": "boolean",
           "default": false,
-          "description": "Automatically update TSI header when file is saved",
-          "scope": "resource"
+          "description": "Enable audio notifications for timer events"
         }
       }
     },
@@ -165,6 +164,36 @@
         "title": "Create PHP TSI Project",
         "category": "TSI Header",
         "icon": "$(globe)"
+      },
+      {
+        "command": "tsiheader.startStudySession",
+        "title": "Start Study Session",
+        "category": "Study Mode",
+        "icon": "$(play)"
+      },
+      {
+        "command": "tsiheader.pauseStudyTimer",
+        "title": "Pause/Resume Study Timer",
+        "category": "Study Mode",
+        "icon": "$(debug-pause)"
+      },
+      {
+        "command": "tsiheader.stopStudySession",
+        "title": "Stop Study Session",
+        "category": "Study Mode",
+        "icon": "$(stop)"
+      },
+      {
+        "command": "tsiheader.viewStudyStats",
+        "title": "View Study Statistics",
+        "category": "Study Mode",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "tsiheader.configureStudyMode",
+        "title": "Configure Study Mode",
+        "category": "Study Mode",
+        "icon": "$(settings-gear)"
       }
     ],
     "menus": {
@@ -193,6 +222,26 @@
           "command": "tsiheader.addCodeBase",
           "when": "editorTextFocus",
           "group": "7_modification"
+        },
+        {
+          "command": "tsiheader.startStudySession",
+          "when": "true",
+          "group": "8_study"
+        },
+        {
+          "command": "tsiheader.pauseStudyTimer",
+          "when": "true",
+          "group": "8_study"
+        },
+        {
+          "command": "tsiheader.stopStudySession",
+          "when": "true",
+          "group": "8_study"
+        },
+        {
+          "command": "tsiheader.viewStudyStats",
+          "when": "true",
+          "group": "8_study"
         }
       ],
       "explorer/context": [
@@ -227,6 +276,26 @@
           "command": "tsiheader.addCodeBase",
           "when": "editorTextFocus",
           "group": "1_modification"
+        },
+        {
+          "command": "tsiheader.startStudySession",
+          "when": "true",
+          "group": "2_study"
+        },
+        {
+          "command": "tsiheader.pauseStudyTimer",
+          "when": "true",
+          "group": "2_study"
+        },
+        {
+          "command": "tsiheader.stopStudySession",
+          "when": "true",
+          "group": "2_study"
+        },
+        {
+          "command": "tsiheader.viewStudyStats",
+          "when": "true",
+          "group": "2_study"
         }
       ]
     }

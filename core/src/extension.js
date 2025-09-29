@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 29 2025 02:33 st93642                                       */
+/*  Updated: Sep 29 2025 10:25 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -29,6 +29,8 @@ const { createBuildFiles } = require('../generators/project/buildSystemGenerator
 const { createDocumentationFiles } = require('../generators/project/documentationGenerator');
 // Import git ignore generator
 const { createGitIgnoreFile } = require('../generators/project/gitIgnoreGenerator');
+// Import study mode extension
+const { StudyModeExtension } = require('./studyModeExtension');
 // Import tree data providers
 const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvider');
 
@@ -38,6 +40,10 @@ function activate(context) {
 
     // Initialize feature modules
     // Code quality enforcement module removed
+
+    // Initialize Study Mode extension
+    const studyModeExtension = new StudyModeExtension(vscode, context);
+    studyModeExtension.activate();
 
     // Helper function to show configuration instructions
     function showConfigurationInstructions(type) {
@@ -251,28 +257,43 @@ function activate(context) {
 
         try {
             const document = editor.document;
-            const languageId = document.languageId;
-            const fileName = document.fileName;
+            const text = document.getText();
             
-            // Detect correct language based on file extension for unsupported languages
-            const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
+            // Check if file has a TSI header using the same logic as auto-update
+            const lines = text.split('\n');
+            let hasHeader = false;
+            let headerEndLine = -1;
             
-            // Get Ruby CLI path
-            const extensionPath = context.extensionPath;
-            const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
-            
-            // Execute Ruby CLI for remove
-            const command = `ruby "${cliPath}" remove "${detectedLanguageId}" "${fileName}"`;
-            console.log('Executing remove command:', command);
-            const result = execSync(command, { encoding: 'utf8', cwd: extensionPath });
-            console.log('Remove CLI result:', result);
-            const response = JSON.parse(result);
-            
-            if (response.success) {
-                vscode.window.showInformationMessage('TSI Header removed successfully!');
-            } else {
-                vscode.window.showErrorMessage(`Failed to remove header: ${response.message}`);
+            for (let i = 0; i < Math.min(15, lines.length); i++) {
+                if (lines[i].includes('Transport and Telecommunication Institute')) {
+                    hasHeader = true;
+                    // Find the end of the header (empty line after header)
+                    for (let j = i + 1; j < Math.min(i + 15, lines.length); j++) {
+                        if (lines[j].trim() === '') {
+                            headerEndLine = j;
+                            break;
+                        }
+                    }
+                    break;
+                }
             }
+            
+            if (!hasHeader) {
+                vscode.window.showErrorMessage('No TSI header found to remove in this file.');
+                return;
+            }
+            
+            // Remove the header (from start to headerEndLine)
+            const range = new vscode.Range(
+                new vscode.Position(0, 0),
+                new vscode.Position(headerEndLine + 1, 0)
+            );
+            
+            await editor.edit(editBuilder => {
+                editBuilder.delete(range);
+            });
+            
+            vscode.window.showInformationMessage('TSI Header removed successfully!');
         } catch (error) {
             vscode.window.showErrorMessage(`Error: ${error.message}`);
         }

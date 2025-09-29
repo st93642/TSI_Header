@@ -1,0 +1,9 @@
+{
+  "name": "study-mode-timer",
+  "version": "1.0.0",
+  "description": "Pomodoro timer for focused coding sessions",
+  "main": "timer.js",
+  "scripts": {
+    "test": "node --test timer.test.js"
+  }
+}

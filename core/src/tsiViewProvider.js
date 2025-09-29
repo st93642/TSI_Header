@@ -47,6 +47,36 @@ class TSITreeDataProvider {
                     command: 'tsiheader.createTSIProject',
                     title: 'Create TSI Project',
                     tooltip: 'Create new TSI project with professional structure'
+                }),
+                new TSITreeItem('🍅 Study Mode', vscode.TreeItemCollapsibleState.Collapsed, null, 'study-mode')
+            ]);
+        } else if (element.id === 'study-mode') {
+            // Study Mode commands
+            return Promise.resolve([
+                new TSITreeItem('Start Study Session', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.startStudySession',
+                    title: 'Start Study Session',
+                    tooltip: 'Begin a 25-minute focused coding session'
+                }),
+                new TSITreeItem('Pause/Resume Timer', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.pauseStudyTimer',
+                    title: 'Pause/Resume Study Timer',
+                    tooltip: 'Pause or resume the current study session'
+                }),
+                new TSITreeItem('Stop Study Session', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.stopStudySession',
+                    title: 'Stop Study Session',
+                    tooltip: 'End the current study session'
+                }),
+                new TSITreeItem('View Statistics', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewStudyStats',
+                    title: 'View Study Statistics',
+                    tooltip: 'View your study session statistics and progress'
+                }),
+                new TSITreeItem('Configure Study Mode', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.configureStudyMode',
+                    title: 'Configure Study Mode',
+                    tooltip: 'Configure timer durations and preferences'
                 })
             ]);
         }
@@ -129,10 +159,11 @@ class TSIProjectDataProvider {
 }
 
 class TSITreeItem extends vscode.TreeItem {
-    constructor(label, collapsibleState, command = null) {
+    constructor(label, collapsibleState, command = null, id = null) {
         super(label, collapsibleState);
         this.tooltip = command?.tooltip || label;
         this.description = '';
+        this.id = id;
         
         if (command) {
             this.command = command;
@@ -171,6 +202,18 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('ruby');
         } else if (label.includes('PHP')) {
             this.iconPath = new vscode.ThemeIcon('globe');
+        } else if (command?.command === 'tsiheader.startStudySession') {
+            this.iconPath = new vscode.ThemeIcon('play');
+        } else if (command?.command === 'tsiheader.pauseStudyTimer') {
+            this.iconPath = new vscode.ThemeIcon('debug-pause');
+        } else if (command?.command === 'tsiheader.stopStudySession') {
+            this.iconPath = new vscode.ThemeIcon('stop');
+        } else if (command?.command === 'tsiheader.viewStudyStats') {
+            this.iconPath = new vscode.ThemeIcon('graph');
+        } else if (command?.command === 'tsiheader.configureStudyMode') {
+            this.iconPath = new vscode.ThemeIcon('settings-gear');
+        } else if (label.includes('🍅')) {
+            this.iconPath = new vscode.ThemeIcon('clock');
         }
     }
 }
