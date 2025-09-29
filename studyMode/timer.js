@@ -26,9 +26,12 @@ class StudyModeTimer {
         this.sessionLog = [];
 
         // Status bar item
-        this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-        this.statusBarItem.command = 'tsiheader.pauseStudyTimer';
-        this.context.subscriptions.push(this.statusBarItem);
+        this.statusBarItem = null;
+        if (vscode && vscode.window && vscode.window.createStatusBarItem) {
+            this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+            this.statusBarItem.command = 'tsiheader.pauseStudyTimer';
+            this.context.subscriptions.push(this.statusBarItem);
+        }
 
         // Timer interval
         this.timerInterval = null;
@@ -159,6 +162,8 @@ class StudyModeTimer {
     }
 
     updateStatusBar() {
+        if (!this.statusBarItem) return; // Skip if no status bar item (e.g., in tests)
+
         let icon = '';
         let text = '';
         let tooltip = '';
@@ -197,6 +202,8 @@ class StudyModeTimer {
     }
 
     showPhaseNotification() {
+        if (!vscode || !vscode.window || !vscode.window.showInformationMessage) return; // Skip if no vscode API (e.g., in tests)
+
         let message = '';
         switch (this.currentPhase) {
             case 'work':

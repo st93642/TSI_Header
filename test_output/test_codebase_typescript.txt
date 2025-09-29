@@ -1,0 +1,26 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_codebase_typescript.txt                         TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 29 2025 10:36 st93642                      TT    SSSSSSS II */
+/*  Updated: Sep 29 2025 10:36 st93642                                       */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+/**
+ * Main function - entry point of the program
+ */
+function main(): void {
+    console.log('Hello, World!');
+    console.log('This is a basic TypeScript script.');
+}
+
+// Execute main function
+main();
+
+// Export for use as module
+export { main };

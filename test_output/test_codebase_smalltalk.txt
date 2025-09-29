@@ -1,0 +1,45 @@
+" *************************************************************************** "
+"                                                                             "
+"  test_codebase_smalltalk.txt                            TTTTTTTT SSSSSSS II "
+"                                                            TT    SS      II "
+"  By: st93642@students.tsi.lv                               TT    SSSSSSS II "
+"                                                            TT         SS II "
+"  Created: Sep 29 2025 10:36 st93642                        TT    SSSSSSS II "
+"  Updated: Sep 29 2025 10:36 st93642                                         "
+"                                                                             "
+"   Transport and Telecommunication Institute - Riga, Latvia                  "
+"                       https://tsi.lv                                        "
+" *************************************************************************** "
+
+"Basic Smalltalk program"
+
+"Main class definition"
+Object subclass: #HelloWorld
+    instanceVariableNames: ''
+    classVariableNames: ''
+    poolDictionaries: ''
+    category: 'TSI-Examples'.
+
+"Main method"
+HelloWorld class >> main
+    "Main method - entry point of the program"
+    Transcript show: 'Hello, World!'.
+    Transcript cr.
+    Transcript show: 'This is a basic Smalltalk program.'.
+    Transcript cr.
+
+"Execute main method"
+HelloWorld main.
+
+"Alternative direct approach"
+"Transcript show: 'Hello, World!'; cr."
+"Transcript show: 'This is a basic Smalltalk program.'; cr."
+
+"Example instance method"
+"HelloWorld >> greet: aName
+    ^'Hello, ', aName, '!'"
+
+"Example usage"
+"| hello |
+hello := HelloWorld new.
+Transcript show: (hello greet: 'TSI Student'); cr."

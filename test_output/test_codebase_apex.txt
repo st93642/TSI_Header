@@ -1,0 +1,471 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_codebase_apex.txt                               TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 29 2025 10:36 st93642                      TT    SSSSSSS II */
+/*  Updated: Sep 29 2025 10:36 st93642                                       */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+// Basic Apex class example
+// Note: Apex is Salesforce's programming language for building business logic on the platform
+
+/**
+ * Sample Apex class demonstrating common patterns
+ */
+public class TSISampleClass {
+
+    // Class variables
+    private static final String INSTITUTION_NAME = 'Transport and Telecommunication Institute';
+    private List<Account> accounts;
+    private Map<Id, Contact> contactMap;
+
+    // Constructor
+    public TSISampleClass() {
+        this.accounts = new List<Account>();
+        this.contactMap = new Map<Id, Contact>();
+        System.debug('TSI Sample Class initialized');
+    }
+
+    // Parameterized constructor
+    public TSISampleClass(List<Account> initialAccounts) {
+        this();
+        this.accounts = initialAccounts;
+    }
+
+    /**
+     * Sample method to create a new Account
+     */
+    public Account createAccount(String name, String industry) {
+        Account newAccount = new Account();
+        newAccount.Name = name;
+        newAccount.Industry = industry;
+        newAccount.Rating = 'Hot';
+
+        try {
+            insert newAccount;
+            System.debug('Account created successfully: ' + newAccount.Id);
+            return newAccount;
+        } catch (DmlException e) {
+            System.debug('Error creating account: ' + e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Sample SOQL query method
+     */
+    public List<Account> getActiveAccounts() {
+        return [
+            SELECT Id, Name, Industry, AnnualRevenue, CreatedDate
+            FROM Account
+            WHERE IsActive__c = true
+            ORDER BY CreatedDate DESC
+            LIMIT 100
+        ];
+    }
+
+    /**
+     * Sample method with SOSL search
+     */
+    public List<List<SObject>> searchContacts(String searchTerm) {
+        return [
+            FIND :searchTerm
+            IN NAME FIELDS
+            RETURNING Contact(Id, Name, Email, Phone)
+        ];
+    }
+
+    /**
+     * Sample method demonstrating bulk operations
+     */
+    public void updateAccountRatings(List<Id> accountIds) {
+        List<Account> accountsToUpdate = [
+            SELECT Id, Rating, AnnualRevenue
+            FROM Account
+            WHERE Id IN :accountIds
+        ];
+
+        for (Account acc : accountsToUpdate) {
+            if (acc.AnnualRevenue > 1000000) {
+                acc.Rating = 'Hot';
+            } else if (acc.AnnualRevenue > 500000) {
+                acc.Rating = 'Warm';
+            } else {
+                acc.Rating = 'Cold';
+            }
+        }
+
+        try {
+            update accountsToUpdate;
+            System.debug('Updated ' + accountsToUpdate.size() + ' accounts');
+        } catch (DmlException e) {
+            System.debug('Error updating accounts: ' + e.getMessage());
+        }
+    }
+
+    /**
+     * Sample getter method
+     */
+    public String getInstitutionInfo() {
+        return INSTITUTION_NAME + ' - Salesforce Development';
+    }
+
+    /**
+     * Sample setter method
+     */
+    public void setContactMap(Map<Id, Contact> contacts) {
+        this.contactMap = contacts;
+    }
+}
+
+// Example Apex Trigger
+/*
+trigger TSISampleTrigger on Account (before insert, before update, after insert, after update) {
+
+    // Before trigger logic
+    if (Trigger.isBefore) {
+        for (Account acc : Trigger.new) {
+            // Set default values
+            if (acc.Rating == null) {
+                acc.Rating = 'Cold';
+            }
+
+            // Validate data
+            if (acc.Name == null || acc.Name.trim() == '') {
+                acc.addError('Account name is required');
+            }
+        }
+    }
+
+    // After trigger logic
+    if (Trigger.isAfter && Trigger.isInsert) {
+        // Create related records
+        List<Contact> contactsToCreate = new List<Contact>();
+        for (Account acc : Trigger.new) {
+            Contact primaryContact = new Contact();
+            primaryContact.LastName = acc.Name + ' Contact';
+            primaryContact.AccountId = acc.Id;
+            primaryContact.Email = 'contact@' + acc.Name.toLowerCase().replace(' ', '') + '.com';
+            contactsToCreate.add(primaryContact);
+        }
+
+        if (!contactsToCreate.isEmpty()) {
+            insert contactsToCreate;
+        }
+    }
+}
+*/
+
+// Example Custom Object and Field definitions (metadata)
+/*
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>IsActive__c</fullName>
+        <description>Indicates whether the record is active</description>
+        <externalId>false</externalId>
+        <label>Is Active</label>
+        <length>0</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>TSI_Department__c</fullName>
+        <description>Department within TSI</description>
+        <externalId>false</externalId>
+        <label>TSI Department</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Computer_Science</fullName>
+                    <default>false</default>
+                    <label>Computer Science</label>
+                </value>
+                <value>
+                    <fullName>Telecommunications</fullName>
+                    <default>false</default>
+                    <label>Telecommunications</label>
+                </value>
+                <value>
+                    <fullName>Electronics</fullName>
+                    <default>false</default>
+                    <label>Electronics</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>TSI Custom Object</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <mktDataTranslation>false</mktDataTranslation>
+    <pluralLabel>TSI Custom Objects</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>
+*/
+
+// Example Test Class
+/*
+@isTest
+public class TSISampleClassTest {
+
+    @TestSetup
+    static void makeData() {
+        // Create test data
+        Account testAccount = new Account(
+            Name = 'TSI Test Account',
+            Industry = 'Education',
+            AnnualRevenue = 1000000
+        );
+        insert testAccount;
+    }
+
+    @isTest
+    static void testCreateAccount() {
+        Test.startTest();
+        TSISampleClass sampleClass = new TSISampleClass();
+
+        Account result = sampleClass.createAccount('New TSI Account', 'Technology');
+
+        Test.stopTest();
+
+        Assert.isNotNull(result.Id, 'Account should be created with an Id');
+        Assert.areEqual('New TSI Account', result.Name, 'Account name should match');
+        Assert.areEqual('Technology', result.Industry, 'Account industry should match');
+        Assert.areEqual('Hot', result.Rating, 'Account rating should be Hot');
+    }
+
+    @isTest
+    static void testGetActiveAccounts() {
+        // Create test accounts
+        List<Account> testAccounts = new List<Account>();
+        for (Integer i = 0; i < 5; i++) {
+            testAccounts.add(new Account(
+                Name = 'Test Account ' + i,
+                Industry = 'Education',
+                IsActive__c = true
+            ));
+        }
+        insert testAccounts;
+
+        Test.startTest();
+        TSISampleClass sampleClass = new TSISampleClass();
+        List<Account> results = sampleClass.getActiveAccounts();
+        Test.stopTest();
+
+        Assert.isTrue(results.size() >= 5, 'Should return at least 5 active accounts');
+    }
+
+    @isTest
+    static void testUpdateAccountRatings() {
+        // Create test accounts with different revenue levels
+        List<Account> testAccounts = new List<Account>{
+            new Account(Name = 'High Revenue', AnnualRevenue = 2000000),
+            new Account(Name = 'Medium Revenue', AnnualRevenue = 750000),
+            new Account(Name = 'Low Revenue', AnnualRevenue = 100000)
+        };
+        insert testAccounts;
+
+        List<Id> accountIds = new List<Id>();
+        for (Account acc : testAccounts) {
+            accountIds.add(acc.Id);
+        }
+
+        Test.startTest();
+        TSISampleClass sampleClass = new TSISampleClass();
+        sampleClass.updateAccountRatings(accountIds);
+        Test.stopTest();
+
+        // Verify ratings were updated
+        List<Account> updatedAccounts = [SELECT Id, Name, Rating FROM Account WHERE Id IN :accountIds];
+        for (Account acc : updatedAccounts) {
+            if (acc.Name == 'High Revenue') {
+                Assert.areEqual('Hot', acc.Rating, 'High revenue account should be Hot');
+            } else if (acc.Name == 'Medium Revenue') {
+                Assert.areEqual('Warm', acc.Rating, 'Medium revenue account should be Warm');
+            } else if (acc.Name == 'Low Revenue') {
+                Assert.areEqual('Cold', acc.Rating, 'Low revenue account should be Cold');
+            }
+        }
+    }
+}
+*/
+
+// Example Batch Apex Class
+/*
+public class TSISampleBatch implements Database.Batchable<SObject>, Database.Stateful {
+
+    private Integer recordsProcessed = 0;
+
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+        return Database.getQueryLocator([
+            SELECT Id, Name, LastModifiedDate
+            FROM Account
+            WHERE LastModifiedDate < LAST_N_DAYS:30
+        ]);
+    }
+
+    public void execute(Database.BatchableContext bc, List<Account> scope) {
+        List<Account> accountsToUpdate = new List<Account>();
+
+        for (Account acc : scope) {
+            acc.Description = 'Processed by TSI Batch - ' + System.now().format();
+            accountsToUpdate.add(acc);
+            recordsProcessed++;
+        }
+
+        update accountsToUpdate;
+    }
+
+    public void finish(Database.BatchableContext bc) {
+        System.debug('Batch processing completed. Records processed: ' + recordsProcessed);
+
+        // Send completion email
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        mail.setToAddresses(new String[] {'admin@tsi.lv'});
+        mail.setSubject('TSI Batch Processing Completed');
+        mail.setPlainTextBody('Batch processing completed successfully. Records processed: ' + recordsProcessed);
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+    }
+}
+*/
+
+// Example Queueable Apex Class
+/*
+public class TSISampleQueueable implements Queueable {
+
+    private List<Id> recordIds;
+    private String operationType;
+
+    public TSISampleQueueable(List<Id> recordIds, String operationType) {
+        this.recordIds = recordIds;
+        this.operationType = operationType;
+    }
+
+    public void execute(QueueableContext context) {
+        if (operationType == 'DELETE') {
+            // Perform delete operation
+            List<Account> accountsToDelete = [SELECT Id FROM Account WHERE Id IN :recordIds];
+            delete accountsToDelete;
+            System.debug('Deleted ' + accountsToDelete.size() + ' accounts');
+        } else if (operationType == 'ARCHIVE') {
+            // Perform archive operation
+            List<Account> accountsToArchive = [
+                SELECT Id, Name, IsActive__c
+                FROM Account
+                WHERE Id IN :recordIds
+            ];
+
+            for (Account acc : accountsToArchive) {
+                acc.IsActive__c = false;
+            }
+
+            update accountsToArchive;
+            System.debug('Archived ' + accountsToArchive.size() + ' accounts');
+        }
+    }
+}
+*/
+
+// Example REST API Callout
+/*
+public class TSISampleCallout {
+
+    private static final String ENDPOINT_URL = 'https://api.tsi.lv/integration';
+
+    @Future(callout=true)
+    public static void makeCallout(String data) {
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint(ENDPOINT_URL);
+        request.setMethod('POST');
+        request.setHeader('Content-Type', 'application/json');
+        request.setBody(data);
+
+        try {
+            HttpResponse response = http.send(request);
+
+            if (response.getStatusCode() == 200) {
+                System.debug('Callout successful: ' + response.getBody());
+            } else {
+                System.debug('Callout failed with status: ' + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            System.debug('Callout exception: ' + e.getMessage());
+        }
+    }
+}
+*/

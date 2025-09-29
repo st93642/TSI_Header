@@ -1,0 +1,60 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_ruby.txt                                 TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 29 2025 10:36 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 29 2025 10:36 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+# Basic Ruby program
+
+# Main class definition
+class TSIApplication
+  # Accessors for instance variables
+  attr_accessor :message, :version
+
+  # Initialize method (constructor)
+  def initialize
+    @message = "Hello, World!"
+    @version = "1.0"
+  end
+
+  # Main execution method
+  def run
+    puts @message
+    puts "This is a basic Ruby program."
+    puts "Version: #{@version}"
+
+    # Example with arrays
+    languages = ["Ruby", "Python", "JavaScript"]
+    languages.each do |lang|
+      puts "Language: #{lang}"
+    end
+  end
+
+  # Class method example
+  def self.create_default
+    app = new
+    app.message = "Welcome to TSI!"
+    app
+  end
+
+  # Instance method with parameters
+  def greet(name)
+    "Hello, #{name}!"
+  end
+end
+
+# Main execution
+if __FILE__ == $0
+  app = TSIApplication.new
+  app.run
+
+  # Example usage
+  default_app = TSIApplication.create_default
+  puts default_app.greet("TSI Student")
+end

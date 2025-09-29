@@ -1,0 +1,55 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_nim.txt                                  TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 29 2025 10:36 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 29 2025 10:36 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+# Basic Nim program
+
+proc main() =
+  echo "Hello, World! This is a basic Nim program."
+
+# Execute main procedure
+main()
+
+# Alternative simple approach
+# echo "Hello, World! This is a basic Nim program."
+
+# Example with variables and types
+# var name: string = "TSI Student"
+# let age: int = 20
+# echo "Hello, ", name, "! You are ", age, " years old."
+
+# Example procedure definition
+# proc greet(name: string): string =
+#   result = "Hello, " & name & "!"
+
+# Example usage
+# echo greet("TSI Student")
+
+# Example with arrays and sequences
+# var numbers: seq[int] = @[1, 2, 3, 4, 5]
+# for num in numbers:
+#   echo "Number: ", num
+
+# Example with objects/types
+# type
+#   Person = object
+#     name: string
+#     age: int
+
+# proc newPerson(name: string, age: int): Person =
+#   Person(name: name, age: age)
+
+# proc introduce(self: Person) =
+#   echo "Hello, I'm ", self.name, " and I'm ", self.age, " years old!"
+
+# var person = newPerson("TSI Student", 20)
+# person.introduce()

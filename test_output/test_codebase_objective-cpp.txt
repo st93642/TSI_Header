@@ -1,0 +1,42 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_codebase_objective-cpp.txt                      TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 29 2025 10:36 st93642                      TT    SSSSSSS II */
+/*  Updated: Sep 29 2025 10:36 st93642                                       */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+#import <Foundation/Foundation.h>
+#include <iostream>
+#include <string>
+
+/**
+ * Main function - entry point of the program
+ */
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        // Objective-C style
+        NSLog(@"Hello, World!");
+        NSLog(@"This is a basic Objective-C++ program.");
+        
+        // C++ style
+        std::cout << "C++ integration works!" << std::endl;
+        
+        // Mix of both
+        std::string cppString = "TSI Student";
+        NSString *objcString = [NSString stringWithUTF8String:cppString.c_str()];
+        NSLog(@"Mixed languages: %@", objcString);
+        
+        // C++ STL containers
+        std::vector<std::string> courses = {"Programming", "Mathematics", "Physics"};
+        for (const auto& course : courses) {
+            std::cout << "Course: " << course << std::endl;
+        }
+    }
+    return 0;
+}

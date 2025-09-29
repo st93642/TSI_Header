@@ -1,0 +1,36 @@
+<# ************************************************************************* #>
+<#                                                                           #>
+<#  test_codebase_verse.txt                              TTTTTTTT SSSSSSS II #>
+<#                                                          TT    SS      II #>
+<#  By: st93642@students.tsi.lv                             TT    SSSSSSS II #>
+<#                                                          TT         SS II #>
+<#  Created: Sep 29 2025 10:36 st93642                      TT    SSSSSSS II #>
+<#  Updated: Sep 29 2025 10:36 st93642                                       #>
+<#                                                                           #>
+<#   Transport and Telecommunication Institute - Riga, Latvia                #>
+<#                       https://tsi.lv                                      #>
+<# ************************************************************************* #>
+
+// Basic Verse code
+// Note: Verse is Epic Games' programming language for Fortnite/UEFN
+
+using { /Fortnite.com/Devices }
+using { /Verse.org/Simulation }
+using { /UnrealEngine.com/Temporary/Diagnostics }
+
+# Main device class
+hello_world_device := class(creative_device):
+    
+    # Main function - entry point
+    OnBegin<override>()<suspends>: void =
+        Print("Hello, World!")
+        Print("This is a basic Verse program.")
+        
+    # Example function with parameters
+    Greet(Name: string): string =
+        "Hello, {Name}!"
+    
+    # Example async function
+    WaitAndGreet<public>(Name: string, Seconds: float)<suspends>: void =
+        Sleep(Seconds)
+        Print(Greet(Name))

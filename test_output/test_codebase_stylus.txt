@@ -1,0 +1,138 @@
+// ************************************************************************* //
+//                                                                           //
+//  test_codebase_stylus.txt                             TTTTTTTT SSSSSSS II //
+//                                                          TT    SS      II //
+//  By: st93642@students.tsi.lv                             TT    SSSSSSS II //
+//                                                          TT         SS II //
+//  Created: Sep 29 2025 10:36 st93642                      TT    SSSSSSS II //
+//  Updated: Sep 29 2025 10:36 st93642                                       //
+//                                                                           //
+//   Transport and Telecommunication Institute - Riga, Latvia                //
+//                       https://tsi.lv                                      //
+// ************************************************************************* //
+// Variables
+primary-color = #007acc
+secondary-color = #ff6b6b
+font-size-base = 16px
+spacing-unit = 1rem
+
+// Mixins
+border-radius(radius = 4px)
+  border-radius radius
+
+box-shadow(x = 0, y = 2px, blur = 4px, color = rgba(0, 0, 0, 0.1))
+  box-shadow x y blur color
+
+// Functions
+px-to-rem(px)
+  return unit(px / font-size-base, 'rem')
+
+// Base styles
+*
+  box-sizing border-box
+
+body
+  margin 0
+  padding 0
+  font-family 'Arial', sans-serif
+  font-size font-size-base
+  line-height 1.6
+  color #333
+
+// Layout
+.container
+  max-width 1200px
+  margin 0 auto
+  padding 0 spacing-unit
+
+  +mobile()
+    padding 0 (spacing-unit / 2)
+
+// Components
+.btn
+  display inline-block
+  padding px-to-rem(12) px-to-rem(24)
+  border none
+  border-radius()
+  background primary-color
+  color white
+  text-decoration none
+  cursor pointer
+  transition all 0.3s ease
+
+  &:hover
+    background darken(primary-color, 10%)
+    transform translateY(-2px)
+    box-shadow()
+
+  &.btn-secondary
+    background secondary-color
+
+    &:hover
+      background darken(secondary-color, 10%)
+
+  &.btn-large
+    padding px-to-rem(16) px-to-rem(32)
+    font-size px-to-rem(18)
+
+// Utilities
+.text-center
+  text-align center
+
+.text-left
+  text-align left
+
+.text-right
+  text-align right
+
+.mb-1
+  margin-bottom spacing-unit
+
+.mb-2
+  margin-bottom (spacing-unit * 2)
+
+.mt-1
+  margin-top spacing-unit
+
+.mt-2
+  margin-top (spacing-unit * 2)
+
+// Responsive breakpoints
+mobile = 768px
+tablet = 1024px
+desktop = 1200px
+
+mobile()
+  @media (max-width: mobile - 1)
+    {block}
+
+tablet()
+  @media (min-width: mobile) and (max-width: tablet - 1)
+    {block}
+
+desktop()
+  @media (min-width: tablet)
+    {block}
+
+// Example usage
+.header
+  background primary-color
+  color white
+  padding spacing-unit * 2
+  text-align center
+
+  +mobile()
+    padding spacing-unit
+
+.content
+  padding spacing-unit * 2
+
+  +tablet()
+    display flex
+    gap spacing-unit * 2
+
+.footer
+  background #f5f5f5
+  padding spacing-unit
+  text-align center
+  border-top 1px solid #ddd

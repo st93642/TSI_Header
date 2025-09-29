@@ -1,0 +1,53 @@
+# *************************************************************************** #
+#                                                                             #
+#  test_codebase_dockercompose.txt                        TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 29 2025 10:36 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 29 2025 10:36 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+# *************************************************************************** #
+version: '3.8'
+
+services:
+  # Web application service
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - db
+
+  # Database service
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis service for caching
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    driver: bridge

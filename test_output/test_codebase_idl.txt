@@ -1,0 +1,33 @@
+;; ************************************************************************* ;;
+;;                                                                           ;;
+;;  test_codebase_idl.txt                                TTTTTTTT SSSSSSS II ;;
+;;                                                          TT    SS      II ;;
+;;  By: st93642@students.tsi.lv                             TT    SSSSSSS II ;;
+;;                                                          TT         SS II ;;
+;;  Created: Sep 29 2025 10:36 st93642                      TT    SSSSSSS II ;;
+;;  Updated: Sep 29 2025 10:36 st93642                                       ;;
+;;                                                                           ;;
+;;   Transport and Telecommunication Institute - Riga, Latvia                ;;
+;;                       https://tsi.lv                                      ;;
+;; ************************************************************************* ;;
+
+;; Basic IDL program
+
+;; Main procedure
+PRO hello_world
+    PRINT, 'Hello, World!'
+    PRINT, 'This is a basic IDL program.'
+END
+
+;; Execute main procedure
+hello_world
+
+;; Alternative direct approach
+;; PRINT, 'Hello, World!'
+;; PRINT, 'This is a basic IDL program.'
+
+;; Example with variables
+;; message1 = 'Hello, World!'
+;; message2 = 'This is a basic IDL program.'
+;; PRINT, message1
+;; PRINT, message2

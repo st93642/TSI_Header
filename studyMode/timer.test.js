@@ -13,9 +13,12 @@ const mockVSCode = {
     window: {
         showInformationMessage: () => {},
         showWarningMessage: () => {},
-        setStatusBarMessage: () => {}
+        setStatusBarMessage: () => {},
+        createStatusBarItem: (alignment, priority) => {
+            return new mockVSCode.StatusBarItem();
+        }
     },
-    StatusBarAlignment: { Right: 1 },
+    StatusBarAlignment: { Right: 1, Left: 2 },
     StatusBarItem: class {
         constructor() {
             this.text = '';
@@ -23,6 +26,7 @@ const mockVSCode = {
             this.command = '';
             this.show = () => {};
             this.hide = () => {};
+            this.dispose = () => {};
         }
     }
 };

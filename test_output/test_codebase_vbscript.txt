@@ -1,0 +1,52 @@
+" *************************************************************************** "
+"                                                                             "
+"  test_codebase_vbscript.txt                             TTTTTTTT SSSSSSS II "
+"                                                            TT    SS      II "
+"  By: st93642@students.tsi.lv                               TT    SSSSSSS II "
+"                                                            TT         SS II "
+"  Created: Sep 29 2025 10:36 st93642                        TT    SSSSSSS II "
+"  Updated: Sep 29 2025 10:36 st93642                                         "
+"                                                                             "
+"   Transport and Telecommunication Institute - Riga, Latvia                  "
+"                       https://tsi.lv                                        "
+" *************************************************************************** "
+
+' Basic VBScript program
+
+' Main subroutine - entry point of the program
+Sub Main()
+    MsgBox "Hello, World!"
+    MsgBox "This is a basic VBScript program."
+    
+    ' Alternative console output (for WSH)
+    ' WScript.Echo "Hello, World!"
+    ' WScript.Echo "This is a basic VBScript program."
+End Sub
+
+' Execute main subroutine
+Main()
+
+' Example function with parameters
+' Function Greet(name)
+'     If IsEmpty(name) Or name = "" Then
+'         name = "World"
+'     End If
+'     Greet = "Hello, " & name & "!"
+' End Function
+
+' Example usage
+' MsgBox Greet("TSI Student")
+' WScript.Echo Greet("TSI Student")
+
+' Example with variables and conditional logic
+' Dim message
+' message = "Hello from TSI!"
+' If message <> "" Then
+'     MsgBox message
+' End If
+
+' Example with loops
+' Dim i
+' For i = 1 To 3
+'     MsgBox "Count: " & i
+' Next
