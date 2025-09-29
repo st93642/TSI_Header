@@ -15,8 +15,17 @@ class StudyModeExtension {
 
     activate() {
         try {
-            // Create timer instance
-            this.timer = new StudyModeTimer(this.vscode, this.context);
+            // Read configuration
+            const config = this.vscode.workspace.getConfiguration('tsiheader.studyMode');
+            const timerConfig = {
+                workDuration: config.get('workDuration', 25),
+                shortBreakDuration: config.get('shortBreakDuration', 5),
+                longBreakDuration: config.get('longBreakDuration', 15),
+                sessionsBeforeLongBreak: config.get('sessionsBeforeLongBreak', 4)
+            };
+
+            // Create timer instance with configuration
+            this.timer = new StudyModeTimer(this.vscode, this.context, timerConfig);
 
             // Register commands
             this.registerCommands();
@@ -74,9 +83,9 @@ class StudyModeExtension {
         if (!this.timer) return;
 
         if (this.timer.currentPhase === 'stopped') {
-            const workDuration = Math.floor(this.timer.workDuration / (1000 * 60));
-            const breakDuration = Math.floor(this.timer.shortBreakDuration / (1000 * 60));
-            const longBreakDuration = Math.floor(this.timer.longBreakDuration / (1000 * 60));
+            const config = this.vscode.workspace.getConfiguration('tsiheader.studyMode');
+            const workDuration = config.get('workDuration', 25);
+            const breakDuration = config.get('shortBreakDuration', 5);
 
             this.vscode.window.showInformationMessage(
                 `🍅 Study Session Started!\n\nFocus for ${workDuration} minutes.\nGood luck with your work!`,
@@ -148,6 +157,7 @@ class StudyModeExtension {
     showStudyStats() {
         if (!this.timer) return;
 
+        const config = this.vscode.workspace.getConfiguration('tsiheader.studyMode');
         const sessions = this.timer.sessionLog;
         const totalSessions = sessions.length;
         const completedSessions = sessions.filter(s => s.completed).length;
@@ -160,7 +170,7 @@ class StudyModeExtension {
         const statsMessage = `📊 Study Mode Statistics
 
 Current Status: ${currentStatus}
-Session Progress: ${this.timer.currentSession}/${this.timer.sessionsBeforeLongBreak}
+Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongBreak', 4)}
 
 📈 Session Summary:
 • Total Sessions Started: ${totalSessions}
@@ -172,10 +182,10 @@ Session Progress: ${this.timer.currentSession}/${this.timer.sessionsBeforeLongBr
 • Average Session Time: ${this.formatDuration(avgSessionTime)}
 
 ⚙️ Timer Configuration:
-• Work Duration: ${Math.floor(this.timer.workDuration / (1000 * 60))} minutes
-• Short Break: ${Math.floor(this.timer.shortBreakDuration / (1000 * 60))} minutes
-• Long Break: ${Math.floor(this.timer.longBreakDuration / (1000 * 60))} minutes
-• Sessions Before Long Break: ${this.timer.sessionsBeforeLongBreak}`;
+• Work Duration: ${config.get('workDuration', 25)} minutes
+• Short Break: ${config.get('shortBreakDuration', 5)} minutes
+• Long Break: ${config.get('longBreakDuration', 15)} minutes
+• Sessions Before Long Break: ${config.get('sessionsBeforeLongBreak', 4)}`;
 
         this.vscode.window.showInformationMessage(
             statsMessage,

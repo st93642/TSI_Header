@@ -58,6 +58,34 @@
           "type": "boolean",
           "default": false,
           "description": "Enable audio notifications for timer events"
+        },
+        "tsiheader.studyMode.workDuration": {
+          "type": "number",
+          "default": 25,
+          "minimum": 1,
+          "maximum": 120,
+          "description": "Work session duration in minutes (1-120)"
+        },
+        "tsiheader.studyMode.shortBreakDuration": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 60,
+          "description": "Short break duration in minutes (1-60)"
+        },
+        "tsiheader.studyMode.longBreakDuration": {
+          "type": "number",
+          "default": 15,
+          "minimum": 1,
+          "maximum": 120,
+          "description": "Long break duration in minutes (1-120)"
+        },
+        "tsiheader.studyMode.sessionsBeforeLongBreak": {
+          "type": "number",
+          "default": 4,
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Number of work sessions before a long break (1-10)"
         }
       }
     },
