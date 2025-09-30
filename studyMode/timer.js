@@ -34,6 +34,9 @@ class StudyModeTimer {
             this.context.subscriptions.push(this.statusBarItem);
         }
 
+        // Audio handler for cleanup
+        this.currentAudioHandler = null;
+
         // Timer interval
         this.timerInterval = null;
     }
@@ -147,7 +150,14 @@ class StudyModeTimer {
 
         this.startTime = Date.now();
         this.remainingTime = this.getCurrentDuration();
-        this.showPhaseNotification();
+        
+        // For break phases, show popup instead of auto-starting
+        if (this.currentPhase === 'shortBreak' || this.currentPhase === 'longBreak') {
+            this.showBreakPopup();
+        } else {
+            this.showPhaseNotification();
+        }
+        
         this.notifyStateChange();
     }
 
@@ -215,7 +225,7 @@ class StudyModeTimer {
     }
 
     showPhaseNotification() {
-        if (!vscode || !vscode.window || !vscode.window.showInformationMessage) return; // Skip if no vscode API (e.g., in tests)
+        if (!this.vscode || !this.vscode.window || !this.vscode.window.showInformationMessage) return; // Skip if no vscode API (e.g., in tests)
 
         let message = '';
         switch (this.currentPhase) {
@@ -233,6 +243,175 @@ class StudyModeTimer {
         if (message) {
             this.vscode.window.showInformationMessage(message);
         }
+    }
+
+    showBreakPopup() {
+        if (!this.vscode || !this.vscode.window || !this.vscode.window.showInformationMessage) return; // Skip if no vscode API (e.g., in tests)
+
+        const isLongBreak = this.currentPhase === 'longBreak';
+        const breakDuration = isLongBreak ? this.longBreakDuration : this.shortBreakDuration;
+        const breakMinutes = Math.floor(breakDuration / (60 * 1000));
+        
+        const message = isLongBreak 
+            ? `🎉 Excellent work! You've completed ${this.sessionsBeforeLongBreak} sessions.\n\nTime for a well-deserved ${breakMinutes}-minute break.`
+            : `☕ Great job on that work session!\n\nTake a ${breakMinutes}-minute break to recharge.`;
+
+        this.vscode.window.showInformationMessage(
+            message,
+            { modal: true },
+            'Take Break',
+            'Skip Break'
+        ).then(selection => {
+            if (selection === 'Take Break') {
+                this.startBreak();
+            } else if (selection === 'Skip Break') {
+                this.skipBreak();
+            }
+        });
+    }
+
+    startBreak() {
+        // Start the break timer
+        this.isRunning = true;
+        this.startTimerInterval();
+        this.updateStatusBar();
+        
+        // Play audio signal
+        this.playBreakAudio();
+        
+        this.notifyStateChange();
+    }
+
+    skipBreak() {
+        // Skip the break and immediately start the next work session
+        this.currentPhase = 'work';
+        this.startTime = Date.now();
+        this.remainingTime = this.getCurrentDuration();
+        this.isRunning = true;
+        this.startTimerInterval();
+        this.updateStatusBar();
+        this.showPhaseNotification();
+        this.notifyStateChange();
+    }
+
+    playBreakAudio() {
+        if (!this.vscode || !this.vscode.window || !this.vscode.window.createWebviewPanel) return; // Skip if no vscode API
+
+        try {
+            // Create a temporary webview for audio playback
+            const panel = this.vscode.window.createWebviewPanel(
+                'studyModeAudio',
+                'Study Mode Audio',
+                { viewColumn: -1, preserveFocus: true }, // Hidden panel
+                { enableScripts: true }
+            );
+
+            const audioType = this.currentPhase === 'longBreak' ? 'longBreak' : 'shortBreak';
+
+            // Generate HTML with audio element that auto-plays
+            panel.webview.html = this.getAudioWebviewContent(audioType);
+
+            // Listen for messages from the webview
+            const messageHandler = panel.webview.onDidReceiveMessage(message => {
+                if (message.type === 'audioStarted') {
+                    // Audio started successfully
+                    console.log('Break audio started');
+                } else if (message.type === 'audioError') {
+                    console.warn('Break audio failed:', message.error);
+                }
+            });
+
+            // Store the message handler to clean it up
+            this.currentAudioHandler = messageHandler;
+
+            // Send message to webview to play audio after a short delay to ensure it's loaded
+            setTimeout(() => {
+                panel.webview.postMessage({ type: 'playAudio', audioType });
+            }, 100);
+
+            // Auto-dispose after audio duration + buffer
+            setTimeout(() => {
+                panel.dispose();
+                if (this.currentAudioHandler) {
+                    this.currentAudioHandler.dispose();
+                    this.currentAudioHandler = null;
+                }
+            }, 2000); // 2 seconds should be enough for 1 second of audio
+
+        } catch (error) {
+            console.warn('Failed to play break audio:', error.message);
+        }
+    }
+
+    getAudioWebviewContent(audioType) {
+        // Generate different tones for different break types
+        const frequency = audioType === 'longBreak' ? 800 : 600; // Higher pitch for long break
+        const duration = 1000; // 1 second
+
+        return `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Study Mode Audio</title>
+            </head>
+            <body>
+                <script>
+                    // VS Code API
+                    const vscode = acquireVsCodeApi();
+
+                    // Generate audio tone
+                    function playTone(frequency, duration) {
+                        try {
+                            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                            // Resume audio context if suspended (required by some browsers)
+                            if (audioContext.state === 'suspended') {
+                                audioContext.resume();
+                            }
+
+                            const oscillator = audioContext.createOscillator();
+                            const gainNode = audioContext.createGain();
+
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioContext.destination);
+
+                            oscillator.frequency.value = frequency;
+                            oscillator.type = 'sine';
+
+                            // Set volume (0.3 for audible but not too loud)
+                            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+
+                            oscillator.start(audioContext.currentTime);
+                            oscillator.stop(audioContext.currentTime + duration / 1000);
+
+                            // Notify that audio started
+                            vscode.postMessage({ type: 'audioStarted' });
+
+                            console.log('Playing break audio tone');
+                        } catch (error) {
+                            console.warn('Audio playback failed:', error);
+                            vscode.postMessage({ type: 'audioError', error: error.message });
+                        }
+                    }
+
+                    // Listen for messages from extension
+                    window.addEventListener('message', event => {
+                        const message = event.data;
+                        if (message.type === 'playAudio') {
+                            playTone(${frequency}, ${duration});
+                        }
+                    });
+
+                    // Auto-play on load as fallback
+                    setTimeout(() => {
+                        playTone(${frequency}, ${duration});
+                    }, 50);
+                </script>
+            </body>
+            </html>
+        `;
     }
 
     logSession(completed) {
@@ -270,6 +449,10 @@ class StudyModeTimer {
         this.clearTimerInterval();
         if (this.statusBarItem && this.statusBarItem.dispose) {
             this.statusBarItem.dispose();
+        }
+        if (this.currentAudioHandler && this.currentAudioHandler.dispose) {
+            this.currentAudioHandler.dispose();
+            this.currentAudioHandler = null;
         }
     }
 }

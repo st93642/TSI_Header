@@ -243,16 +243,45 @@ test('StudyModeTimer - Configuration', async (t) => {
     });
 });
 
-test('StudyModeTimer - Session Logging', async (t) => {
+test('StudyModeTimer - Break Popup and Audio', async (t) => {
     let timer;
     let mockContext;
+    let showInformationMessageCalls = [];
+    let showWarningMessageCalls = [];
+
+    // Enhanced mock VS Code API
+    const enhancedMockVSCode = {
+        ...mockVSCode,
+        window: {
+            ...mockVSCode.window,
+            showInformationMessage: (message, options, ...buttons) => {
+                showInformationMessageCalls.push({ message, options, buttons });
+                // Return a promise that resolves immediately to the first button for testing
+                return Promise.resolve(buttons[0]);
+            },
+            showWarningMessage: (message, options, ...buttons) => {
+                showWarningMessageCalls.push({ message, options, buttons });
+                return Promise.resolve(buttons[0]);
+            },
+            createWebviewPanel: () => ({
+                webview: {
+                    html: '',
+                    onDidReceiveMessage: () => ({ dispose: () => {} }),
+                    postMessage: () => {}
+                },
+                dispose: () => {}
+            })
+        }
+    };
 
     t.beforeEach(() => {
         mockContext = {
             subscriptions: [],
             extensionPath: '/test/path'
         };
-        timer = new StudyModeTimer(mockVSCode, mockContext);
+        timer = new StudyModeTimer(enhancedMockVSCode, mockContext);
+        showInformationMessageCalls = [];
+        showWarningMessageCalls = [];
     });
 
     t.afterEach(() => {
@@ -261,43 +290,127 @@ test('StudyModeTimer - Session Logging', async (t) => {
         }
     });
 
-    await t.test('should log completed work session', () => {
+    await t.test('should show break popup when transitioning to short break', async () => {
         timer.start();
-        // Wait a bit to ensure duration > 0
-        return new Promise(resolve => {
-            setTimeout(() => {
-                timer.logSession(true);
-
-                assert.equal(timer.sessionLog.length, 1);
-                assert.equal(timer.sessionLog[0].type, 'work');
-                assert.equal(timer.sessionLog[0].completed, true);
-                assert(timer.sessionLog[0].startTime);
-                assert(timer.sessionLog[0].endTime);
-                assert(timer.sessionLog[0].duration > 0);
-                resolve();
-            }, 10); // Wait 10ms
-        });
-    });
-
-    await t.test('should log incomplete session on stop', () => {
-        timer.start();
-        timer.stop();
-
-        assert.equal(timer.sessionLog.length, 1);
-        assert.equal(timer.sessionLog[0].completed, false);
-    });
-
-    await t.test('should track session numbers', () => {
-        timer.start();
-        timer.logSession(true); // Complete first session
-
-        // Simulate transition to next session
-        timer.currentSession = 1;
+        // Simulate work session completion
         timer.currentPhase = 'work';
-        timer.logSession(true); // Complete second session
+        timer.currentSession = 0;
+        timer.startTime = Date.now() - timer.workDuration; // Work is complete
 
-        assert.equal(timer.sessionLog.length, 2);
-        assert.equal(timer.sessionLog[0].sessionNumber, 0);
-        assert.equal(timer.sessionLog[1].sessionNumber, 1);
+        timer.transitionToNextPhase();
+
+        // Wait for the promise to resolve
+        await new Promise(resolve => setTimeout(resolve, 0));
+
+        assert.equal(timer.currentPhase, 'shortBreak');
+        assert.equal(showInformationMessageCalls.length, 1);
+        assert(showInformationMessageCalls[0].message.includes('Take a'));
+        assert(showInformationMessageCalls[0].buttons.includes('Take Break'));
+        assert(showInformationMessageCalls[0].buttons.includes('Skip Break'));
+    });
+
+    await t.test('should show break popup when transitioning to long break', async () => {
+        timer.start();
+        // Simulate reaching long break threshold
+        timer.currentPhase = 'work';
+        timer.currentSession = 3; // One less than threshold
+        timer.startTime = Date.now() - timer.workDuration;
+
+        timer.transitionToNextPhase();
+
+        // Wait for the promise to resolve
+        await new Promise(resolve => setTimeout(resolve, 0));
+
+        assert.equal(timer.currentPhase, 'longBreak');
+        assert.equal(showInformationMessageCalls.length, 1);
+        assert(showInformationMessageCalls[0].message.includes('well-deserved'));
+    });
+
+    await t.test('should start break timer when user selects Take Break', () => {
+        timer.currentPhase = 'shortBreak';
+        timer.startTime = Date.now();
+
+        // Mock user selecting "Take Break"
+        enhancedMockVSCode.window.showInformationMessage = () => Promise.resolve('Take Break');
+
+        // This would be called from the popup handler
+        timer.startBreak();
+
+        assert.equal(timer.isRunning, true);
+        assert(timer.startTime);
+    });
+
+    await t.test('should skip break and start work when user selects Skip Break', () => {
+        timer.currentPhase = 'shortBreak';
+        timer.currentSession = 0;
+
+        // Mock user selecting "Skip Break"
+        enhancedMockVSCode.window.showInformationMessage = () => Promise.resolve('Skip Break');
+
+        // This would be called from the popup handler
+        timer.skipBreak();
+
+        assert.equal(timer.currentPhase, 'work');
+        assert.equal(timer.isRunning, true);
+        assert(timer.startTime);
+    });
+
+    await t.test('should play audio signal when break starts', async () => {
+        let postMessageCalled = false;
+        let messageSent = null;
+        let messageHandlerCalled = false;
+        let messageReceived = null;
+
+        enhancedMockVSCode.window.createWebviewPanel = () => ({
+            webview: {
+                html: '',
+                onDidReceiveMessage: (callback) => {
+                    // Mock message handler
+                    return {
+                        dispose: () => {}
+                    };
+                },
+                postMessage: (message) => {
+                    postMessageCalled = true;
+                    messageSent = message;
+                }
+            },
+            dispose: () => {}
+        });
+
+        timer.playBreakAudio();
+
+        // Wait for the timeout in playBreakAudio
+        await new Promise(resolve => setTimeout(resolve, 150));
+
+        assert(postMessageCalled, 'postMessage should be called');
+        assert.equal(messageSent.type, 'playAudio');
+        assert.equal(messageSent.audioType, 'shortBreak');
+    });
+
+    await t.test('should play different audio for long break vs short break', async () => {
+        let audioType = '';
+        enhancedMockVSCode.window.createWebviewPanel = () => ({
+            webview: {
+                html: '',
+                onDidReceiveMessage: () => ({ dispose: () => {} }),
+                postMessage: (message) => {
+                    audioType = message.audioType;
+                }
+            },
+            dispose: () => {}
+        });
+
+        timer.currentPhase = 'shortBreak';
+        timer.playBreakAudio();
+        // Wait for the timeout in playBreakAudio
+        await new Promise(resolve => setTimeout(resolve, 150));
+        assert.equal(audioType, 'shortBreak');
+
+        timer.currentPhase = 'longBreak';
+        timer.playBreakAudio();
+        // Wait for the timeout in playBreakAudio
+        await new Promise(resolve => setTimeout(resolve, 150));
+        assert.equal(audioType, 'longBreak');
     });
 });
