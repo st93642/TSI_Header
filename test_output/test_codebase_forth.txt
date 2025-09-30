@@ -1,0 +1,48 @@
+(* ************************************************************************* *)
+(*                                                                           *)
+(*  test_codebase_forth.txt                              TTTTTTTT SSSSSSS II *)
+(*                                                          TT    SS      II *)
+(*  By: st93642@students.tsi.lv                             TT    SSSSSSS II *)
+(*                                                          TT         SS II *)
+(*  Created: Sep 30 2025 17:56 st93642                      TT    SSSSSSS II *)
+(*  Updated: Sep 30 2025 17:56 st93642                                       *)
+(*                                                                           *)
+(*   Transport and Telecommunication Institute - Riga, Latvia                *)
+(*                       https://tsi.lv                                      *)
+(* ************************************************************************* *)
+\ Basic Forth program
+
+\ Main word - entry point
+: hello-world
+  ." Hello, World!" CR
+  ." This is a basic Forth program." CR ;
+
+\ Application logic
+: run-app
+  ." Version: 1.0" CR
+
+  \ Example with arrays (using memory)
+  CREATE languages 3 CELLS ALLOT
+  S" Forth" languages 0 CELLS + !
+  S" C" languages 1 CELLS + !
+  S" Assembly" languages 2 CELLS + !
+
+  ." Languages:" CR
+  3 0 DO
+    ."   " languages I CELLS + @ TYPE CR
+  LOOP ;
+
+\ Utility words
+: greet ( addr len -- )
+  ." Hello, " TYPE ." !" CR ;
+
+: square ( n -- n*n )
+  DUP * ;
+
+\ Main execution
+hello-world
+run-app
+
+\ Example usage
+\ S" TSI Student" greet
+\ 5 square .

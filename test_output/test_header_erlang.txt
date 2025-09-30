@@ -1,0 +1,12 @@
+%% ************************************************************************* %%
+%%                                                                           %%
+%%  test_header_erlang.txt                               TTTTTTTT SSSSSSS II %%
+%%                                                          TT    SS      II %%
+%%  By: st93642@students.tsi.lv                             TT    SSSSSSS II %%
+%%                                                          TT         SS II %%
+%%  Created: Sep 30 2025 17:56 st93642                      TT    SSSSSSS II %%
+%%  Updated: Sep 30 2025 17:56 st93642                                       %%
+%%                                                                           %%
+%%   Transport and Telecommunication Institute - Riga, Latvia                %%
+%%                       https://tsi.lv                                      %%
+%% ************************************************************************* %%

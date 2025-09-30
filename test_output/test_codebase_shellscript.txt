@@ -1,0 +1,51 @@
+#*****************************************************************************#
+#                                                                             #
+#  test_codebase_shellscript.txt                          TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 30 2025 17:57 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 30 2025 17:57 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
+#!/bin/bash
+
+# Basic shell script
+
+# Main function - entry point of the program
+main() {
+    echo "Hello, World!"
+    echo "This is a basic shell script."
+}
+
+# Execute main function
+main "$@"
+
+# Alternative direct approach
+# echo "Hello, World!"
+# echo "This is a basic shell script."
+
+# Example function with parameters
+# greet() {
+#     local name="${1:-World}"
+#     echo "Hello, $name!"
+# }
+
+# Example usage
+# greet "TSI Student"
+
+# Example with arrays and variables
+# languages=("Bash" "Python" "Ruby")
+# config_file="/etc/myapp.conf"
+# debug_mode=true
+
+# for lang in "${languages[@]}"; do
+#     echo "Language: $lang"
+# done
+
+# Example error handling
+# set -euo pipefail  # Exit on error, undefined vars, pipe failures
+# trap 'echo "Error on line $LINENO"' ERR

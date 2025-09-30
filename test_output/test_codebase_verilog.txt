@@ -1,0 +1,80 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_codebase_verilog.txt                            TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 30 2025 17:57 st93642                      TT    SSSSSSS II */
+/*  Updated: Sep 30 2025 17:57 st93642                                       */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+// Basic Verilog module
+
+module hello_world(
+    input wire clk,
+    input wire reset,
+    output reg [7:0] data_out
+);
+
+// Internal registers
+reg [31:0] counter;
+
+// Main logic
+always @(posedge clk or posedge reset) begin
+    if (reset) begin
+        counter <= 32'h0;
+        data_out <= 8'h0;
+    end else begin
+        counter <= counter + 1;
+        data_out <= counter[7:0];
+    end
+end
+
+// Example combinational logic
+always @(*) begin
+    // Add combinational logic here
+    // data_out = some_function(inputs);
+end
+
+// Example initial block for simulation
+initial begin
+    $display("Hello, World!");
+    $display("This is a basic Verilog module.");
+end
+
+endmodule
+
+// Testbench (uncomment for simulation)
+/*
+module hello_world_tb;
+
+reg clk, reset;
+wire [7:0] data_out;
+
+// Instantiate the module
+hello_world uut (
+    .clk(clk),
+    .reset(reset),
+    .data_out(data_out)
+);
+
+// Clock generation
+always #5 clk = ~clk;
+
+// Test sequence
+initial begin
+    clk = 0;
+    reset = 1;
+    #10 reset = 0;
+    #100 $finish;
+end
+
+initial begin
+    $monitor("Time=%0t, data_out=%h", $time, data_out);
+end
+
+endmodule
+*/

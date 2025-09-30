@@ -1,0 +1,61 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_codebase_objective-j.txt                        TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 30 2025 17:57 st93642                      TT    SSSSSSS II */
+/*  Updated: Sep 30 2025 17:57 st93642                                       */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+// Basic Objective-J program
+// Note: Objective-J is used with Cappuccino framework
+
+@import <Foundation/Foundation.j>
+@import <AppKit/AppKit.j>
+
+@implementation HelloWorld : CPObject
+{
+    CPString message;
+}
+
+// Main function - entry point
++ (void)main
+{
+    console.log("Hello, World!");
+    console.log("This is a basic Objective-J program.");
+    
+    var app = [[HelloWorld alloc] init];
+    [app greet:@"TSI Student"];
+}
+
+// Initialize
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        message = @"Hello from TSI!";
+    }
+    return self;
+}
+
+// Example method with parameter
+- (void)greet:(CPString)name
+{
+    console.log("Hello, " + name + "!");
+}
+
+// Getter for message
+- (CPString)message
+{
+    return message;
+}
+
+@end
+
+// Execute main
+[HelloWorld main];

@@ -1,0 +1,157 @@
+@* ************************************************************************* *@
+@*                                                                           *@
+@*  test_codebase_razor.txt                              TTTTTTTT SSSSSSS II *@
+@*                                                          TT    SS      II *@
+@*  By: st93642@students.tsi.lv                             TT    SSSSSSS II *@
+@*                                                          TT         SS II *@
+@*  Created: Sep 30 2025 17:56 st93642                      TT    SSSSSSS II *@
+@*  Updated: Sep 30 2025 17:56 st93642                                       *@
+@*                                                                           *@
+@*   Transport and Telecommunication Institute - Riga, Latvia                *@
+@*                       https://tsi.lv                                      *@
+@* ************************************************************************* *@
+@{
+    ViewData["Title"] = "Home Page";
+    var currentTime = DateTime.Now;
+    var userCount = 42;
+}
+
+@model HomeViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - My ASP.NET Application</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyApp</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="jumbotron">
+                <h1 class="display-4">Welcome to ASP.NET Core</h1>
+                <p class="lead">This is a sample Razor view demonstrating various features.</p>
+                <hr class="my-4">
+                <p>Current time: @currentTime.ToString("F")</p>
+                <p>Active users: @userCount</p>
+            </div>
+
+            @if (Model != null && Model.Items.Any())
+            {
+                <div class="row">
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Title</h5>
+                                    <p class="card-text">@item.Description</p>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge badge-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-secondary">Inactive</span>
+                                    }
+                                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <strong>No items found!</strong> There are currently no items to display.
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Features</h3>
+                    <ul class="list-group">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <li class="list-group-item">Feature @i</li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h3>Contact Form</h3>
+                    <form asp-action="Contact" method="post">
+                        <div class="form-group">
+                            <label asp-for="Name">Name:</label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email">Email:</label>
+                            <input asp-for="Email" type="email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Message">Message:</label>
+                            <textarea asp-for="Message" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.Now.Year - My ASP.NET Application
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+@* View Model for this view *@
+@code {
+    public class HomeViewModel
+    {
+        public List<ItemViewModel> Items { get; set; } = new List<ItemViewModel>();
+    }
+
+    public class ItemViewModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public bool IsActive { get; set; }
+    }
+}

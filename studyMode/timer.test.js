@@ -21,6 +21,17 @@ const mockVSCode = {
             return new mockVSCode.StatusBarItem();
         }
     },
+    workspace: {
+        getConfiguration: (section) => ({
+            get: (key, defaultValue) => {
+                // Return default values for configuration
+                if (section === 'tsiheader.studyMode') {
+                    if (key === 'enableSounds') return false; // Disable sounds in tests
+                }
+                return defaultValue;
+            }
+        })
+    },
     StatusBarAlignment: { Right: 1, Left: 2 },
     StatusBarItem: class {
         constructor() {
@@ -34,7 +45,7 @@ const mockVSCode = {
     }
 };
 
-test('StudyModeTimer - Initialization', async (t) => {
+test('StudyModeTimer - Initialization', { timeout: 5000 }, async (t) => {
     let timer;
 
     t.afterEach(() => {
@@ -71,7 +82,7 @@ test('StudyModeTimer - Initialization', async (t) => {
     });
 });
 
-test('StudyModeTimer - Timer Controls', async (t) => {
+test('StudyModeTimer - Timer Controls', { timeout: 5000 }, async (t) => {
     let timer;
     let mockContext;
 
@@ -120,7 +131,7 @@ test('StudyModeTimer - Timer Controls', async (t) => {
     });
 });
 
-test('StudyModeTimer - Time Calculations', async (t) => {
+test('StudyModeTimer - Time Calculations', { timeout: 5000 }, async (t) => {
     let timer;
     let mockContext;
 
@@ -145,7 +156,7 @@ test('StudyModeTimer - Time Calculations', async (t) => {
     });
 });
 
-test('StudyModeTimer - Status Bar Updates', async (t) => {
+test('StudyModeTimer - Status Bar Updates', { timeout: 5000 }, async (t) => {
     let timer;
     let mockContext;
 
@@ -179,7 +190,7 @@ test('StudyModeTimer - Status Bar Updates', async (t) => {
         assert(timer.statusBarItem.tooltip.includes('Short Break'));
     });
 
-    await t.test('should update status bar when paused', () => {
+    await t.test('should update status bar when paused', { timeout: 2000 }, () => {
         timer.start();
         // Wait a moment and then pause
         return new Promise(resolve => {
@@ -202,7 +213,7 @@ test('StudyModeTimer - Status Bar Updates', async (t) => {
     });
 });
 
-test('StudyModeTimer - Configuration', async (t) => {
+test('StudyModeTimer - Configuration', { timeout: 5000 }, async (t) => {
     let timer;
 
     t.afterEach(() => {
@@ -246,7 +257,7 @@ test('StudyModeTimer - Configuration', async (t) => {
     });
 });
 
-test('StudyModeTimer - Break Popup and Audio', async (t) => {
+test('StudyModeTimer - Break Popup and Audio', { timeout: 10000 }, async (t) => {
     let timer;
     let mockContext;
     let showInformationMessageCalls = [];
@@ -289,7 +300,7 @@ test('StudyModeTimer - Break Popup and Audio', async (t) => {
         }
     });
 
-    await t.test('should transition to break phase and pause timer for popup', async () => {
+    await t.test('should transition to break phase and pause timer for popup', { timeout: 2000 }, async () => {
         timer.start();
         // Simulate work session completion
         timer.currentPhase = 'work';
@@ -303,7 +314,7 @@ test('StudyModeTimer - Break Popup and Audio', async (t) => {
         assert.equal(timer.isRunning, false, 'Timer should be paused while popup is shown');
     });
 
-    await t.test('should transition to long break phase and pause timer for popup', async () => {
+    await t.test('should transition to long break phase and pause timer for popup', { timeout: 2000 }, async () => {
         timer.start();
         // Simulate reaching long break threshold
         timer.currentPhase = 'work';
@@ -346,7 +357,7 @@ test('StudyModeTimer - Break Popup and Audio', async (t) => {
         assert(timer.startTime);
     });
 
-    await t.test('should play audio signal when break starts', () => {
+    await t.test('should play audio signal when break starts', { timeout: 100 }, async () => {
         let callbackCalled = false;
 
         timer.currentPhase = 'shortBreak';
@@ -356,11 +367,11 @@ test('StudyModeTimer - Break Popup and Audio', async (t) => {
             callbackCalled = true;
         });
 
-        // Callback should be called immediately in test environment
+        // In test environment, callback should be called immediately
         assert(callbackCalled, 'Callback should be called immediately in test environment');
     });
 
-    await t.test('should play different beep patterns for long break vs short break', () => {
+    await t.test('should play different beep patterns for long break vs short break', { timeout: 100 }, async () => {
         let callbackCallCount = 0;
 
         // Test short break

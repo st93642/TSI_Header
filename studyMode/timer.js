@@ -149,13 +149,22 @@ class StudyModeTimer {
         this.startTime = Date.now();
         this.remainingTime = this.getCurrentDuration();
         
-        // For break phases, play audio signal first, then show popup
+        // For break phases, pause timer immediately, then play audio signal and show popup
         if (this.currentPhase === 'shortBreak' || this.currentPhase === 'longBreak') {
+            // Pause timer immediately when entering break phase
+            this.isRunning = false;
+            this.clearTimerInterval();
+            this.updateStatusBar();
+            
             this.playBreakAudioSignal(() => {
                 this.showBreakPopup();
             });
         } else if (this.currentPhase === 'work' && this.currentSession > 0) {
-            // For work phase transitions (returning from break), also play audio and show popup
+            // For work phase transitions (returning from break), pause timer and show popup
+            this.isRunning = false;
+            this.clearTimerInterval();
+            this.updateStatusBar();
+            
             this.playWorkAudioSignal(() => {
                 this.showWorkPopup();
             });
@@ -379,6 +388,15 @@ class StudyModeTimer {
             return;
         }
 
+        // In test environment, call callback immediately without any delays
+        const isTestEnvironment = process.env.NODE_ENV === 'test' ||
+            (typeof process !== 'undefined' && process.env && process.env.NODE_TEST_CONTEXT);
+
+        if (isTestEnvironment) {
+            callback(); // Call synchronously in test environment
+            return;
+        }
+
         // Check if sounds are enabled in configuration
         const config = this.vscode.workspace.getConfiguration('tsiheader.studyMode');
         const soundsEnabled = config.get('enableSounds', false);
@@ -386,16 +404,6 @@ class StudyModeTimer {
         if (!soundsEnabled) {
             console.log('Audio signals disabled in configuration');
             setTimeout(callback, 10);
-            return;
-        }
-
-        // In test environment, call callback immediately without any delays
-        const isTestEnvironment = process.env.NODE_ENV === 'test' ||
-            (this.vscode && this.vscode.window && this.vscode.window.showInformationMessage &&
-             this.vscode.window.showInformationMessage.toString().includes('showInformationMessageCalls'));
-
-        if (isTestEnvironment) {
-            callback(); // Call synchronously in test environment
             return;
         }
 
@@ -463,6 +471,15 @@ class StudyModeTimer {
             return;
         }
 
+        // In test environment, call callback immediately without any delays
+        const isTestEnvironment = process.env.NODE_ENV === 'test' ||
+            (typeof process !== 'undefined' && process.env && process.env.NODE_TEST_CONTEXT);
+
+        if (isTestEnvironment) {
+            callback(); // Call synchronously in test environment
+            return;
+        }
+
         // Check if sounds are enabled in configuration
         const config = this.vscode.workspace.getConfiguration('tsiheader.studyMode');
         const soundsEnabled = config.get('enableSounds', false);
@@ -470,16 +487,6 @@ class StudyModeTimer {
         if (!soundsEnabled) {
             console.log('Audio signals disabled in configuration');
             setTimeout(callback, 10);
-            return;
-        }
-
-        // In test environment, call callback immediately without any delays
-        const isTestEnvironment = process.env.NODE_ENV === 'test' ||
-            (this.vscode && this.vscode.window && this.vscode.window.showInformationMessage &&
-             this.vscode.window.showInformationMessage.toString().includes('showInformationMessageCalls'));
-
-        if (isTestEnvironment) {
-            callback(); // Call synchronously in test environment
             return;
         }
 

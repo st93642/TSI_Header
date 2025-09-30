@@ -1,0 +1,25 @@
+# *************************************************************************** #
+#                                                                             #
+#  test_codebase_git-rebase.txt                           TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 30 2025 17:57 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 30 2025 17:57 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+# *************************************************************************** #
+
+// Basic git-rebase program
+
+// Main function - entry point of the program
+// Note: This is a generic template for git-rebase
+
+// Hello, World! implementation
+// This is a basic git-rebase program.
+
+// Example comments for git-rebase
+// Add your code here
+
+// End of program

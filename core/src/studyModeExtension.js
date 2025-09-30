@@ -318,14 +318,16 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
                     if (persistedState.isRunning) {
                         // Timer was running when saved - calculate how much time is left
                         this.timer.remainingTime = Math.max(0, currentDuration - timeSinceStart);
+                        // Keep the original startTime so the timer continues correctly
+                        // Don't modify startTime for running timers
                     } else {
                         // Timer was paused when saved - use the saved remaining time
                         this.timer.remainingTime = persistedState.remainingTime || 0;
-                        // Recalculate startTime so the timer resumes with correct remaining time
-                        // startTime = now - (currentDuration - remainingTime)
-                        this.timer.startTime = Date.now() - (currentDuration - this.timer.remainingTime);
-                        // Don't set pausedTime for timers loaded from persistence - they are already paused
-                        this.timer.pausedTime = null;
+                        // For paused timers, set startTime so that when resumed, it starts fresh from now
+                        // This ensures resume() works correctly without time jumping
+                        this.timer.startTime = Date.now();
+                        // Set pausedTime to indicate this timer was paused before restart
+                        this.timer.pausedTime = Date.now();
                     }
                 } else {
                     this.timer.remainingTime = 0;

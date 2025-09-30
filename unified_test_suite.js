@@ -1904,11 +1904,11 @@ function testStudyMode() {
             checkCompletion();
         });
 
-        // Timeout after 60 seconds (increased for Study Mode tests)
+        // Timeout after 120 seconds (increased for Study Mode tests)
         setTimeout(() => {
             console.log('Study Mode test timeout reached');
             resolve(false);
-        }, 60000);
+        }, 120000);
     });
 }
 

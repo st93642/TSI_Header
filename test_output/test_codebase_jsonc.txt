@@ -1,0 +1,56 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_codebase_jsonc.txt                              TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 30 2025 17:56 st93642                      TT    SSSSSSS II */
+/*  Updated: Sep 30 2025 17:56 st93642                                       */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+{
+    // JSONC (JSON with Comments) Configuration File
+    // This file demonstrates JSONC syntax with comments
+
+    // Application settings
+    "app": {
+        "name": "My Application",
+        "version": "1.0.0",
+        /*
+         * Multi-line comment example
+         * for JSONC configuration
+         */
+        "debug": true,
+        "port": 3000
+    },
+
+    // Database configuration
+    "database": {
+        "host": "localhost",
+        "port": 5432,
+        // Use environment variable for password
+        "password": "${DB_PASSWORD}",
+        "ssl": false
+    },
+
+    /*
+     * Feature flags
+     * Enable/disable application features
+     */
+    "features": {
+        "authentication": true,
+        "logging": true,
+        "metrics": false  // Disabled for now
+    },
+
+    // Array of allowed origins
+    "cors": {
+        "origins": [
+            "http://localhost:3000",
+            "https://myapp.com"
+        ]
+    }
+}

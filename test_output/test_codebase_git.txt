@@ -1,0 +1,77 @@
+# *************************************************************************** #
+#                                                                             #
+#  test_codebase_git.txt                                  TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Sep 30 2025 17:57 st93642                        TT    SSSSSSS II #
+#  Updated: Sep 30 2025 17:57 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+# *************************************************************************** #
+# Git Configuration Files
+# This file contains example Git configuration patterns
+
+# .gitignore example
+# Compiled binaries and build outputs
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+
+# Build directories
+build/
+dist/
+out/
+target/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# .gitattributes example
+# Set the default behavior, in case people don't have core.autocrlf set
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout
+*.c text
+*.h text
+
+# Declare files that will always have CRLF line endings on checkout
+*.sln text eol=crlf
+
+# Denote all files that are truly binary and should not be modified
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.flv binary
+*.fla binary
+*.swf binary
+*.gz binary
+*.zip binary
+*.7z binary
+*.ttf binary
+*.eot binary
+*.woff binary
+*.pyc binary
+*.pdf binary

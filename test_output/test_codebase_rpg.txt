@@ -1,0 +1,173 @@
+// ************************************************************************* //
+//                                                                           //
+//  test_codebase_rpg.txt                                TTTTTTTT SSSSSSS II //
+//                                                          TT    SS      II //
+//  By: st93642@students.tsi.lv                             TT    SSSSSSS II //
+//                                                          TT         SS II //
+//  Created: Sep 30 2025 17:57 st93642                      TT    SSSSSSS II //
+//  Updated: Sep 30 2025 17:57 st93642                                       //
+//                                                                           //
+//   Transport and Telecommunication Institute - Riga, Latvia                //
+//                       https://tsi.lv                                      //
+// ************************************************************************* //
+
+// Basic RPG program (RPG IV Free-form)
+// Note: RPG is IBM's Report Program Generator used on IBM i systems
+
+// Control specifications
+ctl-opt main(main);
+
+// Main procedure
+dcl-proc main;
+  dcl-pi *n;
+  end-pi;
+
+  // Display messages
+  dsply 'Hello, World!';
+  dsply 'This is a basic RPG program.';
+
+  // Example with variables
+  dcl-s message varchar(50) inz('Welcome to TSI!');
+  dsply message;
+
+  return;
+end-proc;
+
+// Alternative traditional fixed-format RPG (commented)
+//      * Basic RPG program (Traditional fixed-format)
+//      *
+//     H MAIN(main)
+//      *
+//     D message         S             50A   INZ('Hello, World!')
+//     D program         S             50A   INZ('This is a basic RPG program.')
+//      *
+//     C                   DSPLY                     message
+//     C                   DSPLY                     program
+//     C                   SETON                                        LR
+//      *
+//      * Example subroutine
+//     C     *ENTRY        PLIST
+//     C                   PARM                    input           50
+//     C                   DSPLY                   input
+//     C                   SETON                                        RT
+
+// Example with data structures
+// dcl-ds person qualified;
+//   name varchar(50);
+//   age packed(3:0);
+//   department varchar(20);
+// end-ds;
+
+// Example procedure with parameters
+// dcl-proc greetUser;
+//   dcl-pi *n;
+//     userName varchar(50) const;
+//   end-pi;
+
+//   dcl-s greeting varchar(100);
+
+//   greeting = 'Hello, ' + %trim(userName) + '! Welcome to TSI.';
+//   dsply greeting;
+
+//   return;
+// end-proc;
+
+// Example with file operations
+// dcl-f customer disk usage(*input);
+// dcl-ds customerRec likerec(customerR);
+
+// Example SQLRPGLE (embedded SQL)
+// exec-sql
+//   select count(*) into :recordCount
+//   from customer
+//   where status = 'ACTIVE';
+// end-exec;
+
+// dsply ('Active customers: ' + %char(recordCount));
+
+// Example with indicators and conditional logic
+// dcl-s errorFound ind;
+// dcl-s recordCount packed(5:0);
+
+// exec-sql
+//   select count(*) into :recordCount
+//   from customer
+//   where status = 'ACTIVE';
+// end-exec;
+
+// if sqlcod < 0;
+//   errorFound = *on;
+//   dsply 'Database error occurred';
+// else;
+//   dsply ('Active customers: ' + %char(recordCount));
+// endif;
+
+// Example with arrays
+// dcl-s departments varchar(20) dim(5);
+// dcl-s i packed(2:0);
+
+// departments(1) = 'IT';
+// departments(2) = 'HR';
+// departments(3) = 'FINANCE';
+// departments(4) = 'SALES';
+// departments(5) = 'MARKETING';
+
+// for i = 1 to %elem(departments);
+//   dsply ('Department: ' + departments(i));
+// endfor;
+
+// Example with subprocedures
+// dcl-proc calculateTotal;
+//   dcl-pi *n packed(9:2);
+//     quantity packed(5:0) const;
+//     price packed(7:2) const;
+//   end-pi;
+
+//   dcl-s total packed(9:2);
+
+//   total = quantity * price;
+//   return total;
+// end-proc;
+
+// Example usage
+// dcl-s orderTotal packed(9:2);
+// orderTotal = calculateTotal(5: 29.99);
+// dsply ('Order total: $' + %char(orderTotal));
+
+// Example with date operations
+// dcl-s currentDate date inz(*sys);
+// dcl-s formattedDate varchar(10);
+
+// formattedDate = %char(currentDate: *usa);
+// dsply ('Current date: ' + formattedDate);
+
+// Example with error handling
+// monitor;
+//   // Code that might fail
+//   exec-sql
+//     update customer set status = 'INACTIVE'
+//     where customer_id = :custId;
+//   end-exec;
+// on-error;
+//   dsply 'Error updating customer record';
+// endmon;
+
+// Example with constants
+// dcl-c MAX_RECORDS 1000;
+// dcl-c COMPANY_NAME 'Transport and Telecommunication Institute';
+// dcl-c VERSION '1.0';
+
+// dsply (COMPANY_NAME + ' - Version ' + VERSION);
+
+// Example with prototypes (external procedure calls)
+// dcl-pr getCustomerInfo extpgm('CUSTINFO');
+//   customerId packed(7:0) const;
+//   customerName varchar(50);
+//   customerStatus varchar(10);
+// end-pr;
+
+// Example call
+// dcl-s custName varchar(50);
+// dcl-s custStatus varchar(10);
+// getCustomerInfo(12345: custName: custStatus);
+// dsply ('Customer: ' + custName + ' Status: ' + custStatus);

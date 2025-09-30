@@ -1,0 +1,87 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  test_class_csharp.txt                                TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Sep 30 2025 17:57 st93642                      TT    SSSSSSS II */
+/*  Updated: Sep 30 2025 17:57 st93642                                       */
+/*                                                                           */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
+/*****************************************************************************/
+
+using System;
+
+namespace TestClassNamespace
+{
+    public class TestClass
+    {
+        // Private fields
+        private string name;
+        private int id;
+
+        // Default constructor
+        public TestClass()
+        {
+            this.name = "";
+            this.id = 0;
+        }
+
+        // Parameterized constructor
+        public TestClass(string name, int id)
+        {
+            this.name = name;
+            this.id = id;
+        }
+
+        // Copy constructor
+        public TestClass(TestClass other)
+        {
+            this.name = other.name;
+            this.id = other.id;
+        }
+
+        // Properties
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        // Override ToString method
+        public override string ToString()
+        {
+            return $"TestClass{{Name='{name}', Id={id}}}";
+        }
+
+        // Override Equals method
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            TestClass other = (TestClass)obj;
+            return name == other.name && id == other.id;
+        }
+
+        // Override GetHashCode method
+        public override int GetHashCode()
+        {
+            return name.GetHashCode() * 31 + id;
+        }
+
+        // Display method
+        public void Display()
+        {
+            Console.WriteLine(ToString());
+        }
+    }
+}
