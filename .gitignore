@@ -1,44 +1,14 @@
-# VS Code Extension Files
-out/
-*.vsix
+# TSI Header Extension Generated .gitignore
+# Transport and Telecommunication Institute
 
-# Node.js (if accidentally added)
-node_modules/
-package-lock.json
-npm-debug.log*
-
-# Personal Development Notes
-NEXT_STEPS.md
-DEVELOPMENT_NOTES.md
-TODO.md
-TODO_*.md
-todo.md
-todo_*.md
-TODOS.md
-todos.md
-CONVERSATION_SUMMARY.md
-VISUAL_STUDIO_PLAN.md
-FUTURE_ROADMAP.md
-CODE_GENERATION_PLAN.md
-
-# Ruby
-*.gem
-*.rbc
-/.config
-/coverage/
-/InstalledFiles
-/pkg/
-/spec/reports/
-/spec/examples.txt
-/test/tmp/
-/test/version_tmp/
-/tmp/
-
-# IDE/Editor files
+# IDE and Editor files
 .vscode/settings.json
+.vscode/launch.json
 .idea/
 *.swp
 *.swo
+*.tmp
+*.temp
 
 # OS generated files
 .DS_Store
@@ -50,11 +20,189 @@ ehthumbs.db
 Thumbs.db
 
 # Debug files
-debug_*.rb
-test_*.rb
+debug_*
 *.log
+*.out
 
 # Temporary files
-*.tmp
-*.temp
-.github/copilot-instructions.md
+*.bak
+*.orig
+*.rej
+
+# Node.js specific
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Bower dependency directory (https://bower.io/)
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# Temporary folders
+tmp/
+temp/
+
+# Ruby specific
+# Bundler
+.bundle/
+vendor/bundle/
+
+# RubyGems
+.gem
+gemfiles/
+
+# RVM and rbenv
+.rvmrc
+.rbenv-version
+.ruby-version
+
+# Rails
+config/database.yml
+config/secrets.yml
+config/application.yml
+
+# Coverage reports
+coverage/
+*.lcov
+
+# RSpec
+.rspec
+spec/examples.txt
+
+# YARD documentation
+.yardoc/
+doc/
+
+# RuboCop
+.rubocop.yml
+.rubocop-https---
+
+# Solargraph
+.solargraph.yml
+
+# Gem packaging
+.gem
+pkg/
+
+# Zeus
+.zeus.sock
+
+# Spring
+spring.rb
+
+# Byebug
+.byebug_history
+
+# Ruby server
+server.pid
+
+# Test output and temporary files
+test_output/
+temp_test_files/
+
+# VS Code extension specific
+*.vsix
+
+# Build artifacts
+build/
+dist/
+out/
+
+# Extension development
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/settings.json
+
+# Local development
+local/
+dev/

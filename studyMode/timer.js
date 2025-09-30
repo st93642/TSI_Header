@@ -19,8 +19,10 @@ class StudyModeTimer {
         this.currentPhase = 'stopped'; // 'stopped', 'work', 'shortBreak', 'longBreak'
         this.currentSession = 0;
         this.isRunning = false;
-        this.startTime = null;
+        this.startTime = null; // Wall clock time for persistence
+        this.startHrtime = null; // Monotonic time for accurate timing
         this.pausedTime = null;
+        this.pausedHrtime = null; // Monotonic time when paused
         this.remainingTime = 0;
 
         // Session logging
@@ -29,7 +31,7 @@ class StudyModeTimer {
         // Status bar item
         this.statusBarItem = null;
         if (vscode && vscode.window && vscode.window.createStatusBarItem) {
-            this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+            this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
             this.statusBarItem.command = 'tsiheader.pauseStudyTimer';
             this.context.subscriptions.push(this.statusBarItem);
         }
@@ -43,11 +45,13 @@ class StudyModeTimer {
             this.currentPhase = 'work';
             this.currentSession = 0;
             this.startTime = Date.now();
+            this.startHrtime = process.hrtime.bigint();
             this.remainingTime = this.workDuration;
         }
 
         this.isRunning = true;
         this.pausedTime = null;
+        this.pausedHrtime = null;
         this.startTimerInterval();
         this.updateStatusBar();
         this.notifyStateChange();
@@ -59,6 +63,7 @@ class StudyModeTimer {
             this.remainingTime = this.getRemainingTime();
             this.isRunning = false;
             this.pausedTime = Date.now();
+            this.pausedHrtime = process.hrtime.bigint();
             this.clearTimerInterval();
             this.updateStatusBar();
             this.notifyStateChange();
@@ -67,15 +72,16 @@ class StudyModeTimer {
 
     resume() {
         if (!this.isRunning && this.currentPhase !== 'stopped') {
-            // If pausedTime exists (normal pause/resume), adjust startTime for paused duration
-            if (this.pausedTime) {
-                const pausedDuration = Date.now() - this.pausedTime;
-                this.startTime += pausedDuration;
-                this.pausedTime = null;
+            // If pausedHrtime exists (normal pause/resume), adjust startHrtime for paused duration
+            if (this.pausedHrtime && this.startHrtime) {
+                const pausedDuration = process.hrtime.bigint() - this.pausedHrtime;
+                this.startHrtime += pausedDuration;
+                this.pausedHrtime = null;
             }
-            // For timers loaded from persistence, startTime is already correctly set
+            // For timers loaded from persistence, startHrtime is already correctly set
 
             this.isRunning = true;
+            this.pausedTime = null;
             this.startTimerInterval();
             this.updateStatusBar();
             this.notifyStateChange();
@@ -95,7 +101,9 @@ class StudyModeTimer {
         this.currentSession = 0;
         this.isRunning = false;
         this.startTime = null;
+        this.startHrtime = null;
         this.pausedTime = null;
+        this.pausedHrtime = null;
         this.remainingTime = 0;
     }
 
@@ -116,7 +124,7 @@ class StudyModeTimer {
     tick() {
         if (!this.isRunning) return;
 
-        const elapsed = Date.now() - this.startTime;
+        const elapsed = Number(process.hrtime.bigint() - this.startHrtime) / 1e6; // Convert to milliseconds
         this.remainingTime = Math.max(0, this.getCurrentDuration() - elapsed);
 
         if (this.remainingTime <= 0) {
@@ -147,6 +155,7 @@ class StudyModeTimer {
         }
 
         this.startTime = Date.now();
+        this.startHrtime = process.hrtime.bigint();
         this.remainingTime = this.getCurrentDuration();
         
         // For break phases, pause timer immediately, then play audio signal and show popup
@@ -185,9 +194,9 @@ class StudyModeTimer {
     }
 
     getRemainingTime() {
-        if (!this.isRunning || !this.startTime) return 0;
+        if (!this.isRunning || !this.startHrtime) return 0;
 
-        const elapsed = Date.now() - this.startTime;
+        const elapsed = Number(process.hrtime.bigint() - this.startHrtime) / 1e6; // Convert to milliseconds
         return Math.max(0, this.getCurrentDuration() - elapsed);
     }
 
@@ -302,6 +311,7 @@ class StudyModeTimer {
     startBreak() {
         // Start the break timer from now (when user chooses Take Break)
         this.startTime = Date.now();
+        this.startHrtime = process.hrtime.bigint();
         this.remainingTime = this.getCurrentDuration();
         this.isRunning = true;
         this.startTimerInterval();
@@ -314,6 +324,7 @@ class StudyModeTimer {
         // Skip the break and immediately start the next work session
         this.currentPhase = 'work';
         this.startTime = Date.now();
+        this.startHrtime = process.hrtime.bigint();
         this.remainingTime = this.getCurrentDuration();
         this.isRunning = true;
         this.startTimerInterval();
@@ -361,6 +372,7 @@ class StudyModeTimer {
     startWork() {
         // Start the work timer from now (when user chooses Start Work)
         this.startTime = Date.now();
+        this.startHrtime = process.hrtime.bigint();
         this.remainingTime = this.getCurrentDuration();
         this.isRunning = true;
         this.startTimerInterval();
@@ -373,6 +385,7 @@ class StudyModeTimer {
         // Take additional break time
         this.currentPhase = this.currentPhase === 'longBreak' ? 'longBreak' : 'shortBreak';
         this.startTime = Date.now();
+        this.startHrtime = process.hrtime.bigint();
         this.remainingTime = this.getCurrentDuration();
         this.isRunning = true;
         this.startTimerInterval();

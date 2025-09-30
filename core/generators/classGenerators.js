@@ -128,9 +128,9 @@ function generateJavaClass(className) {
  * Generates C++ class code (creates separate .hpp and .cpp files)
  */
 function generateCppClass(className, fileName, extensionPath, cliPath, env) {
-    const vscode = require('vscode');
     const path = require('path');
     const { execSync } = require('child_process');
+    const fs = require('fs');
 
     const currentDir = path.dirname(fileName);
     const headerFileName = `${className}.hpp`;
@@ -139,7 +139,6 @@ function generateCppClass(className, fileName, extensionPath, cliPath, env) {
     const implFilePath = path.join(currentDir, implFileName);
 
     // Check if files already exist
-    const fs = require('fs');
     if (fs.existsSync(headerFilePath)) {
         return { success: false, message: `File '${headerFileName}' already exists. Please choose a different class name or delete the existing file.` };
     }

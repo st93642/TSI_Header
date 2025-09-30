@@ -318,19 +318,25 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
                     if (persistedState.isRunning) {
                         // Timer was running when saved - calculate how much time is left
                         this.timer.remainingTime = Math.max(0, currentDuration - timeSinceStart);
+                        // Set up hrtime for monotonic timing - recalculate based on current time
+                        this.timer.startHrtime = process.hrtime.bigint() - BigInt(Math.floor(timeSinceStart * 1e6)); // Convert ms to ns
                         // Keep the original startTime so the timer continues correctly
                         // Don't modify startTime for running timers
                     } else {
                         // Timer was paused when saved - use the saved remaining time
                         this.timer.remainingTime = persistedState.remainingTime || 0;
-                        // For paused timers, set startTime so that when resumed, it starts fresh from now
+                        // For paused timers, set startTime and hrtime so that when resumed, it starts fresh from now
                         // This ensures resume() works correctly without time jumping
                         this.timer.startTime = Date.now();
+                        this.timer.startHrtime = process.hrtime.bigint();
                         // Set pausedTime to indicate this timer was paused before restart
                         this.timer.pausedTime = Date.now();
+                        this.timer.pausedHrtime = process.hrtime.bigint();
                     }
                 } else {
                     this.timer.remainingTime = 0;
+                    this.timer.startHrtime = null;
+                    this.timer.pausedHrtime = null;
                 }
 
                 this.timer.sessionLog = persistedState.sessionLog || [];
@@ -439,7 +445,9 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
             this.timer.currentPhase = 'stopped';
             this.timer.isRunning = false;
             this.timer.startTime = null;
+            this.timer.startHrtime = null;
             this.timer.pausedTime = null;
+            this.timer.pausedHrtime = null;
             this.timer.remainingTime = 0;
 
             // Clear persisted state

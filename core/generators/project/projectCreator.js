@@ -167,35 +167,35 @@ async function selectWorkspaceLocation() {
 /**
  * Create complete project structure
  */
-async function createProjectStructure(language, projectName, workspaceUri) {
-    const projectUri = vscode.Uri.joinPath(workspaceUri, projectName);
+async function createProjectStructure(language, projectName, workspaceUri, vscodeInstance = vscode) {
+    const projectUri = vscodeInstance.Uri.joinPath(workspaceUri, projectName);
     
     // Create base directories
     const directories = getDirectoryStructure(language);
     for (const dir of directories) {
-        const dirUri = vscode.Uri.joinPath(projectUri, dir);
-        await vscode.workspace.fs.createDirectory(dirUri);
+        const dirUri = vscodeInstance.Uri.joinPath(projectUri, dir);
+        await vscodeInstance.workspace.fs.createDirectory(dirUri);
     }
     
     // Generate main source file
-    await createMainSourceFile(language, projectName, projectUri, vscode);
+    await createMainSourceFile(language, projectName, projectUri, vscodeInstance);
     
     // Create header file (for C/C++)
     if (language === 'c' || language === 'cpp') {
-        await createHeaderFile(language, projectName, projectUri, vscode);
+        await createHeaderFile(language, projectName, projectUri, vscodeInstance);
     }
     
     // Create language-specific project files
-    await createLanguageSpecificFiles(language, projectName, projectUri, vscode);
+    await createLanguageSpecificFiles(language, projectName, projectUri, vscodeInstance);
     
     // Create build system files
-    await createBuildFiles(language, projectName, projectUri);
+    await createBuildFiles(language, projectName, projectUri, vscodeInstance);
     
     // Create documentation
-    await createDocumentationFiles(language, projectName, projectUri, vscode);
+    await createDocumentationFiles(language, projectName, projectUri, vscodeInstance);
     
     // Create .gitignore
-    await createGitIgnoreFile(language, projectUri, vscode);
+    await createGitIgnoreFile(language, projectUri, vscodeInstance);
 }
 
 /**
@@ -226,7 +226,7 @@ function getDirectoryStructure(language) {
 /**
  * Create main source file with TSI header and code
  */
-async function createMainSourceFile(language, projectName, projectUri, vscode) {
+async function createMainSourceFile(language, projectName, projectUri, vscodeInstance = vscode) {
     const extension = getFileExtension(language);
     let fileName = `main.${extension}`;
     let fileUri;
@@ -234,17 +234,17 @@ async function createMainSourceFile(language, projectName, projectUri, vscode) {
     if (language === 'java') {
         // For Java, create Main.java in the proper package structure
         fileName = 'Main.java';
-        fileUri = vscode.Uri.joinPath(projectUri, 'src', 'main', 'java', fileName);
+        fileUri = vscodeInstance.Uri.joinPath(projectUri, 'src', 'main', 'java', fileName);
     } else if (language === 'php') {
         // For PHP, create index.php in the public directory
         fileName = 'index.php';
-        fileUri = vscode.Uri.joinPath(projectUri, 'public', fileName);
+        fileUri = vscodeInstance.Uri.joinPath(projectUri, 'public', fileName);
     } else {
-        fileUri = vscode.Uri.joinPath(projectUri, 'src', fileName);
+        fileUri = vscodeInstance.Uri.joinPath(projectUri, 'src', fileName);
     }
     
     // Generate TSI header (we'll call the Ruby CLI)
-    const headerContent = await generateTSIHeaderContent(fileName, vscode);
+    const headerContent = await generateTSIHeaderContent(fileName, vscodeInstance);
     
     // Generate code base using existing API
     const codeResult = generateCodeBase(language, fileName);
@@ -255,19 +255,19 @@ async function createMainSourceFile(language, projectName, projectUri, vscode) {
     
     // Write to file
     const encoder = new TextEncoder();
-    await vscode.workspace.fs.writeFile(fileUri, encoder.encode(fullContent));
+    await vscodeInstance.workspace.fs.writeFile(fileUri, encoder.encode(fullContent));
 }
 
 /**
  * Create header file for C/C++
  */
-async function createHeaderFile(language, projectName, projectUri, vscode) {
+async function createHeaderFile(language, projectName, projectUri, vscodeInstance = vscode) {
     const extension = language === 'c' ? 'h' : 'hpp';
     const fileName = `${projectName}.${extension}`;
-    const fileUri = vscode.Uri.joinPath(projectUri, 'include', fileName);
+    const fileUri = vscodeInstance.Uri.joinPath(projectUri, 'include', fileName);
     
     // Generate TSI header
-    const headerContent = await generateTSIHeaderContent(fileName, vscode);
+    const headerContent = await generateTSIHeaderContent(fileName, vscodeInstance);
     
     // Generate header guard
     const guardName = `${projectName.toUpperCase().replace(/-/g, '_')}_${extension.toUpperCase()}`;
@@ -291,7 +291,7 @@ extern "C" {
 `;
     
     const encoder = new TextEncoder();
-    await vscode.workspace.fs.writeFile(fileUri, encoder.encode(content));
+    await vscodeInstance.workspace.fs.writeFile(fileUri, encoder.encode(content));
 }
 
 
@@ -310,5 +310,6 @@ function getFileExtension(language) {
 }
 
 module.exports = {
-    createTSIProject
+    createTSIProject,
+    createProjectStructure
 };
