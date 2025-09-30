@@ -1182,6 +1182,11 @@ function createMockVSCode() {
             }),
             executeCommand: (command, ...args) => Promise.resolve()
         },
+        extensions: {
+            getExtension: (id) => ({
+                extensionPath: EXTENSION_PATH
+            })
+        },
         window: {
             showInformationMessage: (message, ...options) => Promise.resolve(),
             showErrorMessage: (message, ...options) => Promise.resolve(),
@@ -1448,8 +1453,10 @@ async function createTestProjectStructure(language, projectName, projectUri) {
         await vscode.workspace.fs.createDirectory(dirUri);
     }
 
-    // Generate main source file
-    await createTestMainSourceFile(language, projectName, projectUri);
+    // Generate main source file (skip for HTML as it's handled by language-specific creator)
+    if (language !== 'html') {
+        await createTestMainSourceFile(language, projectName, projectUri);
+    }
 
     // Create header file (for C/C++)
     if (language === 'c' || language === 'cpp') {
@@ -1459,14 +1466,20 @@ async function createTestProjectStructure(language, projectName, projectUri) {
     // Create language-specific project files
     await createTestLanguageSpecificFiles(language, projectName, projectUri);
 
-    // Create build files (Makefiles, etc.)
-    await createTestBuildFiles(language, projectName, projectUri);
+    // Create build files (Makefiles, etc.) - skip for HTML
+    if (language !== 'html') {
+        await createTestBuildFiles(language, projectName, projectUri);
+    }
 
-    // Create documentation files (README.md)
-    await createTestDocumentationFiles(language, projectName, projectUri);
+    // Create documentation files (README.md) - skip for HTML
+    if (language !== 'html') {
+        await createTestDocumentationFiles(language, projectName, projectUri);
+    }
 
-    // Create gitignore files (.gitignore)
-    await createTestGitIgnoreFiles(language, projectName, projectUri);
+    // Create gitignore files (.gitignore) - skip for HTML
+    if (language !== 'html') {
+        await createTestGitIgnoreFiles(language, projectName, projectUri);
+    }
 }
 
 /**
@@ -1487,6 +1500,8 @@ function getDirectoryStructure(language) {
         return [...commonDirs, 'lib', 'spec', 'bin', 'config'];
     } else if (language === 'php') {
         return [...commonDirs, 'src', 'public', 'tests'];
+    } else if (language === 'html') {
+        return ['css', 'js', 'assets'];
     }
 
     return commonDirs;
@@ -1506,6 +1521,9 @@ async function createTestMainSourceFile(language, projectName, projectUri) {
     } else if (language === 'php') {
         fileName = 'index.php';
         fileUri = vscode.Uri.joinPath(projectUri, 'public', fileName);
+    } else if (language === 'html') {
+        fileName = 'index.html';
+        fileUri = vscode.Uri.joinPath(projectUri, fileName);
     } else {
         fileUri = vscode.Uri.joinPath(projectUri, 'src', fileName);
     }
@@ -1513,9 +1531,12 @@ async function createTestMainSourceFile(language, projectName, projectUri) {
     // Generate TSI header
     const headerContent = await generateTestTSIHeaderContent(fileName);
 
-    // Generate code base using existing API
-    const codeResult = generateCodeBase(language, fileName);
-    const codeContent = codeResult.success ? codeResult.content : '';
+    // Generate code base using existing API (skip for HTML)
+    let codeContent = '';
+    if (language !== 'html') {
+        const codeResult = generateCodeBase(language, fileName);
+        codeContent = codeResult.success ? codeResult.content : '';
+    }
 
     // Combine header and code
     const fullContent = headerContent + '\n' + codeContent;
@@ -1610,7 +1631,8 @@ function getFileExtension(language) {
         'java': 'java',
         'rust': 'rs',
         'ruby': 'rb',
-        'php': 'php'
+        'php': 'php',
+        'html': 'html'
     };
     return extensions[language] || 'txt';
 }
@@ -1737,6 +1759,18 @@ function getExpectedFiles(language, projectName) {
             'README.md',
             '.gitignore'
         );
+    } else if (language === 'html') {
+        files.push(
+            'index.html',
+            'css/styles.css',
+            'js/script.js',
+            'package.json',
+            'README.md',
+            '.gitignore',
+            'webpack.config.js',
+            '.eslintrc.js',
+            '.prettierrc'
+        );
     }
 
     return files;
@@ -1760,7 +1794,7 @@ async function verifyFileContents(language, projectPath, projectName) {
         // Check for TSI header (except for certain files)
         const skipFiles = ['composer.json', 'Cargo.toml', 'requirements.txt',
             'Gemfile', 'Makefile', 'pom.xml', 'build.gradle',
-            'README.md', '.gitignore'];
+            'README.md', '.gitignore', 'package.json', '.prettierrc'];
         const skipHeaderCheck = skipFiles.some(skipFile =>
             file.endsWith(skipFile)
         );
@@ -2039,7 +2073,7 @@ async function runAllTests() {
 
     // Test project scaffolding
     console.log('\n🏗️  Testing Project Scaffolding...');
-    const languages = ['c', 'cpp', 'python', 'java', 'rust', 'ruby', 'php'];
+    const languages = ['c', 'cpp', 'python', 'java', 'rust', 'ruby', 'php', 'html'];
     const projectProgress = new ProgressBar(languages.length + 1);
 
     // First test header generation
