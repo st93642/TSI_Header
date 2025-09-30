@@ -151,6 +151,11 @@ class TSIProjectDataProvider {
                     command: 'tsiheader.createPhpProject',
                     title: 'Create PHP TSI Project',
                     tooltip: 'Create PHP project with TSI headers and BaseClass'
+                }),
+                new TSITreeItem('HTML Project', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.createHtmlProject',
+                    title: 'Create HTML TSI Project',
+                    tooltip: 'Create HTML project with TSI headers and modern web tools'
                 })
             ]);
         }
@@ -201,6 +206,8 @@ class TSITreeItem extends vscode.TreeItem {
         } else if (label.includes('Ruby')) {
             this.iconPath = new vscode.ThemeIcon('ruby');
         } else if (label.includes('PHP')) {
+            this.iconPath = new vscode.ThemeIcon('globe');
+        } else if (label.includes('HTML')) {
             this.iconPath = new vscode.ThemeIcon('globe');
         } else if (command?.command === 'tsiheader.startStudySession') {
             this.iconPath = new vscode.ThemeIcon('play');

@@ -114,6 +114,9 @@ class TSIHeaderManager {
             else if (ext === '.rb') language = 'ruby';
             else if (ext === '.py') language = 'python';
             else if (ext === '.php') language = 'php';
+            else if (ext === '.html') language = 'html';
+            else if (ext === '.css') language = 'css';
+            else if (ext === '.js') language = 'javascript';
 
             // Execute Ruby CLI
             const command = `ruby "${this.cliPath}" insert "${language}" "${tempFile}"`;
@@ -347,7 +350,8 @@ extern "C" {
             'java': 'java',
             'rust': 'rs',
             'ruby': 'rb',
-            'php': 'php'
+            'php': 'php',
+            'html': 'html'
         };
         return extensions[language] || 'txt';
     }

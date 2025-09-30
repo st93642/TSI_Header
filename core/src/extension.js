@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 29 2025 10:25 st93642                                       */
+/*  Updated: Sep 30 2025 15:17 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -735,6 +735,8 @@ function activate(context) {
             return [...commonDirs, 'lib', 'spec', 'bin', 'config'];
         } else if (language === 'php') {
             return [...commonDirs, 'src', 'public', 'tests'];
+        } else if (language === 'html') {
+            return [...commonDirs, 'src', 'assets', 'css', 'js'];
         }
         
         return commonDirs;
@@ -850,7 +852,8 @@ extern "C" {
             'java': 'java',
             'rust': 'rs',
             'ruby': 'rb',
-            'php': 'php'
+            'php': 'php',
+            'html': 'html'
         };
         return extensions[language] || 'txt';
     }
@@ -867,6 +870,7 @@ extern "C" {
     const createRustProjectCommand = vscode.commands.registerCommand('tsiheader.createRustProject', (uri) => createLanguageSpecificProject('rust', uri));
     const createRubyProjectCommand = vscode.commands.registerCommand('tsiheader.createRubyProject', (uri) => createLanguageSpecificProject('ruby', uri));
     const createPhpProjectCommand = vscode.commands.registerCommand('tsiheader.createPhpProject', (uri) => createLanguageSpecificProject('php', uri));
+    const createHtmlProjectCommand = vscode.commands.registerCommand('tsiheader.createHtmlProject', (uri) => createLanguageSpecificProject('html', uri));
 
     context.subscriptions.push(createCProjectCommand);
     context.subscriptions.push(createCppProjectCommand);
@@ -875,6 +879,7 @@ extern "C" {
     context.subscriptions.push(createRustProjectCommand);
     context.subscriptions.push(createRubyProjectCommand);
     context.subscriptions.push(createPhpProjectCommand);
+    context.subscriptions.push(createHtmlProjectCommand);
 
     // Register TSI Tree View Providers
     const tsiCommandsProvider = new TSITreeDataProvider();

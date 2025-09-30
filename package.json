@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
   "description": "Code generation and headers for 120+ languages with 100% quality assurance",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -194,6 +194,12 @@
         "icon": "$(globe)"
       },
       {
+        "command": "tsiheader.createHtmlProject",
+        "title": "Create HTML TSI Project",
+        "category": "TSI Header",
+        "icon": "$(globe)"
+      },
+      {
         "command": "tsiheader.startStudySession",
         "title": "Start Study Session",
         "category": "Study Mode",
@@ -342,7 +348,86 @@
           "group": "2_study"
         }
       ]
-    }
+    },
+    "view/title:tsi-commands": [
+      {
+        "command": "tsiheader.insertHeader",
+        "when": "view == tsi-commands",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.updateHeader",
+        "when": "view == tsi-commands",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.removeHeader",
+        "when": "view == tsi-commands",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.addClass",
+        "when": "view == tsi-commands",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.addCodeBase",
+        "when": "view == tsi-commands",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.refreshCommands",
+        "when": "view == tsi-commands",
+        "group": "navigation"
+      }
+    ],
+    "view/title:tsi-projects": [
+      {
+        "command": "tsiheader.createCProject",
+        "when": "view == tsi-projects",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.createCppProject",
+        "when": "view == tsi-projects",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.createPythonProject",
+        "when": "view == tsi-projects",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.createJavaProject",
+        "when": "view == tsi-projects",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.createRustProject",
+        "when": "view == tsi-projects",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.createRubyProject",
+        "when": "view == tsi-projects",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.createPhpProject",
+        "when": "view == tsi-projects",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.createHtmlProject",
+        "when": "view == tsi-projects",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.refreshProjects",
+        "when": "view == tsi-projects",
+        "group": "navigation"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

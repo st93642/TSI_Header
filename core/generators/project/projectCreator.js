@@ -106,6 +106,12 @@ async function showLanguageQuickPick() {
             description: 'Server-side web development',
             detail: 'Creates: index.php, classes, composer.json, documentation',
             value: 'php'
+        },
+        {
+            label: '$(globe) HTML Project',
+            description: 'Modern web development with HTML/CSS/JavaScript',
+            detail: 'Creates: index.html, styles.css, script.js, webpack, documentation',
+            value: 'html'
         }
     ];
 
@@ -210,6 +216,8 @@ function getDirectoryStructure(language) {
         return [...commonDirs, 'lib', 'spec', 'bin', 'config'];
     } else if (language === 'php') {
         return [...commonDirs, 'src', 'public', 'tests'];
+    } else if (language === 'html') {
+        return [...commonDirs, 'src', 'assets', 'css', 'js'];
     }
     
     return commonDirs;
@@ -295,7 +303,8 @@ function getFileExtension(language) {
         'java': 'java',
         'rust': 'rs',
         'ruby': 'rb',
-        'php': 'php'
+        'php': 'php',
+        'html': 'html'
     };
     return extensions[language] || 'txt';
 }

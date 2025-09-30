@@ -20,6 +20,12 @@ async function generateTSIHeaderContent(fileName, vscode) {
         const tempDir = os.tmpdir();
         const tempFile = path.join(tempDir, fileName);
 
+        // Ensure the directory exists
+        const tempFileDir = path.dirname(tempFile);
+        if (!fs.existsSync(tempFileDir)) {
+            fs.mkdirSync(tempFileDir, { recursive: true });
+        }
+
         // Write a dummy file content
         fs.writeFileSync(tempFile, '// Temporary file for header generation\n');
 
@@ -65,6 +71,16 @@ async function generateTSIHeaderContent(fileName, vscode) {
         else if (ext === '.rb') language = 'ruby';
         else if (ext === '.py') language = 'python';
         else if (ext === '.php') language = 'php';
+        else if (ext === '.html') language = 'html';
+        else if (ext === '.css') language = 'css';
+        else if (ext === '.js') language = 'javascript';
+        else if (ext === '.ts') language = 'typescript';
+        else if (ext === '.json') language = 'json';
+        else if (ext === '.md') language = 'markdown';
+        else if (ext === '.yml' || ext === '.yaml') language = 'yaml';
+        else if (ext === '.xml') language = 'xml';
+        else if (ext === '.sh') language = 'shellscript';
+        else if (ext === '.sql') language = 'sql';
 
         // Execute Ruby CLI
         const command = `ruby "${cliPath}" insert "${language}" "${tempFile}"`;
