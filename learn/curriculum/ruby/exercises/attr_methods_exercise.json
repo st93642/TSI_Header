@@ -1,0 +1,48 @@
+{
+  "id": "attr_methods_exercise",
+  "title": "Attribute Methods Exercise",
+  "difficulty": "beginner",
+  "description": "Practice using attr_reader, attr_writer, and attr_accessor to create proper object interfaces",
+  "tags": ["oop", "attributes", "encapsulation", "beginner"],
+  "starterCode": "# Define a Person class with appropriate attribute accessors\n# Use attr_reader for read-only attributes\n# Use attr_writer for write-only attributes (with validation)\n# Use attr_accessor for read-write attributes\n\nclass Person\n  # Your attribute accessors here\n  \n  def initialize(name, age)\n    @name = name\n    @age = age\n    @email = nil\n    @active = true\n  end\n  \n  # Add any custom methods if needed\nend\n\n# Define a Product class with price validation\nclass Product\n  # Your attribute accessors here\n  \n  def initialize(name, price)\n    @name = name\n    @price = price\n    @in_stock = true\n  end\n  \n  # Add price setter with validation\nend\n",
+  "tests": [
+    {
+      "name": "test_person_read_only_attributes",
+      "call": "test_person_read_only()",
+      "expected": ["Alice", 30]
+    },
+    {
+      "name": "test_person_read_write_attributes",
+      "call": "test_person_read_write()",
+      "expected": "alice@example.com"
+    },
+    {
+      "name": "test_person_write_only_password",
+      "call": "test_person_write_only()",
+      "expected": "secret123"
+    },
+    {
+      "name": "test_product_price_validation",
+      "call": "test_product_price_validation()",
+      "expected": 29.99
+    },
+    {
+      "name": "test_product_price_validation_error",
+      "call": "test_product_price_validation_error()",
+      "expected": "Price must be positive"
+    },
+    {
+      "name": "test_boolean_attribute",
+      "call": "test_boolean_attribute()",
+      "expected": [true, false]
+    }
+  ],
+  "hints": [
+    "Use attr_reader for attributes that should only be readable from outside the class",
+    "Use attr_writer for attributes that need validation or processing when set",
+    "Use attr_accessor for simple read-write attributes that don't need special logic",
+    "For boolean attributes, consider adding a ? to the reader method name",
+    "Custom setters should validate input and raise errors for invalid values",
+    "Remember that attr_writer creates a method ending with ="
+  ]
+}

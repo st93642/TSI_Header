@@ -540,7 +540,7 @@ class Learn {
     
     <div class="solution-container">
         <div class="solution-header">Complete Solution Code:</div>
-        <pre><code>${this.escapeHtml(solution.code).split('\n').map(line => {
+        <pre><code>${solution.code.split('\n').map(line => {
             // Highlight comments in code
             if (line.trim().startsWith('#')) {
                 return `<span class="code-comment">${this.escapeHtml(line)}</span>`;

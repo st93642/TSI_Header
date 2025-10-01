@@ -1,0 +1,48 @@
+{
+  "id": "operator_overloading_exercise",
+  "title": "Lesson 8.4: Operator Overloading",
+  "difficulty": "advanced",
+  "description": "Implement operator overloading for custom classes to create intuitive and expressive APIs",
+  "tags": ["oop", "operators", "overloading", "advanced", "dsl"],
+  "starterCode": "# Implement operator overloading for custom classes\n# Override arithmetic, comparison, and indexing operators\n# Make your classes behave like built-in Ruby types\n\nclass Fraction\n  # Your operator overloads here\nend\n\nclass TimeSpan\n  # Your operator overloads here\nend\n\nclass SparseArray\n  # Your operator overloads here\nend\n",
+  "tests": [
+    {
+      "name": "test_fraction_addition",
+      "call": "test_fraction_add()",
+      "expected": "1/2"
+    },
+    {
+      "name": "test_fraction_equality",
+      "call": "test_fraction_equality()",
+      "expected": true
+    },
+    {
+      "name": "test_timespan_comparison",
+      "call": "test_timespan_compare()",
+      "expected": true
+    },
+    {
+      "name": "test_timespan_addition",
+      "call": "test_timespan_add()",
+      "expected": 3660
+    },
+    {
+      "name": "test_sparse_array_indexing",
+      "call": "test_sparse_array_get()",
+      "expected": 42
+    },
+    {
+      "name": "test_sparse_array_assignment",
+      "call": "test_sparse_array_set()",
+      "expected": 100
+    }
+  ],
+  "hints": [
+    "Override <=> for comparison operators (<, >, <=, >=, ==)",
+    "Arithmetic operators (+, -, *, /) should return new instances",
+    "Use [] and []= for custom indexing behavior",
+    "Check types in operator methods to prevent errors",
+    "Make operators behave intuitively like built-in Ruby types",
+    "Consider commutativity: a + b should equal b + a when possible"
+  ]
+}

@@ -10,7 +10,13 @@
 
 def check_number(num)
   # Use if/elsif/else to check the number
-
+  if num > 0
+    "positive"
+  elsif num < 0
+    "negative"
+  else
+    "zero"
+  end
 end
 
 # 2. Create a method age_group(age) that returns:
@@ -23,7 +29,13 @@ end
 
 def age_group(age)
   # Use if/elsif/else to determine age group
-
+  if age < 13
+    "child"
+  elsif age >= 13 && age <= 17
+    "teen"
+  else
+    "adult"
+  end
 end
 
 # 3. Create a method passing?(score) that returns:
@@ -34,5 +46,5 @@ end
 
 def passing?(score)
   # Use a simple if statement or comparison
-
+  score >= 60
 end

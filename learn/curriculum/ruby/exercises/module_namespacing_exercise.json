@@ -1,0 +1,48 @@
+{
+  "id": "module_namespacing_exercise",
+  "title": "Lesson 8.5: Module Namespacing",
+  "difficulty": "intermediate",
+  "description": "Organize code using modules as namespaces to prevent conflicts and improve code structure",
+  "tags": ["modules", "namespacing", "organization", "architecture", "intermediate"],
+  "starterCode": "# Create a well-organized module namespace structure\n# Use modules to group related classes and prevent naming conflicts\n# Implement both namespacing and mixin functionality\n\nmodule GameEngine\n  # Your module structure here\nend\n\nmodule FileSystem\n  # Your module structure here\nend\n\nmodule WebFramework\n  # Your module structure here\nend\n",
+  "tests": [
+    {
+      "name": "test_game_engine_namespacing",
+      "call": "test_game_engine()",
+      "expected": "Player defeated Enemy with 100 damage"
+    },
+    {
+      "name": "test_filesystem_operations",
+      "call": "test_filesystem()",
+      "expected": "/home/user/documents/file.txt"
+    },
+    {
+      "name": "test_web_framework_routing",
+      "call": "test_web_framework()",
+      "expected": "GET /users -> UsersController#index"
+    },
+    {
+      "name": "test_mixin_functionality",
+      "call": "test_mixin()",
+      "expected": "Validated and saved"
+    },
+    {
+      "name": "test_constants_in_namespace",
+      "call": "test_constants()",
+      "expected": "1.0.0"
+    },
+    {
+      "name": "test_nested_modules",
+      "call": "test_nested()",
+      "expected": "Database connected to production"
+    }
+  ],
+  "hints": [
+    "Use modules to group related classes and constants",
+    "Access namespaced items with :: syntax",
+    "Modules can contain both classes and other modules",
+    "Use include/extend for mixin functionality within namespaces",
+    "Constants in modules are accessed with Module::CONSTANT",
+    "Organize code by domain or functionality"
+  ]
+}

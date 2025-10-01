@@ -80,9 +80,9 @@ class TestLearnModule < TestModule
     end
     
     current += 1
-    run_test_with_progress("Curriculum has 7 modules", total_tests, current) do
+    run_test_with_progress("Curriculum has 8 modules", total_tests, current) do
       count = curriculum ? curriculum['modules'].length : 0
-      { passed: count == 7, message: "Found #{count} modules" }
+      { passed: count == 8, message: "Found #{count} modules" }
     end
     
     # Lesson files tests (4 tests)
@@ -94,8 +94,8 @@ class TestLearnModule < TestModule
     end
     
     current += 1
-    run_test_with_progress("All 29 lessons defined in curriculum", total_tests, current) do
-      { passed: lesson_ids.length == 29, message: "Found #{lesson_ids.length} lessons" }
+    run_test_with_progress("All 34 lessons defined in curriculum", total_tests, current) do
+      { passed: lesson_ids.length == 34, message: "Found #{lesson_ids.length} lessons" }
     end
     
     current += 1

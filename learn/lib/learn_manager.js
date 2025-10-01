@@ -260,19 +260,22 @@ class LearnManager {
             border-radius: 5px;
             overflow-x: auto;
             margin: 15px 0;
-            line-height: 1.5;
+            line-height: 1.0;
+            white-space: pre;
+            font-family: var(--vscode-editor-font-family);
         }
         pre code {
             background-color: transparent;
             padding: 0;
             font-size: 13px;
-            line-height: 1.5;
-            display: block;
+            line-height: 1.0;
             color: var(--vscode-textPreformat-foreground);
+            white-space: pre;
+            font-family: inherit;
         }
         pre code * {
             font-size: 13px !important;
-            line-height: 1.5 !important;
+            line-height: 1.0 !important;
         }
         .code-comment {
             color: var(--vscode-editorLineNumber-foreground);
@@ -361,7 +364,7 @@ class LearnManager {
         
         // Convert code blocks first (before other replacements)
         html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-            // Highlight comments in code blocks
+            // Highlight comments in code blocks and normalize line spacing
             const processedCode = code
                 .split('\n')
                 .map(line => {
@@ -371,7 +374,9 @@ class LearnManager {
                     }
                     return this.escapeHtml(line);
                 })
-                .join('\n');
+                .join('\n')
+                // Normalize line spacing: replace multiple consecutive empty lines with single empty lines
+                .replace(/\n{3,}/g, '\n\n');
             return `<pre><code>${processedCode}</code></pre>`;
         });
         

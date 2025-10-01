@@ -226,6 +226,43 @@
           "difficulty": "advanced"
         }
       ]
+    },
+    {
+      "id": "professional",
+      "title": "Module 8: Professional Ruby",
+      "description": "Advanced Ruby techniques for professional development",
+      "lessons": [
+        {
+          "id": "enumerables_advanced",
+          "title": "Lesson 8.1: Advanced Enumerables",
+          "duration": 75,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "attr_methods",
+          "title": "Lesson 8.2: Attribute Methods",
+          "duration": 60,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "class_instance_methods",
+          "title": "Lesson 8.3: Class vs Instance Methods",
+          "duration": 60,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "operator_overloading",
+          "title": "Lesson 8.4: Operator Overloading",
+          "duration": 75,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "module_namespacing",
+          "title": "Lesson 8.5: Module Namespacing",
+          "duration": 60,
+          "difficulty": "intermediate"
+        }
+      ]
     }
   ],
   "prerequisites": [],

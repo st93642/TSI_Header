@@ -1,0 +1,18 @@
+{
+  "exerciseId": "enumerables_advanced_exercise",
+  "languageId": "ruby",
+  "code": "# Advanced Enumerables Exercise - Solution\n\ndef each_with_index_squares(numbers)\n  result = []\n  numbers.each_with_index do |num, index|\n    result << num ** 2\n  end\n  result\nend\n\ndef reduce_sum_of_squares(numbers)\n  numbers.reduce(0) { |sum, num| sum + (num ** 2) }\nend\n\ndef select_even_numbers(numbers)\n  numbers.select { |num| num.even? }\nend\n\ndef reject_short_words(words)\n  words.reject { |word| word.length < 5 }\nend\n\ndef map_double_values(numbers)\n  numbers.map { |num| num * 2 }\nend\n\ndef group_by_length(words)\n  words.group_by { |word| word.length }\nend\n\ndef sort_by_age(people)\n  people.sort_by { |person| person[\"age\"] }\nend\n\ndef take_top_scores(scores, n)\n  scores.sort_by { |score| -score[\"score\"] }.take(n)\nend\n\ndef partition_even_odd(numbers)\n  numbers.partition { |num| num.even? }\nend\n\ndef zip_names_ages(names, ages)\n  names.zip(ages)\nend\n\ndef method_chaining(numbers)\n  # Chain multiple enumerable methods:\n  # 1. Select even numbers\n  # 2. Square them\n  # 3. Take numbers greater than 10\n  numbers.select(&:even?)\n          .map { |n| n ** 2 }\n          .select { |n| n > 10 }\nend",
+  "explanation": "This solution demonstrates advanced Ruby enumerable methods:\n\n**each_with_index**: Yields both element and index for operations needing position awareness\n\n**reduce/inject**: Accumulates values using an accumulator pattern, perfect for sums and aggregations\n\n**select/reject**: Filter collections based on conditions - select keeps matches, reject removes them\n\n**map/collect**: Transform each element and return a new array with the results\n\n**group_by**: Creates a hash where keys are grouping criteria and values are arrays of matching elements\n\n**sort_by**: More efficient than sort when you have expensive key computations\n\n**take/drop**: take(n) returns first n elements, drop(n) returns all except first n\n\n**partition**: Returns two arrays: [matching, non_matching] - useful for splitting collections\n\n**zip**: Combines multiple arrays element-wise, creating pairs/tuples\n\n**Method chaining**: Combine multiple operations fluently for readable, efficient data processing",
+  "keyPoints": [
+    "each_with_index provides both element and index",
+    "reduce/inject accumulates values with an initial accumulator",
+    "select keeps elements that match the condition",
+    "reject removes elements that match the condition", 
+    "map transforms each element into something new",
+    "group_by creates hash groupings based on criteria",
+    "sort_by is efficient for expensive key computations",
+    "partition splits arrays into two groups",
+    "zip combines arrays element-wise",
+    "Method chaining enables fluent, readable data transformations"
+  ]
+}

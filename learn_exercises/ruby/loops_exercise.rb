@@ -1,16 +1,35 @@
-# Task: Loop practice
+# Loops and Iteration Exercise
 
-# 1. Create a method that returns an array of numbers from 1 to n
+# 1. Create a method count_to(n) that returns an array [1, 2, 3, ..., n]
+#    Example: count_to(5) => [1, 2, 3, 4, 5]
+#    Example: count_to(3) => [1, 2, 3]
+#    Hint: Use (1..n).to_a or build with a loop
+
 def count_to(n)
-  # Your code here
+  # Return array of numbers from 1 to n
+  return (1..n).to_a
 end
 
-# 2. Create a method that returns the sum of all numbers from 1 to n
+# 2. Create a method sum_to(n) that returns sum of 1+2+3+...+n
+#    Example: sum_to(5) => 15 (because 1+2+3+4+5 = 15)
+#    Example: sum_to(3) => 6 (because 1+2+3 = 6)
+#    Hint: Start with sum = 0, then add each number
+
 def sum_to(n)
-  # Your code here
+  # Calculate and return the sum
+  sum = 0
+  for i in 1..n
+    sum += i
+  end
+  return sum
 end
 
-# 3. Create a method that returns an array with each number doubled
+# 3. Create a method double_numbers(arr) that returns new array with doubled values
+#    Example: double_numbers([1, 2, 3]) => [2, 4, 6]
+#    Example: double_numbers([5, 10]) => [10, 20]
+#    Hint: Use .map { |num| num * 2 }
+
 def double_numbers(arr)
-  # Your code here
+  # Return new array with each number doubled
+  return arr.map { |num| num * 2 }
 end
