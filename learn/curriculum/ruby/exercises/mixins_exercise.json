@@ -1,6 +1,6 @@
 {
   "id": "mixins_exercise",
-  "title": "Exercise 5.3: Mixins Exercise",
+  "title": "Mixins and Modules",
   "description": "Practice using modules as mixins with include.",
   "difficulty": "advanced",
   "starterCode": "# Define a Swimmable module with a swim method\n# that returns \"Swimming!\"\n\nmodule Swimmable\n  # Your code here\n\nend\n\n# Define a Flyable module with a fly method\n# that returns \"Flying!\"\n\nmodule Flyable\n  # Your code here\n\nend\n\n# Define a Duck class that includes both modules\n\nclass Duck\n  # Your code here\n\nend\n\n# Define a Fish class that only includes Swimmable\n\nclass Fish\n  # Your code here\n\nend\n",

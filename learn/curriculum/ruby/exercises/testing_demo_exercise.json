@@ -1,0 +1,42 @@
+{
+  "id": "testing_demo_exercise",
+  "title": "Testing System Demo",
+  "description": "Demonstrate the enhanced testing system with output capture, exception testing, and side effect validation",
+  "tags": ["testing", "output-capture", "exceptions", "side-effects", "advanced-testing"],
+  "starterCode": "# Implement the following methods to demonstrate different test types:\n\n# 1. Output test: Write a method that prints a greeting\ndef print_greeting(name)\n  # Your code here - use puts to print \"Hello, #{name}!\"\nend\n\n# 2. Exception test: Write a method that raises an error for invalid input\ndef validate_age(age)\n  # Your code here - raise ArgumentError if age < 0\nend\n\n# 3. Side effect test: Write a method that creates a file\ndef create_log_file(message)\n  # Your code here - write message to 'test.log'\nend\n\n# 4. Regular test: Write a method that returns a calculated value\ndef calculate_total(items)\n  # Your code here - return sum of items array\nend\n",
+  "tests": [
+    {
+      "name": "test_output_capture",
+      "call": "print_greeting('Alice')",
+      "expected": "Hello, Alice!",
+      "type": "output"
+    },
+    {
+      "name": "test_exception_handling",
+      "call": "validate_age(-5)",
+      "expected": "ArgumentError",
+      "type": "exception"
+    },
+    {
+      "name": "test_side_effects",
+      "call": "create_log_file('Test message')",
+      "setup": "# Setup code would go here if needed",
+      "assertion": "File.exist?('test.log') && File.read('test.log').strip == 'Test message'",
+      "type": "side_effect"
+    },
+    {
+      "name": "test_regular_return_value",
+      "call": "calculate_total([1, 2, 3, 4])",
+      "expected": 10
+    }
+  ],
+  "hints": [
+    "For output tests: Use puts, print, or p to display text that gets captured",
+    "For exception tests: Use raise to throw errors that match the expected exception type",
+    "For side effect tests: Perform operations like file creation that can be verified after execution",
+    "Regular tests work the same as before - just return values for comparison",
+    "Each test type serves different purposes in validating your code behavior"
+  ],
+  "difficulty": "advanced",
+  "duration": 45
+}

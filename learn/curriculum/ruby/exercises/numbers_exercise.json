@@ -1,6 +1,6 @@
 {
   "id": "numbers_exercise",
-  "title": "Exercise 1.7: Numbers and Math Exercise",
+  "title": "Numbers and Math in Ruby",
   "description": "Practice arithmetic operations and number methods in Ruby.",
   "difficulty": "beginner",
   "starterCode": "# Task: Math operations\n\n# 1. Create a method that adds two numbers\ndef add(a, b)\n  # Your code here\n\nend\n\n# 2. Create a method that multiplies two numbers\ndef multiply(a, b)\n  # Your code here\n\nend\n\n# 3. Create a method that checks if a number is even\ndef is_even?(num)\n  # Your code here\n\nend\n",

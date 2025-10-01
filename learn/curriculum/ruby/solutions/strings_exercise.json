@@ -1,0 +1,12 @@
+{
+  "exerciseId": "strings_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Strings Exercise\n\n# Task: Work with string methods\n\ndef upcase_string(text)\n  text.upcase\nend\n\ndef downcase_string(text)\n  text.downcase\nend\n\ndef reverse_string(text)\n  text.reverse\nend\n\ndef get_length(text)\n  text.length\nend",
+  "explanation": "This solution demonstrates common string operations:\n\n1. **upcase/downcase**: Change case of strings\n\n2. **reverse**: Reverse the character order\n\n3. **length**: Get the number of characters",
+  "keyPoints": [
+    "upcase() converts to uppercase",
+    "downcase() converts to lowercase",
+    "reverse() reverses character order",
+    "length() returns character count"
+  ]
+}

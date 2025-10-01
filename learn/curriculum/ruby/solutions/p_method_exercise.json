@@ -1,0 +1,12 @@
+{
+  "exerciseId": "p_method_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for P Method Exercise\n\n# Task: Create a method called get_year that returns the current year as a number\n\ndef get_year\n  2025\nend",
+  "explanation": "This solution demonstrates returning numbers from methods:\n\n1. **Number literals**: Simply write the number without quotes to return an integer\n\n2. **Automatic return**: Ruby returns the last expression in a method automatically\n\n3. **No quotes needed**: Numbers are not strings, so don't use quotes around them\n\n4. **Type matters**: The tests check that the return value is actually a number (Integer class)",
+  "keyPoints": [
+    "Return numbers without quotes",
+    "Ruby returns the last expression automatically",
+    "Numbers are Integer objects in Ruby",
+    "No 'return' keyword needed for simple cases"
+  ]
+}

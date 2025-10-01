@@ -1,0 +1,11 @@
+{
+  "exerciseId": "regex_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Regex Exercise\n\n# Task: Use regular expressions\n\ndef has_digits?(text)\n  text.match?(/\\d/)\nend\n\ndef extract_email(text)\n  match = text.match(/\\b[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}\\b/)\n  match ? match[0] : nil\nend",
+  "explanation": "This solution uses regular expressions:\n\n1. **Pattern matching**: match? for simple checks\n\n2. **String extraction**: match method returns MatchData\n\n3. **Email pattern**: Common regex for email validation",
+  "keyPoints": [
+    "match?() checks if pattern matches",
+    "match() returns MatchData object",
+    "Use \\b for word boundaries"
+  ]
+}

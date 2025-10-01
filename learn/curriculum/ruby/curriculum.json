@@ -200,6 +200,24 @@
           "title": "Lesson 7.3: Regular Expressions",
           "duration": 90,
           "difficulty": "intermediate"
+        },
+        {
+          "id": "input_output",
+          "title": "Lesson 7.4: Input/Output Operations",
+          "duration": 45,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "testing_basics",
+          "title": "Lesson 7.5: Testing Basics with Minitest",
+          "duration": 40,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "standard_library",
+          "title": "Lesson 7.6: Standard Library: JSON and CSV",
+          "duration": 50,
+          "difficulty": "intermediate"
         }
       ]
     }

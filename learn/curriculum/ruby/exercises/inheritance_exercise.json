@@ -1,6 +1,6 @@
 {
   "id": "inheritance_exercise",
-  "title": "Exercise 5.2: Inheritance Exercise",
+  "title": "Inheritance in Ruby",
   "description": "Practice class inheritance and method overriding.",
   "difficulty": "advanced",
   "starterCode": "# Define an Animal class with:\n# - initialize(name) that sets @name\n# - speak method that returns \"Some sound\"\n\nclass Animal\n  # Your code here\n\nend\n\n# Define a Dog class that inherits from Animal and:\n# - overrides speak to return \"Woof! I'm {name}\"\n\nclass Dog < Animal\n  # Your code here\n\nend\n\n# Define a Cat class that inherits from Animal and:\n# - overrides speak to return \"Meow! I'm {name}\"\n\nclass Cat < Animal\n  # Your code here\n\nend\n",

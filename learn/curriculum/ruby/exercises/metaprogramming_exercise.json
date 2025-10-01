@@ -1,6 +1,6 @@
 {
   "id": "metaprogramming_exercise",
-  "title": "Exercise 6.1: Metaprogramming Basics Exercise",
+  "title": "Lesson 6.1: Metaprogramming Basics",
   "description": "Practice dynamic method calls using send.",
   "difficulty": "advanced",
   "starterCode": "# Create a Calculator class with basic methods\n\nclass Calculator\n  def add(a, b)\n    a + b\n  end\n  \n  def multiply(a, b)\n    a * b\n  end\n  \n  def subtract(a, b)\n    a - b\n  end\nend\n\n# Create a method that calls Calculator methods dynamically\ndef calculate(operation, a, b)\n  # Use send to call the operation method on a Calculator instance\n  # Return the result\n\nend\n",

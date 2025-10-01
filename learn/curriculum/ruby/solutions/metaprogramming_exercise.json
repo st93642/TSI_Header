@@ -1,0 +1,11 @@
+{
+  "exerciseId": "metaprogramming_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Metaprogramming Exercise\n\n# Task: Use metaprogramming\nclass DynamicClass\n  def self.create_method(method_name)\n    define_method(method_name) do\n      \"Method \" + method_name.to_s + \" called\"\n    end\n  end\nend\n\nDynamicClass.create_method(:hello)\n\ndef test_dynamic_method\n  obj = DynamicClass.new\n  obj.hello\nend",
+  "explanation": "This solution shows metaprogramming:\n\n1. **define_method**: Create methods dynamically\n\n2. **Runtime method creation**: Methods created at runtime\n\n3. **Dynamic behavior**: Classes can be modified programmatically",
+  "keyPoints": [
+    "define_method() creates methods dynamically",
+    "Methods can be created at runtime",
+    "Classes can be modified programmatically"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "id": "hashes_exercise",
-  "title": "Exercise 3.2: Hashes and Symbols Exercise",
+  "title": "Hashes: Key-Value Collections",
   "description": "Practice using hashes (key-value pairs) in Ruby.",
   "difficulty": "intermediate",
   "starterCode": "# Hashes (Key-Value Pairs) Exercise\n\n# 1. Create a method create_person(name, age) that returns a hash\n#    Example: create_person('Alice', 25) => {name: 'Alice', age: 25}\n#    Example: create_person('Bob', 30) => {name: 'Bob', age: 30}\n#    Hint: Return {name: name, age: age}\n\ndef create_person(name, age)\n  # Return a hash with name and age keys\n\nend\n\n# 2. Create a method get_age(person) that returns age from hash\n#    Example: get_age({name: 'Alice', age: 25}) => 25\n#    Example: get_age({name: 'Bob', age: 30}) => 30\n#    Hint: Access with person[:age]\n\ndef get_age(person)\n  # Return the age value from the person hash\n\nend\n\n# 3. Create a method add_email(person, email) that adds email key\n#    Example: add_email({name: 'Alice'}, 'a@test.com') => {name: 'Alice', email: 'a@test.com'}\n#    Hint: Set person[:email] = email, then return person\n\ndef add_email(person, email)\n  # Add email key to person hash and return it\n\nend\n",

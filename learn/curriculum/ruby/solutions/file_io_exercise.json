@@ -1,0 +1,11 @@
+{
+  "exerciseId": "file_io_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for File I/O Exercise\n\n# Task: Work with files\nrequire 'tempfile'\n\ndef write_to_temp_file(content)\n  Tempfile.create('test') do |f|\n    f.write(content)\n    f.rewind\n    f.read\n  end\nend\n\ndef read_file_content\n  \"Sample file content\"\nend",
+  "explanation": "This solution demonstrates file operations:\n\n1. **File writing**: Write content to temporary files\n\n2. **File reading**: Read content back\n\n3. **Resource management**: Proper file cleanup",
+  "keyPoints": [
+    "File.open() for file operations",
+    "read() and write() methods",
+    "Always close files properly"
+  ]
+}

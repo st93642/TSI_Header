@@ -1,0 +1,12 @@
+{
+  "exerciseId": "hello_puts_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Hello Puts Exercise\n\n# Task: Create a method called greet that takes a name parameter\n# and returns a greeting message using that name\n\ndef greet(name)\n  \"Hello, #{name}!\"\nend",
+  "explanation": "This solution demonstrates string interpolation in Ruby:\n\n1. **String interpolation**: Use #{variable} inside double quotes to insert variable values into strings\n\n2. **Method return**: Ruby automatically returns the last expression in a method\n\n3. **Parameter usage**: The name parameter is inserted into the greeting string\n\n4. **Double quotes required**: String interpolation only works with double quotes, not single quotes",
+  "keyPoints": [
+    "Use #{variable} for string interpolation",
+    "Double quotes are required for interpolation",
+    "Ruby returns the last expression automatically",
+    "Parameters can be used directly in interpolated strings"
+  ]
+}

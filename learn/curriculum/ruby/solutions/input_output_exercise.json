@@ -1,0 +1,14 @@
+{
+  "exerciseId": "input_output_exercise",
+  "languageId": "ruby",
+  "code": "# Input/Output Operations - Solution\n\n# 1. Write a method that writes text to a file and then reads it back\ndef write_and_read_file\n  # Write to a temporary file\n  File.write('temp_test.txt', 'Hello, Ruby!')\n  \n  # Read it back\n  content = File.read('temp_test.txt')\n  \n  # Clean up\n  File.delete('temp_test.txt') if File.exist?('temp_test.txt')\n  \n  # Return the content\n  content\nend\n\n# 2. Write a method that processes command-line arguments\ndef process_arguments(args)\n  \"Arguments: #{args.join(' ')}\"\nend\n\n# 3. Write a method that outputs text to STDOUT\ndef capture_output\n  puts \"Captured output\"\nend",
+  "explanation": "This solution demonstrates fundamental I/O operations in Ruby:\n\n1. **File Operations**: File.write creates/overwrites files, File.read retrieves content, and File.delete removes files. Always clean up temporary files!\n\n2. **Command-line Arguments**: The args parameter simulates ARGV. We join array elements with spaces to create a readable string.\n\n3. **Standard Output**: puts writes to STDOUT with a newline. The test uses output capture to verify the correct text was displayed.\n\nKey concepts: File I/O, string manipulation, output streams, and resource cleanup.",
+  "keyPoints": [
+    "Use File.write for simple file writing",
+    "File.read reads entire file content",
+    "Always clean up temporary files",
+    "Join arrays with spaces for readable output",
+    "puts writes to STDOUT with newline",
+    "Handle file operations in begin/rescue blocks for production code"
+  ]
+}

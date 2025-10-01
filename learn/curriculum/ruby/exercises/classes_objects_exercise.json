@@ -1,6 +1,6 @@
 {
   "id": "classes_objects_exercise",
-  "title": "Exercise 5.1: Classes and Objects Exercise",
+  "title": "Lesson 5.1: Classes and Objects",
   "description": "Practice defining classes with instance variables and methods.",
   "difficulty": "intermediate",
   "starterCode": "# Define a Dog class with the following:\n# - initialize method that takes name and breed\n# - bark method that returns \"Woof! I'm {name}!\"\n# - description method that returns \"{name} is a {breed}\"\n\nclass Dog\n  # Your code here\n\nend\n",

@@ -1,0 +1,34 @@
+{
+  "id": "standard_library_exercise",
+  "title": "Standard Library: JSON and CSV",
+  "description": "Practice using Ruby's JSON and CSV standard library modules for data parsing, generation, and conversion",
+  "tags": ["json", "csv", "data-parsing", "standard-library", "serialization"],
+  "starterCode": "# Implement the following methods:\n\n# 1. Test JSON parsing and generation\ndef test_json_operations\n  # Your code here - return true if all tests pass\nend\n\n# 2. Test CSV parsing and generation\ndef test_csv_operations\n  # Your code here - return true if all tests pass\nend\n\n# 3. Test converting between JSON and CSV formats\ndef test_data_conversion\n  # Your code here - return true if all tests pass\nend\n",
+  "tests": [
+    {
+      "name": "test_json_parse_generate",
+      "call": "test_json_operations",
+      "expected": true
+    },
+    {
+      "name": "test_csv_parse_generate",
+      "call": "test_csv_operations",
+      "expected": true
+    },
+    {
+      "name": "test_data_conversion",
+      "call": "test_data_conversion",
+      "expected": true
+    }
+  ],
+  "hints": [
+    "For test_json_operations: Parse a JSON string and generate JSON from a Ruby hash",
+    "For test_csv_operations: Parse CSV data and generate CSV from an array",
+    "For test_data_conversion: Convert data between JSON and CSV formats",
+    "Use JSON.parse and JSON.generate for JSON operations",
+    "Use CSV.parse and CSV.generate for CSV operations",
+    "Test that the round-trip conversion works correctly"
+  ],
+  "difficulty": "intermediate",
+  "duration": 35
+}

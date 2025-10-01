@@ -1,0 +1,11 @@
+{
+  "exerciseId": "loops_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Loops Exercise\n\n# Task: Use different loop constructs\n\ndef sum_array(numbers)\n  sum = 0\n  numbers.each do |num|\n    sum += num\n  end\n  sum\nend\n\ndef count_to_ten\n  result = []\n  for i in 1..10\n    result << i\n  end\n  result\nend",
+  "explanation": "This solution demonstrates different looping constructs:\n\n1. **each iterator**: Process each element in a collection\n\n2. **for loop**: Traditional counting loop\n\n3. **Range objects**: (1..10) creates a range of numbers",
+  "keyPoints": [
+    "each iterator for processing collections",
+    "for loops with ranges",
+    "Accumulate results in variables"
+  ]
+}

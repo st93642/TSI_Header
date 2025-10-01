@@ -1,0 +1,11 @@
+{
+  "exerciseId": "conditionals_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Conditionals Exercise\n\n# Task: Use conditional logic\n\ndef check_positive(number)\n  if number > 0\n    \"positive\"\n  elsif number < 0\n    \"negative\"\n  else\n    \"zero\"\n  end\nend\n\ndef is_even(number)\n  if number % 2 == 0\n    true\n  else\n    false\n  end\nend",
+  "explanation": "This solution uses conditional logic:\n\n1. **if/elsif/else**: Multi-branch conditional statements\n\n2. **Comparison operators**: >, <, ==, etc.\n\n3. **Boolean returns**: Methods return true/false values",
+  "keyPoints": [
+    "if/elsif/else for multi-branch logic",
+    "Comparison operators: > < == != >= <=",
+    "Return appropriate values for each condition"
+  ]
+}

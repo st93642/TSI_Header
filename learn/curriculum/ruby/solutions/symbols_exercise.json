@@ -1,0 +1,11 @@
+{
+  "exerciseId": "symbols_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Symbols Exercise\n\n# Task: Work with symbols\n\ndef create_symbol_hash\n  { name: \"Ruby\", type: :language }\nend\n\ndef get_symbol_keys(hash)\n  hash.keys.select { |k| k.is_a?(Symbol) }\nend",
+  "explanation": "This solution demonstrates symbols:\n\n1. **Symbol literals**: :symbol syntax\n\n2. **Hash keys**: Symbols as efficient hash keys\n\n3. **Identity comparison**: Symbols are unique objects",
+  "keyPoints": [
+    "Symbols start with colon: :symbol",
+    "Symbols are immutable and unique",
+    "Efficient as hash keys"
+  ]
+}

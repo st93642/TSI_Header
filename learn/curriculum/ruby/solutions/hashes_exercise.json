@@ -1,0 +1,11 @@
+{
+  "exerciseId": "hashes_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Hashes Exercise\n\n# Task: Work with hashes\n\ndef create_person_hash(name, age)\n  { name: name, age: age }\nend\n\ndef get_name_from_hash(person)\n  person[:name]\nend\n\ndef add_email_to_hash(person, email)\n  person.merge(email: email)\nend",
+  "explanation": "This solution demonstrates hash operations:\n\n1. **Symbol keys**: Use :name instead of \"name\"\n\n2. **merge**: Combine hashes\n\n3. **Access syntax**: hash[:key] to retrieve values",
+  "keyPoints": [
+    "Symbol keys: {name: \"value\"}",
+    "Access with []: hash[:key]",
+    "merge() combines hashes"
+  ]
+}

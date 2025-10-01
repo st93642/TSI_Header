@@ -1,6 +1,6 @@
 {
   "id": "file_io_exercise",
-  "title": "Exercise 6.2: File I/O Exercise",
+  "title": "File Input/Output",
   "description": "Practice string manipulation for file path operations.",
   "difficulty": "intermediate",
   "starterCode": "# Create methods that work with file paths (strings)\n\ndef get_file_extension(filename)\n  # Return the file extension (including the dot)\n  # Example: \"document.txt\" => \".txt\"\n\nend\n\ndef get_filename_without_extension(filename)\n  # Return filename without extension\n  # Example: \"document.txt\" => \"document\"\n\nend\n\ndef create_backup_name(filename)\n  # Add .bak before the extension\n  # Example: \"data.txt\" => \"data.bak.txt\"\n\nend\n",

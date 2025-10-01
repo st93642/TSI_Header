@@ -1,0 +1,11 @@
+{
+  "exerciseId": "lambdas_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Lambdas Exercise\n\n# Task: Work with lambdas\n\ndef create_adder(n)\n  lambda { |x| x + n }\nend\n\ndef execute_lambda(lambda_func, value)\n  lambda_func.call(value)\nend",
+  "explanation": "This solution shows lambda usage:\n\n1. **lambda creation**: lambda { |param| code }\n\n2. **Closures**: Lambdas capture their environment\n\n3. **call method**: Execute lambda with parameters",
+  "keyPoints": [
+    "lambda { |param| code } creates lambda",
+    "Lambdas are closures",
+    "lambda.call(args) executes lambda"
+  ]
+}

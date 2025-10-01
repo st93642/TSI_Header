@@ -1,0 +1,14 @@
+{
+  "exerciseId": "testing_basics_exercise",
+  "languageId": "ruby",
+  "code": "# Testing Basics with Minitest - Solution\n\n# 1. Write a test that checks if a string has the expected length\ndef test_string_length(str)\n  # This would normally be in a Minitest class, but for this exercise\n  # we'll simulate the test logic\n  str.length == 5\nend\n\n# 2. Write a test that checks array operations\ndef test_array_operations(arr)\n  # Check if array has 3 elements and includes specific values\n  arr.length == 3 && arr.include?(1) && arr.include?(2) && arr.include?(3)\nend\n\n# 3. Write a test that checks exception handling\ndef test_exception_handling\n  # Test that dividing by zero raises an exception\n  begin\n    10 / 0\n    false  # Should not reach here\n  rescue ZeroDivisionError\n    true   # Exception was raised as expected\n  end\nend",
+  "explanation": "This solution demonstrates basic testing concepts using simulated Minitest logic:\n\n1. **String Length Test**: Simple equality check (str.length == 5). In real Minitest, this would use assert_equal(5, str.length).\n\n2. **Array Operations Test**: Compound boolean logic checking both size and contents. Real tests would use assert_equal and assert_includes.\n\n3. **Exception Handling Test**: Uses begin/rescue to verify exceptions are raised. In Minitest, this would be assert_raises(ZeroDivisionError) { 10 / 0 }.\n\nThe exercise simulates testing logic since the automated test runner executes these methods directly rather than running them as Minitest tests.",
+  "keyPoints": [
+    "Test methods return boolean values indicating pass/fail",
+    "String length checking with .length method",
+    "Array size and content validation",
+    "Exception testing with begin/rescue blocks",
+    "Compound conditions using && operator",
+    "Real Minitest uses assert_* methods instead of return values"
+  ]
+}

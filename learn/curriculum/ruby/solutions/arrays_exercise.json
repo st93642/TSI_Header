@@ -1,0 +1,12 @@
+{
+  "exerciseId": "arrays_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Arrays Exercise\n\n# Task: Work with arrays\n\ndef get_first_element(array)\n  array.first\nend\n\ndef get_last_element(array)\n  array.last\nend\n\ndef add_to_array(array, element)\n  array + [element]\nend\n\ndef array_length(array)\n  array.length\nend",
+  "explanation": "This solution works with arrays:\n\n1. **first/last**: Access first and last elements\n\n2. **+ operator**: Concatenate arrays\n\n3. **length**: Get array size",
+  "keyPoints": [
+    "first() gets first element",
+    "last() gets last element",
+    "+ concatenates arrays",
+    "length() gets size"
+  ]
+}

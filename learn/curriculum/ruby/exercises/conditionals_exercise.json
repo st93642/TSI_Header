@@ -1,6 +1,6 @@
 {
   "id": "conditionals_exercise",
-  "title": "Exercise 2.1: If, Elsif, and Unless Exercise",
+  "title": "Conditionals and Control Flow",
   "description": "Practice conditional logic with if, elsif, else, and unless statements.",
   "difficulty": "beginner",
   "starterCode": "# Conditional Statements Exercise\n\n# 1. Create a method check_number(num) that returns:\n#    - \"positive\" if num > 0\n#    - \"negative\" if num < 0\n#    - \"zero\" if num == 0\n#    Example: check_number(5) => \"positive\"\n#    Example: check_number(-3) => \"negative\"\n#    Example: check_number(0) => \"zero\"\n\ndef check_number(num)\n  # Use if/elsif/else to check the number\n\nend\n\n# 2. Create a method age_group(age) that returns:\n#    - \"child\" if age < 13\n#    - \"teen\" if age >= 13 and age <= 17\n#    - \"adult\" if age >= 18\n#    Example: age_group(10) => \"child\"\n#    Example: age_group(15) => \"teen\"\n#    Example: age_group(25) => \"adult\"\n\ndef age_group(age)\n  # Use if/elsif/else to determine age group\n\nend\n\n# 3. Create a method passing?(score) that returns:\n#    - true if score >= 60\n#    - false if score < 60\n#    Example: passing?(75) => true\n#    Example: passing?(45) => false\n\ndef passing?(score)\n  # Use a simple if statement or comparison\n\nend\n",

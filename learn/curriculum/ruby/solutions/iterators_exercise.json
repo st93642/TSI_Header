@@ -1,0 +1,11 @@
+{
+  "exerciseId": "iterators_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Iterators Exercise\n\n# Task: Use iterators\n\ndef double_numbers(numbers)\n  numbers.map { |n| n * 2 }\nend\n\ndef sum_numbers(numbers)\n  numbers.reduce(0) { |sum, n| sum + n }\nend\n\ndef filter_even(numbers)\n  numbers.select { |n| n.even? }\nend",
+  "explanation": "This solution uses Ruby's powerful iterators:\n\n1. **map**: Transform each element\n\n2. **reduce**: Accumulate values\n\n3. **select**: Filter elements based on conditions",
+  "keyPoints": [
+    "map transforms each element",
+    "reduce accumulates values",
+    "select filters elements"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "exerciseId": "inheritance_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Inheritance Exercise\n\n# Task: Use inheritance\nclass Animal\n  def speak\n    \"Some sound\"\n  end\nend\n\nclass Dog < Animal\n  def speak\n    \"Woof!\"\n  end\nend\n\nclass Cat < Animal\n  def speak\n    \"Meow!\"\n  end\nend\n\ndef create_dog\n  Dog.new\nend",
+  "explanation": "This solution shows inheritance:\n\n1. **Base class**: Animal with basic behavior\n\n2. **Subclass syntax**: class Dog < Animal\n\n3. **Method overriding**: Subclasses can redefine inherited methods\n\n4. **Polymorphism**: Different objects respond to same method calls",
+  "keyPoints": [
+    "class Child < Parent for inheritance",
+    "Superclass methods inherited automatically",
+    "Override methods to customize behavior"
+  ]
+}

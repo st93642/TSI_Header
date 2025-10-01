@@ -144,6 +144,18 @@ class ExerciseRunner {
                 testCode += `    $stdout = original_stdout\n`;
                 testCode += `    output = captured_output.string\n`;
                 testCode += `    assert_equal(${this.rubyValue(test.expected)}, output.chomp)\n`;
+            } else if (test.type === 'exception') {
+                // Exception test - verify that code raises expected exception
+                testCode += `    # Test that code raises an exception\n`;
+                testCode += `    assert_raises(${this.rubyValue(test.expected)}) do\n`;
+                testCode += `      ${test.call}\n`;
+                testCode += `    end\n`;
+            } else if (test.type === 'side_effect') {
+                // Side effect test - check file creation/modification or other side effects
+                testCode += `    # Test side effects\n`;
+                testCode += `    ${test.setup || ''}\n`; // Optional setup code
+                testCode += `    ${test.call}\n`;
+                testCode += `    ${test.assertion || `assert(${test.expected})`}\n`; // Custom assertion
             } else if (test.expected !== undefined) {
                 // Regular return value test
                 testCode += `    result = ${test.call}\n`;
@@ -322,13 +334,39 @@ class ExerciseRunner {
      * @returns {string} Python test code
      */
     generatePythonTestCode(tests) {
-        let testCode = `import pytest\nfrom solution import *\n\n`;
+        let testCode = `import pytest\nfrom solution import *\nimport sys\nfrom io import StringIO\n\n`;
 
         tests.forEach((test, index) => {
             const testName = test.name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
             testCode += `def test_${index + 1}_${testName}():\n`;
-            testCode += `    result = ${test.call}\n`;
-            testCode += `    assert result == ${this.pythonValue(test.expected)}, f"Expected {${this.pythonValue(test.expected)}}, got {result}"\n\n`;
+            
+            if (test.type === 'output') {
+                // Output test - capture stdout
+                testCode += `    # Capture stdout\n`;
+                testCode += `    old_stdout = sys.stdout\n`;
+                testCode += `    sys.stdout = captured_output = StringIO()\n`;
+                testCode += `    \n`;
+                testCode += `    ${test.call}\n`;
+                testCode += `    \n`;
+                testCode += `    sys.stdout = old_stdout\n`;
+                testCode += `    output = captured_output.getvalue()\n`;
+                testCode += `    assert output.strip() == ${this.pythonValue(test.expected)}, f"Expected {${this.pythonValue(test.expected)}}, got {output.strip()}"\n\n`;
+            } else if (test.type === 'exception') {
+                // Exception test
+                testCode += `    # Test that code raises an exception\n`;
+                testCode += `    with pytest.raises(${this.pythonValue(test.expected)}):\n`;
+                testCode += `        ${test.call}\n\n`;
+            } else if (test.type === 'side_effect') {
+                // Side effect test
+                testCode += `    # Test side effects\n`;
+                testCode += `    ${test.setup || ''}\n`;
+                testCode += `    ${test.call}\n`;
+                testCode += `    ${test.assertion || `assert ${test.expected}`}\n\n`;
+            } else {
+                // Regular return value test
+                testCode += `    result = ${test.call}\n`;
+                testCode += `    assert result == ${this.pythonValue(test.expected)}, f"Expected {${this.pythonValue(test.expected)}}, got {result}"\n\n`;
+            }
         });
 
         return testCode;
@@ -398,34 +436,171 @@ class ExerciseRunner {
             const passedTests = [];
             const failedTests = [];
 
-            // Eval the user's code in isolated context
-            const sandbox = {};
-            const context = `
-                ${code}
-                ${tests.map((test, i) => `
-                    try {
-                        const result_${i} = ${test.call};
-                        tests[${i}].result = result_${i};
-                        tests[${i}].passed = JSON.stringify(result_${i}) === JSON.stringify(${JSON.stringify(test.expected)});
-                    } catch (e) {
-                        tests[${i}].error = e.message;
-                        tests[${i}].passed = false;
+            // Create a sandbox context for execution
+            const createSandbox = () => ({
+                console: {
+                    log: (...args) => {
+                        if (!sandbox._output) sandbox._output = [];
+                        sandbox._output.push(args.join(' '));
+                    },
+                    output: [],
+                    getOutput: () => sandbox._output ? sandbox._output.join('\n') : ''
+                },
+                process: {
+                    stdout: {
+                        write: (text) => {
+                            if (!sandbox._stdout) sandbox._stdout = [];
+                            sandbox._stdout.push(text);
+                        }
                     }
-                `).join('\n')}
-            `;
-
-            const testsCopy = JSON.parse(JSON.stringify(tests));
-            eval(`(function() { const tests = ${JSON.stringify(testsCopy)}; ${context}; return tests; })()`).forEach((test, i) => {
-                if (test.passed) {
-                    passedTests.push(test.name);
-                } else {
-                    failedTests.push({
-                        name: test.name,
-                        message: `Expected: ${JSON.stringify(test.expected)}\n  Actual: ${JSON.stringify(test.result)}`,
-                        error: test.error
-                    });
+                },
+                require: (module) => {
+                    if (module === 'fs') {
+                        return {
+                            writeFileSync: (path, content) => {
+                                sandbox._files = sandbox._files || {};
+                                sandbox._files[path] = content;
+                            },
+                            readFileSync: (path) => {
+                                sandbox._files = sandbox._files || {};
+                                return sandbox._files[path] || '';
+                            },
+                            existsSync: (path) => {
+                                sandbox._files = sandbox._files || {};
+                                return path in sandbox._files;
+                            }
+                        };
+                    }
+                    throw new Error(`Module ${module} not available in test environment`);
                 }
             });
+
+            const testsCopy = JSON.parse(JSON.stringify(tests));
+            
+            // Execute each test in isolation
+            for (let i = 0; i < testsCopy.length; i++) {
+                const test = testsCopy[i];
+                const sandbox = createSandbox();
+                
+                try {
+                    if (test.type === 'output') {
+                        // Output test - capture console.log or stdout
+                        const context = `
+                            ${code}
+                            (function() {
+                                var result;
+                                ${test.call}
+                                return {
+                                    output: (console.getOutput && console.getOutput()) || (_stdout ? _stdout.join('') : ''),
+                                    result: result
+                                };
+                            })()
+                        `;
+                        
+                        const func = new Function('console', 'process', 'require', context);
+                        const testResult = func(sandbox.console, sandbox.process, sandbox.require);
+                        
+                        const actualOutput = testResult.output || '';
+                        const passed = actualOutput.trim() === String(test.expected).trim();
+                        
+                        if (passed) {
+                            passedTests.push(test.name);
+                        } else {
+                            failedTests.push({
+                                name: test.name,
+                                message: `Expected output: "${test.expected}"\n  Actual output: "${actualOutput}"`
+                            });
+                        }
+                        
+                    } else if (test.type === 'exception') {
+                        // Exception test
+                        const context = `
+                            ${code}
+                            (function() {
+                                try {
+                                    ${test.call}
+                                    return { success: true };
+                                } catch (e) {
+                                    return { success: false, error: e.name || e.constructor.name };
+                                }
+                            })()
+                        `;
+                        
+                        const func = new Function('console', 'process', 'require', context);
+                        const testResult = func(sandbox.console, sandbox.process, sandbox.require);
+                        
+                        const expectedException = test.expected;
+                        const actualException = testResult.error;
+                        const passed = !testResult.success && actualException === expectedException;
+                        
+                        if (passed) {
+                            passedTests.push(test.name);
+                        } else {
+                            failedTests.push({
+                                name: test.name,
+                                message: `Expected exception: ${expectedException}\n  Actual: ${testResult.success ? 'No exception thrown' : actualException}`
+                            });
+                        }
+                        
+                    } else if (test.type === 'side_effect') {
+                        // Side effect test
+                        const context = `
+                            ${code}
+                            (function() {
+                                ${test.setup || ''}
+                                ${test.call}
+                                return {
+                                    assertion: ${test.assertion || 'true'},
+                                    files: _files || {}
+                                };
+                            })()
+                        `;
+                        
+                        const func = new Function('console', 'process', 'require', context);
+                        const testResult = func(sandbox.console, sandbox.process, sandbox.require);
+                        
+                        const passed = testResult.assertion;
+                        
+                        if (passed) {
+                            passedTests.push(test.name);
+                        } else {
+                            failedTests.push({
+                                name: test.name,
+                                message: `Side effect test failed: ${test.assertion || 'assertion failed'}`
+                            });
+                        }
+                        
+                    } else {
+                        // Regular return value test
+                        const context = `
+                            ${code}
+                            (function() {
+                                return ${test.call};
+                            })()
+                        `;
+                        
+                        const func = new Function('console', 'process', 'require', context);
+                        const result = func(sandbox.console, sandbox.process, sandbox.require);
+                        const passed = JSON.stringify(result) === JSON.stringify(test.expected);
+                        
+                        if (passed) {
+                            passedTests.push(test.name);
+                        } else {
+                            failedTests.push({
+                                name: test.name,
+                                message: `Expected: ${JSON.stringify(test.expected)}\n  Actual: ${JSON.stringify(result)}`
+                            });
+                        }
+                    }
+                    
+                } catch (e) {
+                    failedTests.push({
+                        name: test.name,
+                        message: `Test execution error: ${e.message}`,
+                        error: e.message
+                    });
+                }
+            }
 
             return {
                 passed: failedTests.length === 0,

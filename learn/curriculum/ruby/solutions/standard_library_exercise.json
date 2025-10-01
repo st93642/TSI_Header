@@ -1,0 +1,15 @@
+{
+  "exerciseId": "standard_library_exercise",
+  "languageId": "ruby",
+  "code": "# Standard Library: JSON and CSV - Solution\n\nrequire 'json'\nrequire 'csv'\n\n# 1. Test JSON parsing and generation\ndef test_json_operations\n  # Test data\n  test_hash = {\"name\" => \"Alice\", \"age\" => 30, \"active\" => true}\n  \n  # Generate JSON\n  json_string = JSON.generate(test_hash)\n  \n  # Parse it back\n  parsed_data = JSON.parse(json_string)\n  \n  # Check if round-trip conversion works\n  parsed_data == test_hash\nend\n\n# 2. Test CSV parsing and generation\ndef test_csv_operations\n  # Test data\n  test_data = [\n    [\"Name\", \"Age\", \"City\"],\n    [\"Alice\", \"30\", \"New York\"],\n    [\"Bob\", \"25\", \"London\"]\n  ]\n  \n  # Generate CSV\n  csv_string = CSV.generate do |csv|\n    test_data.each { |row| csv << row }\n  end\n  \n  # Parse it back\n  parsed_data = CSV.parse(csv_string)\n  \n  # Check if round-trip conversion works\n  parsed_data == test_data\nend\n\n# 3. Test converting between JSON and CSV formats\ndef test_data_conversion\n  # Start with JSON data\n  json_data = [\n    {\"name\" => \"Alice\", \"age\" => 30, \"city\" => \"New York\"},\n    {\"name\" => \"Bob\", \"age\" => 25, \"city\" => \"London\"}\n  ]\n  \n  # Convert JSON to CSV format\n  csv_headers = [\"name\", \"age\", \"city\"]\n  csv_rows = json_data.map do |person|\n    [person[\"name\"], person[\"age\"], person[\"city\"]]\n  end\n  \n  csv_data = [csv_headers] + csv_rows\n  \n  # Generate CSV\n  csv_string = CSV.generate do |csv|\n    csv_data.each { |row| csv << row }\n  end\n  \n  # Parse CSV with headers\n  parsed_csv = CSV.parse(csv_string, headers: true)\n  \n  # Convert back to JSON-like structure\n  converted_back = parsed_csv.map do |row|\n    {\n      \"name\" => row[\"name\"],\n      \"age\" => row[\"age\"].to_i,\n      \"city\" => row[\"city\"]\n    }\n  end\n  \n  # Check if conversion worked\n  converted_back == json_data\nend",
+  "explanation": "This solution demonstrates Ruby's JSON and CSV standard library usage:\n\n1. **JSON Operations**: JSON.generate converts Ruby objects to JSON strings, JSON.parse converts back. Round-trip conversion ensures data integrity.\n\n2. **CSV Operations**: CSV.generate creates CSV strings from arrays, CSV.parse reads them back. The block syntax allows row-by-row generation.\n\n3. **Data Conversion**: Complex conversion between JSON and CSV formats. JSON arrays become CSV rows, with proper header handling and type conversion.\n\nKey concepts: require statements for libraries, round-trip data conversion, CSV headers, and data type transformations.",
+  "keyPoints": [
+    "Require 'json' and 'csv' libraries at the top",
+    "JSON.generate converts Ruby objects to JSON strings",
+    "JSON.parse converts JSON strings back to Ruby objects",
+    "CSV.generate uses blocks for row-by-row CSV creation",
+    "CSV.parse can handle headers with headers: true option",
+    "Data conversion requires careful type handling",
+    "Round-trip conversion validates data integrity"
+  ]
+}

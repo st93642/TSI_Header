@@ -1,0 +1,11 @@
+{
+  "exerciseId": "blocks_procs_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Blocks and Procs Exercise\n\n# Task: Work with blocks and procs\n\ndef execute_block\n  yield if block_given?\nend\n\ndef call_proc(proc)\n  proc.call\nend\n\ndef create_multiplier(factor)\n  proc { |n| n * factor }\nend",
+  "explanation": "This solution demonstrates blocks and procs:\n\n1. **yield**: Execute passed block with block_given? check\n\n2. **proc objects**: Store blocks as variables\n\n3. **call method**: Execute stored proc",
+  "keyPoints": [
+    "yield executes passed block",
+    "proc { |param| code } creates proc",
+    "proc.call() executes proc"
+  ]
+}

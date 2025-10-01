@@ -1,0 +1,11 @@
+{
+  "exerciseId": "case_when_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Case When Exercise\n\n# Task: Use case/when statements\n\ndef get_day_name(day_number)\n  case day_number\n  when 1\n    \"Monday\"\n  when 2\n    \"Tuesday\"\n  when 3\n    \"Wednesday\"\n  when 4\n    \"Thursday\"\n  when 5\n    \"Friday\"\n  when 6\n    \"Saturday\"\n  when 7\n    \"Sunday\"\n  else\n    \"Invalid day\"\n  end\nend",
+  "explanation": "This solution uses case/when statements for multi-branch logic:\n\n1. **case/when**: Alternative to long if/elsif chains\n\n2. **Pattern matching**: Match against specific values\n\n3. **else clause**: Handle unmatched cases",
+  "keyPoints": [
+    "case/when as alternative to long if chains",
+    "when value for exact matches",
+    "else for default cases"
+  ]
+}

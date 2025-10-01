@@ -1,0 +1,11 @@
+{
+  "exerciseId": "output_methods_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Output Methods Exercise\n\n# Task: Create methods that demonstrate string concatenation\n\ndef combine_words(word1, word2)\n  word1 + word2\nend\n\ndef combine_with_space(word1, word2)\n  word1 + \" \" + word2\nend\n\ndef create_sentence(subject, verb, object)\n  subject + \" \" + verb + \" \" + object + \".\"\nend",
+  "explanation": "This solution demonstrates string concatenation techniques in Ruby:\n\n1. **Simple concatenation**: Use + to join strings together\n\n2. **String building**: Manually concatenate with spaces\n\n3. **Method returns**: All methods return the concatenated strings as requested",
+  "keyPoints": [
+    "Use + for string concatenation",
+    "Use  for string interpolation",
+    "Double quotes required for interpolation"
+  ]
+}

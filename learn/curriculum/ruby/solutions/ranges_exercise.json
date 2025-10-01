@@ -1,0 +1,11 @@
+{
+  "exerciseId": "ranges_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Ranges Exercise\n\n# Task: Work with ranges\n\ndef create_number_range(start, end_num)\n  (start..end_num)\nend\n\ndef range_to_array(range)\n  range.to_a\nend\n\ndef check_in_range(value, range)\n  range.include?(value)\nend",
+  "explanation": "This solution works with ranges:\n\n1. **Range creation**: (start..end) or (start...end)\n\n2. **to_a conversion**: Convert range to array\n\n3. **include? method**: Check if value is in range",
+  "keyPoints": [
+    "(start..end) creates inclusive range",
+    "(start...end) creates exclusive range",
+    "to_a converts to array"
+  ]
+}

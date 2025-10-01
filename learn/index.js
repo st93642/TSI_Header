@@ -19,6 +19,24 @@ class Learn {
         this.learnManager = new LearnManager(context, vscode);
         this.progressTracker = new ProgressTracker(context);
         this.exerciseRunner = new ExerciseRunner(vscode);
+        
+        // Track solution documents to avoid save prompts
+        this.solutionDocuments = new Set();
+        
+        // Handle document save attempts for solution documents
+        this.saveListener = this.vscode.workspace.onWillSaveTextDocument(e => {
+            if (this.solutionDocuments.has(e.document.uri.toString())) {
+                // For solution documents, don't save - just close
+                e.waitUntil(Promise.resolve([]));
+            }
+        });
+        
+        // Clean up solution document tracking on close
+        this.closeListener = this.vscode.workspace.onDidCloseTextDocument(doc => {
+            this.solutionDocuments.delete(doc.uri.toString());
+        });
+        
+        this.context.subscriptions.push(this.saveListener, this.closeListener);
     }
 
     /**
@@ -226,20 +244,59 @@ class Learn {
         try {
             const solution = await this.learnManager.loadSolution(language, exercise.id);
             
-            // Create a new untitled document with the solution
-            const doc = await this.vscode.workspace.openTextDocument({
-                content: solution.code,
-                language: solution.languageId
-            });
+            // Create a webview panel to display the solution
+            const panel = this.vscode.window.createWebviewPanel(
+                'tsiSolution',
+                `Solution: ${exercise.title}`,
+                this.vscode.ViewColumn.One,
+                {
+                    enableScripts: true,
+                    retainContextWhenHidden: true
+                }
+            );
             
-            await this.vscode.window.showTextDocument(doc);
+            // Set HTML content with syntax highlighting
+            panel.webview.html = this.getSolutionHtml(solution, exercise);
             
-            // Show explanation
+            // Get next lesson in curriculum for the "Next Lesson" button
+            const curriculum = await this.learnManager.loadCurriculum(language);
+            const progress = await this.progressTracker.getProgress(language);
+            const nextLesson = this.learnManager.getNextLesson(curriculum, progress);
+            
+            // Handle messages from webview
+            panel.webview.onDidReceiveMessage(
+                async message => {
+                    switch (message.command) {
+                        case 'nextLesson':
+                            panel.dispose();
+                            await this.learnManager.openLesson(language, nextLesson);
+                            break;
+                        case 'browseLessons':
+                            panel.dispose();
+                            this.browseLessons(language);
+                            break;
+                    }
+                },
+                undefined,
+                this.context.subscriptions
+            );
+            
+            // Show explanation dialog
             if (solution.explanation) {
                 this.vscode.window.showInformationMessage(
                     `📖 Solution Explanation: ${solution.explanation}`,
-                    { modal: true }
-                );
+                    { modal: true },
+                    nextLesson ? 'Next Lesson' : 'Browse Lessons',
+                    'Got it!'
+                ).then(async selection => {
+                    if (selection === 'Next Lesson') {
+                        panel.dispose();
+                        await this.learnManager.openLesson(language, nextLesson);
+                    } else if (selection === 'Browse Lessons') {
+                        panel.dispose();
+                        this.browseLessons(language);
+                    }
+                });
             }
             
         } catch (error) {
@@ -369,9 +426,180 @@ class Learn {
     }
 
     /**
+     * Generate HTML for solution display
+     * @param {Object} solution - Solution object
+     * @param {Object} exercise - Exercise object
+     * @returns {string} HTML string
+     */
+    getSolutionHtml(solution, exercise) {
+        // Get next lesson in curriculum for the button
+        const curriculum = this.learnManager.loadCurriculum('ruby').then(curriculum => {
+            const progress = this.progressTracker.getProgress('ruby');
+            return this.learnManager.getNextLesson(curriculum, progress);
+        });
+        
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution: ${exercise.title}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: var(--vscode-font-family);
+            color: var(--vscode-foreground);
+            background-color: var(--vscode-editor-background);
+            padding: 20px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        h1 {
+            color: var(--vscode-textLink-foreground);
+            border-bottom: 2px solid var(--vscode-textLink-foreground);
+            padding-bottom: 10px;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .solution-container {
+            background-color: var(--vscode-textCodeBlock-background);
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--vscode-textBlockQuote-border);
+        }
+        .solution-header {
+            color: var(--vscode-textLink-activeForeground);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        pre {
+            background-color: var(--vscode-textCodeBlock-background);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+            border: 1px solid var(--vscode-textBlockQuote-border);
+        }
+        code {
+            font-family: var(--vscode-editor-font-family);
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--vscode-textPreformat-foreground);
+            display: block;
+        }
+        .code-comment {
+            color: var(--vscode-editorLineNumber-foreground);
+            font-style: italic;
+        }
+        .button-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .solution-button {
+            background-color: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .solution-button:hover {
+            background-color: var(--vscode-button-hoverBackground);
+        }
+        .next-button {
+            background-color: var(--vscode-button-secondaryBackground);
+            color: var(--vscode-button-secondaryForeground);
+        }
+        .explanation {
+            background-color: var(--vscode-textBlockQuote-background);
+            border-left: 4px solid var(--vscode-textLink-foreground);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <h1>📖 Solution: ${exercise.title}</h1>
+    
+    <div class="explanation">
+        <strong>Explanation:</strong> ${solution.explanation || 'Complete solution for this exercise.'}
+    </div>
+    
+    <div class="solution-container">
+        <div class="solution-header">Complete Solution Code:</div>
+        <pre><code>${this.escapeHtml(solution.code).split('\n').map(line => {
+            // Highlight comments in code
+            if (line.trim().startsWith('#')) {
+                return `<span class="code-comment">${this.escapeHtml(line)}</span>`;
+            }
+            return this.escapeHtml(line);
+        }).join('\n')}</code></pre>
+    </div>
+    
+    <div class="button-container">
+        <button class="solution-button next-button" onclick="nextLesson()">
+            📚 Next Lesson
+        </button>
+        <button class="solution-button" onclick="browseLessons()">
+            🔍 Browse All Lessons
+        </button>
+    </div>
+    
+    <script>
+        const vscode = acquireVsCodeApi();
+        
+        function nextLesson() {
+            vscode.postMessage({
+                command: 'nextLesson'
+            });
+        }
+        
+        function browseLessons() {
+            vscode.postMessage({
+                command: 'browseLessons'
+            });
+        }
+    </script>
+</body>
+</html>`;
+    }
+
+    /**
+     * Escape HTML special characters for code display
+     * @param {string} text - Text to escape
+     * @returns {string} Escaped text
+     */
+    escapeHtml(text) {
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+            // Don't escape quotes - they should display normally in <pre><code>
+    }
+
+    /**
      * Dispose of resources
      */
     dispose() {
+        if (this.saveListener) {
+            this.saveListener.dispose();
+        }
+        if (this.closeListener) {
+            this.closeListener.dispose();
+        }
         // Cleanup if needed
     }
 }

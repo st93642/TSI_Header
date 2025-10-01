@@ -1,0 +1,12 @@
+{
+  "exerciseId": "variables_types_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Variables and Types Exercise\n\n# Task: Create variables of different types\n\ndef get_string\n  \"Hello, Ruby!\"\nend\n\ndef get_number\n  42\nend\n\ndef get_boolean\n  true\nend\n\ndef get_array\n  [1, 2, 3, 4, 5]\nend",
+  "explanation": "This solution shows different data types in Ruby:\n\n1. **Strings**: Text data enclosed in quotes\n\n2. **Numbers**: Integer literals without quotes\n\n3. **Booleans**: true/false values\n\n4. **Arrays**: Ordered collections of objects",
+  "keyPoints": [
+    "Strings use quotes: \"text\"",
+    "Numbers don't use quotes: 42",
+    "Arrays use square brackets: [1, 2, 3]",
+    "Booleans are true/false"
+  ]
+}

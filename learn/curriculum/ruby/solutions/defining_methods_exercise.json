@@ -1,0 +1,11 @@
+{
+  "exerciseId": "defining_methods_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Defining Methods Exercise\n\n# Task: Define methods with different signatures\n\ndef greet(person_name)\n  \"Hello, \" + person_name + \"!\"\nend\n\ndef add(a, b)\n  a + b\nend\n\ndef multiply(a, b = 1)\n  a * b\nend",
+  "explanation": "This solution shows method definition patterns:\n\n1. **Required parameters**: (name) - must be provided\n\n2. **Default parameters**: (b = 1) - optional with default value\n\n3. **Return values**: Last expression returned automatically",
+  "keyPoints": [
+    "def method_name(parameters)",
+    "Default parameters: (param = default)",
+    "Return last expression automatically"
+  ]
+}

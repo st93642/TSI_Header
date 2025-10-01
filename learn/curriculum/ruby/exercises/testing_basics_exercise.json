@@ -1,0 +1,33 @@
+{
+  "id": "testing_basics_exercise",
+  "title": "Testing Basics with Minitest",
+  "description": "Practice writing unit tests with Minitest, including assertions, test structure, and common testing patterns",
+  "tags": ["testing", "minitest", "assertions", "unit-tests"],
+  "starterCode": "# Implement the following test methods:\n\n# 1. Write a test that checks if a string has the expected length\ndef test_string_length(str)\n  # Your code here - return true if test passes\nend\n\n# 2. Write a test that checks array operations\ndef test_array_operations(arr)\n  # Your code here - return true if test passes\nend\n\n# 3. Write a test that checks exception handling\ndef test_exception_handling\n  # Your code here - return true if test passes\nend\n",
+  "tests": [
+    {
+      "name": "test_string_length",
+      "call": "test_string_length('hello')",
+      "expected": true
+    },
+    {
+      "name": "test_array_operations",
+      "call": "test_array_operations([1, 2, 3])",
+      "expected": true
+    },
+    {
+      "name": "test_exception_handling",
+      "call": "test_exception_handling",
+      "expected": true
+    }
+  ],
+  "hints": [
+    "For test_string_length: Check if the string length equals 5",
+    "For test_array_operations: Check if the array includes certain values and has expected size",
+    "For test_exception_handling: Test that dividing by zero raises an exception",
+    "Use assert_equal, assert_includes, and assert_raises",
+    "Return true if all assertions pass"
+  ],
+  "difficulty": "intermediate",
+  "duration": 25
+}

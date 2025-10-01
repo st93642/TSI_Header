@@ -1,0 +1,12 @@
+{
+  "exerciseId": "numbers_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Numbers Exercise\n\n# Task: Perform mathematical operations\n\ndef add_numbers(a, b)\n  a + b\nend\n\ndef multiply_numbers(a, b)\n  a * b\nend\n\ndef divide_numbers(a, b)\n  a / b\nend\n\ndef get_remainder(a, b)\n  a % b\nend",
+  "explanation": "This solution shows mathematical operations in Ruby:\n\n1. **Addition/Subtraction**: Standard + and - operators\n\n2. **Multiplication/Division**: * and / operators\n\n3. **Modulo**: % operator for remainders",
+  "keyPoints": [
+    "+ for addition",
+    "* for multiplication",
+    "/ for division",
+    "% for modulo (remainder)"
+  ]
+}

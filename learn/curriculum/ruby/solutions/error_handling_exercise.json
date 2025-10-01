@@ -1,0 +1,11 @@
+{
+  "exerciseId": "error_handling_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Error Handling Exercise\n\n# Task: Handle exceptions\n\ndef safe_divide(a, b)\n  begin\n    a / b\n  rescue ZeroDivisionError\n    \"Cannot divide by zero\"\n  end\nend\n\ndef parse_number(str)\n  begin\n    Integer(str)\n  rescue ArgumentError\n    nil\n  end\nend",
+  "explanation": "This solution shows exception handling:\n\n1. **begin/rescue**: Catch and handle exceptions\n\n2. **Specific exceptions**: Rescue ZeroDivisionError, ArgumentError\n\n3. **Graceful degradation**: Return safe values when errors occur",
+  "keyPoints": [
+    "begin/rescue for exception handling",
+    "Specific rescue clauses for different errors",
+    "Return safe values when errors occur"
+  ]
+}

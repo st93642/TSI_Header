@@ -1,0 +1,11 @@
+{
+  "exerciseId": "mixins_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Mixins Exercise\n\n# Task: Use mixins\nmodule Swimmable\n  def swim\n    \"I'm swimming!\"\n  end\nend\n\nclass Fish\n  include Swimmable\nend\n\ndef create_fish\n  Fish.new\nend",
+  "explanation": "This solution demonstrates mixins:\n\n1. **Module definition**: module ModuleName\n\n2. **include**: Mix module methods into class\n\n3. **Shared behavior**: Multiple classes can share functionality",
+  "keyPoints": [
+    "module ModuleName defines a mixin",
+    "include ModuleName mixes in methods",
+    "Multiple classes can share mixins"
+  ]
+}

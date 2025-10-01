@@ -1,0 +1,12 @@
+{
+  "exerciseId": "classes_objects_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Classes and Objects Exercise\n\n# Task: Define a class\nclass Person\n  def initialize(name, age)\n    @name = name\n    @age = age\n  end\n\n  def get_name\n    @name\n  end\n\n  def get_age\n    @age\n  end\nend\n\ndef create_person(name, age)\n  Person.new(name, age)\nend",
+  "explanation": "This solution demonstrates object-oriented programming:\n\n1. **Class definition**: class ClassName\n\n2. **initialize method**: Constructor for object creation\n\n3. **Instance variables**: @variable for object state\n\n4. **Accessor methods**: Methods to get/set object data",
+  "keyPoints": [
+    "class ClassName defines a class",
+    "def initialize() is the constructor",
+    "@variable for instance variables",
+    "def method() defines methods"
+  ]
+}
