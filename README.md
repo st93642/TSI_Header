@@ -2,309 +2,324 @@
 
 ## Description
 
-Visual Studio Code extension for code header management, project scaffolding, and productivity enhancement with integrated Pomodoro timer. Supporting 147+ programming languages with 100% VS Code language coverage and institutional branding.
+Comprehensive Visual Studio Code extension for **code boilerplate generation**, **project scaffolding**, and **interactive programming language learning**. Transform VS Code into a complete development learning environment with support for 147+ programming languages, integrated curriculum, and productivity tools.
 
-## Functionality
+## Core Functionality
 
-### Core Features
+### 🚀 Code Boilerplate Generation
 
-#### Header Management
+The primary feature of TSI Header is intelligent code generation that accelerates development across 147+ programming languages:
 
-- **Insert Headers**: Generate standardized TSI-branded headers for 147+ programming languages
-- **Update Headers**: Automatically update existing headers with current timestamps and author information
-- **Remove Headers**: Clean removal of TSI headers from files
-- **Language-Specific Formatting**: Proper comment delimiters and formatting for each supported language
-- **Institutional Branding**: TSI contact information
+- **Smart Templates**: Generate language-specific boilerplate code with proper syntax, conventions, and best practices
+- **Class Generation**: Create complete class structures for 13 object-oriented languages with constructors, methods, and documentation
+- **Framework Integration**: Support for modern frameworks and libraries with appropriate imports and configurations
+- **Institutional Branding**: TSI-branded headers with proper comment formatting for academic and professional projects
 
-#### Code Generation
+### 🏗️ Project Scaffolding
 
-- **Class Generation**: Create class templates for 13 object-oriented languages (Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala)
-- **Code Base Generation**: Generate boilerplate code with language-specific syntax and conventions for 147+ languages
-- **Project Scaffolding**: Complete project creation for 7 major languages (C, C++, Java, Python, Ruby, Rust, PHP)
+Complete project creation system that generates production-ready project structures:
 
-#### User Interface
+- **7 Major Languages**: Full project scaffolding for C, C++, Java, Python, Ruby, Rust, and PHP
+- **Build System Integration**: Automatic generation of Makefiles, Maven/Gradle configs, package.json, Cargo.toml, and more
+- **Documentation Templates**: Professional README files, API documentation, and code comments
+- **Development Environment**: Complete folder structures, configuration files, and starter code
+- **Dependency Management**: Package manifests and dependency declarations ready for development
 
-- **Activity Bar Integration**: Dedicated TSI Header panel with mortar board icon (🎓)
-- **TSI Commands View**: Header insertion, updates, and code generation tools
-- **TSI Projects View**: Direct project creation for 7 languages (C, C++, Java, Python, Ruby, Rust, PHP) with streamlined workflow
-- **Context-Aware Menus**: Commands available based on file type and language
+### 📚 Interactive Programming Language Learning
 
-#### Study Mode (Pomodoro Timer)
+Revolutionary in-editor learning platform that teaches programming without leaving VS Code:
 
-- **Pomodoro Technique**: 25-minute work sessions with 5-minute short breaks and 15-minute long breaks
-- **Session Tracking**: Automatic progression through work/break cycles with session counting
-- **State Persistence**: Timer state survives VS Code restarts - resume exactly where you left off
-- **Productivity Analytics**: Track focus time, completion rates, and session statistics (today, week, month, all-time)
-- **Status Bar Integration**: Real-time timer display with phase indicators (🍅 for work, ☕ for breaks)
-- **Configurable Settings**: Customize work duration, break lengths, and sessions before long breaks
-- **Progress Reset**: Selective reset options (today only or complete reset) with confirmation dialogs
+- **Comprehensive Ruby Curriculum**: 8 modules, 34 lessons covering basics to professional development patterns
+- **Hands-On Exercises**: Interactive coding challenges with automated testing and instant feedback
+- **Progressive Learning Path**: Structured curriculum from "Hello World" to advanced metaprogramming and design patterns
+- **Gamification System**: Achievement badges, learning streaks, and progress tracking to maintain motivation
+- **Real-World Projects**: Practical exercises using TSI themes and real development scenarios
+- **Automated Testing**: 395+ test cases ensuring curriculum quality and exercise validation
 
-![Pomodoro Timer Interface](resources/pomodoro_1.png)
+#### Learn Mode Features
 
-Study Mode status bar showing current timer state and phase
+- **Module Structure**:
+  - **Module 1-2**: Ruby basics, syntax, and control flow
+  - **Module 3-4**: Collections, methods, and blocks
+  - **Module 5-6**: Object-oriented programming and advanced concepts
+  - **Module 7-8**: Practical applications and professional development patterns
+- **Interactive Webviews**: Lessons displayed in rich HTML format with syntax highlighting
+- **Exercise Workspace**: Automatic creation of practice files in organized directory structure
+- **Dual Testing Modes**: Return value validation and output capture for comprehensive learning
+- **Hint System**: Progressive hints that guide learning without giving away solutions
+- **Progress Persistence**: Learning progress saved across VS Code sessions
 
-![Pomodoro Session Control](resources/pomodoro_2.png)
+### 🍅 Productivity Enhancement
 
-Timer control commands available in context menus and command palette
+Integrated Pomodoro timer system designed for focused coding sessions:
 
-![Pomodoro Analytics](resources/pomodoro_3.png)
+- **Study Session Management**: 25-minute work cycles with automated break scheduling
+- **State Persistence**: Timer survives VS Code restarts with exact time preservation
+- **Analytics Dashboard**: Track productivity metrics, completion rates, and focus time
+- **Configurable Timers**: Customizable work/break durations and session cycles
 
-Productivity statistics showing session completion rates and focus time tracking
+### 🎯 Getting Started
 
-### Technical Architecture
+#### Quick Start Learning Path
 
-#### Multi-Language Backend
+1. **Install Extension**: Get TSI Header from VS Code Marketplace
+2. **Open Learn Mode**: Click the 📚 Learn section in TSI Header Activity Bar panel
+3. **Start Ruby Journey**: Begin with "Module 1: Ruby Basics"
+4. **Practice Coding**: Complete interactive exercises with automated feedback
+5. **Build Projects**: Use project scaffolding to create real applications
+6. **Generate Code**: Leverage boilerplate generation for rapid development
+
+#### Primary Use Cases
+
+- **Students**: Learn programming languages with structured curriculum and immediate feedback
+- **Developers**: Rapidly prototype projects with intelligent code generation and scaffolding
+- **Educators**: Teach programming with built-in exercises and automated testing
+- **Teams**: Standardize project structures and code templates across development teams
+
+### 📊 Extension Statistics
+
+- **🎓 Learning**: 8 curriculum modules, 34 interactive lessons, 395+ automated tests
+- **🏗️ Scaffolding**: 7 complete project templates with build systems and documentation  
+- **🚀 Code Generation**: 147+ programming languages, 13 OOP class templates
+- **⚡ Productivity**: Integrated Pomodoro timer with session analytics and state persistence
+
+## Technical Architecture
+
+### Multi-Language Backend
 
 - **Ruby CLI Engine**: Core header generation supporting 147+ languages with proper delimiters
 - **JavaScript VS Code Integration**: Modern extension interface with command registration
 - **Modular Generator System**: Language-specific code generation with extensible architecture
 
-#### Supported Languages
+### Language Support Matrix
 
-**Header Generation (147+ languages)**:
+**📚 Interactive Learning (Ruby)**:
 
-- **Mainstream**: C, C++, Java, Python, JavaScript, TypeScript, Ruby, Go, Rust, PHP, Swift, Kotlin, Dart, Scala
-- **Specialized**: Assembly, COBOL, Fortran, Haskell, Lisp, Prolog, R, MATLAB, Verilog, VHDL, and many more
-- **Scripting**: Bash, PowerShell, Perl, Lua, Tcl, Awk, Sed
-- **Web**: HTML, CSS, SCSS, Vue, React, Angular
-- **Data**: JSON, YAML, XML, SQL, Markdown
-- **Legacy**: BASIC, Pascal, Delphi, Ada, COBOL
+- Complete curriculum with 8 modules and 34 lessons
+- Automated exercise testing and instant feedback
+- Progress tracking and gamification system
+- Real-world project themes and practical applications
 
-**Class Generation (13 languages)**:
+**🚀 Code Generation (147+ languages)**:
+
+- **Modern Languages**: Python, JavaScript, TypeScript, Java, C#, Go, Rust, Swift, Kotlin, Dart
+- **Systems Programming**: C, C++, Assembly, Verilog, VHDL
+- **Web Technologies**: HTML, CSS, SCSS, Vue, React, Angular, PHP
+- **Functional Languages**: Haskell, Lisp, Scala, Clojure, F#
+- **Scripting**: Bash, PowerShell, Perl, Lua, Python, Ruby
+- **Data Science**: R, MATLAB, Julia, SQL
+- **Legacy & Specialized**: COBOL, Fortran, Pascal, Ada, BASIC
+
+**🏗️ Project Scaffolding (7 languages)**:
+C, C++, Java, Python, Ruby, Rust, PHP with complete build systems and documentation
+
+**🎯 Class Templates (13 OOP languages)**:
 Java, C++, C#, Python, JavaScript, Kotlin, PHP, TypeScript, Ruby, Go, Swift, Dart, Scala
 
-**Project Creation (7 languages)**:
-C, C++, Java, Python, Ruby, Rust, PHP (with build systems, documentation, and starter code)
+### Quality Assurance & Testing
 
-### Quality Assurance
+- **📚 Curriculum Quality**: 395+ automated tests ensuring lesson integrity and exercise validation
+- **🚀 Code Generation**: 100% VS Code language coverage with syntax validation for all 147+ languages  
+- **🏗️ Project Templates**: Automated testing of all scaffolding templates and build systems
+- **⚡ Learning Platform**: Comprehensive test suite validating exercise correspondence and solution accuracy
+- **🔄 Cross-Platform**: Full Linux, macOS, Windows compatibility with consistent behavior
 
-- **100% VS Code Language Coverage**: Complete support for all 68 VS Code languages
-- **100% Test Coverage**: Comprehensive automated testing across all supported languages (319 tests)
-- **Syntax Validation**: Generated code verified for correctness and language compliance
-- **Cross-Platform Support**: Linux, macOS, Windows compatibility
-
-## Set Up
+## Setup & Learning Journey
 
 ### Prerequisites
 
 - **Visual Studio Code**: Version 1.74.0 or higher
-- **Ruby**: Version 2.7+ (required for header generation)
-- **Node.js**: Version 14+ (for running tests)
+- **Ruby**: Version 2.7+ (required for code generation and exercise testing)
+- **Node.js**: Version 14+ (for advanced testing features)
 - **Git**: Optional, for automatic user configuration
 
-### Installation
+### Installation & First Steps
 
-#### Option 1: VS Code Marketplace (Recommended)
+#### Step 1: Install Extension
 
-1. Open VS Code
-2. Press `Ctrl+Shift+X` to open Extensions
-3. Search for "TSI Header"
-4. Find "TSI Header - st93642" and click Install
+##### Option A: VS Code Marketplace (Recommended)
 
-#### Option 2: Local Installation
+1. Open VS Code Extensions (`Ctrl+Shift+X`)
+2. Search for "TSI Header"
+3. Install "TSI Header - st93642"
 
-1. Download the `.vsix` file from the [releases page](https://github.com/st93642/TSI_Header/releases)
-2. Open VS Code
-3. Press `Ctrl+Shift+P` to open Command Palette
-4. Type "Extensions: Install from VSIX" and select the downloaded file
+##### Option B: Local Installation
+
+1. Download `.vsix` from [releases](https://github.com/st93642/TSI_Header/releases)
+2. Command Palette (`Ctrl+Shift+P`) → "Extensions: Install from VSIX"
+
+#### Step 2: Start Learning
+
+1. **Open TSI Header Panel**: Click 🎓 icon in Activity Bar
+2. **Navigate to Learn Mode**: Expand "📚 Learn" section  
+3. **Begin Ruby Journey**: Click "Start Learning Ruby"
+4. **Complete First Lesson**: Follow interactive "Hello World" lesson
+5. **Practice with Exercises**: Write code and run automated tests
+
+#### Step 3: Explore Code Generation
+
+1. **Create New File**: Open any programming language file
+2. **Generate Boilerplate**: Right-click → "Add code base"
+3. **Add Classes**: Use "Add class" for OOP languages
+4. **Insert Headers**: Add TSI-branded documentation headers
+
+#### Step 4: Build Projects
+
+1. **Open TSI Projects Panel**: Navigate to "🏗️ TSI Projects" section
+2. **Select Language**: Choose from C, C++, Java, Python, Ruby, Rust, PHP
+3. **Create Project**: Enter project name and generate complete structure
+4. **Start Developing**: Use generated build files and documentation
 
 ### Configuration
 
 #### Automatic Setup (Recommended)
 
-The extension automatically detects user information in this order:
+TSI Header automatically detects user information for code generation:
 
 1. VS Code settings (`tsiheader.username`, `tsiheader.email`)
 2. Git configuration (`git config user.name`, `git config user.email`)
 3. Environment variables
 
-#### Manual Configuration
+#### Learning Mode Configuration
 
-1. Open VS Code Settings (`Ctrl+,`)
-2. Search for "TSI Header"
-3. Configure the following settings:
-   - `tsiheader.username`: Your full name
-   - `tsiheader.email`: Your email address
-   - `tsiheader.autoUpdate`: Enable automatic header updates on file save (default: false)
-   - `tsiheader.studyMode.workDuration`: Work session duration in minutes (default: 25)
-   - `tsiheader.studyMode.shortBreakDuration`: Short break duration in minutes (default: 5)
-   - `tsiheader.studyMode.longBreakDuration`: Long break duration in minutes (default: 15)
-   - `tsiheader.studyMode.sessionsBeforeLongBreak`: Sessions before long break (default: 4)
-   - `tsiheader.studyMode.enableSounds`: Enable audio notifications (default: false)
+Most learning features work immediately without setup. Optional configurations:
 
-#### Git Configuration (Alternative)
+- **Study Timer**: Customize Pomodoro session lengths in VS Code settings
+- **Exercise Directory**: Learn exercises auto-create in `learn_exercises/` folder
+- **Progress Tracking**: Learning progress automatically saves across sessions
 
-```bash
-git config --global user.name "Your Full Name"
-git config --global user.email "your.email@domain.com"
-```
+#### Advanced Settings
 
-### Usage
+Access via VS Code Settings (`Ctrl+,`) → Search "TSI Header":
 
-#### Accessing the Extension
+- `tsiheader.username`: Your name for code headers
+- `tsiheader.email`: Your email for code headers  
+- `tsiheader.studyMode.workDuration`: Study session length (default: 25 minutes)
+- `tsiheader.studyMode.shortBreakDuration`: Short break length (default: 5 minutes)
+- `tsiheader.studyMode.longBreakDuration`: Long break length (default: 15 minutes)
 
-The TSI Header extension provides multiple ways to access its functionality:
+## Usage Guide
 
-**Activity Bar Panel**:
+### 📚 Learning Programming Languages
 
-1. Look for the mortar board icon (🎓) in the Activity Bar (left sidebar)
-2. Click to open the TSI Header panel
-3. Use "TSI Commands" for header management and code generation
-4. Use "TSI Projects" for project creation
+#### Starting Your Learning Journey
 
-**Context Menus**:
+1. **Access Learn Mode**: Click 🎓 in Activity Bar → Expand "📚 Learn"
+2. **Choose Curriculum**: Currently featuring comprehensive Ruby curriculum
+3. **Follow Lesson Structure**:
+   - Read lesson content in interactive webview
+   - Complete hands-on exercises with starter code
+   - Run automated tests to verify solutions
+   - Track progress with achievement system
 
-- Right-click on files for header operations and code generation
-- Right-click on folders for project creation
+#### Exercise Workflow
 
-![TSI Header Menu](resources/tsi-menu.png)
+1. **Open Lesson**: Click any lesson in Learn Mode tree view
+2. **Read Content**: Study concepts in rich HTML format with syntax highlighting  
+3. **Start Exercise**: Click "Start Exercise" to generate practice file
+4. **Write Code**: Complete the exercise in the auto-created file
+5. **Test Solution**: Run "Test Exercise" to validate your code
+6. **Get Feedback**: Receive instant results with hints for improvement
+7. **Track Progress**: Achievements and streaks automatically update
 
-TSI Header extension menu with available commands
+#### Learning Features
 
-![TSI Projects Panel](resources/ui_panel_view.png)
+- **Progressive Difficulty**: Lessons build from basics to advanced concepts
+- **Real-World Themes**: Exercises use practical scenarios (e-commerce, authentication, etc.)
+- **Dual Testing**: Both return value and output validation
+- **Comprehensive Hints**: Multiple levels of guidance without spoiling solutions
+- **Achievement System**: Unlock badges for consistency and milestone completion
 
-TSI Projects panel showing language-specific project creation options
+### 🚀 Code Generation & Project Development
 
-#### Context Menu Access
+#### Smart Boilerplate Generation
 
-All TSI Header commands are also available through right-click context menus:
+1. **Open Target File**: Create or open file in any of 147+ supported languages
+2. **Generate Boilerplate**: Right-click → "Add code base" or use TSI Commands panel
+3. **Customize Code**: Edit generated template with language-specific best practices
+4. **Add Headers**: Insert TSI-branded documentation headers with proper formatting
 
-**File Context Menu** (right-click on any file in the Explorer):
+#### Class Template Creation
 
-- Insert Header
-- Update Header
-- Remove Header
-- Add Class (for supported languages)
-- Add Code Base
-- Start Study Session
-- Pause/Resume Study Timer
-- Stop Study Session
-- View Study Statistics
-- Reset Study Progress
+1. **Choose OOP Language**: Works with 13 object-oriented languages
+2. **Generate Class**: Right-click → "Add class" or use command palette
+3. **Enter Class Name**: Provide name and generate complete structure
+4. **Implement Methods**: Fill in generated constructor, methods, and properties
 
-**Folder Context Menu** (right-click on any folder in the Explorer):
+#### Complete Project Scaffolding
 
-- Create C Project
-- Create C++ Project
-- Create Java Project
-- Create Python Project
-- Create Ruby Project
-- Create Rust Project
-- Create PHP Project
+1. **Select Project Type**: Choose from C, C++, Java, Python, Ruby, Rust, PHP
+2. **Create Structure**: Right-click folder → "Create [Language] Project"
+3. **Enter Project Name**: Generate complete directory structure
+4. **Start Development**: Use generated build files, documentation, and starter code
 
-#### Using Header Management
+#### Project Features Generated
 
-**Insert Header**:
+- **Build Systems**: Makefiles, Maven/Gradle, package.json, Cargo.toml, etc.
+- **Documentation**: Professional README.md with project description and usage
+- **Configuration**: Language-specific config files and dependency management
+- **Source Structure**: Organized directories with example code and proper conventions
 
-- Open any source file
-- Click "Insert Header" in TSI Commands view
+### 🍅 Productivity & Focus Management
 
-**Update Header**:
+#### Integrated Study Timer
 
-- Open a file with an existing TSI header
-- Click "Update Header" in TSI Commands view
+1. **Start Session**: Click "Start Study Session" in TSI Commands
+2. **Focus Work**: 25-minute work periods with status bar countdown
+3. **Take Breaks**: Automatic short (5min) and long (15min) break scheduling
+4. **Track Progress**: View productivity analytics and completion rates
 
-**Remove Header**:
+#### State Management
 
-- Open a file with an existing TSI header
-- Click "Remove Header" in TSI Commands view
+- **Persistence**: Timer survives VS Code restarts with exact time preservation
+- **Analytics**: Track daily, weekly, monthly, and all-time productivity metrics  
+- **Configuration**: Customize work/break durations and session cycles
+- **Integration**: Seamlessly integrates with learning workflow and code development
 
-#### Using Code Generation
+## Troubleshooting
 
-**Add Class** (13 languages supported):
-
-- Open a source file in a supported language
-- Click "Add class" in TSI Commands view
-- Enter the class name when prompted
-
-**Add Code Base** (147+ languages supported):
-
-- Open a source file in a supported language
-- Click "Add code base" in TSI Commands view
-- Generates language-specific boilerplate code
-
-#### Using Project Creation
-
-**Create TSI Project** (7 languages supported):
-
-- Click any language template in TSI Projects view
-- Enter project name directly (no language selection needed)
-- Generates complete project structure with:
-  - Build files (Makefile, Maven/Gradle, etc.)
-  - Documentation (README.md)
-  - Starter code and proper directory structure
-
-![C++ Project Creation](resources/ui_cpp_project.png)
-
-C++ project creation interface with build system selection
-
-#### Using Study Mode (Pomodoro Timer)
-
-**Starting a Study Session**:
-
-- Click "Start Study Session" in TSI Commands view or context menu
-- Timer begins with 25-minute work session (configurable)
-- Status bar shows 🍅 with remaining time
-
-**Controlling the Timer**:
-
-- **Pause/Resume**: Click the status bar timer or use "Pause/Resume Study Timer" command
-- **Stop Session**: Use "Stop Study Session" to end current session (progress lost)
-- **Session Progression**: Automatic transitions between work (🍅) → short break (☕) → work → long break (🏖️)
-
-**Viewing Statistics**:
-
-- Click "View Study Statistics" to see productivity analytics
-- Track completion rates, focus time, and session counts
-- Statistics available for today, this week, this month, and all-time
-
-**Configuring Study Mode**:
-
-- Click "Configure Study Mode" to open settings for timer customization
-- Adjust work duration, break lengths, and session cycles
-- Enable/disable audio notifications
-
-**Resetting Progress**:
-
-- Use "Reset Study Progress" for selective reset options
-- Choose between resetting today's progress or complete reset
-- Confirmation dialogs prevent accidental data loss
-
-**State Persistence**:
-
-- Timer state automatically saves and survives VS Code restarts
-- Resume exactly where you left off with correct remaining time
-- No progress lost when closing/reopening VS Code
-
-### Troubleshooting
-
-#### Common Issues
+### Common Issues & Solutions
 
 **"Ruby not found" Error**:
 
-- Ensure Ruby 2.7+ is installed and in your PATH
-- On Windows: Install from [rubyinstaller.org](https://rubyinstaller.org/)
-- On macOS: `brew install ruby`
-- On Linux: `sudo apt install ruby` or `sudo dnf install ruby`
+- **Solution**: Install Ruby 2.7+ and ensure it's in your system PATH
+- **Windows**: Download from [rubyinstaller.org](https://rubyinstaller.org/)
+- **macOS**: `brew install ruby`
+- **Linux**: `sudo apt install ruby` or `sudo dnf install ruby`
 
-**Headers not generating**:
+**Learn Mode exercises not working**:
 
-- Check that the file has a supported extension
-- Verify user configuration (name/email) is set
-- Try manual configuration in VS Code settings
+- **Check File Location**: Exercises auto-create in `learn_exercises/ruby/` directory
+- **Verify Ruby Installation**: Exercise testing requires Ruby for automation
+- **Restart VS Code**: Reload window if extension isn't responding
 
-**Extension not appearing**:
+**Code generation not appearing**:
 
-- Restart VS Code after installation
-- Check that the mortar board icon is visible in the Activity Bar
-- Try reloading the window (`Ctrl+Shift+P` → "Developer: Reload Window")
+- **File Extension**: Ensure file has supported language extension (e.g., `.py`, `.js`, `.java`)
+- **User Configuration**: Set username/email in VS Code settings for header generation
+- **Language Support**: Verify language is in our 147+ supported languages list
 
-#### Debug Information
+**Project scaffolding fails**:
 
-To get debug information:
+- **Directory Permissions**: Ensure VS Code has write access to target folder  
+- **Existing Files**: Some templates won't overwrite existing project files
+- **Space in Names**: Avoid special characters in project names
 
-1. Open Command Palette (`Ctrl+Shift+P`)
-2. Type "Developer: Toggle Developer Tools"
-3. Check the Console tab for extension-related messages
+### Debug Information
 
-*Developed for students with institutional branding, comprehensive language support, and integrated Pomodoro productivity timer. Now featuring 100% VS Code language coverage with 147+ programming languages and advanced study session management.*
+For technical issues:
+
+1. **Developer Tools**: `Ctrl+Shift+P` → "Developer: Toggle Developer Tools"
+2. **Console Tab**: Check for extension error messages
+3. **Reload Window**: `Ctrl+Shift+P` → "Developer: Reload Window"
+4. **Extension Output**: View panel → Output → Select "TSI Header" from dropdown
+
+### Getting Help
+
+- **GitHub Issues**: [Report bugs and feature requests](https://github.com/st93642/TSI_Header/issues)
+- **Documentation**: Complete usage examples in repository README
+- **Email Support**: [st93642@students.tsi.lv](mailto:st93642@students.tsi.lv)
+
+---
+
+*Transform VS Code into a comprehensive learning and development environment. Master programming languages with interactive curricula, accelerate development with intelligent code generation, and build complete projects with professional scaffolding tools.*
