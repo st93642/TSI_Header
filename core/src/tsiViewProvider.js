@@ -48,7 +48,8 @@ class TSITreeDataProvider {
                     title: 'Create TSI Project',
                     tooltip: 'Create new TSI project with professional structure'
                 }),
-                new TSITreeItem('🍅 Study Mode', vscode.TreeItemCollapsibleState.Collapsed, null, 'study-mode')
+                new TSITreeItem('🍅 Study Mode', vscode.TreeItemCollapsibleState.Collapsed, null, 'study-mode'),
+                new TSITreeItem('📚 Learn', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn')
             ]);
         } else if (element.id === 'study-mode') {
             // Study Mode commands
@@ -77,6 +78,15 @@ class TSITreeDataProvider {
                     command: 'tsiheader.configureStudyMode',
                     title: 'Configure Study Mode',
                     tooltip: 'Configure timer durations and preferences'
+                })
+            ]);
+        } else if (element.id === 'learn') {
+            // Learn section - programming language tutorials/resources
+            return Promise.resolve([
+                new TSITreeItem('Ruby', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.learnRuby',
+                    title: 'Learn Ruby',
+                    tooltip: 'Interactive Ruby programming tutorials and resources'
                 })
             ]);
         }
@@ -221,6 +231,10 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('settings-gear');
         } else if (label.includes('🍅')) {
             this.iconPath = new vscode.ThemeIcon('clock');
+        } else if (label.includes('📚')) {
+            this.iconPath = new vscode.ThemeIcon('book');
+        } else if (command?.command === 'tsiheader.learnRuby') {
+            this.iconPath = new vscode.ThemeIcon('ruby');
         }
     }
 }

@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Sep 30 2025 15:17 st93642                                       */
+/*  Updated: Oct 01 2025 10:18 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -899,6 +899,26 @@ extern "C" {
     
     context.subscriptions.push(refreshCommandsCommand);
     context.subscriptions.push(refreshProjectsCommand);
+
+    // Register Learn commands
+    const learnRubyCommand = vscode.commands.registerCommand('tsiheader.learnRuby', async () => {
+        vscode.window.showInformationMessage(
+            '📚 Ruby Learning Resources',
+            'Official Ruby Docs',
+            'Ruby Tutorial',
+            'TSI Ruby Course'
+        ).then(selection => {
+            if (selection === 'Official Ruby Docs') {
+                vscode.env.openExternal(vscode.Uri.parse('https://www.ruby-lang.org/en/documentation/'));
+            } else if (selection === 'Ruby Tutorial') {
+                vscode.env.openExternal(vscode.Uri.parse('https://www.tutorialspoint.com/ruby/'));
+            } else if (selection === 'TSI Ruby Course') {
+                vscode.window.showInformationMessage('TSI Ruby course materials coming soon!');
+            }
+        });
+    });
+    
+    context.subscriptions.push(learnRubyCommand);
 
     // Register feature module commands
     // Code quality enforcement module removed

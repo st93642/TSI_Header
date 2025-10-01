@@ -16,6 +16,7 @@ TSI Header is a VS Code extension providing code generation, header management, 
 2. **Code Generation**: JS modules in `core/generators/` create class templates and boilerplate for 147+ languages
 3. **Project Scaffolding**: Full project creation for C, C++, Python, Java, Rust, Ruby, PHP with build files/docs
 4. **Study Mode**: Standalone Pomodoro timer (`studyMode/`) with persistent state across VS Code sessions
+5. **Learn Mode**: Educational resources panel with quick access to programming language tutorials and documentation
 
 ## Critical Patterns
 
@@ -109,6 +110,12 @@ No webpack/bundler - extension uses direct file structure. Ruby must be installe
 - **Analytics**: Session logs track completion rates, focus time (today/week/month/all-time)
 - **Configuration**: All durations configurable in VS Code settings (1-120 minutes)
 - **Status Bar**: Positioned on the right side (priority 1000), shows phase emoji (🍅 work, ☕ short break, 🏖️ long break) + countdown
+
+### Learn Mode Integration
+- **Tree View Section**: Collapsible "📚 Learn" panel in TSI Header Activity Bar
+- **Language Resources**: Currently supports Ruby with links to official docs, tutorials, and TSI course materials
+- **Command Pattern**: `tsiheader.learn<Language>` - opens dialog with resource links via `vscode.env.openExternal()`
+- **Extensibility**: Add new languages by creating tree items in `tsiViewProvider.js` and command handlers in `extension.js`
 
 ## Common Tasks
 

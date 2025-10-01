@@ -234,6 +234,12 @@
         "title": "Reset Study Progress",
         "category": "Study Mode",
         "icon": "$(clear-all)"
+      },
+      {
+        "command": "tsiheader.learnRuby",
+        "title": "Learn Ruby",
+        "category": "Learn",
+        "icon": "$(ruby)"
       }
     ],
     "menus": {
