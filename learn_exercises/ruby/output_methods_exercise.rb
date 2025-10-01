@@ -6,7 +6,7 @@
 
 def combine_words(word1, word2)
   # Your code here
-  word1 + ' ' + word2
+
 end
 
 # 2. Create a method full_name that takes first and last name
@@ -15,7 +15,7 @@ end
 
 def full_name(first, last)
   # Your code here
-  "#{first} #{last}"
+
 end
 
 # 3. Create a method greeting that takes a name and returns a greeting
@@ -24,5 +24,5 @@ end
 
 def greeting(name)
   # Your code here
-  "Hello, #{name}! Welcome!"
+
 end

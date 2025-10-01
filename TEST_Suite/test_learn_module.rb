@@ -22,7 +22,7 @@ class TestLearnModule < TestModule
     @lib_dir = @learn_dir.join('lib')
     
     # Total tests count
-    total_tests = 57
+    total_tests = 59
     start_progress_bar(total_tests, "Learn Module")
     
     current = 0
@@ -94,8 +94,8 @@ class TestLearnModule < TestModule
     end
     
     current += 1
-    run_test_with_progress("All 34 lessons defined in curriculum", total_tests, current) do
-      { passed: lesson_ids.length == 34, message: "Found #{lesson_ids.length} lessons" }
+    run_test_with_progress("All 37 lessons defined in curriculum", total_tests, current) do
+      { passed: lesson_ids.length == 37, message: "Found #{lesson_ids.length} lessons" }
     end
     
     current += 1
@@ -346,6 +346,24 @@ class TestLearnModule < TestModule
     end
     
     current += 1
+    run_test_with_progress("Exercise files have meaningful content", total_tests, current) do
+      empty_exercises = []
+      exercises_dir = @config.extension_root.join('learn_exercises', 'ruby')
+      
+      lesson_ids.each do |id|
+        exercise_file = exercises_dir.join("#{id}_exercise.rb")
+        next unless exercise_file.file?
+        
+        content = File.read(exercise_file).strip
+        # Check if file has meaningful content (more than just "# Your code here" or empty)
+        if content.empty? || content == "# Your code here" || content.length < 20
+          empty_exercises << id
+        end
+      end
+      { passed: empty_exercises.empty?, message: empty_exercises.empty? ? "All exercise files have content" : "Empty/minimal content: #{empty_exercises.join(', ')}" }
+    end
+    
+    current += 1
     run_test_with_progress("Exercises have comprehensive tests", total_tests, current) do
       insufficient_tests = []
       lesson_ids.each do |id|
@@ -412,6 +430,73 @@ class TestLearnModule < TestModule
         end
       end
       { passed: invalid_solutions.empty?, message: invalid_solutions.empty? ? "All solutions valid" : "Invalid solutions: #{invalid_solutions.join(', ')}" }
+    end
+    
+    current += 1
+    run_test_with_progress("Complete lesson components exist and correspond", total_tests, current) do
+      missing_components = []
+      inconsistent_components = []
+      lesson_ids.each do |id|
+        # Check if all 4 components exist
+        lesson_file = @curriculum_dir.join('lessons', "#{id}.md")
+        exercise_file = @curriculum_dir.join('exercises', "#{id}_exercise.json")
+        solution_file = @curriculum_dir.join('solutions', "#{id}_exercise.json")
+        starter_file = @config.extension_root.join('learn_exercises', 'ruby', "#{id}_exercise.rb")
+        
+        components = {
+          'lesson' => lesson_file.file?,
+          'exercise' => exercise_file.file?,
+          'solution' => solution_file.file?,
+          'starter' => starter_file.file?
+        }
+        
+        missing = components.select { |name, exists| !exists }.keys
+        if !missing.empty?
+          missing_components << "#{id}: missing #{missing.join(', ')}"
+          next
+        end
+        
+        # Check title correspondence between lesson and exercise
+        begin
+          lesson_content = File.read(lesson_file)
+          lesson_title_match = lesson_content.match(/^#\s+(.+)$/)
+          lesson_title = lesson_title_match ? lesson_title_match[1].strip : ""
+          
+          exercise_data = JSON.parse(File.read(exercise_file))
+          exercise_title = exercise_data['title'] || ""
+          
+          # Extract the core theme from both titles (ignoring "Lesson X.Y:" and "Exercise X.Y:" prefixes)
+          lesson_core = lesson_title.gsub(/^Lesson\s+\d+\.\d+:\s*/, '').strip
+          exercise_core = exercise_title.gsub(/^Exercise\s+\d+\.\d+:\s*/, '').strip
+          
+          # Check if core themes match
+          unless lesson_core.downcase == exercise_core.downcase
+            inconsistent_components << "#{id}: lesson '#{lesson_core}' vs exercise '#{exercise_core}'"
+          end
+          
+          # Check if solution has correct exercise ID
+          solution_data = JSON.parse(File.read(solution_file))
+          solution_exercise_id = solution_data['exerciseId'] || solution_data['id'] || ""
+          unless solution_exercise_id == "#{id}_exercise" || solution_exercise_id == id
+            inconsistent_components << "#{id}: solution has wrong exerciseId '#{solution_exercise_id}'"
+          end
+          
+          # Check if starter file has theme-appropriate content
+          starter_content = File.read(starter_file)
+          starter_has_theme = starter_content.include?(lesson_core.split.first) || 
+                             starter_content.downcase.include?(lesson_core.downcase.split.first) ||
+                             starter_content.include?('TSI') # Our themed exercises should mention TSI
+          unless starter_has_theme
+            inconsistent_components << "#{id}: starter file doesn't match theme '#{lesson_core}'"
+          end
+          
+        rescue JSON::ParserError, StandardError => e
+          inconsistent_components << "#{id}: error checking correspondence - #{e.message}"
+        end
+      end
+      
+      all_issues = missing_components + inconsistent_components
+      { passed: all_issues.empty?, message: all_issues.empty? ? "All lesson components exist and correspond" : "Issues: #{all_issues.join('; ')}" }
     end
     
     # Progress Tracking Tests (4 tests)

@@ -1,0 +1,81 @@
+{
+  "id": "constants_exercise",
+  "exerciseId": "constants_exercise",
+    "title": "Exercise 1.6: E-Commerce Application Constants",
+  "description": "Build a realistic e-commerce application configuration system using Ruby constants",
+  "starterCode": "# E-Commerce Application Constants\n# Build a realistic e-commerce application configuration system\n\n# You're building an online store called \"TSI Market\" and need to configure\n# various constants for the application. This mirrors real-world scenarios\n# where constants are used for configuration, limits, and calculations.\n\n# ===== PART 1: Application Identity Constants =====\n# Define the core application identity constants\n\n# STORE_NAME should be \"TSI Market\"\n\n\n# STORE_VERSION should be \"2.1.0\"\n\n\n# STORE_MOTTO should be \"Quality Tech for Students\"\n\n\n# ===== PART 2: Business Configuration Constants =====\n# Define business rules and limits\n\n# FREE_SHIPPING_THRESHOLD should be 50 (minimum order for free shipping)\n\n\n# MAX_CART_ITEMS should be 20 (maximum items per cart)\n\n\n# DISCOUNT_CODE should be \"STUDENT25\" (25% discount for students)\n\n\n# ===== PART 3: Mathematical Constants for Calculations =====\n# Define constants used in business calculations\n\n# TAX_RATE should be 0.08 (8% sales tax)\n\n\n# SHIPPING_RATE should be 5.99 (flat shipping rate)\n\n\n# ===== PART 4: Security Constants =====\n# Define security-related constants\n\n# MIN_PASSWORD_LENGTH should be 8\n\n\n# MAX_LOGIN_ATTEMPTS should be 3\n\n\n# SESSION_TIMEOUT should be 1800 (30 minutes in seconds)\n\n\n# ===== PART 5: Business Logic Methods =====\n# Create methods that use your constants\n\n# Calculate total cost including tax\n# calculate_total(subtotal) should return subtotal + (subtotal * TAX_RATE)\ndef calculate_total(subtotal)\n  # Your code here\nend\n\n# Check if order qualifies for free shipping\n# free_shipping?(order_total) should return true if >= FREE_SHIPPING_THRESHOLD\ndef free_shipping?(order_total)\n  # Your code here\nend\n\n# Validate password meets minimum requirements\n# valid_password?(password) should check length against MIN_PASSWORD_LENGTH\ndef valid_password?(password)\n  # Your code here\nend\n\n# Apply student discount\n# apply_student_discount(price) should reduce price by 25%\ndef apply_student_discount(price)\n  # Your code here\nend\n\n# ===== PART 6: Configuration Module =====\n# Group related constants in a module for better organization\n\n# Create a Database module with:\n# - HOST constant = \"localhost\"\n# - PORT constant = 5432\n# - NAME constant = \"tsi_market_production\"\n\nmodule Database\n  # Your constants here\nend\n\n# Example usage - these should work when you're done:\n# puts \"Welcome to #{STORE_NAME} v#{STORE_VERSION}!\"\n# puts \"#{STORE_MOTTO}\"\n# puts \"Order total: $#{calculate_total(100.00)}\"\n# puts \"Free shipping: #{free_shipping?(75.00)}\"\n# puts \"Password valid: #{valid_password?('mypassword123')}\"\n# puts \"Student price: $#{apply_student_discount(100.00)}\"\n# puts \"Database: #{Database::HOST}:#{Database::PORT}/#{Database::NAME}\"",
+  "tests": [
+    {
+      "name": "test_store_identity",
+      "call": "STORE_NAME",
+      "expected": "TSI Market",
+      "description": "Store name constant should be defined"
+    },
+    {
+      "name": "test_store_version",
+      "call": "STORE_VERSION",
+      "expected": "2.1.0",
+      "description": "Store version constant should be defined"
+    },
+    {
+      "name": "test_store_motto",
+      "call": "STORE_MOTTO",
+      "expected": "Quality Tech for Students",
+      "description": "Store motto constant should be defined"
+    },
+    {
+      "name": "test_shipping_threshold",
+      "call": "FREE_SHIPPING_THRESHOLD",
+      "expected": 50,
+      "description": "Free shipping threshold should be 50"
+    },
+    {
+      "name": "test_tax_calculation",
+      "call": "calculate_total(100.00)",
+      "expected": 108.0,
+      "description": "Total should include 8% tax"
+    },
+    {
+      "name": "test_free_shipping_check",
+      "call": "free_shipping?(75.00)",
+      "expected": true,
+      "description": "Orders >= $50 should qualify for free shipping"
+    },
+    {
+      "name": "test_password_validation",
+      "call": "valid_password?('mypassword123')",
+      "expected": true,
+      "description": "Passwords >= 8 characters should be valid"
+    },
+    {
+      "name": "test_student_discount",
+      "call": "apply_student_discount(100.00)",
+      "expected": 75.0,
+      "description": "Student discount should reduce price by 25%"
+    },
+    {
+      "name": "test_database_config",
+      "call": "Database::HOST",
+      "expected": "localhost",
+      "description": "Database module should contain configuration constants"
+    },
+    {
+      "name": "test_max_cart_items",
+      "call": "MAX_CART_ITEMS",
+      "expected": 20,
+      "description": "Maximum cart items should be 20"
+    }
+  ],
+  "hints": [
+    "Constants use ALL_CAPS naming (like STORE_NAME, not storeName)",
+    "Business constants make code more maintainable - change the constant to update the entire app",
+    "Use constants for tax rates, shipping costs, and business rules that don't change often",
+    "Group related constants in modules (like Database::HOST, Database::PORT)",
+    "Mathematical operations with constants: subtotal + (subtotal * TAX_RATE)",
+    "Boolean methods should return true/false: order_total >= FREE_SHIPPING_THRESHOLD",
+    "String length validation: password.length >= MIN_PASSWORD_LENGTH",
+    "Percentage calculations: price * 0.75 gives 25% discount (keeps 75%)"
+  ],
+  "difficulty": "beginner",
+  "tags": ["constants", "naming", "scope", "best-practices"]
+}

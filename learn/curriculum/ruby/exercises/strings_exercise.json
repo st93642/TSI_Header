@@ -1,6 +1,6 @@
 {
   "id": "strings_exercise",
-  "title": "Strings in Ruby",
+  "title": "Working with Strings",
   "description": "Practice string manipulation, concatenation, and methods in Ruby.",
   "difficulty": "beginner",
   "starterCode": "# Task: String manipulation methods\n\n# 1. Create a method that returns a string in uppercase\ndef shout(text)\n  # Your code here\n\nend\n\n# 2. Create a method that reverses a string\ndef reverse_text(text)\n  # Your code here\n\nend\n\n# 3. Create a method that returns the length of a string\ndef text_length(text)\n  # Your code here\n\nend\n",

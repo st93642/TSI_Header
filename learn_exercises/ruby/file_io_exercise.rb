@@ -1,16 +1,19 @@
-# Task: File operations
-require 'json'
+# Create methods that work with file paths (strings)
 
-def write_text(content)
-  # Return the content
-  content
+def get_file_extension(filename)
+  # Return the file extension (including the dot)
+  # Example: "document.txt" => ".txt"
+
 end
 
-def read_text
-  # Return a test string
-  "Hello from file"
+def get_filename_without_extension(filename)
+  # Return filename without extension
+  # Example: "document.txt" => "document"
+
 end
 
-def hash_to_json(hash)
-  # Convert hash to JSON
+def create_backup_name(filename)
+  # Add .bak before the extension
+  # Example: "data.txt" => "data.bak.txt"
+
 end

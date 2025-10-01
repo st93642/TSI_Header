@@ -5,7 +5,6 @@
 
 module GameEngine
   # Your module structure here
-  # 
 end
 
 module FileSystem

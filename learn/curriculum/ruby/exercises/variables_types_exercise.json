@@ -1,6 +1,6 @@
 {
   "id": "variables_types_exercise",
-  "title": "Lesson 1.5: Variables and Data Types",
+  "title": "Variables and Data Types",
   "description": "Practice creating and using different data types in Ruby: strings, numbers, booleans.",
   "difficulty": "beginner",
   "starterCode": "# Task: Create methods that return different data types\n\n# 1. Create a method that returns your favorite programming language as a string\ndef favorite_language\n  # Your code here\n\nend\n\n# 2. Create a method that returns your age as an integer\ndef my_age\n  # Your code here\n\nend\n\n# 3. Create a method that checks if Ruby is awesome (return true)\ndef ruby_is_awesome?\n  # Your code here\n\nend\n",

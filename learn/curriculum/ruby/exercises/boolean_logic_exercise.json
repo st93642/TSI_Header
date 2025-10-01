@@ -1,0 +1,112 @@
+{
+  "id": "boolean_logic_exercise",
+    "title": "Exercise 1.10: TSI Student Portal Authentication System",
+  "description": "Build a realistic authentication and validation system using Ruby boolean logic and conditional statements",
+  "difficulty": "beginner",
+  "tags": ["booleans", "logic", "authentication", "validation", "real-world"],
+  "starterCode": "# TSI Student Portal Authentication System\n# Build a realistic authentication and validation system using Ruby boolean logic\n\n# You're developing the authentication system for TSI's student portal.\n# This system needs to validate user credentials, check permissions, and enforce security rules.\n\n# ===== PART 1: Basic Authentication Logic =====\n\n# Create a method to validate login credentials\n# valid_login?(username, password, stored_username, stored_password)\n# Should return true only if both username AND password match\ndef valid_login?(username, password, stored_username, stored_password)\n  # Use logical AND (&&) to check both conditions\nend\n\n# Create a method to check if user account is active\n# account_active?(is_active, is_suspended, payment_current)\n# Should return true if active AND not suspended AND payment is current\ndef account_active?(is_active, is_suspended, payment_current)\n  # Multiple conditions with logical operators\nend\n\n# ===== PART 2: Permission System =====\n\n# Create a method to check if user can access admin features\n# admin_access?(user_type, account_age_days)\n# Should return true if user is 'admin' OR 'faculty' OR (student with account > 365 days)\ndef admin_access?(user_type, account_age_days)\n  # Use logical OR (||) and grouping with parentheses\nend\n\n# Create a method for library access\n# library_access?(is_student, is_faculty, library_fees_paid)\n# Should return true if (student OR faculty) AND fees are paid\ndef library_access?(is_student, is_faculty, library_fees_paid)\n  # Combine AND and OR operations\nend\n\n# ===== PART 3: Security Validation =====\n\n# Create a method to validate password strength\n# strong_password?(password)\n# Should return true if length >= 8 AND contains both letters and numbers\ndef strong_password?(password)\n  # Use string methods with boolean logic\n  # Hint: Check length and use regex or string scanning\nend\n\n# Create a method to check if login attempt is suspicious\n# suspicious_login?(failed_attempts, login_hour, is_weekend)\n# Should return true if failed_attempts >= 3 OR login_hour < 6 OR login_hour > 22 OR is_weekend\ndef suspicious_login?(failed_attempts, login_hour, is_weekend)\n  # Multiple OR conditions\nend\n\n# ===== PART 4: Course Enrollment Logic =====\n\n# Create a method to check course enrollment eligibility\n# can_enroll?(prerequisite_completed, has_space, registration_open, tuition_paid)\n# Should return true only if ALL conditions are met\ndef can_enroll?(prerequisite_completed, has_space, registration_open, tuition_paid)\n  # All conditions must be true\nend\n\n# Create a method for scholarship eligibility\n# scholarship_eligible?(gpa, financial_need, is_citizen, extracurricular_hours)\n# Should return true if GPA >= 3.5 AND (financial_need OR is_citizen) AND extracurricular_hours >= 50\ndef scholarship_eligible?(gpa, financial_need, is_citizen, extracurricular_hours)\n  # Complex nested conditions\nend\n\n# ===== PART 5: Ruby Truthiness Understanding =====\n\n# Create a method to check if a value is truthy in Ruby\n# truthy?(value)\n# Should return true for everything except false and nil\ndef truthy?(value)\n  # Ruby truthiness: only false and nil are falsy\nend\n\n# Create a method to safely check user input\n# valid_input?(input)\n# Should return true if input is not nil, not empty string, and not just whitespace\ndef valid_input?(input)\n  # Handle nil, empty strings, and whitespace\nend\n\n# ===== PART 6: Real-world Logical Conditions =====\n\n# Create a method for emergency contact validation\n# valid_emergency_contact?(name, phone, relationship)\n# Should return true if ALL fields are present (not nil and not empty)\ndef valid_emergency_contact?(name, phone, relationship)\n  # Check multiple fields for presence\nend\n\n# Create a method for grade submission deadline\n# can_submit_grade?(is_instructor, submission_deadline_passed, grade_value)\n# Should return true if instructor AND (NOT deadline_passed OR grade_value is 'I' for incomplete)\ndef can_submit_grade?(is_instructor, submission_deadline_passed, grade_value)\n  # Logical NOT and exception handling\nend\n\n# ===== TESTING EXAMPLES =====\n# Uncomment these to test your methods:\n\n# Authentication tests\n# puts \"Valid login: #{valid_login?('student1', 'pass123', 'student1', 'pass123')}\"\n# puts \"Invalid login: #{valid_login?('student1', 'wrong', 'student1', 'pass123')}\"\n\n# Account status tests\n# puts \"Active account: #{account_active?(true, false, true)}\"\n# puts \"Suspended account: #{account_active?(true, true, true)}\"\n\n# Permission tests\n# puts \"Admin access (faculty): #{admin_access?('faculty', 100)}\"\n# puts \"Admin access (old student): #{admin_access?('student', 400)}\"\n\n# Security tests\n# puts \"Strong password: #{strong_password?('mypass123')}\"\n# puts \"Weak password: #{strong_password?('weak')}\"\n\n# Enrollment tests\n# puts \"Can enroll: #{can_enroll?(true, true, true, true)}\"\n# puts \"Cannot enroll: #{can_enroll?(false, true, true, true)}\"\n\n# Ruby truthiness tests\n# puts \"0 is truthy: #{truthy?(0)}\"\n# puts \"Empty array is truthy: #{truthy?([])}\"\n# puts \"nil is falsy: #{truthy?(nil)}\"\n\n# Input validation tests\n# puts \"Valid input: #{valid_input?('hello')}\"\n# puts \"Invalid input (nil): #{valid_input?(nil)}\"\n# puts \"Invalid input (empty): #{valid_input?('')}\"",
+  "tests": [
+    {
+      "name": "test_valid_login_success",
+      "call": "valid_login?('student1', 'pass123', 'student1', 'pass123')",
+      "expected": true,
+      "description": "Valid credentials should return true"
+    },
+    {
+      "name": "test_valid_login_failure",
+      "call": "valid_login?('student1', 'wrong', 'student1', 'pass123')",
+      "expected": false,
+      "description": "Invalid credentials should return false"
+    },
+    {
+      "name": "test_account_active",
+      "call": "account_active?(true, false, true)",
+      "expected": true,
+      "description": "Active, non-suspended account with current payment should be active"
+    },
+    {
+      "name": "test_account_suspended",
+      "call": "account_active?(true, true, true)",
+      "expected": false,
+      "description": "Suspended account should not be active"
+    },
+    {
+      "name": "test_admin_access_faculty",
+      "call": "admin_access?('faculty', 100)",
+      "expected": true,
+      "description": "Faculty should have admin access"
+    },
+    {
+      "name": "test_admin_access_old_student",
+      "call": "admin_access?('student', 400)",
+      "expected": true,
+      "description": "Students with accounts > 365 days should have admin access"
+    },
+    {
+      "name": "test_library_access",
+      "call": "library_access?(true, false, true)",
+      "expected": true,
+      "description": "Students with paid fees should have library access"
+    },
+    {
+      "name": "test_strong_password",
+      "call": "strong_password?('mypass123')",
+      "expected": true,
+      "description": "Password with letters and numbers >= 8 chars should be strong"
+    },
+    {
+      "name": "test_weak_password",
+      "call": "strong_password?('weak')",
+      "expected": false,
+      "description": "Short password should be weak"
+    },
+    {
+      "name": "test_suspicious_login",
+      "call": "suspicious_login?(3, 15, false)",
+      "expected": true,
+      "description": "3+ failed attempts should be suspicious"
+    },
+    {
+      "name": "test_can_enroll",
+      "call": "can_enroll?(true, true, true, true)",
+      "expected": true,
+      "description": "Meeting all requirements should allow enrollment"
+    },
+    {
+      "name": "test_cannot_enroll",
+      "call": "can_enroll?(false, true, true, true)",
+      "expected": false,
+      "description": "Missing prerequisites should prevent enrollment"
+    },
+    {
+      "name": "test_scholarship_eligible",
+      "call": "scholarship_eligible?(3.8, true, false, 60)",
+      "expected": true,
+      "description": "High GPA with financial need and enough hours should qualify"
+    },
+    {
+      "name": "test_truthy_zero",
+      "call": "truthy?(0)",
+      "expected": true,
+      "description": "Zero should be truthy in Ruby"
+    },
+    {
+      "name": "test_falsy_nil",
+      "call": "truthy?(nil)",
+      "expected": false,
+      "description": "nil should be falsy in Ruby"
+    }
+  ],
+  "hints": [
+    "Logical AND (&&): Both conditions must be true - user && pass for login",
+    "Logical OR (||): At least one condition must be true - student || faculty for access",
+    "Logical NOT (!): Reverses boolean value - !suspended means not suspended",
+    "Grouping with parentheses: (condition1 || condition2) && condition3",
+    "Ruby truthiness: Only false and nil are falsy, everything else (0, '', []) is truthy",
+    "String validation: check both nil and empty - value && !value.empty?",
+    "Password strength: length >= 8 && (contains letters AND numbers)",
+    "Multiple conditions: combine with && for 'all must be true', || for 'any can be true'",
+    "Comparison operators return booleans: age >= 21, gpa > 3.5",
+    "Safe navigation: use value&.method to avoid nil errors"
+  ]
+}

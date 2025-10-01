@@ -4,7 +4,6 @@
 
 class Fraction
   # Your operator overloads here
-  
 end
 
 class TimeSpan

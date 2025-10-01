@@ -1,6 +1,6 @@
 {
   "id": "hello_world_exercise",
-  "title": "Lesson 1.4: Hello World and Output",
+  "title": "Hello World and Output",
   "description": "Practice using puts, print, and p to display output. This lesson is about PRINTING to the console, not returning values.",
   "difficulty": "beginner",
   "starterCode": "# Create methods that use puts to display output\n\ndef say_hello\n  # Use puts to print \"Hello, World!\"\n\nend\n\ndef greet_person(name)\n  # Use puts to print \"Hello, {name}!\"\n  # Example: greet_person(\"Alice\") should print \"Hello, Alice!\"\n\nend\n\ndef greet_with_time(name, time)\n  # Use puts to print \"Good {time}, {name}!\"\n  # Example: greet_with_time(\"Alice\", \"morning\") should print \"Good morning, Alice!\"\n\nend\n",

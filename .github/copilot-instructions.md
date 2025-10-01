@@ -51,7 +51,7 @@ const response = JSON.parse(result); // {success: bool, header?: string, message
 
 ### Testing
 ```bash
-ruby TEST_Suite/full_test_suite.rb    # 393 tests, 100% coverage
+ruby TEST_Suite/full_test_suite.rb    # 394 tests, 100% coverage
 cd studyMode && npm test              # Timer tests
 ```
 
@@ -181,7 +181,7 @@ Users without config see helpful setup dialogs (not errors) when first using hea
 
 ### Testing
 ```bash
-# Ruby tests (393 tests, 100% coverage)
+# Ruby tests (394 tests, 100% coverage)
 ruby TEST_Suite/full_test_suite.rb
 
 # Study Mode tests (Node.js)
@@ -193,7 +193,7 @@ Test files validate:
 - Class generation for 13 OOP languages
 - Project creation for 7 languages
 - Timer state persistence and analytics
-- Learn Mode curriculum integrity (393 automated tests)
+- Learn Mode curriculum integrity (394 automated tests)
 
 ### Building
 ```bash
@@ -313,7 +313,7 @@ Added comprehensive professional Ruby curriculum with 5 new lessons covering adv
 - **Quality Assurance**: Markdown linting compliance, JSON validation, automated testing for all new content
 
 **Technical Achievements**:
-- **Test Suite**: 393 total tests, 100% pass rate maintained throughout expansion
+- **Test Suite**: 394 total tests, 100% pass rate maintained throughout expansion
 - **Curriculum Integrity**: All lessons, exercises, and solutions validated through automated testing
 - **Professional Coverage**: Advanced enumerable methods, OOP design patterns, operator overloading, architectural organization
 - **Learning Outcomes**: Students master real-world Ruby development skills from basic syntax to enterprise-level patterns
@@ -335,7 +335,7 @@ Added 3 practical Ruby lessons to bridge theory and real-world application:
 - Total Modules: 8 (Ruby Basics, Control Flow, Collections, Methods/Blocks, OOP, Advanced, Practical, Professional)
 - Total Lessons: 34 (was 29)
 - Total Exercises: 34 (all automated, 0 manual)
-- Total Tests: 393+ automated test cases
+- Total Tests: 394+ automated test cases
 - Success Rate: 100% test coverage maintained
 - Success Rate: 100% test coverage maintained
 
@@ -598,7 +598,7 @@ Lessons rendered as HTML in webview panels:
 ## Next Enhancement Phase: Multi-Language Curriculum Expansion
 
 ### Phase Overview
-Following the successful completion of the comprehensive Ruby curriculum (8 modules, 34 lessons, 393 tests), the next major enhancement will focus on expanding the Learn Mode to support additional programming languages, starting with Python and JavaScript.
+Following the successful completion of the comprehensive Ruby curriculum (8 modules, 34 lessons, 394 tests), the next major enhancement will focus on expanding the Learn Mode to support additional programming languages, starting with Python and JavaScript.
 
 ### Strategic Objectives
 1. **Language Diversity**: Expand from Ruby-only to multi-language support (Python, JavaScript, Java, C++)
@@ -683,7 +683,7 @@ Following the successful completion of the comprehensive Ruby curriculum (8 modu
 
 ### Dependencies
 - **Ruby Infrastructure**: Current Learn Mode architecture (stable, tested)
-- **Testing Framework**: Existing 393-test suite provides validation patterns
+- **Testing Framework**: Existing 394-test suite provides validation patterns
 - **VS Code APIs**: Current extension framework supports multi-language expansion
 - **Content Creation**: Systematic approach proven with Ruby curriculum
 

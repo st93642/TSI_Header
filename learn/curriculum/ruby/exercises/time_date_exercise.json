@@ -1,0 +1,82 @@
+{
+  "id": "time_date_exercise",
+    "title": "Exercise 1.7: Student Event Management System",
+  "description": "Build a practical event management system for TSI students using Ruby's Time and Date classes",
+  "difficulty": "beginner",
+  "tags": ["time", "date", "formatting", "arithmetic", "real-world"],
+  "starterCode": "# Student Event Management System\n# Build a practical event management system for TSI students\n\n# You're creating a system to manage student events at TSI (Transport and Telecommunication Institute).\n# This system needs to handle event scheduling, age verification, time calculations, and more.\n\nrequire 'date'\n\n# ===== PART 1: Current Time and Basic Operations =====\n\n# Get the current time and store it in a variable called 'now'\n# This will be used throughout the system\n\n\n# Create a specific time for the TSI Winter Graduation ceremony:\n# December 15, 2025 at 10:00 AM\n# Store this in a variable called 'graduation_time'\n\n\n# ===== PART 2: Student Age Verification =====\n\n# Create a method to calculate a student's age\n# calculate_age(birth_year, birth_month, birth_day)\n# Should return the student's age in years\ndef calculate_age(birth_year, birth_month, birth_day)\n  # Hint: Compare today's date with the birth date\n  # Remember to check if birthday has passed this year\nend\n\n# Create a method to check if student is eligible for alumni events (21+)\n# eligible_for_alumni_events?(birth_year, birth_month, birth_day)\ndef eligible_for_alumni_events?(birth_year, birth_month, birth_day)\n  # Use your calculate_age method\nend\n\n# ===== PART 3: Event Scheduling and Countdown =====\n\n# Create a method to calculate days until an event\n# days_until_event(event_year, event_month, event_day)\n# Should return number of days until the event\ndef days_until_event(event_year, event_month, event_day)\n  # Calculate difference between event date and today\nend\n\n# Create a method to format event time for announcements\n# format_event_announcement(time_obj)\n# Should return: \"Monday, December 15, 2025 at 10:00 AM\"\ndef format_event_announcement(time_obj)\n  # Use strftime to format the time nicely\nend\n\n# ===== PART 4: Study Session Scheduler =====\n\n# Create a method to schedule next study session (3 days from now at 2 PM)\n# next_study_session()\n# Should return a Time object 3 days from now at 14:00 (2 PM)\ndef next_study_session\n  # Add 3 days to current time and set hour to 14\nend\n\n# Create a method to check if it's during study hours (9 AM to 8 PM)\n# during_study_hours?(time_obj)\ndef during_study_hours?(time_obj)\n  # Check if hour is between 9 and 20 (8 PM)\nend\n\n# ===== PART 5: Academic Calendar =====\n\n# Create a method to find the start of current academic year\n# (September 1st of current year, or previous year if we're before September)\n# academic_year_start()\ndef academic_year_start\n  # Logic: if current month < 9, use previous year\n  # Otherwise use current year\nend\n\n# Create a method to calculate weeks into semester\n# weeks_into_semester()\n# Should return how many weeks since academic year started\ndef weeks_into_semester\n  # Calculate difference between now and academic_year_start\n  # Convert to weeks (days / 7)\nend\n\n# ===== PART 6: International Student Time Zones =====\n\n# Create a method to show event time in different time zones\n# event_time_in_utc(local_time)\n# Convert local time to UTC for international students\ndef event_time_in_utc(local_time)\n  # Convert to UTC\nend\n\n# ===== TESTING EXAMPLES =====\n# Uncomment these to test your methods:\n\n# Student age examples\n# puts \"Student age: #{calculate_age(2003, 5, 15)} years old\"\n# puts \"Eligible for alumni events: #{eligible_for_alumni_events(2002, 1, 1)}\"\n\n# Event scheduling examples\n# puts \"Days until graduation: #{days_until_event(2025, 12, 15)}\"\n# puts \"Graduation announcement: #{format_event_announcement(graduation_time)}\"\n\n# Study session examples\n# next_session = next_study_session\n# puts \"Next study session: #{format_event_announcement(next_session)}\"\n# puts \"Currently study hours: #{during_study_hours?(Time.now)}\"\n\n# Academic calendar examples\n# puts \"Academic year started: #{academic_year_start}\"\n# puts \"Weeks into semester: #{weeks_into_semester}\"\n\n# Time zone examples\n# puts \"Graduation in UTC: #{event_time_in_utc(graduation_time)}\"",
+  "tests": [
+    {
+      "name": "test_graduation_time_creation",
+      "call": "graduation_time = Time.new(2025, 12, 15, 10, 0, 0); graduation_time.year == 2025 && graduation_time.month == 12 && graduation_time.day == 15 && graduation_time.hour == 10",
+      "expected": true,
+      "description": "Should create graduation time correctly"
+    },
+    {
+      "name": "test_age_calculation",
+      "call": "calculate_age(2003, 6, 15)",
+      "expected": 22,
+      "description": "Should calculate age correctly (assuming current date is 2025)"
+    },
+    {
+      "name": "test_alumni_eligibility",
+      "call": "eligible_for_alumni_events?(2002, 1, 1)",
+      "expected": true,
+      "description": "Students 21+ should be eligible for alumni events"
+    },
+    {
+      "name": "test_days_until_event",
+      "call": "days_until_event(2025, 12, 25) > 0",
+      "expected": true,
+      "description": "Should calculate positive days for future events"
+    },
+    {
+      "name": "test_event_announcement_format",
+      "call": "format_event_announcement(Time.new(2025, 12, 15, 10, 0)).include?('December') && format_event_announcement(Time.new(2025, 12, 15, 10, 0)).include?('10:00')",
+      "expected": true,
+      "description": "Should format event announcements with month name and time"
+    },
+    {
+      "name": "test_study_session_scheduling",
+      "call": "next_session = next_study_session; next_session.hour == 14",
+      "expected": true,
+      "description": "Study sessions should be scheduled at 2 PM (14:00)"
+    },
+    {
+      "name": "test_study_hours_check",
+      "call": "during_study_hours?(Time.new(2025, 1, 1, 15, 0))",
+      "expected": true,
+      "description": "3 PM should be during study hours (9 AM - 8 PM)"
+    },
+    {
+      "name": "test_study_hours_outside",
+      "call": "during_study_hours?(Time.new(2025, 1, 1, 22, 0))",
+      "expected": false,
+      "description": "10 PM should be outside study hours"
+    },
+    {
+      "name": "test_academic_year_start",
+      "call": "academic_year_start.month == 9 && academic_year_start.day == 1",
+      "expected": true,
+      "description": "Academic year should start September 1st"
+    },
+    {
+      "name": "test_utc_conversion",
+      "call": "local_time = Time.new(2025, 12, 15, 10, 0); utc_time = event_time_in_utc(local_time); utc_time.utc?",
+      "expected": true,
+      "description": "Should convert time to UTC"
+    }
+  ],
+  "hints": [
+    "Use Time.now to get current time and Time.new(year, month, day, hour, min) for specific times",
+    "Age calculation: compare Date.today with birth date, subtract 1 if birthday hasn't passed this year",
+    "Date arithmetic: Use (date1 - date2).to_i to get difference in days",
+    "Time formatting: strftime('%A, %B %d, %Y at %I:%M %p') gives full format",
+    "Add days to time: Time.now + (3 * 24 * 60 * 60) adds 3 days",
+    "Set specific hour: time.change(hour: 14) or Time.new(year, month, day, 14)",
+    "Check time ranges: use comparison operators like time.hour >= 9 && time.hour <= 20",
+    "Academic year logic: if Date.today.month < 9, use previous year for start date",
+    "Convert to UTC: use time.utc method",
+    "Date differences in weeks: (date1 - date2).to_i / 7"
+  ]
+}

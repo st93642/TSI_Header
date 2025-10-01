@@ -1,6 +1,6 @@
 {
   "id": "attr_methods_exercise",
-  "title": "Attribute Methods Exercise",
+  "title": "Attribute Methods",
   "difficulty": "beginner",
   "description": "Practice using attr_reader, attr_writer, and attr_accessor to create proper object interfaces",
   "tags": ["oop", "attributes", "encapsulation", "beginner"],

@@ -1,4 +1,4 @@
-# Strings in Ruby
+# Working with Strings
 
 Strings are one of the most fundamental data types in Ruby. They represent sequences of characters and are used extensively in every Ruby program.
 

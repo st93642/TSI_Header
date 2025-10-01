@@ -1,6 +1,6 @@
 {
   "id": "enumerables_advanced_exercise",
-  "title": "Advanced Enumerables Exercise",
+  "title": "Advanced Enumerables",
   "description": "Master advanced Ruby enumerable methods including each_with_index, reduce, select, reject, map, group_by, sort_by, take, drop, chunk, partition, and zip. Practice method chaining for efficient data processing.",
   "difficulty": "intermediate",
   "starterCode": "# Your code here\n",

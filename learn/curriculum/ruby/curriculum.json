@@ -40,15 +40,33 @@
           "difficulty": "beginner"
         },
         {
+          "id": "constants",
+          "title": "Lesson 1.6: E-Commerce Application Constants",
+          "duration": 30,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "time_date",
+          "title": "Lesson 1.7: Student Event Management System",
+          "duration": 60,
+          "difficulty": "beginner"
+        },
+        {
           "id": "strings",
-          "title": "Lesson 1.6: Working with Strings",
+          "title": "Lesson 1.8: Working with Strings",
           "duration": 60,
           "difficulty": "beginner"
         },
         {
           "id": "numbers",
-          "title": "Lesson 1.7: Numbers and Math",
+          "title": "Lesson 1.9: Numbers and Math",
           "duration": 45,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "boolean_logic",
+          "title": "Lesson 1.10: TSI Student Portal Authentication System",
+          "duration": 60,
           "difficulty": "beginner"
         }
       ]

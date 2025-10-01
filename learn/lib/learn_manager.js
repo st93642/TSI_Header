@@ -477,8 +477,27 @@ class LearnManager {
             const exerciseDir = path.dirname(exerciseFilePath);
             await fs.mkdir(exerciseDir, { recursive: true });
             
-            // Write starter code
-            await fs.writeFile(exerciseFilePath, exercise.starterCode || '# Write your code here\n');
+            // Check if exercise file already exists and has user content
+            let shouldWriteStarterCode = true;
+            try {
+                const existingContent = await fs.readFile(exerciseFilePath, 'utf8');
+                // Don't overwrite if file has meaningful content (more than just placeholder)
+                const trimmedContent = existingContent.trim();
+                if (trimmedContent && 
+                    trimmedContent !== '# Write your code here' && 
+                    trimmedContent !== '# Your code here' &&
+                    trimmedContent.length > 20) { // Has substantial content
+                    shouldWriteStarterCode = false;
+                }
+            } catch (error) {
+                // File doesn't exist, so we should write starter code
+                shouldWriteStarterCode = true;
+            }
+            
+            // Write starter code only if file is empty or has minimal content
+            if (shouldWriteStarterCode) {
+                await fs.writeFile(exerciseFilePath, exercise.starterCode || '# Write your code here\n');
+            }
             
             // Store reference to current exercise file
             this.currentExerciseEditor = exerciseFilePath;

@@ -1,6 +1,6 @@
 {
   "id": "class_instance_methods_exercise",
-  "title": "Lesson 8.3: Class vs Instance Methods",
+  "title": "Class vs Instance Methods",
   "difficulty": "intermediate",
   "description": "Practice creating and using both class methods and instance methods in Ruby classes",
   "tags": ["oop", "methods", "class-methods", "instance-methods", "intermediate"],

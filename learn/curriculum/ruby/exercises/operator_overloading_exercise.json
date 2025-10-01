@@ -1,6 +1,6 @@
 {
   "id": "operator_overloading_exercise",
-  "title": "Lesson 8.4: Operator Overloading",
+  "title": "Operator Overloading",
   "difficulty": "advanced",
   "description": "Implement operator overloading for custom classes to create intuitive and expressive APIs",
   "tags": ["oop", "operators", "overloading", "advanced", "dsl"],

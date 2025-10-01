@@ -1,6 +1,6 @@
 {
   "id": "p_method_exercise",
-  "title": "Exercise 1.3: Using P for Debugging",
+  "title": "Using P for Debugging",
   "description": "Learn to use p for debugging. The p method shows the raw representation of objects.",
   "difficulty": "beginner",
   "starterCode": "# Task: Create a method called get_year that returns the current year as a number\n# Example: get_year() should return 2025\n\ndef get_year\n  # Your code here\n\nend\n",

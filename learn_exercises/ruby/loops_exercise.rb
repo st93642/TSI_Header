@@ -7,7 +7,7 @@
 
 def count_to(n)
   # Return array of numbers from 1 to n
-  return (1..n).to_a
+
 end
 
 # 2. Create a method sum_to(n) that returns sum of 1+2+3+...+n
@@ -17,11 +17,7 @@ end
 
 def sum_to(n)
   # Calculate and return the sum
-  sum = 0
-  for i in 1..n
-    sum += i
-  end
-  return sum
+
 end
 
 # 3. Create a method double_numbers(arr) that returns new array with doubled values
@@ -31,5 +27,5 @@ end
 
 def double_numbers(arr)
   # Return new array with each number doubled
-  return arr.map { |num| num * 2 }
+
 end

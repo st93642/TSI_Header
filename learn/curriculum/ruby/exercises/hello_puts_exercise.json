@@ -1,6 +1,6 @@
 {
   "id": "hello_puts_exercise",
-  "title": "Lesson 1.1: Hello World with Puts",
+  "title": "Hello World with Puts",
   "description": "Learn to return values from methods and use string interpolation. Methods can return strings that combine text with variables using #{}.",
   "difficulty": "beginner",
   "starterCode": "# Task: Create a method called greet that takes a name parameter\n# and returns a greeting message using that name\n# Example: greet(\"Alice\") should return \"Hello, Alice!\"\n# Hint: Use string interpolation with #{name} to insert the variable\n\ndef greet(name)\n  # Your code here\n\nend\n",

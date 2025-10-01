@@ -1,21 +1,23 @@
-# Task: Error handling
+# Error Handling with Exceptions Exercise
+
+# Create a safe_divide method that handles division by zero
 
 def safe_divide(a, b)
-  # Return result or "Error" if b is zero
-  return "Error" if b == 0
-  a / b
+  # Return the result of a / b
+  # If b is zero, return "Cannot divide by zero"
+  # Use begin/rescue block
+
 end
 
-def check_positive(num)
-  # Raise error if negative, else return num
-  raise "Negative!" if num < 0
-  num
+def safe_divide_with_float(a, b)
+  # Same as safe_divide but return float result
+  # Use a.to_f / b to get float division
+
 end
 
-def rescue_example
-  begin
-    1 / 0
-  rescue => e
-    # Return "Caught: ZeroDivisionError"
-  end
+def calculate_average(numbers)
+  # Calculate average of array
+  # Return "Cannot calculate average of empty array" if empty
+  # Use begin/rescue to handle empty array
+
 end

@@ -1,6 +1,6 @@
 {
   "id": "module_namespacing_exercise",
-  "title": "Lesson 8.5: Module Namespacing",
+  "title": "Module Namespacing",
   "difficulty": "intermediate",
   "description": "Organize code using modules as namespaces to prevent conflicts and improve code structure",
   "tags": ["modules", "namespacing", "organization", "architecture", "intermediate"],

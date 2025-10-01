@@ -1,15 +1,31 @@
-# Task: Mixins
+# Mixins and Modules Exercise
 
-module Greetable
-  def greet
-    "Hello from this class"
-  end
+# Define a Swimmable module with a swim method
+# that returns "Swimming!"
+
+module Swimmable
+  # Your code here
+
 end
 
-class Person
-  include Greetable
+# Define a Flyable module with a fly method
+# that returns "Flying!"
+
+module Flyable
+  # Your code here
+
 end
 
-class Robot
-  include Greetable
+# Define a Duck class that includes both modules
+
+class Duck
+  # Your code here
+
+end
+
+# Define a Fish class that only includes Swimmable
+
+class Fish
+  # Your code here
+
 end
