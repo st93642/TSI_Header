@@ -1,0 +1,37 @@
+{
+  "id": "blocks_procs_exercise",
+  "title": "Exercise 4.2: Blocks and Procs Exercise",
+  "description": "Practice using blocks and Proc objects.",
+  "difficulty": "advanced",
+  "starterCode": "# Blocks and Procs Exercise\n\n# 1. Create a method apply_to_five(&block) that calls block with 5\n#    Example: apply_to_five { |x| x * 2 } => 10\n#    Example: apply_to_five { |x| x + 10 } => 15\n#    Hint: Use block.call(5) or yield 5\n\ndef apply_to_five(&block)\n  # Call the block with number 5 as argument\n\nend\n\n# 2. Create a method make_adder(n) that returns a Proc adding n\n#    Example: adder = make_adder(5); adder.call(3) => 8\n#    Example: adder = make_adder(10); adder.call(5) => 15\n#    Hint: Proc.new { |x| x + n }\n\ndef make_adder(n)\n  # Return a Proc that adds n to its argument\n\nend\n\n# 3. Create a method custom_select(arr, &block) that filters array\n#    Example: custom_select([1,2,3,4]) { |n| n > 2 } => [3, 4]\n#    Example: custom_select([1,2,3,4]) { |n| n.even? } => [2, 4]\n#    Hint: Use arr.select(&block)\n\ndef custom_select(arr, &block)\n  # Filter array using the provided block\n\nend\n",
+  "tests": [
+    {
+      "name": "apply_to_five with double",
+      "call": "apply_to_five { |x| x * 2 }",
+      "expected": 10
+    },
+    {
+      "name": "make_adder creates Proc",
+      "call": "make_adder(5).call(3)",
+      "expected": 8
+    },
+    {
+      "name": "custom_select filters",
+      "call": "custom_select([1,2,3,4]) { |n| n > 2 }",
+      "expected": [
+        3,
+        4
+      ]
+    }
+  ],
+  "hints": [
+    "Call block with block.call(argument)",
+    "Or use yield to call the block",
+    "Proc.new { |params| code }",
+    "Blocks are passed with &block parameter",
+    "custom_select: arr.select(&block)"
+  ],
+  "tags": [
+    "advanced"
+  ]
+}

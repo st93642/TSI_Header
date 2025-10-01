@@ -1,0 +1,34 @@
+{
+  "id": "strings_exercise",
+  "title": "Exercise 1.6: Working with Strings Exercise",
+  "description": "Practice string manipulation, concatenation, and methods in Ruby.",
+  "difficulty": "beginner",
+  "starterCode": "# Task: String manipulation methods\n\n# 1. Create a method that returns a string in uppercase\ndef shout(text)\n  # Your code here\n\nend\n\n# 2. Create a method that reverses a string\ndef reverse_text(text)\n  # Your code here\n\nend\n\n# 3. Create a method that returns the length of a string\ndef text_length(text)\n  # Your code here\n\nend\n",
+  "tests": [
+    {
+      "name": "shout converts to uppercase",
+      "call": "shout('hello')",
+      "expected": "HELLO"
+    },
+    {
+      "name": "reverse_text reverses string",
+      "call": "reverse_text('ruby')",
+      "expected": "ybur"
+    },
+    {
+      "name": "text_length returns correct length",
+      "call": "text_length('test')",
+      "expected": 4
+    }
+  ],
+  "hints": [
+    "Use .upcase to convert strings to uppercase",
+    "Use .reverse to reverse a string",
+    "Use .length or .size to get string length",
+    "These are built-in Ruby methods",
+    "Call the method on the string: text.upcase"
+  ],
+  "tags": [
+    "beginner"
+  ]
+}

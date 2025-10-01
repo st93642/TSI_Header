@@ -1,0 +1,47 @@
+{
+  "id": "mixins_exercise",
+  "title": "Exercise 5.3: Mixins Exercise",
+  "description": "Practice using modules as mixins with include.",
+  "difficulty": "advanced",
+  "starterCode": "# Define a Swimmable module with a swim method\n# that returns \"Swimming!\"\n\nmodule Swimmable\n  # Your code here\n\nend\n\n# Define a Flyable module with a fly method\n# that returns \"Flying!\"\n\nmodule Flyable\n  # Your code here\n\nend\n\n# Define a Duck class that includes both modules\n\nclass Duck\n  # Your code here\n\nend\n\n# Define a Fish class that only includes Swimmable\n\nclass Fish\n  # Your code here\n\nend\n",
+  "tests": [
+    {
+      "name": "Duck can swim",
+      "call": "Duck.new.swim",
+      "expected": "Swimming!"
+    },
+    {
+      "name": "Duck can fly",
+      "call": "Duck.new.fly",
+      "expected": "Flying!"
+    },
+    {
+      "name": "Fish can swim",
+      "call": "Fish.new.swim",
+      "expected": "Swimming!"
+    },
+    {
+      "name": "Duck has Swimmable",
+      "call": "Duck.new.is_a?(Swimmable)",
+      "expected": true
+    },
+    {
+      "name": "Duck has Flyable",
+      "call": "Duck.new.is_a?(Flyable)",
+      "expected": true
+    },
+    {
+      "name": "Fish has Swimmable",
+      "call": "Fish.new.is_a?(Swimmable)",
+      "expected": true
+    }
+  ],
+  "hints": [
+    "Define module: module ModuleName...end",
+    "Add methods to modules like normal methods",
+    "Include module: include ModuleName",
+    "Include multiple: include Module1, Module2",
+    "Modules provide multiple inheritance-like behavior"
+  ],
+  "tags": ["mixins", "modules", "include", "advanced"]
+}

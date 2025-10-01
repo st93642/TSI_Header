@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
   "description": "Code generation and headers for 120+ languages with 100% quality assurance",
-  "version": "5.2.1",
+  "version": "5.3.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -240,6 +240,24 @@
         "title": "Learn Ruby",
         "category": "Learn",
         "icon": "$(ruby)"
+      },
+      {
+        "command": "tsiheader.browseLessons",
+        "title": "Browse All Lessons",
+        "category": "Learn",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "tsiheader.viewLearnProgress",
+        "title": "View Learning Progress",
+        "category": "Learn",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "tsiheader.runExerciseTests",
+        "title": "Run Exercise Tests",
+        "category": "Learn",
+        "icon": "$(play)"
       }
     ],
     "menus": {
@@ -293,6 +311,11 @@
           "command": "tsiheader.resetStudyProgress",
           "when": "true",
           "group": "8_study"
+        },
+        {
+          "command": "tsiheader.runExerciseTests",
+          "when": "resourcePath =~ /learn_exercises/",
+          "group": "9_learn"
         }
       ],
       "explorer/context": [

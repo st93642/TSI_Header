@@ -1,5 +1,125 @@
 # TSI Header - AI Coding Agent Instructions
 
+## ⚠️ CRITICAL RULES
+
+# TSI Header - AI Coding Agent Instructions
+
+## ⚠️ CRITICAL RULES
+**DO NOT CREATE SUMMARY FILES** - Never create files like SUMMARY.md, STATUS.md, CHANGES.md, EXERCISES_SUMMARY.md, or any documentation files unless explicitly requested by the user.
+
+## Project Overview
+VS Code extension for code generation, header management, and productivity features supporting 147+ programming languages. Dual-language architecture: Ruby backend for header generation, JavaScript frontend for VS Code integration.
+
+## Architecture
+- **Ruby Backend** (`core/lib/`): Header generation with language-specific comment delimiters
+- **JavaScript Frontend** (`core/src/`): VS Code API integration, UI, command registration
+- **Communication**: JS spawns `core/lib/tsi_header_cli.rb` via `execSync`, receives JSON responses
+
+## Key Components
+1. **Header Generation**: Ruby processes language IDs → TSI-branded headers with proper syntax
+2. **Code Generation**: JS modules in `core/generators/` create templates for 147+ languages
+3. **Project Scaffolding**: Full project creation for C, C++, Python, Java, Rust, Ruby, PHP
+4. **Study Mode**: Pomodoro timer (`studyMode/`) with persistent state across VS Code sessions
+5. **Learn Mode**: Interactive learning platform (`learn/`) with curriculum, exercises, progress tracking
+
+## Critical Patterns
+
+### Header Generation Flow
+```javascript
+// core/src/extension.js
+const result = execSync(`ruby "${cliPath}" insert "${languageId}" "${fileName}"`, { env });
+const response = JSON.parse(result); // {success: bool, header?: string, message?: string}
+```
+
+### Study Mode Timer Architecture
+- **Elapsed Time Tracking**: Stores `elapsedTime` (milliseconds) as source of truth, not wall clock times
+- **Monotonic Timing**: Uses `process.hrtime.bigint()` for accurate timing via `lastTickTime`
+- **Persistence**: Saves `elapsedTime` to `context.globalState`, survives VS Code restarts
+- **Key Files**: `studyMode/timer.js`, `core/src/studyModeExtension.js`
+
+### Language Support System
+- **147+ languages**: Each has module in `core/generators/languages/` (e.g., `python.js`)
+- **Export pattern**: `module.exports = { generate<Language>CodeBase }`
+- **Ruby side**: Auto-supports if delimiters exist in `core/lib/tsi_header/delimiters.rb`
+
+### Configuration Precedence
+1. VS Code settings (`tsiheader.username`, `tsiheader.email`)
+2. Git config (`git config user.name`, `git config user.email`)
+3. Environment variables (`TSI_USERNAME`, `TSI_EMAIL`)
+
+## Development Workflows
+
+### Testing
+```bash
+ruby TEST_Suite/full_test_suite.rb    # 319 tests, 100% coverage
+cd studyMode && npm test              # Timer tests
+```
+
+### Building
+```bash
+npm run compile  # scripts/compile.rb - copies files, no transpilation
+npm run watch    # Monitors changes for auto-copy
+```
+
+### Adding Language Support
+1. Create `core/generators/languages/newlang.js` with `generate<Language>CodeBase()` function
+2. Add import and case in `core/generators/codeBaseGenerators.js`
+3. Test with `ruby TEST_Suite/test_header_insertion.rb`
+
+## Project-Specific Conventions
+
+### TSI Header Format
+- **Width**: 79 characters total (including comment delimiters)
+- **Logo**: ASCII "TTTTTTTT SSSSSSS II" right-aligned
+- **Institution**: "Transport and Telecommunication Institute - Riga, Latvia"
+- **Timestamps**: "Sep 23 2025 11:39" format (no seconds)
+
+### File Structure Rules
+- Entry point: `core/src/extension.js` (registered in `package.json` as `main`)
+- Core API: `core/index.js` exports `TSICore` class
+- Ruby CLI: `core/lib/tsi_header_cli.rb` is the ONLY Ruby file JS should call
+- Tree views: `core/src/tsiViewProvider.js` manages Activity Bar panels
+
+### Study Mode Integration
+- **Persistence**: Timer state in `context.globalState`
+- **User Confirmation**: All timer actions require modal dialog confirmation BEFORE state change
+- **Status Bar**: Right side (priority 1000), shows phase emoji + countdown
+
+### Learn Mode Integration
+- **Architecture**: LearnManager (curriculum), ProgressTracker (gamification), ExerciseRunner (testing)
+- **Curriculum**: JSON-based with modules, lessons (Markdown), exercises (JSON with tests)
+- **Testing**: Dual modes - return value tests (default) and output tests (new, uses StringIO capture)
+- **Progress**: Stored in `context.globalState` with key `learn_progress_{language}`
+
+## Common Tasks
+
+### Modifying Header Format
+1. Edit `core/lib/tsi_header/header_generator.rb`
+2. Update `generateFallbackHeader()` in `core/index.js`
+3. Run `ruby TEST_Suite/full_test_suite.rb`
+
+### Adding VS Code Command
+1. Register in `package.json` under `contributes.commands`
+2. Implement handler in `core/src/extension.js`: `vscode.commands.registerCommand()`
+3. Add to `context.subscriptions.push()`
+
+## Integration Points
+- **VS Code APIs**: `vscode.workspace.fs`, `vscode.window.activeTextEditor`, `vscode.commands.registerCommand()`, `context.globalState`, `vscode.window.createStatusBarItem()`
+- **External Dependencies**: Ruby 2.7+ required (not bundled), `execSync` for CLI calls
+- **Extension Activation**: `activationEvents: ["*"]` - always active, lazy loads Study Mode
+
+## Quality Assurance
+- **100% language coverage**: All 147 languages tested
+- **Cross-platform**: Linux, macOS, Windows (Ruby PATH varies)
+- **No code quality enforcement module**: Previously existed, removed
+
+## Debugging Tips
+- Ruby errors in JS `catch` blocks - check `execSync` stderr
+- Study Mode: Check `context.globalState.get('studyModeState')`
+- Timer accuracy: Verify `elapsedTime` persisted and `lastTickTime` reset on resume
+- Header format: Verify delimiter lengths in `delimiters.rb` (sum to 79 chars)
+- Learn Mode: Check `context.globalState.get('learn_progress_{language}')`
+
 ## Project Overview
 
 TSI Header is a VS Code extension providing code generation, header management, and productivity features for 147+ programming languages. It combines Ruby backend processing with JavaScript VS Code integration, supporting institutional branding for Transport and Telecommunication Institute (TSI).
@@ -16,7 +136,7 @@ TSI Header is a VS Code extension providing code generation, header management, 
 2. **Code Generation**: JS modules in `core/generators/` create class templates and boilerplate for 147+ languages
 3. **Project Scaffolding**: Full project creation for C, C++, Python, Java, Rust, Ruby, PHP with build files/docs
 4. **Study Mode**: Standalone Pomodoro timer (`studyMode/`) with persistent state across VS Code sessions
-5. **Learn Mode**: Educational resources panel with quick access to programming language tutorials and documentation
+5. **Learn Mode**: Interactive programming language learning platform (`learn/`) with structured curriculum, exercises, progress tracking, and gamification
 
 ## Critical Patterns
 
@@ -113,9 +233,125 @@ No webpack/bundler - extension uses direct file structure. Ruby must be installe
 
 ### Learn Mode Integration
 - **Tree View Section**: Collapsible "📚 Learn" panel in TSI Header Activity Bar
-- **Language Resources**: Currently supports Ruby with links to official docs, tutorials, and TSI course materials
-- **Command Pattern**: `tsiheader.learn<Language>` - opens dialog with resource links via `vscode.env.openExternal()`
-- **Extensibility**: Add new languages by creating tree items in `tsiViewProvider.js` and command handlers in `extension.js`
+- **Interactive Platform**: Complete learning system with curriculum, exercises, and progress tracking in `learn/` directory
+- **Architecture**: Three core modules - LearnManager (curriculum), ProgressTracker (gamification), ExerciseRunner (testing)
+- **Curriculum Structure**: JSON-based curriculum with modules, lessons (Markdown), exercises (JSON), and solutions
+- **Progress Persistence**: Uses `context.globalState` to track completed lessons, streaks, and achievements
+- **Exercise System**: Automated testing for Ruby/Python/JavaScript with instant feedback and hints
+- **Gamification**: Achievement system with streaks (3/7/30 days), completion milestones, and progress statistics
+- **Webview Integration**: Lessons displayed in webview panels with interactive buttons for exercises
+- **Command Pattern**: `tsiheader.learn<Language>` starts learning session, `tsiheader.runExerciseTests` validates solutions
+- **File Generation**: Creates exercise files in workspace `learn_exercises/{language}/` with starter code
+- **Testing**: 27 Ruby tests in `TEST_Suite/test_learn_module.rb` validate curriculum structure and functionality
+
+### Recent Major Enhancements (October 2025)
+
+#### Systematic Numbering System
+All curriculum elements now use hierarchical numbering for easier issue tracking:
+- **Modules**: "Module 1: Ruby Basics" through "Module 7: Practical Ruby"
+- **Lessons**: "Lesson 1.1: Hello World", "Lesson 1.2: Variables", etc.
+- **Exercises**: "Exercise 1.1: Hello World Exercise" matches lesson numbering exactly
+- **Implementation**: 7 modules, 25 lessons, 25 exercises all numbered consistently
+- **Files Updated**: `curriculum.json`, all 25 exercise JSON files in `learn/curriculum/ruby/exercises/`
+
+#### Testing System Enhancement - Output Capture
+ExerciseRunner now supports dual testing modes:
+1. **Return Value Tests** (default): Tests what a method returns
+   ```json
+   {"name": "test_add", "call": "add(2, 3)", "expected": 5}
+   ```
+2. **Output Tests** (new): Tests printed output using StringIO capture
+   ```json
+   {"name": "test_hello", "call": "say_hello", "expected": "Hello!", "type": "output"}
+   ```
+
+**Technical Implementation**:
+```ruby
+# In exercise_runner.js -> generateRubyTestCode()
+if (test.type === 'output') {
+  rubyCode += `
+    captured_output = StringIO.new
+    original_stdout = $stdout
+    $stdout = captured_output
+    ${test.call}
+    $stdout = original_stdout
+    output = captured_output.string
+    assert_equal(expected, output.chomp, "#{test.name} failed")
+  `;
+} else {
+  rubyCode += `result = ${test.call}\n`;
+  rubyCode += `assert_equal(expected, result, "#{test.name} failed")\n`;
+}
+```
+
+#### Lesson-Exercise Alignment Fixes
+- **Lesson 1.4 (hello_world)**: Fixed to test OUTPUT (puts/print/p) instead of return values
+  - Changed all 5 tests to use `"type": "output"`
+  - Updated starterCode comments: "Use puts to print" instead of "Return"
+  - Aligned with lesson content that teaches `puts`, `print`, and `p` methods
+- **Lesson 1.3 (p_method)**: Updated year references from 2024 to 2025
+  - Exercise tests now expect `2025` as return value
+  - Hints updated to reflect current year
+  - StarterCode comment updated to 2025
+
+#### Curriculum Expansion
+Added 3 new lessons to fill knowledge gaps (Module 7: Practical Ruby):
+1. **Symbols and Hash Keys** (Lesson 7.1)
+   - Symbol vs String comparison
+   - Memory efficiency explanation
+   - Hash key best practices
+   - Exercise: Create hashes with symbol keys, test symbol operations
+2. **Range Objects** (Lesson 7.2)
+   - Inclusive vs exclusive ranges
+   - Range iteration methods
+   - Practical use cases
+   - Exercise: Work with date ranges, number ranges, custom ranges
+3. **Regular Expressions** (Lesson 7.3)
+   - Pattern matching basics
+   - Common regex patterns
+   - Capture groups and substitution
+   - Exercise: Validate emails, extract data, find/replace patterns
+
+**Curriculum Statistics**:
+- Total Modules: 7 (Ruby Basics, Control Flow, Collections, Methods/Blocks, OOP, Advanced, Practical)
+- Total Lessons: 25 (was 22)
+- Total Exercises: 25 (all automated, 0 manual)
+- Total Tests: 99+ automated test cases
+
+#### User Experience Improvements
+1. **Cursor Positioning**: After opening exercise, cursor automatically positioned on empty line after "# Your code here" comment
+2. **Tab Management**: Fixed `closeAllLearnTabs()` to properly close webview panels and exercise files
+3. **Modal Dialogs**: All user interactions now use `{ modal: true }` for better UX
+4. **Navigation Flow**: "Next Lesson" button navigates directly to next lesson after completion
+5. **Font Consistency**: All code blocks use 13px font, body text uses 14px
+
+#### Exercise Quality Standards
+Every exercise now includes:
+- **Clear Requirements**: Specific tasks with input/output examples
+- **Starter Code**: Pre-structured with comments and empty lines for coding
+- **Automated Tests**: 3-5 tests per exercise covering edge cases
+- **Progressive Hints**: 3-5 hints per exercise, increasing in specificity
+- **Difficulty Tags**: beginner, intermediate, advanced labels
+- **Empty Line After Comments**: Ensures cursor lands on writable line
+
+#### Files Modified Summary
+**Major Changes**:
+- `learn/curriculum/ruby/curriculum.json`: Added Module 7, numbered all modules/lessons
+- `learn/curriculum/ruby/exercises/*.json`: Numbered all 25 exercises (Exercise N.M format)
+- `learn/curriculum/ruby/exercises/hello_world_exercise.json`: Converted to output tests
+- `learn/curriculum/ruby/exercises/p_method_exercise.json`: Updated year 2024→2025
+- `learn/lib/exercise_runner.js`: Added StringIO output capture for type: "output" tests
+- `learn/lib/learn_manager.js`: Enhanced cursor positioning and tab management
+- `learn/curriculum/ruby/lessons/symbols.md`: New lesson
+- `learn/curriculum/ruby/lessons/ranges.md`: New lesson (to be created)
+- `learn/curriculum/ruby/lessons/regex.md`: New lesson (to be created)
+
+**Impact**:
+- All 25 exercises fully automated with passing tests
+- Lesson-exercise alignment verified for all 25 lessons
+- Output-focused lessons correctly test printed output
+- Data manipulation lessons correctly test return values
+- Numbering system enables precise issue tracking: "Exercise 2.3 fails" is unambiguous
 
 ## Common Tasks
 
@@ -168,6 +404,7 @@ No webpack/bundler - extension uses direct file structure. Ruby must be installe
 - Timer accuracy: Verify `elapsedTime` is persisted correctly and `lastTickTime` is reset on resume
 - Header format issues: Verify delimiter lengths in `delimiters.rb` (must sum to 79 chars)
 - Language not supported: Ensure `Delimiters.supports_language?(language_id)` returns true
+- Learn Mode issues: Check `context.globalState.get('learn_progress_{language}')` for progress data
 
 ## Study Mode Timer - Implementation Details
 
@@ -209,8 +446,128 @@ this.timer.pause(); // Don't do this
 this.vscode.window.showInformationMessage('Timer Paused', { modal: true }, 'Got it!');
 ```
 
+## Learn Mode - Implementation Details
+
+### Module Architecture
+```
+learn/
+├── index.js              # Main Learn class - orchestrates learning sessions
+├── lib/
+│   ├── learn_manager.js    # Curriculum loading, lesson display, exercise creation
+│   ├── progress_tracker.js # Streaks, achievements, statistics
+│   └── exercise_runner.js  # Test execution for Ruby/Python/JavaScript
+└── curriculum/
+    └── ruby/              # Ruby curriculum (6 modules, 18 lessons)
+        ├── curriculum.json  # Course structure and metadata
+        ├── lessons/         # Markdown lesson files
+        ├── exercises/       # JSON exercise definitions with tests
+        └── solutions/       # Complete solutions with explanations
+```
+
+### Curriculum JSON Structure
+```json
+{
+  "language": "Ruby",
+  "modules": [
+    {
+      "id": "basics",
+      "title": "Ruby Basics",
+      "lessons": [
+        {
+          "id": "hello_world",
+          "title": "Hello World and Output",
+          "duration": 30,
+          "difficulty": "beginner"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Exercise JSON Structure
+```json
+{
+  "id": "hello_world_exercise",
+  "title": "Hello World Exercise",
+  "starterCode": "# Your code here\n",
+  "tests": [
+    {
+      "name": "test_greeting",
+      "call": "greet('Alice')",
+      "expected": "Hello, Alice!"
+    }
+  ],
+  "hints": ["Hint 1", "Hint 2"]
+}
+```
+
+### Progress Tracking Model
+Stored in `context.globalState` with key `learn_progress_{language}`:
+```javascript
+{
+  completed: [],              // Array of lesson IDs
+  exercisesCompleted: [],     // Array of exercise IDs
+  streakDays: 0,              // Consecutive study days
+  lastStudyDate: "2025-10-01", // ISO date string
+  totalTimeMinutes: 0,         // Total study time
+  achievements: []            // Array of achievement IDs
+}
+```
+
+### Achievement System
+Achievements auto-unlock based on conditions:
+- `first_exercise`: Complete 1 exercise
+- `five_exercises`: Complete 5 exercises
+- `ten_exercises`: Complete 10 exercises
+- `streak_3`: Study 3 consecutive days
+- `streak_7`: Study 7 consecutive days
+- `streak_30`: Study 30 consecutive days
+
+### Test Execution Flow
+1. User opens exercise file in editor
+2. Writes code to solve the problem
+3. Runs `tsiheader.runExerciseTests` command
+4. ExerciseRunner:
+   - Extracts code from active editor
+   - Creates temporary test files
+   - Executes language-specific test runner (Ruby: minitest, Python: pytest, JS: eval)
+   - Parses test output
+   - Returns result with score and failures
+5. Progress updated if all tests pass
+6. User sees success/failure dialog with hints
+
+### Webview Lesson Display
+Lessons rendered as HTML in webview panels:
+- Markdown converted to HTML with syntax highlighting
+- Interactive buttons for "Start Exercise" and "Mark Complete"
+- VS Code theme-aware styling
+- Bidirectional messaging between webview and extension
+
+### Adding a New Language Curriculum
+1. Create directory structure: `curriculum/{language}/`
+2. Write `curriculum.json` with modules and lessons
+3. Create Markdown files in `lessons/`
+4. Define exercises with tests in `exercises/`
+5. Write solutions with explanations in `solutions/`
+6. Add test runner logic in `exercise_runner.js`
+7. Create test file in `TEST_Suite/test_learn_{language}.rb`
+8. Register command in `package.json` and `extension.js`
+
+### Best Practices for Curriculum Design
+- **Progressive Difficulty**: Start with basics, build to advanced
+- **Hands-on Learning**: Every lesson must have practice exercise
+- **Clear Outcomes**: Define what learners will achieve
+- **Real Examples**: Use practical, not toy, problems
+- **Multiple Hints**: 3-5 hints per exercise, increasing in specificity
+- **Detailed Solutions**: Explain not just what, but why
+
 ## Documentation References
 
 - **README.md**: User-facing documentation, setup instructions, feature list
 - **package.json**: Complete command/configuration registry
 - **TEST_Suite/**: Examples of all 147 language outputs in test fixtures
+
+## Final Reminder
+
+**DO NOT CREATE SUMMARIES AFTER EACH EDIT. DO NOT CREATE SUMMARY FILES. CREATE DOCUMENTATION ONLY UPON EXPLICIT REQUEST.**

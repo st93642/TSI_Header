@@ -1,0 +1,37 @@
+{
+  "id": "variables_types_exercise",
+  "title": "Exercise 1.5: Variables and Data Types Exercise",
+  "description": "Practice creating and using different data types in Ruby: strings, numbers, booleans.",
+  "difficulty": "beginner",
+  "starterCode": "# Task: Create methods that return different data types\n\n# 1. Create a method that returns your favorite programming language as a string\ndef favorite_language\n  # Your code here\n\nend\n\n# 2. Create a method that returns your age as an integer\ndef my_age\n  # Your code here\n\nend\n\n# 3. Create a method that checks if Ruby is awesome (return true)\ndef ruby_is_awesome?\n  # Your code here\n\nend\n",
+  "tests": [
+    {
+      "name": "favorite_language returns a string",
+      "call": "favorite_language.class.to_s",
+      "expected": "String"
+    },
+    {
+      "name": "my_age returns an integer",
+      "call": "my_age.class.to_s",
+      "expected": "Integer"
+    },
+    {
+      "name": "my_age is positive",
+      "call": "my_age > 0",
+      "expected": true
+    },
+    {
+      "name": "ruby_is_awesome returns true",
+      "call": "ruby_is_awesome?",
+      "expected": true
+    }
+  ],
+  "hints": [
+    "Strings are text wrapped in quotes: \"like this\"",
+    "Integers are whole numbers without quotes: 25",
+    "Booleans are true or false (no quotes)",
+    "Method names can end with ? for boolean returns",
+    "Just return the value - Ruby returns the last expression"
+  ],
+  "tags": ["basics", "variables", "types", "beginner"]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "classes_objects_exercise",
+  "title": "Exercise 5.1: Classes and Objects Exercise",
+  "description": "Practice defining classes with instance variables and methods.",
+  "difficulty": "intermediate",
+  "starterCode": "# Define a Dog class with the following:\n# - initialize method that takes name and breed\n# - bark method that returns \"Woof! I'm {name}!\"\n# - description method that returns \"{name} is a {breed}\"\n\nclass Dog\n  # Your code here\n\nend\n",
+  "tests": [
+    {
+      "name": "Dog can be instantiated",
+      "call": "Dog.new('Buddy', 'Golden Retriever').class.name",
+      "expected": "Dog"
+    },
+    {
+      "name": "Dog bark method",
+      "call": "Dog.new('Buddy', 'Golden Retriever').bark",
+      "expected": "Woof! I'm Buddy!"
+    },
+    {
+      "name": "Dog bark with different name",
+      "call": "Dog.new('Max', 'Labrador').bark",
+      "expected": "Woof! I'm Max!"
+    },
+    {
+      "name": "Dog description method",
+      "call": "Dog.new('Buddy', 'Golden Retriever').description",
+      "expected": "Buddy is a Golden Retriever"
+    },
+    {
+      "name": "Dog description with different data",
+      "call": "Dog.new('Luna', 'Husky').description",
+      "expected": "Luna is a Husky"
+    }
+  ],
+  "hints": [
+    "Define class: class Dog...end",
+    "Constructor: def initialize(name, breed)",
+    "Instance variables start with @: @name = name",
+    "Access instance variables in methods: @name",
+    "Methods return values automatically"
+  ],
+  "tags": ["classes", "objects", "oop", "instance-variables", "intermediate"]
+}

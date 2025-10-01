@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 01 2025 10:18 st93642                                       */
+/*  Updated: Oct 01 2025 13:18 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -902,23 +902,193 @@ extern "C" {
 
     // Register Learn commands
     const learnRubyCommand = vscode.commands.registerCommand('tsiheader.learnRuby', async () => {
+        // Lazy load the Learn module
+        const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+        const learnInstance = new Learn(context, vscode);
+        
+        // Show centered modal dialog
         vscode.window.showInformationMessage(
-            '📚 Ruby Learning Resources',
-            'Official Ruby Docs',
-            'Ruby Tutorial',
-            'TSI Ruby Course'
-        ).then(selection => {
-            if (selection === 'Official Ruby Docs') {
-                vscode.env.openExternal(vscode.Uri.parse('https://www.ruby-lang.org/en/documentation/'));
-            } else if (selection === 'Ruby Tutorial') {
-                vscode.env.openExternal(vscode.Uri.parse('https://www.tutorialspoint.com/ruby/'));
-            } else if (selection === 'TSI Ruby Course') {
-                vscode.window.showInformationMessage('TSI Ruby course materials coming soon!');
+            '📚 Start Ruby Learning Journey?\n\n' +
+            'You will begin an interactive Ruby programming course with:\n' +
+            '• 6 modules from beginner to advanced\n' +
+            '• 18 lessons with hands-on exercises\n' +
+            '• Progress tracking and achievements\n' +
+            '• Instant feedback on your code\n\n' +
+            'Ready to start learning?',
+            { modal: true },
+            'Start Learning',
+            'Browse Lessons',
+            'View Progress',
+            'Cancel'
+        ).then(async selection => {
+            if (selection === 'Start Learning') {
+                await learnInstance.startLearning('ruby');
+            } else if (selection === 'Browse Lessons') {
+                await learnInstance.browseLessons('ruby');
+            } else if (selection === 'View Progress') {
+                try {
+                    const stats = await learnInstance.getStats('ruby');
+                    vscode.window.showInformationMessage(
+                        `📊 Your Ruby Learning Progress\n\n` +
+                        `Lessons Completed: ${stats.lessonsCompleted}\n` +
+                        `Exercises Completed: ${stats.exercisesCompleted}\n` +
+                        `Current Streak: ${stats.currentStreak} days\n` +
+                        `Study Time: ${stats.totalStudyTime} minutes\n` +
+                        `Achievements: ${stats.achievements}`,
+                        { modal: true },
+                        'Continue Learning',
+                        'Got it!'
+                    ).then(choice => {
+                        if (choice === 'Continue Learning') {
+                            learnInstance.startLearning('ruby');
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error getting progress stats:', error);
+                    vscode.window.showErrorMessage(
+                        `Error loading progress: ${error.message}`,
+                        { modal: true },
+                        'OK'
+                    );
+                }
             }
         });
     });
     
     context.subscriptions.push(learnRubyCommand);
+
+    // Register Browse Lessons command
+    const browseLessonsCommand = vscode.commands.registerCommand('tsiheader.browseLessons', async () => {
+        // Lazy load the Learn module
+        const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+        const learnInstance = new Learn(context, vscode);
+        
+        // For now, only Ruby is supported
+        await learnInstance.browseLessons('ruby');
+    });
+    
+    context.subscriptions.push(browseLessonsCommand);
+
+    // Register View Learn Progress command
+    const viewLearnProgressCommand = vscode.commands.registerCommand('tsiheader.viewLearnProgress', async () => {
+        // Lazy load the Learn module
+        const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+        const learnInstance = new Learn(context, vscode);
+        
+        try {
+            const stats = await learnInstance.getStats('ruby');
+            vscode.window.showInformationMessage(
+                `📊 Your Ruby Learning Progress\n\n` +
+                `Lessons Completed: ${stats.lessonsCompleted}\n` +
+                `Exercises Completed: ${stats.exercisesCompleted}\n` +
+                `Current Streak: ${stats.currentStreak} days\n` +
+                `Study Time: ${stats.totalStudyTime} minutes\n` +
+                `Achievements: ${stats.achievements}`,
+                { modal: true },
+                'Continue Learning',
+                'Browse Lessons',
+                'Got it!'
+            ).then(async choice => {
+                if (choice === 'Continue Learning') {
+                    await learnInstance.startLearning('ruby');
+                } else if (choice === 'Browse Lessons') {
+                    await learnInstance.browseLessons('ruby');
+                }
+            });
+        } catch (error) {
+            console.error('Error getting progress stats:', error);
+            vscode.window.showErrorMessage(
+                `Error loading progress: ${error.message}`,
+                { modal: true },
+                'OK'
+            );
+        }
+    });
+    
+    context.subscriptions.push(viewLearnProgressCommand);
+
+    // Register Learn exercise test command
+    const runExerciseTestsCommand = vscode.commands.registerCommand('tsiheader.runExerciseTests', async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showWarningMessage(
+                'No Exercise File Open\n\nPlease open your exercise file before running tests.',
+                { modal: true },
+                'Got it!'
+            );
+            return;
+        }
+
+        const filePath = editor.document.fileName;
+        const fileName = path.basename(filePath);
+        
+        // Check if this is a learn exercise file
+        if (!filePath.includes('learn_exercises')) {
+            vscode.window.showWarningMessage(
+                'Not a Learn Exercise\n\nThis command only works with Learn exercise files.\nExercise files are located in the learn_exercises/ folder.',
+                { modal: true },
+                'Got it!'
+            );
+            return;
+        }
+
+        // Lazy load the Learn module
+        const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+        const learnInstance = new Learn(context, vscode);
+
+        // Determine language from file path
+        const pathParts = filePath.split(path.sep);
+        const learnExercisesIndex = pathParts.indexOf('learn_exercises');
+        const language = pathParts[learnExercisesIndex + 1];
+
+        try {
+            // Load exercise from file path
+            const exerciseId = fileName.replace(/\.(rb|py|js)$/, '');
+            const exercisePath = path.join(__dirname, '..', '..', 'learn', 'curriculum', language, 'exercises', `${exerciseId}.json`);
+            const fs = require('fs');
+            
+            if (!fs.existsSync(exercisePath)) {
+                await vscode.window.showErrorMessage(
+                    `❌ Exercise Not Found\n\nCouldn't find exercise file: ${exerciseId}.json`,
+                    { modal: true },
+                    'Got it!'
+                );
+                return;
+            }
+
+            const exerciseContent = fs.readFileSync(exercisePath, 'utf8');
+            const exercise = JSON.parse(exerciseContent);
+
+            // Run with progress indicator
+            await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: "🔄 Running Tests...",
+                cancellable: false
+            }, async (progress) => {
+                progress.report({ message: "Testing your solution..." });
+                
+                try {
+                    // Run the exercise - this will show modal dialogs
+                    const result = await learnInstance.runExercise(language, exercise);
+                    console.log('Exercise result:', result);
+                    return result;
+                } catch (error) {
+                    console.error('Exercise run error:', error);
+                    throw error;
+                }
+            });
+            
+        } catch (error) {
+            console.error('Test execution error:', error);
+            await vscode.window.showErrorMessage(
+                `❌ Test Execution Failed\n\n${error.message}\n\n${error.stack || ''}`,
+                { modal: true },
+                'Got it!'
+            );
+        }
+    });
+
+    context.subscriptions.push(runExerciseTestsCommand);
 
     // Register feature module commands
     // Code quality enforcement module removed

@@ -1,0 +1,47 @@
+{
+  "id": "file_io_exercise",
+  "title": "Exercise 6.2: File I/O Exercise",
+  "description": "Practice string manipulation for file path operations.",
+  "difficulty": "intermediate",
+  "starterCode": "# Create methods that work with file paths (strings)\n\ndef get_file_extension(filename)\n  # Return the file extension (including the dot)\n  # Example: \"document.txt\" => \".txt\"\n\nend\n\ndef get_filename_without_extension(filename)\n  # Return filename without extension\n  # Example: \"document.txt\" => \"document\"\n\nend\n\ndef create_backup_name(filename)\n  # Add .bak before the extension\n  # Example: \"data.txt\" => \"data.bak.txt\"\n\nend\n",
+  "tests": [
+    {
+      "name": "get_file_extension with txt",
+      "call": "get_file_extension('document.txt')",
+      "expected": ".txt"
+    },
+    {
+      "name": "get_file_extension with rb",
+      "call": "get_file_extension('script.rb')",
+      "expected": ".rb"
+    },
+    {
+      "name": "get_filename_without_extension txt",
+      "call": "get_filename_without_extension('document.txt')",
+      "expected": "document"
+    },
+    {
+      "name": "get_filename_without_extension rb",
+      "call": "get_filename_without_extension('script.rb')",
+      "expected": "script"
+    },
+    {
+      "name": "create_backup_name for txt",
+      "call": "create_backup_name('data.txt')",
+      "expected": "data.bak.txt"
+    },
+    {
+      "name": "create_backup_name for rb",
+      "call": "create_backup_name('code.rb')",
+      "expected": "code.bak.rb"
+    }
+  ],
+  "hints": [
+    "Use String methods like split, rindex, or match",
+    "File extensions start with a dot",
+    "Split on the last dot: filename.rindex('.')",
+    "Use string slicing: str[0...index]",
+    "Concatenate strings with +"
+  ],
+  "tags": ["strings", "file-paths", "intermediate"]
+}

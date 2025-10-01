@@ -1,0 +1,41 @@
+{
+  "id": "iterators_exercise",
+  "title": "Exercise 3.3: Advanced Iteration Exercise",
+  "description": "Practice using each, map, select, and reduce.",
+  "difficulty": "intermediate",
+  "starterCode": "# Advanced Iteration Exercise\n\n# 1. Create a method get_evens(arr) that returns only even numbers\n#    Example: get_evens([1, 2, 3, 4, 5]) => [2, 4]\n#    Example: get_evens([10, 15, 20]) => [10, 20]\n#    Hint: Use .select { |n| n % 2 == 0 }\n\ndef get_evens(arr)\n  # Filter and return only even numbers\n\nend\n\n# 2. Create a method square_numbers(arr) that returns squared values\n#    Example: square_numbers([2, 3, 4]) => [4, 9, 16]\n#    Example: square_numbers([1, 5]) => [1, 25]\n#    Hint: Use .map { |n| n * n } or .map { |n| n ** 2 }\n\ndef square_numbers(arr)\n  # Transform each number to its square\n\nend\n\n# 3. Create a method sum_array(arr) that returns sum of all elements\n#    Example: sum_array([1, 2, 3, 4]) => 10\n#    Example: sum_array([5, 10, 15]) => 30\n#    Hint: Use .sum or .reduce(0) { |sum, n| sum + n }\n\ndef sum_array(arr)\n  # Calculate and return the sum\n\nend\n",
+  "tests": [
+    {
+      "name": "get_evens filters",
+      "call": "get_evens([1, 2, 3, 4, 5])",
+      "expected": [
+        2,
+        4
+      ]
+    },
+    {
+      "name": "square_numbers transforms",
+      "call": "square_numbers([2, 3, 4])",
+      "expected": [
+        4,
+        9,
+        16
+      ]
+    },
+    {
+      "name": "sum_array calculates sum",
+      "call": "sum_array([1, 2, 3, 4])",
+      "expected": 10
+    }
+  ],
+  "hints": [
+    "Use .select to filter: arr.select { |n| condition }",
+    "Use .map to transform: arr.map { |n| n * n }",
+    "Use .reduce to accumulate: arr.reduce(0) { |sum, n| sum + n }",
+    "Or use .sum for sum_array",
+    "Even numbers: n % 2 == 0"
+  ],
+  "tags": [
+    "intermediate"
+  ]
+}

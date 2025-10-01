@@ -1,0 +1,13 @@
+{
+  "exerciseId": "hello_world_exercise",
+  "languageId": "ruby",
+  "code": "# Solution for Hello World Exercise\n\n# Task 1: Use puts to display your name\nputs \"My name is Ruby Learner\"\n\n# Task 2: Use print to display \"I am learning\" and \"Ruby!\" on the same line\nprint \"I am learning \"\nprint \"Ruby!\"\nputs \"\"  # Add newline\n\n# Task 3: Use p to display the number 2024\np 2024\n\n# Bonus: Create a greeting method\ndef greet(name)\n  \"Hello, #{name}!\"\nend",
+  "explanation": "This solution demonstrates the three main output methods in Ruby:\n\n1. **puts**: Displays text with an automatic newline. Perfect for displaying complete lines.\n\n2. **print**: Displays text without a newline. Useful when you want to keep output on the same line. Notice how we used print twice and then added a puts \"\" to move to the next line.\n\n3. **p**: Displays the raw representation of objects. Great for debugging! Notice it shows the number without quotes.\n\n4. **Method definition**: The greet method uses string interpolation (#{name}) to insert the name parameter into the string. This is only possible with double quotes!",
+  "keyPoints": [
+    "puts adds newline automatically",
+    "print doesn't add newline",
+    "p shows raw object representation",
+    "Comments start with #",
+    "Double quotes allow string interpolation"
+  ]
+}

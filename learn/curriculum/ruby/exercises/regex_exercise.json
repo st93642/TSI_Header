@@ -1,0 +1,68 @@
+{
+  "id": "regex_exercise",
+  "title": "Exercise 7.3: Regular Expressions Exercise",
+  "description": "Practice pattern matching with regular expressions. Test strings against patterns and extract data using regex.",
+  "difficulty": "intermediate",
+  "starterCode": "# Regular Expressions Exercise\n\n# 1. Create a method valid_email?(email) that returns true if email is valid\n#    Valid format: something@something.something\n#    Example: valid_email?(\"test@example.com\") => true\n#    Example: valid_email?(\"invalid.email\") => false\n#    Hint: Use /\\w+@\\w+\\.\\w+/.match?(email)\n\ndef valid_email?(email)\n  # Check if email matches the pattern\n\nend\n\n# 2. Create a method extract_numbers(text) that returns array of all numbers\n#    Example: extract_numbers(\"I have 2 cats and 3 dogs\") => [\"2\", \"3\"]\n#    Example: extract_numbers(\"Room 101, Floor 5\") => [\"101\", \"5\"]\n#    Hint: Use text.scan(/\\d+/)\n\ndef extract_numbers(text)\n  # Extract all number sequences from text\n\nend\n\n# 3. Create a method replace_vowels(text) that replaces vowels with *\n#    Example: replace_vowels(\"hello\") => \"h*ll*\"\n#    Example: replace_vowels(\"Ruby\") => \"R*by\"\n#    Hint: Use text.gsub(/[aeiou]/i, \"*\")\n\ndef replace_vowels(text)\n  # Replace all vowels (a,e,i,o,u) with asterisks\n\nend\n\n# 4. Create a method valid_phone?(phone) that validates phone format\n#    Valid format: ###-###-####\n#    Example: valid_phone?(\"555-123-4567\") => true\n#    Example: valid_phone?(\"5551234567\") => false\n#    Hint: Use /\\A\\d{3}-\\d{3}-\\d{4}\\z/.match?(phone)\n\ndef valid_phone?(phone)\n  # Check if phone matches ###-###-#### pattern\n\nend\n",
+  "tests": [
+    {
+      "name": "valid_email with valid email",
+      "call": "valid_email?('test@example.com')",
+      "expected": true
+    },
+    {
+      "name": "valid_email with invalid email",
+      "call": "valid_email?('invalid.email')",
+      "expected": false
+    },
+    {
+      "name": "valid_email with another valid",
+      "call": "valid_email?('user@domain.org')",
+      "expected": true
+    },
+    {
+      "name": "extract_numbers from sentence",
+      "call": "extract_numbers('I have 2 cats and 3 dogs')",
+      "expected": ["2", "3"]
+    },
+    {
+      "name": "extract_numbers with larger numbers",
+      "call": "extract_numbers('Room 101, Floor 5')",
+      "expected": ["101", "5"]
+    },
+    {
+      "name": "replace_vowels in hello",
+      "call": "replace_vowels('hello')",
+      "expected": "h*ll*"
+    },
+    {
+      "name": "replace_vowels in Ruby",
+      "call": "replace_vowels('Ruby')",
+      "expected": "R*by"
+    },
+    {
+      "name": "valid_phone with valid format",
+      "call": "valid_phone?('555-123-4567')",
+      "expected": true
+    },
+    {
+      "name": "valid_phone with invalid format",
+      "call": "valid_phone?('5551234567')",
+      "expected": false
+    },
+    {
+      "name": "valid_phone with wrong dashes",
+      "call": "valid_phone?('555-12-34567')",
+      "expected": false
+    }
+  ],
+  "hints": [
+    "Use .match? to check if a string matches a pattern",
+    "Use .scan to find all matches: text.scan(/pattern/)",
+    "Use .gsub to replace matches: text.gsub(/pattern/, replacement)",
+    "\\d matches any digit, \\w matches word characters",
+    "Use \\A and \\z for start and end anchors (not ^ and $)",
+    "Flags: /i for case-insensitive matching"
+  ],
+  "tags": ["regex", "patterns", "intermediate", "strings"]
+}

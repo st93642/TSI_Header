@@ -1,0 +1,38 @@
+{
+  "id": "arrays_exercise",
+  "title": "Exercise 3.1: Arrays and Methods Exercise",
+  "description": "Practice array creation, access, and manipulation.",
+  "difficulty": "intermediate",
+  "starterCode": "# Arrays Exercise\n\n# 1. Create a method first_element(arr) that returns the first element\n#    Example: first_element([1, 2, 3]) => 1\n#    Example: first_element(['a', 'b', 'c']) => 'a'\n#    Hint: Use arr[0] or arr.first\n\ndef first_element(arr)\n  # Return the first element\n\nend\n\n# 2. Create a method last_element(arr) that returns the last element\n#    Example: last_element([1, 2, 3]) => 3\n#    Example: last_element(['a', 'b', 'c']) => 'c'\n#    Hint: Use arr[-1] or arr.last\n\ndef last_element(arr)\n  # Return the last element\n\nend\n\n# 3. Create a method add_element(arr, element) that adds element to end\n#    Example: add_element([1, 2], 3) => [1, 2, 3]\n#    Example: add_element(['a', 'b'], 'c') => ['a', 'b', 'c']\n#    Hint: Use arr + [element] to create new array\n\ndef add_element(arr, element)\n  # Return new array with element added to end\n\nend\n",
+  "tests": [
+    {
+      "name": "first_element returns first",
+      "call": "first_element([1, 2, 3])",
+      "expected": 1
+    },
+    {
+      "name": "last_element returns last",
+      "call": "last_element([1, 2, 3])",
+      "expected": 3
+    },
+    {
+      "name": "add_element appends",
+      "call": "add_element([1, 2], 3)",
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "hints": [
+    "Use arr[0] or arr.first for first element",
+    "Use arr[-1] or arr.last for last element",
+    "Use arr + [element] or arr << element",
+    "arr << element modifies original, arr + [element] creates new",
+    "Remember arrays are zero-indexed"
+  ],
+  "tags": [
+    "intermediate"
+  ]
+}

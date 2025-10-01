@@ -83,10 +83,30 @@ class TSITreeDataProvider {
         } else if (element.id === 'learn') {
             // Learn section - programming language tutorials/resources
             return Promise.resolve([
-                new TSITreeItem('Ruby', vscode.TreeItemCollapsibleState.None, {
+                new TSITreeItem('Ruby', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-ruby')
+            ]);
+        } else if (element.id === 'learn-ruby') {
+            // Ruby learning section
+            return Promise.resolve([
+                new TSITreeItem('Start Learning', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.learnRuby',
-                    title: 'Learn Ruby',
-                    tooltip: 'Interactive Ruby programming tutorials and resources'
+                    title: 'Start Learning Ruby',
+                    tooltip: 'Begin Ruby programming tutorials from the start'
+                }),
+                new TSITreeItem('Browse All Lessons', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.browseLessons',
+                    title: 'Browse All Lessons',
+                    tooltip: 'Jump to any lesson in the Ruby curriculum'
+                }),
+                new TSITreeItem('Run Exercise Tests', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.runExerciseTests',
+                    title: 'Run Exercise Tests',
+                    tooltip: 'Run tests on your current Ruby exercise'
+                }),
+                new TSITreeItem('View Progress', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewLearnProgress',
+                    title: 'View Progress',
+                    tooltip: 'View your Ruby learning progress and achievements'
                 })
             ]);
         }
@@ -233,8 +253,16 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('clock');
         } else if (label.includes('📚')) {
             this.iconPath = new vscode.ThemeIcon('book');
-        } else if (command?.command === 'tsiheader.learnRuby') {
+        } else if (id === 'learn-ruby') {
             this.iconPath = new vscode.ThemeIcon('ruby');
+        } else if (command?.command === 'tsiheader.learnRuby') {
+            this.iconPath = new vscode.ThemeIcon('play-circle');
+        } else if (command?.command === 'tsiheader.browseLessons') {
+            this.iconPath = new vscode.ThemeIcon('list-tree');
+        } else if (command?.command === 'tsiheader.runExerciseTests') {
+            this.iconPath = new vscode.ThemeIcon('beaker');
+        } else if (command?.command === 'tsiheader.viewLearnProgress') {
+            this.iconPath = new vscode.ThemeIcon('graph');
         }
     }
 }

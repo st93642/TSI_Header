@@ -1,0 +1,39 @@
+{
+  "id": "numbers_exercise",
+  "title": "Exercise 1.7: Numbers and Math Exercise",
+  "description": "Practice arithmetic operations and number methods in Ruby.",
+  "difficulty": "beginner",
+  "starterCode": "# Task: Math operations\n\n# 1. Create a method that adds two numbers\ndef add(a, b)\n  # Your code here\n\nend\n\n# 2. Create a method that multiplies two numbers\ndef multiply(a, b)\n  # Your code here\n\nend\n\n# 3. Create a method that checks if a number is even\ndef is_even?(num)\n  # Your code here\n\nend\n",
+  "tests": [
+    {
+      "name": "add returns sum",
+      "call": "add(5, 3)",
+      "expected": 8
+    },
+    {
+      "name": "multiply returns product",
+      "call": "multiply(4, 6)",
+      "expected": 24
+    },
+    {
+      "name": "is_even checks correctly",
+      "call": "is_even?(10)",
+      "expected": true
+    },
+    {
+      "name": "is_even with odd number",
+      "call": "is_even?(7)",
+      "expected": false
+    }
+  ],
+  "hints": [
+    "Use + for addition",
+    "Use * for multiplication",
+    "Use % (modulo) to check if even: num % 2 == 0",
+    "Method returns the last expression",
+    "Even numbers divide by 2 with no remainder"
+  ],
+  "tags": [
+    "beginner"
+  ]
+}

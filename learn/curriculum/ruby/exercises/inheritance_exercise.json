@@ -1,0 +1,46 @@
+{
+  "id": "inheritance_exercise",
+  "title": "Exercise 5.2: Inheritance Exercise",
+  "description": "Practice class inheritance and method overriding.",
+  "difficulty": "advanced",
+  "starterCode": "# Define an Animal class with:\n# - initialize(name) that sets @name\n# - speak method that returns \"Some sound\"\n\nclass Animal\n  # Your code here\n\nend\n\n# Define a Dog class that inherits from Animal and:\n# - overrides speak to return \"Woof! I'm {name}\"\n\nclass Dog < Animal\n  # Your code here\n\nend\n\n# Define a Cat class that inherits from Animal and:\n# - overrides speak to return \"Meow! I'm {name}\"\n\nclass Cat < Animal\n  # Your code here\n\nend\n",
+  "tests": [
+    {
+      "name": "Animal speak method",
+      "call": "Animal.new('Generic').speak",
+      "expected": "Some sound"
+    },
+    {
+      "name": "Dog inherits from Animal",
+      "call": "Dog.new('Buddy').is_a?(Animal)",
+      "expected": true
+    },
+    {
+      "name": "Dog speak method",
+      "call": "Dog.new('Buddy').speak",
+      "expected": "Woof! I'm Buddy"
+    },
+    {
+      "name": "Dog speak with different name",
+      "call": "Dog.new('Max').speak",
+      "expected": "Woof! I'm Max"
+    },
+    {
+      "name": "Cat inherits from Animal",
+      "call": "Cat.new('Whiskers').is_a?(Animal)",
+      "expected": true
+    },
+    {
+      "name": "Cat speak method",
+      "call": "Cat.new('Whiskers').speak",
+      "expected": "Meow! I'm Whiskers"
+    }
+  ],
+  "hints": [
+    "Inherit: class Child < Parent",
+    "Override methods by redefining them in the child class",
+    "Access instance variables from parent: @name",
+    "Use string interpolation: \"Woof! I'm #{@name}\""
+  ],
+  "tags": ["inheritance", "oop", "advanced"]
+}

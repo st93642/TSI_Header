@@ -1,0 +1,59 @@
+{
+  "id": "conditionals_exercise",
+  "title": "Exercise 2.1: If, Elsif, and Unless Exercise",
+  "description": "Practice conditional logic with if, elsif, else, and unless statements.",
+  "difficulty": "beginner",
+  "starterCode": "# Conditional Statements Exercise\n\n# 1. Create a method check_number(num) that returns:\n#    - \"positive\" if num > 0\n#    - \"negative\" if num < 0\n#    - \"zero\" if num == 0\n#    Example: check_number(5) => \"positive\"\n#    Example: check_number(-3) => \"negative\"\n#    Example: check_number(0) => \"zero\"\n\ndef check_number(num)\n  # Use if/elsif/else to check the number\n\nend\n\n# 2. Create a method age_group(age) that returns:\n#    - \"child\" if age < 13\n#    - \"teen\" if age >= 13 and age <= 17\n#    - \"adult\" if age >= 18\n#    Example: age_group(10) => \"child\"\n#    Example: age_group(15) => \"teen\"\n#    Example: age_group(25) => \"adult\"\n\ndef age_group(age)\n  # Use if/elsif/else to determine age group\n\nend\n\n# 3. Create a method passing?(score) that returns:\n#    - true if score >= 60\n#    - false if score < 60\n#    Example: passing?(75) => true\n#    Example: passing?(45) => false\n\ndef passing?(score)\n  # Use a simple if statement or comparison\n\nend\n",
+  "tests": [
+    {
+      "name": "check_number with positive",
+      "call": "check_number(5)",
+      "expected": "positive"
+    },
+    {
+      "name": "check_number with negative",
+      "call": "check_number(-3)",
+      "expected": "negative"
+    },
+    {
+      "name": "check_number with zero",
+      "call": "check_number(0)",
+      "expected": "zero"
+    },
+    {
+      "name": "age_group returns child",
+      "call": "age_group(10)",
+      "expected": "child"
+    },
+    {
+      "name": "age_group returns teen",
+      "call": "age_group(15)",
+      "expected": "teen"
+    },
+    {
+      "name": "age_group returns adult",
+      "call": "age_group(25)",
+      "expected": "adult"
+    },
+    {
+      "name": "passing with passing score",
+      "call": "passing?(75)",
+      "expected": true
+    },
+    {
+      "name": "passing with failing score",
+      "call": "passing?(45)",
+      "expected": false
+    }
+  ],
+  "hints": [
+    "Use if/elsif/else for multiple conditions",
+    "child: age < 13, teen: 13-17, adult: 18+",
+    "Compare with >, <, ==, >=, <=",
+    "Return the appropriate string based on condition",
+    "You can use one-line if: return \"positive\" if num > 0"
+  ],
+  "tags": [
+    "beginner"
+  ]
+}

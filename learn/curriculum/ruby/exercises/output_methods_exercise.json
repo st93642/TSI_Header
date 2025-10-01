@@ -1,0 +1,47 @@
+{
+  "id": "output_methods_exercise",
+  "title": "Exercise 1.2: String Concatenation Exercise",
+  "description": "Practice combining strings using different methods. This exercise focuses on returning combined strings, not printing them.",
+  "difficulty": "beginner",
+  "starterCode": "# Task: Create methods that combine strings in different ways\n\n# 1. Create a method combine_words that takes two words and returns them with a space\n#    Example: combine_words(\"Hello\", \"World\") => \"Hello World\"\n#    Hint: Use + operator: word1 + ' ' + word2\n\ndef combine_words(word1, word2)\n  # Your code here\n\nend\n\n# 2. Create a method full_name that takes first and last name\n#    Example: full_name(\"John\", \"Doe\") => \"John Doe\"\n#    Hint: Use string interpolation: \"#{first} #{last}\"\n\ndef full_name(first, last)\n  # Your code here\n\nend\n\n# 3. Create a method greeting that takes a name and returns a greeting\n#    Example: greeting(\"Alice\") => \"Hello, Alice! Welcome!\"\n#    Hint: Combine multiple strings with spaces and punctuation\n\ndef greeting(name)\n  # Your code here\n\nend\n",
+  "tests": [
+    {
+      "name": "combine two words",
+      "call": "combine_words('Hello', 'World')",
+      "expected": "Hello World"
+    },
+    {
+      "name": "combine Ruby words",
+      "call": "combine_words('Ruby', 'programming')",
+      "expected": "Ruby programming"
+    },
+    {
+      "name": "full_name combines",
+      "call": "full_name('John', 'Doe')",
+      "expected": "John Doe"
+    },
+    {
+      "name": "full_name different names",
+      "call": "full_name('Alice', 'Smith')",
+      "expected": "Alice Smith"
+    },
+    {
+      "name": "greeting returns message",
+      "call": "greeting('Alice')",
+      "expected": "Hello, Alice! Welcome!"
+    },
+    {
+      "name": "greeting with different name",
+      "call": "greeting('Bob')",
+      "expected": "Hello, Bob! Welcome!"
+    }
+  ],
+  "hints": [
+    "Use the + operator to concatenate: word1 + ' ' + word2",
+    "Use string interpolation: \"#{first} #{last}\"",
+    "Return the combined string, don't print it with puts or print",
+    "Add spaces between words: ' '",
+    "For greeting: \"Hello, #{name}! Welcome!\""
+  ],
+  "tags": ["basics", "strings", "beginner"]
+}

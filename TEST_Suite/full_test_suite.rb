@@ -411,6 +411,9 @@ if __FILE__ == $0
   if defined?(TestPomodoro)
     suite.register_module(TestPomodoro)
   end
+  if defined?(TestLearnModule)
+    suite.register_module(TestLearnModule)
+  end
 
   suite.run
 end
