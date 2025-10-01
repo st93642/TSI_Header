@@ -218,6 +218,12 @@
           "title": "Lesson 7.6: Standard Library: JSON and CSV",
           "duration": 50,
           "difficulty": "intermediate"
+        },
+        {
+          "id": "testing_demo",
+          "title": "Lesson 7.7: Testing System Demo",
+          "duration": 45,
+          "difficulty": "advanced"
         }
       ]
     }

@@ -1,0 +1,14 @@
+{
+  "exerciseId": "testing_demo_exercise",
+  "languageId": "ruby",
+  "code": "# Testing System Demo - Solution\n\n# 1. Output test: Write a method that prints a greeting\ndef print_greeting(name)\n  puts \"Hello, #{name}!\"\nend\n\n# 2. Exception test: Write a method that raises an error for invalid input\ndef validate_age(age)\n  raise ArgumentError, \"Age cannot be negative\" if age < 0\n  age\nend\n\n# 3. Side effect test: Write a method that creates a file\ndef create_log_file(message)\n  File.write('test.log', message)\nend\n\n# 4. Regular test: Write a method that returns a calculated value\ndef calculate_total(items)\n  items.sum\nend",
+  "explanation": "This solution demonstrates all four test types supported by the enhanced testing system:\n\n1. **Output Test**: The `print_greeting` method uses `puts` to print to stdout, which gets captured and compared against the expected string.\n\n2. **Exception Test**: The `validate_age` method raises an `ArgumentError` when given a negative age, which is verified by the exception test.\n\n3. **Side Effect Test**: The `create_log_file` method creates a file on disk. The test verifies both that the file exists and contains the correct content.\n\n4. **Regular Test**: The `calculate_total` method returns a value that gets compared directly with the expected result.\n\nEach test type serves a different purpose in comprehensively validating code behavior, from user output to error handling to file system interactions.",
+  "keyPoints": [
+    "Output tests capture stdout using StringIO for console output validation",
+    "Exception tests use assert_raises to verify proper error handling",
+    "Side effect tests can validate file creation, modifications, and other persistent changes",
+    "Regular tests compare return values directly for computational accuracy",
+    "Choose the appropriate test type based on what aspect of behavior you want to validate",
+    "Clean up temporary files and resources created during side effect tests"
+  ]
+}

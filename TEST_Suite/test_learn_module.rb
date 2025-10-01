@@ -94,8 +94,8 @@ class TestLearnModule < TestModule
     end
     
     current += 1
-    run_test_with_progress("All 28 lessons defined in curriculum", total_tests, current) do
-      { passed: lesson_ids.length == 28, message: "Found #{lesson_ids.length} lessons" }
+    run_test_with_progress("All 29 lessons defined in curriculum", total_tests, current) do
+      { passed: lesson_ids.length == 29, message: "Found #{lesson_ids.length} lessons" }
     end
     
     current += 1
