@@ -140,21 +140,29 @@ class StudyModeExtension {
             const isRunning = this.timer.isRunning;
 
             if (isRunning) {
-                // Currently running - pause
-                this.timer.pause();
+                // Currently running - show dialog first, then pause after confirmation
                 this.vscode.window.showInformationMessage(
-                    `⏸️ Timer Paused\n\n${phaseName} paused at ${remainingTime}.\nClick the status bar timer to resume.`,
+                    `⏸️ Pause Timer?\n\n${phaseName} will be paused at ${remainingTime}.\nYou can resume it anytime from the status bar.`,
                     { modal: true },
-                    'Got it!'
-                );
+                    'Pause',
+                    'Cancel'
+                ).then(selection => {
+                    if (selection === 'Pause') {
+                        this.timer.pause();
+                    }
+                });
             } else {
-                // Currently paused - resume
-                this.timer.resume();
+                // Currently paused - show dialog first, then resume after confirmation
                 this.vscode.window.showInformationMessage(
-                    `▶️ Timer Resumed\n\n${phaseName} resumed.\n${remainingTime} remaining.`,
+                    `▶️ Resume Timer?\n\n${phaseName} will resume.\n${remainingTime} remaining.`,
                     { modal: true },
-                    'Got it!'
-                );
+                    'Resume',
+                    'Cancel'
+                ).then(selection => {
+                    if (selection === 'Resume') {
+                        this.timer.resume();
+                    }
+                });
             }
         }
     }
@@ -163,12 +171,16 @@ class StudyModeExtension {
         if (!this.timer) return;
 
         if (this.timer.currentPhase !== 'stopped') {
-            this.timer.stop();
-            this.vscode.window.showInformationMessage(
-                `🛑 Study Session Stopped\n\nYour study session has been stopped and reset.\nAll progress for this session has been lost.`,
+            this.vscode.window.showWarningMessage(
+                `🛑 Stop Study Session?\n\nYour study session will be stopped and reset.\nAll progress for this session will be lost.`,
                 { modal: true },
-                'Got it!'
-            );
+                'Stop Session',
+                'Cancel'
+            ).then(selection => {
+                if (selection === 'Stop Session') {
+                    this.timer.stop();
+                }
+            });
         } else {
             this.vscode.window.showInformationMessage(
                 `No Active Session\n\nThere is no active study session to stop.\nStart a new session to begin studying.`,
@@ -283,63 +295,34 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
                 // Restore timer state
                 this.timer.currentPhase = persistedState.currentPhase || 'stopped';
                 this.timer.currentSession = persistedState.currentSession || 0;
-                this.timer.isRunning = false; // Always start as not running after restart
-
-                // Handle startTime - could be ISO string or timestamp number
-                if (persistedState.startTime) {
-                    if (typeof persistedState.startTime === 'string') {
-                        // Convert ISO string back to timestamp
-                        this.timer.startTime = new Date(persistedState.startTime).getTime();
-                    } else {
-                        // Already a timestamp number
-                        this.timer.startTime = persistedState.startTime;
-                    }
-                } else {
-                    this.timer.startTime = null;
-                }
-
-                // Handle pausedTime similarly
-                if (persistedState.pausedTime) {
-                    if (typeof persistedState.pausedTime === 'string') {
-                        this.timer.pausedTime = new Date(persistedState.pausedTime).getTime();
-                    } else {
-                        this.timer.pausedTime = persistedState.pausedTime;
-                    }
-                } else {
-                    this.timer.pausedTime = null;
-                }
-
-                // Calculate remaining time based on saved state
-                if (this.timer.currentPhase !== 'stopped' && persistedState.startTime) {
-                    const savedStartTime = this.timer.startTime;
-                    const timeSinceStart = Date.now() - savedStartTime;
+                this.timer.isRunning = false; // Always start as paused after restart
+                
+                // Restore elapsed time and calculate remaining time
+                this.timer.elapsedTime = persistedState.elapsedTime || 0;
+                
+                if (this.timer.currentPhase !== 'stopped') {
                     const currentDuration = this.timer.getCurrentDuration();
-
-                    if (persistedState.isRunning) {
-                        // Timer was running when saved - calculate how much time is left
-                        this.timer.remainingTime = Math.max(0, currentDuration - timeSinceStart);
-                        // Set up hrtime for monotonic timing - recalculate based on current time
-                        this.timer.startHrtime = process.hrtime.bigint() - BigInt(Math.floor(timeSinceStart * 1e6)); // Convert ms to ns
-                        // Keep the original startTime so the timer continues correctly
-                        // Don't modify startTime for running timers
-                    } else {
-                        // Timer was paused when saved - use the saved remaining time
-                        this.timer.remainingTime = persistedState.remainingTime || 0;
-                        // For paused timers, set startTime and hrtime so that when resumed, it starts fresh from now
-                        // This ensures resume() works correctly without time jumping
-                        this.timer.startTime = Date.now();
-                        this.timer.startHrtime = process.hrtime.bigint();
-                        // Set pausedTime to indicate this timer was paused before restart
-                        this.timer.pausedTime = Date.now();
-                        this.timer.pausedHrtime = process.hrtime.bigint();
-                    }
+                    this.timer.remainingTime = Math.max(0, currentDuration - this.timer.elapsedTime);
                 } else {
                     this.timer.remainingTime = 0;
-                    this.timer.startHrtime = null;
-                    this.timer.pausedHrtime = null;
                 }
-
+                
+                // Restore phase start timestamp for logging
+                if (persistedState.phaseStartTimestamp) {
+                    if (typeof persistedState.phaseStartTimestamp === 'string') {
+                        this.timer.phaseStartTimestamp = new Date(persistedState.phaseStartTimestamp).getTime();
+                    } else {
+                        this.timer.phaseStartTimestamp = persistedState.phaseStartTimestamp;
+                    }
+                } else {
+                    this.timer.phaseStartTimestamp = null;
+                }
+                
+                // Restore session log
                 this.timer.sessionLog = persistedState.sessionLog || [];
+                
+                // Reset tick time (will be set when resumed)
+                this.timer.lastTickTime = null;
 
                 // Update status bar to reflect restored state
                 this.timer.updateStatusBar();
@@ -354,13 +337,17 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
     savePersistedState() {
         try {
             if (this.timer) {
+                // Update elapsed time if running before saving
+                if (this.timer.isRunning) {
+                    this.timer.updateElapsedTime();
+                }
+                
                 const stateToSave = {
                     currentPhase: this.timer.currentPhase,
                     currentSession: this.timer.currentSession,
                     isRunning: this.timer.isRunning,
-                    startTime: this.timer.startTime ? new Date(this.timer.startTime).toISOString() : null,
-                    pausedTime: this.timer.pausedTime ? new Date(this.timer.pausedTime).toISOString() : null,
-                    remainingTime: this.timer.remainingTime,
+                    elapsedTime: this.timer.elapsedTime,
+                    phaseStartTimestamp: this.timer.phaseStartTimestamp ? new Date(this.timer.phaseStartTimestamp).toISOString() : null,
                     sessionLog: this.timer.sessionLog,
                     lastSaved: new Date().toISOString()
                 };
@@ -444,11 +431,10 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
             this.timer.currentSession = 0;
             this.timer.currentPhase = 'stopped';
             this.timer.isRunning = false;
-            this.timer.startTime = null;
-            this.timer.startHrtime = null;
-            this.timer.pausedTime = null;
-            this.timer.pausedHrtime = null;
+            this.timer.elapsedTime = 0;
+            this.timer.lastTickTime = null;
             this.timer.remainingTime = 0;
+            this.timer.phaseStartTimestamp = null;
 
             // Clear persisted state
             this.context.globalState.update('studyMode.state', undefined);

@@ -104,22 +104,28 @@ test('StudyModeTimer - Timer Controls', { timeout: 5000 }, async (t) => {
         timer.start();
         assert.equal(timer.currentPhase, 'work');
         assert.equal(timer.isRunning, true);
-        assert(timer.startTime);
+        assert(timer.phaseStartTimestamp); // Changed from startTime
+        assert(timer.elapsedTime >= 0); // Should be near 0, allow for tiny timing variations
+        assert(timer.elapsedTime < 100); // Should be very small (less than 100ms)
     });
 
     await t.test('should pause running timer', () => {
         timer.start();
         timer.pause();
         assert.equal(timer.isRunning, false);
-        assert(timer.pausedTime);
+        assert(!timer.lastTickTime); // Should be null when paused
+        assert(timer.elapsedTime >= 0); // Elapsed time should be preserved
     });
 
     await t.test('should resume paused timer', () => {
         timer.start();
         timer.pause();
+        const elapsedBeforeResume = timer.elapsedTime;
         timer.resume();
         assert.equal(timer.isRunning, true);
-        assert(!timer.pausedTime);
+        assert(timer.lastTickTime); // Should be set when resumed
+        // Elapsed time should be approximately the same (with tiny variation from pause/resume operations)
+        assert(Math.abs(timer.elapsedTime - elapsedBeforeResume) < 10); // Within 10ms tolerance
     });
 
     await t.test('should stop timer and reset state', () => {
@@ -330,7 +336,7 @@ test('StudyModeTimer - Break Popup and Audio', { timeout: 10000 }, async (t) => 
 
     await t.test('should start break timer when user selects Take Break', () => {
         timer.currentPhase = 'shortBreak';
-        timer.startTime = Date.now();
+        timer.elapsedTime = 0;
 
         // Mock user selecting "Take Break"
         enhancedMockVSCode.window.showInformationMessage = () => Promise.resolve('Take Break');
@@ -339,7 +345,9 @@ test('StudyModeTimer - Break Popup and Audio', { timeout: 10000 }, async (t) => 
         timer.startBreak();
 
         assert.equal(timer.isRunning, true);
-        assert(timer.startTime);
+        assert(timer.phaseStartTimestamp); // Changed from startTime
+        assert(timer.elapsedTime >= 0); // Should be near 0
+        assert(timer.elapsedTime < 100); // Should be very small (less than 100ms)
     });
 
     await t.test('should skip break and start work when user selects Skip Break', () => {
@@ -354,7 +362,9 @@ test('StudyModeTimer - Break Popup and Audio', { timeout: 10000 }, async (t) => 
 
         assert.equal(timer.currentPhase, 'work');
         assert.equal(timer.isRunning, true);
-        assert(timer.startTime);
+        assert(timer.phaseStartTimestamp); // Changed from startTime
+        assert(timer.elapsedTime >= 0); // Should be near 0
+        assert(timer.elapsedTime < 100); // Should be very small (less than 100ms)
     });
 
     await t.test('should play audio signal when break starts', { timeout: 100 }, async () => {

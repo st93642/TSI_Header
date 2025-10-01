@@ -140,7 +140,8 @@ test('StudyModeExtension - State Persistence', async (t) => {
         assert(savedState);
         assert.equal(savedState.currentPhase, 'work');
         assert.equal(savedState.isRunning, true);
-        assert(savedState.startTime);
+        assert(savedState.phaseStartTimestamp); // Changed from startTime
+        assert(savedState.elapsedTime >= 0); // Check elapsed time instead
     });
 
     await t.test('should handle missing persisted state gracefully', () => {
