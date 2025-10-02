@@ -1,0 +1,18 @@
+{
+  "exerciseId": "chapter_06_pointers_and_references_exercise",
+  "variants": [
+    {
+      "id": "chapter_06_pointers_and_references_exercise",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <vector>\n#include <memory>\n#include <cstddef>\n\nstd::ptrdiff_t pointer_span(const int* start, const int* finish) {\n    return finish - start;\n}\n\nvoid reseat_pointer(int*& target, int* replacement) {\n    target = replacement;\n}\n\nint apply_alias(int& target, int delta) {\n    target += delta;\n    return target;\n}\n\nstd::size_t count_shared(const std::shared_ptr<std::vector<int>>& log) {\n    return log ? log.use_count() : 0U;\n}\n\nbool probe_expired(const std::weak_ptr<std::vector<int>>& probe) {\n    return probe.expired();\n}\n\nint main() {\n    int values[]{5, 15, 25, 35, 45};\n    std::ptrdiff_t span = pointer_span(values + 1, values + 4);\n\n    int* anchor = values;\n    reseat_pointer(anchor, values + 3);\n    int reseated_value = *anchor;\n\n    int alias_target = values[0];\n    int alias_result = apply_alias(alias_target, 7);\n\n    auto shared_log = std::make_shared<std::vector<int>>(std::initializer_list<int>{42, 48, 51});\n    auto extra_owner = shared_log;\n    std::size_t owners_before_reset = count_shared(shared_log);\n\n    std::weak_ptr<std::vector<int>> watcher = shared_log;\n    bool expired_before = probe_expired(watcher);\n\n    extra_owner.reset();\n    shared_log.reset();\n    bool expired_after = probe_expired(watcher);\n\n    std::cout << \"Pointer span: \" << span << '\\n';\n    std::cout << \"Pointer value after reseat: \" << reseated_value << '\\n';\n    std::cout << \"Alias result: \" << alias_result << '\\n';\n    std::cout << \"Shared owners (before reset): \" << owners_before_reset << '\\n';\n    std::cout << \"Weak expired before reset: \" << (expired_before ? \"yes\" : \"no\") << '\\n';\n    std::cout << \"Weak expired after reset: \" << (expired_after ? \"yes\" : \"no\") << '\\n';\n\n    return 0;\n}\n",
+      "explanation": "Demonstrates pointer arithmetic, reseating through a pointer reference, reference-based updates, shared ownership tracking, and weak pointer expiration handling while producing the verification report required by the exercise.",
+      "keyPoints": [
+        "Pointer subtraction yields std::ptrdiff_t measured in elements instead of bytes.",
+        "Passing a pointer by reference lets helper functions reseat it safely.",
+        "References provide direct aliases that update the caller without returning a pointer.",
+        "std::shared_ptr::use_count reveals how many owners remain before resetting them.",
+        "std::weak_ptr::expired reports when all shared owners have released the resource."
+      ]
+    }
+  ]
+}

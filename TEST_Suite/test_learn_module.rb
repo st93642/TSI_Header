@@ -23,7 +23,7 @@ class TestLearnModule < TestModule
     @lib_dir = @learn_dir.join('lib')
     
   # Total tests count
-  total_tests = 83
+  total_tests = 104
     start_progress_bar(total_tests, "Learn Module")
     
     current = 0
@@ -784,6 +784,328 @@ class TestLearnModule < TestModule
         uses_switch = code.include?('switch (')
         handles_error = code.include?('invalid age')
         { passed: uses_switch && handles_error, message: "uses_switch=#{uses_switch}, handles_error=#{handles_error}" }
+      end
+    end
+
+    # C++ Chapter 5 Consistency Tests (6 tests)
+    cpp_ch5_exercise_path = @cpp_curriculum_dir.join('exercises', 'chapter_05_arrays_and_loops_exercise.json')
+    cpp_ch5_solution_path = @cpp_curriculum_dir.join('solutions', 'chapter_05_arrays_and_loops_exercise.json')
+    cpp_ch5_stub_path = @config.extension_root.join('learn_exercises', 'cpp', 'chapter_05_arrays_and_loops_exercise.cpp')
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 exercise metadata emphasises arrays and loops", total_tests, current) do
+      unless cpp_ch5_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch5_exercise_path))
+        tags = Array(exercise['tags'])
+        required_tags = %w[arrays loops]
+        has_tags = (required_tags - tags).empty?
+        { passed: exercise['difficulty'] == 'intermediate' && has_tags, message: "difficulty=#{exercise['difficulty']}, tags=#{tags.join(', ')}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 expected outputs cover array operations and loop control", total_tests, current) do
+      unless cpp_ch5_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch5_exercise_path))
+        tests = Array(exercise['tests'])
+        expected_outputs = tests.map { |t| (t['expected'] || '').to_s }
+        includes_array_sum = expected_outputs.any? { |text| text.include?('Array sum: 15') }
+        includes_loop_sum = expected_outputs.any? { |text| text.include?('Sum to 10: 55') }
+        includes_vector_double = expected_outputs.any? { |text| text.include?('Doubled values: 2 4 6') }
+        { passed: includes_array_sum && includes_loop_sum && includes_vector_double, message: "array_sum=#{includes_array_sum}, loop_sum=#{includes_loop_sum}, vector_double=#{includes_vector_double}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 hints mention array bounds and loop types", total_tests, current) do
+      unless cpp_ch5_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch5_exercise_path))
+        hints = Array(exercise['hints'])
+        mentions_bounds = hints.any? { |h| h.include?('bounds') || h.include?('std::size') }
+        mentions_loops = hints.any? { |h| h.include?('for') || h.include?('while') || h.include?('range') }
+        { passed: mentions_bounds && mentions_loops, message: "bounds_hint=#{mentions_bounds}, loops_hint=#{mentions_loops}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 starter guides array and loop usage without solving", total_tests, current) do
+      unless cpp_ch5_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch5_exercise_path))
+        starter = (exercise['starterCode'] || '').to_s
+        mentions_arrays = starter.include?('std::array') || starter.include?('std::vector') || starter.include?('array sum')
+        mentions_loops = starter.include?('for loop') || starter.include?('range-based') || starter.include?('while')
+        has_todo = starter.include?('TODO')
+        { passed: mentions_arrays && mentions_loops && has_todo, message: "arrays=#{mentions_arrays}, loops=#{mentions_loops}, todo=#{has_todo}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 stub exists with TODO placeholders", total_tests, current) do
+      unless cpp_ch5_stub_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_stub_path}" }
+      else
+        stub_content = File.read(cpp_ch5_stub_path)
+        todo_count = stub_content.scan('TODO').size
+        returns_zero_count = stub_content.scan('return 0;').size
+        has_placeholder_casts = stub_content.include?('(void)numbers') && stub_content.include?('(void)table')
+        blueprint_comment = stub_content.include?('Output blueprint')
+        { passed: todo_count >= 7 && returns_zero_count >= 5 && has_placeholder_casts && blueprint_comment,
+          message: "todos=#{todo_count}, returns_zero=#{returns_zero_count}, placeholder_casts=#{has_placeholder_casts}, blueprint_comment=#{blueprint_comment}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 solution uses proper array and loop constructs", total_tests, current) do
+      unless cpp_ch5_solution_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_solution_path}" }
+      else
+        solution = JSON.parse(File.read(cpp_ch5_solution_path))
+        variants = Array(solution['variants'])
+        code_samples = if variants.any?
+                         variants.select { |variant| variant['language'] == 'cpp' }
+                                 .map { |variant| variant['code'] || '' }
+                       else
+                         [Array(solution['cpp']).join("\n")]
+                       end
+        code = code_samples.join("\n")
+        uses_std_array = code.include?('std::array') || code.include?('std::size(')
+        uses_range_loop = code.include?('for (int&') || code.include?('for (auto&')
+        uses_loop_control = code.include?('continue')
+        { passed: uses_std_array && uses_range_loop && uses_loop_control,
+          message: "std_array=#{uses_std_array}, range_loop=#{uses_range_loop}, loop_control=#{uses_loop_control}" }
+      end
+    end
+
+    cpp_ch5_lesson_path = @cpp_curriculum_dir.join('lessons', 'chapter_05_arrays_and_loops.md')
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 lesson introduces concept map linking arrays and loops", total_tests, current) do
+      unless cpp_ch5_lesson_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_lesson_path}" }
+      else
+        content = File.read(cpp_ch5_lesson_path)
+        has_heading = content.include?('## Concept map')
+        has_arrow_flow = content.include?('arrays -> loops -> algorithms')
+        has_dual_container = content.include?('std::array -> deterministic memory') && content.include?('std::vector -> dynamic growth')
+        { passed: has_heading && has_arrow_flow && has_dual_container, message: "heading=#{has_heading}, arrow_flow=#{has_arrow_flow}, dual_container=#{has_dual_container}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 lesson warns about misleading array parameter sizes", total_tests, current) do
+      unless cpp_ch5_lesson_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_lesson_path}" }
+      else
+        content = File.read(cpp_ch5_lesson_path)
+        mentions_signature = content.include?('average10(double array[10])')
+        mentions_false_expectation = content.include?('false expectation') || content.include?('false expectations')
+        emphasises_pointer_equivalence = content.include?('array parameter collapses to a pointer')
+        { passed: mentions_signature && mentions_false_expectation && emphasises_pointer_equivalence, message: "signature=#{mentions_signature}, expectation=#{mentions_false_expectation}, pointer_equivalence=#{emphasises_pointer_equivalence}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 lesson supplies offline code examples for arrays and loops", total_tests, current) do
+      unless cpp_ch5_lesson_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_lesson_path}" }
+      else
+        content = File.read(cpp_ch5_lesson_path)
+        example_count = content.scan('Example:').size
+        mentions_rolling_average = content.include?('Example: rolling_average.cpp')
+        mentions_temperature_conversion = content.include?('Example: temperature_log.cpp')
+        { passed: example_count >= 3 && mentions_rolling_average && mentions_temperature_conversion, message: "example_count=#{example_count}, rolling_average=#{mentions_rolling_average}, temperature_conversion=#{mentions_temperature_conversion}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 5 lesson reinforces do/while practice with offline drills", total_tests, current) do
+      unless cpp_ch5_lesson_path.file?
+        { passed: false, message: "Missing #{cpp_ch5_lesson_path}" }
+      else
+        content = File.read(cpp_ch5_lesson_path)
+        mentions_do_while = content.include?('do/while rehearsal') || content.include?('do/while loop rehearsal')
+        mentions_offline = content.include?('offline logbook drill')
+        ties_to_range_based = content.include?('range-based for loop keeps the code efficient')
+        { passed: mentions_do_while && mentions_offline && ties_to_range_based, message: "do_while=#{mentions_do_while}, offline=#{mentions_offline}, range_based=#{ties_to_range_based}" }
+      end
+    end
+
+    cpp_ch6_lesson_path = @cpp_curriculum_dir.join('lessons', 'chapter_06_pointers_and_references.md')
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 lesson maps pointer families", total_tests, current) do
+      unless cpp_ch6_lesson_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_lesson_path}" }
+      else
+        content = File.read(cpp_ch6_lesson_path)
+        has_heading = content.include?('## Concept map')
+        mentions_pointer_flow = content.include?('pointers -> addresses -> indirection')
+        mentions_reference_flow = content.include?('references -> aliases -> stability') || content.include?('references -> aliases -> safety')
+        mentions_smart_flow = content.include?('smart pointers -> RAII -> ownership')
+        { passed: has_heading && mentions_pointer_flow && mentions_reference_flow && mentions_smart_flow,
+          message: "heading=#{has_heading}, pointer_flow=#{mentions_pointer_flow}, reference_flow=#{mentions_reference_flow}, smart_flow=#{mentions_smart_flow}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 lesson explains pointer constness contrasts", total_tests, current) do
+      unless cpp_ch6_lesson_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_lesson_path}" }
+      else
+        content = File.read(cpp_ch6_lesson_path)
+        mentions_pointer_to_const = content.include?('const double*') || content.include?('const double\*')
+        mentions_const_pointer = content.include?('double* const') || content.include?('double\* const')
+        mentions_reference_alias = content.include?('reference as an alias') || content.include?('reference acts as an alias')
+        { passed: mentions_pointer_to_const && mentions_const_pointer && mentions_reference_alias,
+          message: "pointer_to_const=#{mentions_pointer_to_const}, const_pointer=#{mentions_const_pointer}, reference_alias=#{mentions_reference_alias}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 lesson highlights pointer arithmetic with std::ptrdiff_t", total_tests, current) do
+      unless cpp_ch6_lesson_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_lesson_path}" }
+      else
+        content = File.read(cpp_ch6_lesson_path)
+        mentions_ptrdiff = content.include?('std::ptrdiff_t')
+        mentions_pointer_difference = content.include?('pointer difference') || content.include?('pointer differences') || content.include?('subtracting pointers')
+        emphasises_same_array = content.include?('same array') || content.include?('same underlying array')
+        { passed: mentions_ptrdiff && mentions_pointer_difference && emphasises_same_array,
+          message: "ptrdiff=#{mentions_ptrdiff}, pointer_difference=#{mentions_pointer_difference}, same_array=#{emphasises_same_array}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 lesson provides offline pointer practice examples", total_tests, current) do
+      unless cpp_ch6_lesson_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_lesson_path}" }
+      else
+        content = File.read(cpp_ch6_lesson_path)
+        example_count = content.scan('Example:').size
+        includes_pointer_diary = content.include?('Example: pointer_diary.cpp')
+        includes_lifetime_tracker = content.include?('Example: lifetime_tracker.cpp')
+        includes_reference_alias = content.include?('Example: reference_aliases.cpp')
+        { passed: example_count >= 4 && includes_pointer_diary && includes_lifetime_tracker && includes_reference_alias,
+          message: "example_count=#{example_count}, pointer_diary=#{includes_pointer_diary}, lifetime_tracker=#{includes_lifetime_tracker}, reference_alias=#{includes_reference_alias}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 lesson reconnects shared_ptr temperature log", total_tests, current) do
+      unless cpp_ch6_lesson_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_lesson_path}" }
+      else
+        content = File.read(cpp_ch6_lesson_path)
+        mentions_shared_ptr = content.include?('shared_ptr')
+        mentions_vector_temperature = content.include?('vector') && content.include?('temperature log')
+        { passed: mentions_shared_ptr && mentions_vector_temperature,
+          message: "shared_ptr=#{mentions_shared_ptr}, vector_temperature=#{mentions_vector_temperature}" }
+      end
+    end
+
+    cpp_ch6_exercise_path = @cpp_curriculum_dir.join('exercises', 'chapter_06_pointers_and_references_exercise.json')
+    cpp_ch6_solution_path = @cpp_curriculum_dir.join('solutions', 'chapter_06_pointers_and_references_exercise.json')
+    cpp_ch6_stub_path = @config.extension_root.join('learn_exercises', 'cpp', 'chapter_06_pointers_and_references_exercise.cpp')
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 exercise metadata highlights pointers and references", total_tests, current) do
+      unless cpp_ch6_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch6_exercise_path))
+        difficulty_ok = exercise['difficulty'] == 'advanced' || exercise['difficulty'] == 'intermediate'
+        tags = Array(exercise['tags'])
+        has_pointer_tags = tags.include?('pointers') && tags.include?('references')
+        { passed: difficulty_ok && has_pointer_tags, message: "difficulty=#{exercise['difficulty']}, tags=#{tags.join(', ')}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 exercise expected output summarises pointer results", total_tests, current) do
+      unless cpp_ch6_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch6_exercise_path))
+        tests = Array(exercise['tests'])
+        expected = tests.map { |t| t['expected'] || '' }.join("\n")
+        includes_span = expected.include?('Pointer span:')
+        includes_reseat = expected.include?('Pointer value after reseat:')
+        includes_alias = expected.include?('Alias result:')
+        includes_shared = expected.include?('Shared owners (before reset):')
+        includes_weak = expected.include?('Weak expired after reset:')
+        { passed: includes_span && includes_reseat && includes_alias && includes_shared && includes_weak,
+          message: "span=#{includes_span}, reseat=#{includes_reseat}, alias=#{includes_alias}, shared=#{includes_shared}, weak=#{includes_weak}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 exercise hints emphasise pointer safety", total_tests, current) do
+      unless cpp_ch6_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch6_exercise_path))
+        hints = Array(exercise['hints'])
+        mentions_ptrdiff = hints.any? { |h| h.include?('std::ptrdiff_t') }
+        mentions_shared_ptr = hints.any? { |h| h.include?('shared_ptr') }
+        mentions_alias = hints.any? { |h| h.include?('reference') }
+        { passed: mentions_ptrdiff && mentions_shared_ptr && mentions_alias,
+          message: "ptrdiff_hint=#{mentions_ptrdiff}, shared_ptr_hint=#{mentions_shared_ptr}, alias_hint=#{mentions_alias}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 starter blueprint outlines pointer tasks", total_tests, current) do
+      unless cpp_ch6_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch6_exercise_path))
+        starter = (exercise['starterCode'] || '').to_s
+        has_todo = starter.include?('TODO')
+        mentions_span = starter.include?('Pointer span: <value>')
+        mentions_shared = starter.include?('Shared owners (before reset): <value>')
+        mentions_weak = starter.include?('Weak expired after reset: <yes/no>')
+        { passed: has_todo && mentions_span && mentions_shared && mentions_weak,
+          message: "todo=#{has_todo}, span=#{mentions_span}, shared=#{mentions_shared}, weak=#{mentions_weak}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 stub guides pointer implementation", total_tests, current) do
+      unless cpp_ch6_stub_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_stub_path}" }
+      else
+        stub_content = File.read(cpp_ch6_stub_path)
+        has_todo = stub_content.include?('TODO')
+        blueprint_comment = stub_content.include?('Pointer span: <value>')
+        mentions_ptrdiff = stub_content.include?('std::ptrdiff_t')
+        mentions_shared_ptr = stub_content.include?('std::shared_ptr')
+        { passed: has_todo && blueprint_comment && mentions_ptrdiff && mentions_shared_ptr,
+          message: "todo=#{has_todo}, blueprint=#{blueprint_comment}, ptrdiff=#{mentions_ptrdiff}, shared_ptr=#{mentions_shared_ptr}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 6 solution uses pointer arithmetic and shared ownership", total_tests, current) do
+      unless cpp_ch6_solution_path.file?
+        { passed: false, message: "Missing #{cpp_ch6_solution_path}" }
+      else
+        solution = JSON.parse(File.read(cpp_ch6_solution_path))
+        variants = Array(solution['variants'])
+        code = variants.map { |variant| variant['code'] }.join("\n")
+        uses_ptrdiff = code.include?('std::ptrdiff_t')
+        uses_shared = code.include?('std::shared_ptr')
+        uses_weak = code.include?('std::weak_ptr')
+        reseats_pointer = code.include?('reseat_pointer(')
+        { passed: uses_ptrdiff && uses_shared && uses_weak && reseats_pointer,
+          message: "ptrdiff=#{uses_ptrdiff}, shared=#{uses_shared}, weak=#{uses_weak}, reseat=#{reseats_pointer}" }
       end
     end
 

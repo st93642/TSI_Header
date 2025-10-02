@@ -74,7 +74,19 @@
           "title": "Chapter 5: Arrays and Loops",
           "duration": 60,
           "difficulty": "intermediate",
-          "exerciseAvailable": false
+          "exerciseAvailable": true,
+          "exerciseVariants": [
+            {
+              "id": "chapter_05_arrays_and_loops_exercise_c",
+              "language": "c",
+              "title": "Exercise 5A: Arrays and Loops in C"
+            },
+            {
+              "id": "chapter_05_arrays_and_loops_exercise_cpp",
+              "language": "cpp",
+              "title": "Exercise 5B: Arrays and Loops in Modern C++"
+            }
+          ]
         }
       ]
     },
@@ -88,7 +100,7 @@
           "title": "Chapter 6: Pointers and References",
           "duration": 60,
           "difficulty": "intermediate",
-          "exerciseAvailable": false
+          "exerciseAvailable": true
         }
       ]
     },

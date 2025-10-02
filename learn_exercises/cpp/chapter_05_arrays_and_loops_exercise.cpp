@@ -10,6 +10,7 @@
 // Create an array of 5 integers and return their sum
 int sum_array() {
     // TODO: Declare an array with values {1, 2, 3, 4, 5}
+
     // TODO: Use std::size (or a constant) to iterate safely over the array
     return 0;
 }

@@ -18,7 +18,7 @@ test_output/
 *.md
 !README.md
 docs/
-Beginning_C-17_Novice_to_Professional_Fifth_Edition_Ivor_Horton.txt
+ref.txt
 
 # Temporary files
 .DS_Store
