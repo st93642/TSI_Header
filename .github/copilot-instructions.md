@@ -383,6 +383,8 @@ Every exercise now includes:
 - **Future Modules**: When adding new modules beyond Module 1, follow this template immediately so learners receive consistent guidance across the entire C/C++ track.
 - **Lesson Expansion Mandate**: When revising C/C++ lessons, audit them sequentially from Module 1 forward and expand any sections that feel rushed or underspecified. Every theme must be taught in full with definitions, motivation, complete examples in both C and C++, and explicit call-outs of common pitfalls. Add missing explanations, diagrams, tables, or sidebars as needed so the standalone lesson delivers the same depth as the reference text. Exercises after module 1 to be only in C++.
 - **Offline Tutorial Standard**: Treat every C/C++ lesson and exercise as a self-contained offline tutorial. Include all background information, build/run steps, troubleshooting tips, diagrams, and practice workflows a learner would need without internet access.
+- **Ref.txt Paraphrasing Mandate**: For every new or revised C/C++ lesson or chapter, mine `ref.txt` for subject matter, then craft an original write-up that paraphrases the concepts, adds fresh examples, ASCII/SVG diagrams, and offline-friendly in-editor exercises. Ensure the lesson remains self-contained and respects copyright by avoiding verbatim excerpts.
+- **Plain-Text Example Presentation**: When documenting lessons, rewrite code samples as plain text (no fenced code blocks) and rely on typographic emphasis—colors where supported, italics/bold elsewhere—to highlight keywords or syntax. Apply consistently across all chapters.
 
 #### Files Modified Summary
 **Major Changes**:
