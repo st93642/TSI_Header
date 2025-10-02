@@ -34,6 +34,17 @@ Relational operators you will use constantly:
 
 All of these yield a `bool`. In modern C++, booleans are first-class citizens, and `true`/`false` are literal values.
 
+### Truth Tables for Logical Operators
+
+| A | B | `A && B` | `A || B` | `!A` |
+|---|---|----------|----------|------|
+| `false` | `false` | `false` | `false` | `true` |
+| `false` | `true`  | `false` | `true`  | `true` |
+| `true`  | `false` | `false` | `true`  | `false`|
+| `true`  | `true`  | `true`  | `true`  | `false`|
+
+Memorizing these tables helps you reason about nested expressions quickly when debugging without an IDE or internet connection.
+
 ## 2. The Basic `if`
 
 ```cpp
@@ -100,6 +111,21 @@ if (score < 60 || !submittedFinalProject) {
 
 C++ performs *short-circuit evaluation*: in `A && B`, `B` is only evaluated if `A` is `true`; in `A || B`, `B` runs only when `A` is `false`. Use parentheses whenever an expression might be ambiguous.
 
+### Visualizing Branching Logic
+
+```mermaid
+flowchart TD
+    A[Start] --> B{score >= 90?}
+    B -- Yes --> GA[Grade A]
+    B -- No --> C{score >= 75?}
+    C -- Yes --> GB[Grade B]
+    C -- No --> D{score >= 60?}
+    D -- Yes --> GC[Grade C]
+    D -- No --> GR[Grade R]
+```
+
+Diagrams like this make it easier to spot missing branches before you start coding.
+
 ## 6. Scoped Initializers (`if` with Initializers)
 
 C++17 introduced a convenient pattern: initialize a helper variable directly in the `if` header.
@@ -135,18 +161,38 @@ Key takeaways:
 - Use `std::cin`/`std::cout` and the `<iostream>` header for type-safe I/O.
 - Reserve `using namespace std;` for small snippets—fully qualifying (`std::cout`) scales better in real projects.
 
+### Mapping `if` Logic Between C and C++
+
+| Task | C++ Approach | C Approach |
+|------|--------------|------------|
+| Basic comparison | `if (a > b)` | `if (a > b)` |
+| Boolean values | `bool passed = true;` | `int passed = 1;` (`#include <stdbool.h>` for `bool`) |
+| Scoped initializer | `if (int x = read(); x > 0)` | Not supported; declare `int x = read(); if (x > 0)` |
+| Strings | `std::string name; if (name == "TSI")` | Use `strcmp(name, "TSI") == 0` |
+
 ## 8. Common Mistakes to Avoid
 
 - **Assignment vs. comparison**: Writing `if (score = 90)` assigns instead of compares. Always double-check you used `==` for equality.
 - **Dangling `else`**: Braces prevent `else` clauses from pairing with the wrong `if` when conditions are nested.
 - **Forgetting coverage**: Make sure your final `else` branch handles unexpected data so you can surface errors gracefully.
 - **Output drift**: Tests expect *exact* spacing, capitalization, and punctuation. Keep a comment blueprint handy.
+- **Unreachable branches**: When multiple conditions overlap, the first matching branch hides later ones. Order from most specific to least specific to avoid dead code.
+- **Floating-point comparisons**: Comparing doubles with `==` can fail due to rounding. Use a tolerance (`std::abs(a - b) < 1e-9`) when comparing measured data.
 
 ## Practice
 
 1. Read user input with `std::cin` and classify it with `if`/`else if` branches.
 2. Log different messages when logical combinations (`&&`, `||`, `!`) change the outcome.
 3. Consider how you would rewrite the decision tree with a `switch` (topic of Lesson 2.2).
+
+### Command-Line Practice Workflow
+
+```bash
+g++ -std=c++17 -Wall -Wextra -pedantic conditionals_demo.cpp -o conditionals_demo
+./conditionals_demo
+```
+
+Compile with warnings enabled so the compiler flags suspicious branches. Repeat the build after each experiment to strengthen the habit.
 
 When you are ready, launch the practice exercise to classify exam scores using conditionals. Focus on:
 
@@ -156,5 +202,4 @@ When you are ready, launch the practice exercise to classify exam scores using c
 
 ## References
 
-- *Beginning C++17*, Chapter 4 “Making Decisions” (comparison operators, `if`, `switch`, logical operators)
 - C++ reference: [cppreference.com](https://en.cppreference.com/w/cpp/language/if) – details on `if` statements and scoped initializers

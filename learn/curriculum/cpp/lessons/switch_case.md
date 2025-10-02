@@ -39,6 +39,18 @@ Key rules:
 - `break` exits the `switch`. Without it, execution “falls through” to the next case.
 - `default` handles any values not matched by earlier `case` labels.
 
+### Decision Flow Illustration
+
+```mermaid
+flowchart TD
+    A[switch(grade)] -->|A| AA[Outstanding]
+    A -->|B| AB[Great job]
+    A -->|C| AC[Keep practicing]
+    A -->|default| AD[Grade unavailable]
+```
+
+Having a mental model like this helps you reason about which branch triggers for a given input, especially when debugging without a debugger.
+
 ## 2. Why Use `switch`?
 
 - Clarity: a single expression with many discrete values is easier to scan than a long `else-if` ladder.
@@ -46,6 +58,16 @@ Key rules:
 - Enum-friendly: when you `switch` over an enum, compilers warn you if you miss a case (when `default` is omitted).
 
 Use `switch` when the logic depends on one value’s exact alternatives. Stick with `if` when conditions involve ranges, inequalities, or unrelated values.
+
+### Comparing `if` vs. `switch`
+
+| Feature | `if`/`else if` | `switch` |
+|---------|----------------|----------|
+| Supports ranges (`x > 10`) | ✅ | ❌ |
+| Supports enums/integers | ✅ | ✅ |
+| Compiler can warn about missing enum cases | ⚠️ limited | ✅ when no `default` |
+| Fallthrough control | Manual via nested `if` | Built-in (requires careful `break` use) |
+| Pattern matching on strings | ✅ (with `std::string`) | ❌ (use helper map instead) |
 
 ## 3. Fallthrough (Intentional and Accidental)
 
@@ -99,6 +121,33 @@ switch (int remainder = value % 3; remainder) {
 
 This keeps temporary values localized and prevents reuse errors in later code. (Classic C does not support this syntax.)
 
+### Enumerations + Switch
+
+Scoped enumerations provide type safety for category-based switches:
+
+```cpp
+enum class MenuOption { New, Load, Save, Quit };
+
+auto handle(MenuOption option) -> void {
+    switch (option) {
+        case MenuOption::New:
+            startNewGame();
+            break;
+        case MenuOption::Load:
+            loadGame();
+            break;
+        case MenuOption::Save:
+            saveGame();
+            break;
+        case MenuOption::Quit:
+            exitPrompt();
+            break;
+    }
+}
+```
+
+Leaving out the `default` branch allows the compiler to warn you when a new enumerator is added but not handled.
+
 ## 5. Modern C++ Tips
 
 - **Prefer enums over raw integers** for domain-specific categories. Scoped enums (`enum class`) keep names out of the global scope and force explicit conversions when needed.
@@ -150,6 +199,27 @@ switch (menu) {
 }
 ```
 
+### Handling Strings or Complex Keys
+
+`switch` cannot operate on strings directly. Use a lookup table or hash map when your cases depend on text input:
+
+```cpp
+const std::unordered_map<std::string, MenuOption> actions {
+    {"new",  MenuOption::New},
+    {"load", MenuOption::Load},
+    {"save", MenuOption::Save},
+    {"quit", MenuOption::Quit},
+};
+
+if (auto it = actions.find(command); it != actions.end()) {
+    handle(it->second);
+} else {
+    std::cout << "Unknown command\n";
+}
+```
+
+This pattern keeps your switch logic for enums while still accepting flexible user input.
+
 ## 7. Common Pitfalls
 
 - **Missing breaks** cause unintended fallthrough. Compilers normally warn you—address every warning.
@@ -165,8 +235,17 @@ switch (menu) {
 
 When you are ready, start the practice exercise. It asks you to classify status codes using a `switch` statement with well-ordered cases, fallthrough awareness, and explicit defaults. Keep the output format identical to the blueprint, and lean on scoped enumerations or constants if you extend it later.
 
+### Build & Run Checklist
+
+```bash
+g++ -std=c++17 -Wall -Wextra -pedantic switch_demo.cpp -o switch_demo
+./switch_demo
+```
+
+Always compile with warnings enabled so the compiler alerts you to missing cases or unreachable branches.
+
 ## References
 
-- *Beginning C++17*, Chapter 4 “Making Decisions” (sections on switch statements and fallthrough)
 - cppreference.com: [Switch statement](https://en.cppreference.com/w/cpp/language/switch)
 - ISO C++ Core Guidelines: Enum + switch recommendations (ES.74, ES.78)
+- C Standard Library reference: [`switch` statement](https://en.cppreference.com/w/c/language/switch)

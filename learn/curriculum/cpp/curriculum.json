@@ -1,244 +1,276 @@
 {
   "language": "C++",
-  "version": "1.0.0",
-  "description": "Interactive C++ programming curriculum from beginner to advanced",
-  "estimatedHours": 45,
-  "modules": [
+  "version": "2.0.0",
+  "description": "Chapter-by-chapter walkthrough of Beginning C++17 with aligned lessons and offline-ready exercises.",
+  "estimatedHours": 70,
+  "chapters": [
     {
-      "id": "basics",
-      "title": "Module 1: C++ Basics",
-      "description": "Learn the fundamentals of C++ programming",
+      "id": "chapter_01",
+      "title": "Chapter 1: Basic Ideas",
+      "description": "Introduces the structure of a C++ program, the compilation pipeline, the Standard Library, and modern coding conventions.",
       "lessons": [
         {
-          "id": "hello_world",
-          "title": "Lesson 1.1: Hello World",
-          "duration": 20,
-          "difficulty": "beginner",
-          "exerciseVariants": [
-            { "id": "hello_world_c", "language": "c", "title": "Exercise 1.1A: Hello World in C" },
-            { "id": "hello_world_cpp", "language": "cpp", "title": "Exercise 1.1B: Hello World in C++" }
-          ]
-        },
-        {
-          "id": "variables_types",
-          "title": "Lesson 1.2: Variables and Data Types",
-          "duration": 25,
-          "difficulty": "beginner",
-          "exerciseVariants": [
-            { "id": "variables_types_c", "language": "c", "title": "Exercise 1.2A: Variables in C" },
-            { "id": "variables_types_cpp", "language": "cpp", "title": "Exercise 1.2B: Variables in C++" }
-          ]
-        },
-        {
-          "id": "input_output",
-          "title": "Lesson 1.3: Input and Output",
-          "duration": 25,
-          "difficulty": "beginner",
-          "exerciseVariants": [
-            { "id": "input_output_c", "language": "c", "title": "Exercise 1.3A: Input and Output in C" },
-            { "id": "input_output_cpp", "language": "cpp", "title": "Exercise 1.3B: Input and Output in C++" }
-          ]
-        },
-        {
-          "id": "constants",
-          "title": "Lesson 1.4: Constants and Preprocessor",
-          "duration": 20,
-          "difficulty": "beginner",
-          "exerciseVariants": [
-            { "id": "constants_c", "language": "c", "title": "Exercise 1.4A: Constants in C" },
-            { "id": "constants_cpp", "language": "cpp", "title": "Exercise 1.4B: Constants in Modern C++" }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "control_flow",
-      "title": "Module 2: Control Flow",
-      "description": "Master conditional statements and loops",
-      "lessons": [
-        {
-          "id": "conditionals",
-          "title": "Lesson 2.1: If Statements and Conditionals",
-          "duration": 30,
-          "difficulty": "beginner",
-          "exerciseVariants": [
-            { "id": "conditionals_cpp", "language": "cpp", "title": "Exercise 2.1: Classify Exam Scores" }
-          ]
-        },
-        {
-          "id": "switch_case",
-          "title": "Lesson 2.2: Switch Statements",
-          "duration": 25,
-          "difficulty": "beginner",
-          "exerciseVariants": [
-            { "id": "switch_case_cpp", "language": "cpp", "title": "Exercise 2.2: Handle Status Codes" }
-          ]
-        },
-        {
-          "id": "loops",
-          "title": "Lesson 2.3: Loops (for, while, do-while)",
-          "duration": 35,
-          "difficulty": "beginner",
-          "exerciseVariants": [
-            { "id": "loops_cpp", "language": "cpp", "title": "Exercise 2.3: Sum a Series" }
-          ]
-        },
-        {
-          "id": "break_continue",
-          "title": "Lesson 2.4: Break and Continue",
-          "duration": 20,
-          "difficulty": "beginner",
-          "exerciseVariants": [
-            { "id": "break_continue_cpp", "language": "cpp", "title": "Exercise 2.4: Filter Scores with Break/Continue" }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "functions",
-      "title": "Module 3: Functions",
-      "description": "Learn function declaration, definition, and advanced concepts",
-      "lessons": [
-        {
-          "id": "function_basics",
-          "title": "Lesson 3.1: Function Basics",
-          "duration": 30,
-          "difficulty": "intermediate",
-          "exerciseVariants": [
-            { "id": "function_basics_cpp", "language": "cpp", "title": "Exercise 3.1: Calculate Grades with Helper Functions" }
-          ]
-        },
-        {
-          "id": "function_overloading",
-          "title": "Lesson 3.2: Function Overloading",
-          "duration": 25,
-          "difficulty": "intermediate",
-          "exerciseVariants": [
-            { "id": "function_overloading_cpp", "language": "cpp", "title": "Exercise 3.2: Format Grades with Overloads" }
-          ]
-        },
-        {
-          "id": "default_parameters",
-          "title": "Lesson 3.3: Default Parameters",
-          "duration": 20,
-          "difficulty": "intermediate",
-          "exerciseVariants": [
-            { "id": "default_parameters_cpp", "language": "cpp", "title": "Exercise 3.3: Format Assignments with Defaults" }
-          ]
-        },
-        {
-          "id": "recursion",
-          "title": "Lesson 3.4: Recursion",
-          "duration": 35,
-          "difficulty": "intermediate",
-          "exerciseVariants": [
-            { "id": "recursion_cpp", "language": "cpp", "title": "Exercise 3.4: Recursive Grade Aggregation" }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "arrays_pointers",
-      "title": "Module 4: Arrays and Pointers",
-      "description": "Master arrays, pointers, and memory management",
-      "lessons": [
-        {
-          "id": "arrays",
-          "title": "Lesson 4.1: Arrays",
-          "duration": 30,
-          "difficulty": "intermediate",
-          "exerciseVariants": [
-            { "id": "arrays_cpp", "language": "cpp", "title": "Exercise 4.1: Analyze Scores with Arrays" }
-          ]
-        },
-        {
-          "id": "pointers",
-          "title": "Lesson 4.2: Pointers",
-          "duration": 40,
-          "difficulty": "intermediate",
-          "exerciseVariants": [
-            { "id": "pointers_cpp", "language": "cpp", "title": "Exercise 4.2: Describe Integer Buffer with Pointers" }
-          ]
-        },
-        {
-          "id": "dynamic_memory",
-          "title": "Lesson 4.3: Dynamic Memory Allocation",
-          "duration": 35,
-          "difficulty": "intermediate",
-          "exerciseVariants": [
-            { "id": "dynamic_memory_cpp", "language": "cpp", "title": "Exercise 4.3: Summarize Scores with Dynamic Memory" }
-          ]
-        },
-        {
-          "id": "references",
-          "title": "Lesson 4.4: References",
-          "duration": 25,
-          "difficulty": "intermediate",
-          "exerciseVariants": [
-            { "id": "references_cpp", "language": "cpp", "title": "Exercise 4.4: Adjust Boundaries with References" }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "oop",
-      "title": "Module 5: Object-Oriented Programming",
-      "description": "Learn classes, objects, inheritance, and polymorphism",
-      "lessons": [
-        {
-          "id": "classes_objects",
-          "title": "Lesson 5.1: Classes and Objects",
-          "duration": 40,
-          "difficulty": "intermediate"
-        },
-        {
-          "id": "constructors_destructors",
-          "title": "Lesson 5.2: Constructors and Destructors",
-          "duration": 35,
-          "difficulty": "intermediate"
-        },
-        {
-          "id": "inheritance",
-          "title": "Lesson 5.3: Inheritance",
-          "duration": 40,
-          "difficulty": "advanced"
-        },
-        {
-          "id": "polymorphism",
-          "title": "Lesson 5.4: Polymorphism",
+          "id": "chapter_01_basic_ideas",
+          "title": "Chapter 1: Basic Ideas",
           "duration": 45,
-          "difficulty": "advanced"
+          "difficulty": "beginner",
+          "exerciseAvailable": true,
+          "exerciseVariants": [
+            { "id": "chapter_01_basic_ideas_c", "language": "c", "title": "Exercise 1A: Hello TSI in C" },
+            { "id": "chapter_01_basic_ideas_cpp", "language": "cpp", "title": "Exercise 1B: Hello TSI in Modern C++" }
+          ]
         }
       ]
     },
     {
-      "id": "advanced",
-      "title": "Module 6: Advanced C++",
-      "description": "Advanced topics including templates, STL, and modern C++",
+      "id": "chapter_02",
+      "title": "Chapter 2: Introducing Fundamental Types of Data",
+      "description": "Explores built-in data types, literals, initialization strategies, and how to measure numeric ranges using the Standard Library.",
       "lessons": [
         {
-          "id": "templates",
-          "title": "Lesson 6.1: Templates",
+          "id": "chapter_02_fundamental_types",
+          "title": "Chapter 2: Introducing Fundamental Types of Data",
           "duration": 50,
-          "difficulty": "advanced"
-        },
+          "difficulty": "beginner",
+          "exerciseAvailable": true
+        }
+      ]
+    },
+    {
+      "id": "chapter_03",
+      "title": "Chapter 3: Working with Fundamental Data Types",
+      "description": "Practises arithmetic, bitwise manipulation, operator precedence, and formatting results for clear diagnostics.",
+      "lessons": [
         {
-          "id": "stl_containers",
-          "title": "Lesson 6.2: STL Containers",
+          "id": "chapter_03_working_with_data",
+          "title": "Chapter 3: Working with Fundamental Data Types",
+          "duration": 55,
+          "difficulty": "intermediate",
+          "exerciseAvailable": true
+        }
+      ]
+    },
+    {
+      "id": "chapter_04",
+      "title": "Chapter 4: Making Decisions",
+      "description": "Focuses on relational operators, selection statements, and constructing robust branch logic with guard clauses.",
+      "lessons": [
+        {
+          "id": "chapter_04_making_decisions",
+          "title": "Chapter 4: Making Decisions",
+          "duration": 50,
+          "difficulty": "intermediate",
+          "exerciseAvailable": true
+        }
+      ]
+    },
+    {
+      "id": "chapter_05",
+      "title": "Chapter 5: Arrays and Loops",
+      "description": "Shows how to build counted, conditional, and range-based loops while organising data in one- and multi-dimensional arrays.",
+      "lessons": [
+        {
+          "id": "chapter_05_arrays_and_loops",
+          "title": "Chapter 5: Arrays and Loops",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_06",
+      "title": "Chapter 6: Pointers and References",
+      "description": "Covers pointer fundamentals, reference semantics, pointer arithmetic, and safe dynamic allocation patterns.",
+      "lessons": [
+        {
+          "id": "chapter_06_pointers_and_references",
+          "title": "Chapter 6: Pointers and References",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_07",
+      "title": "Chapter 7: Working with Strings",
+      "description": "Compares C-style strings with std::string, demonstrates conversions, and highlights formatting and validation techniques.",
+      "lessons": [
+        {
+          "id": "chapter_07_strings",
+          "title": "Chapter 7: Working with Strings",
+          "duration": 55,
+          "difficulty": "intermediate",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_08",
+      "title": "Chapter 8: Defining Functions",
+      "description": "Details function declarations, parameter passing options, default arguments, overloading, and recursion guidance.",
+      "lessons": [
+        {
+          "id": "chapter_08_defining_functions",
+          "title": "Chapter 8: Defining Functions",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_09",
+      "title": "Chapter 9: Function Templates",
+      "description": "Introduces generic programming, template parameters, and how to let the compiler generate type-safe algorithms.",
+      "lessons": [
+        {
+          "id": "chapter_09_function_templates",
+          "title": "Chapter 9: Function Templates",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_10",
+      "title": "Chapter 10: Program Files and Preprocessing Directives",
+      "description": "Explains translation units, header organisation, macros, conditional compilation, and effective namespace usage.",
+      "lessons": [
+        {
+          "id": "chapter_10_program_structure",
+          "title": "Chapter 10: Program Files and Preprocessing Directives",
+          "duration": 50,
+          "difficulty": "intermediate",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_11",
+      "title": "Chapter 11: Defining Your Own Data Types",
+      "description": "Builds full classes with data members, member functions, encapsulation, and the object model required for larger programs.",
+      "lessons": [
+        {
+          "id": "chapter_11_defining_classes",
+          "title": "Chapter 11: Defining Your Own Data Types",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_12",
+      "title": "Chapter 12: Operator Overloading",
+      "description": "Shows when and how to overload operators to express domain logic clearly while respecting C++ best practices.",
+      "lessons": [
+        {
+          "id": "chapter_12_operator_overloading",
+          "title": "Chapter 12: Operator Overloading",
+          "duration": 55,
+          "difficulty": "advanced",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_13",
+      "title": "Chapter 13: Inheritance",
+      "description": "Explains deriving classes, reusing base functionality, and structuring hierarchies with protected members and base constructors.",
+      "lessons": [
+        {
+          "id": "chapter_13_inheritance",
+          "title": "Chapter 13: Inheritance",
+          "duration": 60,
+          "difficulty": "advanced",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_14",
+      "title": "Chapter 14: Polymorphism",
+      "description": "Covers virtual functions, overriding, abstract interfaces, and the vtable mechanics behind dynamic dispatch.",
+      "lessons": [
+        {
+          "id": "chapter_14_polymorphism",
+          "title": "Chapter 14: Polymorphism",
+          "duration": 60,
+          "difficulty": "advanced",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_15",
+      "title": "Chapter 15: Runtime Errors and Exceptions",
+      "description": "Teaches structured error handling, exception safety levels, and resource management with RAII.",
+      "lessons": [
+        {
+          "id": "chapter_15_exceptions",
+          "title": "Chapter 15: Runtime Errors and Exceptions",
           "duration": 45,
-          "difficulty": "advanced"
-        },
+          "difficulty": "intermediate",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_16",
+      "title": "Chapter 16: Class Templates",
+      "description": "Extends templates to user-defined types, illustrating generic containers, specialisation, and compilation implications.",
+      "lessons": [
         {
-          "id": "stl_algorithms",
-          "title": "Lesson 6.3: STL Algorithms",
-          "duration": 40,
-          "difficulty": "advanced"
-        },
+          "id": "chapter_16_class_templates",
+          "title": "Chapter 16: Class Templates",
+          "duration": 60,
+          "difficulty": "advanced",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_17",
+      "title": "Chapter 17: Move Semantics",
+      "description": "Introduces rvalue references, move constructors, move assignment, and perfect forwarding for performance-critical code.",
+      "lessons": [
         {
-          "id": "exception_handling",
-          "title": "Lesson 6.4: Exception Handling",
-          "duration": 35,
-          "difficulty": "advanced"
+          "id": "chapter_17_move_semantics",
+          "title": "Chapter 17: Move Semantics",
+          "duration": 50,
+          "difficulty": "advanced",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_18",
+      "title": "Chapter 18: First-Class Functions",
+      "description": "Presents function objects, lambda expressions, captures, and the <functional> utilities that make them reusable.",
+      "lessons": [
+        {
+          "id": "chapter_18_first_class_functions",
+          "title": "Chapter 18: First-Class Functions",
+          "duration": 45,
+          "difficulty": "advanced",
+          "exerciseAvailable": false
+        }
+      ]
+    },
+    {
+      "id": "chapter_19",
+      "title": "Chapter 19: Containers and Algorithms",
+      "description": "Demonstrates the STL containers, iterators, algorithm library, and how to compose modern, expressive data pipelines.",
+      "lessons": [
+        {
+          "id": "chapter_19_containers_algorithms",
+          "title": "Chapter 19: Containers and Algorithms",
+          "duration": 60,
+          "difficulty": "advanced",
+          "exerciseAvailable": false
         }
       ]
     }

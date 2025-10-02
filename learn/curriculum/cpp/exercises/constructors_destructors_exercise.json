@@ -1,0 +1,44 @@
+{
+  "id": "constructors_destructors_exercise",
+  "title": "Exercise 5.2: Manage a Lab Session Lifecycle",
+  "description": "Design a class that configures itself through constructors, reports readiness, and cleans up automatically in the destructor.",
+  "difficulty": "intermediate",
+  "tags": ["constructors", "destructors", "raii"],
+  "variants": [
+    {
+      "id": "constructors_destructors_cpp",
+      "title": "Exercise 5.2: Manage a Lab Session Lifecycle (C++)",
+      "language": "cpp",
+      "difficulty": "intermediate",
+      "starterCode": "#include <iostream>\n#include <string>\n\n// Offline tutorial standard: implement LabSession so it fully owns its setup/cleanup.\n// Input order (each on its own line, second line may contain spaces):\n//   1) lab name (e.g., Robotics Lab)\n//   2) seats (int)\n//   3) computers (int)\n//   4) safety briefing required flag (0 or 1)\n// Expected output order:\n//   Lab: <name>\n//   Seats: <seats>\n//   Computers: <computers>\n//   Safety Briefing: Yes|No\n//   Ready: Yes|No   (Yes when computers >= seats)\n//   Closing <name> (printed by the destructor automatically)\n// Requirements:\n//   * Provide a default constructor that sets name to \"General Lab\", seats/computers to 0, and briefing to false.\n//   * Provide a parameterized constructor with a member initializer list.\n//   * Provide a destructor (~LabSession) that prints \"Closing <name>\" on its own line.\n//   * Implement printStatus() const to produce the first five lines verbatim.\n//   * Implement helpers hasEnoughComputers() and requiresBriefing() const for clarity.\n//   * No dynamic allocation—use simple RAII and rely on scope for cleanup.\n\nclass LabSession {\npublic:\n    LabSession();\n    LabSession(std::string name, int seats, int computers, bool safetyBriefing);\n    ~LabSession();\n\n    bool requiresBriefing() const;\n    bool hasEnoughComputers() const;\n    void printStatus() const;\n\nprivate:\n    std::string name_;\n    int seats_{};\n    int computers_{};\n    bool safetyBriefing_{};\n};\n\nint main() {\n    std::string name;\n    std::getline(std::cin >> std::ws, name);\n\n    int seats{};\n    int computers{};\n    int briefingFlag{};\n    std::cin >> seats >> computers >> briefingFlag;\n\n    {\n        LabSession session(name, seats, computers, briefingFlag != 0);\n        session.printStatus();\n    } // destructor prints closing message here\n\n    return 0;\n}\n\n// TODO: define all LabSession member functions below this line.\n",
+      "tests": [
+        {
+          "name": "ready_with_briefing",
+          "description": "Enough computers and briefing required",
+          "input": "Robotics Lab\n24\n24\n1\n",
+          "expected": "Lab: Robotics Lab\nSeats: 24\nComputers: 24\nSafety Briefing: Yes\nReady: Yes\nClosing Robotics Lab",
+          "type": "output"
+        },
+        {
+          "name": "insufficient_computers",
+          "description": "Not enough computers should mark Ready: No",
+          "input": "AI Sandbox\n10\n8\n0\n",
+          "expected": "Lab: AI Sandbox\nSeats: 10\nComputers: 8\nSafety Briefing: No\nReady: No\nClosing AI Sandbox",
+          "type": "output"
+        },
+        {
+          "name": "default_constructor_reference",
+          "description": "Check default constructor values when not overridden",
+          "input": "General Lab\n0\n0\n0\n",
+          "expected": "Lab: General Lab\nSeats: 0\nComputers: 0\nSafety Briefing: No\nReady: Yes\nClosing General Lab",
+          "type": "output"
+        }
+      ],
+      "hints": [
+        "Use the default constructor to delegate to the four-argument constructor or set members directly in its body.",
+        "Member initializer lists guarantee each field is initialized once—avoid reassigning inside the constructor body when possible.",
+        "Safety output should map true -> \"Yes\" and false -> \"No\"; std::boolalpha is not required.",
+        "Remember that the destructor runs automatically at the end of the scoped block in main(); printing inside ~LabSession() satisfies the final line."      ]
+    }
+  ]
+}

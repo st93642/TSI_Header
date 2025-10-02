@@ -1,0 +1,30 @@
+{
+  "id": "chapter_02_fundamental_types_exercise",
+  "title": "Exercise 2: Fundamental Type Fact Sheet",
+  "description": "Generate a formatted report summarising fundamental C++ types, reinforcing Chapter 2.",
+  "difficulty": "beginner",
+  "tags": ["types", "literals", "limits", "formatting"],
+  "starterCode": "#include <iostream>\n#include <iomanip>\n#include <limits>\n\nint main() {\n    // Offline tutorial standard: print the fact sheet exactly.\n    // Use std::numeric_limits to gather min/max values.\n    // Replace the TODO sections with real computations.\n    std::cout << std::left;\n\n    // TODO: declare variables with the exact values below\n    // int seats = 24;\n    // unsigned int tablets = 32u;\n    // double passRate = 92.3;\n    // char initial = 'R';\n\n    // TODO: print four lines using std::setw(18) for the label column\n    // Type Report: C++ Fundamentals\n    // Seats (int): 24 (bytes: 4, min: -2147483648, max: 2147483647)\n    // Tablets (unsigned): 32 (bytes: 4, min: 0, max: 4294967295)\n    // Pass Rate (double): 92.3 (bytes: 8, min: -1.79769e+308, max: 1.79769e+308)\n    // Initial (char): R (bytes: 1, min: 0, max: 127)\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "fact_sheet_output",
+      "description": "Output must match the fact sheet exactly",
+      "input": "",
+    "expected": "Type Report: C++ Fundamentals\nSeats (int): 24 (bytes: 4, min: -2147483648, max: 2147483647)\nTablets (unsigned): 32 (bytes: 4, min: 0, max: 4294967295)\nPass Rate (double): 92.3 (bytes: 8, min: -1.79769e+308, max: 1.79769e+308)\nInitial (char): R (bytes: 1, min: 0, max: 255)",
+      "type": "output"
+    },
+    {
+      "name": "uses_numeric_limits",
+      "description": "Check for presence of numeric_limits usage",
+      "input": "",
+      "expected": "numeric_limits",
+      "type": "stdout_contains"
+    }
+  ],
+  "hints": [
+    "Remember to #include <limits> for std::numeric_limits.",
+    "Use std::numeric_limits<T>::min() and max() to fill the range information.",
+    "Format output with std::setw(18) << label to keep columns aligned.",
+    "Keep numeric literals exact—no additional decimal places or spacing." 
+  ]
+}

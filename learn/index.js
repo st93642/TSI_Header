@@ -344,38 +344,47 @@ class Learn {
             return;
         }
         
-        // Show quick pick of completed lessons
-        const items = completedLessons.map(lessonId => ({
-            label: `Lesson: ${lessonId}`,
-            description: 'Click to review',
-            lessonId
-        }));
+        const curriculum = await this.learnManager.loadCurriculum(language);
+        const sections = this.learnManager.getCurriculumSections(curriculum);
+
+        const lessonLookup = new Map();
+        for (const section of sections) {
+            const lessons = Array.isArray(section.lessons) ? section.lessons : [];
+            for (const lesson of lessons) {
+                lessonLookup.set(lesson.id, {
+                    lesson,
+                    sectionTitle: section.title,
+                    sectionId: section.id
+                });
+            }
+        }
+
+        // Show quick pick of completed lessons with friendly titles
+        const items = completedLessons.map(lessonId => {
+            const info = lessonLookup.get(lessonId);
+            return {
+                label: info ? `📘 ${info.lesson.title}` : `Lesson: ${lessonId}`,
+                description: info ? info.sectionTitle : 'Click to review',
+                lessonId,
+                lessonInfo: info
+            };
+        });
         
         const selected = await this.vscode.window.showQuickPick(items, {
             placeHolder: 'Select a lesson to review'
         });
         
         if (selected) {
-            const curriculum = await this.learnManager.loadCurriculum(language);
-            let lessonToOpen = null;
-            let moduleTitle = '';
-            let moduleId = '';
-
-            for (const module of curriculum.modules) {
-                const match = module.lessons.find(lesson => lesson.id === selected.lessonId);
-                if (match) {
-                    lessonToOpen = match;
-                    moduleTitle = module.title;
-                    moduleId = module.id;
-                    break;
-                }
-            }
+            const info = selected.lessonInfo;
+            const lessonToOpen = info?.lesson || lessonLookup.get(selected.lessonId)?.lesson;
+            const sectionTitle = info?.sectionTitle || lessonLookup.get(selected.lessonId)?.sectionTitle || '';
+            const sectionId = info?.sectionId || lessonLookup.get(selected.lessonId)?.sectionId || '';
 
             if (lessonToOpen) {
                 await this.learnManager.openLesson(language, {
                     ...lessonToOpen,
-                    moduleTitle,
-                    moduleId
+                    sectionTitle,
+                    sectionId
                 });
             } else {
                 this.vscode.window.showErrorMessage(
@@ -395,21 +404,23 @@ class Learn {
         try {
             // Load curriculum
             const curriculum = await this.learnManager.loadCurriculum(language);
+            const sections = this.learnManager.getCurriculumSections(curriculum);
             const progress = await this.progressTracker.getProgress(language);
             const completedLessons = new Set(progress.completed || []);
             
-            // Build lesson list grouped by module
+            // Build lesson list grouped by section (module or chapter)
             const items = [];
             
-            for (const module of curriculum.modules) {
-                // Add module header as separator (no icons needed)
+            for (const section of sections) {
+                const lessons = Array.isArray(section.lessons) ? section.lessons : [];
+
+                // Add section header as separator
                 items.push({
-                    label: `📁 ${module.title}`,
+                    label: `� ${section.title}`,
                     kind: this.vscode.QuickPickItemKind.Separator
                 });
                 
-                // Add lessons in this module
-                for (const lesson of module.lessons) {
+                for (const lesson of lessons) {
                     const isCompleted = completedLessons.has(lesson.id);
                     const icon = isCompleted ? '✓' : '○';
                     const status = isCompleted ? 'Completed' : 'Not started';
@@ -419,8 +430,8 @@ class Learn {
                         description: `${lesson.duration || '?'} min • ${lesson.difficulty || 'beginner'}`,
                         detail: status,
                         lessonId: lesson.id,
-                        moduleTitle: module.title,
-                        moduleId: module.id,
+                        sectionTitle: section.title,
+                        sectionId: section.id,
                         lesson: lesson
                     });
                 }
@@ -436,8 +447,8 @@ class Learn {
             if (selected && selected.lessonId) {
                 await this.learnManager.openLesson(language, {
                     ...selected.lesson,
-                    moduleTitle: selected.moduleTitle,
-                    moduleId: selected.moduleId
+                    sectionTitle: selected.sectionTitle,
+                    sectionId: selected.sectionId
                 });
             }
             

@@ -61,6 +61,22 @@ npm run compile  # scripts/compile.rb - copies files, no transpilation
 npm run watch    # Monitors changes for auto-copy
 ```
 
+### Packaging & Deployment
+```bash
+# Package the extension (runs prepublish/compile automatically)
+npx vsce package
+
+# Install the freshly-built VSIX into the local VS Code instance
+code --install-extension tsi-header-<version>.vsix --force
+
+# Publish to the Marketplace (VSCE_PAT is already configured)
+npx vsce publish
+```
+Notes:
+- `vsce package` emits `tsi-header-<version>.vsix` in the repo root; update `<version>` if `package.json` changes.
+- Local installs require the VSIX filename to match the generated artifact exactly.
+- `npx vsce publish` works with the repo’s baked-in authentication—no extra environment variables or PAT prompts needed.
+
 ### Adding Language Support
 1. Create `core/generators/languages/newlang.js` with `generate<Language>CodeBase()` function
 2. Add import and case in `core/generators/codeBaseGenerators.js`
@@ -365,6 +381,8 @@ Every exercise now includes:
 - **Test Alignment**: After editing exercises, update or verify the associated tests so the `expected` output matches the instructions exactly. If tests require formatted numbers, ensure the starter guidance calls out the formatter to use (`%.1f`, `std::setprecision(4)`, etc.).
 - **Regression Check**: Always run `ruby TEST_Suite/test_learn_module.rb` after modifying curriculum JSON to confirm the Learn module remains green.
 - **Future Modules**: When adding new modules beyond Module 1, follow this template immediately so learners receive consistent guidance across the entire C/C++ track.
+- **Lesson Expansion Mandate**: When revising C/C++ lessons, audit them sequentially from Module 1 forward and expand any sections that feel rushed or underspecified. Every theme must be taught in full with definitions, motivation, complete examples in both C and C++, and explicit call-outs of common pitfalls. Add missing explanations, diagrams, tables, or sidebars as needed so the standalone lesson delivers the same depth as the reference text. Exercises after module 1 to be only in C++.
+- **Offline Tutorial Standard**: Treat every C/C++ lesson and exercise as a self-contained offline tutorial. Include all background information, build/run steps, troubleshooting tips, diagrams, and practice workflows a learner would need without internet access.
 
 #### Files Modified Summary
 **Major Changes**:

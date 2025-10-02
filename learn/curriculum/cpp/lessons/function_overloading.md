@@ -1,16 +1,16 @@
 # Lesson 3.2: Function Overloading
 
-Modern C++ lets you declare multiple functions with the same name as long as their parameter lists differ. Chapter 8 of *Beginning C++17* (“Function Overloading”) discusses this in detail—use it as the authoritative source for definitions, examples, and naming conventions. This lesson summarizes the chapter and prepares you for the companion exercise.
+Modern C++ lets you declare multiple functions with the same name as long as their parameter lists differ. This lesson consolidates the key rules, shows how the compiler chooses an overload, and prepares you for the companion exercise without requiring any external text.
 
 ## What You'll Learn
 
-- What qualifies as an overload (Chapter 8, “Function Overloading”)
+- What qualifies as an overload
 - Which parts of a function signature matter (parameter types, count, qualifiers)
 - Why return type alone cannot distinguish overloads
 - Overloading for convenience vs. clarity
 - Resolving overloads with conversions and best matches
 
-## 1. Overload Basics (Book reference: Chapter 8, Function Overloading)
+## 1. Overload Basics
 
 ```cpp
 int square(int value) {
@@ -31,7 +31,7 @@ std::cout << square(5.5);  // calls double version
 
 Each overload must differ in its **parameter list**—either the number of parameters or the types (including references). The return type is not considered when choosing an overload.
 
-## 2. Matching Rules (Chapter 8, “Overloading and Pointer/Reference Parameters”)
+## 2. Matching Rules
 
 When the compiler encounters a call, it follows these steps:
 
@@ -67,7 +67,7 @@ To avoid this:
 - Provide overloads for common literal types (`int`, `double`)
 - Use `std::int64_t` or other fixed-width types instead of relying on implicit conversions
 
-## 4. Overloading with References (Chapter 8, “Overloading and Reference Parameters”)
+## 4. Overloading with References
 
 You can overload by reference qualifiers (e.g., `const std::string&` vs. `std::string&&`). For beginner exercises, focus on distinguishing between value and `const` reference parameters:
 
@@ -81,7 +81,7 @@ void print(const std::vector<std::string>& lines);
 - Adding default arguments can reduce the need for overloads (“Default Argument Values” section).
 - Avoid mixing overloads and default arguments in ways that create ambiguous calls.
 
-## 6. Best Practices (as emphasized in *Beginning C++17*)
+## 6. Best Practices
 
 - Overload for closely related tasks. If the functions perform different work, use different names.
 - Keep implementations consistent—if one overload logs extra info, all should follow suit.
@@ -93,7 +93,7 @@ void print(const std::vector<std::string>& lines);
 - **Implicit conversions**: Too many overloads relying on conversions can produce surprising matches.
 - **Ambiguous templates**: Function templates plus overloads can create conflicts; later lessons cover this.
 
-## Practice Ideas (Book exercises, Chapter 8)
+## Practice Ideas
 
 1. Overload `max_value()` for `int`, `double`, and `std::string` (lexicographic comparison).
 2. Provide overloads for `log_message()` that accept `std::string`, `const char*`, and an `int` severity.
@@ -110,6 +110,5 @@ The exercise will have you write overloaded `format_grade()` functions—one tha
 
 ## References
 
-- *Beginning C++17*, Chapter 8 “Function Overloading”
 - cppreference.com: [Overload resolution](https://en.cppreference.com/w/cpp/language/overload_resolution)
 - ISO C++ Core Guidelines: F.3 (“Keep functions short and simple”) and F.38 (“Use function overloading judiciously”)

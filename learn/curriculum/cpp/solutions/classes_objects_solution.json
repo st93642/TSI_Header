@@ -1,0 +1,17 @@
+{
+  "exerciseId": "classes_objects_exercise",
+  "variants": [
+    {
+      "id": "classes_objects_cpp",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <sstream>\n#include <string>\n\nclass Course {\npublic:\n    void setCode(const std::string& value) { code_ = value; }\n    void setTitle(const std::string& value) { title_ = value; }\n    void setCredits(int value) { credits_ = value; }\n    void setEnrolled(int value) { enrolled_ = value; }\n    void setCapacity(int value) { capacity_ = value; }\n\n    int credits() const { return credits_; }\n    int enrolled() const { return enrolled_; }\n    int capacity() const { return capacity_; }\n    int remainingSeats() const { return capacity_ - enrolled_; }\n\n    std::string status() const {\n        if (enrolled_ < capacity_) {\n            return \"Seats Available\";\n        }\n        if (enrolled_ == capacity_) {\n            return \"Full\";\n        }\n        return \"Over capacity\";\n    }\n\n    std::string summary() const {\n        std::ostringstream out;\n        out << \"Course: \" << code_ << \" - \" << title_ << '\\n';\n        out << \"Credits: \" << credits_ << '\\n';\n        out << \"Enrollment: \" << enrolled_ << \" / \" << capacity_ << '\\n';\n        out << \"Remaining Seats: \" << remainingSeats() << '\\n';\n        out << \"Status: \" << status();\n        return out.str();\n    }\n\nprivate:\n    std::string code_;\n    std::string title_;\n    int credits_{};\n    int enrolled_{};\n    int capacity_{};\n};\n\nint main() {\n    Course course;\n\n    std::string code;\n    std::cin >> code;\n\n    std::string title;\n    std::getline(std::cin >> std::ws, title);\n\n    int credits{};\n    int enrolled{};\n    int capacity{};\n    std::cin >> credits >> enrolled >> capacity;\n\n    course.setCode(code);\n    course.setTitle(title);\n    course.setCredits(credits);\n    course.setEnrolled(enrolled);\n    course.setCapacity(capacity);\n\n    std::cout << course.summary();\n    return 0;\n}\n",
+      "explanation": "Encapsulate all course data in private members, provide setter functions for controlled initialization, compute capacity status via helper queries, and assemble the required five-line summary with an std::ostringstream before printing the final result.",
+      "keyPoints": [
+        "Setters allow validation or invariants later without changing callers.",
+        "remainingSeats() returns capacity minus enrolled, matching the blueprint even when negative.",
+        "status() centralizes the conditional logic for available/full/over-capacity states.",
+        "summary() reuses helper methods so formatting stays consistent and easy to test."
+      ]
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 # Lesson 4.1: Arrays
 
-Static arrays give you contiguous, fixed-size storage—perfect for small collections where the size is known at compile time. *Beginning C++17* covers arrays in Chapter 10 (“Working with Arrays”) and Chapter 11 (“Standard Library Containers”), contrasting built-in arrays with `std::array`. Use those chapters—especially the sections on declaration syntax, initialization rules, and iteration—as your primary reference.
+Static arrays give you contiguous, fixed-size storage—perfect for small collections where the size is known at compile time. This lesson combines the must-know rules for both built-in arrays and `std::array` so you have a full picture without reaching for external material.
 
 ## What You'll Learn
 
-- Declaring and initializing built-in arrays and `std::array` (Chapter 10, “Declaring Arrays”)
+- Declaring and initializing built-in arrays and `std::array`
 - Understanding array decay to pointers when passed to functions
 - Safe iteration techniques (range-based for, index loops, `std::array::at`)
 - Common pitfalls: uninitialized elements, out-of-bounds access, and magic numbers
@@ -17,7 +17,7 @@ int legacyScores[5] {90, 82, 88, 91, 95};            // built-in array
 std::array<int, 5> saferScores {90, 82, 88, 91, 95}; // std::array
 ```
 
-Key points (Chapter 10):
+Key points:
 
 - Built-in arrays require compile-time size known at declaration.
 - `std::array` is a light wrapper that stores the size as part of the type.
@@ -29,7 +29,7 @@ Key points (Chapter 10):
 - `std::array::at(index)` throws an exception on out-of-range access, while `operator[]` does not.
 - Prefer explicit size constants or `std::size(array)` to avoid “magic numbers.”
 
-## 3. Passing Arrays to Functions (Chapter 10, “Arrays and Functions”)
+## 3. Passing Arrays to Functions
 
 Built-in arrays decay to pointers when passed to functions. To preserve size information, pass the length as a separate parameter or use `std::array` references:
 
@@ -67,7 +67,5 @@ You will build an `analyze_scores()` function that accepts exactly five integers
 
 ## References
 
-- *Beginning C++17*, Chapter 10 “Working with Arrays”
-- *Beginning C++17*, Chapter 11 “Standard Library Containers” (sections on `std::array`)
 - cppreference.com: [`std::array`](https://en.cppreference.com/w/cpp/container/array)
 - ISO C++ Core Guidelines: ES.22 (“Don’t declare a variable until you have a value for it”)

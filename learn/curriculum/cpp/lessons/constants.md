@@ -1,75 +1,117 @@
 # Lesson 1.4: Constants and the Preprocessor
 
-Constants represent values that should not change while the program runs. You'll often use them for configuration details such as maximum sizes or institution names. This lesson shows how to declare constants in both modern C++ and classic C.
+Constants document intent (“this value never changes”) and prevent accidental modification. This lesson covers every tool you need to define immutable values in C++ and C, shows when to use compile-time vs. run-time constants, and highlights the trade-offs between `constexpr`, `const`, and macros.
 
-## What You'll Learn
+## Learning Goals
 
-- Declaring compile-time constants in C++
-- Using `#define` macros and `const` in C
-- Formatting numeric constants for output
-- Choosing the right style for your project
+- Declare compile-time constants with `constexpr`, `consteval`, and enumerations.
+- Use `const` and `#define` appropriately in C when modern C++ features are unavailable.
+- Group related constants for clarity and maintainability.
+- Understand how constant expressions interact with templates and array bounds.
+- Avoid common pitfalls such as macro side effects and duplicate definitions.
 
-## Constants in Modern C++
-
-C++17 offers multiple ways to define immutable data. `constexpr` ensures the value is available at compile time.
+## 1. Constants in Modern C++
 
 ```cpp
 #include <iostream>
 #include <iomanip>
 
-int main() {
-    constexpr const char* CAMPUS = "TSI Riga";
-    constexpr int MAX_SEATS = 32;
-    constexpr double PI = 3.1416;
+constexpr const char* CAMPUS_NAME {"TSI Riga"};
+constexpr int MAX_GROUP_SIZE {32};
+constexpr double VAT_RATE {0.21};
 
-    std::cout << "Campus: " << CAMPUS << std::endl;
-    std::cout << "Max Seats: " << MAX_SEATS << std::endl;
-    std::cout << std::fixed << std::setprecision(4);
-    std::cout << "Pi Value: " << PI << std::endl;
+int main() {
+    std::cout << "Campus: " << CAMPUS_NAME << '\n';
+    std::cout << "Max group size: " << MAX_GROUP_SIZE << '\n';
+
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "VAT rate: " << VAT_RATE * 100 << "%\n";
 
     return 0;
 }
 ```
 
-### Tips for C++
+- `constexpr` guarantees the value is usable in constant expressions (array bounds, template parameters).
+- `const` indicates read-only after initialization; combine `constexpr` + `const` for clarity when the value is known at compile time.
+- Use uppercase with underscores for simple global constants; reserve camelCase for function-scope constants.
 
-- Prefer `constexpr` for values known at compile time.
-- Use `std::fixed` and `std::setprecision` to format floating-point output.
-- Keep constant names descriptive and use uppercase for simple values.
+### `consteval` (C++20)
 
-## Constants in C
+`consteval` functions execute at compile time and return constant values:
 
-C relies on the C preprocessor and the `const` keyword.
+```cpp
+consteval int default_sessions() { return 4; }
+constexpr int SESSIONS = default_sessions();
+```
+
+While we target C++17 in this course, knowing about `consteval` prepares you for future upgrades.
+
+## 2. Enumerations for Related Constants
+
+Scoped enumerations (`enum class`) group related integral constants with type safety.
+
+```cpp
+enum class StudyPhase { Work = 0, ShortBreak = 1, LongBreak = 2 };
+
+constexpr StudyPhase DEFAULT_PHASE {StudyPhase::Work};
+```
+
+Use `static_cast<int>(StudyPhase::Work)` when you need the numeric value. Enumerations are ideal for menu options, statuses, or other constrained sets.
+
+## 3. Constants in C
+
+When writing C code, you generally combine `const` variables and preprocessor macros:
 
 ```c
 #include <stdio.h>
 
-#define CAMPUS "TSI Riga"
-#define PI 3.1416
+#define CAMPUS_NAME "TSI Riga"
+
+const int MAX_GROUP_SIZE = 32;   // still occupies storage
+const double VAT_RATE = 0.21;    // cannot be reassigned
 
 int main(void) {
-    const int MAX_SEATS = 32;
-
-    printf("Campus: %s\n", CAMPUS);
-    printf("Max Seats: %d\n", MAX_SEATS);
-    printf("Pi Value: %.4f\n", PI);
-
+    printf("Campus: %s\n", CAMPUS_NAME);
+    printf("Max group size: %d\n", MAX_GROUP_SIZE);
+    printf("VAT rate: %.0f%%\n", VAT_RATE * 100);
     return 0;
 }
 ```
 
-### Tips for C
+- `const` in C does not imply compile-time evaluation by default; compilers may still place it in read-only memory.
+- `#define` simply substitutes text before compilation—no type checking!
 
-- Use `#define` for literal values shared across multiple files.
-- `const` variables still occupy storage but prevent accidental reassignment.
-- Control floating-point formatting with `%.2f`, `%.4f`, etc.
+## 4. Choosing the Right Tool
 
-## Choosing Between Styles
+| Scenario | Recommended Approach |
+|----------|---------------------|
+| Value known at compile time in C++ | `constexpr` (optionally with `const`) |
+| Related named values | `enum class` or `enum` |
+| Value computed at runtime but never modified | `const` |
+| Cross-file constant needed in multiple translation units | `inline constexpr` in C++17+, or `extern const` defined in one `.cpp` |
+| Legacy C header requires macro | `#define` (keep names ALL_CAPS and wrapped in parentheses) |
 
-- Use C++ features (`constexpr`, `const`) in modern projects for type safety.
-- Use macros sparingly—prefer typed constants when possible.
-- Keep related constants together for readability.
+## 5. Formatting Numeric Constants
 
-## Practice Exercise
+- Use `<iomanip>` manipulators (`std::setprecision`, `std::setw`) to control output.
+- Literal suffixes convey the intended type: `42u` (unsigned), `3.14f` (float), `1'000` (digit separators).
+- Prefer `constexpr double PI {3.14159};` over magic numbers scattered throughout your code.
 
-Your exercise will combine both approaches: create constants for TSI campus data and print them with precise formatting using either C or C++.
+## 6. Avoiding Pitfalls
+
+- **Duplicate definitions**: place `constexpr` definitions in headers with `inline` if multiple source files include them. In C, declare in a header with `extern` and define in exactly one `.c` file.
+- **Macro side effects**: macros do not respect scope and evaluate parameters repeatedly. Wrap expressions in parentheses: `#define SQUARE(x) ((x) * (x))`.
+- **Type confusion**: macros have no type information. Prefer typed constants whenever you can.
+- **Implicit conversions**: mixing integer and floating-point constants may downcast unexpectedly. Use suffixes to make your intent explicit.
+
+## 7. Practice Ideas
+
+1. Create a header `constants.hpp` with `inline constexpr` definitions for campus metadata and reuse them across multiple source files.
+2. Define an `enum class MenuOption { Add = 1, Remove = 2, Quit = 3 };` and use it in a `switch` statement.
+3. Compare two implementations of `SQUARE(x)`—one using a macro, the other using an inline function—and note the behavior with arguments like `x++`.
+
+When you start the Lesson 1.4 exercise you will:
+
+- Declare campus-related constants using both C and C++ styles.
+- Format floating-point output with the required precision.
+- Keep the output order and labels identical to the blueprint provided in the starter comments.

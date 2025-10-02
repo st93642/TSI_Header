@@ -1,10 +1,10 @@
 # Lesson 3.4: Recursion
 
-Recursion lets a function call itself to solve a problem by breaking it into smaller subproblems. *Beginning C++17* covers this pattern in Chapter 9 (“Recursion” section), including the mechanics of call stacks, base cases, and practical examples such as factorial and power functions. Use that chapter as your primary reference while you study this lesson.
+Recursion lets a function call itself to solve a problem by breaking it into smaller subproblems. This lesson explains how recursive calls flow through the call stack, how to design safe base cases, and when to consider iterative alternatives—all without assuming external references.
 
 ## What You'll Learn
 
-- How to identify the two essential parts of a recursive function (Chapter 9, “Designing Recursive Functions”)
+- How to identify the two essential parts of a recursive function
 - How each call creates a new stack frame storing parameters and local variables
 - Why every recursion needs a base case to stop the call chain
 - How to reason about recursion depth and guard against stack overflow
@@ -17,7 +17,7 @@ Every recursive function must include:
 1. **Base case**: Stops the recursion when the problem is small enough to solve directly.
 2. **Recursive step**: Reduces the problem and calls the function again with the smaller input.
 
-Example from Chapter 9 (factorial):
+Classic factorial example:
 
 ```cpp
 unsigned long long factorial(unsigned int n) {
@@ -28,7 +28,7 @@ unsigned long long factorial(unsigned int n) {
 }
 ```
 
-## 2. Visualizing the Call Stack (Chapter 9, “Function Activation Records”)
+## 2. Visualizing the Call Stack
 
 Each recursive call gets its own activation record on the call stack. Parameters, return addresses, and local variables live in that activation record until the call finishes. Understanding this layout helps debug recursive logic and avoid accidental mutation of shared state.
 
@@ -39,7 +39,7 @@ Each recursive call gets its own activation record on the call stack. Parameters
 - **Watch recursion depth**: deep trees or large numbers can overflow the stack.
 - Consider writing an **iterative alternative** when performance or stack depth becomes a concern.
 
-## 4. Tail Recursion (Chapter 9, “Tail Recursion”)
+## 4. Tail Recursion
 
 Tail recursion occurs when the recursive call is the final operation in the function. Compilers can optimize tail recursion, but that optimization isn’t guaranteed in C++. You can help by carrying extra state forward:
 
@@ -78,13 +78,12 @@ Then expose a wrapper: `unsigned long long factorial(unsigned int n) { return fa
 
 You will implement a recursive grade calculator, `calculate_cumulative_score`, that works through a vector of assignment weights. Focus on:
 
-- Providing prototypes before `main()` and definitions afterward (matching Chapter 9 examples)
+- Providing prototypes before `main()` and definitions afterward so calls compile cleanly
 - Handling empty collections as the base case
 - Building the output string with `std::ostringstream` so you can compare against the provided blueprint
 - Demonstrating the recursion by walking through multiple test vectors
 
 ## References
 
-- *Beginning C++17*, Chapter 9 “Recursion”
 - cppreference.com: [recursion](https://en.cppreference.com/w/cpp/language/recursion)
 - ISO C++ Core Guidelines: SF.8 (“Prefer iterative constructs to recursion unless recursion is natural and clear”)

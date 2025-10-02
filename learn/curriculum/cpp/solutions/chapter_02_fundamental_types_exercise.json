@@ -1,0 +1,16 @@
+{
+  "exerciseId": "chapter_02_fundamental_types_exercise",
+  "variants": [
+    {
+      "id": "chapter_02_fundamental_types_exercise",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <iomanip>\n#include <limits>\n\nint main() {\n    std::cout << std::left;\n\n    const int seats = 24;\n    const unsigned int tablets = 32u;\n    const double passRate = 92.3;\n    const char initial = 'R';\n\n    std::cout << \"Type Report: C++ Fundamentals\\n\";\n    std::cout << \"Seats (int): \" << seats\n              << \" (bytes: \" << sizeof(int)\n              << \", min: \" << std::numeric_limits<int>::min()\n              << \", max: \" << std::numeric_limits<int>::max()\n              << \")\\n\";\n\n    std::cout << \"Tablets (unsigned): \" << tablets\n              << \" (bytes: \" << sizeof(unsigned int)\n              << \", min: \" << std::numeric_limits<unsigned int>::min()\n              << \", max: \" << std::numeric_limits<unsigned int>::max()\n              << \")\\n\";\n\n    std::cout << \"Pass Rate (double): \" << passRate\n              << \" (bytes: \" << sizeof(double)\n              << \", min: \" << std::numeric_limits<double>::lowest()\n              << \", max: \" << std::numeric_limits<double>::max()\n              << \")\\n\";\n\n    std::cout << \"Initial (char): \" << initial\n              << \" (bytes: \" << sizeof(char)\n              << \", min: \" << static_cast<int>(std::numeric_limits<unsigned char>::min())\n              << \", max: \" << static_cast<int>(std::numeric_limits<unsigned char>::max())\n              << \")\";\n\n    return 0;\n}\n",
+      "explanation": "Use constants to hold the required values and std::numeric_limits to fetch range information at runtime. Casting char limits to int matches the expected numeric output.",
+      "keyPoints": [
+        "std::numeric_limits<T>::lowest() reflects the most negative floating-point value.",
+        "sizeof(T) reports bytes directly, avoiding hard-coded numbers.",
+        "Casting unsigned char limits to int prints decimal values for readability."
+      ]
+    }
+  ]
+}

@@ -1,16 +1,16 @@
 # Lesson 3.3: Default Parameters
 
-Default arguments let you supply fallback values for function parameters so callers can omit them when the defaults make sense. *Beginning C++17* devotes the second half of Chapter 8 (sections “Default Argument Values” and “Combining Defaults with Overloading”) to this topic—treat those pages as your primary reference while working through this lesson.
+Default arguments let you supply fallback values for function parameters so callers can omit them when the defaults make sense. This lesson covers syntax, scoping rules, interactions with overloading, and the pitfalls to avoid so you can rely on default arguments confidently.
 
 ## What You'll Learn
 
-- How to declare default arguments in prototypes (Chapter 8, “Default Argument Values”)
+- How to declare default arguments in function prototypes
 - The rule that only trailing parameters may have defaults
-- Where to place defaults when you separate declarations and definitions
+- Where to place defaults when declarations and definitions live in separate files
 - How default arguments interact with overloading and constructors
 - Pitfalls involving multiple translation units or redefinitions
 
-## 1. Declaring Defaults (Chapter 8, p. 276–279)
+## 1. Declaring Defaults
 
 You place the default in the function declaration, typically in a header:
 
@@ -42,7 +42,7 @@ void bad(int durationMinutes = 25, bool autoStart); // ❌ invalid: non-default 
 
 ## 3. Avoid Repeating Defaults in Multiple Declarations
 
-If you place defaults in more than one declaration, you’ll get redefinition errors or inconsistent behavior. The book recommends keeping defaults **only** in the primary declaration (often the header) and never in the definition or additional forward declarations.
+If you place defaults in more than one declaration, you’ll get redefinition errors or inconsistent behavior. Keep defaults **only** in the primary declaration (often the header) and never in the definition or additional forward declarations.
 
 ```cpp
 // header
@@ -56,7 +56,7 @@ void log_message(const std::string& message, bool newline) {
 
 ## 4. Default Arguments vs. Overloads
 
-Default arguments can sometimes replace simple overloads by letting callers omit common options. Chapter 8 warns against combining both features if it introduces ambiguity. When mixing them, ensure every call still resolves unambiguously.
+Default arguments can sometimes replace simple overloads by letting callers omit common options. Avoid combining both features if it introduces ambiguity. When mixing them, ensure every call still resolves unambiguously.
 
 Example:
 
@@ -79,7 +79,7 @@ public:
 };
 ```
 
-## 6. Common Pitfalls (Chapter 8 highlights)
+## 6. Common Pitfalls
 
 - **Multiple translation units**: If two source files provide different defaults, behavior becomes undefined. Keep defaults in a single header.
 - **Ambiguous overloads**: Defaults that make two overloads identical lead to compilation errors.
@@ -100,10 +100,9 @@ You’ll implement `format_assignment()` with defaults for points, weight, and w
 - Using `std::ostringstream`, `std::fixed`, and `std::setprecision(1)` for formatting
 - Converting boolean flags to “Yes” or “No” text explicitly (per the instructions in the exercise comments)
 
-Review Chapter 8 examples before starting so you can mirror the patterns recommended there.
+Review examples before starting so you can mirror the patterns recommended.
 
 ## References
 
-- *Beginning C++17*, Chapter 8 “Default Argument Values”
 - cppreference.com: [Default arguments](https://en.cppreference.com/w/cpp/language/default_arguments)
 - ISO C++ Core Guidelines: F.54 (“If you can, avoid overloading by default arguments or by overloading when a default will do”)

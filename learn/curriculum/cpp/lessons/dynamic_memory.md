@@ -1,16 +1,16 @@
 # Lesson 4.3: Dynamic Memory Allocation
 
-Dynamic memory lets you request storage at runtime using `new`, `delete`, and modern smart pointers. *Beginning C++17* dedicates Chapter 10 (“Pointers and Dynamic Memory”) and Chapter 12 (“Managing Memory”) to these techniques—follow those sections closely, especially the examples on resource acquisition and release.
+Dynamic memory lets you request storage at runtime using `new`, `delete`, and modern smart pointers. This lesson gathers the essential rules and patterns so you can allocate, manage, and release resources safely without relying on an external textbook.
 
 ## What You'll Learn
 
 - Allocating and releasing raw dynamic memory (`new`, `delete`, `new[]`, `delete[]`)
 - Common ownership pitfalls: leaks, double-delete, dangling pointers
-- Preferencing RAII and smart pointers (`std::unique_ptr`, `std::make_unique`) over manual `delete`
+- Preferring RAII and smart pointers (`std::unique_ptr`, `std::make_unique`) over manual `delete`
 - Managing dynamic arrays with `std::vector` vs. raw pointers
 - Exception safety considerations when mixing `new` and user-defined code
 
-## 1. Raw Dynamic Allocation (Chapter 10)
+## 1. Raw Dynamic Allocation
 
 ```cpp
 int* value {new int{42}};    // allocate single int
@@ -28,7 +28,7 @@ Rules:
 - Use `delete[]` for arrays; mixing `delete`/`delete[]` is undefined behavior.
 - Set pointers to `nullptr` after deleting to avoid dangling references.
 
-## 2. Smart Pointers (Chapter 12, “Using Smart Pointers”)
+## 2. Smart Pointers
 
 Modern C++ favors RAII wrappers that release memory automatically:
 
@@ -67,13 +67,11 @@ If an exception is thrown between `new` and `delete`, a memory leak occurs unles
 You will implement `summarize_dynamic_scores()`, which allocates a dynamic array sized by user input, copies values into it, computes totals, and then releases the memory. Focus on:
 
 - Guarding the allocation size before calling `new`
-- Using a `std::unique_ptr<int[]>` wrapper to prevent leaks (as recommended in Chapter 12)
+- Using a `std::unique_ptr<int[]>` wrapper to prevent leaks and simplify cleanup
 - Computing sum and average with the dynamically allocated buffer
 - Formatting output with the exact blueprint required by the tests before returning the string
 
 ## References
 
-- *Beginning C++17*, Chapter 10 “Pointers and Dynamic Memory”
-- *Beginning C++17*, Chapter 12 “Managing Memory”
 - cppreference.com: [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr) and [dynamic memory](https://en.cppreference.com/w/cpp/language/new)
 - ISO C++ Core Guidelines: R.3 (“A resource handle type must acquire, own, and release the resource”), R.1 (“Manage resources automatically using RAII”)

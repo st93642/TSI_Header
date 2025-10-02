@@ -1,0 +1,44 @@
+{
+  "id": "classes_objects_exercise",
+  "title": "Exercise 5.1: Model a University Course",
+  "description": "Practice defining a class with encapsulated data, public setters, computed accessors, and a formatted summary method.",
+  "difficulty": "intermediate",
+  "tags": ["oop", "classes", "encapsulation"],
+  "variants": [
+    {
+      "id": "classes_objects_cpp",
+      "title": "Exercise 5.1: Model a University Course (C++)",
+      "language": "cpp",
+      "difficulty": "intermediate",
+      "starterCode": "#include <iostream>\n#include <iomanip>\n#include <sstream>\n#include <string>\n\n// Offline tutorial standard: implement a fully self-contained Course class.\n// Follow this exact input order from std::cin:\n//   1) course code (single word, e.g., CS101)\n//   2) course title (whole line, e.g., Intro to Programming)\n//   3) credit hours (int)\n//   4) enrolled student count (int)\n//   5) capacity limit (int)\n// Output must match the five-line blueprint exactly.\n//   Course: <code> - <title>\n//   Credits: <credits>\n//   Enrollment: <enrolled> / <capacity>\n//   Remaining Seats: <capacity - enrolled>\n//   Status: Seats Available | Full | Over capacity\n// Status rules: enrolled < capacity -> \"Seats Available\";\n//               enrolled == capacity -> \"Full\";\n//               enrolled > capacity -> \"Over capacity\".\n// Implement all member functions OUTSIDE the class body.\n// Leave starter comments intact for alignment with the automated tests.\n\nclass Course {\npublic:\n    void setCode(const std::string& value);\n    void setTitle(const std::string& value);\n    void setCredits(int value);\n    void setEnrolled(int value);\n    void setCapacity(int value);\n\n    int credits() const;\n    int enrolled() const;\n    int capacity() const;\n    int remainingSeats() const;\n    std::string status() const;\n    std::string summary() const;\n\nprivate:\n    std::string code_;\n    std::string title_;\n    int credits_{};\n    int enrolled_{};\n    int capacity_{};\n};\n\nint main() {\n    Course course;\n\n    std::string code;\n    std::cin >> code;\n\n    std::string title;\n    std::getline(std::cin >> std::ws, title);\n\n    int credits{};\n    int enrolled{};\n    int capacity{};\n    std::cin >> credits >> enrolled >> capacity;\n\n    course.setCode(code);\n    course.setTitle(title);\n    course.setCredits(credits);\n    course.setEnrolled(enrolled);\n    course.setCapacity(capacity);\n\n    std::cout << course.summary();\n    return 0;\n}\n\n// TODO: define all Course member functions below this line using the ClassName:: syntax.\n",
+      "tests": [
+        {
+          "name": "seats_available",
+          "description": "Remaining seats should be positive and status Seats Available",
+          "input": "CS101\nIntro to Programming\n3\n24\n30\n",
+          "expected": "Course: CS101 - Intro to Programming\nCredits: 3\nEnrollment: 24 / 30\nRemaining Seats: 6\nStatus: Seats Available",
+          "type": "output"
+        },
+        {
+          "name": "course_full",
+          "description": "Capacity reached should report Full",
+          "input": "MATH200\nDiscrete Mathematics\n4\n40\n40\n",
+          "expected": "Course: MATH200 - Discrete Mathematics\nCredits: 4\nEnrollment: 40 / 40\nRemaining Seats: 0\nStatus: Full",
+          "type": "output"
+        },
+        {
+          "name": "over_capacity",
+          "description": "Enrollment beyond capacity should show negative seats and Over capacity",
+          "input": "ENG310\nTechnical Writing\n3\n55\n50\n",
+          "expected": "Course: ENG310 - Technical Writing\nCredits: 3\nEnrollment: 55 / 50\nRemaining Seats: -5\nStatus: Over capacity",
+          "type": "output"
+        }
+      ],
+      "hints": [
+        "Store the provided values in private data members set via the setter functions so invariants remain under your control.",
+        "remainingSeats() should return capacity() - enrolled() and can yield negative values if the class is over capacity.",
+        "Build the status() string with conditional logic that mirrors the rules in the comments (if/else chain or switch).",
+        "Use std::ostringstream in summary() to assemble all lines, then return out.str() so the main program can print the final blueprint."      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "chapter_03_working_with_data_exercise",
+  "title": "Exercise 3: Lab Access Bitmask Analyzer",
+  "description": "Use bitwise operators and enumerations to manage lab access flags, mirroring Chapter 3.",
+  "difficulty": "intermediate",
+  "tags": ["bitwise", "enum class", "operator precedence", "masks"],
+  "starterCode": "#include <iostream>\n#include <bitset>\n#include <cstdint>\n\n// Offline tutorial standard:\n//   * Define an enum class AccessFlag with student=0b0001, lab=0b0010, researcher=0b0100, admin=0b1000.\n//   * Implement helper constexpr functions to combine and test flags using bitwise operators.\n//   * Read a decimal integer mask from stdin and report which permissions are active.\n// Expected output template:\n//   Mask: 5\n//   Binary: 0101\n//   Student Access: Yes\n//   Lab Access: No\n//   Researcher Access: Yes\n//   Admin Access: No\n\nint main() {\n    // TODO: read an unsigned integer mask from std::cin\n    // TODO: print the report exactly as shown above\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "mask_5",
+      "description": "Mask 5 sets student and researcher",
+      "input": "5\n",
+      "expected": "Mask: 5\nBinary: 0101\nStudent Access: Yes\nLab Access: No\nResearcher Access: Yes\nAdmin Access: No",
+      "type": "output"
+    },
+    {
+      "name": "mask_10",
+      "description": "Mask 10 sets lab and admin",
+      "input": "10\n",
+      "expected": "Mask: 10\nBinary: 1010\nStudent Access: No\nLab Access: Yes\nResearcher Access: No\nAdmin Access: Yes",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use a scoped enum (enum class) so the compiler enforces type safety.",
+    "Convert the bitmask to std::bitset<4> for the Binary line.",
+    "Implement helper functions like has_flag(mask, AccessFlag::student) using bitwise AND.",
+    "Remember to print \"Yes\" or \"No\" exactly as shown." 
+  ]
+}

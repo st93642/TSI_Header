@@ -1,82 +1,155 @@
 # Lesson 1.3: Input and Output
 
-Input/output (I/O) is how your program communicates with users. In this lesson, you'll see how to gather information and display results in both C++ and C.
+Programs become useful when they interact with the outside world. This lesson teaches you how to read data from the keyboard, display results cleanly, and control formatting so your output matches automated tests in both C++ and C.
 
-## What You'll Learn
+## Learning Goals
 
-- Reading integers from the console
-- Writing formatted output
-- Handling newlines and spacing
-- Differences between C and C++ I/O APIs
+- Use `std::cout`, `std::cin`, and other C++ stream objects effectively.
+- Format output with manipulators (`std::setw`, `std::fixed`, `std::setprecision`).
+- Read entire lines of text with `std::getline` and mix it safely with formatted extraction.
+- Work with C's `printf`/`scanf` family and understand how format specifiers map to variable types.
+- Handle whitespace, validation, and error states gracefully.
 
-## Reading and Writing in C++
+## 1. Console Output in C++
 
-C++ uses stream objects such as `std::cin` and `std::cout`.
+`std::cout` is an output stream that sends data to standard output (usually the terminal window).
 
 ```cpp
 #include <iostream>
+#include <iomanip>
 
 int main() {
-    int first = 0;
-    int second = 0;
+    double subtotal = 125.456;
+    double taxRate = 0.21;
+    double total = subtotal * (1.0 + taxRate);
 
-    std::cout << "Enter a number: ";
-    std::cin >> first;
-
-    std::cout << "Enter another number: ";
-    std::cin >> second;
-
-    std::cout << "Sum: " << first + second << std::endl;
-    std::cout << "Product: " << first * second << std::endl;
+    std::cout << "Subtotal: " << subtotal << '\n';
+    std::cout << "Tax Rate: " << taxRate * 100 << "%\n";
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "Total: " << total << '\n';
 
     return 0;
 }
 ```
 
-### Tips for C++
+Key ideas:
 
-- `std::cin >> value;` skips leading whitespace and reads formatted data.
-- Chain `std::cout` operations with `<<` to build clear messages.
-- `std::endl` prints a newline **and** flushes the stream; use `"\n"` when you don't need flushing.
+- Chain multiple `<<` operations in a single statement.
+- Manipulators such as `std::fixed`, `std::setprecision`, and `std::setw` change formatting state and remain active until you modify it again.
+- Prefer `"\n"` for new lines; `std::endl` also flushes the stream, which is slower inside loops.
 
-## Reading and Writing in C
+## 2. Console Input in C++
 
-C uses formatted functions like `scanf` and `printf` from `<stdio.h>`.
+`std::cin` reads formatted data—integers, doubles, strings—from standard input.
+
+```cpp
+int quantity{};
+double unitPrice{};
+
+std::cout << "Enter quantity and unit price: ";
+std::cin >> quantity >> unitPrice; // extraction skips leading whitespace
+
+double lineTotal = quantity * unitPrice;
+```
+
+When mixing formatted extraction with line-based input, guard against leftover newline characters:
+
+```cpp
+std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+std::string name;
+std::getline(std::cin, name);
+```
+
+Always check the stream state before trusting the data:
+
+```cpp
+if (!std::cin) {
+    std::cerr << "Input error. Please run again." << std::endl;
+    return 1;
+}
+```
+
+## 3. Reading and Writing Strings
+
+- `std::getline` reads entire lines, including spaces.
+- Use `std::ws` manipulator to consume leading whitespace before a `getline` when mixing input styles.
+- Streams automatically stop at whitespace when reading into `std::string` with `>>`.
+
+```cpp
+std::cout << "Enter your first and last name: ";
+std::string fullName;
+std::getline(std::cin >> std::ws, fullName);
+```
+
+## 4. Input/Output in C
+
+C uses the `<stdio.h>` library with format specifiers.
 
 ```c
 #include <stdio.h>
 
 int main(void) {
-    int first = 0;
-    int second = 0;
+    int quantity = 0;
+    double unitPrice = 0.0;
 
-    printf("Enter a number: ");
-    scanf("%d", &first);
+    printf("Enter quantity and unit price: ");
+    if (scanf("%d %lf", &quantity, &unitPrice) != 2) {
+        fprintf(stderr, "Invalid input.\n");
+        return 1;
+    }
 
-    printf("Enter another number: ");
-    scanf("%d", &second);
-
-    printf("Sum: %d\n", first + second);
-    printf("Product: %d\n", first * second);
+    double lineTotal = quantity * unitPrice;
+    printf("Line Total: %.2f\n", lineTotal);
 
     return 0;
 }
 ```
 
-### Tips for C
+Important details:
 
-- Always pass the **address** of the variable to `scanf` using `&`.
-- Match your format specifiers: `%d` for integers, `%f` for floating-point values.
-- Add `\n` to move to a new line after each `printf` call.
+- Always pass **addresses** to `scanf`: `&variable`.
+- `%d`, `%lf`, `%s`, `%c` must match the type exactly. Using the wrong specifier invokes undefined behavior.
+- `scanf` returns the number of successful conversions—check it to validate input.
 
-## Coordinating Input and Output
+### Reading Strings in C
+
+```c
+char buffer[64];
+printf("Enter your name: ");
+if (fgets(buffer, sizeof buffer, stdin)) {
+    // remove trailing newline if present
+    buffer[strcspn(buffer, "\n")] = '\0';
+    printf("Hello, %s!\n", buffer);
+}
+```
+
+`fgets` reads up to `sizeof(buffer) - 1` characters and terminates with `\0`. It includes the newline when the user presses Enter, so remove it manually.
+
+## 5. Coordinating Input and Output
 
 Regardless of language:
 
-- Read all required input before performing calculations.
-- Store intermediate results in variables for clarity.
-- Keep output labels consistent so automated tests can compare results.
+- Prompt users clearly before reading input.
+- Validate data and handle errors before performing calculations.
+- Store intermediate results in well-named variables for readability.
+- Keep output formatting consistent so automated tests match exactly.
+- Separate computation from I/O in helper functions as your programs grow.
 
-## Practice Exercise
+## 6. Common Pitfalls
 
-In the exercise you'll build a tiny calculator that reads two integers and prints their sum, difference, and product. Try it first in C++, then repeat in C to master both styles!
+- **Forgotten newline consumption**: after `std::cin >> number`, the trailing newline stays in the buffer. Call `std::cin.ignore()` before `std::getline`.
+- **Mismatched format strings**: `scanf` with the wrong specifier corrupts memory. Double-check `%d`, `%lf`, `%s`, `%c`, etc.
+- **Unchecked stream state**: if extraction fails, the stream enters a fail state and all subsequent reads silently fail. Call `std::cin.clear()` and discard invalid input if you want to retry.
+- **Locale differences**: decimal separators vary. The default "C" locale expects a dot (`.`). If user input includes commas, either inform the user or imbue the stream with the appropriate locale.
+
+## 7. Practice Ideas
+
+1. Build a shipping calculator that reads weight and destination, then prints a formatted receipt with aligned columns (hint: `std::setw`).
+2. Prompt the user for their full name and favorite quote; print both lines in a friendly message. Repeat the task in C and handle newline removal with `fgets`.
+3. Implement a simple error-recovery loop: keep asking for an integer until the user enters valid data. Use `std::cin.clear()` and `std::cin.ignore()` to recover from bad input.
+
+Launch the Lesson 1.3 exercise when you are ready. The automated tests will expect:
+
+- Accurate reading of the required values (no hard-coded numbers).
+- Output formatted exactly as described in the starter comments (including spaces, punctuation, and newline placement).
+- Clean handling of both C++ stream I/O and C formatted I/O.

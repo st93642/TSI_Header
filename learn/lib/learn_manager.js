@@ -91,6 +91,29 @@ class LearnManager {
     }
 
     /**
+     * Normalize curriculum structure to a list of sections (modules or chapters)
+     * @param {Object} curriculum - Curriculum JSON object
+     * @returns {Array} Array of section objects with consistent typing
+     */
+    getCurriculumSections(curriculum) {
+        if (curriculum && Array.isArray(curriculum.chapters)) {
+            return curriculum.chapters.map(chapter => ({
+                ...chapter,
+                type: 'chapter'
+            }));
+        }
+
+        if (curriculum && Array.isArray(curriculum.modules)) {
+            return curriculum.modules.map(module => ({
+                ...module,
+                type: 'module'
+            }));
+        }
+
+        return [];
+    }
+
+    /**
      * Get the next lesson based on progress
      * @param {Object} curriculum - The curriculum object
      * @param {Object} progress - Current progress
@@ -100,13 +123,19 @@ class LearnManager {
         const completedLessons = new Set(progress.completed || []);
         
         // Find first incomplete lesson
-        for (const module of curriculum.modules) {
-            for (const lesson of module.lessons) {
+        for (const section of this.getCurriculumSections(curriculum)) {
+            const lessons = Array.isArray(section.lessons) ? section.lessons : [];
+            for (const lesson of lessons) {
                 if (!completedLessons.has(lesson.id)) {
+                    const sectionTitle = section.title || section.id || 'Section';
                     return {
                         ...lesson,
-                        moduleTitle: module.title,
-                        moduleId: module.id,
+                        sectionTitle,
+                        sectionId: section.id,
+                        sectionType: section.type || 'section',
+                        // Maintain legacy fields for backward compatibility
+                        moduleTitle: sectionTitle,
+                        moduleId: section.id,
                         exerciseVariants: lesson.exerciseVariants || []
                     };
                 }
@@ -194,18 +223,21 @@ class LearnManager {
         const htmlContent = this.markdownToHtml(content);
         
         const exerciseVariants = Array.isArray(lesson.exerciseVariants) ? lesson.exerciseVariants : [];
+        const exercisesDisabled = lesson && lesson.exerciseAvailable === false;
         const exerciseConfig = {
             baseExerciseId: `${lesson.id}_exercise`,
             variants: exerciseVariants
         };
 
-        const variantButtonsHtml = exerciseVariants.length > 0
-            ? exerciseVariants.map(variant => `
+        const variantButtonsHtml = exercisesDisabled
+            ? '<div class="exercise-unavailable">📘 Practice exercise for this chapter is covered in the textbook walkthrough.</div>'
+            : exerciseVariants.length > 0
+                ? exerciseVariants.map(variant => `
                 <button class="exercise-button" onclick="startExerciseVariant('${variant.id}', '${variant.language}')">
                     ${variant.language === 'c' ? '🇨 ' : '🇨++ '} ${this.escapeHtml(variant.title || variant.id)}
                 </button>
             `).join('\n')
-            : '<button class="exercise-button" onclick="startDefaultExercise()">\n            📝 Start Practice Exercise\n        </button>';
+                : '<button class="exercise-button" onclick="startDefaultExercise()">\n            📝 Start Practice Exercise\n        </button>';
 
         return `<!DOCTYPE html>
 <html lang="en">
@@ -331,6 +363,15 @@ class LearnManager {
         .button-container {
             margin-top: 30px;
             text-align: center;
+        }
+        .exercise-unavailable {
+            margin: 24px auto;
+            padding: 14px 18px;
+            border: 1px dashed var(--vscode-input-border);
+            border-radius: 6px;
+            font-style: italic;
+            max-width: 520px;
+            background-color: var(--vscode-editorGutter-background);
         }
         .tip {
             background-color: var(--vscode-textBlockQuote-background);
@@ -555,8 +596,11 @@ class LearnManager {
             this.currentExerciseEditor = exerciseFilePath;
             const exerciseMetadata = {
                 lessonId: lesson.id,
-                moduleId: lesson.moduleId,
-                moduleTitle: lesson.moduleTitle,
+                sectionId: lesson.sectionId || lesson.moduleId,
+                sectionTitle: lesson.sectionTitle || lesson.moduleTitle,
+                // Legacy fields retained for backwards compatibility with existing data
+                moduleId: lesson.moduleId || lesson.sectionId,
+                moduleTitle: lesson.moduleTitle || lesson.sectionTitle,
                 baseExerciseId: exercise.id || exerciseId,
                 baseExerciseFile: exerciseId,
                 variantId: targetExerciseId,

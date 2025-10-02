@@ -1,10 +1,10 @@
 # Lesson 4.2: Pointers
 
-Pointers hold memory addresses, giving you direct control over objects and arrays. *Beginning C++17* treats pointers in Chapter 10 (“Pointers and Dynamic Memory”) and Chapter 11 (“Pointers and Arrays”). Use those sections to reinforce the material in this lesson, especially the diagrams showing pointer assignments and pointer-to-const rules.
+Pointers hold memory addresses, giving you direct control over objects and arrays. This lesson distills the essential rules for declaring, dereferencing, and manipulating pointers so you can rely on a single, self-contained source.
 
 ## What You'll Learn
 
-- Declaring pointers and pointer-to-const (Chapter 10, “Pointers Basics”)
+- Declaring pointers and pointer-to-const
 - Dereferencing pointers safely to access pointed-to values
 - Pointer arithmetic with arrays (`ptr + index`, `*(ptr + index)`)
 - Null pointers, initialization, and avoiding dangling pointers
@@ -18,7 +18,7 @@ int* pointerToValue {&value};
 const int* pointerToConst {&value};
 ```
 
-Key rules from Chapter 10:
+Key rules:
 
 - Always initialize pointers—use `nullptr` instead of raw zero.
 - `const int*` prevents modification through the pointer; `int* const` keeps the pointer address fixed.
@@ -29,7 +29,7 @@ Key rules from Chapter 10:
 - Dereferencing a null or dangling pointer leads to undefined behavior—guard with checks.
 - Prefer references when you can guarantee a valid object; use pointers when the object may be absent or when you need to reseat to a different target.
 
-## 3. Pointer Arithmetic (Chapter 11, “Pointers and Arrays”)
+## 3. Pointer Arithmetic
 
 When you have contiguous storage (arrays), you can advance a pointer:
 
@@ -73,7 +73,5 @@ You will create `describe_buffer()`, which accepts two pointers (`const int* beg
 
 ## References
 
-- *Beginning C++17*, Chapter 10 “Pointers and Dynamic Memory”
-- *Beginning C++17*, Chapter 11 “Pointers and Arrays”
 - cppreference.com: [Pointers](https://en.cppreference.com/w/cpp/language/pointer)
 - ISO C++ Core Guidelines: P.1 (“Express ideas directly in code”) and ES.47 (“Use std::array or vector instead of built-in arrays when you can”)

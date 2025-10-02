@@ -1,6 +1,6 @@
 # Lesson 4.4: References
 
-References provide aliases to existing objects, enabling you to pass data efficiently without pointer syntax. *Beginning C++17* covers references in Chapter 9 (“Functions and References”) and Chapter 13 (“Classes and References”), emphasizing const correctness and reference binding rules. Use those sections as your guide while reading this lesson.
+References provide aliases to existing objects, enabling you to pass data efficiently without pointer syntax. This lesson collects the key rules and examples so you can master references without consulting additional material.
 
 ## What You'll Learn
 
@@ -8,7 +8,7 @@ References provide aliases to existing objects, enabling you to pass data effici
 - Binding rules: references must bind to valid objects upon initialization
 - Reference semantics when passing arguments to functions
 - When and why to use references instead of pointers
-- An overview of rvalue references (`T&&`) and move semantics (Chapter 13)
+- An overview of rvalue references (`T&&`) and move semantics
 
 ## 1. Basic Reference Syntax
 
@@ -44,7 +44,7 @@ void print_score(const int& score) {
 - Pointers can be reseated and can be null, giving more flexibility but requiring extra safety checks.
 - Prefer references for mandatory arguments and pointers for optional or nullable relationships.
 
-## 4. Rvalue References and Move Semantics (Chapter 13)
+## 4. Rvalue References and Move Semantics
 
 Rvalue references (`T&&`) bind to temporaries and enable transfers of ownership with move constructors and move assignment operators. While this lesson focuses on lvalue references, note that move semantics rely on similar aliasing concepts to optimize performance.
 
@@ -71,7 +71,5 @@ You will build `adjust_boundaries()`, which takes two `int&` parameters (`minimu
 
 ## References
 
-- *Beginning C++17*, Chapter 9 “Functions and References”
-- *Beginning C++17*, Chapter 13 “Classes, Objects, and References”
 - cppreference.com: [References](https://en.cppreference.com/w/cpp/language/reference)
 - ISO C++ Core Guidelines: F.15 (“Prefer simple and conventional ways of passing information between functions”) and F.16 (“For "in" parameters, pass by value or const reference”)
