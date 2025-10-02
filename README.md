@@ -1,5 +1,7 @@
 # TSI Header Extension
 
+![TSI Header Overview](resources/main-picture.png)
+
 ## Description
 
 Comprehensive Visual Studio Code extension for **code boilerplate generation**, **project scaffolding**, and **interactive programming language learning**. Transform VS Code into a complete development learning environment with support for 147+ programming languages, integrated curriculum, and productivity tools.

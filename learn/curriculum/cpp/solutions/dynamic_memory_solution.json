@@ -1,0 +1,18 @@
+{
+  "exerciseId": "dynamic_memory_exercise",
+  "variants": [
+    {
+      "id": "dynamic_memory_cpp",
+      "language": "cpp",
+      "code": "#include <iomanip>\\n#include <iostream>\\n#include <memory>\\n#include <sstream>\\n\\nstd::string summarize_dynamic_scores();\\n\\nint main() {\\n    std::cout << summarize_dynamic_scores() << std::endl;\\n    return 0;\\n}\\n\\nstd::string summarize_dynamic_scores() {\\n    int count {0};\\n    if (!(std::cin >> count) || count <= 0) {\\n        return \"No scores provided\";\\n    }\\n\\n    auto scores = std::make_unique<int[]>(count);\\n    long long sum {0};\\n    for (int index = 0; index < count; ++index) {\\n        std::cin >> scores[index];\\n        sum += scores[index];\\n    }\\n\\n    std::ostringstream out;\\n    out << std::fixed << std::setprecision(1);\\n    out << \"Count: \" << count << '\\\\n';\\n    out << \"Scores: \";\\n    for (int index = 0; index < count; ++index) {\\n        out << scores[index];\\n        if (index + 1 < count) {\\n            out << ' ';\\n        }\\n    }\\n    out << '\\\\n';\\n    out << \"Sum: \" << sum << '\\\\n';\\n    out << \"Average: \" << static_cast<double>(sum) / count;\\n    return out.str();\\n}\\n",
+      "explanation": "The implementation allocates with std::make_unique<int[]> so the array releases automatically. It reads the requested values, accumulates the sum, and formats the output according to the required blueprint.",
+      "keyPoints": [
+        "Guard count <= 0 before allocating to avoid unnecessary work.",
+        "std::make_unique<int[]>(count) prevents leaks even if an exception occurs.",
+        "Accumulate totals while reading to avoid a second pass.",
+        "Use std::fixed and std::setprecision(1) before writing the average to enforce formatting.",
+        "Return the formatted string so callers control output presentation."
+      ]
+    }
+  ]
+}

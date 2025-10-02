@@ -1,0 +1,17 @@
+{
+  "exerciseId": "conditionals_exercise",
+  "variants": [
+    {
+      "id": "conditionals_cpp",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int score = 0;\n    std::cin >> score;\n\n    std::cout << \"Score: \" << score << std::endl;\n\n    if (score < 0 || score > 100) {\n        std::cout << \"Result: Invalid score\" << std::endl;\n    } else if (score >= 90) {\n        std::cout << \"Result: Excellent\" << std::endl;\n    } else if (score >= 75) {\n        std::cout << \"Result: Good\" << std::endl;\n    } else if (score >= 60) {\n        std::cout << \"Result: Pass\" << std::endl;\n    } else {\n        std::cout << \"Result: Retake\" << std::endl;\n    }\n\n    return 0;\n}\n",
+      "explanation": "Read the score once, echo it for the first line, then evaluate ranges from most specific to least. The invalid case checks values outside 0-100 before other branches. Each branch prints the exact text the tests expect.",
+      "keyPoints": [
+        "Log the original score before branching so the output order matches the blueprint.",
+        "Guard invalid values (<0 or >100) before higher scores so nothing else triggers.",
+        "Order the remaining ranges from highest to lowest since the first true branch stops the chain.",
+        "Return 0 at the end of main() to signal successful execution."
+      ]
+    }
+  ]
+}

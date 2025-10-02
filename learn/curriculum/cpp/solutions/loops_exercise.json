@@ -1,0 +1,17 @@
+{
+  "exerciseId": "loops_exercise",
+  "variants": [
+    {
+      "id": "loops_cpp",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int limit = 0;\n    std::cin >> limit;\n\n    std::cout << \"Limit: \" << limit << std::endl;\n\n    if (limit <= 0) {\n        std::cout << \"Series: n/a\" << std::endl;\n        std::cout << \"Sum: 0\" << std::endl;\n        return 0;\n    }\n\n    int sum = 0;\n\n    std::cout << \"Series: \";\n    for (int value = 1; value <= limit; ++value) {\n        if (value > 1) {\n            std::cout << ' ';\n        }\n        std::cout << value;\n        sum += value;\n    }\n    std::cout << std::endl;\n\n    std::cout << \"Sum: \" << sum << std::endl;\n    return 0;\n}\n",
+      "explanation": "Read the limit, echo it, handle the non-positive case immediately, then iterate from 1 to limit building the series and accumulating the sum. Spaces are added between numbers after the first entry.",
+      "keyPoints": [
+        "Guard limit <= 0 first so the remainder of the code assumes a positive range.",
+        "Initialize sum to 0 and update it inside the loop as you print each value.",
+        "Add a space before values after the first to keep spacing correct.",
+        "Return 0 to signal successful execution."
+      ]
+    }
+  ]
+}

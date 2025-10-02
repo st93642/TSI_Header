@@ -1,0 +1,18 @@
+{
+  "exerciseId": "default_parameters_exercise",
+  "variants": [
+    {
+      "id": "default_parameters_cpp",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <iomanip>\n#include <sstream>\n#include <string>\n\nstd::string format_assignment(const std::string& title, int points = 100, double weight = 1.0, bool extraCredit = false);\n\nint main() {\n    std::cout << format_assignment(\"Project 5\", 75, 1.2, true) << std::endl;\n    std::cout << format_assignment(\"Worksheet 2\") << std::endl;\n    std::cout << format_assignment(\"Lab 4\", 20) << std::endl;\n    return 0;\n}\n\nstd::string format_assignment(const std::string& title, int points, double weight, bool extraCredit) {\n    std::ostringstream output;\n    output << std::fixed << std::setprecision(1);\n    output << \"Assignment: \" << title\n           << \" | Points: \" << points\n           << \" | Weight: \" << weight\n           << \" | Extra Credit: \" << (extraCredit ? \"Yes\" : \"No\");\n    return output.str();\n}\n",
+      "explanation": "The prototype above main() supplies default values for the trailing parameters while the definition after main() omits them, mirroring Chapter 8 guidance. The body uses an ostringstream configured with fixed and one decimal place to keep the weight formatting stable, and it maps the boolean flag to the required Yes/No text.",
+      "keyPoints": [
+        "Default arguments must live in the prototype (declaration) only.",
+        "Trailing parameters carry defaults so callers can omit them from the rightmost side.",
+        "std::ostringstream with std::fixed and std::setprecision(1) guarantees the 1-decimal requirement.",
+        "Convert the boolean flag manually to the exact Yes/No strings instead of relying on boolalpha.",
+        "Returning the string (instead of printing) keeps the function reusable and easy to test."
+      ]
+    }
+  ]
+}

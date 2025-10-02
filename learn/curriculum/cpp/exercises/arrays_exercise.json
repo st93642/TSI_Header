@@ -1,0 +1,51 @@
+{
+  "id": "arrays_exercise",
+  "title": "Exercise 4.1: Analyze Scores with Arrays",
+  "description": "Store five exam scores in std::array<int, 5>, then compute summary statistics exactly matching the provided blueprint.",
+  "difficulty": "intermediate",
+  "tags": [
+    "arrays",
+    "std::array",
+    "algorithms",
+    "formatting"
+  ],
+  "variants": [
+    {
+      "id": "arrays_cpp",
+      "title": "Exercise 4.1: Analyze Scores with Arrays (C++)",
+      "language": "cpp",
+      "difficulty": "intermediate",
+      "starterCode": "#include <algorithm>\n#include <array>\n#include <iomanip>\n#include <iostream>\n#include <numeric>\n#include <sstream>\n\n// Read exactly five integer scores from std::cin and summarize them using std::array<int, 5>.\n// Follow these steps precisely (declare helper prototypes above main if you create them):\n//   1. Read five integers in order: exam1, exam2, exam3, exam4, exam5. Store them in std::array<int, 5> named scores.\n//   2. Compute the minimum and maximum using std::minmax_element(scores.begin(), scores.end()).\n//   3. Compute the total with std::accumulate and derive the average as total / 5.0 (formatted with one decimal place).\n//   4. Use std::ostringstream, std::fixed, and std::setprecision(1) before inserting the average.\n//   5. Output MUST match this blueprint exactly (including spacing, capitalization, and line breaks):\n//        Count: 5\n//        Scores: <value1> <value2> <value3> <value4> <value5>\n//        Minimum: <lowest score>\n//        Maximum: <highest score>\n//        Average: <avg with one decimal>\n//   6. Print the final string to std::cout (using std::cout << summary.str(); or similar).\n//   7. No extra text, prompts, or blank lines.\n\nint main() {\n    // Implement the steps above.\n    return 0;\n}\n",
+      "tests": [
+        {
+          "name": "mixed_scores",
+          "description": "Typical mix of scores.",
+          "type": "output",
+          "input": "78 92 85 88 91\n",
+          "expected": "Count: 5\nScores: 78 92 85 88 91\nMinimum: 78\nMaximum: 92\nAverage: 86.8"
+        },
+        {
+          "name": "ascending_values",
+          "description": "Already sorted input should still display correctly.",
+          "type": "output",
+          "input": "60 70 80 90 100\n",
+          "expected": "Count: 5\nScores: 60 70 80 90 100\nMinimum: 60\nMaximum: 100\nAverage: 80.0"
+        },
+        {
+          "name": "all_equal",
+          "description": "Identical scores keep min, max, and average equal.",
+          "type": "output",
+          "input": "88 88 88 88 88\n",
+          "expected": "Count: 5\nScores: 88 88 88 88 88\nMinimum: 88\nMaximum: 88\nAverage: 88.0"
+        }
+      ],
+      "hints": [
+        "Use std::array<int, 5> scores{}; and assign to it directly from the five inputs.",
+        "std::minmax_element returns a pair of iterators; dereference them to get the values.",
+        "Remember to static_cast the total to double or divide by 5.0 to avoid integer truncation.",
+        "Accumulate with std::accumulate(scores.begin(), scores.end(), 0) for the integer total.",
+        "Build the output with std::ostringstream so formatting stays consistent before streaming to std::cout."
+      ]
+    }
+  ]
+}

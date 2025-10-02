@@ -19,6 +19,7 @@ test_output/
 !README.md
 docs/
 Beginning_C++17_Novice_to_Professional_Fifth_Edition_Ivor_Horton.pdf
+cpp_book_sections.txt
 
 # Temporary files
 .DS_Store

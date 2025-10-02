@@ -1,0 +1,59 @@
+{
+  "id": "conditionals_exercise",
+  "title": "Exercise 2.1: Classify Exam Scores",
+  "description": "Read an exam score and choose the correct label using if/else-if chains.",
+  "difficulty": "beginner",
+  "tags": ["conditionals", "branching", "decision-making"],
+  "variants": [
+    {
+      "id": "conditionals_cpp",
+      "title": "Exercise 2.1: Classify Exam Scores (C++)",
+      "language": "cpp",
+      "difficulty": "beginner",
+      "starterCode": "#include <iostream>\n\nint main() {\n    // TODO: read exactly one integer score from std::cin\n    // TODO: output exactly these two lines using std::cout and std::endl:\n    //   Score: <original value>\n    //   Result: <classification text>\n    // TODO: choose the classification with an if/else-if/else chain:\n    //   Excellent  -> score between 90 and 100 inclusive\n    //   Good       -> score between 75 and 89 inclusive\n    //   Pass       -> score between 60 and 74 inclusive\n    //   Retake     -> score between 0 and 59 inclusive\n    //   Invalid score -> any value outside 0-100 (print this text exactly)\n    return 0;\n}\n",
+      "tests": [
+        {
+          "name": "excellent_score",
+          "description": "Scores 95 should be marked Excellent",
+          "input": "95\n",
+          "expected": "Score: 95\nResult: Excellent",
+          "type": "output"
+        },
+        {
+          "name": "good_score",
+          "description": "Scores 82 should be marked Good",
+          "input": "82\n",
+          "expected": "Score: 82\nResult: Good",
+          "type": "output"
+        },
+        {
+          "name": "pass_score",
+          "description": "Scores 60 should be marked Pass",
+          "input": "60\n",
+          "expected": "Score: 60\nResult: Pass",
+          "type": "output"
+        },
+        {
+          "name": "retake_score",
+          "description": "Scores 12 should be marked Retake",
+          "input": "12\n",
+          "expected": "Score: 12\nResult: Retake",
+          "type": "output"
+        },
+        {
+          "name": "invalid_negative",
+          "description": "Negative scores must be flagged as invalid",
+          "input": "-5\n",
+          "expected": "Score: -5\nResult: Invalid score",
+          "type": "output"
+        }
+      ],
+      "hints": [
+        "Read the score with std::cin >> score; before any branching.",
+        "Check the invalid case (score < 0 or score > 100) before other ranges so that it wins immediately.",
+        "Remember that else-if chains stop after the first true condition—order your ranges from highest to lowest.",
+        "Match the output format exactly, including capitalization and the colon spacing shown in the comments."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "recursion_exercise",
+  "title": "Exercise 3.4: Recursive Grade Aggregation",
+  "description": "Use recursion to walk through parallel vectors of assignment weights and scores, building a formatted report string.",
+  "difficulty": "intermediate",
+  "tags": [
+    "functions",
+    "recursion",
+    "vectors",
+    "strings"
+  ],
+  "variants": [
+    {
+      "id": "recursion_cpp",
+      "title": "Exercise 3.4: Recursive Grade Aggregation (C++)",
+      "language": "cpp",
+      "difficulty": "intermediate",
+      "starterCode": "#include <iostream>\n#include <iomanip>\n#include <sstream>\n#include <string>\n#include <vector>\n\n// Implement a recursive report builder following Chapter 9 guidance.\n// Required prototypes (declare them before main, define them after main):\n//   std::string calculate_cumulative_score(const std::vector<double>& weights, const std::vector<double>& scores);\n//   std::string calculate_cumulative_score_recursive(const std::vector<double>& weights, const std::vector<double>& scores, std::size_t index, double totalWeight, double weightedSum);\n// Expectations:\n//   * Use calculate_cumulative_score() as the public wrapper. It must validate that weights.size() == scores.size()\n//     and then call calculate_cumulative_score_recursive() starting at index 0 with totals set to 0.0.\n//   * calculate_cumulative_score_recursive() must stop recursing when index reaches weights.size(). Use the accumulated totals to build the final string.\n//   * Each recursive call must advance index by exactly 1 and update both totals before the next call.\n//   * Build the final string with std::ostringstream configured with std::fixed and std::setprecision(1) so totals display exactly one decimal place.\n//   * Blueprint (match labels, spacing, capitalization, and line order exactly):\n//       Report: <assignment count> assignments\n//       Total Weight: <totalWeight with one decimal>\n//       Weighted Score: <weightedSum with one decimal>\n//   * Do not print inside the recursion. Return the completed string to callers.\n//   * main() already demonstrates the required sample calls—do not change them.\n\nstd::string calculate_cumulative_score(const std::vector<double>& weights, const std::vector<double>& scores);\nstd::string calculate_cumulative_score_recursive(const std::vector<double>& weights, const std::vector<double>& scores, std::size_t index, double totalWeight, double weightedSum);\n\nint main() {\n    const std::vector<double> weightsA{0.25, 0.25, 0.50};\n    const std::vector<double> scoresA{88.0, 94.0, 90.0};\n    std::cout << calculate_cumulative_score(weightsA, scoresA) << std::endl;\n\n    const std::vector<double> weightsB{0.40, 0.35, 0.25};\n    const std::vector<double> scoresB{72.0, 85.0, 91.0};\n    std::cout << calculate_cumulative_score(weightsB, scoresB) << std::endl;\n\n    return 0;\n}\n\n// Define both functions here using recursion as described.\n\n",
+      "tests": [
+        {
+          "name": "balanced_weights",
+          "description": "Typical vector sizes and values.",
+          "type": "output",
+          "call": "const std::vector<double> weights{0.25, 0.25, 0.50}; const std::vector<double> scores{88.0, 94.0, 90.0}; std::cout << calculate_cumulative_score(weights, scores);",
+          "expected": "Report: 3 assignments\nTotal Weight: 1.0\nWeighted Score: 90.5"
+        },
+        {
+          "name": "non_uniform_weights",
+          "description": "Weights that do not sum to 1.0 should still accumulate correctly.",
+          "type": "output",
+          "call": "const std::vector<double> weights{0.40, 0.35, 0.25}; const std::vector<double> scores{72.0, 85.0, 91.0}; std::cout << calculate_cumulative_score(weights, scores);",
+          "expected": "Report: 3 assignments\nTotal Weight: 1.0\nWeighted Score: 82.4"
+        },
+        {
+          "name": "single_assignment",
+          "description": "One-element vectors hit the base case immediately after the first call.",
+          "type": "output",
+          "call": "const std::vector<double> weights{1.0}; const std::vector<double> scores{100.0}; std::cout << calculate_cumulative_score(weights, scores);",
+          "expected": "Report: 1 assignments\nTotal Weight: 1.0\nWeighted Score: 100.0"
+        },
+        {
+          "name": "mixed_calls_consistency",
+          "description": "Multiple calls chained together must preserve formatting.",
+          "type": "output",
+          "call": "const std::vector<double> weightsX{0.30, 0.30, 0.40}; const std::vector<double> scoresX{95.0, 87.0, 92.0}; const std::vector<double> weightsY{0.50, 0.20, 0.30}; const std::vector<double> scoresY{80.0, 100.0, 90.0}; std::cout << calculate_cumulative_score(weightsX, scoresX) << \" | \" << calculate_cumulative_score(weightsY, scoresY);",
+          "expected": "Report: 3 assignments\nTotal Weight: 1.0\nWeighted Score: 91.3 | Report: 3 assignments\nTotal Weight: 1.0\nWeighted Score: 87.0"
+        }
+      ],
+      "hints": [
+        "Have calculate_cumulative_score() create the guard clause for mismatched vector sizes before calling the recursive helper.",
+        "Your base case returns the formatted string once index equals weights.size().",
+        "Make sure each recursive step adds the current weight and weighted contribution (weight * score) before advancing.",
+        "Configure std::ostringstream with std::fixed and std::setprecision(1) once before inserting the totals.",
+        "Return the string from the wrapper and helper—let the caller decide how to display the report."
+      ]
+    }
+  ]
+}

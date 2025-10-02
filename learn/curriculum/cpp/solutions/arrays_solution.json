@@ -1,0 +1,18 @@
+{
+  "exerciseId": "arrays_exercise",
+  "variants": [
+    {
+      "id": "arrays_cpp",
+      "language": "cpp",
+  "code": "#include <algorithm>\\n#include <array>\\n#include <iomanip>\\n#include <iostream>\\n#include <numeric>\\n#include <sstream>\\n\\nint main() {\\n    std::array<int, 5> scores{};\\n    for (int& value : scores) {\\n        std::cin >> value;\\n    }\\n\\n    const auto minmax = std::minmax_element(scores.begin(), scores.end());\\n    const int total = std::accumulate(scores.begin(), scores.end(), 0);\\n    const double average = static_cast<double>(total) / scores.size();\\n\\n    std::ostringstream summary;\\n    summary << std::fixed << std::setprecision(1);\\n    summary << \"Count: \" << scores.size() << '\\\\n';\\n    summary << \"Scores: \" << scores[0] << ' ' << scores[1] << ' ' << scores[2] << ' ' << scores[3] << ' ' << scores[4] << '\\\\n';\\n    summary << \"Minimum: \" << *minmax.first << '\\\\n';\\n    summary << \"Maximum: \" << *minmax.second << '\\\\n';\\n    summary << \"Average: \" << average;\\n\\n    std::cout << summary.str();\\n    return 0;\\n}\\n",
+      "explanation": "Read five integers into std::array<int, 5>, use std::minmax_element for extrema, std::accumulate for totals, and format the results with std::ostringstream using one decimal place.",
+      "keyPoints": [
+        "std::array keeps the size as part of its type, so scores.size() returns 5.",
+        "std::minmax_element provides both minimum and maximum in one pass.",
+        "Divide by scores.size() after casting to double to keep fractional averages.",
+        "Formatting with std::fixed and std::setprecision(1) ensures the exact output blueprint.",
+        "The summary string mirrors the required labels and order before printing once."
+      ]
+    }
+  ]
+}

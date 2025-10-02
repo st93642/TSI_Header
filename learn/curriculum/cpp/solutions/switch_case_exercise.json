@@ -1,0 +1,17 @@
+{
+  "exerciseId": "switch_case_exercise",
+  "variants": [
+    {
+      "id": "switch_case_cpp",
+      "language": "cpp",
+    "code": "#include <iostream>\n\nint main() {\n    int code = 0;\n    std::cin >> code;\n\n    std::cout << \"Status: \" << code << std::endl;\n\n    switch (code) {\n        case 200:\n            std::cout << \"Message: OK\" << std::endl;\n            break;\n        case 201:\n            std::cout << \"Message: Created\" << std::endl;\n            break;\n        case 400:\n            std::cout << \"Message: Bad Request\" << std::endl;\n            break;\n        case 404:\n            std::cout << \"Message: Not Found\" << std::endl;\n            break;\n        case 500:\n            std::cout << \"Message: Internal Server Error\" << std::endl;\n            break;\n        default:\n            std::cout << \"Message: Unknown Status\" << std::endl;\n            break;\n    }\n\n    return 0;\n}\n",
+      "explanation": "Read the numeric code once, echo it for the first output line, then route through a switch with one case per known code. Each case prints the exact message required and uses break; default covers all other codes.",
+      "keyPoints": [
+        "Echo the original input before branching so the output order matches the specification.",
+        "Each case ends with break to avoid fallthrough into the next message.",
+        "default handles any unrecognized codes, keeping the switch exhaustive.",
+        "Returning 0 from main signals success and matches previous examples."
+      ]
+    }
+  ]
+}

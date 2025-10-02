@@ -60,25 +60,37 @@
           "id": "conditionals",
           "title": "Lesson 2.1: If Statements and Conditionals",
           "duration": 30,
-          "difficulty": "beginner"
+          "difficulty": "beginner",
+          "exerciseVariants": [
+            { "id": "conditionals_cpp", "language": "cpp", "title": "Exercise 2.1: Classify Exam Scores" }
+          ]
         },
         {
           "id": "switch_case",
           "title": "Lesson 2.2: Switch Statements",
           "duration": 25,
-          "difficulty": "beginner"
+          "difficulty": "beginner",
+          "exerciseVariants": [
+            { "id": "switch_case_cpp", "language": "cpp", "title": "Exercise 2.2: Handle Status Codes" }
+          ]
         },
         {
           "id": "loops",
           "title": "Lesson 2.3: Loops (for, while, do-while)",
           "duration": 35,
-          "difficulty": "beginner"
+          "difficulty": "beginner",
+          "exerciseVariants": [
+            { "id": "loops_cpp", "language": "cpp", "title": "Exercise 2.3: Sum a Series" }
+          ]
         },
         {
           "id": "break_continue",
           "title": "Lesson 2.4: Break and Continue",
           "duration": 20,
-          "difficulty": "beginner"
+          "difficulty": "beginner",
+          "exerciseVariants": [
+            { "id": "break_continue_cpp", "language": "cpp", "title": "Exercise 2.4: Filter Scores with Break/Continue" }
+          ]
         }
       ]
     },
@@ -91,25 +103,37 @@
           "id": "function_basics",
           "title": "Lesson 3.1: Function Basics",
           "duration": 30,
-          "difficulty": "intermediate"
+          "difficulty": "intermediate",
+          "exerciseVariants": [
+            { "id": "function_basics_cpp", "language": "cpp", "title": "Exercise 3.1: Calculate Grades with Helper Functions" }
+          ]
         },
         {
           "id": "function_overloading",
           "title": "Lesson 3.2: Function Overloading",
           "duration": 25,
-          "difficulty": "intermediate"
+          "difficulty": "intermediate",
+          "exerciseVariants": [
+            { "id": "function_overloading_cpp", "language": "cpp", "title": "Exercise 3.2: Format Grades with Overloads" }
+          ]
         },
         {
           "id": "default_parameters",
           "title": "Lesson 3.3: Default Parameters",
           "duration": 20,
-          "difficulty": "intermediate"
+          "difficulty": "intermediate",
+          "exerciseVariants": [
+            { "id": "default_parameters_cpp", "language": "cpp", "title": "Exercise 3.3: Format Assignments with Defaults" }
+          ]
         },
         {
           "id": "recursion",
           "title": "Lesson 3.4: Recursion",
           "duration": 35,
-          "difficulty": "intermediate"
+          "difficulty": "intermediate",
+          "exerciseVariants": [
+            { "id": "recursion_cpp", "language": "cpp", "title": "Exercise 3.4: Recursive Grade Aggregation" }
+          ]
         }
       ]
     },
@@ -122,25 +146,37 @@
           "id": "arrays",
           "title": "Lesson 4.1: Arrays",
           "duration": 30,
-          "difficulty": "intermediate"
+          "difficulty": "intermediate",
+          "exerciseVariants": [
+            { "id": "arrays_cpp", "language": "cpp", "title": "Exercise 4.1: Analyze Scores with Arrays" }
+          ]
         },
         {
           "id": "pointers",
           "title": "Lesson 4.2: Pointers",
           "duration": 40,
-          "difficulty": "intermediate"
+          "difficulty": "intermediate",
+          "exerciseVariants": [
+            { "id": "pointers_cpp", "language": "cpp", "title": "Exercise 4.2: Describe Integer Buffer with Pointers" }
+          ]
         },
         {
           "id": "dynamic_memory",
           "title": "Lesson 4.3: Dynamic Memory Allocation",
           "duration": 35,
-          "difficulty": "intermediate"
+          "difficulty": "intermediate",
+          "exerciseVariants": [
+            { "id": "dynamic_memory_cpp", "language": "cpp", "title": "Exercise 4.3: Summarize Scores with Dynamic Memory" }
+          ]
         },
         {
           "id": "references",
           "title": "Lesson 4.4: References",
           "duration": 25,
-          "difficulty": "intermediate"
+          "difficulty": "intermediate",
+          "exerciseVariants": [
+            { "id": "references_cpp", "language": "cpp", "title": "Exercise 4.4: Adjust Boundaries with References" }
+          ]
         }
       ]
     },

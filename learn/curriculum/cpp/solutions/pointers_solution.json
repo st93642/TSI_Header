@@ -1,0 +1,18 @@
+{
+  "exerciseId": "pointers_exercise",
+  "variants": [
+    {
+      "id": "pointers_cpp",
+      "language": "cpp",
+      "code": "#include <climits>\\n#include <iomanip>\\n#include <iostream>\\n#include <sstream>\\n\\nstd::string describe_buffer(const int* begin, const int* end);\\n\\nint main() {\\n    const int dataA[] {45, 60, 75, 90};\\n    std::cout << describe_buffer(std::begin(dataA), std::end(dataA)) << std::endl;\\n\\n    const int dataB[] {120, 115, 110};\\n    std::cout << describe_buffer(std::begin(dataB), std::end(dataB)) << std::endl;\\n\\n    const int* emptyBegin {dataB};\\n    const int* emptyEnd {dataB};\\n    std::cout << describe_buffer(emptyBegin, emptyEnd) << std::endl;\\n\\n    return 0;\\n}\\n\\nstd::string describe_buffer(const int* begin, const int* end) {\\n    if (begin == end) {\\n        return \"Buffer empty\";\\n    }\\n\\n    const int* current {begin};\\n    int count {0};\\n    int minimum {INT_MAX};\\n    int maximum {INT_MIN};\\n    long long total {0};\\n\\n    while (current != end) {\\n        const int value {*current};\\n        if (value < minimum) {\\n            minimum = value;\\n        }\\n        if (value > maximum) {\\n            maximum = value;\\n        }\\n        total += value;\\n        ++count;\\n        ++current;\\n    }\\n\\n    std::ostringstream out;\\n    out << std::fixed << std::setprecision(1);\\n    out << \"Buffer count: \" << count << '\\\\n';\\n    out << \"Minimum: \" << minimum << '\\\\n';\\n    out << \"Maximum: \" << maximum << '\\\\n';\\n    out << \"Total: \" << total << '\\\\n';\\n    out << \"Average: \" << static_cast<double>(total) / count;\\n    return out.str();\\n}\\n",
+      "explanation": "The helper walks the buffer with pointer arithmetic, updating statistics before formatting the result with fixed precision. The empty-buffer guard satisfies the special-case requirement.",
+      "keyPoints": [
+        "Guard begin == end first so you can safely dereference the first element later.",
+        "Use INT_MAX/INT_MIN to seed min and max before entering the loop.",
+        "Pointer arithmetic (++current) keeps the implementation aligned with Chapter 10 guidance.",
+        "Accumulate the total in a wider type (long long) to avoid overflow if values grow.",
+        "Formatted output uses std::fixed + std::setprecision(1) before computing the average."
+      ]
+    }
+  ]
+}

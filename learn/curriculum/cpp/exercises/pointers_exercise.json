@@ -1,0 +1,58 @@
+{
+  "id": "pointers_exercise",
+  "title": "Exercise 4.2: Describe Integer Buffer with Pointers",
+  "description": "Use raw pointers to walk a contiguous buffer, computing summary statistics without indexing or STL containers.",
+  "difficulty": "intermediate",
+  "tags": [
+    "pointers",
+    "pointer-arithmetic",
+    "functions",
+    "formatting"
+  ],
+  "variants": [
+    {
+      "id": "pointers_cpp",
+      "title": "Exercise 4.2: Describe Integer Buffer with Pointers (C++)",
+      "language": "cpp",
+      "difficulty": "intermediate",
+      "starterCode": "#include <climits>\n#include <iomanip>\n#include <iostream>\n#include <sstream>\n\n// Implement describe_buffer() exactly as specified below.\n// Required function prototype (declare above main, define after main):\n//   std::string describe_buffer(const int* begin, const int* end);\n// Rules and expectations (follow Chapter 10 guidance on pointer safety):\n//   1. If begin == end, return the string \"Buffer empty\" (no trailing newline).\n//   2. Otherwise, iterate from begin up to but not including end using pointer arithmetic.\n//      - Do NOT use indexing, std::vector, or std::array. Advance the pointer explicitly.\n//      - Track count, minimum, maximum, and total as you walk the buffer.\n//   3. Format the result with std::ostringstream, std::fixed, std::setprecision(1) for the average.\n//   4. Blueprint (match exactly, including spacing and line breaks):\n//        Buffer count: <count>\n//        Minimum: <min value>\n//        Maximum: <max value>\n//        Total: <sum>\n//        Average: <average with one decimal>\n//   5. Return the formatted string. main() will print it.\n//   6. Assume the caller passes a valid contiguous region; no null checks are required beyond begin == end.\n\nstd::string describe_buffer(const int* begin, const int* end);\n\nint main() {\n    const int dataA[] {45, 60, 75, 90};\n    std::cout << describe_buffer(std::begin(dataA), std::end(dataA)) << std::endl;\n\n    const int dataB[] {105, 99, 87};\n    std::cout << describe_buffer(std::begin(dataB), std::end(dataB)) << std::endl;\n\n    const int* emptyBegin {dataB};\n    const int* emptyEnd {dataB};\n    std::cout << describe_buffer(emptyBegin, emptyEnd) << std::endl;\n\n    return 0;\n}\n\n// Define describe_buffer() here using pointer arithmetic only.\n\n",
+      "tests": [
+        {
+          "name": "typical_values",
+          "description": "Four-element buffer with increasing values.",
+          "type": "output",
+          "call": "const int data[] {45, 60, 75, 90}; std::cout << describe_buffer(std::begin(data), std::end(data));",
+          "expected": "Buffer count: 4\nMinimum: 45\nMaximum: 90\nTotal: 270\nAverage: 67.5"
+        },
+        {
+          "name": "unsorted_values",
+          "description": "Buffer with decreasing values.",
+          "type": "output",
+          "call": "const int data[] {120, 115, 110}; std::cout << describe_buffer(std::begin(data), std::end(data));",
+          "expected": "Buffer count: 3\nMinimum: 110\nMaximum: 120\nTotal: 345\nAverage: 115.0"
+        },
+        {
+          "name": "single_element",
+          "description": "One-element buffer should still report all five lines correctly.",
+          "type": "output",
+          "call": "const int data[] {32}; std::cout << describe_buffer(std::begin(data), std::end(data));",
+          "expected": "Buffer count: 1\nMinimum: 32\nMaximum: 32\nTotal: 32\nAverage: 32.0"
+        },
+        {
+          "name": "empty_buffer",
+          "description": "begin == end should produce the short message.",
+          "type": "output",
+          "call": "const int data[] {10, 20, 30}; std::cout << describe_buffer(data, data);",
+          "expected": "Buffer empty"
+        }
+      ],
+      "hints": [
+        "Initialize count to 0 and update it inside the loop as you advance the pointer.",
+        "Set min and max to the first element before looping; guard the empty case up front.",
+        "Use a const int* current pointer that starts at begin and increments until it equals end.",
+        "Compute the average as static_cast<double>(total) / count and format with std::fixed + std::setprecision(1).",
+        "Return the ostringstream string; let the caller print it so the tests can capture the output."
+      ]
+    }
+  ]
+}

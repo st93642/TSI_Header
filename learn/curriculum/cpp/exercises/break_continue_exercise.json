@@ -1,0 +1,45 @@
+{
+  "id": "break_continue_exercise",
+  "title": "Exercise 2.4: Filter Scores with Break/Continue",
+  "description": "Process up to ten scores, skipping invalid entries and stopping when a sentinel appears.",
+  "difficulty": "beginner",
+  "tags": ["loops", "break", "continue"],
+  "variants": [
+    {
+      "id": "break_continue_cpp",
+      "title": "Exercise 2.4: Filter Scores with Break/Continue (C++)",
+      "language": "cpp",
+      "difficulty": "beginner",
+      "starterCode": "#include <iostream>\n\nint main() {\n    // TODO: read up to ten integers from std::cin (one read per loop iteration)\n    // TODO: use a loop with an explicit counter (0..9) to control the maximum reads\n    //   * If you read -1, break immediately and stop reading further values (do not store -1)\n    //   * If the value is outside 0..100 (and not -1), use continue to skip it\n    //   * Otherwise, keep the value in order and add it to a running sum\n    // TODO: after the loop ends, always print exactly these three lines using std::cout and std::endl:\n    //   Inputs processed: <count of valid values>\n    //   Scores: <space-separated valid values in the order kept, or n/a when none>\n    //   Sum: <sum of valid values (0 when none)>\n    return 0;\n}\n",
+      "tests": [
+        {
+          "name": "sentinel_breaks_loop",
+          "description": "Handles sentinel and skips invalid values",
+          "input": "72 85 101 90 -1 75\n",
+          "expected": "Inputs processed: 3\nScores: 72 85 90\nSum: 247",
+          "type": "output"
+        },
+        {
+          "name": "ten_iterations_no_sentinel",
+          "description": "Processes up to ten inputs without sentinel",
+          "input": "0 15 200 60 40 30 20 10 5 2\n",
+          "expected": "Inputs processed: 9\nScores: 0 15 60 40 30 20 10 5 2\nSum: 182",
+          "type": "output"
+        },
+        {
+          "name": "immediate_sentinel",
+          "description": "Sentinel first means nothing processed",
+          "input": "-1\n",
+          "expected": "Inputs processed: 0\nScores: n/a\nSum: 0",
+          "type": "output"
+        }
+      ],
+      "hints": [
+        "Use a for loop that runs at most ten times and reads once per iteration.",
+        "Check for the sentinel (-1) right after reading; if found, break before any other logic.",
+        "For values outside 0..100, use continue so the loop increments but does not store the value.",
+        "Track valid values in the order seen so you can print them with single spaces or n/a when none." 
+      ]
+    }
+  ]
+}

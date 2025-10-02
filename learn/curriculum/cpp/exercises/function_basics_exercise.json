@@ -1,0 +1,45 @@
+{
+  "id": "function_basics_exercise",
+  "title": "Exercise 3.1: Calculate Grades with Helper Functions",
+  "description": "Practice declaring and defining basic functions that compute totals and averages.",
+  "difficulty": "intermediate",
+  "tags": ["functions", "prototypes", "pass-by-value"],
+  "variants": [
+    {
+      "id": "function_basics_cpp",
+      "title": "Exercise 3.1: Calculate Grades with Helper Functions (C++)",
+      "language": "cpp",
+      "difficulty": "intermediate",
+      "starterCode": "#include <iostream>\n#include <iomanip>\n\n// TODO: declare the function prototypes here\n//   int calculate_total(int first, int second, int third);\n//   double calculate_average(int total, int count);\n\nint main() {\n    // TODO: read three integer scores from std::cin in this order: exam, project, participation\n    // TODO: use calculate_total() and calculate_average() to produce the final numbers\n    // TODO: print exactly these three lines (use std::fixed << std::setprecision(2) for the average):\n    //   Scores: <exam> <project> <participation>\n    //   Total: <sum of the three scores>\n    //   Average: <average of the three scores with two decimals>\n    return 0;\n}\n\n// TODO: define calculate_total() and calculate_average() below main()\n",
+      "tests": [
+        {
+          "name": "balanced_scores",
+          "description": "Typical case with different numbers",
+          "input": "80 90 70\n",
+          "expected": "Scores: 80 90 70\nTotal: 240\nAverage: 80.00",
+          "type": "output"
+        },
+        {
+          "name": "perfect_scores",
+          "description": "All scores at maximum",
+          "input": "100 100 100\n",
+          "expected": "Scores: 100 100 100\nTotal: 300\nAverage: 100.00",
+          "type": "output"
+        },
+        {
+          "name": "mixed_scores",
+          "description": "Low participation score",
+          "input": "92 88 50\n",
+          "expected": "Scores: 92 88 50\nTotal: 230\nAverage: 76.67",
+          "type": "output"
+        }
+      ],
+      "hints": [
+        "Declare prototypes above main() exactly as described so the compiler knows about the helpers before use.",
+        "calculate_total() should simply add the three arguments and return the sum.",
+        "calculate_average(total, count) must convert to double to avoid integer division (e.g., return static_cast<double>(total) / count;).",
+        "Remember to configure std::cout with std::fixed and std::setprecision(2) before printing the average." 
+      ]
+    }
+  ]
+}

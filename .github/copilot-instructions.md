@@ -357,6 +357,7 @@ Every exercise now includes:
 
 ### C/C++ Dual-Language Exercise Clarity (Oct 2025)
 - **Explicit Starter Instructions**: When creating or updating any C/C++ exercise (`learn/curriculum/cpp/exercises/*.json`), write starter-code comments that spell out the exact values learners must declare, the order of computations, and the precise output lines (including capitalization and punctuation). Never rely on lesson text alone.
+- **Primary Reference**: Use the repository's `Beginning_C++17_Novice_to_Professional_Fifth_Edition_Ivor_Horton.pdf` as the main source when writing or updating C++ lessons, exercises, and solutions. Map concepts, terminology, and examples back to the book to ensure consistency.
 - **Boolean Formatting**: For exercises involving `bool`, require students to convert the value to the exact words expected by the tests (`true/false`, `yes/no`, etc.) and mention the conversion explicitly in starter comments.
 - **Input Ordering**: If input is required, note the order the values must be read (e.g., "first value, then second value") and include representative sample inputs in the comments when helpful.
 - **Output Blueprint**: Provide a mini blueprint in comments showing the required lines (e.g., `//   Sum: <value>`). Ensure that the labels, spacing, and decimal precision match the `expected` strings in tests.

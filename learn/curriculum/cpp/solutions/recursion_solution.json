@@ -1,0 +1,18 @@
+{
+  "exerciseId": "recursion_exercise",
+  "variants": [
+    {
+      "id": "recursion_cpp",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <iomanip>\n#include <sstream>\n#include <string>\n#include <vector>\n\nstd::string calculate_cumulative_score(const std::vector<double>& weights, const std::vector<double>& scores);\nstd::string calculate_cumulative_score_recursive(const std::vector<double>& weights, const std::vector<double>& scores, std::size_t index, double totalWeight, double weightedSum);\n\nint main() {\n    const std::vector<double> weightsA{0.25, 0.25, 0.50};\n    const std::vector<double> scoresA{88.0, 94.0, 90.0};\n    std::cout << calculate_cumulative_score(weightsA, scoresA) << std::endl;\n\n    const std::vector<double> weightsB{0.40, 0.35, 0.25};\n    const std::vector<double> scoresB{72.0, 85.0, 91.0};\n    std::cout << calculate_cumulative_score(weightsB, scoresB) << std::endl;\n\n    return 0;\n}\n\nstd::string calculate_cumulative_score(const std::vector<double>& weights, const std::vector<double>& scores) {\n    if (weights.size() != scores.size()) {\n        std::ostringstream out;\n        out << std::fixed << std::setprecision(1);\n        out << \"Report: 0 assignments\\n\"\n            << \"Total Weight: 0.0\\n\"\n            << \"Weighted Score: 0.0\";\n        return out.str();\n    }\n    return calculate_cumulative_score_recursive(weights, scores, 0, 0.0, 0.0);\n}\n\nstd::string calculate_cumulative_score_recursive(const std::vector<double>& weights, const std::vector<double>& scores, std::size_t index, double totalWeight, double weightedSum) {\n    if (index == weights.size()) {\n        std::ostringstream out;\n        out << std::fixed << std::setprecision(1);\n        out << \"Report: \" << weights.size() << \" assignments\\n\"\n            << \"Total Weight: \" << totalWeight << \"\\n\"\n            << \"Weighted Score: \" << weightedSum;\n        return out.str();\n    }\n\n    const double nextTotalWeight = totalWeight + weights[index];\n    const double nextWeightedSum = weightedSum + weights[index] * scores[index];\n    return calculate_cumulative_score_recursive(weights, scores, index + 1, nextTotalWeight, nextWeightedSum);\n}\n",
+      "explanation": "The wrapper validates equal vector lengths before delegating to the recursive helper. Each recursive call advances the index and accumulates both totals, and the base case formats the report string with the accumulated values. The implementation mirrors Chapter 9 guidance by separating the public function from the recursive worker and keeping side effects out of the recursion.",
+      "keyPoints": [
+        "Guarding against mismatched vector lengths keeps recursion assumptions safe.",
+        "The base case fires when index equals weights.size(), producing the formatted string.",
+        "Each recursive call advances index by exactly one and updates both totals before recursing.",
+        "std::ostringstream with std::fixed and std::setprecision(1) maintains the one-decimal blueprint.",
+        "All printing happens in main(); the recursive logic focuses solely on returning the computed report."
+      ]
+    }
+  ]
+}
