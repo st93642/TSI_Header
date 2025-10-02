@@ -17,12 +17,13 @@ class TestLearnModule < TestModule
     puts "\n📚 Testing Learn Module"
     puts "=" * 50
     
-    @learn_dir = @config.extension_root.join('learn')
-    @curriculum_dir = @learn_dir.join('curriculum', 'ruby')
+  @learn_dir = @config.extension_root.join('learn')
+  @curriculum_dir = @learn_dir.join('curriculum', 'ruby')
+  @cpp_curriculum_dir = @learn_dir.join('curriculum', 'cpp')
     @lib_dir = @learn_dir.join('lib')
     
-    # Total tests count
-    total_tests = 59
+  # Total tests count
+  total_tests = 83
     start_progress_bar(total_tests, "Learn Module")
     
     current = 0
@@ -518,6 +519,364 @@ class TestLearnModule < TestModule
       { passed: all_issues.empty?, message: all_issues.empty? ? "All lesson components exist and correspond" : "Issues: #{all_issues.join('; ')}" }
     end
     
+    # C++ Chapter 1 Consistency Tests (6 tests)
+    cpp_ch1_exercise_path = @cpp_curriculum_dir.join('exercises', 'chapter_01_basic_ideas_exercise.json')
+    cpp_ch1_solution_path = @cpp_curriculum_dir.join('solutions', 'chapter_01_basic_ideas_exercise.json')
+    cpp_ch1_cpp_stub_path = @config.extension_root.join('learn_exercises', 'cpp', 'chapter_01_basic_ideas_cpp.cpp')
+    cpp_ch1_c_stub_path = @config.extension_root.join('learn_exercises', 'c', 'chapter_01_basic_ideas_c.c')
+
+    current += 1
+    run_test_with_progress("C++ Chapter 1 exercise metadata emphasises basics", total_tests, current) do
+      unless cpp_ch1_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch1_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch1_exercise_path))
+        tags = Array(exercise['tags'])
+        { passed: exercise['difficulty'] == 'beginner' && tags.include?('basics'), message: "difficulty=#{exercise['difficulty']}, tags=#{tags.join(', ')}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 1 tests use the Hello World blueprint", total_tests, current) do
+      unless cpp_ch1_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch1_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch1_exercise_path))
+        tests = exercise['variants'].flat_map { |variant| Array(variant['tests']) }
+        expected_outputs = tests.map { |t| t['expected'] || '' }
+        includes_greeting = expected_outputs.any? { |text| text.include?('Hello World') }
+        includes_name = expected_outputs.any? { |text| text.include?('Name: TSI Student') }
+        { passed: includes_greeting && includes_name, message: "HelloWorld=#{includes_greeting}, NameLine=#{includes_name}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 1 starter guides without providing the solution", total_tests, current) do
+      unless cpp_ch1_exercise_path.file? && cpp_ch1_cpp_stub_path.file? && cpp_ch1_c_stub_path.file?
+        { passed: false, message: "Missing exercise or starter files" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch1_exercise_path))
+        cpp_variant = exercise['variants'].find { |variant| variant['language'] == 'cpp' } || {}
+        c_variant = exercise['variants'].find { |variant| variant['language'] == 'c' } || {}
+        cpp_starter = (cpp_variant['starterCode'] || '').to_s
+        c_starter = (c_variant['starterCode'] || '').to_s
+        cpp_stub = File.read(cpp_ch1_cpp_stub_path)
+        c_stub = File.read(cpp_ch1_c_stub_path)
+        cpp_has_guidance = cpp_starter.include?('Output blueprint') && cpp_stub.include?('TODO')
+        c_has_guidance = c_starter.include?('Output blueprint') && c_stub.include?('TODO')
+  cpp_sol_free = !cpp_stub.include?('std::cout << "Hello World')
+  c_sol_free = !c_stub.include?('printf("Hello World\n")')
+        passed = cpp_has_guidance && c_has_guidance && cpp_sol_free && c_sol_free
+        message = []
+        message << 'C++ starter missing guidance' unless cpp_has_guidance
+        message << 'C starter missing guidance' unless c_has_guidance
+        message << 'C++ stub still prints solution' unless cpp_sol_free
+        message << 'C stub still prints solution' unless c_sol_free
+        { passed: passed, message: message.empty? ? 'Starter files emphasise blueprint without solutions' : message.join('; ') }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 1 solution uses std::cout without namespace pollution", total_tests, current) do
+      unless cpp_ch1_solution_path.file?
+        { passed: false, message: "Missing #{cpp_ch1_solution_path}" }
+      else
+        solution = JSON.parse(File.read(cpp_ch1_solution_path))
+        cpp_variant = solution['variants'].find { |variant| variant['language'] == 'cpp' } || {}
+        code = (cpp_variant['code'] || '').to_s
+        uses_cout = code.include?('std::cout << "Hello World') && code.include?('std::cout << "Name: TSI Student')
+        avoids_using_namespace = !code.include?('using namespace std')
+        { passed: uses_cout && avoids_using_namespace, message: "uses_cout=#{uses_cout}, avoids_using_namespace=#{avoids_using_namespace}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C Chapter 1 solution uses printf blueprint", total_tests, current) do
+      unless cpp_ch1_solution_path.file?
+        { passed: false, message: "Missing #{cpp_ch1_solution_path}" }
+      else
+        solution = JSON.parse(File.read(cpp_ch1_solution_path))
+        c_variant = solution['variants'].find { |variant| variant['language'] == 'c' } || {}
+        code = (c_variant['code'] || '').to_s
+        uses_printf = code.include?('printf("Hello World') && code.include?('printf("Name: TSI Student')
+        { passed: uses_printf, message: "uses_printf=#{uses_printf}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 1 hints reinforce compile-run workflow", total_tests, current) do
+      unless cpp_ch1_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch1_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch1_exercise_path))
+        hints = exercise['variants'].flat_map { |variant| Array(variant['hints']) }
+        mentions_printf = hints.any? { |h| h.include?('printf') }
+        mentions_cout = hints.any? { |h| h.include?('std::cout') }
+        { passed: mentions_printf && mentions_cout, message: "printf_hint=#{mentions_printf}, cout_hint=#{mentions_cout}" }
+      end
+    end
+
+  # C++ Chapter 2 Consistency Tests (6 tests)
+    cpp_ch2_exercise_path = @cpp_curriculum_dir.join('exercises', 'chapter_02_fundamental_types_exercise.json')
+    cpp_ch2_solution_path = @cpp_curriculum_dir.join('solutions', 'chapter_02_fundamental_types_exercise.json')
+    cpp_ch2_stub_path = @config.extension_root.join('learn_exercises', 'cpp', 'chapter_02_fundamental_types_exercise.cpp')
+
+    current += 1
+    run_test_with_progress("C++ Chapter 2 exercise metadata emphasises type reporting", total_tests, current) do
+      unless cpp_ch2_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch2_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch2_exercise_path))
+        tags = Array(exercise['tags'])
+        tags_required = %w[types literals]
+        tags_ok = (tags_required - tags).empty?
+        { passed: exercise['difficulty'] == 'beginner' && tags_ok, message: "difficulty=#{exercise['difficulty']}, tags=#{tags.join(', ')}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 2 starter highlights numeric_limits usage", total_tests, current) do
+      unless cpp_ch2_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch2_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch2_exercise_path))
+        starter = (exercise['starterCode'] || '').to_s
+        mentions_numeric_limits = starter.include?('std::numeric_limits')
+        mentions_setw = starter.include?('std::setw')
+        has_todos = starter.include?('TODO')
+        { passed: mentions_numeric_limits && mentions_setw && has_todos, message: "numeric_limits=#{mentions_numeric_limits}, setw=#{mentions_setw}, todos=#{has_todos}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 2 hints reinforce numeric_limits", total_tests, current) do
+      unless cpp_ch2_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch2_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch2_exercise_path))
+        hints = Array(exercise['hints'])
+        mentions_numeric_limits = hints.any? { |h| h.include?('numeric_limits') }
+        mentions_setw = hints.any? { |h| h.include?('setw') }
+        { passed: mentions_numeric_limits && mentions_setw, message: "numeric_limits_hint=#{mentions_numeric_limits}, setw_hint=#{mentions_setw}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 2 solution uses lowest() for doubles", total_tests, current) do
+      unless cpp_ch2_solution_path.file?
+        { passed: false, message: "Missing #{cpp_ch2_solution_path}" }
+      else
+        solution = JSON.parse(File.read(cpp_ch2_solution_path))
+        variant = Array(solution['variants']).first || {}
+        code = (variant['code'] || '').to_s
+        uses_lowest = code.include?('std::numeric_limits<double>::lowest()')
+        uses_sizeof = code.include?('sizeof(double)')
+        { passed: uses_lowest && uses_sizeof, message: "uses_lowest=#{uses_lowest}, uses_sizeof=#{uses_sizeof}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 2 expected output remains intact", total_tests, current) do
+      unless cpp_ch2_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch2_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch2_exercise_path))
+        tests = Array(exercise['tests'])
+        sample_output = tests.map { |t| t['expected'] || '' }.join("\n")
+        covers_report = sample_output.include?('Type Report: C++ Fundamentals') && sample_output.include?('Pass Rate (double): 92.3')
+        { passed: covers_report, message: covers_report ? 'Report lines intact' : 'Report blueprint missing' }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 2 starter stub avoids pre-written solution", total_tests, current) do
+      unless cpp_ch2_stub_path.file?
+        { passed: false, message: "Missing #{cpp_ch2_stub_path}" }
+      else
+        stub_content = File.read(cpp_ch2_stub_path)
+        has_todo = stub_content.include?('TODO')
+  lacks_solution_streams = !stub_content.include?('std::cout << "Type Report')
+  { passed: has_todo && lacks_solution_streams, message: "has_todo=#{has_todo}, lacks_solution_streams=#{lacks_solution_streams}" }
+      end
+    end
+
+    # C++ Chapter 4 Consistency Tests (6 tests)
+    cpp_ch4_exercise_path = @cpp_curriculum_dir.join('exercises', 'chapter_04_making_decisions_exercise.json')
+    cpp_ch4_solution_path = @cpp_curriculum_dir.join('solutions', 'chapter_04_making_decisions_exercise.json')
+    cpp_ch4_stub_path = @config.extension_root.join('learn_exercises', 'cpp', 'chapter_04_making_decisions_exercise.cpp')
+
+    current += 1
+    run_test_with_progress("C++ Chapter 4 exercise metadata emphasises control flow", total_tests, current) do
+      unless cpp_ch4_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch4_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch4_exercise_path))
+        tags = Array(exercise['tags'])
+        required_tags = %w[conditionals switch]
+        has_tags = (required_tags - tags).empty?
+        { passed: exercise['difficulty'] == 'beginner' && has_tags, message: "difficulty=#{exercise['difficulty']}, tags=#{tags.join(', ')}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 4 expected outputs cover access and errors", total_tests, current) do
+      unless cpp_ch4_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch4_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch4_exercise_path))
+        tests = Array(exercise['tests'])
+        expected_outputs = tests.map { |t| t['expected'] || '' }
+        includes_access = expected_outputs.any? { |text| text.include?('Access: General Lab') } &&
+                          expected_outputs.any? { |text| text.include?('Access: Advanced Lab') }
+        includes_error = expected_outputs.any? { |text| text.include?('Error: invalid age') }
+        { passed: includes_access && includes_error, message: "access=#{includes_access}, error=#{includes_error}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 4 hints mention switch guidance", total_tests, current) do
+      unless cpp_ch4_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch4_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch4_exercise_path))
+        hints = Array(exercise['hints'])
+        mentions_switch = hints.any? { |h| h.include?('switch') }
+        mentions_role = hints.any? { |h| h.include?('Role') }
+        { passed: mentions_switch && mentions_role, message: "switch_hint=#{mentions_switch}, role_hint=#{mentions_role}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 4 starter guides input order without solving", total_tests, current) do
+      unless cpp_ch4_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_ch4_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_ch4_exercise_path))
+        starter = (exercise['starterCode'] || '').to_s
+        mentions_order = starter.include?('Read two values from stdin in this order')
+        mentions_switch_instruction = starter.include?('Use a switch statement')
+        has_todo = starter.include?('TODO')
+        { passed: mentions_order && mentions_switch_instruction && has_todo, message: "order=#{mentions_order}, switch_instruction=#{mentions_switch_instruction}, todo=#{has_todo}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 4 stub exists with TODO placeholders", total_tests, current) do
+      unless cpp_ch4_stub_path.file?
+        { passed: false, message: "Missing #{cpp_ch4_stub_path}" }
+      else
+        stub_content = File.read(cpp_ch4_stub_path)
+        has_todo = stub_content.include?('TODO')
+        lacks_switch_logic = !stub_content.include?('switch (')
+        lacks_output_actions = !stub_content.include?('Access: General Lab')
+        { passed: has_todo && lacks_switch_logic && lacks_output_actions, message: "todo=#{has_todo}, lacks_switch=#{lacks_switch_logic}, lacks_outputs=#{lacks_output_actions}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 4 solution uses switch on role initial", total_tests, current) do
+      unless cpp_ch4_solution_path.file?
+        { passed: false, message: "Missing #{cpp_ch4_solution_path}" }
+      else
+        solution = JSON.parse(File.read(cpp_ch4_solution_path))
+        variant = Array(solution['variants']).first || {}
+        code = (variant['code'] || '').to_s
+        uses_switch = code.include?('switch (')
+        handles_error = code.include?('invalid age')
+        { passed: uses_switch && handles_error, message: "uses_switch=#{uses_switch}, handles_error=#{handles_error}" }
+      end
+    end
+
+    # C++ Curriculum Sanity Tests (6 tests)
+    cpp_exercise_path = @cpp_curriculum_dir.join('exercises', 'chapter_03_working_with_data_exercise.json')
+    cpp_solution_path = @cpp_curriculum_dir.join('solutions', 'chapter_03_working_with_data_exercise.json')
+    cpp_starter_path = @config.extension_root.join('learn_exercises', 'cpp', 'chapter_03_working_with_data_exercise.cpp')
+
+    current += 1
+    run_test_with_progress("C++ curriculum directory exists", total_tests, current) do
+      { passed: @cpp_curriculum_dir.directory?, message: @cpp_curriculum_dir.to_s }
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 3 exercise marked beginner with bitmask tags", total_tests, current) do
+      unless cpp_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_exercise_path))
+        difficulty_ok = exercise['difficulty'] == 'beginner'
+        required_tags = %w[bitwise masks]
+        tags = Array(exercise['tags'])
+        tags_ok = (required_tags - tags).empty?
+        { passed: difficulty_ok && tags_ok, message: "difficulty=#{exercise['difficulty']}, tags=#{tags.join(', ')}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 3 starter highlights sensor masks", total_tests, current) do
+      unless cpp_exercise_path.file? && cpp_starter_path.file?
+        { passed: false, message: "Missing exercise or starter file" }
+      else
+        exercise = JSON.parse(File.read(cpp_exercise_path))
+        starter = exercise['starterCode'] || ''
+        starter_includes_masks = starter.include?('FRONT_DOOR_MASK') && starter.include?('Garage Door Open')
+        starter_excludes_enum = !starter.include?('enum class')
+        stub_content = File.read(cpp_starter_path)
+        stub_mentions_masks = stub_content.include?('FRONT_DOOR_MASK') && stub_content.include?('bitwise AND')
+        stub_excludes_enum = !stub_content.include?('enum class')
+        passed = starter_includes_masks && starter_excludes_enum && stub_mentions_masks && stub_excludes_enum
+        message = []
+        message << "starter missing mask hints" unless starter_includes_masks
+        message << "starter still mentions enum" unless starter_excludes_enum
+        message << "stub missing mask guidance" unless stub_mentions_masks
+        message << "stub still mentions enum" unless stub_excludes_enum
+        { passed: passed, message: message.empty? ? 'Starter and stub emphasise masks without enums' : message.join('; ') }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 3 exercise tests use door wording", total_tests, current) do
+      unless cpp_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_exercise_path))
+        tests = Array(exercise['tests'])
+        expected_samples = tests.map { |t| t['expected'] || '' }
+        includes_front = expected_samples.any? { |text| text.include?('Front Door Open') }
+        includes_garage = expected_samples.any? { |text| text.include?('Garage Door Open') }
+        excludes_student = expected_samples.none? { |text| text.include?('Student Access') }
+        passed = includes_front && includes_garage && excludes_student
+        message = "includes_front=#{includes_front}, includes_garage=#{includes_garage}, excludes_student=#{excludes_student}"
+        { passed: passed, message: message }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 3 hints cover masks and bitset", total_tests, current) do
+      unless cpp_exercise_path.file?
+        { passed: false, message: "Missing #{cpp_exercise_path}" }
+      else
+        exercise = JSON.parse(File.read(cpp_exercise_path))
+        hints = Array(exercise['hints'])
+        mentions_mask = hints.any? { |h| h.include?('mask') }
+        mentions_bitset = hints.any? { |h| h.include?('bitset') }
+        { passed: mentions_mask && mentions_bitset, message: "mask_hint=#{mentions_mask}, bitset_hint=#{mentions_bitset}" }
+      end
+    end
+
+    current += 1
+    run_test_with_progress("C++ Chapter 3 solution uses constexpr masks", total_tests, current) do
+      unless cpp_solution_path.file?
+        { passed: false, message: "Missing #{cpp_solution_path}" }
+      else
+        solution = JSON.parse(File.read(cpp_solution_path))
+        variant = Array(solution['variants']).first || {}
+        code = (variant['code'] || '').to_s
+        uses_masks = code.include?('constexpr unsigned int FRONT_DOOR_MASK') && code.include?('sensor_active')
+        excludes_enum = !code.include?('enum class')
+        { passed: uses_masks && excludes_enum, message: "uses_masks=#{uses_masks}, excludes_enum=#{excludes_enum}" }
+      end
+    end
+
     # Progress Tracking Tests (4 tests)
     current += 1
     run_test_with_progress("ProgressTracker has achievement system", total_tests, current) do

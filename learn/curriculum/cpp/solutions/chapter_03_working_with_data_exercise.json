@@ -4,12 +4,12 @@
     {
       "id": "chapter_03_working_with_data_exercise",
       "language": "cpp",
-      "code": "#include <iostream>\n#include <bitset>\n#include <cstdint>\n\nenum class AccessFlag : std::uint8_t {\n    student = 0b0001,\n    lab = 0b0010,\n    researcher = 0b0100,\n    admin = 0b1000\n};\n\nconstexpr std::uint8_t operator|(AccessFlag lhs, AccessFlag rhs) {\n    return static_cast<std::uint8_t>(lhs) | static_cast<std::uint8_t>(rhs);\n}\n\nconstexpr bool has_flag(std::uint8_t mask, AccessFlag flag) {\n    return (mask & static_cast<std::uint8_t>(flag)) != 0;\n}\n\nint main() {\n    std::uint8_t mask{};\n    std::cin >> mask;\n\n    std::cout << \"Mask: \" << static_cast<int>(mask) << '\n';\n    std::cout << \"Binary: \" << std::bitset<4>(mask) << '\n';\n    std::cout << \"Student Access: \" << (has_flag(mask, AccessFlag::student) ? \"Yes\" : \"No\") << '\n';\n    std::cout << \"Lab Access: \" << (has_flag(mask, AccessFlag::lab) ? \"Yes\" : \"No\") << '\n';\n    std::cout << \"Researcher Access: \" << (has_flag(mask, AccessFlag::researcher) ? \"Yes\" : \"No\") << '\n';\n    std::cout << \"Admin Access: \" << (has_flag(mask, AccessFlag::admin) ? \"Yes\" : \"No\");\n\n    return 0;\n}\n",
-      "explanation": "Represent permissions with a scoped enum, test bits via bitwise AND, and present the results using std::bitset<4> to show the binary mask.",
+      "code": "#include <iostream>\n#include <bitset>\n#include <cstdint>\n\nconstexpr unsigned int FRONT_DOOR_MASK {0b0001};\nconstexpr unsigned int BACK_DOOR_MASK  {0b0010};\nconstexpr unsigned int SIDE_DOOR_MASK  {0b0100};\nconstexpr unsigned int GARAGE_DOOR_MASK{0b1000};\n\nconstexpr bool sensor_active(unsigned int mask, unsigned int flag) {\n    return (mask & flag) != 0U;\n}\n\nint main() {\n    unsigned int mask{};\n    std::cin >> mask;\n\n    std::cout << \"Mask: \" << mask << '\\n';\n    std::cout << \"Binary: \" << std::bitset<4>(mask) << '\\n';\n    std::cout << \"Front Door Open: \" << (sensor_active(mask, FRONT_DOOR_MASK) ? \"Yes\" : \"No\") << '\\n';\n    std::cout << \"Back Door Open: \" << (sensor_active(mask, BACK_DOOR_MASK) ? \"Yes\" : \"No\") << '\\n';\n    std::cout << \"Side Door Open: \" << (sensor_active(mask, SIDE_DOOR_MASK) ? \"Yes\" : \"No\") << '\\n';\n    std::cout << \"Garage Door Open: \" << (sensor_active(mask, GARAGE_DOOR_MASK) ? \"Yes\" : \"No\");\n\n    return 0;\n}\n",
+      "explanation": "Four constexpr masks describe each door sensor, and a helper function wraps the bitwise AND check so the output section reads clearly.",
       "keyPoints": [
-        "Scoped enums prevent accidental mixing of plain integers and flags.",
-        "Helper function has_flag encapsulates the bitwise check logic.",
-        "Casting mask to int before printing avoids interpreting it as char." 
+        "constexpr unsigned int flags document the meaning of each bit without introducing enums.",
+        "std::bitset<4> provides a padded binary view of the mask.",
+        "Printing the unsigned mask directly avoids unintended character conversions." 
       ]
     }
   ]

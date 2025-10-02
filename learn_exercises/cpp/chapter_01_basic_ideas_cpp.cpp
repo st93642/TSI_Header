@@ -18,10 +18,6 @@
 
 int main() {
     // TODO: Use std::cout with explicit std:: qualification to print the three lines above.
-
-    std::cout << "Hello World" << std::endl;
-    std::cout << "Name: TSI Student" << std::endl;
-    std::cout << "Age: 21" << std::endl;
     // TODO: Terminate each line with "\n" or std::endl; do not add extra spaces or text.
     return 0;
 }

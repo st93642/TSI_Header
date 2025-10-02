@@ -20,10 +20,6 @@
 
 int main(void) {
     // TODO: Use three printf calls that match the blueprint above exactly.
-
-    printf("Hello World\n");
-    printf("Name: TSI Student\n");
-    printf("Age: 21\n");
     // TODO: Maintain the capitalization and punctuation shown in the blueprint.
     return 0;
 }

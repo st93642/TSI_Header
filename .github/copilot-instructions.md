@@ -1,11 +1,13 @@
 # TSI Header - AI Coding Agent Instructions
 
 ## ⚠️ CRITICAL RULES
-
-# TSI Header - AI Coding Agent Instructions
-
-## ⚠️ CRITICAL RULES
 **DO NOT CREATE SUMMARY FILES** - Never create files like SUMMARY.md, STATUS.md, CHANGES.md, EXERCISES_SUMMARY.md, or any documentation files unless explicitly requested by the user.
+**ALWAYS APPLY TDD** - Before changing implementation code, add or update automated tests that should initially fail, then implement the changes to make them pass and rerun the suite.
+
+Learn module
+- **Chapter Text Source & Formatting Reminder**: Every chapter rewrite must draw primary source material from `ref.txt`, paraphrasing and expanding it, and all code snippets must stay in plain text with stylistic emphasis (color/italic/bold) instead of fenced code blocks—apply this consistently to every chapter in the curriculum.
+- Exercises to be added from the reference text (or online source, or your database) must include TDD-style tests that initially fail, then implement the solution to make them pass. Each exercise should be self-contained and runnable.
+
 
 ## Project Overview
 VS Code extension for code generation, header management, and productivity features supporting 147+ programming languages. Dual-language architecture: Ruby backend for header generation, JavaScript frontend for VS Code integration.
@@ -385,6 +387,7 @@ Every exercise now includes:
 - **Offline Tutorial Standard**: Treat every C/C++ lesson and exercise as a self-contained offline tutorial. Include all background information, build/run steps, troubleshooting tips, diagrams, and practice workflows a learner would need without internet access.
 - **Ref.txt Paraphrasing Mandate**: For every new or revised C/C++ lesson or chapter, mine `ref.txt` for subject matter, then craft an original write-up that paraphrases the concepts, adds fresh examples, ASCII/SVG diagrams, and offline-friendly in-editor exercises. Ensure the lesson remains self-contained and respects copyright by avoiding verbatim excerpts.
 - **Plain-Text Example Presentation**: When documenting lessons, rewrite code samples as plain text (no fenced code blocks) and rely on typographic emphasis—colors where supported, italics/bold elsewhere—to highlight keywords or syntax. Apply consistently across all chapters.
+- **Chapter Text Source & Formatting Reminder**: Every chapter rewrite must draw primary source material from `ref.txt`, paraphrasing and expanding it, and all code snippets must stay in plain text with stylistic emphasis (color/italic/bold) instead of fenced code blocks—apply this consistently to every chapter in the curriculum.
 
 #### Files Modified Summary
 **Major Changes**:

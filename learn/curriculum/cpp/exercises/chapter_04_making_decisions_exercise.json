@@ -4,7 +4,7 @@
   "description": "Build a kiosk that classifies visitor roles using nested conditionals and switch statements.",
   "difficulty": "beginner",
   "tags": ["conditionals", "switch", "control flow", "input"],
-  "starterCode": "#include <iostream>\n#include <string>\n\nint main() {\n    // Offline tutorial standard:\n    // Read two values from stdin in this order: role (string), age (int).\n    // role will be one of: student, researcher, guest.\n    // Implement an if-initialiser to validate the age (negative ages trigger an error message).\n    // Use a switch statement on the first character of the role to route to messages.\n    // Expected output format:\n    //   Role: student\n    //   Age: 19\n    //   Access: General Lab\n    //   Action: Issue day badge\n    // Age < 0 should produce:\n    //   Role: student\n    //   Age: -2\n    //   Error: invalid age\n    std::string role;\n    std::getline(std::cin >> std::ws, role);\n\n    int age{};\n    std::cin >> age;\n\n    // TODO: implement the decision logic here.\n\n    return 0;\n}\n",
+  "starterCode": "#include <iostream>\n#include <string>\n\nint main() {\n    // Offline tutorial standard:\n    // Read two values from stdin in this order: role (string), age (int).\n    // role will be one of: student, researcher, guest.\n    // Add a guard that prints an error line when age is negative.\n    // Use a switch statement on the first character of the role to route to messages.\n    // Expected output format:\n    //   Role: student\n    //   Age: 19\n    //   Access: General Lab\n    //   Action: Issue day badge\n    // Age < 0 should produce:\n    //   Role: student\n    //   Age: -2\n    //   Error: invalid age\n    std::string role;\n    std::getline(std::cin >> std::ws, role);\n\n    int age{};\n    std::cin >> age;\n\n    // TODO: implement the decision logic here.\n\n    return 0;\n}\n",
   "tests": [
     {
       "name": "student_case",
@@ -36,7 +36,7 @@
     }
   ],
   "hints": [
-    "Use an if initialiser (if (int age = ...; age < 0)) to validate input before the switch.",
+  "Validate age first with a simple if-statement; negative values end the program early.",
     "Switch on role.front() after converting to lowercase.",
     "Remember to print the Role and Age lines even when an error occurs.",
     "Break out of switch cases to avoid unintended fallthroughs." 
