@@ -355,6 +355,16 @@ Every exercise now includes:
 - **Difficulty Tags**: beginner, intermediate, advanced labels
 - **Empty Line After Comments**: Ensures cursor lands on writable line
 
+### C/C++ Dual-Language Exercise Clarity (Oct 2025)
+- **Explicit Starter Instructions**: When creating or updating any C/C++ exercise (`learn/curriculum/cpp/exercises/*.json`), write starter-code comments that spell out the exact values learners must declare, the order of computations, and the precise output lines (including capitalization and punctuation). Never rely on lesson text alone.
+- **Boolean Formatting**: For exercises involving `bool`, require students to convert the value to the exact words expected by the tests (`true/false`, `yes/no`, etc.) and mention the conversion explicitly in starter comments.
+- **Input Ordering**: If input is required, note the order the values must be read (e.g., "first value, then second value") and include representative sample inputs in the comments when helpful.
+- **Output Blueprint**: Provide a mini blueprint in comments showing the required lines (e.g., `//   Sum: <value>`). Ensure that the labels, spacing, and decimal precision match the `expected` strings in tests.
+- **Variant Parity**: Apply the same clarity to every variant (e.g., `_c`, `_cpp`). Both variants must include the identical values/formats relevant to their language.
+- **Test Alignment**: After editing exercises, update or verify the associated tests so the `expected` output matches the instructions exactly. If tests require formatted numbers, ensure the starter guidance calls out the formatter to use (`%.1f`, `std::setprecision(4)`, etc.).
+- **Regression Check**: Always run `ruby TEST_Suite/test_learn_module.rb` after modifying curriculum JSON to confirm the Learn module remains green.
+- **Future Modules**: When adding new modules beyond Module 1, follow this template immediately so learners receive consistent guidance across the entire C/C++ track.
+
 #### Files Modified Summary
 **Major Changes**:
 - `learn/curriculum/ruby/curriculum.json`: Added Module 7, numbered all modules/lessons

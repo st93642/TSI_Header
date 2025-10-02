@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 01 2025 13:18 st93642                                       */
+/*  Updated: Oct 02 2025 02:53 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -1008,7 +1008,15 @@ extern "C" {
     context.subscriptions.push(viewLearnProgressCommand);
 
     // Register Learn exercise test command
-    const runExerciseTestsCommand = vscode.commands.registerCommand('tsiheader.runExerciseTests', async () => {
+    const runExerciseTestsCommand = vscode.commands.registerCommand('tsiheader.runExerciseTests', async (runtimeLanguageArg, exerciseMetaArg) => {
+        let normalizedRuntimeArg = runtimeLanguageArg;
+        let normalizedExerciseMeta = exerciseMetaArg;
+
+        if (runtimeLanguageArg && typeof runtimeLanguageArg === 'object' && !Array.isArray(runtimeLanguageArg)) {
+            normalizedRuntimeArg = runtimeLanguageArg.language || runtimeLanguageArg.lang || undefined;
+            normalizedExerciseMeta = runtimeLanguageArg.exerciseMetadata || runtimeLanguageArg.metadata || exerciseMetaArg;
+        }
+
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             vscode.window.showWarningMessage(
@@ -1039,25 +1047,98 @@ extern "C" {
         // Determine language from file path
         const pathParts = filePath.split(path.sep);
         const learnExercisesIndex = pathParts.indexOf('learn_exercises');
-        const language = pathParts[learnExercisesIndex + 1];
+        let runtimeLanguage = normalizedRuntimeArg || pathParts[learnExercisesIndex + 1];
 
         try {
-            // Load exercise from file path
-            const exerciseId = fileName.replace(/\.(rb|py|js)$/, '');
-            const exercisePath = path.join(__dirname, '..', '..', 'learn', 'curriculum', language, 'exercises', `${exerciseId}.json`);
             const fs = require('fs');
-            
-            if (!fs.existsSync(exercisePath)) {
+            let exerciseMetadata = normalizedExerciseMeta || learnInstance.getExerciseMetadata(filePath);
+
+            if (!runtimeLanguage && exerciseMetadata?.variantLanguage) {
+                runtimeLanguage = exerciseMetadata.variantLanguage;
+            }
+
+            let baseExerciseId;
+            let curriculumLanguage = exerciseMetadata?.curriculumLanguage || pathParts[learnExercisesIndex - 1] || runtimeLanguage;
+            let variantId;
+
+            let exerciseJsonPath;
+            let exerciseData;
+
+            if (exerciseMetadata) {
+                baseExerciseId = exerciseMetadata.baseExerciseId || exerciseMetadata.baseExerciseFile || fileName.replace(/\.[^/.]+$/, '');
+                variantId = exerciseMetadata.variantId || fileName.replace(/\.[^/.]+$/, '');
+                exerciseJsonPath = path.join(__dirname, '..', '..', 'learn', 'curriculum', curriculumLanguage, 'exercises', `${exerciseMetadata.baseExerciseFile || baseExerciseId}.json`);
+            } else {
+                const exerciseId = fileName.replace(/\.(rb|py|js|cpp|c)$/, '');
+                baseExerciseId = exerciseId;
+                variantId = exerciseId;
+                exerciseJsonPath = path.join(__dirname, '..', '..', 'learn', 'curriculum', runtimeLanguage, 'exercises', `${exerciseId}.json`);
+                curriculumLanguage = runtimeLanguage;
+            }
+
+            if (!fs.existsSync(exerciseJsonPath)) {
                 await vscode.window.showErrorMessage(
-                    `❌ Exercise Not Found\n\nCouldn't find exercise file: ${exerciseId}.json`,
+                    `❌ Exercise Not Found\n\nCouldn't find exercise definition: ${path.basename(exerciseJsonPath)}`,
                     { modal: true },
                     'Got it!'
                 );
                 return;
             }
 
-            const exerciseContent = fs.readFileSync(exercisePath, 'utf8');
-            const exercise = JSON.parse(exerciseContent);
+            exerciseData = JSON.parse(fs.readFileSync(exerciseJsonPath, 'utf8'));
+
+            let variant = null;
+            if (Array.isArray(exerciseData.variants) && exerciseData.variants.length > 0) {
+                variant = exerciseData.variants.find(v => v.id === variantId) || exerciseData.variants[0];
+                if (!runtimeLanguage && variant?.language) {
+                    runtimeLanguage = variant.language;
+                }
+            }
+
+            const executionLanguage = (variant?.language || exerciseMetadata?.variantLanguage || runtimeLanguage || curriculumLanguage || 'cpp').toLowerCase();
+            const runnerTests = variant?.tests || exerciseData.tests || [];
+            const exerciseTitle = variant?.title || exerciseData.title || exerciseMetadata?.title || baseExerciseId;
+            const exerciseDescription = variant?.description || exerciseData.description || '';
+            const exerciseHints = variant?.hints || exerciseData.hints || [];
+            const exerciseDifficulty = variant?.difficulty || exerciseMetadata?.difficulty || exerciseData.difficulty || 'beginner';
+            const progressId = variant?.id || exerciseData.id || baseExerciseId;
+            const languageSuffixPattern = /_(c|cpp|python|java|javascript|ruby|typescript|ts|csharp|cs|go|rust|swift|kotlin|php)$/i;
+            const normalizeLessonId = (value) => {
+                if (!value) {
+                    return null;
+                }
+                let normalized = value.toString();
+                normalized = normalized.replace(/_exercise$/, '');
+                if (languageSuffixPattern.test(normalized)) {
+                    normalized = normalized.replace(languageSuffixPattern, '');
+                }
+                return normalized;
+            };
+
+            const baseExerciseForLesson = exerciseMetadata?.baseExerciseFile || baseExerciseId;
+            const lessonId = normalizeLessonId(
+                exerciseMetadata?.lessonId ||
+                baseExerciseForLesson ||
+                progressId ||
+                variant?.id
+            );
+
+            const exercise = {
+                id: progressId,
+                baseExerciseId,
+                baseExerciseFile: exerciseMetadata?.baseExerciseFile || baseExerciseId,
+                variantId: variant?.id,
+                title: exerciseTitle,
+                description: exerciseDescription,
+                language: executionLanguage,
+                curriculumLanguage,
+                tests: runnerTests,
+                hints: exerciseHints,
+                difficulty: exerciseDifficulty,
+                progressId,
+                hasVariants: Array.isArray(exerciseData.variants) && exerciseData.variants.length > 0,
+                lessonId
+            };
 
             // Run with progress indicator
             await vscode.window.withProgress({
@@ -1069,7 +1150,7 @@ extern "C" {
                 
                 try {
                     // Run the exercise - this will show modal dialogs
-                    const result = await learnInstance.runExercise(language, exercise);
+                    const result = await learnInstance.runExercise(curriculumLanguage, exercise);
                     console.log('Exercise result:', result);
                     return result;
                 } catch (error) {
@@ -1089,6 +1170,130 @@ extern "C" {
     });
 
     context.subscriptions.push(runExerciseTestsCommand);
+
+    // C++ Learning Commands
+    const learnCppCommand = vscode.commands.registerCommand('tsiheader.learnCpp', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+
+            vscode.window.showInformationMessage(
+                '⚙️ Start C++ Learning Journey?\n\n' +
+                'Launch an interactive C++ curriculum featuring:\n' +
+                '• 8 modules covering fundamentals to advanced topics\n' +
+                '• Hands-on exercises with automated feedback\n' +
+                '• Progress tracking, streaks, and achievements\n\n' +
+                'Ready to begin?',
+                { modal: true },
+                'Start Learning',
+                'Browse Lessons',
+                'View Progress',
+                'Cancel'
+            ).then(async selection => {
+                if (selection === 'Start Learning') {
+                    await learnInstance.startLearning('cpp');
+                } else if (selection === 'Browse Lessons') {
+                    await learnInstance.browseLessons('cpp');
+                } else if (selection === 'View Progress') {
+                    try {
+                        const stats = await learnInstance.getStats('cpp');
+                        vscode.window.showInformationMessage(
+                            `📊 Your C++ Learning Progress\n\n` +
+                            `Lessons Completed: ${stats.lessonsCompleted}\n` +
+                            `Exercises Completed: ${stats.exercisesCompleted}\n` +
+                            `Current Streak: ${stats.currentStreak} days\n` +
+                            `Study Time: ${stats.totalStudyTime} minutes\n` +
+                            `Achievements: ${stats.achievements}`,
+                            { modal: true },
+                            'Continue Learning',
+                            'Got it!'
+                        ).then(choice => {
+                            if (choice === 'Continue Learning') {
+                                learnInstance.startLearning('cpp');
+                            }
+                        });
+                    } catch (progressError) {
+                        vscode.window.showErrorMessage(`Error loading progress: ${progressError.message}`, { modal: true }, 'OK');
+                    }
+                }
+            });
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error starting C++ learning: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(learnCppCommand);
+
+    const browseLessonsCppCommand = vscode.commands.registerCommand('tsiheader.browseLessonsCpp', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+            await learnInstance.browseLessons('cpp');
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error browsing C++ lessons: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(browseLessonsCppCommand);
+
+    const viewLearnProgressCppCommand = vscode.commands.registerCommand('tsiheader.viewLearnProgressCpp', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+
+            const stats = await learnInstance.getStats('cpp');
+
+            const message = `📊 C++ Learning Progress\n\n`
+                + `Lessons Completed: ${stats.lessonsCompleted}\n`
+                + `Exercises Completed: ${stats.exercisesCompleted}\n`
+                + `Current Streak: ${stats.currentStreak} days\n`
+                + `Total Study Time: ${stats.totalStudyTime} minutes\n`
+                + `Achievements: ${stats.achievements}\n\n`
+                + `Keep up the great work! 🚀`;
+
+            const action = await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                'Continue Learning',
+                'View All Lessons'
+            );
+
+            if (action === 'Continue Learning') {
+                await learnInstance.startLearning('cpp');
+            } else if (action === 'View All Lessons') {
+                await learnInstance.browseLessons('cpp');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing C++ progress: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewLearnProgressCppCommand);
+
+    const runExerciseTestsCppCommand = vscode.commands.registerCommand('tsiheader.runExerciseTestsCpp', async () => {
+        const activeEditor = vscode.window.activeTextEditor;
+        if (!activeEditor) {
+            vscode.window.showWarningMessage('Please open a C or C++ exercise file first.');
+            return;
+        }
+
+        const filePath = activeEditor.document.fileName;
+        const isCFile = filePath.endsWith('.c');
+        const isCppFile = filePath.endsWith('.cpp');
+        if (!filePath.includes('learn_exercises') || (!isCFile && !isCppFile)) {
+            vscode.window.showWarningMessage('Please open a C or C++ exercise file (.c or .cpp) from the learn_exercises directory.');
+            return;
+        }
+
+        // Delegate to the unified learn exercise test runner
+        if (isCFile) {
+            await vscode.commands.executeCommand('tsiheader.runExerciseTests', { language: 'c' });
+        } else {
+            await vscode.commands.executeCommand('tsiheader.runExerciseTests');
+        }
+    });
+
+    context.subscriptions.push(runExerciseTestsCppCommand);
 
     // Register feature module commands
     // Code quality enforcement module removed

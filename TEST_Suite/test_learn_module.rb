@@ -468,10 +468,18 @@ class TestLearnModule < TestModule
           # Extract the core theme from both titles (ignoring "Lesson X.Y:" and "Exercise X.Y:" prefixes)
           lesson_core = lesson_title.gsub(/^Lesson\s+\d+\.\d+:\s*/, '').strip
           exercise_core = exercise_title.gsub(/^Exercise\s+\d+\.\d+:\s*/, '').strip
+          starter_code = (exercise_data['starterCode'] || '').strip
+          exercise_tests = exercise_data['tests'] || []
           
           # Check if core themes match
           unless lesson_core.downcase == exercise_core.downcase
             inconsistent_components << "#{id}: lesson '#{lesson_core}' vs exercise '#{exercise_core}'"
+          end
+          if starter_code.empty?
+            inconsistent_components << "#{id}: starterCode is blank in exercise definition"
+          end
+          if exercise_tests.empty?
+            inconsistent_components << "#{id}: exercise has no tests defined"
           end
           
           # Check if solution has correct exercise ID
@@ -479,6 +487,14 @@ class TestLearnModule < TestModule
           solution_exercise_id = solution_data['exerciseId'] || solution_data['id'] || ""
           unless solution_exercise_id == "#{id}_exercise" || solution_exercise_id == id
             inconsistent_components << "#{id}: solution has wrong exerciseId '#{solution_exercise_id}'"
+          end
+          solution_source = (solution_data['code'] || solution_data['solution'] || '').strip
+          solution_explanation = (solution_data['explanation'] || '').strip
+          if solution_source.empty?
+            inconsistent_components << "#{id}: solution is missing code content"
+          end
+          if solution_explanation.empty?
+            inconsistent_components << "#{id}: solution explanation is missing"
           end
           
           # Check if starter file has theme-appropriate content
@@ -488,6 +504,9 @@ class TestLearnModule < TestModule
                              starter_content.include?('TSI') # Our themed exercises should mention TSI
           unless starter_has_theme
             inconsistent_components << "#{id}: starter file doesn't match theme '#{lesson_core}'"
+          end
+          if starter_content.strip.empty?
+            inconsistent_components << "#{id}: starter file is empty"
           end
           
         rescue JSON::ParserError, StandardError => e

@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
   "description": "Code generation and headers for 120+ languages with 100% quality assurance",
-  "version": "5.3.2",
+  "version": "5.3.3",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -258,6 +258,30 @@
         "title": "Run Exercise Tests",
         "category": "Learn",
         "icon": "$(play)"
+      },
+      {
+        "command": "tsiheader.learnCpp",
+        "title": "Learn C++",
+        "category": "Learn",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "tsiheader.browseLessonsCpp",
+        "title": "Browse All C++ Lessons",
+        "category": "Learn",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "tsiheader.viewLearnProgressCpp",
+        "title": "View C++ Learning Progress",
+        "category": "Learn",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "tsiheader.runExerciseTestsCpp",
+        "title": "Run C++ Exercise Tests",
+        "category": "Learn",
+        "icon": "$(play)"
       }
     ],
     "menus": {
@@ -315,6 +339,11 @@
         {
           "command": "tsiheader.runExerciseTests",
           "when": "resourcePath =~ /learn_exercises/",
+          "group": "9_learn"
+        },
+        {
+          "command": "tsiheader.runExerciseTestsCpp",
+          "when": "resourcePath =~ /learn_exercises.*\\.cpp$/",
           "group": "9_learn"
         }
       ],

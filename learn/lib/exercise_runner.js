@@ -68,6 +68,11 @@ class ExerciseRunner {
                 return await this.runPythonTests(code, tests);
             case 'javascript':
                 return await this.runJavaScriptTests(code, tests);
+            case 'cpp':
+            case 'c++':
+                return await this.runCppTests(code, tests, { language });
+            case 'c':
+                return await this.runCppTests(code, tests, { language });
             default:
                 throw new Error(`Testing not yet implemented for ${language}`);
         }
@@ -621,6 +626,224 @@ class ExerciseRunner {
                 failures: [{ message: error.message }]
             };
         }
+    }
+
+    /**
+     * Run C++ tests
+     * @param {string} code - User's C++ code
+     * @param {Array} tests - Test cases
+     * @returns {Promise<Object>} Test results
+     */
+    async runCppTests(code, tests, options = {}) {
+        const tempDir = path.join(__dirname, '..', '..', '.temp_tests');
+        const totalTests = tests.length;
+        const language = (options.language || 'cpp').toLowerCase();
+        const isC = language === 'c';
+
+        try {
+            await fs.mkdir(tempDir, { recursive: true });
+
+            const sourceExtension = isC ? 'c' : 'cpp';
+            const sourceFile = path.join(tempDir, `exercise.${sourceExtension}`);
+            await fs.writeFile(sourceFile, code);
+
+            const executableFile = path.join(tempDir, 'exercise');
+            try {
+                const compiler = isC ? 'gcc' : 'g++';
+                const standardFlag = isC ? '-std=c11' : '-std=c++17';
+                execSync(`${compiler} ${standardFlag} -o "${executableFile}" "${sourceFile}"`, {
+                    cwd: tempDir,
+                    stdio: 'pipe'
+                });
+            } catch (compileError) {
+                const errorMessage = compileError.stderr?.toString() || compileError.stdout?.toString() || compileError.message;
+                const failures = [{
+                    message: `Compilation failed:\n${errorMessage.trim()}`
+                }];
+
+                return {
+                    passed: false,
+                    success: false,
+                    score: 0,
+                    total: totalTests,
+                    totalTests,
+                    failedTests: totalTests,
+                    results: tests.map(test => ({
+                        name: test.name,
+                        passed: false,
+                        error: `Compilation failed: ${errorMessage.trim()}`
+                    })),
+                    failures,
+                    hint: 'Compilation failed. Check the error details and ensure your code follows C++ syntax.',
+                    hints: this.getCppHints([], language)
+                };
+            }
+
+            const results = [];
+            let passedTests = 0;
+
+            for (const test of tests) {
+                try {
+                    if (test.type === 'output') {
+                        const execOptions = {
+                            cwd: tempDir,
+                            encoding: 'utf8',
+                            timeout: 5000
+                        };
+                        if (test.input !== undefined) {
+                            execOptions.input = String(test.input);
+                        }
+
+                        const output = execSync(`"${executableFile}"`, execOptions).trim();
+
+                        const passed = output === String(test.expected).trim();
+                        if (passed) passedTests++;
+
+                        results.push({
+                            name: test.name,
+                            passed,
+                            expected: test.expected,
+                            actual: output,
+                            input: test.input,
+                            error: passed ? null : `Expected "${test.expected}" but got "${output}"`
+                        });
+                    } else if (test.type === 'output_contains') {
+                        const execOptions = {
+                            cwd: tempDir,
+                            encoding: 'utf8',
+                            timeout: 5000
+                        };
+                        if (test.input !== undefined) {
+                            execOptions.input = String(test.input);
+                        }
+
+                        const output = execSync(`"${executableFile}"`, execOptions).trim();
+                        const expectedFragment = String(test.expected).trim();
+                        const passed = output.includes(expectedFragment);
+                        if (passed) passedTests++;
+
+                        results.push({
+                            name: test.name,
+                            passed,
+                            expected: `Output to include: ${expectedFragment}`,
+                            actual: output,
+                            input: test.input,
+                            error: passed ? null : `Expected output to include "${expectedFragment}" but got "${output}"`
+                        });
+                    } else {
+                        results.push({
+                            name: test.name,
+                            passed: false,
+                            error: 'Only output-based tests are currently supported for C and C++ exercises.'
+                        });
+                    }
+                } catch (runError) {
+                    const errorMessage = runError.stderr?.toString() || runError.stdout?.toString() || runError.message;
+                    results.push({
+                        name: test.name,
+                        passed: false,
+                        error: `Runtime error: ${errorMessage.trim()}`,
+                        input: test.input
+                    });
+                }
+            }
+
+            const failures = results
+                .filter(result => !result.passed)
+                .map(result => ({
+                    message: result.error || `Test "${result.name}" failed.`
+                }));
+
+            const passedAll = passedTests === totalTests;
+
+            return {
+                passed: passedAll,
+                success: passedAll,
+                score: passedTests,
+                total: totalTests,
+                totalTests,
+                failedTests: totalTests - passedTests,
+                results,
+                failures,
+                hint: passedAll ? undefined : 'Review the failure details and ensure your output matches exactly.',
+                hints: passedAll ? [] : this.getCppHints(results, language)
+            };
+
+        } catch (error) {
+            const errorMessage = error.stderr?.toString() || error.stdout?.toString() || error.message;
+            const failures = [{
+                message: `Test execution failed: ${errorMessage.trim()}`
+            }];
+
+            return {
+                passed: false,
+                success: false,
+                score: 0,
+                total: totalTests,
+                totalTests,
+                failedTests: totalTests,
+                results: tests.map(test => ({
+                    name: test.name,
+                    passed: false,
+                    error: `Test execution failed: ${errorMessage.trim()}`
+                })),
+                failures,
+                hint: 'There was an error running the tests. Make sure your code compiles and runs without errors.',
+                hints: ['There was an error running the tests', 'Check that your code compiles correctly']
+            };
+        } finally {
+            try {
+                await fs.rm(tempDir, { recursive: true, force: true });
+            } catch (cleanupError) {
+                // Ignore cleanup errors
+            }
+        }
+    }
+
+    /**
+     * Get C++ specific hints based on test results
+     * @param {Array} results - Test results
+     * @returns {Array} Hints
+     */
+    getCppHints(results, language = 'cpp') {
+        const hints = [];
+        const isC = (language || '').toLowerCase() === 'c';
+        
+        for (const result of results) {
+            if (!result.passed && result.error) {
+                if (result.error.includes('Compilation failed')) {
+                    hints.push('Check your syntax - make sure all statements end with semicolons');
+                    hints.push(
+                        isC
+                            ? 'Verify that you have included the correct headers like <stdio.h>'
+                            : 'Verify that you have included all necessary headers like <iostream>'
+                    );
+                } else if (result.error.includes('Runtime error')) {
+                    hints.push('Your program compiled but had a runtime error');
+                    hints.push('Check for infinite loops or array bounds issues');
+                } else if (result.error.includes('Expected')) {
+                    hints.push('Your output doesn\'t match the expected result');
+                    hints.push(
+                        isC
+                            ? 'Check your printf statements and make sure you\'re printing exactly what\'s expected'
+                            : 'Check your cout statements and make sure you\'re printing exactly what\'s expected'
+                    );
+                }
+            }
+        }
+        
+        // Add general hints if no specific ones were found
+        if (hints.length === 0) {
+            hints.push('Review the lesson content for examples');
+            hints.push('Make sure your output exactly matches the expected format');
+            hints.push(
+                isC
+                    ? 'Check that you are using printf with the correct format specifiers'
+                    : 'Check that you\'re using cout correctly with the << operator'
+            );
+        }
+        
+        return hints.slice(0, 3); // Limit to 3 hints
     }
 
     /**

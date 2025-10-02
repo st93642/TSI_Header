@@ -22,16 +22,30 @@ class ProgressTracker {
             totalTimeMinutes: 0,
             achievements: []
         };
-        
+
         const stored = this.context.globalState.get(progressKey);
-        
-        // If nothing stored, return defaults
+
         if (!stored) {
             return defaultProgress;
         }
-        
-        // Merge stored data with defaults to ensure all properties exist
-        return {
+
+        const normalizedCompleted = (stored.completed || [])
+            .map(id => this.normalizeLessonId(id))
+            .filter(Boolean);
+        const uniqueCompleted = this.ensureUnique(normalizedCompleted);
+        const uniqueExercises = this.ensureUnique(stored.exercisesCompleted || []);
+        const uniqueAchievements = this.ensureUnique(stored.achievements || []);
+
+        const sanitizedProgress = {
+            completed: uniqueCompleted,
+            exercisesCompleted: uniqueExercises,
+            streakDays: stored.streakDays || 0,
+            lastStudyDate: stored.lastStudyDate || null,
+            totalTimeMinutes: stored.totalTimeMinutes || 0,
+            achievements: uniqueAchievements
+        };
+
+        const storedNormalized = {
             completed: stored.completed || [],
             exercisesCompleted: stored.exercisesCompleted || [],
             streakDays: stored.streakDays || 0,
@@ -39,6 +53,12 @@ class ProgressTracker {
             totalTimeMinutes: stored.totalTimeMinutes || 0,
             achievements: stored.achievements || []
         };
+
+        if (JSON.stringify(sanitizedProgress) !== JSON.stringify(storedNormalized)) {
+            await this.context.globalState.update(progressKey, sanitizedProgress);
+        }
+
+        return sanitizedProgress;
     }
 
     /**
@@ -46,30 +66,62 @@ class ProgressTracker {
      * @param {string} language - Programming language
      * @param {string} exerciseId - Exercise ID
      */
-    async recordCompletion(language, exerciseId) {
+    async recordCompletion(language, exerciseId, options = {}) {
         const progress = await this.getProgress(language);
-        
-        if (!progress.exercisesCompleted.includes(exerciseId)) {
+
+        if (exerciseId && !progress.exercisesCompleted.includes(exerciseId)) {
             progress.exercisesCompleted.push(exerciseId);
         }
-        
-        // Extract lesson ID from exercise ID (format: lessonId_exercise)
-        const lessonId = exerciseId.replace(/_exercise$/, '');
-        
-        // Also mark the lesson as complete
-        if (!progress.completed.includes(lessonId)) {
-            progress.completed.push(lessonId);
+
+        const { lessonId: explicitLessonId = null, baseExerciseId = null } = options;
+
+        let resolvedLessonId = explicitLessonId;
+
+        if (!resolvedLessonId && baseExerciseId) {
+            resolvedLessonId = baseExerciseId.replace(/_exercise$/, '');
         }
-        
-        // Update streak
+
+        if (!resolvedLessonId && exerciseId) {
+            resolvedLessonId = this.normalizeLessonId(exerciseId);
+        }
+
+        if (resolvedLessonId) {
+            const normalizedLessonId = this.normalizeLessonId(resolvedLessonId);
+            progress.completed = (progress.completed || [])
+                .filter(id => this.normalizeLessonId(id) !== normalizedLessonId);
+            progress.completed.push(normalizedLessonId);
+        }
+
+        progress.completed = this.ensureUnique(progress.completed || []);
+        progress.exercisesCompleted = this.ensureUnique(progress.exercisesCompleted || []);
+
         await this.updateStreak(progress);
-        
-        // Check for achievements
         await this.checkAchievements(language, progress);
-        
-        // Save progress
+
         const progressKey = `learn_progress_${language}`;
         await this.context.globalState.update(progressKey, progress);
+
+        return progress;
+    }
+
+    async markLessonComplete(language, lessonId) {
+        const progress = await this.getProgress(language);
+
+        if (lessonId) {
+            const normalizedLessonId = this.normalizeLessonId(lessonId);
+            progress.completed = (progress.completed || [])
+                .filter(id => this.normalizeLessonId(id) !== normalizedLessonId);
+            progress.completed.push(normalizedLessonId);
+            progress.completed = this.ensureUnique(progress.completed);
+        }
+
+        await this.updateStreak(progress);
+        await this.checkAchievements(language, progress);
+
+        const progressKey = `learn_progress_${language}`;
+        await this.context.globalState.update(progressKey, progress);
+
+        return progress;
     }
 
     /**
@@ -214,6 +266,29 @@ class ProgressTracker {
     async getLeaderboard() {
         // Placeholder for future implementation
         return [];
+    }
+
+    ensureUnique(values) {
+        if (!Array.isArray(values)) {
+            return [];
+        }
+        return Array.from(new Set(values.filter(Boolean)));
+    }
+
+    normalizeLessonId(lessonId) {
+        if (!lessonId) {
+            return null;
+        }
+
+        let normalized = lessonId.toString();
+        normalized = normalized.replace(/_exercise$/, '');
+
+        const languageSuffixPattern = /_(c|cpp|python|java|javascript|ruby|typescript|ts|csharp|cs|go|rust|swift|kotlin|php)$/i;
+        if (languageSuffixPattern.test(normalized)) {
+            normalized = normalized.replace(languageSuffixPattern, '');
+        }
+
+        return normalized;
     }
 }
 

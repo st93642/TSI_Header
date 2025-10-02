@@ -1,0 +1,210 @@
+{
+  "language": "C++",
+  "version": "1.0.0",
+  "description": "Interactive C++ programming curriculum from beginner to advanced",
+  "estimatedHours": 45,
+  "modules": [
+    {
+      "id": "basics",
+      "title": "Module 1: C++ Basics",
+      "description": "Learn the fundamentals of C++ programming",
+      "lessons": [
+        {
+          "id": "hello_world",
+          "title": "Lesson 1.1: Hello World",
+          "duration": 20,
+          "difficulty": "beginner",
+          "exerciseVariants": [
+            { "id": "hello_world_c", "language": "c", "title": "Exercise 1.1A: Hello World in C" },
+            { "id": "hello_world_cpp", "language": "cpp", "title": "Exercise 1.1B: Hello World in C++" }
+          ]
+        },
+        {
+          "id": "variables_types",
+          "title": "Lesson 1.2: Variables and Data Types",
+          "duration": 25,
+          "difficulty": "beginner",
+          "exerciseVariants": [
+            { "id": "variables_types_c", "language": "c", "title": "Exercise 1.2A: Variables in C" },
+            { "id": "variables_types_cpp", "language": "cpp", "title": "Exercise 1.2B: Variables in C++" }
+          ]
+        },
+        {
+          "id": "input_output",
+          "title": "Lesson 1.3: Input and Output",
+          "duration": 25,
+          "difficulty": "beginner",
+          "exerciseVariants": [
+            { "id": "input_output_c", "language": "c", "title": "Exercise 1.3A: Input and Output in C" },
+            { "id": "input_output_cpp", "language": "cpp", "title": "Exercise 1.3B: Input and Output in C++" }
+          ]
+        },
+        {
+          "id": "constants",
+          "title": "Lesson 1.4: Constants and Preprocessor",
+          "duration": 20,
+          "difficulty": "beginner",
+          "exerciseVariants": [
+            { "id": "constants_c", "language": "c", "title": "Exercise 1.4A: Constants in C" },
+            { "id": "constants_cpp", "language": "cpp", "title": "Exercise 1.4B: Constants in Modern C++" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control_flow",
+      "title": "Module 2: Control Flow",
+      "description": "Master conditional statements and loops",
+      "lessons": [
+        {
+          "id": "conditionals",
+          "title": "Lesson 2.1: If Statements and Conditionals",
+          "duration": 30,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "switch_case",
+          "title": "Lesson 2.2: Switch Statements",
+          "duration": 25,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "loops",
+          "title": "Lesson 2.3: Loops (for, while, do-while)",
+          "duration": 35,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "break_continue",
+          "title": "Lesson 2.4: Break and Continue",
+          "duration": 20,
+          "difficulty": "beginner"
+        }
+      ]
+    },
+    {
+      "id": "functions",
+      "title": "Module 3: Functions",
+      "description": "Learn function declaration, definition, and advanced concepts",
+      "lessons": [
+        {
+          "id": "function_basics",
+          "title": "Lesson 3.1: Function Basics",
+          "duration": 30,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "function_overloading",
+          "title": "Lesson 3.2: Function Overloading",
+          "duration": 25,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "default_parameters",
+          "title": "Lesson 3.3: Default Parameters",
+          "duration": 20,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "recursion",
+          "title": "Lesson 3.4: Recursion",
+          "duration": 35,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "arrays_pointers",
+      "title": "Module 4: Arrays and Pointers",
+      "description": "Master arrays, pointers, and memory management",
+      "lessons": [
+        {
+          "id": "arrays",
+          "title": "Lesson 4.1: Arrays",
+          "duration": 30,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "pointers",
+          "title": "Lesson 4.2: Pointers",
+          "duration": 40,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "dynamic_memory",
+          "title": "Lesson 4.3: Dynamic Memory Allocation",
+          "duration": 35,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "references",
+          "title": "Lesson 4.4: References",
+          "duration": 25,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "oop",
+      "title": "Module 5: Object-Oriented Programming",
+      "description": "Learn classes, objects, inheritance, and polymorphism",
+      "lessons": [
+        {
+          "id": "classes_objects",
+          "title": "Lesson 5.1: Classes and Objects",
+          "duration": 40,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "constructors_destructors",
+          "title": "Lesson 5.2: Constructors and Destructors",
+          "duration": 35,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "inheritance",
+          "title": "Lesson 5.3: Inheritance",
+          "duration": 40,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "polymorphism",
+          "title": "Lesson 5.4: Polymorphism",
+          "duration": 45,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "title": "Module 6: Advanced C++",
+      "description": "Advanced topics including templates, STL, and modern C++",
+      "lessons": [
+        {
+          "id": "templates",
+          "title": "Lesson 6.1: Templates",
+          "duration": 50,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "stl_containers",
+          "title": "Lesson 6.2: STL Containers",
+          "duration": 45,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "stl_algorithms",
+          "title": "Lesson 6.3: STL Algorithms",
+          "duration": 40,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "exception_handling",
+          "title": "Lesson 6.4: Exception Handling",
+          "duration": 35,
+          "difficulty": "advanced"
+        }
+      ]
+    }
+  ]
+}

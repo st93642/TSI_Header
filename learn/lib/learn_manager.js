@@ -4,14 +4,16 @@
 
 const path = require('path');
 const fs = require('fs').promises;
+const ProgressTracker = require('./progress_tracker');
 
 class LearnManager {
-    constructor(context, vscode) {
+    constructor(context, vscode, progressTracker = null) {
         this.context = context;
         this.vscode = vscode;
         this.curriculumCache = new Map();
         this.currentLessonPanel = null; // Track current lesson panel
         this.currentExerciseEditor = null; // Track current exercise editor
+        this.progressTracker = progressTracker || new ProgressTracker(context);
     }
 
     /**
@@ -104,7 +106,8 @@ class LearnManager {
                     return {
                         ...lesson,
                         moduleTitle: module.title,
-                        moduleId: module.id
+                        moduleId: module.id,
+                        exerciseVariants: lesson.exerciseVariants || []
                     };
                 }
             }
@@ -156,7 +159,10 @@ class LearnManager {
                 async message => {
                     switch (message.command) {
                         case 'startExercise':
-                            await this.startExercise(language, lesson, message.exerciseId);
+                            await this.startExercise(language, lesson, message.exerciseId, {
+                                variantId: message.exerciseVariantId,
+                                exerciseLanguage: message.exerciseLanguage
+                            });
                             break;
                         case 'completeLesson':
                             await this.completeLesson(language, lesson.id);
@@ -187,6 +193,20 @@ class LearnManager {
         // Convert markdown to HTML (simplified)
         const htmlContent = this.markdownToHtml(content);
         
+        const exerciseVariants = Array.isArray(lesson.exerciseVariants) ? lesson.exerciseVariants : [];
+        const exerciseConfig = {
+            baseExerciseId: `${lesson.id}_exercise`,
+            variants: exerciseVariants
+        };
+
+        const variantButtonsHtml = exerciseVariants.length > 0
+            ? exerciseVariants.map(variant => `
+                <button class="exercise-button" onclick="startExerciseVariant('${variant.id}', '${variant.language}')">
+                    ${variant.language === 'c' ? '🇨 ' : '🇨++ '} ${this.escapeHtml(variant.title || variant.id)}
+                </button>
+            `).join('\n')
+            : '<button class="exercise-button" onclick="startDefaultExercise()">\n            📝 Start Practice Exercise\n        </button>';
+
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -326,9 +346,7 @@ class LearnManager {
     ${htmlContent}
     
     <div class="button-container">
-        <button class="exercise-button" onclick="startExercise()">
-            📝 Start Practice Exercise
-        </button>
+        ${variantButtonsHtml}
         <button class="exercise-button complete-button" onclick="completeLesson()">
             ✅ Mark as Complete
         </button>
@@ -336,11 +354,21 @@ class LearnManager {
     
     <script>
         const vscode = acquireVsCodeApi();
+        const exerciseConfig = ${JSON.stringify(exerciseConfig)};
         
-        function startExercise() {
+        function startDefaultExercise() {
             vscode.postMessage({
                 command: 'startExercise',
-                exerciseId: '${lesson.id}_exercise'
+                exerciseId: exerciseConfig.baseExerciseId
+            });
+        }
+
+        function startExerciseVariant(variantId, variantLanguage) {
+            vscode.postMessage({
+                command: 'startExercise',
+                exerciseId: exerciseConfig.baseExerciseId,
+                exerciseVariantId: variantId,
+                exerciseLanguage: variantLanguage
             });
         }
         
@@ -433,17 +461,32 @@ class LearnManager {
      * @param {Object} lesson - The lesson
      * @param {string} exerciseId - Exercise ID
      */
-    async startExercise(language, lesson, exerciseId) {
+    async startExercise(language, lesson, exerciseId, options = {}) {
         try {
             const exercisePath = path.join(__dirname, '..', 'curriculum', language, 'exercises', `${exerciseId}.json`);
             const exerciseContent = await fs.readFile(exercisePath, 'utf8');
             const exercise = JSON.parse(exerciseContent);
-            
-            // Close the lesson panel when starting exercise
-            if (this.currentLessonPanel) {
-                this.currentLessonPanel.dispose();
-                this.currentLessonPanel = null;
+
+            const variantId = options.variantId;
+            const exerciseLanguage = (options.exerciseLanguage || (variantId ? null : language) || language).toLowerCase();
+
+            let variant = null;
+            if (Array.isArray(exercise.variants) && exercise.variants.length > 0) {
+                variant = variantId
+                    ? exercise.variants.find(v => v.id === variantId)
+                    : exercise.variants[0];
+                if (!variant) {
+                    variant = exercise.variants[0];
+                }
             }
+
+            const runtimeLanguage = (variant && variant.language) ? variant.language.toLowerCase() : exerciseLanguage;
+            const starterCode = variant?.starterCode ?? exercise.starterCode ?? '';
+            const tests = variant?.tests ?? exercise.tests ?? [];
+            const hints = variant?.hints ?? exercise.hints ?? [];
+            const difficulty = variant?.difficulty ?? exercise.difficulty ?? lesson.difficulty;
+            const variantProgressId = variant?.id || exercise.id;
+            const variantTitle = variant?.title || exercise.title || lesson.title;
             
             // Create exercise file in workspace
             const workspaceFolder = this.vscode.workspace.workspaceFolders?.[0];
@@ -456,7 +499,15 @@ class LearnManager {
                 return;
             }
             
-            const exerciseFilePath = path.join(workspaceFolder.uri.fsPath, 'learn_exercises', language, `${exerciseId}.${this.getFileExtension(language)}`);
+            const exerciseDirectoryLanguage = runtimeLanguage || language;
+            const fileExtension = this.getFileExtension(exerciseDirectoryLanguage);
+            const targetExerciseId = variant ? variant.id : exercise.id || exerciseId;
+            const exerciseFilePath = path.join(
+                workspaceFolder.uri.fsPath,
+                'learn_exercises',
+                exerciseDirectoryLanguage,
+                `${targetExerciseId}.${fileExtension}`
+            );
             
             // Close previous exercise editor if it exists
             if (this.currentExerciseEditor) {
@@ -496,11 +547,26 @@ class LearnManager {
             
             // Write starter code only if file is empty or has minimal content
             if (shouldWriteStarterCode) {
-                await fs.writeFile(exerciseFilePath, exercise.starterCode || '# Write your code here\n');
+                const starterContent = starterCode || '# Write your code here\n';
+                await fs.writeFile(exerciseFilePath, starterContent);
             }
             
             // Store reference to current exercise file
             this.currentExerciseEditor = exerciseFilePath;
+            const exerciseMetadata = {
+                lessonId: lesson.id,
+                moduleId: lesson.moduleId,
+                moduleTitle: lesson.moduleTitle,
+                baseExerciseId: exercise.id || exerciseId,
+                baseExerciseFile: exerciseId,
+                variantId: targetExerciseId,
+                variantLanguage: exerciseDirectoryLanguage,
+                difficulty,
+                title: variantTitle,
+                hasVariants: Array.isArray(exercise.variants) && exercise.variants.length > 0,
+                curriculumLanguage: language
+            };
+            await this.context.workspaceState.update(`learn_exercise_meta_${exerciseFilePath}`, exerciseMetadata);
             
             // Open the file
             const doc = await this.vscode.workspace.openTextDocument(exerciseFilePath);
@@ -511,18 +577,21 @@ class LearnManager {
             const text = doc.getText();
             const lines = text.split('\n');
             let targetLine = -1;
+            const commentPrefixes = ['#', '//', '/*'];
             
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i].trim();
                 // Look for comment lines that indicate where to write code
-                if (line.startsWith('#') && 
+                if (commentPrefixes.some(prefix => line.startsWith(prefix)) && 
                     (line.includes('Your code here') || 
                      line.includes('your code here') ||
                      line.includes('Use if') ||
                      line.includes('Use a') ||
                      line.includes('Use') ||
                      line.includes('Return') ||
-                     line.includes('Calculate'))) {
+                     line.includes('Calculate') ||
+                     line.includes('TODO') ||
+                     line.includes('todo'))) {
                     // Check if next line is empty or not
                     const nextLineIndex = i + 1;
                     if (nextLineIndex < lines.length) {
@@ -552,13 +621,19 @@ class LearnManager {
             }
             
             this.vscode.window.showInformationMessage(
-                `Exercise "${exercise.title}" opened. Complete the code and run tests!`,
+                `Exercise "${variantTitle}" opened (${exerciseDirectoryLanguage.toUpperCase()}). Complete the code and run tests!`,
                 { modal: true },
                 'Run Tests',
                 'Got it!'
             ).then(selection => {
                 if (selection === 'Run Tests') {
-                    this.vscode.commands.executeCommand('tsiheader.runExerciseTests', language, exercise);
+                    this.vscode.commands.executeCommand('tsiheader.runExerciseTests', exerciseDirectoryLanguage, {
+                        baseExerciseId: exerciseMetadata.baseExerciseId,
+                        variantId: exerciseMetadata.variantId,
+                        curriculumLanguage: language,
+                        title: variantTitle,
+                        variantLanguage: exerciseMetadata.variantLanguage
+                    });
                 }
             });
             
@@ -594,19 +669,13 @@ class LearnManager {
      * @param {string} lessonId - Lesson ID
      */
     async completeLesson(language, lessonId) {
-        const progressKey = `learn_progress_${language}`;
-        const progress = this.context.globalState.get(progressKey, { completed: [] });
-        
-        if (!progress.completed.includes(lessonId)) {
-            progress.completed.push(lessonId);
-            await this.context.globalState.update(progressKey, progress);
-            
-            // Load curriculum to find next lesson
+        try {
+            const progress = await this.progressTracker.markLessonComplete(language, lessonId);
+
             const curriculum = await this.loadCurriculum(language);
             const nextLesson = this.getNextLesson(curriculum, progress);
-            
+
             if (nextLesson) {
-                // Has next lesson - offer to jump to it
                 this.vscode.window.showInformationMessage(
                     `🎉 Lesson completed! Progress saved.`,
                     { modal: true },
@@ -614,12 +683,10 @@ class LearnManager {
                     'Got it!'
                 ).then(async selection => {
                     if (selection === 'Next Lesson') {
-                        // Directly open the next lesson
                         await this.openLesson(language, nextLesson);
                     }
                 });
             } else {
-                // Curriculum complete
                 this.vscode.window.showInformationMessage(
                     `🎉 Congratulations! You've completed all ${language} lessons!`,
                     { modal: true },
@@ -631,6 +698,12 @@ class LearnManager {
                     }
                 });
             }
+        } catch (error) {
+            this.vscode.window.showErrorMessage(
+                `Failed to mark lesson complete: ${error.message}`,
+                { modal: true },
+                'Got it!'
+            );
         }
     }
 
@@ -640,14 +713,33 @@ class LearnManager {
      * @param {string} exerciseId - Exercise ID
      * @returns {Promise<Object>} Solution object
      */
-    async loadSolution(language, exerciseId) {
+    async loadSolution(language, exerciseId, variantId = null) {
         try {
             const solutionPath = path.join(__dirname, '..', 'curriculum', language, 'solutions', `${exerciseId}.json`);
             const content = await fs.readFile(solutionPath, 'utf8');
-            return JSON.parse(content);
+            const solution = JSON.parse(content);
+
+            if (Array.isArray(solution.variants) && solution.variants.length > 0) {
+                const match = variantId
+                    ? solution.variants.find(v => v.id === variantId)
+                    : solution.variants[0];
+                if (!match) {
+                    throw new Error(`Solution variant '${variantId}' not found.`);
+                }
+                return {
+                    exerciseId: solution.exerciseId || exerciseId,
+                    ...match
+                };
+            }
+
+            return solution;
         } catch (error) {
             throw new Error(`Failed to load solution: ${error.message}`);
         }
+    }
+
+    getExerciseMetadata(filePath) {
+        return this.context.workspaceState.get(`learn_exercise_meta_${filePath}`, null);
     }
 }
 

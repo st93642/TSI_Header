@@ -83,7 +83,8 @@ class TSITreeDataProvider {
         } else if (element.id === 'learn') {
             // Learn section - programming language tutorials/resources
             return Promise.resolve([
-                new TSITreeItem('Ruby', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-ruby')
+                new TSITreeItem('Ruby', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-ruby'),
+                new TSITreeItem('C/C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-cpp')
             ]);
         } else if (element.id === 'learn-ruby') {
             // Ruby learning section
@@ -107,6 +108,30 @@ class TSITreeDataProvider {
                     command: 'tsiheader.viewLearnProgress',
                     title: 'View Progress',
                     tooltip: 'View your Ruby learning progress and achievements'
+                })
+            ]);
+        } else if (element.id === 'learn-cpp') {
+            // C/C++ learning section
+            return Promise.resolve([
+                new TSITreeItem('Start Learning', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.learnCpp',
+                    title: 'Start Learning C++',
+                    tooltip: 'Begin C++ programming tutorials from the start'
+                }),
+                new TSITreeItem('Browse All Lessons', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.browseLessonsCpp',
+                    title: 'Browse All Lessons',
+                    tooltip: 'Jump to any lesson in the C++ curriculum'
+                }),
+                new TSITreeItem('Run Exercise Tests', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.runExerciseTestsCpp',
+                    title: 'Run Exercise Tests',
+                    tooltip: 'Run tests on your current C++ exercise'
+                }),
+                new TSITreeItem('View Progress', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewLearnProgressCpp',
+                    title: 'View Progress',
+                    tooltip: 'View your C++ learning progress and achievements'
                 })
             ]);
         }
@@ -255,13 +280,23 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('book');
         } else if (id === 'learn-ruby') {
             this.iconPath = new vscode.ThemeIcon('ruby');
+        } else if (id === 'learn-cpp') {
+            this.iconPath = new vscode.ThemeIcon('file-code');
         } else if (command?.command === 'tsiheader.learnRuby') {
+            this.iconPath = new vscode.ThemeIcon('play-circle');
+        } else if (command?.command === 'tsiheader.learnCpp') {
             this.iconPath = new vscode.ThemeIcon('play-circle');
         } else if (command?.command === 'tsiheader.browseLessons') {
             this.iconPath = new vscode.ThemeIcon('list-tree');
+        } else if (command?.command === 'tsiheader.browseLessonsCpp') {
+            this.iconPath = new vscode.ThemeIcon('list-tree');
         } else if (command?.command === 'tsiheader.runExerciseTests') {
             this.iconPath = new vscode.ThemeIcon('beaker');
+        } else if (command?.command === 'tsiheader.runExerciseTestsCpp') {
+            this.iconPath = new vscode.ThemeIcon('beaker');
         } else if (command?.command === 'tsiheader.viewLearnProgress') {
+            this.iconPath = new vscode.ThemeIcon('graph');
+        } else if (command?.command === 'tsiheader.viewLearnProgressCpp') {
             this.iconPath = new vscode.ThemeIcon('graph');
         }
     }

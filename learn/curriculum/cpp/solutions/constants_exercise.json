@@ -1,0 +1,29 @@
+{
+  "exerciseId": "constants_exercise",
+  "variants": [
+    {
+      "id": "constants_c",
+      "language": "c",
+      "code": "#include <stdio.h>\n\n#define CAMPUS \"TSI Riga\"\n#define PI 3.1416\n\nint main(void) {\n    const int MAX_SEATS = 32;\n\n    printf(\"Campus: %s\\n\", CAMPUS);\n    printf(\"Max Seats: %d\\n\", MAX_SEATS);\n    printf(\"Pi Value: %.4f\\n\", PI);\n    return 0;\n}\n",
+      "explanation": "The combination of #define for string/numeric macros and const for typed integers demonstrates both preprocessor and typed constants. printf is used with precise formatting to match the expected output.",
+      "keyPoints": [
+        "#define creates compile-time macros for reusable values",
+        "const int keeps numeric constants typed and read-only",
+        "printf with %.4f forces the Pi value to four decimal places",
+        "Each label matches the expected output exactly"
+      ]
+    },
+    {
+      "id": "constants_cpp",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <string>\n#include <iomanip>\n\nint main() {\n    constexpr const char* CAMPUS = \"TSI Riga\";\n    constexpr int MAX_SEATS = 32;\n    constexpr double PI = 3.1416;\n\n    std::cout << \"Campus: \" << CAMPUS << std::endl;\n    std::cout << \"Max Seats: \" << MAX_SEATS << std::endl;\n    std::cout << std::fixed << std::setprecision(4);\n    std::cout << \"Pi Value: \" << PI << std::endl;\n    return 0;\n}\n",
+      "explanation": "Modern C++ uses constexpr to guarantee compile-time constants. std::fixed with std::setprecision(4) ensures Pi prints with four decimal places while keeping the code concise.",
+      "keyPoints": [
+        "constexpr enforces compile-time evaluation for constants",
+        "std::setprecision(4) and std::fixed control floating-point formatting",
+        "std::cout outputs each label/value pair with minimal code",
+        "Returning 0 indicates the program completed successfully"
+      ]
+    }
+  ]
+}

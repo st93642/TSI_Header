@@ -1,0 +1,29 @@
+{
+  "exerciseId": "hello_world_exercise",
+  "variants": [
+    {
+      "id": "hello_world_c",
+      "language": "c",
+      "code": "#include <stdio.h>\n\nint main(void) {\n    printf(\"Hello, TSI!\\n\");\n    printf(\"Welcome to C programming.\\n\");\n    return 0;\n}\n",
+      "explanation": "We include <stdio.h> for printf, then print the two required lines. Each printf ends with a newline (\\n) so the output appears on separate lines.",
+      "keyPoints": [
+        "<stdio.h> provides printf for console output",
+        "printf automatically formats strings; include \\n to move to the next line",
+        "main returns 0 to signal successful execution",
+        "Two printf calls keep the messages on separate lines"
+      ]
+    },
+    {
+      "id": "hello_world_cpp",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Hello, TSI!\" << std::endl;\n    std::cout << \"Welcome to modern C++.\" << std::endl;\n    return 0;\n}\n",
+      "explanation": "The program uses std::cout from <iostream> to print two lines. std::endl inserts a newline and flushes the output stream, ensuring each sentence appears on its own line.",
+      "keyPoints": [
+        "<iostream> provides std::cout for stream output",
+        "Using the std:: prefix avoids bringing the whole namespace into scope",
+        "std::endl appends a newline and flushes the buffer",
+        "main must return 0 to indicate success"
+      ]
+    }
+  ]
+}

@@ -16,8 +16,8 @@ class Learn {
         this.context = context;
         this.vscode = vscode;
         
-        this.learnManager = new LearnManager(context, vscode);
-        this.progressTracker = new ProgressTracker(context);
+    this.progressTracker = new ProgressTracker(context);
+    this.learnManager = new LearnManager(context, vscode, this.progressTracker);
         this.exerciseRunner = new ExerciseRunner(vscode);
         
         // Track solution documents to avoid save prompts
@@ -91,7 +91,8 @@ class Learn {
      */
     async runExercise(language, exercise) {
         try {
-            const result = await this.exerciseRunner.run(language, exercise);
+            const runtimeLanguage = (exercise.language || language || '').toLowerCase();
+            const result = await this.exerciseRunner.run(runtimeLanguage || language, exercise);
             
             // Handle manual exercises (no automated tests)
             if (result.isManual) {
@@ -102,7 +103,10 @@ class Learn {
                     'Cancel'
                 ).then(async selection => {
                     if (selection === 'Mark Complete') {
-                        await this.progressTracker.recordCompletion(language, exercise.id);
+                        await this.progressTracker.recordCompletion(language, exercise.id, {
+                            lessonId: exercise.lessonId,
+                            baseExerciseId: exercise.baseExerciseId || exercise.baseExerciseFile
+                        });
                         
                         // Get next lesson in curriculum
                         const curriculum = await this.learnManager.loadCurriculum(language);
@@ -137,10 +141,16 @@ class Learn {
             
             // Update progress if passed
             if (result.passed) {
-                await this.progressTracker.recordCompletion(language, exercise.id);
+                const progressLanguage = language;
+                const progressId = exercise.progressId || exercise.id;
+                await this.progressTracker.recordCompletion(progressLanguage, progressId, {
+                    lessonId: exercise.lessonId,
+                    baseExerciseId: exercise.baseExerciseId || exercise.baseExerciseFile
+                });
                 
                 // Get next lesson in curriculum
-                const curriculum = await this.learnManager.loadCurriculum(language);
+                const curriculumLanguage = exercise.curriculumLanguage || language;
+                const curriculum = await this.learnManager.loadCurriculum(curriculumLanguage);
                 const progress = await this.progressTracker.getProgress(language);
                 const nextLesson = this.learnManager.getNextLesson(curriculum, progress);
                 
@@ -163,7 +173,7 @@ class Learn {
                             'Got it!'
                         );
                     } else if (selection === 'Review Solution') {
-                        this.showSolution(language, exercise);
+                        this.showSolution(curriculumLanguage, exercise);
                     }
                 });
             } else {
@@ -188,7 +198,7 @@ class Learn {
                     if (selection === 'Show Hint') {
                         this.showHint(exercise);
                     } else if (selection === 'View Solution') {
-                        this.showSolution(language, exercise);
+                        this.showSolution(exercise.curriculumLanguage || language, exercise);
                     }
                 });
             }
@@ -235,6 +245,10 @@ class Learn {
         }
     }
 
+    getExerciseMetadata(filePath) {
+        return this.learnManager.getExerciseMetadata(filePath);
+    }
+
     /**
      * Show the solution for an exercise
      * @param {string} language - The programming language
@@ -242,7 +256,12 @@ class Learn {
      */
     async showSolution(language, exercise) {
         try {
-            const solution = await this.learnManager.loadSolution(language, exercise.id);
+            const baseExerciseId = exercise.baseExerciseId || exercise.id;
+            const solution = await this.learnManager.loadSolution(
+                exercise.curriculumLanguage || language,
+                baseExerciseId,
+                exercise.variantId || exercise.id
+            );
             
             // Create a webview panel to display the solution
             const panel = this.vscode.window.createWebviewPanel(
@@ -259,7 +278,7 @@ class Learn {
             panel.webview.html = this.getSolutionHtml(solution, exercise);
             
             // Get next lesson in curriculum for the "Next Lesson" button
-            const curriculum = await this.learnManager.loadCurriculum(language);
+            const curriculum = await this.learnManager.loadCurriculum(exercise.curriculumLanguage || language);
             const progress = await this.progressTracker.getProgress(language);
             const nextLesson = this.learnManager.getNextLesson(curriculum, progress);
             
@@ -337,7 +356,34 @@ class Learn {
         });
         
         if (selected) {
-            await this.learnManager.openLesson(language, { id: selected.lessonId });
+            const curriculum = await this.learnManager.loadCurriculum(language);
+            let lessonToOpen = null;
+            let moduleTitle = '';
+            let moduleId = '';
+
+            for (const module of curriculum.modules) {
+                const match = module.lessons.find(lesson => lesson.id === selected.lessonId);
+                if (match) {
+                    lessonToOpen = match;
+                    moduleTitle = module.title;
+                    moduleId = module.id;
+                    break;
+                }
+            }
+
+            if (lessonToOpen) {
+                await this.learnManager.openLesson(language, {
+                    ...lessonToOpen,
+                    moduleTitle,
+                    moduleId
+                });
+            } else {
+                this.vscode.window.showErrorMessage(
+                    `Lesson "${selected.lessonId}" could not be found in the curriculum.`,
+                    { modal: true },
+                    'Got it!'
+                );
+            }
         }
     }
 
@@ -389,8 +435,7 @@ class Learn {
             
             if (selected && selected.lessonId) {
                 await this.learnManager.openLesson(language, {
-                    id: selected.lessonId,
-                    title: selected.lesson.title,
+                    ...selected.lesson,
                     moduleTitle: selected.moduleTitle,
                     moduleId: selected.moduleId
                 });
@@ -541,8 +586,10 @@ class Learn {
     <div class="solution-container">
         <div class="solution-header">Complete Solution Code:</div>
         <pre><code>${solution.code.split('\n').map(line => {
-            // Highlight comments in code
-            if (line.trim().startsWith('#')) {
+            const trimmed = line.trim();
+            const isRubyComment = trimmed.startsWith('#') && !trimmed.startsWith('#include');
+            const isCStyleComment = trimmed.startsWith('//') || trimmed.startsWith('/*') || trimmed.startsWith('*') || trimmed.startsWith('*/');
+            if (isRubyComment || isCStyleComment) {
                 return `<span class="code-comment">${this.escapeHtml(line)}</span>`;
             }
             return this.escapeHtml(line);
