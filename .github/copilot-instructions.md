@@ -5,8 +5,8 @@
 **ALWAYS APPLY TDD** - Before changing implementation code, add or update automated tests that should initially fail, then implement the changes to make them pass and rerun the suite.
 
 Learn module
-- **Chapter Text Source & Formatting Reminder**: Every chapter rewrite must draw primary source material from `ref.txt`, expanding it when possible with examples, and all code snippets must stay in plain text with stylistic emphasis (color/italic/bold) instead of fenced code blocks — apply this consistently to every chapter in the curriculum.
-- Exercises to be added from the reference text (or online source, or your database). Each exercise should be self-contained and runnable (with test), with solution available.
+- **Chapter Text Source & Formatting Reminder**: 
+- Exercises to be added from the online source, or your database. Each exercise should be self-contained and runnable (with test), with solution available.
 
 - Must include TDD-style tests that initially fail, then implement the code/lesson/exercise/solution adding to make them pass. 
 
