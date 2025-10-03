@@ -222,6 +222,12 @@
           "title": "Lesson 11.2: Union-Find and Disjoint Set Optimisation",
           "duration": 80,
           "difficulty": "advanced"
+        },
+        {
+          "id": "graph_traversal_dfs_bfs_cpp",
+          "title": "Lesson 11.3: Graph Traversal with DFS and BFS",
+          "duration": 85,
+          "difficulty": "advanced"
         }
       ]
     }

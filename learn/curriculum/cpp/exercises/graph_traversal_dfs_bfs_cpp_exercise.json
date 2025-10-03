@@ -1,0 +1,120 @@
+{
+  "id": "graph_traversal_dfs_bfs_cpp_exercise",
+  "mode": "quiz",
+  "title": "Quiz: Graph Traversal with DFS and BFS",
+  "description": "Test your understanding of Depth-First Search (DFS) and Breadth-First Search (BFS) algorithms, their implementations, and applications.\n\nSteps:\n1. Review the lesson examples of recursive/iterative DFS and BFS implementations.\n2. Answer each question based on graph traversal concepts and C++ STL usage.\n3. Aim for a perfect score to demonstrate mastery of these fundamental algorithms.\n\nExpected results: Answer all 10 questions correctly to complete the quiz successfully.",
+  "tags": ["cpp", "graphs", "dfs", "bfs", "algorithms"],
+  "passScore": 10,
+  "questions": [
+    {
+      "id": "dfs_vs_bfs_time",
+      "type": "single",
+      "prompt": "What is the time complexity of both DFS and BFS for traversing a graph with V vertices and E edges?",
+      "options": [
+        { "id": "option_a", "text": "O(V)", "correct": false },
+        { "id": "option_b", "text": "O(E)", "correct": false },
+        { "id": "option_c", "text": "O(V + E)", "correct": true },
+        { "id": "option_d", "text": "O(V * E)", "correct": false }
+      ],
+      "explanation": "Both DFS and BFS visit each vertex and edge exactly once, resulting in O(V + E) time complexity."
+    },
+    {
+      "id": "dfs_data_structure",
+      "type": "single",
+      "prompt": "Which data structure is typically used to implement iterative DFS?",
+      "options": [
+        { "id": "option_a", "text": "Queue", "correct": false },
+        { "id": "option_b", "text": "Stack", "correct": true },
+        { "id": "option_c", "text": "Priority Queue", "correct": false },
+        { "id": "option_d", "text": "Vector", "correct": false }
+      ],
+      "explanation": "Iterative DFS uses a stack to simulate the recursion, pushing unvisited neighbors and popping when backtracking."
+    },
+    {
+      "id": "bfs_shortest_path",
+      "type": "truefalse",
+      "prompt": "True or False: BFS can be used to find the shortest path in an unweighted graph.",
+      "answer": "true",
+      "explanation": "BFS explores nodes level by level, guaranteeing that the first time a node is visited, it's via the shortest path from the source."
+    },
+    {
+      "id": "dfs_cycle_detection",
+      "type": "single",
+      "prompt": "How does DFS detect cycles in an undirected graph?",
+      "options": [
+        { "id": "option_a", "text": "By counting the number of edges", "correct": false },
+        { "id": "option_b", "text": "By finding back edges to ancestors", "correct": true },
+        { "id": "option_c", "text": "By measuring path lengths", "correct": false },
+        { "id": "option_d", "text": "By checking vertex degrees", "correct": false }
+      ],
+      "explanation": "In DFS, a back edge from a node to one of its ancestors (excluding the parent) indicates a cycle in an undirected graph."
+    },
+    {
+      "id": "adjacency_list_space",
+      "type": "single",
+      "prompt": "What is the space complexity of representing a graph using an adjacency list?",
+      "options": [
+        { "id": "option_a", "text": "O(V)", "correct": false },
+        { "id": "option_b", "text": "O(E)", "correct": false },
+        { "id": "option_c", "text": "O(V + E)", "correct": true },
+        { "id": "option_d", "text": "O(V²)", "correct": false }
+      ],
+      "explanation": "Adjacency list stores a list for each vertex, with total space proportional to vertices plus edges."
+    },
+    {
+      "id": "bfs_queue_usage",
+      "type": "single",
+      "prompt": "What is the primary data structure used in BFS implementation?",
+      "options": [
+        { "id": "option_a", "text": "Stack", "correct": false },
+        { "id": "option_b", "text": "Queue", "correct": true },
+        { "id": "option_c", "text": "Priority Queue", "correct": false },
+        { "id": "option_d", "text": "Set", "correct": false }
+      ],
+      "explanation": "BFS uses a queue (FIFO) to process nodes in the order they are discovered, ensuring level-by-level traversal."
+    },
+    {
+      "id": "dfs_applications",
+      "type": "multiple",
+      "prompt": "Which of the following are common applications of DFS? (Select all that apply)",
+      "options": [
+        { "id": "option_a", "text": "Finding connected components", "correct": true },
+        { "id": "option_b", "text": "Finding shortest path in unweighted graphs", "correct": false },
+        { "id": "option_c", "text": "Topological sorting", "correct": true },
+        { "id": "option_d", "text": "Cycle detection", "correct": true }
+      ],
+      "explanation": "DFS is used for connected components, topological sorting, and cycle detection. BFS is better for shortest paths in unweighted graphs."
+    },
+    {
+      "id": "graph_connected_components",
+      "type": "single",
+      "prompt": "How can you count the number of connected components in an undirected graph?",
+      "options": [
+        { "id": "option_a", "text": "Use DFS or BFS from each unvisited node", "correct": true },
+        { "id": "option_b", "text": "Count the number of edges", "correct": false },
+        { "id": "option_c", "text": "Sum the degrees of all vertices", "correct": false },
+        { "id": "option_d", "text": "Use Kruskal's algorithm", "correct": false }
+      ],
+      "explanation": "Each call to DFS or BFS from an unvisited node explores one connected component."
+    },
+    {
+      "id": "dfs_recursive_stack",
+      "type": "truefalse",
+      "prompt": "True or False: Recursive DFS can cause stack overflow for very large graphs.",
+      "answer": "true",
+      "explanation": "Recursive DFS uses the system call stack, which can overflow for graphs with deep recursion paths or many vertices."
+    },
+    {
+      "id": "bfs_levels",
+      "type": "single",
+      "prompt": "In BFS, nodes at the same level in the traversal tree are visited in which order?",
+      "options": [
+        { "id": "option_a", "text": "Sorted by vertex number", "correct": false },
+        { "id": "option_b", "text": "In the order they were discovered", "correct": true },
+        { "id": "option_c", "text": "Random order", "correct": false },
+        { "id": "option_d", "text": "Reverse order of discovery", "correct": false }
+      ],
+      "explanation": "BFS processes nodes in FIFO order within each level, which is the order of discovery."
+    }
+  ]
+}

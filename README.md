@@ -39,6 +39,11 @@
 
 - **Extension not activating**: Ensure VS Code is version 1.74.0+. Reload the window (Ctrl+Shift+P > "Developer: Reload Window").
 - **Headers not inserting**: Check user settings (`tsiheader.username`, `tsiheader.email`) or Git config. Run `git config --global user.name` to verify.
+- **C/C++ compilation errors on Windows**: The Learn Mode requires a GCC-compatible compiler. If you see "g++ not found":
+  - **Install MinGW-w64**: Download from [mingw-w64.org](https://www.mingw-w64.org/) and add `C:\mingw64\bin` to your PATH.
+  - **Or install MSYS2**: Download from [msys2.org](https://www.msys2.org/), run `pacman -S mingw-w64-x86_64-gcc` and add to PATH.
+  - **Verify installation**: Open Command Prompt and run `g++ --version`.
+  - **Alternative**: Install Visual Studio with C++ workload, but ensure GCC tools are preferred.
 - **Compilation errors**: For C/C++ projects, ensure a compatible compiler (GCC/Clang) is installed and in PATH. Test with `g++ --version`.
 - **Learn Mode exercises failing**: Verify Node.js and Ruby are installed. Run `ruby TEST_Suite/test_learn_module.rb` to check curriculum integrity.
 - **Study Mode not persisting**: Data is stored in VS Code's global state; try resetting with "TSI Header: Reset Study Progress".

@@ -629,6 +629,45 @@ class ExerciseRunner {
     }
 
     /**
+     * Detect available C/C++ compiler
+     * @param {boolean} isC - Whether compiling C (true) or C++ (false)
+     * @returns {string|null} Compiler command or null if none found
+     */
+    detectCompiler(isC) {
+        const compilers = isC ? ['gcc', 'clang'] : ['g++', 'clang++'];
+        
+        // On Windows, also try common paths
+        if (process.platform === 'win32') {
+            // Try MinGW paths
+            const mingwPaths = [
+                'C:\\MinGW\\bin\\gcc.exe',
+                'C:\\MinGW\\bin\\g++.exe',
+                'C:\\mingw64\\bin\\gcc.exe',
+                'C:\\mingw64\\bin\\g++.exe',
+                'C:\\msys64\\mingw64\\bin\\gcc.exe',
+                'C:\\msys64\\mingw64\\bin\\g++.exe'
+            ];
+            
+            for (const path of mingwPaths) {
+                if (isC && path.includes('gcc')) compilers.unshift(path);
+                if (!isC && path.includes('g++')) compilers.unshift(path);
+            }
+        }
+        
+        for (const compiler of compilers) {
+            try {
+                execSync(`"${compiler}" --version`, { stdio: 'pipe', timeout: 2000 });
+                return compiler;
+            } catch (error) {
+                // Compiler not found or not working, try next
+                continue;
+            }
+        }
+        
+        return null;
+    }
+
+    /**
      * Run C++ tests
      * @param {string} code - User's C++ code
      * @param {Array} tests - Test cases
@@ -649,9 +688,35 @@ class ExerciseRunner {
 
             const executableFile = path.join(tempDir, 'exercise');
             try {
-                const compiler = isC ? 'gcc' : 'g++';
+                const compiler = this.detectCompiler(isC);
+                if (!compiler) {
+                    const compilerName = isC ? 'C' : 'C++';
+                    const errorMessage = `${compilerName} compiler not found. Please install a ${compilerName} compiler (GCC/MinGW recommended).\n\nFor Windows:\n- Install MinGW: https://www.mingw-w64.org/\n- Or MSYS2: https://www.msys2.org/\n- Add compiler to PATH\n\nFor Linux/Mac: Install build-essential or Xcode Command Line Tools.`;
+                    
+                    const failures = [{
+                        message: `Compilation failed: ${errorMessage}`
+                    }];
+
+                    return {
+                        passed: false,
+                        success: false,
+                        score: 0,
+                        total: totalTests,
+                        totalTests,
+                        failedTests: totalTests,
+                        results: tests.map(test => ({
+                            name: test.name,
+                            passed: false,
+                            error: errorMessage
+                        })),
+                        failures,
+                        hint: `No ${compilerName} compiler found. Please install and configure a compiler.`,
+                        hints: [`Install a ${compilerName} compiler and ensure it's in your PATH`]
+                    };
+                }
+                
                 const standardFlag = isC ? '-std=c11' : '-std=c++17';
-                execSync(`${compiler} ${standardFlag} -o "${executableFile}" "${sourceFile}"`, {
+                execSync(`"${compiler}" ${standardFlag} -o "${executableFile}" "${sourceFile}"`, {
                     cwd: tempDir,
                     stdio: 'pipe'
                 });

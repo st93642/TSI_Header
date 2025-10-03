@@ -1,0 +1,66 @@
+{
+  "exerciseId": "graph_traversal_dfs_bfs_cpp_exercise",
+  "languageId": "cpp",
+  "mode": "quiz",
+  "explanation": "This quiz validates understanding of graph traversal fundamentals, including DFS and BFS algorithms, their implementations in C++, and appropriate use cases for each approach.",
+  "answerKey": [
+    {
+      "questionId": "dfs_vs_bfs_time",
+      "answers": ["option_c"],
+      "rationale": "Both DFS and BFS traverse each vertex and edge once, giving O(V + E) complexity."
+    },
+    {
+      "questionId": "dfs_data_structure",
+      "answers": ["option_b"],
+      "rationale": "Iterative DFS uses a stack to manage the exploration order, simulating recursion."
+    },
+    {
+      "questionId": "bfs_shortest_path",
+      "answers": ["true"],
+      "rationale": "BFS guarantees shortest paths in unweighted graphs by exploring level by level."
+    },
+    {
+      "questionId": "dfs_cycle_detection",
+      "answers": ["option_b"],
+      "rationale": "DFS detects cycles by identifying back edges to previously visited ancestors."
+    },
+    {
+      "questionId": "adjacency_list_space",
+      "answers": ["option_c"],
+      "rationale": "Adjacency list uses O(V + E) space, storing lists for each vertex."
+    },
+    {
+      "questionId": "bfs_queue_usage",
+      "answers": ["option_b"],
+      "rationale": "BFS uses a queue to process nodes in FIFO order, ensuring breadth-first exploration."
+    },
+    {
+      "questionId": "dfs_applications",
+      "answers": ["option_a", "option_c", "option_d"],
+      "rationale": "DFS excels at finding components, topological sorting, and cycle detection; BFS is better for shortest paths."
+    },
+    {
+      "questionId": "graph_connected_components",
+      "answers": ["option_a"],
+      "rationale": "Each DFS/BFS call from an unvisited node discovers one connected component."
+    },
+    {
+      "questionId": "dfs_recursive_stack",
+      "answers": ["true"],
+      "rationale": "Recursive DFS can exceed stack limits for large or deep graphs."
+    },
+    {
+      "questionId": "bfs_levels",
+      "answers": ["option_b"],
+      "rationale": "BFS processes nodes in the order they are discovered within each level."
+    }
+  ],
+  "keyPoints": [
+    "DFS explores deeply using stack or recursion, BFS explores breadth-wise using queue",
+    "Both algorithms run in O(V + E) time for graph traversal",
+    "BFS finds shortest paths in unweighted graphs, DFS detects cycles and performs topological sorting",
+    "Adjacency list is efficient for sparse graphs, adjacency matrix for dense graphs",
+    "Always mark visited nodes to avoid infinite loops in cyclic graphs",
+    "Choose DFS for memory constraints, BFS when shortest paths matter"
+  ]
+}

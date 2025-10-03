@@ -1,49 +1,55 @@
-# Release Notes - TSI Header Extension v6.0.0
+# Release Notes
 
-## Major Release Highlights
-
-This major release introduces the **Data Structures and Algorithms Module (Module 11)** for C++, expanding the Learn Mode with advanced topics. Significant improvements to rendering, navigation, and testing infrastructure ensure a robust learning experience.
+## Version 6.0.1 (October 3, 2025)
 
 ### New Features
 
-- **Module 11: Data Structures and Algorithms**
-  - **Lesson 11.0: Launching Advanced Data Structures** - Comprehensive introduction to heaps, priority queues, and their invariants with diagrams and practice exercises.
-  - **Lesson 11.1: Heaps and Priority Queues** - Deep dive into heap operations, std::priority_queue usage, algorithmic complexity, and real-world applications.
-  - **Lesson 11.2: Union-Find and Disjoint Set Optimisation** - Exploration of disjoint-set forests, path compression, union-by-rank, and applications in graph algorithms.
+- Added Lesson 11.3: Graph Traversal with DFS and BFS to the C++ DSA module
+- Enhanced compiler detection for Windows systems to support MinGW and MSYS2 installations
+- Improved error messages for missing compilers with installation instructions
 
-- **Enhanced Learn Mode**
-  - Added quiz navigation allowing progression without full completion for flexible learning.
-  - Improved rendering: Replaced tables with bullet lists in lessons for better VS Code webview display.
-  - Expanded quizzes to 10 questions each for thorough assessment.
-  - New SVG diagrams for visual explanations (heap structures, adapter flows).
+### Bug Fixes
 
-- **Testing and Quality Assurance**
-  - Dedicated Module 11 test suite (`TEST_Suite/test_learn_cpp_module11.rb`) for regression validation.
-  - Enhanced escape character integrity checks to prevent runtime crashes.
-  - Updated solution navigation tests for seamless lesson progression.
-
-- **Documentation and Usability**
-  - Added Requirements and Troubleshooting sections to README.md for marketplace users.
-  - Updated Copilot instructions with Module 11 authoring playbook for future development.
+- Fixed "g++ not found" errors on Windows by implementing automatic compiler detection
+- Added fallback compiler paths for common Windows installations (MinGW, MSYS2)
+- Updated troubleshooting documentation with Windows-specific compiler setup instructions
 
 ### Technical Improvements
 
-- **Rendering Fixes**: Addressed bad rendering of includes and tables in lesson webviews.
-- **Navigation Logic**: Enhanced quiz flow and lesson unlocking mechanisms.
-- **Code Quality**: Improved starter code generation and JSON escaping for cross-platform compatibility.
+- Enhanced exercise runner to detect available C/C++ compilers across different platforms
+- Added comprehensive compiler path checking for Windows environments
+- Improved user guidance when compilation tools are not available
 
-### Breaking Changes
+## Version 6.0.0 (October 3, 2025)
 
-- None. All changes are additive and backward-compatible.
+### Major Features
 
-### Known Issues
+- Complete overhaul of C++ Learn Mode with comprehensive DSA curriculum
+- Added Module 11: Data Structures and Algorithms with 4 lessons
+- Enhanced quiz system with 10-question assessments
+- Improved navigation allowing users to proceed without completing quizzes
 
-- '*' activation event may impact performance in large workspaces (as noted in packaging warnings).
+### New Lessons Added
 
-### Acknowledgments
+- Lesson 11.0: Introduction to Advanced Data Structures
+- Lesson 11.1: Heaps and Priority Queues
+- Lesson 11.2: Union-Find and Disjoint Set Optimization
 
-Thanks to contributors for expanding the curriculum and improving user experience. This release advances the extension toward comprehensive algorithmic education.
+### Improvements
 
----
+- Self-contained lessons with embedded diagrams and examples
+- Enhanced webview rendering for better quiz display
+- Updated curriculum structure with proper sequencing
+- Improved test coverage for all new content
 
-For previous releases, see [CHANGELOG.md](CHANGELOG.md) or Git history.
+### Fixes
+
+- Fixed table rendering issues in lesson content
+- Resolved navigation blocking when quizzes aren't completed
+- Enhanced error handling in exercise execution
+
+## Version 5.0.0 (Previous)
+
+- Study Mode enhancements
+- Additional language support
+- Performance improvements
