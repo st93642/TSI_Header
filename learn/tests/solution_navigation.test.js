@@ -1,7 +1,6 @@
 const assert = require('assert');
-const path = require('path');    // const resolvedAfterFinal = learnManager.getNextLessonForSolution(curriculum, progress, 'polymorphism_cpp');
-    // assert(resolvedAfterFinal, 'Expected a fallback lesson after reaching the end');
-    // assert.strictEqual(resolvedAfterFinal.id, nextFromProgress.id, 'At curriculum end, fall back to first incomplete lesson');nst LearnManager = require('../lib/learn_manager');
+const path = require('path');
+const LearnManager = require('../lib/learn_manager');
 
 const contextStub = {
     subscriptions: [],
@@ -39,30 +38,49 @@ function loadCurriculum(language) {
     const nextFromProgress = learnManager.getNextLesson(curriculum, progress);
     assert.strictEqual(nextFromProgress.id, 'iostream_basics');
 
-    const resolvedNext112 = learnManager.getNextLessonForSolution(curriculum, progress, 'iostream_basics');
-    assert(resolvedNext112, 'Expected a next lesson for solution navigation');
-    assert.strictEqual(resolvedNext112.id, 'variables_types_cpp', 'Should advance sequentially even if earlier lessons are incomplete');
+    const expectedSequence = [
+        'hello_world_cpp',
+        'iostream_basics',
+        'variables_types_cpp',
+        'arithmetic_input_cpp',
+        'conditionals_cpp',
+        'loops_cpp',
+        'functions_cpp',
+        'header_basics_cpp',
+        'vectors_cpp',
+        'structs_cpp',
+        'classes_objects_cpp',
+        'maps_cpp',
+        'stl_algorithms_cpp',
+        'classes_encapsulation_cpp',
+        'inheritance_cpp',
+        'polymorphism_cpp',
+        'function_class_templates_cpp',
+        'stl_internals_cpp',
+        'basic_exceptions_cpp',
+        'exception_safety_cpp',
+        'file_streams_cpp',
+        'priority_queues_heaps_cpp'
+    ];
 
-    const resolvedBeyondModule = learnManager.getNextLessonForSolution(curriculum, progress, 'variables_types_cpp');
-    assert(resolvedBeyondModule, 'Expected next lesson after variables module');
-    assert.strictEqual(resolvedBeyondModule.id, 'arithmetic_input_cpp', 'Should continue to next chronological lesson');
+    for (let index = 0; index < expectedSequence.length - 1; index++) {
+        const currentLessonId = expectedSequence[index];
+        const expectedNextId = expectedSequence[index + 1];
 
-    const sequentialAfterModuleFour = learnManager.getLessonAfter(curriculum, 'header_basics_cpp');
-    assert(sequentialAfterModuleFour, 'Lesson after Module 4 should exist');
-    assert.strictEqual(sequentialAfterModuleFour.id, 'vectors_cpp', 'Should advance to Module 5 after headers');
+        const sequentialNext = learnManager.getLessonAfter(curriculum, currentLessonId);
+        assert(sequentialNext, `Lesson after ${currentLessonId} should exist`);
+        assert.strictEqual(sequentialNext.id, expectedNextId, `Expected ${expectedNextId} after ${currentLessonId}`);
 
-    const sequentialAfterModuleFive = learnManager.getLessonAfter(curriculum, 'structs_cpp');
-    assert(sequentialAfterModuleFive, 'Lesson after Module 5 should exist');
-    assert.strictEqual(sequentialAfterModuleFive.id, 'classes_objects_cpp', 'Should advance to classes lesson after structs');
+        const solutionNavigationNext = learnManager.getNextLessonForSolution(curriculum, progress, currentLessonId);
+        assert(solutionNavigationNext, `Solution navigation should provide a lesson after ${currentLessonId}`);
+        assert.strictEqual(solutionNavigationNext.id, expectedNextId, `Solution navigation should advance from ${currentLessonId} to ${expectedNextId}`);
+    }
 
-    const sequentialAfterModuleSix = learnManager.getLessonAfter(curriculum, 'stl_algorithms_cpp');
-    assert(sequentialAfterModuleSix, 'Lesson after Module 6 should exist');
-    assert.strictEqual(sequentialAfterModuleSix.id, 'classes_encapsulation_cpp', 'Should advance to OOP module after algorithms');
+    const finalLessonId = expectedSequence[expectedSequence.length - 1];
+    const sequentialAfterFinal = learnManager.getLessonAfter(curriculum, finalLessonId);
+    assert.strictEqual(sequentialAfterFinal, null, 'Final lesson should not return a next lesson');
 
-    const sequentialAfterOOP = learnManager.getLessonAfter(curriculum, 'polymorphism_cpp');
-    assert.strictEqual(sequentialAfterOOP, null, 'Final lesson should not return a next lesson');
-
-    const resolvedAfterFinal = learnManager.getNextLessonForSolution(curriculum, progress, 'stl_algorithms_cpp');
+    const resolvedAfterFinal = learnManager.getNextLessonForSolution(curriculum, progress, finalLessonId);
     assert(resolvedAfterFinal, 'Expected a fallback lesson after reaching the end');
     assert.strictEqual(resolvedAfterFinal.id, nextFromProgress.id, 'At curriculum end, fall back to first incomplete lesson');
 

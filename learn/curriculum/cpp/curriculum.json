@@ -199,6 +199,19 @@
           "difficulty": "intermediate"
         }
       ]
+    },
+    {
+      "id": "advanced_data_structures_cpp",
+      "title": "Module 11: Data Structures and Algorithms",
+      "description": "Apply advanced data structures and algorithmic patterns to solve performance-critical problems in modern C++.",
+      "lessons": [
+        {
+          "id": "priority_queues_heaps_cpp",
+          "title": "Lesson 11.1: Heaps and Priority Queues",
+          "duration": 75,
+          "difficulty": "advanced"
+        }
+      ]
     }
   ],
   "prerequisites": [

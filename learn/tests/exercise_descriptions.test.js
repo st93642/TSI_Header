@@ -16,6 +16,10 @@ function validateDescription(exercise) {
     const description = (exercise.data.description || '').trim();
     const issues = [];
 
+    if (exercise.data.mode === 'quiz') {
+        return issues;
+    }
+
     if (!description.includes('Steps:\n')) {
         issues.push('missing "Steps:" section');
     }

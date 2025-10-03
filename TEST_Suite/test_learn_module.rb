@@ -167,22 +167,24 @@ end
 class TestLearnModule < TestModule
   LANGUAGE_CONFIG = {
     'c' => { language: 'C', starter_extension: '.c', require_starter_file: false, auto_creates_starter: true },
-    'cpp' => { language: 'C++', starter_extension: '.cpp', require_starter_file: false },
-    'ruby' => { language: 'Ruby', starter_extension: '.rb', require_starter_file: true }
+    'cpp' => { language: 'C++', starter_extension: '.cpp', require_starter_file: false, auto_creates_starter: true },
+    'ruby' => { language: 'Ruby', starter_extension: '.rb', require_starter_file: false, auto_creates_starter: true }
   }.freeze
 
   def run
     @repo_root = Pathname.new(__dir__).parent.expand_path
     @curriculum_cache = {}
 
-    total_tests = LANGUAGE_CONFIG.size * 4 + 4
+  total_tests = LANGUAGE_CONFIG.size * 4 + 6
     start_progress_bar(total_tests, 'Learn Modules')
 
   index = 0
-    run_test_with_progress('Exercise descriptions audit', total_tests, index += 1) { run_node_test('exercise_descriptions.test.js') }
-    run_test_with_progress('Solution navigation audit', total_tests, index += 1) { run_node_test('solution_navigation.test.js') }
-    run_test_with_progress('Exercise escape integrity', total_tests, index += 1) { run_node_test('exercise_escape_integrity.test.js') }
-    run_test_with_progress('LearnManager starter creation', total_tests, index += 1) { run_node_test('learn_manager_starter_creation.test.js') }
+  run_test_with_progress('Exercise descriptions audit', total_tests, index += 1) { run_node_test('exercise_descriptions.test.js') }
+  run_test_with_progress('Solution navigation audit', total_tests, index += 1) { run_node_test('solution_navigation.test.js') }
+  run_test_with_progress('Exercise escape integrity', total_tests, index += 1) { run_node_test('exercise_escape_integrity.test.js') }
+  run_test_with_progress('LearnManager starter creation', total_tests, index += 1) { run_node_test('learn_manager_starter_creation.test.js') }
+  run_test_with_progress('Lesson image rendering', total_tests, index += 1) { run_node_test('markdown_image_rendering.test.js') }
+  run_test_with_progress('Quiz exercise flow', total_tests, index += 1) { run_node_test('quiz_exercise_flow.test.js') }
     LANGUAGE_CONFIG.each do |lang, lang_config|
       run_test_with_progress("#{lang_config[:language]} curriculum", total_tests, index += 1) { validate_curriculum(lang, lang_config) }
       run_test_with_progress("#{lang_config[:language]} lessons", total_tests, index += 1) { validate_lessons(lang, lang_config) }
@@ -249,7 +251,12 @@ class TestLearnModule < TestModule
     assert_directory_exists(exercises_dir, "#{lang} exercises directory missing")
 
     starters_dir = @repo_root.join('learn_exercises', lang)
-    assert_directory_exists(starters_dir, "Starter exercises directory missing for #{lang}")
+    if lang_config[:require_starter_file]
+      assert_directory_exists(starters_dir, "Starter exercises directory missing for #{lang}")
+    elsif starters_dir.exist?
+      visible_entries = starters_dir.children.select { |child| child.basename.to_s !~ /^\./ }
+      assert(visible_entries.empty?, "Starter exercises directory should be empty for #{lang}")
+    end
 
     lesson_ids_for(lang).each do |lesson_id|
       exercise_path = exercises_dir.join("#{lesson_id}_exercise.json")
@@ -258,6 +265,42 @@ class TestLearnModule < TestModule
       data = JSON.parse(File.read(exercise_path))
       expected_id = "#{lesson_id}_exercise"
       assert_equal(expected_id, data['id'], "Exercise id mismatch for #{lang}/#{lesson_id}")
+      mode = (data['mode'] || 'code').to_s.downcase
+
+      if mode == 'quiz'
+        description = data['description']
+        assert(description.is_a?(String) && !description.strip.empty?, "Quiz #{lang}/#{lesson_id} must include a learner-facing description")
+
+        questions = data['questions']
+        assert(questions.is_a?(Array) && !questions.empty?, "Quiz #{lang}/#{lesson_id} must define questions")
+
+        questions.each_with_index do |question, q_index|
+          assert(question.is_a?(Hash), "Quiz question #{q_index + 1} in #{lang}/#{lesson_id} must be an object")
+          assert(question['id'].is_a?(String) && !question['id'].empty?, "Quiz question #{q_index + 1} in #{lang}/#{lesson_id} needs an id")
+          assert(question['prompt'].is_a?(String) && !question['prompt'].strip.empty?, "Quiz question #{q_index + 1} in #{lang}/#{lesson_id} needs a prompt")
+
+          type = (question['type'] || 'single').to_s.downcase
+          case type
+          when 'multiple'
+            options = question['options']
+            assert(options.is_a?(Array) && !options.empty?, "Multiple choice quiz question #{q_index + 1} in #{lang}/#{lesson_id} needs options")
+            correct_options = options.select { |opt| opt.is_a?(Hash) && (opt['correct'] || opt['isCorrect']) }
+            assert(!correct_options.empty?, "Multiple choice quiz question #{q_index + 1} in #{lang}/#{lesson_id} must mark at least one correct option")
+          when 'truefalse'
+            answer = question['answer'] || question['correct']
+            assert(answer.is_a?(String) && !answer.strip.empty?, "True/False quiz question #{q_index + 1} in #{lang}/#{lesson_id} must define an answer key")
+          else
+            options = question['options']
+            assert(options.is_a?(Array) && !options.empty?, "Single-choice quiz question #{q_index + 1} in #{lang}/#{lesson_id} needs options")
+            has_correct = options.any? { |opt| opt.is_a?(Hash) && (opt['correct'] || opt['isCorrect']) }
+            has_answer = question['answer']
+            assert(has_correct || has_answer, "Single-choice quiz question #{q_index + 1} in #{lang}/#{lesson_id} must define a correct option or answer key")
+          end
+        end
+
+        next
+      end
+
       starter_code = data['starterCode']
       assert(starter_code.is_a?(String) && !starter_code.strip.empty?, "Starter code must be provided for #{lang}/#{lesson_id}")
 
@@ -303,13 +346,29 @@ class TestLearnModule < TestModule
       exercise_identifier = data['exerciseId'] || data['id']
       assert_equal(expected_id, exercise_identifier, "Solution exercise identifier mismatch for #{lang}/#{lesson_id}")
 
-      code = data['code'] || data['solution']
+      exercise_path = language_root(lang).join('exercises', "#{lesson_id}_exercise.json")
+      exercise_data = JSON.parse(File.read(exercise_path))
+      mode = (exercise_data['mode'] || 'code').to_s.downcase
+
       explanation = data['explanation'] || data['description']
       key_points = data['keyPoints'] || data['key_points'] || data['key_concepts']
-
-      assert(code.is_a?(String) && !code.strip.empty?, "Solution code missing for #{lang}/#{lesson_id}")
       assert(explanation.is_a?(String) && !explanation.strip.empty?, "Solution explanation missing for #{lang}/#{lesson_id}")
       assert(key_points.is_a?(Array) && !key_points.empty?, "Solution key points missing for #{lang}/#{lesson_id}")
+
+      if mode == 'quiz'
+        answer_key = data['answerKey'] || data['answers'] || data['solution']
+        assert(answer_key.is_a?(Array) && !answer_key.empty?, "Quiz solution for #{lang}/#{lesson_id} must provide an answer key array")
+        answer_key.each_with_index do |entry, index|
+          assert(entry.is_a?(Hash), "Answer key entry #{index + 1} for #{lang}/#{lesson_id} must be an object")
+          assert(entry['questionId'].is_a?(String) && !entry['questionId'].empty?, "Answer key entry #{index + 1} for #{lang}/#{lesson_id} needs questionId")
+          answers = entry['answers'] || entry['correctOptions'] || entry['expected']
+          assert(answers.is_a?(Array) && !answers.empty?, "Answer key entry #{index + 1} for #{lang}/#{lesson_id} must list correct answers")
+        end
+        next
+      end
+
+      code = data['code'] || data['solution']
+      assert(code.is_a?(String) && !code.strip.empty?, "Solution code missing for #{lang}/#{lesson_id}")
     end
 
     true

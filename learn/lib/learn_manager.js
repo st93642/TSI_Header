@@ -13,6 +13,7 @@ class LearnManager {
         this.curriculumCache = new Map();
         this.currentLessonPanel = null; // Track current lesson panel
         this.currentExerciseEditor = null; // Track current exercise editor
+        this.currentQuizPanel = null;
         this.progressTracker = progressTracker || new ProgressTracker(context);
     }
 
@@ -24,6 +25,11 @@ class LearnManager {
         if (this.currentLessonPanel) {
             this.currentLessonPanel.dispose();
             this.currentLessonPanel = null;
+        }
+
+        if (this.currentQuizPanel) {
+            this.currentQuizPanel.dispose();
+            this.currentQuizPanel = null;
         }
         
         // Close current exercise tab if exists
@@ -46,7 +52,7 @@ class LearnManager {
         for (const group of tabGroups.all) {
             for (const tab of group.tabs) {
                 // Check if it's a webview tab (lesson panel)
-                if (tab.input && tab.input.viewType === 'tsiLearnLesson') {
+                if (tab.input && (tab.input.viewType === 'tsiLearnLesson' || tab.input.viewType === 'tsiLearnQuiz')) {
                     tabsToClose.push(tab);
                 }
                 // Check if it's a learn_exercises file
@@ -262,7 +268,11 @@ class LearnManager {
             }, null, this.context.subscriptions);
             
             // Set HTML content
-            panel.webview.html = this.getLessonHtml(lessonContent, lesson);
+            const lessonDirectory = path.dirname(lessonPath);
+            const resolveResourceUri = this.createResourceResolver(panel.webview, lessonDirectory);
+            panel.webview.html = this.getLessonHtml(lessonContent, lesson, {
+                resolveResourceUri
+            });
             
             // Handle messages from webview
             panel.webview.onDidReceiveMessage(
@@ -299,9 +309,17 @@ class LearnManager {
      * @param {Object} lesson - Lesson metadata
      * @returns {string} HTML string
      */
-    getLessonHtml(content, lesson) {
+    getLessonHtml(content, lesson, options = {}) {
+        const resolveResourceUri = typeof options.resolveResourceUri === 'function'
+            ? options.resolveResourceUri
+            : null;
+
         // Convert markdown to HTML (simplified)
-        const htmlContent = this.markdownToHtml(content);
+        let htmlContent = this.markdownToHtml(content);
+
+        if (resolveResourceUri) {
+            htmlContent = this.rewriteImageSources(htmlContent, resolveResourceUri);
+        }
         
         const exerciseVariants = Array.isArray(lesson.exerciseVariants) ? lesson.exerciseVariants : [];
         const exercisesDisabled = lesson && lesson.exerciseAvailable === false;
@@ -529,6 +547,15 @@ class LearnManager {
                 .replace(/\n{3,}/g, '\n\n');
             return `<pre><code>${processedCode}</code></pre>`;
         });
+
+        // Convert images
+        html = html.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
+            const rawSource = (src || '').trim();
+            const altText = (alt || '').trim();
+            const safeAlt = this.escapeHtml(altText);
+            const safeSource = this.escapeHtml(rawSource);
+            return `<img src="${safeSource}" alt="${safeAlt}" data-tsi-src="${safeSource}">`;
+        });
         
         // Convert headers
         html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
@@ -537,7 +564,7 @@ class LearnManager {
         
         // Convert lists
         html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-        html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+    html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
         
         // Convert bold and italic (before inline code to avoid conflicts)
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
@@ -577,6 +604,541 @@ class LearnManager {
             .replace(/'/g, '&#039;');
     }
 
+    rewriteImageSources(html, resolveResourceUri) {
+        if (typeof html !== 'string') {
+            return html;
+        }
+
+        return html.replace(/<img\s+([^>]*?)src="(.*?)"([^>]*)>/g, (match, before, src, after) => {
+            const rawSource = src.trim();
+            const resolved = rawSource.startsWith('http://') || rawSource.startsWith('https://')
+                ? rawSource
+                : resolveResourceUri(rawSource);
+
+            const resolvedString = typeof resolved === 'string'
+                ? resolved
+                : (resolved && typeof resolved.toString === 'function'
+                    ? resolved.toString()
+                    : rawSource);
+
+            const escapedSrc = this.escapeHtml(resolvedString);
+            return `<img ${before || ''}src="${escapedSrc}"${after || ''}>`;
+        });
+    }
+
+    createResourceResolver(webview, baseDirectory) {
+        const vscodeUri = this.vscode && this.vscode.Uri;
+        return (sourcePath) => {
+            if (!sourcePath) {
+                return sourcePath;
+            }
+
+            if (/^(?:https?:|data:)/i.test(sourcePath)) {
+                return sourcePath;
+            }
+
+            const normalizedPath = path.isAbsolute(sourcePath)
+                ? sourcePath
+                : path.resolve(baseDirectory, sourcePath);
+
+            if (!webview || typeof webview.asWebviewUri !== 'function' || !vscodeUri || typeof vscodeUri.file !== 'function') {
+                return normalizedPath;
+            }
+
+            const fileUri = vscodeUri.file(normalizedPath);
+            const webviewUri = webview.asWebviewUri(fileUri);
+            return typeof webviewUri === 'string' ? webviewUri : webviewUri.toString();
+        };
+    }
+
+    async startQuizExercise(language, lesson, exercise, context = {}) {
+        try {
+            if (this.currentQuizPanel) {
+                this.currentQuizPanel.dispose();
+                this.currentQuizPanel = null;
+            }
+
+            const panel = this.vscode.window.createWebviewPanel(
+                'tsiLearnQuiz',
+                `${exercise.title || lesson.title || 'Quiz'}`,
+                this.vscode.ViewColumn.One,
+                {
+                    enableScripts: true,
+                    retainContextWhenHidden: true
+                }
+            );
+
+            this.currentQuizPanel = panel;
+            panel.onDidDispose(() => {
+                if (this.currentQuizPanel === panel) {
+                    this.currentQuizPanel = null;
+                }
+            }, null, this.context.subscriptions);
+
+            panel.webview.html = this.getQuizHtml(exercise, lesson);
+
+            panel.webview.onDidReceiveMessage(async (message) => {
+                if (!message || typeof message.command !== 'string') {
+                    return;
+                }
+
+                if (message.command === 'submitQuiz') {
+                    await this.handleQuizSubmission({
+                        language,
+                        lesson,
+                        exercise,
+                        panel,
+                        answers: message.answers || {}
+                    });
+                } else if (message.command === 'closeQuiz') {
+                    panel.dispose();
+                } else if (message.command === 'openNextLesson') {
+                    await this.openNextLessonFromQuiz({ language, lesson, panel });
+                }
+            }, undefined, this.context.subscriptions);
+        } catch (error) {
+            this.vscode.window.showErrorMessage(
+                `Failed to start quiz: ${error.message}`,
+                { modal: true },
+                'Got it!'
+            );
+        }
+    }
+
+    getQuizHtml(exercise, lesson) {
+        const questions = Array.isArray(exercise.questions) ? exercise.questions : [];
+
+        const questionMarkup = questions.map((question, index) => {
+            const questionId = this.escapeHtml(question.id || `question_${index + 1}`);
+            const prompt = this.markdownToHtml(question.prompt || `Question ${index + 1}`);
+            const type = (question.type || 'single').toLowerCase();
+            const options = Array.isArray(question.options) ? question.options : [];
+
+            let inputs = '';
+            if (type === 'multiple') {
+                inputs = options.map((option, optionIndex) => {
+                    const optionId = this.escapeHtml(option.id || `${questionId}_option_${optionIndex + 1}`);
+                    const optionText = this.escapeHtml(option.text || `Option ${optionIndex + 1}`);
+                    return `
+                        <label class="quiz-option">
+                            <input type="checkbox" name="${questionId}" value="${optionId}">
+                            <span>${optionText}</span>
+                        </label>`;
+                }).join('\n');
+            } else if (type === 'truefalse') {
+                inputs = ['true', 'false'].map(value => {
+                    return `
+                        <label class="quiz-option">
+                            <input type="radio" name="${questionId}" value="${value}">
+                            <span>${value.charAt(0).toUpperCase() + value.slice(1)}</span>
+                        </label>`;
+                }).join('\n');
+            } else {
+                inputs = options.map((option, optionIndex) => {
+                    const optionId = this.escapeHtml(option.id || `${questionId}_option_${optionIndex + 1}`);
+                    const optionText = this.escapeHtml(option.text || `Option ${optionIndex + 1}`);
+                    return `
+                        <label class="quiz-option">
+                            <input type="radio" name="${questionId}" value="${optionId}">
+                            <span>${optionText}</span>
+                        </label>`;
+                }).join('\n');
+            }
+
+            return `
+                <section class="quiz-question" data-question="${questionId}">
+                    <h2>Question ${index + 1}</h2>
+                    <div class="quiz-prompt">${prompt}</div>
+                    <div class="quiz-options">${inputs}</div>
+                    <div class="quiz-feedback" id="feedback-${questionId}"></div>
+                </section>`;
+        }).join('\n');
+
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${this.escapeHtml(exercise.title || 'Quiz')}</title>
+    <style>
+        body {
+            font-family: var(--vscode-font-family, sans-serif);
+            color: var(--vscode-foreground);
+            background: var(--vscode-editor-background);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: var(--vscode-textLink-foreground);
+            margin-bottom: 16px;
+        }
+        h2 {
+            margin: 12px 0;
+            color: var(--vscode-textLink-activeForeground);
+        }
+        .quiz-question {
+            background: var(--vscode-textBlockQuote-background, rgba(0,0,0,0.1));
+            border-left: 4px solid var(--vscode-textLink-foreground);
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        .quiz-option {
+            display: block;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        .quiz-option input {
+            margin-right: 8px;
+        }
+        .quiz-actions {
+            margin-top: 24px;
+        }
+        button {
+            background-color: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: var(--vscode-button-hoverBackground);
+        }
+        button.secondary {
+            background-color: transparent;
+            border: 1px solid var(--vscode-button-border, var(--vscode-button-hoverBackground));
+            color: var(--vscode-button-foreground);
+        }
+        button.secondary:hover {
+            background-color: var(--vscode-button-hoverBackground);
+        }
+        .quiz-feedback {
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .quiz-feedback.correct {
+            color: var(--vscode-testing-iconPassed, #4caf50);
+        }
+        .quiz-feedback.incorrect {
+            color: var(--vscode-testing-iconFailed, #f44336);
+        }
+        .quiz-score {
+            margin-top: 20px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1>${this.escapeHtml(exercise.title || 'Quiz')}</h1>
+    <p>${this.escapeHtml(exercise.description || '')}</p>
+    <form id="tsi-quiz-form">
+        ${questionMarkup}
+        <div class="quiz-actions">
+            <button type="button" onclick="submitQuiz()">Submit Answers</button>
+            <button type="button" onclick="resetQuiz()">Reset</button>
+            <button type="button" class="secondary" onclick="openNextLesson()">Next Lesson</button>
+        </div>
+        <div class="quiz-score" id="quiz-score"></div>
+    </form>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+
+        function collectAnswers() {
+            const form = document.getElementById('tsi-quiz-form');
+            const formData = new FormData(form);
+            const answers = {};
+
+            form.querySelectorAll('.quiz-question').forEach(section => {
+                const questionId = section.getAttribute('data-question');
+                const inputs = section.querySelectorAll('input');
+
+                if (inputs.length === 0) {
+                    return;
+                }
+
+                const inputType = inputs[0].type;
+                if (inputType === 'checkbox') {
+                    answers[questionId] = Array.from(inputs)
+                        .filter(input => input.checked)
+                        .map(input => input.value);
+                } else {
+                    answers[questionId] = formData.get(questionId);
+                }
+            });
+
+            return answers;
+        }
+
+        function submitQuiz() {
+            const answers = collectAnswers();
+            vscode.postMessage({ command: 'submitQuiz', answers });
+        }
+
+        function resetQuiz() {
+            const form = document.getElementById('tsi-quiz-form');
+            form.reset();
+            document.querySelectorAll('.quiz-feedback').forEach(el => {
+                el.textContent = '';
+                el.classList.remove('correct', 'incorrect');
+            });
+            document.getElementById('quiz-score').textContent = '';
+        }
+
+        function openNextLesson() {
+            vscode.postMessage({ command: 'openNextLesson' });
+        }
+
+        window.addEventListener('message', event => {
+            const message = event.data || {};
+            if (message.command === 'quizResult') {
+                const { details = [], scoreText = '' } = message;
+                details.forEach(detail => {
+                    const el = document.getElementById('feedback-' + detail.id);
+                    if (!el) return;
+                    el.textContent = detail.message;
+                    el.classList.remove('correct', 'incorrect');
+                    if (detail.correct) {
+                        el.classList.add('correct');
+                    } else {
+                        el.classList.add('incorrect');
+                    }
+                });
+                document.getElementById('quiz-score').textContent = scoreText;
+            }
+        });
+    </script>
+</body>
+</html>`;
+    }
+
+    async handleQuizSubmission({ language, lesson, exercise, panel, answers }) {
+        const evaluation = this.evaluateQuizAnswers(exercise, answers);
+
+        panel.webview.postMessage({
+            command: 'quizResult',
+            details: evaluation.details,
+            scoreText: `Score: ${evaluation.correct}/${evaluation.total}`
+        });
+
+        if (!evaluation.passed) {
+            const message = evaluation.feedbackMessage || 'Keep trying! Review the explanations and adjust your answers.';
+            const progressLanguage = exercise.curriculumLanguage || language;
+            const { nextLesson } = await this.findNextLessonCandidate(progressLanguage, lesson);
+            const warningButtons = nextLesson
+                ? ['Retry', 'Next Lesson', 'Close Quiz']
+                : ['Retry', 'Close Quiz'];
+
+            this.vscode.window.showWarningMessage(
+                `❌ Quiz incomplete. ${message}`,
+                { modal: true },
+                ...warningButtons
+            ).then(async selection => {
+                if (selection === 'Next Lesson' && nextLesson) {
+                    panel.dispose();
+                    await this.openLesson(progressLanguage, nextLesson);
+                } else if (selection === 'Close Quiz') {
+                    panel.dispose();
+                }
+            });
+            return;
+        }
+
+        const exerciseId = exercise.id || `${lesson.id}_quiz`;
+        const progressLanguage = exercise.curriculumLanguage || language;
+        await this.progressTracker.recordCompletion(progressLanguage, exerciseId, {
+            lessonId: lesson.id,
+            baseExerciseId: exercise.baseExerciseId || exerciseId,
+            mode: 'quiz'
+        });
+
+        const curriculum = await this.loadCurriculum(progressLanguage);
+        const progress = await this.progressTracker.getProgress(progressLanguage);
+        const { nextLesson } = await this.findNextLessonCandidate(progressLanguage, lesson, {
+            curriculum,
+            progress
+        });
+
+        const infoButtons = nextLesson
+            ? ['Next Lesson', 'Browse Lessons', 'Close Quiz']
+            : ['Browse Lessons', 'Close Quiz'];
+
+        this.vscode.window.showInformationMessage(
+            `✅ Quiz "${exercise.title || lesson.title}" completed! ${evaluation.correct}/${evaluation.total} correct.`,
+            { modal: true },
+            ...infoButtons
+        ).then(async selection => {
+            if (selection === 'Next Lesson' && nextLesson) {
+                panel.dispose();
+                await this.openLesson(progressLanguage, nextLesson);
+            } else if (selection === 'Browse Lessons') {
+                panel.dispose();
+                this.browseLessons(progressLanguage);
+            } else if (selection === 'Close Quiz') {
+                panel.dispose();
+            }
+        });
+    }
+
+    async findNextLessonCandidate(language, lesson, { curriculum, progress } = {}) {
+        let activeCurriculum = curriculum;
+        if (!activeCurriculum) {
+            activeCurriculum = await this.loadCurriculum(language);
+        }
+
+        const lessonId = lesson && lesson.id ? lesson.id : null;
+        let sequentialNext = null;
+        if (lessonId) {
+            sequentialNext = this.getLessonAfter(activeCurriculum, lessonId);
+            if (sequentialNext && sequentialNext.id === lessonId) {
+                sequentialNext = null;
+            }
+        }
+
+        if (sequentialNext) {
+            return { nextLesson: sequentialNext, curriculum: activeCurriculum };
+        }
+
+        let activeProgress = progress;
+        if (!activeProgress) {
+            activeProgress = await this.progressTracker.getProgress(language);
+        }
+
+        const fallback = this.getNextLesson(activeCurriculum, activeProgress) || null;
+        if (fallback && lessonId && fallback.id === lessonId) {
+            return { nextLesson: null, curriculum: activeCurriculum };
+        }
+
+        return { nextLesson: fallback, curriculum: activeCurriculum };
+    }
+
+    async openNextLessonFromQuiz({ language, lesson, panel }) {
+        try {
+            const { nextLesson } = await this.findNextLessonCandidate(language, lesson);
+
+            if (nextLesson) {
+                panel.dispose();
+                await this.openLesson(language, nextLesson);
+                return;
+            }
+
+            this.vscode.window.showInformationMessage('You have reached the end of the available lessons for now. Feel free to revisit previous chapters.');
+        } catch (error) {
+            this.vscode.window.showErrorMessage(`Unable to open the next lesson: ${error.message}`);
+        }
+    }
+
+    evaluateQuizAnswers(exercise, answers = {}) {
+        const questions = Array.isArray(exercise.questions) ? exercise.questions : [];
+        const details = [];
+        let correctCount = 0;
+
+        for (const question of questions) {
+            const questionId = question.id || question.prompt;
+            const provided = answers && Object.prototype.hasOwnProperty.call(answers, questionId)
+                ? answers[questionId]
+                : undefined;
+
+            const evaluation = this.evaluateQuizQuestion(question, provided);
+            if (evaluation.correct) {
+                correctCount += 1;
+            }
+
+            details.push({
+                id: questionId,
+                correct: evaluation.correct,
+                message: evaluation.message
+            });
+        }
+
+        const total = questions.length || 0;
+        const threshold = typeof exercise.passScore === 'number'
+            ? Math.max(0, Math.min(exercise.passScore, total))
+            : total;
+
+        const passed = correctCount >= threshold;
+
+        return {
+            passed,
+            correct: correctCount,
+            total,
+            details,
+            feedbackMessage: passed ? null : `You answered ${correctCount} out of ${total} correctly. Review the incorrect questions and try again.`
+        };
+    }
+
+    evaluateQuizQuestion(question, providedAnswer) {
+        const type = (question.type || 'single').toLowerCase();
+        const options = Array.isArray(question.options) ? question.options : [];
+        const explanation = question.explanation || '';
+
+        const failResult = (message) => ({
+            correct: false,
+            message: explanation ? `${message} ${explanation}` : message
+        });
+
+        if (type === 'multiple') {
+            const correctOptions = options.filter(option => option.correct || option.isCorrect || option.id === question.answer);
+            const expectedIds = correctOptions.map(option => option.id || option.value).filter(Boolean).sort();
+            const providedIds = Array.isArray(providedAnswer)
+                ? providedAnswer.map(String).sort()
+                : (typeof providedAnswer === 'string' && providedAnswer.length ? [providedAnswer] : []);
+
+            if (expectedIds.length === 0) {
+                return failResult('No correct answers were defined for this question.');
+            }
+
+            const matches = expectedIds.length === providedIds.length && expectedIds.every((id, index) => id === providedIds[index]);
+            if (matches) {
+                return {
+                    correct: true,
+                    message: '✅ Correct!'
+                };
+            }
+
+            return failResult('Incorrect selection. Ensure you selected all correct answers.');
+        }
+
+        if (type === 'truefalse') {
+            const expected = typeof question.answer === 'string'
+                ? question.answer.toLowerCase()
+                : (question.correct === true ? 'true' : (question.correct === false ? 'false' : ''));
+
+            if (!expected) {
+                return failResult('No answer key defined for this question.');
+            }
+
+            const provided = (providedAnswer || '').toString().toLowerCase();
+            if (provided === expected) {
+                return {
+                    correct: true,
+                    message: '✅ Correct!'
+                };
+            }
+
+            return failResult('Incorrect. Review the concept and try again.');
+        }
+
+        const correctOption = options.find(option => option.correct || option.isCorrect);
+        const expectedId = correctOption ? (correctOption.id || correctOption.value) : question.answer;
+
+        if (!expectedId) {
+            return failResult('No correct answer defined for this question.');
+        }
+
+        if (providedAnswer && providedAnswer.toString() === expectedId.toString()) {
+            return {
+                correct: true,
+                message: '✅ Correct!'
+            };
+        }
+
+        return failResult('Incorrect answer. Review the explanation and try again.');
+    }
+
     /**
      * Start an exercise
      * @param {string} language - The programming language
@@ -591,6 +1153,15 @@ class LearnManager {
 
             const variantId = options.variantId;
             const exerciseLanguage = (options.exerciseLanguage || (variantId ? null : language) || language).toLowerCase();
+
+            if (exercise.mode === 'quiz') {
+                await this.startQuizExercise(language, lesson, exercise, {
+                    variantId,
+                    exerciseLanguage,
+                    options
+                });
+                return;
+            }
 
             let variant = null;
             if (Array.isArray(exercise.variants) && exercise.variants.length > 0) {
