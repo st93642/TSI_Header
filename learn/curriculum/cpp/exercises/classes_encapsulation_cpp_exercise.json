@@ -1,0 +1,27 @@
+{
+  "id": "classes_encapsulation_cpp_exercise",
+  "title": "Classes and Encapsulation",
+  "description": "Implement a `BankAccount` class with encapsulation, demonstrating constructors, member functions, and access control. The program should create accounts and perform operations.\n\nSteps:\n1. Define `BankAccount` class with private `accountNumber`, `balance`.\n2. Add static member for next account number.\n3. Implement constructors: default and parameterized.\n4. Add member functions: `deposit`, `withdraw`, `getBalance` (const).\n5. In main, create accounts, perform transactions, display balances.\n\nExpected output/results: Correct balances after operations.",
+  "tags": ["cpp", "classes", "encapsulation", "oop"],
+  "starterCode": "#include <iostream>\n#include <string>\n\n// TODO: Define BankAccount class\n// class BankAccount {\n// private:\n//     std::string accountNumber;\n//     double balance;\n//     static int nextAccountNumber;\n// public:\n//     // constructors\n//     // member functions\n// };\n\nint main() {\n    // TODO: Create accounts and perform operations\n    // BankAccount acc1(1000);\n    // acc1.deposit(500);\n    // std::cout << acc1.getBalance() << std::endl;\n    \n    return 0;\n}",
+  "tests": [
+    {
+      "name": "Account creation and deposit",
+      "type": "output",
+      "input": "",
+      "expected": "1500\n"
+    },
+    {
+      "name": "Withdraw operation",
+      "type": "output",
+      "input": "",
+      "expected": "800\n"
+    }
+  ],
+  "hints": [
+    "Use private for data members.",
+    "Static member for unique account numbers.",
+    "Const for getters.",
+    "Check balance before withdraw."
+  ]
+}

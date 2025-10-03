@@ -1,0 +1,27 @@
+{
+  "id": "inheritance_cpp_exercise",
+  "title": "Inheritance",
+  "description": "Implement inheritance with `Animal` base class and `Dog`, `Cat` derived classes. Demonstrate overriding and polymorphism.\n\nSteps:\n1. Define `Animal` base class with `name`, virtual `speak()`.\n2. Create `Dog` and `Cat` inheriting from `Animal`, override `speak()`.\n3. In main, create objects, call `speak()`.\n\nExpected output/results: Correct animal sounds.",
+  "tags": ["cpp", "inheritance", "polymorphism", "oop"],
+  "starterCode": "#include <iostream>\n#include <string>\n\n// TODO: Define Animal base class\n// class Animal {\n// protected:\n//     std::string name;\n// public:\n//     Animal(std::string n) : name(n) {}\n//     virtual void speak() const { std::cout << \"Animal sound\" << std::endl; }\n// };\n\n// TODO: Define derived classes\n// class Dog : public Animal {\n// public:\n//     Dog(std::string n) : Animal(n) {}\n//     void speak() const override { std::cout << name << \" barks\" << std::endl; }\n// };\n\nint main() {\n    // TODO: Create objects and call speak\n    // Dog dog(\"Buddy\");\n    // dog.speak();\n    \n    return 0;\n}",
+  "tests": [
+    {
+      "name": "Dog speak",
+      "type": "output",
+      "input": "",
+      "expected": "Buddy barks\n"
+    },
+    {
+      "name": "Cat speak",
+      "type": "output",
+      "input": "",
+      "expected": "Whiskers meows\n"
+    }
+  ],
+  "hints": [
+    "Use public inheritance for is-a relationship.",
+    "Make base method virtual.",
+    "Override in derived classes.",
+    "Use initializer list for base constructor."
+  ]
+}

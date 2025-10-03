@@ -2,7 +2,7 @@
   "language": "C++",
   "version": "0.1.0",
   "description": "Guided C++ curriculum designed for hands-on practice inside VS Code.",
-  "estimatedHours": 32,
+  "estimatedHours": 75,
   "modules": [
     {
       "id": "getting_started",
@@ -96,6 +96,12 @@
           "title": "Lesson 5.2: Modeling Data with Structs",
           "duration": 55,
           "difficulty": "intermediate"
+        },
+        {
+          "id": "classes_objects_cpp",
+          "title": "Lesson 5.3: Introduction to Classes and Objects",
+          "duration": 60,
+          "difficulty": "intermediate"
         }
       ]
     },
@@ -117,6 +123,82 @@
           "difficulty": "intermediate"
         }
       ]
+    },
+    {
+      "id": "oop_cpp",
+      "title": "Module 7: Object-Oriented Programming",
+      "description": "Master classes, inheritance, and polymorphism to build modular, extensible software.",
+      "lessons": [
+        {
+          "id": "classes_encapsulation_cpp",
+          "title": "Lesson 7.1: Classes and Encapsulation",
+          "duration": 60,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "inheritance_cpp",
+          "title": "Lesson 7.2: Inheritance",
+          "duration": 60,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "polymorphism_cpp",
+          "title": "Lesson 7.3: Polymorphism and Virtual Functions",
+          "duration": 60,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "templates_cpp",
+      "title": "Module 8: Templates and Generic Programming",
+      "description": "Write reusable, type-safe code with templates and understand STL implementation.",
+      "lessons": [
+        {
+          "id": "function_class_templates_cpp",
+          "title": "Lesson 8.1: Function and Class Templates",
+          "duration": 60,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "stl_internals_cpp",
+          "title": "Lesson 8.2: STL Internals and Custom Containers",
+          "duration": 60,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "exception_handling_cpp",
+      "title": "Module 9: Exception Handling and Error Management",
+      "description": "Master exception handling, RAII, and robust error management in C++.",
+      "lessons": [
+        {
+          "id": "basic_exceptions_cpp",
+          "title": "Lesson 9.1: Basic Exception Handling",
+          "duration": 60,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "exception_safety_cpp",
+          "title": "Lesson 9.2: Exception Safety and RAII",
+          "duration": 60,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "file_io_cpp",
+      "title": "Module 10: File I/O and Streams",
+      "description": "Master file input/output operations using C++ streams for data persistence and serialization.",
+      "lessons": [
+        {
+          "id": "file_streams_cpp",
+          "title": "Lesson 10.1: File Streams and Serialization",
+          "duration": 60,
+          "difficulty": "intermediate"
+        }
+      ]
     }
   ],
   "prerequisites": [
@@ -128,6 +210,10 @@
     "Use variables, arithmetic, and user input safely",
     "Control program flow with conditional logic and loops",
     "Organize code into reusable functions and header/source pairs",
-    "Leverage STL containers and algorithms to summarise datasets"
+    "Leverage STL containers and algorithms to summarise datasets",
+    "Design object-oriented hierarchies with classes, inheritance, and polymorphism",
+    "Implement generic code with templates for type safety and reusability",
+    "Handle errors gracefully with exceptions and ensure resource safety",
+    "Read from and write to files using C++ streams for data persistence"
   ]
 }

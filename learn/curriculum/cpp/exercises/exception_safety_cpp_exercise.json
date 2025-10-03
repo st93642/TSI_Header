@@ -1,0 +1,32 @@
+{
+  "id": "exception_safety_cpp_exercise",
+  "title": "Exception Safety and RAII Exercise",
+  "description": "Practice exception safety guarantees and RAII resource management.\n\nSteps:\n1. Implement RAII FileHandle class for automatic file management\n2. Create SafeVector with strong exception safety using copy-and-swap\n3. Implement FileProcessor that processes files safely\n4. Test exception safety with various failure scenarios\n5. Demonstrate proper resource cleanup on exceptions\n\nExpected output/results: The program should successfully process valid files, handle file opening errors gracefully, and maintain valid state even when operations fail partway through.",
+  "difficulty": "advanced",
+  "duration": 60,
+  "type": "output",
+  "task": "Implement an exception-safe container class with RAII resource management. Create a FileProcessor that safely handles file operations and demonstrates different exception safety guarantees.\n\nSteps:\n1. Implement RAII FileHandle class for automatic file management\n2. Create SafeVector with strong exception safety using copy-and-swap\n3. Implement FileProcessor that processes files safely\n4. Test exception safety with various failure scenarios\n5. Demonstrate proper resource cleanup on exceptions\n\nExpected output/results: The program should successfully process valid files, handle file opening errors gracefully, and maintain valid state even when operations fail partway through.",
+  "inputFormat": "The program should process files specified on command line and perform operations that may throw exceptions",
+  "outputFormat": "Show successful operations and proper error handling with resource cleanup",
+  "tests": [
+    {
+      "name": "Successful file processing",
+      "type": "output",
+      "expected": "Processing file: test.txt\nReading 100 lines...\nProcessing complete.\nFile closed successfully."
+    },
+    {
+      "name": "File not found error handling",
+      "type": "output",
+      "expected": "Error: Failed to open file 'nonexistent.txt'"
+    }
+  ],
+  "hints": [
+    "Use RAII for file handles and other resources",
+    "Implement copy-and-swap for strong exception safety",
+    "Use smart pointers for automatic resource management",
+    "Test exception safety with operations that can fail",
+    "Ensure resources are cleaned up even when exceptions occur"
+  ],
+  "starterCode": "// Exception Safety and RAII Exercise\n// Implement exception-safe container and file processor\n\n#include <iostream>\n#include <vector>\n#include <memory>\n#include <string>\n#include <fstream>\n#include <stdexcept>\n\n// TODO: Implement RAII file handle\nclass FileHandle {\nprivate:\n    std::ifstream file_;\n    std::string filename_;\n    \npublic:\n    // Constructor opens file\n    FileHandle(const std::string& filename);\n    \n    // Destructor closes file\n    ~FileHandle();\n    \n    // Disable copying\n    FileHandle(const FileHandle&) = delete;\n    FileHandle& operator=(const FileHandle&) = delete;\n    \n    // Allow moving\n    FileHandle(FileHandle&& other) noexcept;\n    FileHandle& operator=(FileHandle&& other) noexcept;\n    \n    // Access file\n    std::ifstream& file();\n    const std::string& filename() const;\n    \n    bool is_open() const;\n};\n\n// TODO: Implement exception-safe container\nclass SafeVector {\nprivate:\n    std::unique_ptr<int[]> data_;\n    size_t size_;\n    size_t capacity_;\n    \npublic:\n    SafeVector();\n    ~SafeVector() = default;\n    \n    // Copy operations with strong exception safety\n    SafeVector(const SafeVector& other);\n    SafeVector& operator=(const SafeVector& other);\n    \n    // Move operations\n    SafeVector(SafeVector&& other) noexcept;\n    SafeVector& operator=(SafeVector&& other) noexcept;\n    \n    // Element access\n    int& operator[](size_t index);\n    const int& operator[](size_t index) const;\n    \n    // Capacity\n    size_t size() const;\n    size_t capacity() const;\n    bool empty() const;\n    \n    // Modifiers with exception safety\n    void push_back(int value);  // Strong guarantee\n    void reserve(size_t new_capacity);  // Strong guarantee\n    void clear() noexcept;  // No-throw\n    \n    // Iterator support\n    int* begin();\n    int* end();\n    const int* begin() const;\n    const int* end() const;\n};\n\n// TODO: Implement file processor with exception safety\nclass FileProcessor {\nprivate:\n    SafeVector data_;\n    \npublic:\n    // Process file with exception safety\n    void process_file(const std::string& filename);\n    \n    // Get results\n    const SafeVector& data() const;\n    void print_summary() const;\n};\n\n// TODO: Implement main function\nint main(int argc, char* argv[]) {\n    if (argc < 2) {\n        std::cout << \"Usage: \" << argv[0] << \" <filename>\" << std::endl;\n        return 1;\n    }\n    \n    FileProcessor processor;\n    \n    try {\n        processor.process_file(argv[1]);\n        processor.print_summary();\n    } catch (const std::exception& e) {\n        std::cout << \"Error: \" << e.what() << std::endl;\n        return 1;\n    }\n    \n    return 0;\n}\n\n// Implementation stubs - TODO: Complete these\nFileHandle::FileHandle(const std::string& filename) \n    : filename_(filename) {\n    // Open file\n}\n\nFileHandle::~FileHandle() {\n    // Close file if open\n}\n\n// ... other FileHandle methods ...\n\nSafeVector::SafeVector() : size_(0), capacity_(0) {}\n\n// ... SafeVector methods ...\n\nvoid FileProcessor::process_file(const std::string& filename) {\n    // Open file safely\n    // Read data with exception safety\n    // Process data\n}\n\n// ... other FileProcessor methods ...",
+  "solution": "exception_safety_cpp_exercise.json"
+}

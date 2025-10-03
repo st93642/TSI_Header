@@ -1,6 +1,7 @@
 const assert = require('assert');
-const path = require('path');
-const LearnManager = require('../lib/learn_manager');
+const path = require('path');    // const resolvedAfterFinal = learnManager.getNextLessonForSolution(curriculum, progress, 'polymorphism_cpp');
+    // assert(resolvedAfterFinal, 'Expected a fallback lesson after reaching the end');
+    // assert.strictEqual(resolvedAfterFinal.id, nextFromProgress.id, 'At curriculum end, fall back to first incomplete lesson');nst LearnManager = require('../lib/learn_manager');
 
 const contextStub = {
     subscriptions: [],
@@ -52,10 +53,14 @@ function loadCurriculum(language) {
 
     const sequentialAfterModuleFive = learnManager.getLessonAfter(curriculum, 'structs_cpp');
     assert(sequentialAfterModuleFive, 'Lesson after Module 5 should exist');
-    assert.strictEqual(sequentialAfterModuleFive.id, 'maps_cpp', 'Should advance to Module 6 after structs');
+    assert.strictEqual(sequentialAfterModuleFive.id, 'classes_objects_cpp', 'Should advance to classes lesson after structs');
 
-    const sequentialAfterFinal = learnManager.getLessonAfter(curriculum, 'stl_algorithms_cpp');
-    assert.strictEqual(sequentialAfterFinal, null, 'Final lesson should not return a next lesson');
+    const sequentialAfterModuleSix = learnManager.getLessonAfter(curriculum, 'stl_algorithms_cpp');
+    assert(sequentialAfterModuleSix, 'Lesson after Module 6 should exist');
+    assert.strictEqual(sequentialAfterModuleSix.id, 'classes_encapsulation_cpp', 'Should advance to OOP module after algorithms');
+
+    const sequentialAfterOOP = learnManager.getLessonAfter(curriculum, 'polymorphism_cpp');
+    assert.strictEqual(sequentialAfterOOP, null, 'Final lesson should not return a next lesson');
 
     const resolvedAfterFinal = learnManager.getNextLessonForSolution(curriculum, progress, 'stl_algorithms_cpp');
     assert(resolvedAfterFinal, 'Expected a fallback lesson after reaching the end');

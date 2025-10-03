@@ -1,0 +1,13 @@
+{
+  "exerciseId": "stl_internals_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <algorithm>\n\ntemplate <typename T>\nclass MyVector {\nprivate:\n    T* data;\n    size_t size_, capacity;\n    \n    void resize(size_t new_capacity) {\n        T* new_data = new T[new_capacity];\n        for (size_t i = 0; i < size_; ++i) {\n            new_data[i] = data[i];\n        }\n        delete[] data;\n        data = new_data;\n        capacity = new_capacity;\n    }\n    \npublic:\n    MyVector() : data(nullptr), size_(0), capacity(0) {}\n    ~MyVector() { delete[] data; }\n    \n    void push_back(const T& value) {\n        if (size_ == capacity) {\n            resize(capacity == 0 ? 1 : capacity * 2);\n        }\n        data[size_++] = value;\n    }\n    \n    T& operator[](size_t index) { return data[index]; }\n    const T& operator[](size_t index) const { return data[index]; }\n    \n    T* begin() { return data; }\n    T* end() { return data + size_; }\n    const T* begin() const { return data; }\n    const T* end() const { return data + size_; }\n    \n    size_t size() const { return size_; }\n};\n\nint main() {\n    MyVector<int> vec;\n    vec.push_back(3);\n    vec.push_back(1);\n    vec.push_back(4);\n    std::sort(vec.begin(), vec.end());\n    for (size_t i = 0; i < vec.size(); ++i) {\n        std::cout << vec[i] << ' ';\n    }\n    std::cout << std::endl;\n    \n    return 0;\n}",
+  "explanation": "This solution implements a basic vector-like container with dynamic array storage, push_back with resizing, and iterator support for STL compatibility. std::sort works because the container provides random access iterators (pointers).",
+  "keyPoints": [
+    "Use dynamic arrays with new[]/delete[].",
+    "Implement exponential growth for push_back.",
+    "Provide begin/end for iterator access.",
+    "Overload operator[] for indexing.",
+    "STL algorithms require iterator interface."
+  ]
+}

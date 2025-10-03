@@ -1,0 +1,13 @@
+{
+  "exerciseId": "inheritance_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <string>\n\nclass Animal {\nprotected:\n    std::string name;\npublic:\n    Animal(std::string n) : name(n) {}\n    virtual void speak() const {\n        std::cout << \"Animal sound\" << std::endl;\n    }\n    virtual ~Animal() {}\n};\n\nclass Dog : public Animal {\npublic:\n    Dog(std::string n) : Animal(n) {}\n    void speak() const override {\n        std::cout << name << \" barks\" << std::endl;\n    }\n};\n\nclass Cat : public Animal {\npublic:\n    Cat(std::string n) : Animal(n) {}\n    void speak() const override {\n        std::cout << name << \" meows\" << std::endl;\n    }\n};\n\nint main() {\n    Dog dog(\"Buddy\");\n    dog.speak();\n    \n    Cat cat(\"Whiskers\");\n    cat.speak();\n    \n    return 0;\n}",
+  "explanation": "This solution demonstrates inheritance: Animal base class with virtual speak method, Dog and Cat derived classes overriding speak. Protected name allows derived access. Virtual destructor ensures proper cleanup.",
+  "keyPoints": [
+    "Base class with virtual methods.",
+    "Public inheritance for is-a.",
+    "Override keyword for clarity.",
+    "Protected for derived access.",
+    "Virtual destructor for polymorphism."
+  ]
+}

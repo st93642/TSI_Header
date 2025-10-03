@@ -186,11 +186,27 @@ class TestLearnCpp < TestModule
       },
       {
         id: 'data_structures_cpp',
-        lessons: %w[vectors_cpp structs_cpp]
+        lessons: %w[vectors_cpp structs_cpp classes_objects_cpp]
       },
       {
         id: 'algorithms_and_maps',
         lessons: %w[maps_cpp stl_algorithms_cpp]
+      },
+      {
+        id: 'oop_cpp',
+        lessons: %w[classes_encapsulation_cpp inheritance_cpp polymorphism_cpp]
+      },
+      {
+        id: 'templates_cpp',
+        lessons: %w[function_class_templates_cpp stl_internals_cpp]
+      },
+      {
+        id: 'exception_handling_cpp',
+        lessons: %w[basic_exceptions_cpp exception_safety_cpp]
+      },
+      {
+        id: 'file_io_cpp',
+        lessons: %w[file_streams_cpp]
       }
     ].freeze
   }.freeze

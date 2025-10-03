@@ -1,0 +1,13 @@
+{
+  "exerciseId": "classes_objects_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <string>\n#include <iomanip>\n\nclass Student {\nprivate:\n    std::string name;\n    int id;\n    double gpa;\npublic:\n    Student() : name(\"\"), id(0), gpa(0.0) {}\n    Student(std::string n, int i, double g) : name(n), id(i), gpa(g) {}\n    \n    void setName(std::string n) { name = n; }\n    std::string getName() { return name; }\n    void setGPA(double g) { gpa = g; }\n    double getGPA() { return gpa; }\n    \n    void display() {\n        std::cout << \"Name: \" << name << std::endl;\n        std::cout << \"ID: \" << id << std::endl;\n        std::cout << std::fixed << std::setprecision(2);\n        std::cout << \"GPA: \" << gpa << std::endl;\n    }\n};\n\nint main() {\n    Student s1;\n    s1.setName(\"Alice\");\n    s1.setGPA(3.5);\n    s1.display();\n    \n    Student s2(\"Bob\", 123, 4.0);\n    s2.display();\n    \n    return 0;\n}",
+  "explanation": "This solution defines a Student class with encapsulation: private data members and public interface. Constructors initialize objects, member functions provide access and behavior. The display method formats output. Objects are created and manipulated in main.",
+  "keyPoints": [
+    "Use class keyword for definition.",
+    "Private members for data hiding.",
+    "Public constructors and methods.",
+    "Initializer lists for efficient construction.",
+    "Member functions operate on object data."
+  ]
+}

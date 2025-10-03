@@ -1,0 +1,27 @@
+{
+  "id": "basic_exceptions_cpp_exercise",
+  "title": "Basic Exception Handling Exercise",
+  "description": "Practice basic exception handling with try/catch/throw and custom exceptions\n\nSteps:\n1. Create custom exception classes inheriting from std::exception\n2. Implement safe arithmetic operations with overflow checking\n3. Create a calculator function that throws appropriate exceptions\n4. Implement input parsing with error handling\n5. Create a main loop that catches and handles all exceptions\n\nExpected output/results: The program should handle valid operations correctly and provide clear error messages for invalid operations, division by zero, and overflow conditions.",
+  "difficulty": "intermediate",
+  "duration": 60,
+  "type": "output",
+  "task": "Implement a safe calculator that handles various error conditions using exceptions. Create custom exception classes and demonstrate proper exception handling throughout the program.",
+  "inputFormat": "The program should read operations from standard input in the format: operation operand1 operand2 (e.g., 'add 5 3', 'divide 10 2')",
+  "outputFormat": "For each operation, output the result or an appropriate error message. Handle division by zero, invalid operations, and overflow conditions.",
+  "tests": [
+    {
+      "name": "Basic calculator operations with error handling",
+      "type": "output",
+      "expected": "Result: 8\nResult: 5\nResult: 20\nResult: 7\nError: Division by zero\nError: Unknown operation 'invalid'\nError: Arithmetic overflow\nGoodbye!"
+    }
+  ],
+  "hints": [
+    "Create custom exception classes inheriting from std::exception",
+    "Use try/catch blocks in your main calculation loop",
+    "Handle different exception types with specific catch blocks",
+    "Check for overflow before performing arithmetic operations",
+    "Use std::stoi or similar for safe string-to-number conversion"
+  ],
+  "starterCode": "// Basic Exception Handling Exercise\n// Implement a safe calculator with proper exception handling\n\n#include <iostream>\n#include <string>\n#include <stdexcept>\n#include <limits>\n\n// TODO: Create custom exception classes\n// class CalculatorError : public std::exception { ... };\n// class DivisionByZeroError : public CalculatorError { ... };\n// class OverflowError : public CalculatorError { ... };\n// class InvalidOperationError : public CalculatorError { ... };\n\n// TODO: Implement safe arithmetic operations\nlong long safe_add(long long a, long long b) {\n    // Check for overflow\n    if (a > 0 && b > 0 && a > std::numeric_limits<long long>::max() - b) {\n        throw std::overflow_error(\"Addition overflow\");\n    }\n    if (a < 0 && b < 0 && a < std::numeric_limits<long long>::min() - b) {\n        throw std::underflow_error(\"Addition underflow\");\n    }\n    return a + b;\n}\n\nlong long safe_subtract(long long a, long long b) {\n    // Check for overflow\n    if (a > 0 && b < 0 && a > std::numeric_limits<long long>::max() + b) {\n        throw std::overflow_error(\"Subtraction overflow\");\n    }\n    if (a < 0 && b > 0 && a < std::numeric_limits<long long>::min() + b) {\n        throw std::underflow_error(\"Subtraction underflow\");\n    }\n    return a - b;\n}\n\nlong long safe_multiply(long long a, long long b) {\n    // Check for overflow (simplified)\n    if (a != 0 && b != 0 && a > std::numeric_limits<long long>::max() / b) {\n        throw std::overflow_error(\"Multiplication overflow\");\n    }\n    return a * b;\n}\n\nlong long safe_divide(long long a, long long b) {\n    if (b == 0) {\n        throw std::domain_error(\"Division by zero\");\n    }\n    return a / b;\n}\n\n// TODO: Implement calculator function\nlong long calculate(const std::string& operation, long long a, long long b) {\n    if (operation == \"add\") {\n        return safe_add(a, b);\n    } else if (operation == \"subtract\") {\n        return safe_subtract(a, b);\n    } else if (operation == \"multiply\") {\n        return safe_multiply(a, b);\n    } else if (operation == \"divide\") {\n        return safe_divide(a, b);\n    } else {\n        throw std::invalid_argument(\"Unknown operation: \" + operation);\n    }\n}\n\nint main() {\n    std::string line;\n    \n    std::cout << \"Safe Calculator - Enter operations (or 'quit' to exit):\" << std::endl;\n    \n    while (true) {\n        std::cout << \"> \";\n        if (!std::getline(std::cin, line)) {\n            break;\n        }\n        \n        if (line == \"quit\") {\n            std::cout << \"Goodbye!\" << std::endl;\n            break;\n        }\n        \n        try {\n            // TODO: Parse input and perform calculation\n            // Parse operation, operand1, operand2 from line\n            // Call calculate() and print result\n            \n        } catch (const std::exception& e) {\n            std::cout << \"Error: \" << e.what() << std::endl;\n        }\n    }\n    \n    return 0;\n}",
+  "solution": "basic_exceptions_cpp_exercise.json"
+}

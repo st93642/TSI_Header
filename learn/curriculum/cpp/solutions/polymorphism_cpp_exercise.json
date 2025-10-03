@@ -1,0 +1,13 @@
+{
+  "exerciseId": "polymorphism_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <vector>\n#include <memory>\n#include <iomanip>\n\nclass Shape {\npublic:\n    virtual double area() const = 0;\n    virtual ~Shape() {}\n};\n\nclass Circle : public Shape {\nprivate:\n    double radius;\npublic:\n    Circle(double r) : radius(r) {}\n    double area() const override {\n        return 3.14159 * radius * radius;\n    }\n};\n\nclass Rectangle : public Shape {\nprivate:\n    double width, height;\npublic:\n    Rectangle(double w, double h) : width(w), height(h) {}\n    double area() const override {\n        return width * height;\n    }\n};\n\nint main() {\n    std::vector<std::unique_ptr<Shape>> shapes;\n    shapes.push_back(std::make_unique<Circle>(5));\n    shapes.push_back(std::make_unique<Rectangle>(4, 5));\n    \n    for (const auto& shape : shapes) {\n        std::cout << std::fixed << std::setprecision(4) << shape->area() << std::endl;\n    }\n    \n    return 0;\n}",
+  "explanation": "This solution demonstrates polymorphism: abstract Shape base with pure virtual area, Circle and Rectangle derived classes overriding area. Uses smart pointers in vector to store polymorphic objects, ensuring proper destruction and no slicing.",
+  "keyPoints": [
+    "Abstract base with pure virtual functions.",
+    "Derived classes override virtual methods.",
+    "Smart pointers for polymorphic storage.",
+    "Virtual destructor for cleanup.",
+    "Dynamic binding at runtime."
+  ]
+}

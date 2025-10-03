@@ -1,0 +1,27 @@
+{
+  "id": "classes_objects_cpp_exercise",
+  "title": "Introduction to Classes and Objects",
+  "description": "Implement classes and objects in C++ to demonstrate encapsulation, constructors, and member functions. The program should define a `Student` class and create objects to manage student data.\n\nSteps:\n1. Define a `Student` class with private members: `name` (string), `id` (int), `gpa` (double).\n2. Add public constructors: default and parameterized.\n3. Add public member functions: `setName()`, `getName()`, `setGPA()`, `getGPA()`, `display()`.\n4. In main, create Student objects, set data, and display.\n\nExpected output/results: Display student info correctly.",
+  "tags": ["cpp", "classes", "objects", "oop"],
+  "starterCode": "#include <iostream>\n#include <string>\n\n// TODO: Define Student class\n// class Student {\n// private:\n//     std::string name;\n//     int id;\n//     double gpa;\n// public:\n//     // constructors\n//     // member functions\n// };\n\nint main() {\n    // TODO: Create Student objects\n    // Student s1;\n    // s1.setName(\"Alice\");\n    // s1.setGPA(3.5);\n    // s1.display();\n    \n    // Student s2(\"Bob\", 123, 4.0);\n    // s2.display();\n    \n    return 0;\n}",
+  "tests": [
+    {
+      "name": "Default constructor and setters",
+      "type": "output",
+      "input": "",
+      "expected": "Name: Alice\nID: 0\nGPA: 3.50\n"
+    },
+    {
+      "name": "Parameterized constructor",
+      "type": "output",
+      "input": "",
+      "expected": "Name: Bob\nID: 123\nGPA: 4.00\n"
+    }
+  ],
+  "hints": [
+    "Use private for data members, public for interface.",
+    "Constructors initialize members in initializer list.",
+    "Member functions access private data.",
+    "Display function prints formatted output."
+  ]
+}

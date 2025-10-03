@@ -1,0 +1,13 @@
+{
+  "exerciseId": "classes_encapsulation_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <string>\n\nclass BankAccount {\nprivate:\n    std::string accountNumber;\n    double balance;\n    static int nextAccountNumber;\npublic:\n    BankAccount() : balance(0.0) {\n        accountNumber = \"ACC\" + std::to_string(nextAccountNumber++);\n    }\n    BankAccount(double initial) : balance(initial) {\n        accountNumber = \"ACC\" + std::to_string(nextAccountNumber++);\n    }\n    \n    void deposit(double amount) {\n        if (amount > 0) balance += amount;\n    }\n    \n    bool withdraw(double amount) {\n        if (amount > 0 && balance >= amount) {\n            balance -= amount;\n            return true;\n        }\n        return false;\n    }\n    \n    double getBalance() const {\n        return balance;\n    }\n    \n    std::string getAccountNumber() const {\n        return accountNumber;\n    }\n};\n\nint BankAccount::nextAccountNumber = 1000;\n\nint main() {\n    BankAccount acc1(1000);\n    acc1.deposit(500);\n    std::cout << acc1.getBalance() << std::endl;\n    \n    BankAccount acc2(1000);\n    acc2.withdraw(200);\n    std::cout << acc2.getBalance() << std::endl;\n    \n    return 0;\n}",
+  "explanation": "This solution implements a BankAccount class with encapsulation: private data, public interface. Static member generates unique account numbers. Constructors initialize accounts, member functions handle deposits/withdrawals with validation. Const correctness ensures getters don't modify state.",
+  "keyPoints": [
+    "Private members hide implementation.",
+    "Static members shared across instances.",
+    "Constructors initialize objects properly.",
+    "Const member functions for read-only access.",
+    "Validate operations in member functions."
+  ]
+}

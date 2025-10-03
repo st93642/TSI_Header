@@ -1,0 +1,33 @@
+{
+  "id": "function_class_templates_cpp_exercise",
+  "title": "Function and Class Templates",
+  "description": "Implement function and class templates in C++ to create generic code. The program should define a generic `max` function and a `Stack` class template.\n\nSteps:\n1. Define function template `max<T>(T a, T b)` returning the larger value.\n2. Define class template `Stack<T>` with push, pop, empty methods.\n3. In main, use `max` with int and double, use `Stack` with int.\n\nExpected output/results: Correct max values and stack operations.",
+  "tags": ["cpp", "templates", "generic"],
+  "starterCode": "#include <iostream>\n#include <vector>\n\n// TODO: Define max function template\n// template <typename T>\n// T max(T a, T b) {\n//     return a > b ? a : b;\n// }\n\n// TODO: Define Stack class template\n// template <typename T>\n// class Stack {\n// private:\n//     std::vector<T> data;\n// public:\n//     void push(T value);\n//     T pop();\n//     bool empty() const;\n// };\n\nint main() {\n    // TODO: Test max with int and double\n    // std::cout << max(5, 3) << std::endl;\n    // std::cout << max(5.5, 3.2) << std::endl;\n    \n    // TODO: Test Stack with int\n    // Stack<int> s;\n    // s.push(1);\n    // s.push(2);\n    // std::cout << s.pop() << std::endl;\n    \n    return 0;\n}",
+  "tests": [
+    {
+      "name": "Max function with int",
+      "type": "output",
+      "input": "",
+      "expected": "5\n"
+    },
+    {
+      "name": "Max function with double",
+      "type": "output",
+      "input": "",
+      "expected": "5.5\n"
+    },
+    {
+      "name": "Stack operations",
+      "type": "output",
+      "input": "",
+      "expected": "2\n"
+    }
+  ],
+  "hints": [
+    "Use template <typename T> for type parameters.",
+    "For max, use ternary operator.",
+    "For Stack, use std::vector as underlying storage.",
+    "Implement push, pop, empty methods."
+  ]
+}

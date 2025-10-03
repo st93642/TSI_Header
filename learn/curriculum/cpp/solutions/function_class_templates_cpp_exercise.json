@@ -1,0 +1,12 @@
+{
+  "exerciseId": "function_class_templates_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <vector>\n\ntemplate <typename T>\nT max(T a, T b) {\n    return a > b ? a : b;\n}\n\ntemplate <typename T>\nclass Stack {\nprivate:\n    std::vector<T> data;\npublic:\n    void push(T value) {\n        data.push_back(value);\n    }\n    T pop() {\n        T val = data.back();\n        data.pop_back();\n        return val;\n    }\n    bool empty() const {\n        return data.empty();\n    }\n};\n\nint main() {\n    std::cout << max(5, 3) << std::endl;\n    std::cout << max(5.5, 3.2) << std::endl;\n    \n    Stack<int> s;\n    s.push(1);\n    s.push(2);\n    std::cout << s.pop() << std::endl;\n    \n    return 0;\n}",
+  "explanation": "This solution demonstrates templates: function template max works with any comparable type, class template Stack provides generic stack operations using std::vector. Templates allow type-safe generic code without duplication.",
+  "keyPoints": [
+    "Function templates use template <typename T> syntax.",
+    "Class templates parameterize types for members.",
+    "Compiler instantiates templates for used types.",
+    "Use std::vector for dynamic storage in templates."
+  ]
+}
