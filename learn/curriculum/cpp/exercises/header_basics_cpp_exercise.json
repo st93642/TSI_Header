@@ -1,0 +1,20 @@
+{
+  "id": "header_basics_cpp_exercise",
+  "title": "Link Header Declarations to Definitions",
+  "description": "Use forward declarations like a header and provide matching definitions that perform simple unit conversions.\n\nSteps:\n1. Leave the two function declarations at the top (pretend they are in a header).\n2. Implement `fahrenheit_to_celsius` using `(fahrenheit - 32.0) * 5.0 / 9.0`.\n3. Implement `kilometers_to_meters` by multiplying the argument by `1000.0`.\n4. Run the program and ensure it prints the conversion lines exactly as shown below.\n\nExpected output:\n68°F in Celsius: 20.0\n3.5 km in meters: 3500.0",
+  "difficulty": "beginner",
+  "starterCode": "#include <iostream>\n#include <iomanip>\n\n// math_conversions.h (conceptual header)\ndouble fahrenheit_to_celsius(double fahrenheit);\ndouble kilometers_to_meters(double kilometers);\n\nint main() {\n    std::cout << std::fixed << std::setprecision(1);\n\n    std::cout << \"68°F in Celsius: \" << fahrenheit_to_celsius(68.0) << '\\n';\n    std::cout << \"3.5 km in meters: \" << kilometers_to_meters(3.5);\n\n    return 0;\n}\n\n// math_conversions.cpp (definitions)\ndouble fahrenheit_to_celsius(double fahrenheit) {\n    // TODO: Convert Fahrenheit to Celsius using (fahrenheit - 32.0) * 5.0 / 9.0\n    return 0.0;\n}\n\ndouble kilometers_to_meters(double kilometers) {\n    // TODO: Convert kilometres to metres by multiplying by 1000.0\n    return 0.0;\n}\n",
+  "tests": [
+    {
+      "name": "prints converted values",
+      "type": "output",
+      "expected": "68°F in Celsius: 20.0\n3.5 km in meters: 3500.0"
+    }
+  ],
+  "hints": [
+    "Use (fahrenheit - 32.0) * 5.0 / 9.0 to convert to Celsius.",
+    "Multiply kilometres by 1000.0 to obtain metres.",
+    "Make sure the declarations (function signatures) match the definitions exactly."
+  ],
+  "tags": ["headers", "functions", "beginner", "organization"]
+}

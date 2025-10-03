@@ -1,7 +1,7 @@
 {
   "id": "classes_objects_exercise",
   "title": "Classes and Objects",
-  "description": "Practice defining classes with instance variables and methods.",
+  "description": "Practice defining classes with instance variables and methods.\n\nSteps:\n1. Implement `Dog.new` so `Dog.new('Buddy', 'Golden Retriever').class.name` returns \"Dog\"; `Dog.new('Buddy', 'Golden Retriever').bark` returns \"Woof! I'm Buddy!\"; `Dog.new('Max', 'Labrador').bark` returns \"Woof! I'm Max!\"; `Dog.new('Buddy', 'Golden Retriever').description` returns \"Buddy is a Golden Retriever\"; `Dog.new('Luna', 'Husky').description` returns \"Luna is a Husky\".\n\nExpected results:\n- `Dog.new('Buddy', 'Golden Retriever').class.name` returns \"Dog\"\n- `Dog.new('Buddy', 'Golden Retriever').bark` returns \"Woof! I'm Buddy!\"\n- `Dog.new('Max', 'Labrador').bark` returns \"Woof! I'm Max!\"\n- `Dog.new('Buddy', 'Golden Retriever').description` returns \"Buddy is a Golden Retriever\"\n- `Dog.new('Luna', 'Husky').description` returns \"Luna is a Husky\"",
   "difficulty": "intermediate",
   "starterCode": "# Define a Dog class with the following:\n# - initialize method that takes name and breed\n# - bark method that returns \"Woof! I'm {name}!\"\n# - description method that returns \"{name} is a {breed}\"\n\nclass Dog\n  # Your code here\n\nend\n",
   "tests": [
@@ -38,5 +38,11 @@
     "Access instance variables in methods: @name",
     "Methods return values automatically"
   ],
-  "tags": ["classes", "objects", "oop", "instance-variables", "intermediate"]
+  "tags": [
+    "classes",
+    "objects",
+    "oop",
+    "instance-variables",
+    "intermediate"
+  ]
 }

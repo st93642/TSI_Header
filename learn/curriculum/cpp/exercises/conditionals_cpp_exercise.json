@@ -1,0 +1,45 @@
+{
+  "id": "conditionals_cpp_exercise",
+  "title": "Classify an Exam Score",
+  "description": "Use cascading if/else statements to map a numeric score to named categories.\n\nSteps:\n1. Prompt with `Enter score:` and read an integer score.\n2. If the score is below 0 or above 100, print `Result: Invalid score`.\n3. Otherwise pick the first matching band: 90-100 `Outstanding`, 80-89 `Great`, 60-79 `Satisfactory`, everything else `Needs improvement`.\n4. Print the result using the exact label format shown below.\n\nInput format:\nLine 1: integer exam score.\n\nExpected output (one prompt line plus one result line):\nEnter score:\nResult: {category}\n\nExample run (score `82`):\nEnter score:\nResult: Great",
+  "difficulty": "beginner",
+  "starterCode": "#include <iostream>\n\nint main() {\n    int score{};\n\n    std::cout << \"Enter score:\\n\";\n    // TODO: Read the score from std::cin as an integer.\n\n    // TODO: Classify the score into the correct band and print the exact label.\n    std::cout << \"Result: TODO\" << std::endl;\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "outstanding branch",
+      "type": "output",
+      "input": "95\n",
+      "expected": "Enter score:\nResult: Outstanding"
+    },
+    {
+      "name": "great branch",
+      "type": "output",
+      "input": "82\n",
+      "expected": "Enter score:\nResult: Great"
+    },
+    {
+      "name": "satisfactory branch",
+      "type": "output",
+      "input": "67\n",
+      "expected": "Enter score:\nResult: Satisfactory"
+    },
+    {
+      "name": "needs improvement branch",
+      "type": "output",
+      "input": "40\n",
+      "expected": "Enter score:\nResult: Needs improvement"
+    },
+    {
+      "name": "invalid branch",
+      "type": "output",
+      "input": "120\n",
+      "expected": "Enter score:\nResult: Invalid score"
+    }
+  ],
+  "hints": [
+    "Check the invalid range (score < 0 || score > 100) before the other categories.",
+    "Order the branches from highest to lowest threshold so the first match wins.",
+    "Match the output strings exactly, including capitalisation and punctuation."
+  ],
+  "tags": ["conditionals", "if", "beginner", "logic"]
+}

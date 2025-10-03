@@ -1,0 +1,133 @@
+{
+  "language": "C++",
+  "version": "0.1.0",
+  "description": "Guided C++ curriculum designed for hands-on practice inside VS Code.",
+  "estimatedHours": 32,
+  "modules": [
+    {
+      "id": "getting_started",
+      "title": "Module 1: Getting Started",
+      "description": "Set up your toolchain and write your first C++ programs.",
+      "lessons": [
+        {
+          "id": "hello_world_cpp",
+          "title": "Lesson 1.1: Building Hello World",
+          "duration": 25,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "iostream_basics",
+          "title": "Lesson 1.2: Console Input and Output",
+          "duration": 30,
+          "difficulty": "beginner"
+        }
+      ]
+    },
+    {
+      "id": "variables_and_data",
+      "title": "Module 2: Variables and Data",
+      "description": "Understand types, variables, and arithmetic in modern C++.",
+      "lessons": [
+        {
+          "id": "variables_types_cpp",
+          "title": "Lesson 2.1: Variables, Types, and Initialization",
+          "duration": 45,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "arithmetic_input_cpp",
+          "title": "Lesson 2.2: Working with Input, Math, and Constants",
+          "duration": 40,
+          "difficulty": "beginner"
+        }
+      ]
+    },
+    {
+      "id": "control_flow",
+      "title": "Module 3: Control Flow",
+      "description": "Practice branches and loops to build interactive programs.",
+      "lessons": [
+        {
+          "id": "conditionals_cpp",
+          "title": "Lesson 3.1: Decisions with if and switch",
+          "duration": 50,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "loops_cpp",
+          "title": "Lesson 3.2: Iteration with for and while",
+          "duration": 55,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "functions_and_structure",
+      "title": "Module 4: Functions and Program Structure",
+      "description": "Refactor code into reusable functions and separate translation units.",
+      "lessons": [
+        {
+          "id": "functions_cpp",
+          "title": "Lesson 4.1: Declaring and Calling Functions",
+          "duration": 45,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "header_basics_cpp",
+          "title": "Lesson 4.2: Header Files and Separate Compilation",
+          "duration": 60,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "data_structures_cpp",
+      "title": "Module 5: Data Collections",
+      "description": "Manage grouped data with STL containers and custom types.",
+      "lessons": [
+        {
+          "id": "vectors_cpp",
+          "title": "Lesson 5.1: Working with std::vector",
+          "duration": 50,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "structs_cpp",
+          "title": "Lesson 5.2: Modeling Data with Structs",
+          "duration": 55,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "algorithms_and_maps",
+      "title": "Module 6: Algorithms and Maps",
+      "description": "Apply associative containers and STL algorithms to analyse data.",
+      "lessons": [
+        {
+          "id": "maps_cpp",
+          "title": "Lesson 6.1: Organising Keys with std::map",
+          "duration": 60,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "stl_algorithms_cpp",
+          "title": "Lesson 6.2: Solving Problems with STL Algorithms",
+          "duration": 60,
+          "difficulty": "intermediate"
+        }
+      ]
+    }
+  ],
+  "prerequisites": [
+    "Basic computer literacy",
+    "Ability to run commands in a terminal"
+  ],
+  "outcomes": [
+    "Compile and run console-based C++ programs",
+    "Use variables, arithmetic, and user input safely",
+    "Control program flow with conditional logic and loops",
+    "Organize code into reusable functions and header/source pairs",
+    "Leverage STL containers and algorithms to summarise datasets"
+  ]
+}

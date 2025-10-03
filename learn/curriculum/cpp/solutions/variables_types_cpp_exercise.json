@@ -1,0 +1,11 @@
+{
+  "exerciseId": "variables_types_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n\nint main() {\n    int students{28};\n    double averageGrade{91.5};\n    char highestGrade{'A'};\n    auto labOpen = true;\n\n    std::cout << \"Students: \" << students << '\\n';\n    std::cout << \"Average grade: \" << averageGrade << '\\n';\n    std::cout << \"Highest grade: \" << highestGrade << '\\n';\n    std::cout << std::boolalpha;\n    std::cout << \"Lab open: \" << labOpen;\n\n    return 0;\n}\n",
+  "explanation": "Each variable is initialised with brace syntax to avoid narrowing. Applying std::boolalpha before printing the boolean ensures the output matches the required \"true\" literal, and each line is reported with clear labels.",
+  "keyPoints": [
+    "Prefer brace initialisation for safety",
+    "std::boolalpha formats bool values as true/false",
+    "Labelled output helps connect data to its meaning"
+  ]
+}

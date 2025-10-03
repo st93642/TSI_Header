@@ -1,8 +1,13 @@
 {
   "id": "input_output_exercise",
   "title": "Input/Output Operations",
-  "description": "Practice Ruby file I/O operations, command-line argument handling, and standard input/output streams",
-  "tags": ["file-io", "command-line", "stdout", "file-operations"],
+  "description": "Practice Ruby file I/O operations, command-line argument handling, and standard input/output streams\n\nSteps:\n1. Implement `write_and_read_file` so `write_and_read_file` returns \"Hello, Ruby!\".\n2. Implement `process_arguments` so `process_arguments(['hello', 'world'])` returns \"Arguments: hello world\".\n3. Implement `capture_output` so `capture_output` prints \"Captured output\".\n\nExpected results:\n- `write_and_read_file` returns \"Hello, Ruby!\"\n- `process_arguments(['hello', 'world'])` returns \"Arguments: hello world\"\n- `capture_output` prints \"Captured output\"",
+  "tags": [
+    "file-io",
+    "command-line",
+    "stdout",
+    "file-operations"
+  ],
   "starterCode": "# Implement the following methods:\n\n# 1. Write a method that writes text to a file and then reads it back\ndef write_and_read_file\n  # Your code here\nend\n\n# 2. Write a method that processes command-line arguments\ndef process_arguments(args)\n  # Your code here\nend\n\n# 3. Write a method that outputs text to STDOUT\ndef capture_output\n  # Your code here\nend\n",
   "tests": [
     {

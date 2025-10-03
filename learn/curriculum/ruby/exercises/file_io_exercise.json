@@ -1,7 +1,7 @@
 {
   "id": "file_io_exercise",
   "title": "File Input/Output",
-  "description": "Practice string manipulation for file path operations.",
+  "description": "Practice string manipulation for file path operations.\n\nSteps:\n1. Implement `get_file_extension` so `get_file_extension('document.txt')` returns \".txt\"; `get_file_extension('script.rb')` returns \".rb\".\n2. Implement `get_filename_without_extension` so `get_filename_without_extension('document.txt')` returns \"document\"; `get_filename_without_extension('script.rb')` returns \"script\".\n3. Implement `create_backup_name` so `create_backup_name('data.txt')` returns \"data.bak.txt\"; `create_backup_name('code.rb')` returns \"code.bak.rb\".\n\nExpected results:\n- `get_file_extension('document.txt')` returns \".txt\"\n- `get_file_extension('script.rb')` returns \".rb\"\n- `get_filename_without_extension('document.txt')` returns \"document\"\n- `get_filename_without_extension('script.rb')` returns \"script\"\n- `create_backup_name('data.txt')` returns \"data.bak.txt\"\n- `create_backup_name('code.rb')` returns \"code.bak.rb\"",
   "difficulty": "intermediate",
   "starterCode": "# Create methods that work with file paths (strings)\n\ndef get_file_extension(filename)\n  # Return the file extension (including the dot)\n  # Example: \"document.txt\" => \".txt\"\n\nend\n\ndef get_filename_without_extension(filename)\n  # Return filename without extension\n  # Example: \"document.txt\" => \"document\"\n\nend\n\ndef create_backup_name(filename)\n  # Add .bak before the extension\n  # Example: \"data.txt\" => \"data.bak.txt\"\n\nend\n",
   "tests": [
@@ -43,5 +43,9 @@
     "Use string slicing: str[0...index]",
     "Concatenate strings with +"
   ],
-  "tags": ["strings", "file-paths", "intermediate"]
+  "tags": [
+    "strings",
+    "file-paths",
+    "intermediate"
+  ]
 }

@@ -2,8 +2,14 @@
   "id": "operator_overloading_exercise",
   "title": "Operator Overloading",
   "difficulty": "advanced",
-  "description": "Implement operator overloading for custom classes to create intuitive and expressive APIs",
-  "tags": ["oop", "operators", "overloading", "advanced", "dsl"],
+  "description": "Implement operator overloading for custom classes to create intuitive and expressive APIs\n\nSteps:\n1. Implement `test_fraction_add` so `test_fraction_add()` returns \"1/2\".\n2. Implement `test_fraction_equality` so `test_fraction_equality()` returns true.\n3. Implement `test_timespan_compare` so `test_timespan_compare()` returns true.\n4. Implement `test_timespan_add` so `test_timespan_add()` returns 3660.\n5. Implement `test_sparse_array_get` so `test_sparse_array_get()` returns 42.\n6. Implement `test_sparse_array_set` so `test_sparse_array_set()` returns 100.\n\nExpected results:\n- `test_fraction_add()` returns \"1/2\"\n- `test_fraction_equality()` returns true\n- `test_timespan_compare()` returns true\n- `test_timespan_add()` returns 3660\n- `test_sparse_array_get()` returns 42\n- `test_sparse_array_set()` returns 100",
+  "tags": [
+    "oop",
+    "operators",
+    "overloading",
+    "advanced",
+    "dsl"
+  ],
   "starterCode": "# Implement operator overloading for custom classes\n# Override arithmetic, comparison, and indexing operators\n# Make your classes behave like built-in Ruby types\n\nclass Fraction\n  # Your operator overloads here\nend\n\nclass TimeSpan\n  # Your operator overloads here\nend\n\nclass SparseArray\n  # Your operator overloads here\nend\n",
   "tests": [
     {

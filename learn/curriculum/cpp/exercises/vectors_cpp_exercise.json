@@ -1,0 +1,27 @@
+{
+  "id": "vectors_cpp_exercise",
+  "title": "Summarise a Vector of Integers",
+  "description": "Use `std::vector<int>` to capture four integers, then report key statistics.\n\nSteps:\n1. Print `Enter 4 integers:` and read four integers from `std::cin`, storing them in a `std::vector<int>` in the order received.\n2. Output `Numbers:` followed by the values separated by single spaces (no trailing space).\n3. Output `First:` and `Last:` using `vector::front()` and `vector::back()` to show the endpoints.\n4. Use `std::accumulate` (from `<numeric>`) to compute the sum, then print `Sum:` with the total.\n5. Stream `std::fixed << std::setprecision(1)` and print `Average:` with the floating-point mean of the four numbers.\n\nInput format:\nLine 1: four integers separated by spaces.\n\nExpected output:\nEnter 4 integers:\nNumbers: {a} {b} {c} {d}\nFirst: {a}\nLast: {d}\nSum: {sum}\nAverage: {average}\n\nExample run (input `4 8 15 16`):\nEnter 4 integers:\nNumbers: 4 8 15 16\nFirst: 4\nLast: 16\nSum: 43\nAverage: 10.8",
+  "difficulty": "intermediate",
+  "starterCode": "#include <iostream>\n#include <vector>\n#include <numeric>\n#include <iomanip>\n\nint main() {\n    std::cout << \"Enter 4 integers:\\n\";\n\n    // TODO: Read four integers into a std::vector<int> in the order provided.\n\n    // TODO: Print the values as \"Numbers: v1 v2 v3 v4\" with single spaces.\n\n    // TODO: Use vector::front() and vector::back() to show the endpoints.\n\n    // TODO: Use std::accumulate to compute the sum and stream std::fixed << std::setprecision(1) before printing the average.\n\n    std::cout << \"TODO\" << std::endl;\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "formats 4 8 15 16",
+      "type": "output",
+      "input": "4 8 15 16\n",
+      "expected": "Enter 4 integers:\nNumbers: 4 8 15 16\nFirst: 4\nLast: 16\nSum: 43\nAverage: 10.8"
+    },
+    {
+      "name": "formats 3 5 7 9",
+      "type": "output",
+      "input": "3 5 7 9\n",
+      "expected": "Enter 4 integers:\nNumbers: 3 5 7 9\nFirst: 3\nLast: 9\nSum: 24\nAverage: 6.0"
+    }
+  ],
+  "hints": [
+    "Store the inputs with std::vector<int> values{a, b, c, d};",
+    "std::accumulate(vec.begin(), vec.end(), 0) returns the integer sum.",
+    "Average requires casting to double before dividing by vec.size()."
+  ],
+  "tags": ["vectors", "stl", "intermediate", "containers"]
+}

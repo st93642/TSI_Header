@@ -1,7 +1,7 @@
 {
   "id": "mixins_exercise",
   "title": "Mixins and Modules",
-  "description": "Practice using modules as mixins with include.",
+  "description": "Practice using modules as mixins with include.\n\nSteps:\n1. Implement `Duck.new.swim` so `Duck.new.swim` returns \"Swimming!\".\n2. Implement `Duck.new.fly` so `Duck.new.fly` returns \"Flying!\".\n3. Implement `Fish.new.swim` so `Fish.new.swim` returns \"Swimming!\".\n4. Implement `Duck.new.is_a?` so `Duck.new.is_a?(Swimmable)` returns true; `Duck.new.is_a?(Flyable)` returns true.\n5. Implement `Fish.new.is_a?` so `Fish.new.is_a?(Swimmable)` returns true.\n\nExpected results:\n- `Duck.new.swim` returns \"Swimming!\"\n- `Duck.new.fly` returns \"Flying!\"\n- `Fish.new.swim` returns \"Swimming!\"\n- `Duck.new.is_a?(Swimmable)` returns true\n- `Duck.new.is_a?(Flyable)` returns true\n- `Fish.new.is_a?(Swimmable)` returns true",
   "difficulty": "advanced",
   "starterCode": "# Define a Swimmable module with a swim method\n# that returns \"Swimming!\"\n\nmodule Swimmable\n  # Your code here\n\nend\n\n# Define a Flyable module with a fly method\n# that returns \"Flying!\"\n\nmodule Flyable\n  # Your code here\n\nend\n\n# Define a Duck class that includes both modules\n\nclass Duck\n  # Your code here\n\nend\n\n# Define a Fish class that only includes Swimmable\n\nclass Fish\n  # Your code here\n\nend\n",
   "tests": [
@@ -43,5 +43,10 @@
     "Include multiple: include Module1, Module2",
     "Modules provide multiple inheritance-like behavior"
   ],
-  "tags": ["mixins", "modules", "include", "advanced"]
+  "tags": [
+    "mixins",
+    "modules",
+    "include",
+    "advanced"
+  ]
 }

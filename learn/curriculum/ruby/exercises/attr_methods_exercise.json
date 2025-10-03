@@ -2,14 +2,22 @@
   "id": "attr_methods_exercise",
   "title": "Attribute Methods",
   "difficulty": "beginner",
-  "description": "Practice using attr_reader, attr_writer, and attr_accessor to create proper object interfaces",
-  "tags": ["oop", "attributes", "encapsulation", "beginner"],
+  "description": "Practice using attr_reader, attr_writer, and attr_accessor to create proper object interfaces\n\nSteps:\n1. Implement `test_person_read_only` so `test_person_read_only()` returns [\"Alice\", 30].\n2. Implement `test_person_read_write` so `test_person_read_write()` returns \"alice@example.com\".\n3. Implement `test_person_write_only` so `test_person_write_only()` returns \"secret123\".\n4. Implement `test_product_price_validation` so `test_product_price_validation()` returns 29.99.\n5. Implement `test_product_price_validation_error` so `test_product_price_validation_error()` returns \"Price must be positive\".\n6. Implement `test_boolean_attribute` so `test_boolean_attribute()` returns [true, false].\n\nExpected results:\n- `test_person_read_only()` returns [\"Alice\", 30]\n- `test_person_read_write()` returns \"alice@example.com\"\n- `test_person_write_only()` returns \"secret123\"\n- `test_product_price_validation()` returns 29.99\n- `test_product_price_validation_error()` returns \"Price must be positive\"\n- `test_boolean_attribute()` returns [true, false]",
+  "tags": [
+    "oop",
+    "attributes",
+    "encapsulation",
+    "beginner"
+  ],
   "starterCode": "# Define a Person class with appropriate attribute accessors\n# Use attr_reader for read-only attributes\n# Use attr_writer for write-only attributes (with validation)\n# Use attr_accessor for read-write attributes\n\nclass Person\n  # Your attribute accessors here\n  \n  def initialize(name, age)\n    @name = name\n    @age = age\n    @email = nil\n    @active = true\n  end\n  \n  # Add any custom methods if needed\nend\n\n# Define a Product class with price validation\nclass Product\n  # Your attribute accessors here\n  \n  def initialize(name, price)\n    @name = name\n    @price = price\n    @in_stock = true\n  end\n  \n  # Add price setter with validation\nend\n",
   "tests": [
     {
       "name": "test_person_read_only_attributes",
       "call": "test_person_read_only()",
-      "expected": ["Alice", 30]
+      "expected": [
+        "Alice",
+        30
+      ]
     },
     {
       "name": "test_person_read_write_attributes",
@@ -34,7 +42,10 @@
     {
       "name": "test_boolean_attribute",
       "call": "test_boolean_attribute()",
-      "expected": [true, false]
+      "expected": [
+        true,
+        false
+      ]
     }
   ],
   "hints": [

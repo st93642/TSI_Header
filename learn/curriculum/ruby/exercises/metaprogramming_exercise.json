@@ -1,7 +1,7 @@
 {
   "id": "metaprogramming_exercise",
   "title": "Metaprogramming Basics",
-  "description": "Practice dynamic method calls using send.",
+  "description": "Practice dynamic method calls using send.\n\nSteps:\n1. Implement `calculate` so `calculate('add', 5, 3)` returns 8; `calculate('multiply', 4, 3)` returns 12; `calculate('subtract', 10, 4)` returns 6; `calculate('add', 100, 50)` returns 150.\n\nExpected results:\n- `calculate('add', 5, 3)` returns 8\n- `calculate('multiply', 4, 3)` returns 12\n- `calculate('subtract', 10, 4)` returns 6\n- `calculate('add', 100, 50)` returns 150",
   "difficulty": "advanced",
   "starterCode": "# Create a Calculator class with basic methods\n\nclass Calculator\n  def add(a, b)\n    a + b\n  end\n  \n  def multiply(a, b)\n    a * b\n  end\n  \n  def subtract(a, b)\n    a - b\n  end\nend\n\n# Create a method that calls Calculator methods dynamically\ndef calculate(operation, a, b)\n  # Use send to call the operation method on a Calculator instance\n  # Return the result\n\nend\n",
   "tests": [
@@ -32,5 +32,9 @@
     "Convert string to symbol if needed: method_name.to_sym",
     "Return the result of the send call"
   ],
-  "tags": ["metaprogramming", "send", "advanced"]
+  "tags": [
+    "metaprogramming",
+    "send",
+    "advanced"
+  ]
 }

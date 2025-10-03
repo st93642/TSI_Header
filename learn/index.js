@@ -278,21 +278,41 @@ class Learn {
             panel.webview.html = this.getSolutionHtml(solution, exercise);
             
             // Get next lesson in curriculum for the "Next Lesson" button
-            const curriculum = await this.learnManager.loadCurriculum(exercise.curriculumLanguage || language);
-            const progress = await this.progressTracker.getProgress(language);
-            const nextLesson = this.learnManager.getNextLesson(curriculum, progress);
+            const curriculumLanguage = exercise.curriculumLanguage || language;
+            const curriculum = await this.learnManager.loadCurriculum(curriculumLanguage);
+            const progress = await this.progressTracker.getProgress(curriculumLanguage);
+            const currentLessonId = this.progressTracker.normalizeLessonId(
+                exercise.lessonId || exercise.baseExerciseId || baseExerciseId
+            );
+            const nextLesson = this.learnManager.getNextLessonForSolution(
+                curriculum,
+                progress,
+                currentLessonId
+            );
             
             // Handle messages from webview
             panel.webview.onDidReceiveMessage(
                 async message => {
                     switch (message.command) {
                         case 'nextLesson':
-                            panel.dispose();
-                            await this.learnManager.openLesson(language, nextLesson);
+                            if (nextLesson) {
+                                panel.dispose();
+                                await this.learnManager.openLesson(curriculumLanguage, nextLesson);
+                            } else {
+                                this.vscode.window.showInformationMessage(
+                                    'You have completed the current curriculum. Great job!',
+                                    { modal: true },
+                                    'Browse Lessons'
+                                ).then(selection => {
+                                    if (selection === 'Browse Lessons') {
+                                        this.browseLessons(curriculumLanguage);
+                                    }
+                                });
+                            }
                             break;
                         case 'browseLessons':
                             panel.dispose();
-                            this.browseLessons(language);
+                            this.browseLessons(curriculumLanguage);
                             break;
                     }
                 },
@@ -310,10 +330,10 @@ class Learn {
                 ).then(async selection => {
                     if (selection === 'Next Lesson') {
                         panel.dispose();
-                        await this.learnManager.openLesson(language, nextLesson);
+                        await this.learnManager.openLesson(curriculumLanguage, nextLesson);
                     } else if (selection === 'Browse Lessons') {
                         panel.dispose();
-                        this.browseLessons(language);
+                        this.browseLessons(curriculumLanguage);
                     }
                 });
             }

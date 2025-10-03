@@ -1,0 +1,27 @@
+{
+  "id": "arithmetic_input_cpp_exercise",
+  "title": "Compute Arithmetic from Input",
+  "description": "Read two integers, perform labelled arithmetic, and show the quotient with one decimal place.\n\nSteps:\n1. Prompt with `Enter the first integer:` and read the first value into an `int`.\n2. Prompt with `Enter the second integer:` and read the second value into an `int`.\n3. Compute the sum, difference (first minus second), product, and floating-point quotient (first divided by second).\n4. Before printing the quotient, stream `std::fixed << std::setprecision(1)` so the division result keeps exactly one decimal place.\n5. Print each labelled result on its own line using the exact text shown below.\n\nInput format:\nLine 1: first integer.\nLine 2: second integer.\n\nExpected output (replace numbers with the actual calculations):\nEnter the first integer:\nEnter the second integer:\nSum: {sum}\nDifference: {difference}\nProduct: {product}\nQuotient: {quotient}\n\nExample run (input `8` then `4`):\nEnter the first integer:\nEnter the second integer:\nSum: 12\nDifference: 4\nProduct: 32\nQuotient: 2.0",
+  "difficulty": "beginner",
+  "starterCode": "#include <iostream>\n#include <iomanip>\n\nint main() {\n    int first{};\n    int second{};\n\n    std::cout << \"Enter the first integer:\\n\";\n    // TODO: Read the first value from std::cin.\n\n    std::cout << \"Enter the second integer:\\n\";\n    // TODO: Read the second value from std::cin.\n\n    // TODO: Print labelled lines for the sum, difference, product, and floating-point quotient.\n    // Hint: Use std::fixed << std::setprecision(1) and static_cast<double> to avoid integer division.\n    std::cout << \"TODO results\" << std::endl;\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "computes results for 8 and 4",
+      "type": "output",
+      "input": "8\n4\n",
+      "expected": "Enter the first integer:\nEnter the second integer:\nSum: 12\nDifference: 4\nProduct: 32\nQuotient: 2.0"
+    },
+    {
+      "name": "computes results for 5 and 2",
+      "type": "output",
+      "input": "5\n2\n",
+      "expected": "Enter the first integer:\nEnter the second integer:\nSum: 7\nDifference: 3\nProduct: 10\nQuotient: 2.5"
+    }
+  ],
+  "hints": [
+    "Remember to include <iomanip> so you can use std::fixed and std::setprecision(1).",
+    "static_cast one of the operands to double before dividing to avoid integer division.",
+    "Print the labels exactly as shown to satisfy the tests."
+  ],
+  "tags": ["arithmetic", "input", "operators", "beginner"]
+}

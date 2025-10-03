@@ -1,0 +1,20 @@
+{
+  "id": "hello_world_cpp_exercise",
+  "title": "Build Hello World Output",
+  "description": "Create a complete `main` function that prints three required lines in this exact order.\n\nSteps:\n1. Print `Hello from the Transport and Telecommunication Institute!` and terminate the line with a newline escape (`\\n`).\n2. Print `Let's build with C++!` and terminate the line with a newline escape (`\\n`).\n3. Print `This line uses std::endl` and terminate the line with `std::endl`.\n\nExpected output (no extra blank lines or spaces):\nHello from the Transport and Telecommunication Institute!\nLet's build with C++!\nThis line uses std::endl",
+  "difficulty": "beginner",
+  "starterCode": "#include <iostream>\n\nint main() {\n    // TODO: Print \"Hello from the Transport and Telecommunication Institute!\" followed by a newline character (\\n).\n    // TODO: Print \"Let's build with C++!\" on its own line using \\n.\n    // TODO: Print \"This line uses std::endl\" on its own line using std::endl at the end.\n\n    // Remove the placeholder line below once you have written all three outputs.\n    std::cout << \"TODO\" << '\\n';\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "prints all required lines",
+      "type": "output",
+      "expected": "Hello from the Transport and Telecommunication Institute!\nLet's build with C++!\nThis line uses std::endl"
+    }
+  ],
+  "hints": [
+    "Use std::cout with the << operator to send strings to the console.",
+    "Remember that '\\n' is a newline character and std::endl both ends the line and flushes the buffer.",
+    "Match the capitalization and punctuation in the expected lines exactly."
+  ],
+  "tags": ["basics", "output", "beginner", "iostream"]
+}

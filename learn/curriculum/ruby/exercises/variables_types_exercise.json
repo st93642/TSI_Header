@@ -1,7 +1,7 @@
 {
   "id": "variables_types_exercise",
   "title": "Variables and Data Types",
-  "description": "Practice creating and using different data types in Ruby: strings, numbers, booleans.",
+  "description": "Practice creating and using different data types in Ruby: strings, numbers, booleans.\n\nSteps:\n1. Implement `favorite_language.class.to_s` so `favorite_language.class.to_s` returns \"String\".\n2. Implement `my_age.class.to_s` so `my_age.class.to_s` returns \"Integer\".\n3. Implement `my_age > 0` so `my_age > 0` returns true.\n4. Implement `ruby_is_awesome?` so `ruby_is_awesome?` returns true.\n\nExpected results:\n- `favorite_language.class.to_s` returns \"String\"\n- `my_age.class.to_s` returns \"Integer\"\n- `my_age > 0` returns true\n- `ruby_is_awesome?` returns true",
   "difficulty": "beginner",
   "starterCode": "# Task: Create methods that return different data types\n\n# 1. Create a method that returns your favorite programming language as a string\ndef favorite_language\n  # Your code here\n\nend\n\n# 2. Create a method that returns your age as an integer\ndef my_age\n  # Your code here\n\nend\n\n# 3. Create a method that checks if Ruby is awesome (return true)\ndef ruby_is_awesome?\n  # Your code here\n\nend\n",
   "tests": [
@@ -33,5 +33,10 @@
     "Method names can end with ? for boolean returns",
     "Just return the value - Ruby returns the last expression"
   ],
-  "tags": ["basics", "variables", "types", "beginner"]
+  "tags": [
+    "basics",
+    "variables",
+    "types",
+    "beginner"
+  ]
 }

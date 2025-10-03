@@ -1,0 +1,12 @@
+{
+  "exerciseId": "hello_world_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Hello from the Transport and Telecommunication Institute!\" << '\\n';\n    std::cout << \"Let's build with C++!\" << '\\n';\n    std::cout << \"This line uses std::endl\" << std::endl;\n    return 0;\n}\n",
+  "explanation": "The solution prints three separate lines using std::cout. The first two lines end with the newline character (\\n) to match the lesson's exploration of escape sequences. The final line uses std::endl to demonstrate the alternative way of ending a line that also flushes the output buffer. Keeping an explicit return 0; communicates successful program termination, even though modern compilers allow omitting it.",
+  "keyPoints": [
+    "std::cout streams text to the standard output",
+    "'\\n' inserts a newline without flushing",
+    "std::endl ends the line and flushes the buffer",
+    "Exact spelling and punctuation in output matters"
+  ]
+}

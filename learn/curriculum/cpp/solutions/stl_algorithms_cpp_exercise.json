@@ -1,0 +1,11 @@
+{
+  "exerciseId": "stl_algorithms_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <algorithm>\n#include <functional>\n#include <iostream>\n#include <vector>\n\nint main() {\n    std::cout << \"Enter 5 integers:\\n\";\n\n    std::vector<int> numbers(5);\n    for (int &value : numbers) {\n        if (!(std::cin >> value)) {\n            return 0;\n        }\n    }\n\n    std::vector<int> ascending = numbers;\n    std::sort(ascending.begin(), ascending.end());\n\n    std::vector<int> descending = ascending;\n    std::sort(descending.begin(), descending.end(), std::greater<int>{});\n\n    std::cout << \"Sorted ascending: \";\n    for (std::size_t i = 0; i < ascending.size(); ++i) {\n        std::cout << ascending[i];\n        if (i + 1 < ascending.size()) {\n            std::cout << ' ';\n        }\n    }\n    std::cout << \"\\n\";\n\n    std::cout << \"Sorted descending: \";\n    for (std::size_t i = 0; i < descending.size(); ++i) {\n        std::cout << descending[i];\n        if (i + 1 < descending.size()) {\n            std::cout << ' ';\n        }\n    }\n    std::cout << \"\\n\";\n\n    int evenCount = std::count_if(numbers.begin(), numbers.end(), [](int n) {\n        return n % 2 == 0;\n    });\n    std::cout << \"Even count: \" << evenCount << \"\\n\";\n\n    bool allPositive = std::all_of(numbers.begin(), numbers.end(), [](int n) {\n        return n > 0;\n    });\n    std::cout << \"All positive: \" << (allPositive ? \"yes\" : \"no\");\n\n    return 0;\n}\n",
+  "explanation": "Copy the input into a vector so `std::sort` can produce an ascending view. Duplicating the sorted data and sorting with `std::greater<int>{}` yields a descending order without manual loops. `std::count_if` quickly tallies the even inputs, while `std::all_of` verifies positivity and drives the final `yes`/`no` flag.",
+  "keyPoints": [
+    "Cloning the input into separate vectors allows independent ascending and descending views without re-reading data.",
+    "`std::count_if` combined with a lambda keeps the even-number tally expressive and concise.",
+    "`std::all_of` turns a positivity check into a single algorithm call that feeds directly into the report text."
+  ]
+}

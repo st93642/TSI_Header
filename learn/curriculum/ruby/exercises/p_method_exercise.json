@@ -1,7 +1,7 @@
 {
   "id": "p_method_exercise",
   "title": "Using P for Debugging",
-  "description": "Learn to use p for debugging. The p method shows the raw representation of objects.",
+  "description": "Learn to use p for debugging. The p method shows the raw representation of objects.\n\nSteps:\n1. Implement `get_year` so `get_year` returns 2025.\n2. Implement `get_year.class.to_s` so `get_year.class.to_s` returns \"Integer\".\n3. Implement `get_year == 2025` so `get_year == 2025` returns true.\n\nExpected results:\n- `get_year` returns 2025\n- `get_year.class.to_s` returns \"Integer\"\n- `get_year == 2025` returns true",
   "difficulty": "beginner",
   "starterCode": "# Task: Create a method called get_year that returns the current year as a number\n# Example: get_year() should return 2025\n\ndef get_year\n  # Your code here\n\nend\n",
   "tests": [
@@ -28,5 +28,10 @@
     "Example: return 2025",
     "Or just: 2025 (Ruby returns the last expression)"
   ],
-  "tags": ["basics", "numbers", "beginner", "debugging"]
+  "tags": [
+    "basics",
+    "numbers",
+    "beginner",
+    "debugging"
+  ]
 }

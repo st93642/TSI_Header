@@ -1,7 +1,7 @@
 {
   "id": "output_methods_exercise",
   "title": "String Concatenation",
-  "description": "Practice combining strings using different methods. This exercise focuses on returning combined strings, not printing them.",
+  "description": "Practice combining strings using different methods. This exercise focuses on returning combined strings, not printing them.\n\nSteps:\n1. Implement `combine_words` so `combine_words('Hello', 'World')` returns \"Hello World\"; `combine_words('Ruby', 'programming')` returns \"Ruby programming\".\n2. Implement `full_name` so `full_name('John', 'Doe')` returns \"John Doe\"; `full_name('Alice', 'Smith')` returns \"Alice Smith\".\n3. Implement `greeting` so `greeting('Alice')` returns \"Hello, Alice! Welcome!\"; `greeting('Bob')` returns \"Hello, Bob! Welcome!\".\n\nExpected results:\n- `combine_words('Hello', 'World')` returns \"Hello World\"\n- `combine_words('Ruby', 'programming')` returns \"Ruby programming\"\n- `full_name('John', 'Doe')` returns \"John Doe\"\n- `full_name('Alice', 'Smith')` returns \"Alice Smith\"\n- `greeting('Alice')` returns \"Hello, Alice! Welcome!\"\n- `greeting('Bob')` returns \"Hello, Bob! Welcome!\"",
   "difficulty": "beginner",
   "starterCode": "# Task: Create methods that combine strings in different ways\n\n# 1. Create a method combine_words that takes two words and returns them with a space\n#    Example: combine_words(\"Hello\", \"World\") => \"Hello World\"\n#    Hint: Use + operator: word1 + ' ' + word2\n\ndef combine_words(word1, word2)\n  # Your code here\n\nend\n\n# 2. Create a method full_name that takes first and last name\n#    Example: full_name(\"John\", \"Doe\") => \"John Doe\"\n#    Hint: Use string interpolation: \"#{first} #{last}\"\n\ndef full_name(first, last)\n  # Your code here\n\nend\n\n# 3. Create a method greeting that takes a name and returns a greeting\n#    Example: greeting(\"Alice\") => \"Hello, Alice! Welcome!\"\n#    Hint: Combine multiple strings with spaces and punctuation\n\ndef greeting(name)\n  # Your code here\n\nend\n",
   "tests": [
@@ -43,5 +43,9 @@
     "Add spaces between words: ' '",
     "For greeting: \"Hello, #{name}! Welcome!\""
   ],
-  "tags": ["basics", "strings", "beginner"]
+  "tags": [
+    "basics",
+    "strings",
+    "beginner"
+  ]
 }

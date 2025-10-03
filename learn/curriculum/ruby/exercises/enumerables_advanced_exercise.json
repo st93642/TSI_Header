@@ -1,15 +1,26 @@
 {
   "id": "enumerables_advanced_exercise",
   "title": "Advanced Enumerables",
-  "description": "Master advanced Ruby enumerable methods including each_with_index, reduce, select, reject, map, group_by, sort_by, take, drop, chunk, partition, and zip. Practice method chaining for efficient data processing.",
+  "description": "Master advanced Ruby enumerable methods including each_with_index, reduce, select, reject, map, group_by, sort_by, take, drop, chunk, partition, and zip. Practice method chaining for efficient data processing.\n\nSteps:\n1. Implement `each_with_index_squares` so `each_with_index_squares([1, 2, 3, 4, 5])` returns [1, 4, 9, 16, 25].\n2. Implement `reduce_sum_of_squares` so `reduce_sum_of_squares([1, 2, 3, 4])` returns 30.\n3. Implement `select_even_numbers` so `select_even_numbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])` returns [2, 4, 6, 8, 10].\n4. Implement `reject_short_words` so `reject_short_words(['cat', 'elephant', 'dog', 'hippopotamus', 'ant'])` returns [\"elephant\", \"hippopotamus\"].\n5. Implement `map_double_values` so `map_double_values([1, 2, 3, 4, 5])` returns [2, 4, 6, 8, 10].\n6. Implement `group_by_length` so `group_by_length(['cat', 'dog', 'elephant', 'ant', 'bird'])` returns {\"3\": [\"cat\", \"dog\", \"ant\"], \"8\": [\"elephant\"], \"4\": [\"bird\"]}.\n7. Implement `sort_by_age` so `sort_by_age([{\"name\": \"Alice\", \"age\": 25}, {\"name\": \"Bob\", \"age\": 20}, {\"name\": \"Charlie\", \"age\": 30}])` returns [{\"name\": \"Bob\", \"age\": 20}, {\"name\": \"Alice\", \"age\": 25}, {\"name\": \"Charlie\", \"age\": 30}].\n8. Implement `take_top_scores` so `take_top_scores([{\"name\": \"Alice\", \"score\": 95}, {\"name\": \"Bob\", \"score\": 87}, {\"name\": \"Charlie\", \"score\": 92}], 2)` returns [{\"name\": \"Alice\", \"score\": 95}, {\"name\": \"Charlie\", \"score\": 92}].\n9. Implement `partition_even_odd` so `partition_even_odd([1, 2, 3, 4, 5, 6])` returns [[2, 4, 6], [1, 3, 5]].\n10. Implement `zip_names_ages` so `zip_names_ages(['Alice', 'Bob', 'Charlie'], [25, 30, 35])` returns [[\"Alice\", 25], [\"Bob\", 30], [\"Charlie\", 35]].\n11. Implement `method_chaining` so `method_chaining([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])` returns [16, 36, 64, 100].\n\nExpected results:\n- `each_with_index_squares([1, 2, 3, 4, 5])` returns [1, 4, 9, 16, 25]\n- `reduce_sum_of_squares([1, 2, 3, 4])` returns 30\n- `select_even_numbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])` returns [2, 4, 6, 8, 10]\n- `reject_short_words(['cat', 'elephant', 'dog', 'hippopotamus', 'ant'])` returns [\"elephant\", \"hippopotamus\"]\n- `map_double_values([1, 2, 3, 4, 5])` returns [2, 4, 6, 8, 10]\n- `group_by_length(['cat', 'dog', 'elephant', 'ant', 'bird'])` returns {\"3\": [\"cat\", \"dog\", \"ant\"], \"8\": [\"elephant\"], \"4\": [\"bird\"]}\n- `sort_by_age([{\"name\": \"Alice\", \"age\": 25}, {\"name\": \"Bob\", \"age\": 20}, {\"name\": \"Charlie\", \"age\": 30}])` returns [{\"name\": \"Bob\", \"age\": 20}, {\"name\": \"Alice\", \"age\": 25}, {\"name\": \"Charlie\", \"age\": 30}]\n- `take_top_scores([{\"name\": \"Alice\", \"score\": 95}, {\"name\": \"Bob\", \"score\": 87}, {\"name\": \"Charlie\", \"score\": 92}], 2)` returns [{\"name\": \"Alice\", \"score\": 95}, {\"name\": \"Charlie\", \"score\": 92}]\n- `partition_even_odd([1, 2, 3, 4, 5, 6])` returns [[2, 4, 6], [1, 3, 5]]\n- `zip_names_ages(['Alice', 'Bob', 'Charlie'], [25, 30, 35])` returns [[\"Alice\", 25], [\"Bob\", 30], [\"Charlie\", 35]]\n- `method_chaining([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])` returns [16, 36, 64, 100]",
   "difficulty": "intermediate",
   "starterCode": "# Your code here\n",
-  "tags": ["enumerables", "advanced", "data_processing", "method_chaining"],
+  "tags": [
+    "enumerables",
+    "advanced",
+    "data_processing",
+    "method_chaining"
+  ],
   "tests": [
     {
       "name": "test_each_with_index_squares",
       "call": "each_with_index_squares([1, 2, 3, 4, 5])",
-      "expected": [1, 4, 9, 16, 25]
+      "expected": [
+        1,
+        4,
+        9,
+        16,
+        25
+      ]
     },
     {
       "name": "test_reduce_sum_of_squares",
@@ -19,47 +30,125 @@
     {
       "name": "test_select_even_numbers",
       "call": "select_even_numbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])",
-      "expected": [2, 4, 6, 8, 10]
+      "expected": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ]
     },
     {
       "name": "test_reject_short_words",
       "call": "reject_short_words(['cat', 'elephant', 'dog', 'hippopotamus', 'ant'])",
-      "expected": ["elephant", "hippopotamus"]
+      "expected": [
+        "elephant",
+        "hippopotamus"
+      ]
     },
     {
       "name": "test_map_double_values",
       "call": "map_double_values([1, 2, 3, 4, 5])",
-      "expected": [2, 4, 6, 8, 10]
+      "expected": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ]
     },
     {
       "name": "test_group_by_length",
       "call": "group_by_length(['cat', 'dog', 'elephant', 'ant', 'bird'])",
-      "expected": {"3": ["cat", "dog", "ant"], "8": ["elephant"], "4": ["bird"]}
+      "expected": {
+        "3": [
+          "cat",
+          "dog",
+          "ant"
+        ],
+        "8": [
+          "elephant"
+        ],
+        "4": [
+          "bird"
+        ]
+      }
     },
     {
       "name": "test_sort_by_age",
       "call": "sort_by_age([{\"name\": \"Alice\", \"age\": 25}, {\"name\": \"Bob\", \"age\": 20}, {\"name\": \"Charlie\", \"age\": 30}])",
-      "expected": [{"name": "Bob", "age": 20}, {"name": "Alice", "age": 25}, {"name": "Charlie", "age": 30}]
+      "expected": [
+        {
+          "name": "Bob",
+          "age": 20
+        },
+        {
+          "name": "Alice",
+          "age": 25
+        },
+        {
+          "name": "Charlie",
+          "age": 30
+        }
+      ]
     },
     {
       "name": "test_take_top_scores",
       "call": "take_top_scores([{\"name\": \"Alice\", \"score\": 95}, {\"name\": \"Bob\", \"score\": 87}, {\"name\": \"Charlie\", \"score\": 92}], 2)",
-      "expected": [{"name": "Alice", "score": 95}, {"name": "Charlie", "score": 92}]
+      "expected": [
+        {
+          "name": "Alice",
+          "score": 95
+        },
+        {
+          "name": "Charlie",
+          "score": 92
+        }
+      ]
     },
     {
       "name": "test_partition_even_odd",
       "call": "partition_even_odd([1, 2, 3, 4, 5, 6])",
-      "expected": [[2, 4, 6], [1, 3, 5]]
+      "expected": [
+        [
+          2,
+          4,
+          6
+        ],
+        [
+          1,
+          3,
+          5
+        ]
+      ]
     },
     {
       "name": "test_zip_names_ages",
       "call": "zip_names_ages(['Alice', 'Bob', 'Charlie'], [25, 30, 35])",
-      "expected": [["Alice", 25], ["Bob", 30], ["Charlie", 35]]
+      "expected": [
+        [
+          "Alice",
+          25
+        ],
+        [
+          "Bob",
+          30
+        ],
+        [
+          "Charlie",
+          35
+        ]
+      ]
     },
     {
       "name": "test_method_chaining",
       "call": "method_chaining([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])",
-      "expected": [16, 36, 64, 100]
+      "expected": [
+        16,
+        36,
+        64,
+        100
+      ]
     }
   ],
   "hints": [

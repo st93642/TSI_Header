@@ -1,0 +1,11 @@
+{
+  "exerciseId": "functions_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <iomanip>\n\nint triple(int value) {\n    return value * 3;\n}\n\ndouble average(double first, double second) {\n    return (first + second) / 2.0;\n}\n\nint main() {\n    std::cout << std::fixed << std::setprecision(1);\n\n    std::cout << \"Triple of 7: \" << triple(7) << '\\n';\n    std::cout << \"Average of 4.0 and 6.0: \" << average(4.0, 6.0);\n\n    return 0;\n}\n",
+  "explanation": "Reusable functions make main concise. triple multiplies its argument, average sums the inputs and divides by 2.0 to keep the fractional part. std::fixed with std::setprecision(1) formats the average output.",
+  "keyPoints": [
+    "Implement pure functions that return values instead of printing directly.",
+    "Use 2.0 (a double literal) so the division stays in floating-point space.",
+    "Set the stream format once before printing related values."
+  ]
+}

@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 02 2025 02:53 st93642                                       */
+/*  Updated: Oct 02 2025 21:29 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -1102,16 +1102,14 @@ extern "C" {
             const exerciseHints = variant?.hints || exerciseData.hints || [];
             const exerciseDifficulty = variant?.difficulty || exerciseMetadata?.difficulty || exerciseData.difficulty || 'beginner';
             const progressId = variant?.id || exerciseData.id || baseExerciseId;
-            const languageSuffixPattern = /_(c|cpp|python|java|javascript|ruby|typescript|ts|csharp|cs|go|rust|swift|kotlin|php)$/i;
             const normalizeLessonId = (value) => {
                 if (!value) {
                     return null;
                 }
                 let normalized = value.toString();
                 normalized = normalized.replace(/_exercise$/, '');
-                if (languageSuffixPattern.test(normalized)) {
-                    normalized = normalized.replace(languageSuffixPattern, '');
-                }
+                normalized = normalized.replace(/_solution$/, '');
+                normalized = normalized.replace(/_variant$/, '');
                 return normalized;
             };
 

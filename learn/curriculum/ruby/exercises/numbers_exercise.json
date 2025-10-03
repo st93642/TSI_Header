@@ -1,7 +1,7 @@
 {
   "id": "numbers_exercise",
   "title": "Numbers and Math in Ruby",
-  "description": "Practice arithmetic operations and number methods in Ruby.",
+  "description": "Practice arithmetic operations and number methods in Ruby.\n\nSteps:\n1. Implement `add` so `add(5, 3)` returns 8.\n2. Implement `multiply` so `multiply(4, 6)` returns 24.\n3. Implement `is_even?` so `is_even?(10)` returns true; `is_even?(7)` returns false.\n\nExpected results:\n- `add(5, 3)` returns 8\n- `multiply(4, 6)` returns 24\n- `is_even?(10)` returns true\n- `is_even?(7)` returns false",
   "difficulty": "beginner",
   "starterCode": "# Task: Math operations\n\n# 1. Create a method that adds two numbers\ndef add(a, b)\n  # Your code here\n\nend\n\n# 2. Create a method that multiplies two numbers\ndef multiply(a, b)\n  # Your code here\n\nend\n\n# 3. Create a method that checks if a number is even\ndef is_even?(num)\n  # Your code here\n\nend\n",
   "tests": [

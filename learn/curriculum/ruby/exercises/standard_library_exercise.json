@@ -1,8 +1,14 @@
 {
   "id": "standard_library_exercise",
   "title": "Standard Library: JSON and CSV",
-  "description": "Practice using Ruby's JSON and CSV standard library modules for data parsing, generation, and conversion",
-  "tags": ["json", "csv", "data-parsing", "standard-library", "serialization"],
+  "description": "Practice using Ruby's JSON and CSV standard library modules for data parsing, generation, and conversion\n\nSteps:\n1. Implement `test_json_operations` so `test_json_operations` returns true.\n2. Implement `test_csv_operations` so `test_csv_operations` returns true.\n3. Implement `test_data_conversion` so `test_data_conversion` returns true.\n\nExpected results:\n- `test_json_operations` returns true\n- `test_csv_operations` returns true\n- `test_data_conversion` returns true",
+  "tags": [
+    "json",
+    "csv",
+    "data-parsing",
+    "standard-library",
+    "serialization"
+  ],
   "starterCode": "# Implement the following methods:\n\n# 1. Test JSON parsing and generation\ndef test_json_operations\n  # Your code here - return true if all tests pass\nend\n\n# 2. Test CSV parsing and generation\ndef test_csv_operations\n  # Your code here - return true if all tests pass\nend\n\n# 3. Test converting between JSON and CSV formats\ndef test_data_conversion\n  # Your code here - return true if all tests pass\nend\n",
   "tests": [
     {

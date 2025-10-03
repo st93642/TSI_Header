@@ -1,0 +1,27 @@
+{
+  "id": "structs_cpp_exercise",
+  "title": "Record City Temperatures",
+  "description": "Model two cities with a struct and report their temperatures.\n\nSteps:\n1. Define `struct City` with two public members: `std::string name;` and `double high;`.\n2. Print `Enter city 1 name:` then read a single-word city name into the first struct.\n3. Print `Enter city 1 high (°C):` then read a `double` temperature into the first struct.\n4. Repeat the prompts for city 2 (`Enter city 2 name:`, `Enter city 2 high (°C):`).\n5. Print the lines exactly as shown below, using the format `City summary:` followed by each city on its own line as `Name -> value°C` with one decimal place, and finally `Average:` for the mean of both highs.\n\nInput format:\nLine 1: city 1 name (single word).\nLine 2: city 1 high temperature (double).\nLine 3: city 2 name (single word).\nLine 4: city 2 high temperature (double).\n\nExpected output:\nEnter city 1 name:\nEnter city 1 high (°C):\nEnter city 2 name:\nEnter city 2 high (°C):\nCity summary:\n{name1} -> {temp1}°C\n{name2} -> {temp2}°C\nAverage: {average}°C\n\nExample run (input `Riga`, `12.5`, `Tallinn`, `10.1`):\nEnter city 1 name:\nEnter city 1 high (°C):\nEnter city 2 name:\nEnter city 2 high (°C):\nCity summary:\nRiga -> 12.5°C\nTallinn -> 10.1°C\nAverage: 11.3°C",
+  "difficulty": "intermediate",
+  "starterCode": "#include <iostream>\n#include <iomanip>\n#include <string>\n\nint main() {\n    // TODO: Define struct City with name and high temperature members.\n\n    std::cout << \"Enter city 1 name:\\n\";\n    // TODO: Read the first city name into a struct instance.\n\n    std::cout << \"Enter city 1 high (°C):\\n\";\n    // TODO: Read the first city's high temperature.\n\n    std::cout << \"Enter city 2 name:\\n\";\n    // TODO: Read the second city name.\n\n    std::cout << \"Enter city 2 high (°C):\\n\";\n    // TODO: Read the second city's high temperature.\n\n    std::cout << \"City summary:\\n\";\n    // TODO: Print each city as \"Name -> value°C\" with one decimal place, then print the average temperature line.\n\n    std::cout << \"TODO\" << std::endl;\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "summarises Riga and Tallinn",
+      "type": "output",
+      "input": "Riga\n12.5\nTallinn\n10.1\n",
+      "expected": "Enter city 1 name:\nEnter city 1 high (°C):\nEnter city 2 name:\nEnter city 2 high (°C):\nCity summary:\nRiga -> 12.5°C\nTallinn -> 10.1°C\nAverage: 11.3°C"
+    },
+    {
+      "name": "summarises Paris and Vilnius",
+      "type": "output",
+      "input": "Paris\n18.0\nVilnius\n16.2\n",
+      "expected": "Enter city 1 name:\nEnter city 1 high (°C):\nEnter city 2 name:\nEnter city 2 high (°C):\nCity summary:\nParis -> 18.0°C\nVilnius -> 16.2°C\nAverage: 17.1°C"
+    }
+  ],
+  "hints": [
+    "Define struct City before main or inside main before usage.",
+    "Read names with std::string and temperatures with double.",
+    "Set std::cout << std::fixed << std::setprecision(1) before printing the readings."
+  ],
+  "tags": ["structs", "aggregation", "intermediate", "formatting"]
+}

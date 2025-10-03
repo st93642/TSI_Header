@@ -1,8 +1,14 @@
 {
   "id": "testing_demo_exercise",
   "title": "Testing System Demo",
-  "description": "Demonstrate the enhanced testing system with output capture, exception testing, and side effect validation",
-  "tags": ["testing", "output-capture", "exceptions", "side-effects", "advanced-testing"],
+  "description": "Demonstrate the enhanced testing system with output capture, exception testing, and side effect validation\n\nSteps:\n1. Implement `print_greeting` so `print_greeting('Alice')` prints \"Hello, Alice!\".\n2. Implement `validate_age` so `validate_age(-5)` returns \"ArgumentError\".\n3. Implement `create_log_file` so `create_log_file('Test message')` returns null.\n4. Implement `calculate_total` so `calculate_total([1, 2, 3, 4])` returns 10.\n\nExpected results:\n- `print_greeting('Alice')` prints \"Hello, Alice!\"\n- `validate_age(-5)` returns \"ArgumentError\"\n- `create_log_file('Test message')` returns null\n- `calculate_total([1, 2, 3, 4])` returns 10",
+  "tags": [
+    "testing",
+    "output-capture",
+    "exceptions",
+    "side-effects",
+    "advanced-testing"
+  ],
   "starterCode": "# Implement the following methods to demonstrate different test types:\n\n# 1. Output test: Write a method that prints a greeting\ndef print_greeting(name)\n  # Your code here - use puts to print \"Hello, #{name}!\"\nend\n\n# 2. Exception test: Write a method that raises an error for invalid input\ndef validate_age(age)\n  # Your code here - raise ArgumentError if age < 0\nend\n\n# 3. Side effect test: Write a method that creates a file\ndef create_log_file(message)\n  # Your code here - write message to 'test.log'\nend\n\n# 4. Regular test: Write a method that returns a calculated value\ndef calculate_total(items)\n  # Your code here - return sum of items array\nend\n",
   "tests": [
     {

@@ -2,6 +2,8 @@
  * Progress Tracker - Manages learning progress and statistics
  */
 
+const LANGUAGE_SUFFIX_PATTERN = /_(c|cpp|python|java|javascript|ruby|typescript|ts|csharp|cs|go|rust|swift|kotlin|php)$/i;
+
 class ProgressTracker {
     constructor(context) {
         this.context = context;
@@ -87,8 +89,20 @@ class ProgressTracker {
 
         if (resolvedLessonId) {
             const normalizedLessonId = this.normalizeLessonId(resolvedLessonId);
+            const legacyLessonId = typeof normalizedLessonId === 'string'
+                ? normalizedLessonId.replace(LANGUAGE_SUFFIX_PATTERN, '')
+                : normalizedLessonId;
             progress.completed = (progress.completed || [])
-                .filter(id => this.normalizeLessonId(id) !== normalizedLessonId);
+                .filter(id => {
+                    const candidate = this.normalizeLessonId(id);
+                    if (candidate === normalizedLessonId) {
+                        return false;
+                    }
+                    if (legacyLessonId && legacyLessonId !== normalizedLessonId && candidate === legacyLessonId) {
+                        return false;
+                    }
+                    return true;
+                });
             progress.completed.push(normalizedLessonId);
         }
 
@@ -109,8 +123,20 @@ class ProgressTracker {
 
         if (lessonId) {
             const normalizedLessonId = this.normalizeLessonId(lessonId);
+            const legacyLessonId = typeof normalizedLessonId === 'string'
+                ? normalizedLessonId.replace(LANGUAGE_SUFFIX_PATTERN, '')
+                : normalizedLessonId;
             progress.completed = (progress.completed || [])
-                .filter(id => this.normalizeLessonId(id) !== normalizedLessonId);
+                .filter(id => {
+                    const candidate = this.normalizeLessonId(id);
+                    if (candidate === normalizedLessonId) {
+                        return false;
+                    }
+                    if (legacyLessonId && legacyLessonId !== normalizedLessonId && candidate === legacyLessonId) {
+                        return false;
+                    }
+                    return true;
+                });
             progress.completed.push(normalizedLessonId);
             progress.completed = this.ensureUnique(progress.completed);
         }
@@ -282,11 +308,8 @@ class ProgressTracker {
 
         let normalized = lessonId.toString();
         normalized = normalized.replace(/_exercise$/, '');
-
-        const languageSuffixPattern = /_(c|cpp|python|java|javascript|ruby|typescript|ts|csharp|cs|go|rust|swift|kotlin|php)$/i;
-        if (languageSuffixPattern.test(normalized)) {
-            normalized = normalized.replace(languageSuffixPattern, '');
-        }
+        normalized = normalized.replace(/_solution$/, '');
+        normalized = normalized.replace(/_variant$/, '');
 
         return normalized;
     }

@@ -121,12 +121,28 @@ class LearnManager {
      */
     getNextLesson(curriculum, progress) {
         const completedLessons = new Set(progress.completed || []);
+        const languageSuffixPattern = /_(c|cpp|python|java|javascript|ruby|typescript|ts|csharp|cs|go|rust|swift|kotlin|php)$/i;
+        const completedLegacyForms = new Set(
+            Array.from(completedLessons)
+                .filter(id => typeof id === 'string')
+                .map(id => id.replace(languageSuffixPattern, ''))
+        );
         
         // Find first incomplete lesson
         for (const section of this.getCurriculumSections(curriculum)) {
             const lessons = Array.isArray(section.lessons) ? section.lessons : [];
             for (const lesson of lessons) {
-                if (!completedLessons.has(lesson.id)) {
+                const lessonId = lesson.id;
+                const legacyLessonId = typeof lessonId === 'string'
+                    ? lessonId.replace(languageSuffixPattern, '')
+                    : lessonId;
+
+                const isCompleted = completedLessons.has(lessonId) ||
+                    completedLessons.has(legacyLessonId) ||
+                    completedLegacyForms.has(lessonId) ||
+                    completedLegacyForms.has(legacyLessonId);
+
+                if (!isCompleted) {
                     const sectionTitle = section.title || section.id || 'Section';
                     return {
                         ...lesson,
@@ -143,6 +159,71 @@ class LearnManager {
         }
         
         return null; // All lessons completed
+    }
+
+    getLessonAfter(curriculum, currentLessonId) {
+        if (!curriculum || !currentLessonId) {
+            return null;
+        }
+
+        const normalizedCurrent = this.normalizeLessonId(currentLessonId);
+        if (!normalizedCurrent) {
+            return null;
+        }
+
+        let returnNext = false;
+        for (const section of this.getCurriculumSections(curriculum)) {
+            const lessons = Array.isArray(section.lessons) ? section.lessons : [];
+            for (const lesson of lessons) {
+                const lessonId = typeof lesson.id === 'string' ? lesson.id : '';
+                if (!lessonId) {
+                    continue;
+                }
+
+                if (returnNext) {
+                    const sectionTitle = section.title || section.id || 'Section';
+                    return {
+                        ...lesson,
+                        sectionTitle,
+                        sectionId: section.id,
+                        sectionType: section.type || 'section',
+                        moduleTitle: sectionTitle,
+                        moduleId: section.id,
+                        exerciseVariants: lesson.exerciseVariants || []
+                    };
+                }
+
+                const normalizedLessonId = this.normalizeLessonId(lessonId);
+                if (normalizedLessonId === normalizedCurrent) {
+                    returnNext = true;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    getNextLessonForSolution(curriculum, progress, currentLessonId) {
+        const normalizedCurrent = this.normalizeLessonId(currentLessonId);
+
+        if (normalizedCurrent) {
+            const sequentialLesson = this.getLessonAfter(curriculum, normalizedCurrent);
+            if (sequentialLesson) {
+                return sequentialLesson;
+            }
+        }
+
+        const nextLesson = this.getNextLesson(curriculum, progress) || null;
+        if (!nextLesson) {
+            return null;
+        }
+
+        const normalizedNext = nextLesson.id ? this.normalizeLessonId(nextLesson.id) : null;
+        if (normalizedCurrent && normalizedNext && normalizedNext === normalizedCurrent) {
+            return this.getLessonAfter(curriculum, normalizedCurrent) || null;
+        }
+
+        return nextLesson;
     }
 
     /**
@@ -784,6 +865,19 @@ class LearnManager {
 
     getExerciseMetadata(filePath) {
         return this.context.workspaceState.get(`learn_exercise_meta_${filePath}`, null);
+    }
+
+    normalizeLessonId(lessonId) {
+        if (!lessonId) {
+            return null;
+        }
+
+        let normalized = lessonId.toString();
+        normalized = normalized.replace(/_exercise$/, '');
+        normalized = normalized.replace(/_solution$/, '');
+        normalized = normalized.replace(/_variant$/, '');
+
+        return normalized;
     }
 }
 

@@ -1,7 +1,7 @@
 {
   "id": "hello_world_exercise",
   "title": "Hello World and Output",
-  "description": "Practice using puts, print, and p to display output. This lesson is about PRINTING to the console, not returning values.",
+  "description": "Practice using puts, print, and p to display output. This lesson is about PRINTING to the console, not returning values.\n\nSteps:\n1. Implement `say_hello` so `say_hello` prints \"Hello, World!\".\n2. Implement `greet_person` so `greet_person('Alice')` prints \"Hello, Alice!\"; `greet_person('Bob')` prints \"Hello, Bob!\".\n3. Implement `greet_with_time` so `greet_with_time('Alice', 'morning')` prints \"Good morning, Alice!\"; `greet_with_time('Bob', 'evening')` prints \"Good evening, Bob!\".\n\nExpected results:\n- `say_hello` prints \"Hello, World!\"\n- `greet_person('Alice')` prints \"Hello, Alice!\"\n- `greet_person('Bob')` prints \"Hello, Bob!\"\n- `greet_with_time('Alice', 'morning')` prints \"Good morning, Alice!\"\n- `greet_with_time('Bob', 'evening')` prints \"Good evening, Bob!\"",
   "difficulty": "beginner",
   "starterCode": "# Create methods that use puts to display output\n\ndef say_hello\n  # Use puts to print \"Hello, World!\"\n\nend\n\ndef greet_person(name)\n  # Use puts to print \"Hello, {name}!\"\n  # Example: greet_person(\"Alice\") should print \"Hello, Alice!\"\n\nend\n\ndef greet_with_time(name, time)\n  # Use puts to print \"Good {time}, {name}!\"\n  # Example: greet_with_time(\"Alice\", \"morning\") should print \"Good morning, Alice!\"\n\nend\n",
   "tests": [
@@ -43,5 +43,10 @@
     "Remember the comma and space after Good",
     "Make sure to include the exclamation mark"
   ],
-  "tags": ["basics", "output", "beginner", "puts"]
+  "tags": [
+    "basics",
+    "output",
+    "beginner",
+    "puts"
+  ]
 }

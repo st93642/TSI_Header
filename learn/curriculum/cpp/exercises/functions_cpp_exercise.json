@@ -1,0 +1,20 @@
+{
+  "id": "functions_cpp_exercise",
+  "title": "Implement and Call Functions",
+  "description": "Write reusable functions that compute a triple and an average, then print labelled results from `main()`.\n\nSteps:\n1. Implement `int triple(int value)` so it returns three times the argument.\n2. Implement `double average(double first, double second)` so it returns the mean with one decimal place.\n3. Inside `main`, configure `std::cout` with `std::fixed` and `std::setprecision(1)` (already done for you).\n4. Call both functions and print the labelled lines exactly as shown below.\n\nExpected output:\nTriple of 7: 21\nAverage of 4.0 and 6.0: 5.0",
+  "difficulty": "beginner",
+  "starterCode": "#include <iostream>\n#include <iomanip>\n\nint triple(int value) {\n    // TODO: Return three times the argument.\n    return 0;\n}\n\ndouble average(double first, double second) {\n    // TODO: Return the arithmetic mean of the two values.\n    return 0.0;\n}\n\nint main() {\n    std::cout << std::fixed << std::setprecision(1);\n\n    // TODO: Call the functions above and print the labelled lines exactly as specified.\n    std::cout << \"Triple of 7: TODO\" << '\\n';\n    std::cout << \"Average of 4.0 and 6.0: TODO\";\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "prints triple and average",
+      "type": "output",
+      "expected": "Triple of 7: 21\nAverage of 4.0 and 6.0: 5.0"
+    }
+  ],
+  "hints": [
+    "Remember that triple should return value * 3.",
+    "average should add the parameters and divide by 2.0 so you keep one decimal place.",
+    "Replace the TODO placeholders in the output with actual function calls."
+  ],
+  "tags": ["functions", "return-values", "beginner"]
+}

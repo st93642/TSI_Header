@@ -1,0 +1,11 @@
+{
+  "exerciseId": "structs_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <iomanip>\n#include <string>\n\nstruct City {\n    std::string name;\n    double high;\n};\n\nint main() {\n    City first{};\n    City second{};\n\n    std::cout << \"Enter city 1 name:\\n\";\n    std::cin >> first.name;\n\n    std::cout << \"Enter city 1 high (°C):\\n\";\n    std::cin >> first.high;\n\n    std::cout << \"Enter city 2 name:\\n\";\n    std::cin >> second.name;\n\n    std::cout << \"Enter city 2 high (°C):\\n\";\n    std::cin >> second.high;\n\n    std::cout << \"City summary:\\n\";\n    std::cout << std::fixed << std::setprecision(1);\n    std::cout << first.name << \" -> \" << first.high << \"°C\\n\";\n    std::cout << second.name << \" -> \" << second.high << \"°C\\n\";\n\n    double average = (first.high + second.high) / 2.0;\n    std::cout << \"Average: \" << average << \"°C\";\n\n    return 0;\n}\n",
+  "explanation": "Two City structs hold the paired name/temperature values. Reading each field in sequence keeps the prompts aligned with user input. std::fixed and std::setprecision(1) ensure the output always shows one decimal place, and the final average reuses the struct data instead of duplicating variables.",
+  "keyPoints": [
+    "Structs group related fields so values move together.",
+    "Streaming std::fixed << std::setprecision(1) formats all subsequent floating-point output.",
+    "Working with structs makes it easy to compute aggregate metrics (like averages) without parallel arrays."
+  ]
+}

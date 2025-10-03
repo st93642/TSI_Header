@@ -1,0 +1,20 @@
+{
+  "id": "variables_types_cpp_exercise",
+  "title": "Summarise Cohort Variables",
+  "description": "Capture a classroom snapshot by assigning the requested values to four variables and printing a labelled summary.\n\nSteps:\n1. Assign `students = 28`, `averageGrade = 91.5`, `highestGrade = 'A'`, and `labOpen = true` using appropriate C++ types.\n2. Use `std::boolalpha` before printing `labOpen` so the boolean appears as `true`/`false`.\n3. Output the four labelled lines exactly as shown below, one per line, in the same order.\n\nExpected output:\nStudents: 28\nAverage grade: 91.5\nHighest grade: A\nLab open: true",
+  "difficulty": "beginner",
+  "starterCode": "#include <iostream>\n#include <string>\n\nint main() {\n    // TODO: Replace the placeholder values with the required classroom snapshot.\n    int students = 0;\n    double averageGrade = 0.0;\n    char highestGrade = ' ';\n    auto labOpen = false;\n\n    // TODO: Stream std::boolalpha before printing the boolean so it appears as true/false.\n    // TODO: Print each label and value on its own line, matching the expected output exactly.\n    std::cout << \"TODO summary\" << std::endl;\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "prints labelled summary",
+      "type": "output",
+      "expected": "Students: 28\nAverage grade: 91.5\nHighest grade: A\nLab open: true"
+    }
+  ],
+  "hints": [
+    "Assign the exact values: 28 students, average grade 91.5, highest grade 'A', lab open true.",
+    "Use std::boolalpha before printing the boolean so it shows true/false instead of 1/0.",
+    "Print each line with std::cout << label << value << std::endl;"
+  ],
+  "tags": ["variables", "types", "beginner", "basics"]
+}

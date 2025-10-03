@@ -1,7 +1,7 @@
 {
   "id": "inheritance_exercise",
   "title": "Inheritance in Ruby",
-  "description": "Practice class inheritance and method overriding.",
+  "description": "Practice class inheritance and method overriding.\n\nSteps:\n1. Implement `Animal.new` so `Animal.new('Generic').speak` returns \"Some sound\".\n2. Implement `Dog.new` so `Dog.new('Buddy').is_a?(Animal)` returns true; `Dog.new('Buddy').speak` returns \"Woof! I'm Buddy\"; `Dog.new('Max').speak` returns \"Woof! I'm Max\".\n3. Implement `Cat.new` so `Cat.new('Whiskers').is_a?(Animal)` returns true; `Cat.new('Whiskers').speak` returns \"Meow! I'm Whiskers\".\n\nExpected results:\n- `Animal.new('Generic').speak` returns \"Some sound\"\n- `Dog.new('Buddy').is_a?(Animal)` returns true\n- `Dog.new('Buddy').speak` returns \"Woof! I'm Buddy\"\n- `Dog.new('Max').speak` returns \"Woof! I'm Max\"\n- `Cat.new('Whiskers').is_a?(Animal)` returns true\n- `Cat.new('Whiskers').speak` returns \"Meow! I'm Whiskers\"",
   "difficulty": "advanced",
   "starterCode": "# Define an Animal class with:\n# - initialize(name) that sets @name\n# - speak method that returns \"Some sound\"\n\nclass Animal\n  # Your code here\n\nend\n\n# Define a Dog class that inherits from Animal and:\n# - overrides speak to return \"Woof! I'm {name}\"\n\nclass Dog < Animal\n  # Your code here\n\nend\n\n# Define a Cat class that inherits from Animal and:\n# - overrides speak to return \"Meow! I'm {name}\"\n\nclass Cat < Animal\n  # Your code here\n\nend\n",
   "tests": [
@@ -42,5 +42,9 @@
     "Access instance variables from parent: @name",
     "Use string interpolation: \"Woof! I'm #{@name}\""
   ],
-  "tags": ["inheritance", "oop", "advanced"]
+  "tags": [
+    "inheritance",
+    "oop",
+    "advanced"
+  ]
 }

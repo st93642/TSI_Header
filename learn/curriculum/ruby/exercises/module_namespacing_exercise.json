@@ -2,8 +2,14 @@
   "id": "module_namespacing_exercise",
   "title": "Module Namespacing",
   "difficulty": "intermediate",
-  "description": "Organize code using modules as namespaces to prevent conflicts and improve code structure",
-  "tags": ["modules", "namespacing", "organization", "architecture", "intermediate"],
+  "description": "Organize code using modules as namespaces to prevent conflicts and improve code structure\n\nSteps:\n1. Implement `test_game_engine` so `test_game_engine()` returns \"Player defeated Enemy with 100 damage\".\n2. Implement `test_filesystem` so `test_filesystem()` returns \"/home/user/documents/file.txt\".\n3. Implement `test_web_framework` so `test_web_framework()` returns \"GET /users -> UsersController#index\".\n4. Implement `test_mixin` so `test_mixin()` returns \"Validated and saved\".\n5. Implement `test_constants` so `test_constants()` returns \"1.0.0\".\n6. Implement `test_nested` so `test_nested()` returns \"Database connected to production\".\n\nExpected results:\n- `test_game_engine()` returns \"Player defeated Enemy with 100 damage\"\n- `test_filesystem()` returns \"/home/user/documents/file.txt\"\n- `test_web_framework()` returns \"GET /users -> UsersController#index\"\n- `test_mixin()` returns \"Validated and saved\"\n- `test_constants()` returns \"1.0.0\"\n- `test_nested()` returns \"Database connected to production\"",
+  "tags": [
+    "modules",
+    "namespacing",
+    "organization",
+    "architecture",
+    "intermediate"
+  ],
   "starterCode": "# Create a well-organized module namespace structure\n# Use modules to group related classes and prevent naming conflicts\n# Implement both namespacing and mixin functionality\n\nmodule GameEngine\n  # Your module structure here\nend\n\nmodule FileSystem\n  # Your module structure here\nend\n\nmodule WebFramework\n  # Your module structure here\nend\n",
   "tests": [
     {

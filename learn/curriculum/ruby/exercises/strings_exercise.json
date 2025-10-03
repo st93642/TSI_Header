@@ -1,7 +1,7 @@
 {
   "id": "strings_exercise",
   "title": "Working with Strings",
-  "description": "Practice string manipulation, concatenation, and methods in Ruby.",
+  "description": "Practice string manipulation, concatenation, and methods in Ruby.\n\nSteps:\n1. Implement `shout` so `shout('hello')` returns \"HELLO\".\n2. Implement `reverse_text` so `reverse_text('ruby')` returns \"ybur\".\n3. Implement `text_length` so `text_length('test')` returns 4.\n\nExpected results:\n- `shout('hello')` returns \"HELLO\"\n- `reverse_text('ruby')` returns \"ybur\"\n- `text_length('test')` returns 4",
   "difficulty": "beginner",
   "starterCode": "# Task: String manipulation methods\n\n# 1. Create a method that returns a string in uppercase\ndef shout(text)\n  # Your code here\n\nend\n\n# 2. Create a method that reverses a string\ndef reverse_text(text)\n  # Your code here\n\nend\n\n# 3. Create a method that returns the length of a string\ndef text_length(text)\n  # Your code here\n\nend\n",
   "tests": [

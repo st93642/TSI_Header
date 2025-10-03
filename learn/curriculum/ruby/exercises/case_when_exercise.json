@@ -1,7 +1,7 @@
 {
   "id": "case_when_exercise",
   "title": "Case When Statements",
-  "description": "Practice using case/when for multiple condition checking.",
+  "description": "Practice using case/when for multiple condition checking.\n\nSteps:\n1. Implement `day_type` so `day_type('Monday')` returns \"weekday\"; `day_type('Saturday')` returns \"weekend\".\n2. Implement `letter_grade` so `letter_grade(95)` returns \"A\"; `letter_grade(85)` returns \"B\"; `letter_grade(45)` returns \"F\".\n\nExpected results:\n- `day_type('Monday')` returns \"weekday\"\n- `day_type('Saturday')` returns \"weekend\"\n- `letter_grade(95)` returns \"A\"\n- `letter_grade(85)` returns \"B\"\n- `letter_grade(45)` returns \"F\"",
   "difficulty": "intermediate",
   "starterCode": "# Case/When Statements Exercise\n\n# 1. Create a method day_type(day) that returns \"weekday\" or \"weekend\"\n#    Weekdays: Monday, Tuesday, Wednesday, Thursday, Friday\n#    Weekends: Saturday, Sunday\n#    Example: day_type('Monday') => \"weekday\"\n#    Example: day_type('Saturday') => \"weekend\"\n#    Hint: case day; when 'Monday', 'Tuesday'... then 'weekday'\n\ndef day_type(day)\n  # Use case/when to check the day\n\nend\n\n# 2. Create a method letter_grade(score) that returns letter grades:\n#    A: 90-100, B: 80-89, C: 70-79, D: 60-69, F: below 60\n#    Example: letter_grade(95) => \"A\"\n#    Example: letter_grade(85) => \"B\"\n#    Example: letter_grade(45) => \"F\"\n#    Hint: Use ranges: when 90..100 then 'A'\n\ndef letter_grade(score)\n  # Use case/when with ranges\n\nend\n",
   "tests": [

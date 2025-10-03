@@ -1,0 +1,11 @@
+{
+  "exerciseId": "conditionals_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <string>\n\nint main() {\n    int score{};\n\n    std::cout << \"Enter score:\\n\";\n    std::cin >> score;\n\n    std::string result{};\n\n    if (score < 0 || score > 100) {\n        result = \"Invalid score\";\n    } else if (score >= 90) {\n        result = \"Outstanding\";\n    } else if (score >= 80) {\n        result = \"Great\";\n    } else if (score >= 60) {\n        result = \"Satisfactory\";\n    } else {\n        result = \"Needs improvement\";\n    }\n\n    std::cout << \"Result: \" << result;\n\n    return 0;\n}\n",
+  "explanation": "The program reads a score, validates the range first, then cascades through descending thresholds. Only one branch executes, and the chosen label is printed with the required prefix.",
+  "keyPoints": [
+    "Check invalid ranges before rating bands.",
+    "Order else-if blocks from highest threshold to lowest.",
+    "Store the chosen label in a std::string for reuse in the final print."
+  ]
+}

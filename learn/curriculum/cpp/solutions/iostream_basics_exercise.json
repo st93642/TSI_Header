@@ -1,0 +1,11 @@
+{
+  "exerciseId": "iostream_basics_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <string>\n\nint main() {\n    std::string name{};\n    int age{};\n\n    std::cout << \"Enter your first name:\\n\";\n    std::cin >> name;\n\n    std::cout << \"Enter your age:\\n\";\n    std::cin >> age;\n\n    std::cout << \"Hello, \" << name << \"! You are \" << age << \" years old.\" << '\\n';\n    std::cout << \"Ready to explore iostream!\" << std::endl;\n\n    return 0;\n}\n",
+  "explanation": "The program prompts for a name and age using std::cout, reads each value with std::cin, then echoes a formatted summary. The first response line ends with a newline character (\\n) while the final message uses std::endl to echo the lesson's discussion about flushing the stream.",
+  "keyPoints": [
+    "Chain std::cout insertions to build sentences",
+    "std::cin >> variable reads the next token from input",
+    "Use std::endl sparingly when you need an immediate flush"
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "id": "defining_methods_exercise",
   "title": "Defining Methods in Ruby",
-  "description": "Practice creating methods with parameters and return values.",
+  "description": "Practice creating methods with parameters and return values.\n\nSteps:\n1. Implement `rectangle_area` so `rectangle_area(5, 10)` returns 50.\n2. Implement `greet` so `greet('Alice')` returns \"Hello, Alice!\"; `greet` returns \"Hello, Friend!\".\n3. Implement `min_max` so `min_max([3, 1, 4, 1, 5])` returns [1, 5].\n\nExpected results:\n- `rectangle_area(5, 10)` returns 50\n- `greet('Alice')` returns \"Hello, Alice!\"\n- `greet` returns \"Hello, Friend!\"\n- `min_max([3, 1, 4, 1, 5])` returns [1, 5]",
   "difficulty": "intermediate",
   "starterCode": "# Defining Methods Exercise\n\n# 1. Create a method rectangle_area(width, height) that calculates area\n#    Example: rectangle_area(5, 10) => 50\n#    Example: rectangle_area(3, 7) => 21\n#    Hint: Area = width * height\n\ndef rectangle_area(width, height)\n  # Calculate and return width * height\n\nend\n\n# 2. Create a method greet(name) with default parameter \"Friend\"\n#    Example: greet('Alice') => \"Hello, Alice!\"\n#    Example: greet() => \"Hello, Friend!\"\n#    Hint: def greet(name = \"Friend\")\n\ndef greet(name = \"Friend\")\n  # Return \"Hello, {name}!\" string\n\nend\n\n# 3. Create a method min_max(arr) that returns [minimum, maximum]\n#    Example: min_max([3, 1, 4, 1, 5]) => [1, 5]\n#    Example: min_max([10, 20, 5]) => [5, 20]\n#    Hint: Use arr.min and arr.max\n\ndef min_max(arr)\n  # Return array [minimum, maximum]\n\nend\n",
   "tests": [

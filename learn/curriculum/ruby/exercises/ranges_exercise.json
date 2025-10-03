@@ -1,7 +1,7 @@
 {
   "id": "ranges_exercise",
   "title": "Range Objects in Ruby",
-  "description": "Practice creating and using ranges for sequences, intervals, and membership checks.",
+  "description": "Practice creating and using ranges for sequences, intervals, and membership checks.\n\nSteps:\n1. Implement `in_range?` so `in_range?(5, 1, 10)` returns true; `in_range?(15, 1, 10)` returns false; `in_range?(10, 1, 10)` returns true.\n2. Implement `count_to` so `count_to(5)` returns [1, 2, 3, 4, 5]; `count_to(3)` returns [1, 2, 3].\n3. Implement `letter_range` so `letter_range('a', 'e')` returns [\"a\", \"b\", \"c\", \"d\", \"e\"]; `letter_range('x', 'z')` returns [\"x\", \"y\", \"z\"].\n4. Implement `grade_letter` so `grade_letter(95)` returns \"A\"; `grade_letter(82)` returns \"B\"; `grade_letter(75)` returns \"C\"; `grade_letter(45)` returns \"F\".\n\nExpected results:\n- `in_range?(5, 1, 10)` returns true\n- `in_range?(15, 1, 10)` returns false\n- `in_range?(10, 1, 10)` returns true\n- `count_to(5)` returns [1, 2, 3, 4, 5]\n- `count_to(3)` returns [1, 2, 3]\n- `letter_range('a', 'e')` returns [\"a\", \"b\", \"c\", \"d\", \"e\"]\n- `letter_range('x', 'z')` returns [\"x\", \"y\", \"z\"]\n- `grade_letter(95)` returns \"A\"\n- `grade_letter(82)` returns \"B\"\n- `grade_letter(75)` returns \"C\"\n- `grade_letter(45)` returns \"F\"",
   "difficulty": "beginner",
   "starterCode": "# Range Objects Exercise\n\n# 1. Create a method in_range?(number, min, max) that checks if number is in range\n#    Example: in_range?(5, 1, 10) => true\n#    Example: in_range?(15, 1, 10) => false\n#    Hint: Use (min..max).include?(number)\n\ndef in_range?(number, min, max)\n  # Check if number is between min and max (inclusive)\n\nend\n\n# 2. Create a method count_to(n) that returns array [1, 2, 3, ..., n]\n#    Example: count_to(5) => [1, 2, 3, 4, 5]\n#    Example: count_to(3) => [1, 2, 3]\n#    Hint: Use (1..n).to_a\n\ndef count_to(n)\n  # Return array of numbers from 1 to n\n\nend\n\n# 3. Create a method letter_range(start_letter, end_letter) that returns array of letters\n#    Example: letter_range('a', 'e') => ['a', 'b', 'c', 'd', 'e']\n#    Example: letter_range('x', 'z') => ['x', 'y', 'z']\n#    Hint: Use (start_letter..end_letter).to_a\n\ndef letter_range(start_letter, end_letter)\n  # Return array of letters from start to end\n\nend\n\n# 4. Create a method grade_letter(score) that returns grade based on ranges\n#    90-100: 'A', 80-89: 'B', 70-79: 'C', 60-69: 'D', below 60: 'F'\n#    Example: grade_letter(95) => 'A'\n#    Example: grade_letter(82) => 'B'\n#    Hint: Use case/when with ranges\n\ndef grade_letter(score)\n  # Return grade letter based on score\n\nend\n",
   "tests": [
@@ -23,22 +23,42 @@
     {
       "name": "count_to 5",
       "call": "count_to(5)",
-      "expected": [1, 2, 3, 4, 5]
+      "expected": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
     },
     {
       "name": "count_to 3",
       "call": "count_to(3)",
-      "expected": [1, 2, 3]
+      "expected": [
+        1,
+        2,
+        3
+      ]
     },
     {
       "name": "letter_range a to e",
       "call": "letter_range('a', 'e')",
-      "expected": ["a", "b", "c", "d", "e"]
+      "expected": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e"
+      ]
     },
     {
       "name": "letter_range x to z",
       "call": "letter_range('x', 'z')",
-      "expected": ["x", "y", "z"]
+      "expected": [
+        "x",
+        "y",
+        "z"
+      ]
     },
     {
       "name": "grade_letter A",
@@ -69,5 +89,9 @@
     "Ranges work with numbers and letters",
     "Two dots (..) includes end, three dots (...) excludes it"
   ],
-  "tags": ["ranges", "beginner", "sequences"]
+  "tags": [
+    "ranges",
+    "beginner",
+    "sequences"
+  ]
 }

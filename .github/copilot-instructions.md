@@ -21,6 +21,8 @@
 	- 147 language generators live in `core/generators/languages/`; each exports a `generate<Lang>CodeBase` consumed by `TSICore.codeGenerator`.
 	- Project scaffolding pulls from `core/generators/project/**` (language creators, build files, docs, gitignore); reuse those helpers rather than duplicating logic.
 	- Learn exercises require synchronized curriculum JSON → exercise JSON → solution JSON metadata consumed by `ExerciseRunner` and tracked via `learn_progress_{language}`.
+	- Every Learn lesson and exercise must spell out prescriptive "Steps" plus an "Expected output" (or equivalent explicit requirements); keep tests, descriptions, starter code, and solutions perfectly aligned so learners know exactly what to build.
+	- The new C++ curriculum mirrors Ruby: every lesson in `learn/curriculum/cpp/lessons` needs matching exercise/solution JSON with output-based tests that satisfy `TEST_Suite/test_learn_cpp.rb`.
 5. **When extending features**
 	- Add language header support by updating both the JS generator and `TSIHeader::Delimiters::LANGUAGE_DELIMITERS`, and cover it in `spec/unified_test.rb`.
 	- New Study Mode behavior must keep `elapsedTime` as the persistence source of truth and continue modal confirmations before mutating state.

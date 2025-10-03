@@ -1,7 +1,7 @@
 {
   "id": "loops_exercise",
   "title": "Loops and Iteration",
-  "description": "Practice using loops to repeat code and build arrays.",
+  "description": "Practice using loops to repeat code and build arrays.\n\nSteps:\n1. Implement `count_to` so `count_to(5)` returns [1, 2, 3, 4, 5].\n2. Implement `sum_to` so `sum_to(5)` returns 15.\n3. Implement `double_numbers` so `double_numbers([1, 2, 3])` returns [2, 4, 6].\n\nExpected results:\n- `count_to(5)` returns [1, 2, 3, 4, 5]\n- `sum_to(5)` returns 15\n- `double_numbers([1, 2, 3])` returns [2, 4, 6]",
   "difficulty": "beginner",
   "starterCode": "# Loops and Iteration Exercise\n\n# 1. Create a method count_to(n) that returns an array [1, 2, 3, ..., n]\n#    Example: count_to(5) => [1, 2, 3, 4, 5]\n#    Example: count_to(3) => [1, 2, 3]\n#    Hint: Use (1..n).to_a or build with a loop\n\ndef count_to(n)\n  # Return array of numbers from 1 to n\n\nend\n\n# 2. Create a method sum_to(n) that returns sum of 1+2+3+...+n\n#    Example: sum_to(5) => 15 (because 1+2+3+4+5 = 15)\n#    Example: sum_to(3) => 6 (because 1+2+3 = 6)\n#    Hint: Start with sum = 0, then add each number\n\ndef sum_to(n)\n  # Calculate and return the sum\n\nend\n\n# 3. Create a method double_numbers(arr) that returns new array with doubled values\n#    Example: double_numbers([1, 2, 3]) => [2, 4, 6]\n#    Example: double_numbers([5, 10]) => [10, 20]\n#    Hint: Use .map { |num| num * 2 }\n\ndef double_numbers(arr)\n  # Return new array with each number doubled\n\nend\n",
   "tests": [

@@ -1,0 +1,11 @@
+{
+  "exerciseId": "loops_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n\nint main() {\n    int n{};\n\n    std::cout << \"Enter a positive integer:\\n\";\n    std::cin >> n;\n\n    int sum{0};\n\n    std::cout << \"Sequence: \";\n    for (int i{1}; i <= n; ++i) {\n        sum += i;\n        std::cout << i;\n        if (i < n) {\n            std::cout << ' ';\n        }\n    }\n    std::cout << '\\n';\n\n    std::cout << \"Sum: \" << sum;\n\n    return 0;\n}\n",
+  "explanation": "A counted for loop iterates from 1 through n, appending each number to the same line and building the running total. A simple guard prints spaces between numbers without leaving a trailing space at the end.",
+  "keyPoints": [
+    "Initialise accumulators before the loop.",
+    "Update the total inside the loop body.",
+    "Handle spacing by checking whether you are on the last element."
+  ]
+}

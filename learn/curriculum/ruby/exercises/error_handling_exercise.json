@@ -1,7 +1,7 @@
 {
   "id": "error_handling_exercise",
   "title": "Error Handling with Exceptions",
-  "description": "Practice safe division with error handling.",
+  "description": "Practice safe division with error handling.\n\nSteps:\n1. Implement `safe_divide` so `safe_divide(10, 2)` returns 5; `safe_divide(10, 0)` returns \"Cannot divide by zero\".\n2. Implement `safe_divide_with_float` so `safe_divide_with_float(10, 4)` returns 2.5; `safe_divide_with_float(10, 0)` returns \"Cannot divide by zero\".\n3. Implement `calculate_average` so `calculate_average([10, 20, 30])` returns 20.0; `calculate_average([])` returns \"Cannot calculate average of empty array\".\n\nExpected results:\n- `safe_divide(10, 2)` returns 5\n- `safe_divide(10, 0)` returns \"Cannot divide by zero\"\n- `safe_divide_with_float(10, 4)` returns 2.5\n- `safe_divide_with_float(10, 0)` returns \"Cannot divide by zero\"\n- `calculate_average([10, 20, 30])` returns 20.0\n- `calculate_average([])` returns \"Cannot calculate average of empty array\"",
   "difficulty": "intermediate",
   "starterCode": "# Create a safe_divide method that handles division by zero\n\ndef safe_divide(a, b)\n  # Return the result of a / b\n  # If b is zero, return \"Cannot divide by zero\"\n  # Use begin/rescue block\n\nend\n\ndef safe_divide_with_float(a, b)\n  # Same as safe_divide but return float result\n  # Use a.to_f / b to get float division\n\nend\n\ndef calculate_average(numbers)\n  # Calculate average of array\n  # Return \"Cannot calculate average of empty array\" if empty\n  # Use begin/rescue to handle empty array\n\nend\n",
   "tests": [
@@ -43,5 +43,11 @@
     "Check if array is empty: numbers.empty?",
     "Use .to_f for float division"
   ],
-  "tags": ["exceptions", "error-handling", "begin", "rescue", "intermediate"]
+  "tags": [
+    "exceptions",
+    "error-handling",
+    "begin",
+    "rescue",
+    "intermediate"
+  ]
 }

@@ -1,0 +1,11 @@
+{
+  "exerciseId": "vectors_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <vector>\n#include <numeric>\n#include <iomanip>\n\nint main() {\n    std::cout << \"Enter 4 integers:\\n\";\n\n    std::vector<int> values(4);\n    for (int& value : values) {\n        std::cin >> value;\n    }\n\n    std::cout << \"Numbers: \";\n    for (std::size_t i = 0; i < values.size(); ++i) {\n        std::cout << values[i];\n        if (i + 1 < values.size()) {\n            std::cout << ' ';\n        }\n    }\n    std::cout << '\\n';\n\n    std::cout << \"First: \" << values.front() << '\\n';\n    std::cout << \"Last: \" << values.back() << '\\n';\n\n    int sum = std::accumulate(values.begin(), values.end(), 0);\n    std::cout << \"Sum: \" << sum << '\\n';\n\n    std::cout << std::fixed << std::setprecision(1);\n    double average = static_cast<double>(sum) / values.size();\n    std::cout << \"Average: \" << average;\n\n    return 0;\n}\n",
+  "explanation": "The program reads four integers directly into a std::vector so we can reuse the container for iteration and summarising data. A simple loop prints the numbers with single spaces, front/back expose the endpoints, and std::accumulate provides the total. Casting the sum before division and configuring std::cout with std::fixed/std::setprecision(1) ensure the average keeps one decimal place.",
+  "keyPoints": [
+    "Store sequential input in std::vector to reuse helpers like front/back/size.",
+    "std::accumulate quickly sums a vector without manual loops.",
+    "Stream manipulators (std::fixed, std::setprecision) control numeric formatting."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "exerciseId": "header_basics_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <iomanip>\n\n// math_conversions.h (conceptual header)\ndouble fahrenheit_to_celsius(double fahrenheit);\ndouble kilometers_to_meters(double kilometers);\n\nint main() {\n    std::cout << std::fixed << std::setprecision(1);\n\n    std::cout << \"68°F in Celsius: \" << fahrenheit_to_celsius(68.0) << '\\n';\n    std::cout << \"3.5 km in meters: \" << kilometers_to_meters(3.5);\n\n    return 0;\n}\n\n// math_conversions.cpp (definitions)\ndouble fahrenheit_to_celsius(double fahrenheit) {\n    return (fahrenheit - 32.0) * 5.0 / 9.0;\n}\n\ndouble kilometers_to_meters(double kilometers) {\n    return kilometers * 1000.0;\n}\n",
+  "explanation": "The forward declarations act like a header so main can call the functions before they are defined. The implementation section applies the standard Fahrenheit-to-Celsius and kilometre-to-metre formulas, producing the formatted output required by the tests.",
+  "keyPoints": [
+    "Match declarations and definitions exactly.",
+    "Keep unit conversions in dedicated helper functions for reuse.",
+    "Format results with std::fixed and std::setprecision when presenting measurements."
+  ]
+}

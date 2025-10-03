@@ -1,0 +1,11 @@
+{
+  "exerciseId": "maps_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <map>\n#include <numeric>\n#include <string>\n\nint main() {\n    std::map<std::string, int> inventory;\n    std::cout << \"Enter 3 fruit entries (name count):\\n\";\n\n    for (int i = 0; i < 3; ++i) {\n        std::string name;\n        int count;\n        if (!(std::cin >> name >> count)) {\n            return 0;\n        }\n        inventory[name] = count;\n    }\n\n    std::cout << \"Inventory:\\n\";\n    for (const auto &entry : inventory) {\n        std::cout << entry.first << \" -> \" << entry.second << \"\\n\";\n    }\n\n    std::cout << \"Unique items: \" << inventory.size() << \"\\n\";\n    int total = std::accumulate(inventory.begin(), inventory.end(), 0,\n        [](int sum, const auto &entry) { return sum + entry.second; });\n    std::cout << \"Total count: \" << total;\n\n    return 0;\n}\n",
+  "explanation": "Store the three pairs inside a std::map so duplicate keys automatically overwrite older values. Iterating the map yields entries in sorted key order, satisfying the expected output arrangement. std::accumulate folds each entry's second value into the running total, while map::size reports the unique key count without additional bookkeeping.",
+  "keyPoints": [
+    "std::map keeps keys sorted and unique, so iterating produces alphabetical output without manual sorting.",
+    "Assigning inventory[name] = count handles both insertion and updates in one expression.",
+    "An accumulate lambda can pull entry.second from each pair to compute the total succinctly."
+  ]
+}

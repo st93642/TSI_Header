@@ -1,0 +1,27 @@
+{
+  "id": "loops_cpp_exercise",
+  "title": "Accumulate with a For Loop",
+  "description": "Generate a 1..n sequence and track its sum using a counted loop.\n\nSteps:\n1. Prompt with `Enter a positive integer:` and read `n` from input.\n2. Assume the tests will always provide n ≥ 1 (you may guard against invalid input if you wish).\n3. Use a loop to produce the sequence `1 2 ... n` with single spaces between successive numbers (no trailing space at the end).\n4. Accumulate the running sum while iterating.\n5. Print the sequence and sum on separate lines using the format shown below.\n\nInput format:\nLine 1: positive integer n.\n\nExpected output:\nEnter a positive integer:\nSequence: 1 2 ... n\nSum: {total}\n\nExample run (n = 5):\nEnter a positive integer:\nSequence: 1 2 3 4 5\nSum: 15",
+  "difficulty": "beginner",
+  "starterCode": "#include <iostream>\n\nint main() {\n    int n{};\n\n    std::cout << \"Enter a positive integer:\\n\";\n    // TODO: Read n from std::cin.\n\n    // Optional: validate n > 0 if you want to guard against bad input.\n\n    // TODO: Use a loop to build the 1..n sequence and the running total.\n    std::cout << \"Sequence: TODO\" << '\\n';\n    std::cout << \"Sum: TODO\" << std::endl;\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "sequence for 5",
+      "type": "output",
+      "input": "5\n",
+      "expected": "Enter a positive integer:\nSequence: 1 2 3 4 5\nSum: 15"
+    },
+    {
+      "name": "sequence for 1",
+      "type": "output",
+      "input": "1\n",
+      "expected": "Enter a positive integer:\nSequence: 1\nSum: 1"
+    }
+  ],
+  "hints": [
+    "Initialise an accumulator (sum) to zero before the loop.",
+    "Append a space after each number except perhaps the last—building a string can help.",
+    "Consider using std::ostringstream if you want precise control, or handle the first element separately."
+  ],
+  "tags": ["loops", "for", "accumulator", "beginner"]
+}

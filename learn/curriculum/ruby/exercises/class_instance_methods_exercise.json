@@ -2,8 +2,14 @@
   "id": "class_instance_methods_exercise",
   "title": "Class vs Instance Methods",
   "difficulty": "intermediate",
-  "description": "Practice creating and using both class methods and instance methods in Ruby classes",
-  "tags": ["oop", "methods", "class-methods", "instance-methods", "intermediate"],
+  "description": "Practice creating and using both class methods and instance methods in Ruby classes\n\nSteps:\n1. Implement `test_calculator_class` so `test_calculator_class()` returns 15.\n2. Implement `test_calculator_instance` so `test_calculator_instance()` returns 8.\n3. Implement `test_bank_account_class` so `test_bank_account_class()` returns 2.\n4. Implement `test_bank_account_instance` so `test_bank_account_instance()` returns 150.0.\n5. Implement `test_library_class` so `test_library_class()` returns \"1984 by George Orwell\".\n6. Implement `test_library_instance` so `test_library_instance()` returns [\"1984\", \"To Kill a Mockingbird\"].\n\nExpected results:\n- `test_calculator_class()` returns 15\n- `test_calculator_instance()` returns 8\n- `test_bank_account_class()` returns 2\n- `test_bank_account_instance()` returns 150.0\n- `test_library_class()` returns \"1984 by George Orwell\"\n- `test_library_instance()` returns [\"1984\", \"To Kill a Mockingbird\"]",
+  "tags": [
+    "oop",
+    "methods",
+    "class-methods",
+    "instance-methods",
+    "intermediate"
+  ],
   "starterCode": "# Create classes with both class and instance methods\n# Use class methods for factory patterns and utilities\n# Use instance methods for object-specific operations\n\nclass Calculator\n  # Your class and instance methods here\nend\n\nclass BankAccount\n  # Your class and instance methods here\nend\n\nclass Library\n  # Your class and instance methods here\nend\n",
   "tests": [
     {
@@ -34,7 +40,10 @@
     {
       "name": "test_library_instance_method",
       "call": "test_library_instance()",
-      "expected": ["1984", "To Kill a Mockingbird"]
+      "expected": [
+        "1984",
+        "To Kill a Mockingbird"
+      ]
     }
   ],
   "hints": [

@@ -1,7 +1,7 @@
 {
   "id": "regex_exercise",
   "title": "Regular Expressions (Regex)",
-  "description": "Practice pattern matching with regular expressions. Test strings against patterns and extract data using regex.",
+  "description": "Practice pattern matching with regular expressions. Test strings against patterns and extract data using regex.\n\nSteps:\n1. Implement `valid_email?` so `valid_email?('test@example.com')` returns true; `valid_email?('invalid.email')` returns false; `valid_email?('user@domain.org')` returns true.\n2. Implement `extract_numbers` so `extract_numbers('I have 2 cats and 3 dogs')` returns [\"2\", \"3\"]; `extract_numbers('Room 101, Floor 5')` returns [\"101\", \"5\"].\n3. Implement `replace_vowels` so `replace_vowels('hello')` returns \"h*ll*\"; `replace_vowels('Ruby')` returns \"R*by\".\n4. Implement `valid_phone?` so `valid_phone?('555-123-4567')` returns true; `valid_phone?('5551234567')` returns false; `valid_phone?('555-12-34567')` returns false.\n\nExpected results:\n- `valid_email?('test@example.com')` returns true\n- `valid_email?('invalid.email')` returns false\n- `valid_email?('user@domain.org')` returns true\n- `extract_numbers('I have 2 cats and 3 dogs')` returns [\"2\", \"3\"]\n- `extract_numbers('Room 101, Floor 5')` returns [\"101\", \"5\"]\n- `replace_vowels('hello')` returns \"h*ll*\"\n- `replace_vowels('Ruby')` returns \"R*by\"\n- `valid_phone?('555-123-4567')` returns true\n- `valid_phone?('5551234567')` returns false\n- `valid_phone?('555-12-34567')` returns false",
   "difficulty": "intermediate",
   "starterCode": "# Regular Expressions Exercise\n\n# 1. Create a method valid_email?(email) that returns true if email is valid\n#    Valid format: something@something.something\n#    Example: valid_email?(\"test@example.com\") => true\n#    Example: valid_email?(\"invalid.email\") => false\n#    Hint: Use /\\w+@\\w+\\.\\w+/.match?(email)\n\ndef valid_email?(email)\n  # Check if email matches the pattern\n\nend\n\n# 2. Create a method extract_numbers(text) that returns array of all numbers\n#    Example: extract_numbers(\"I have 2 cats and 3 dogs\") => [\"2\", \"3\"]\n#    Example: extract_numbers(\"Room 101, Floor 5\") => [\"101\", \"5\"]\n#    Hint: Use text.scan(/\\d+/)\n\ndef extract_numbers(text)\n  # Extract all number sequences from text\n\nend\n\n# 3. Create a method replace_vowels(text) that replaces vowels with *\n#    Example: replace_vowels(\"hello\") => \"h*ll*\"\n#    Example: replace_vowels(\"Ruby\") => \"R*by\"\n#    Hint: Use text.gsub(/[aeiou]/i, \"*\")\n\ndef replace_vowels(text)\n  # Replace all vowels (a,e,i,o,u) with asterisks\n\nend\n\n# 4. Create a method valid_phone?(phone) that validates phone format\n#    Valid format: ###-###-####\n#    Example: valid_phone?(\"555-123-4567\") => true\n#    Example: valid_phone?(\"5551234567\") => false\n#    Hint: Use /\\A\\d{3}-\\d{3}-\\d{4}\\z/.match?(phone)\n\ndef valid_phone?(phone)\n  # Check if phone matches ###-###-#### pattern\n\nend\n",
   "tests": [
@@ -23,12 +23,18 @@
     {
       "name": "extract_numbers from sentence",
       "call": "extract_numbers('I have 2 cats and 3 dogs')",
-      "expected": ["2", "3"]
+      "expected": [
+        "2",
+        "3"
+      ]
     },
     {
       "name": "extract_numbers with larger numbers",
       "call": "extract_numbers('Room 101, Floor 5')",
-      "expected": ["101", "5"]
+      "expected": [
+        "101",
+        "5"
+      ]
     },
     {
       "name": "replace_vowels in hello",
@@ -64,5 +70,10 @@
     "Use \\A and \\z for start and end anchors (not ^ and $)",
     "Flags: /i for case-insensitive matching"
   ],
-  "tags": ["regex", "patterns", "intermediate", "strings"]
+  "tags": [
+    "regex",
+    "patterns",
+    "intermediate",
+    "strings"
+  ]
 }

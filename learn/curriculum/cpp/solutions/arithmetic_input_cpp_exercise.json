@@ -1,0 +1,11 @@
+{
+  "exerciseId": "arithmetic_input_cpp_exercise",
+  "languageId": "cpp",
+  "code": "#include <iostream>\n#include <iomanip>\n\nint main() {\n    int first{};\n    int second{};\n\n    std::cout << \"Enter the first integer:\\n\";\n    std::cin >> first;\n\n    std::cout << \"Enter the second integer:\\n\";\n    std::cin >> second;\n\n    int sum = first + second;\n    int difference = first - second;\n    int product = first * second;\n    double quotient = static_cast<double>(first) / second;\n\n    std::cout << \"Sum: \" << sum << '\\n';\n    std::cout << \"Difference: \" << difference << '\\n';\n    std::cout << \"Product: \" << product << '\\n';\n    std::cout << std::fixed << std::setprecision(1);\n    std::cout << \"Quotient: \" << quotient;\n\n    return 0;\n}\n",
+  "explanation": "Both integers are read from standard input, then each arithmetic operation is calculated. Casting the numerator to double before division prevents integer truncation, and std::fixed with std::setprecision(1) formats the quotient with one decimal place to match the specification.",
+  "keyPoints": [
+    "Chain std::cin extractions to read user input.",
+    "Cast to double to obtain floating-point division.",
+    "Use <iomanip> manipulators to control numeric formatting."
+  ]
+}

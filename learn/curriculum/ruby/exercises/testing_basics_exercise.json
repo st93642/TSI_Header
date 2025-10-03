@@ -1,8 +1,13 @@
 {
   "id": "testing_basics_exercise",
   "title": "Testing Basics with Minitest",
-  "description": "Practice writing unit tests with Minitest, including assertions, test structure, and common testing patterns",
-  "tags": ["testing", "minitest", "assertions", "unit-tests"],
+  "description": "Practice writing unit tests with Minitest, including assertions, test structure, and common testing patterns\n\nSteps:\n1. Implement `test_string_length` so `test_string_length('hello')` returns true.\n2. Implement `test_array_operations` so `test_array_operations([1, 2, 3])` returns true.\n3. Implement `test_exception_handling` so `test_exception_handling` returns true.\n\nExpected results:\n- `test_string_length('hello')` returns true\n- `test_array_operations([1, 2, 3])` returns true\n- `test_exception_handling` returns true",
+  "tags": [
+    "testing",
+    "minitest",
+    "assertions",
+    "unit-tests"
+  ],
   "starterCode": "# Implement the following test methods:\n\n# 1. Write a test that checks if a string has the expected length\ndef test_string_length(str)\n  # Your code here - return true if test passes\nend\n\n# 2. Write a test that checks array operations\ndef test_array_operations(arr)\n  # Your code here - return true if test passes\nend\n\n# 3. Write a test that checks exception handling\ndef test_exception_handling\n  # Your code here - return true if test passes\nend\n",
   "tests": [
     {
