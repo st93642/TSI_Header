@@ -1,206 +1,256 @@
-# TSI Student Portal Authentication System
+# Boolean Logic and Control Flow Foundations
 
-## Introduction
+Boolean logic is the decision-making engine of every Ruby program. Mastering truthiness, comparisons, and logical operators lets you build clear conditionals, guard against edge cases, and express complex rules succinctly. This lesson extends far beyond `true` and `false`, exploring how Ruby evaluates expressions and how you can harness boolean logic to guide control flow.
 
-In Ruby, boolean values represent truth and falsehood. Understanding booleans is essential for making decisions in your programs. Ruby has two boolean values: `true` and `false`, plus a special value called `nil` that represents "nothing."
+## Learning goals
 
-## Boolean Values
+- Understand how Ruby represents booleans and truthy/falsy values.
+- Build predictable conditionals using comparison operators and logical composition.
+- Apply guard clauses, safe navigation, and pattern matching to simplify branching.
+- Distinguish between `&&/||` and `and/or`, recognizing precedence differences.
+- Practice real-world boolean patterns used in authentication, validation, and configuration.
 
-Ruby has two primary boolean values:
+## Boolean values and truthiness
 
-- `true` - represents truth
-- `false` - represents falsehood
-
-```ruby
-is_ruby_fun = true
-is_programming_hard = false
-
-puts is_ruby_fun     # true
-puts is_programming_hard  # false
-```
-
-## Comparison Operators
-
-Comparison operators compare values and return boolean results:
+Ruby provides two singleton objects, `true` (`TrueClass`) and `false` (`FalseClass`). In conditional contexts, only `false` and `nil` are falsy—everything else counts as truthy, including `0`, empty strings, and empty arrays.
 
 ```ruby
-# Equality
-puts 5 == 5    # true
-puts 5 == 6    # false
-
-# Inequality
-puts 5 != 6    # true
-puts 5 != 5    # false
-
-# Greater than
-puts 10 > 5    # true
-puts 5 > 10    # false
-
-# Less than
-puts 5 < 10    # true
-puts 10 < 5    # false
-
-# Greater than or equal
-puts 5 >= 5    # true
-puts 5 >= 4    # true
-puts 5 >= 6    # false
-
-# Less than or equal
-puts 5 <= 5    # true
-puts 5 <= 6    # true
-puts 5 <= 4    # false
+!!false # => false
+!!nil   # => false
+!!0     # => true
+!!""    # => true
+!![]    # => true
 ```
 
-## Logical Operators
+Double negation (`!!`) is a common trick to coerce any value into a boolean explicitly.
 
-Logical operators combine boolean values:
+## Comparison operators
 
-### AND (&&)
-
-Returns `true` only if both operands are true:
+Comparisons return booleans and form the backbone of branching logic.
 
 ```ruby
-puts true && true    # true
-puts true && false   # false
-puts false && true   # false
-puts false && false  # false
+5 == 5    # equality => true
+5 != 6    # inequality => true
+10 > 5    # greater than => true
+10 >= 10  # greater or equal => true
+3 < 4     # less than => true
+3 <= 2    # => false
 
-# Practical example
-age = 25
-has_license = true
-can_drive = age >= 18 && has_license
-puts can_drive  # true
+"TSI" == "tsi"   # => false (case sensitive)
+"10" == 10       # => false (different types)
 ```
 
-### OR (||)
+`<=>` (spaceship operator) returns -1, 0, or 1 and powers sorting; it’s not boolean but often used inside boolean expressions.
 
-Returns `true` if at least one operand is true:
+## Logical operators and short-circuiting
+
+### `&&` (logical AND)
+
+Evaluates the left operand first. If it’s falsy, Ruby skips the right operand entirely (short-circuiting) and returns the falsy value. Otherwise it returns the right operand.
 
 ```ruby
-puts true || true    # true
-puts true || false   # true
-puts false || true   # true
-puts false || false  # false
-
-# Practical example
-is_weekend = false
-is_holiday = true
-can_sleep_in = is_weekend || is_holiday
-puts can_sleep_in  # true
+user = find_user(id)
+if user && user.active?
+  puts "Welcome back!"
+end
 ```
 
-### NOT (!)
+Short-circuiting prevents `NoMethodError` by avoiding `user.active?` when `user` is `nil`.
 
-Reverses the boolean value:
+### `||` (logical OR)
+
+Returns the first truthy operand; short-circuits if the left side is truthy.
+
+```ruby
+display_name = user.nickname || user.full_name || "Guest"
+```
+
+### `!` (logical NOT)
+
+Flips truthiness.
 
 ```ruby
 puts !true   # false
 puts !false  # true
 
-# Practical example
-is_raining = false
-should_take_umbrella = !is_raining
-puts should_take_umbrella  # true
+def maintenance_mode?
+  !ENV["MAINTENANCE"].nil?
+end
 ```
 
-## Truthiness and Falsiness
+### `and` / `or`
 
-In Ruby, every value is either "truthy" or "falsy" in conditional expressions. Only two values are falsy:
-
-- `false` - the boolean false value
-- `nil` - represents "nothing" or "no value"
-
-Everything else is truthy, including:
-
-- `true`
-- Numbers (even 0)
-- Strings (even empty strings)
-- Arrays (even empty arrays)
+Ruby also includes `and`/`or`, but they have lower precedence than `&&/||`. Use them sparingly—mainly for control flow, not expressions.
 
 ```ruby
-# Falsy values
-puts "false is falsy:"    # false is falsy:
-puts !!false              # false
-puts "nil is falsy:"      # nil is falsy:
-puts !!nil                # false
-
-# Truthy values
-puts "true is truthy:"    # true is truthy:
-puts !!true               # true
-puts "0 is truthy:"       # 0 is truthy:
-puts !!0                  # true
-puts "empty string is truthy:"  # empty string is truthy:
-puts !!""                 # true
-puts "empty array is truthy:"   # empty array is truthy:
-puts !![]                 # true
+logged_in = authenticate(user) and authorize(user)
+# Equivalent to: (logged_in = authenticate(user)) and authorize(user)
 ```
 
-## The nil Value
+Because of precedence quirks, prefer `&&/||` for most boolean expression work.
 
-`nil` represents the absence of a value. It's commonly returned when a method doesn't find what it's looking for:
+## Parentheses and readability
+
+Use parentheses to clarify complex expressions.
 
 ```ruby
-# Examples of nil
-result = [1, 2, 3].find { |n| n > 5 }
-puts result  # nil (no number > 5)
-
-name = nil
-puts name    # nil
-
-# Checking for nil
-puts name.nil?  # true
-puts result.nil? # true
+eligible = (age >= 18 && country == "LV") || guardian_signed?
 ```
 
-## Basic Conditional Expressions
+Breaking logic across lines with descriptive helper methods often beats writing giant expressions.
 
-Boolean values are essential for control flow. Here's a preview of how they're used:
+## Guard clauses and early returns
+
+Guard clauses validate assumptions up front and return early when conditions fail, keeping the happy path clear.
 
 ```ruby
-age = 20
-is_adult = age >= 18
+def ship_order(order)
+  return "Missing items" if order.items.empty?
+  return "Account suspended" unless order.account.active?
 
-if is_adult
-  puts "You can vote!"
+  process_shipment(order)
+end
+```
+
+## Safe navigation (`&.`) and presence checks
+
+Avoid `NoMethodError` by using `&.` when accessing methods on potentially nil objects.
+
+```ruby
+country = user&.address&.country
+if country&.upcase == "LV"
+  puts "Local perks unlocked!"
+end
+```
+
+Pair with `||` or `||=` to supply defaults.
+
+```ruby
+session[:token] ||= SecureRandom.hex(16)
+```
+
+## Pattern matching and boolean expressions (Ruby 2.7+)
+
+Pattern matching uses `case` with `in` to destructure and test data. Combined with guards (`if/unless`), it expresses complex logic readably.
+
+```ruby
+case payload
+in { status: 200, body:, error: nil }
+  puts "Success: #{body}"
+in { status:, error: }
+  puts "Error (#{status}): #{error}"
 else
-  puts "You cannot vote yet."
+  puts "Unexpected response"
 end
-
-# Output: You can vote!
 ```
 
-## Common Patterns
+Guards can further filter patterns (`in { status: 200 } if body&.any?`).
 
-### Checking for nil
+## Boolean-friendly method naming
+
+Ruby conventions name predicate methods with a trailing question mark: `empty?`, `valid?`, `admin?`. Implementing these on your classes makes boolean checks self-explanatory.
 
 ```ruby
-name = get_user_name()  # This might return nil
+class FeatureFlag
+  def initialize(enabled)
+    @enabled = enabled
+  end
 
-if name
-  puts "Hello, #{name}!"
+  def enabled?
+    !!@enabled
+  end
+end
+```
+
+## Combining conditions with `case` and `if` modifiers
+
+`case` is great for matching against multiple conditions:
+
+```ruby
+case
+when score >= 90
+  grade = "A"
+when score >= 80
+  grade = "B"
 else
-  puts "Hello, Guest!"
+  grade = "C"
 end
 ```
 
-### Multiple conditions
+Use suffix modifiers for concise single-line conditions:
 
 ```ruby
-temperature = 75
-is_raining = false
+puts "Check your email" if notifications_enabled?
+warn "Low disk space" unless free_space_mb > 500
+```
 
-if temperature > 70 && !is_raining
-  puts "Perfect weather for a picnic!"
+## `&&=` and `||=` shorthands
+
+Shorthands combine boolean logic with assignment. `||=` assigns only if the variable is falsy; `&&=` assigns only if the variable is truthy.
+
+```ruby
+config[:timezone] ||= "UTC"
+token &&= refresh_token(token)
+```
+
+## Truthy/falsy in control flow
+
+Because everything except `false` and `nil` is truthy, you can rely on arrays, hashes, and numbers directly.
+
+```ruby
+items = fetch_items
+if items
+  puts "Loaded #{items.size} items"
+else
+  puts "No items found"
 end
 ```
 
-## Summary
+To treat empty collections as falsy, combine with `empty?` or `any?`.
 
-- Ruby has two boolean values: `true` and `false`
-- Comparison operators (`==`, `!=`, `<`, `>`, `<=`, `>=`) return boolean values
-- Logical operators (`&&`, `||`, `!`) combine boolean values
-- Only `false` and `nil` are falsy; everything else is truthy
-- `nil` represents the absence of a value
-- Boolean logic is fundamental to conditional programming
+```ruby
+if items&.any?
+  puts "We have #{items.size} items"
+else
+  puts "Empty inventory"
+end
+```
 
-Understanding these concepts will help you write more effective Ruby code and make logical decisions in your programs.
+## Common pitfalls
+
+- **Assignment vs equality**: `=` assigns; `==` compares. Write conditionals as `if (value = compute)` intentionally, with parentheses to signal assignment.
+- **Truthy strings**: `"false"` is truthy because it’s a non-empty string—coerce user input explicitly when parsing booleans.
+- **Precedence surprises**: `a && b || c` groups as `(a && b) || c`. Add parentheses for clarity.
+- **Skipping explicit nil checks**: Methods like `empty?` will raise on `nil`. Use safe navigation or guard against `nil` first.
+
+## Guided practice
+
+1. **Eligibility rules**
+   - Write a method `eligible_for_discount?(user)` that returns true when the user has at least one of these: loyalty tier "gold" or "platinum", or an active coupon that hasn’t expired.
+   - Use guard clauses for nil checks (`user.coupon&.expired?`).
+
+2. **Feature rollout**
+   - Combine environment variables and runtime checks to compute a boolean flag `feature_enabled`.
+   - Enable when `ENV["FEATURE"] == "on"` or the current user is in a beta testers list.
+
+3. **Safe dig**
+   - Given a nested hash `settings`, write `timezone_for(settings)` returning the timezone or "UTC" if any intermediate key is missing.
+   - Use safe navigation (`&.`) or `dig` with boolean fallbacks.
+
+4. **Input sanitization**
+   - Parse user input strings like "yes", "no", "true", "0" into booleans using a method `truthy?(value)`.
+   - Treat unknown inputs as `false` and document the conversion table.
+
+5. **Alarm system**
+   - Implement logic that triggers an alarm when either a door sensor or window sensor is open and the system is armed.
+   - Add a bypass flag that, when true, suppresses the alarm even if sensors are tripped.
+
+## Self-check questions
+
+1. Why do `&&`/`||` return the original operands instead of strict booleans, and how can that behavior be useful?
+2. How does short-circuit evaluation prevent runtime errors when chaining method calls?
+3. When should you use `and`/`or` instead of `&&/||`?
+4. How do you treat empty collections as falsy without breaking on `nil` values?
+5. What naming conventions help signal that a method returns a boolean?
+
+Strong boolean logic unlocks robust conditionals, readable code, and fewer surprises. Keep experimenting with combinations, guard clauses, and expressive predicate methods—you’ll quickly find your Ruby code becoming clearer and more reliable.

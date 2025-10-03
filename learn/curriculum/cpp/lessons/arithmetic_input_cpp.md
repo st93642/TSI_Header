@@ -1,59 +1,220 @@
 # Arithmetic and User Input
 
-Mixing user input with arithmetic is the fastest way to make interactive programs. This lesson covers the core operators, precedence rules, and reading values from the console.
+Mixing arithmetic with live input unlocks interactive programs: grade calculators, budgeting tools, or engineering estimators. This expanded lesson revisits arithmetic operators, explores precision concerns, and shows how to validate user input before performing calculations.
 
-## Operator recap
+## Learning goals
 
-C++ supports the familiar arithmetic operators:
+- Apply arithmetic operators and understand precedence, associativity, and short-circuit evaluation.
+- Distinguish between integer and floating-point arithmetic, including truncation and rounding strategies.
+- Safely gather numeric input from the console with validation loops.
+- Use standard library helpers (`std::pow`, `std::round`, `std::fabs`) to expand beyond primitive operators.
+- Present results with consistent formatting (fixed precision, alignment).
 
-- Addition `+`
-- Subtraction `-`
-- Multiplication `*`
-- Division `/`
-- Modulo `%` (remainder)
+## Operator recap and nuances
 
-Operator precedence mirrors school algebra. Use parentheses to make intent obvious.
+| Operator | Description | Example |
+| --- | --- | --- |
+| `+` | Addition | `totalCredits = core + electives;` |
+| `-` | Subtraction | `int remaining = goal - completed;` |
+| `*` | Multiplication | `area = width * height;` |
+| `/` | Division | `double avg = sum / count;` |
+| `%` | Remainder | `bonus = points % 10;` |
+
+- `%` works only with integers. For floating-point remainder use `std::fmod` from `<cmath>`.
+- Unary `-` negates a value; unary `+` has no effect but can clarify intent.
+- Compound assignment (`+=`, `-=`, `*=`, `/=`, `%=`) updates a variable in place and can improve readability.
+
+### Precedence and grouping
+
+Order mirrors algebra: multiplication and division take priority over addition and subtraction. Use parentheses to highlight evaluation order and avoid subtle bugs:
+
+```cpp
+double average = static_cast<double>(sum) / count + bonus;         // bonus added after division
+double correctedAverage = (static_cast<double>(sum) / count) + bonus;
+```
+
+The two statements are equivalent because division happens before addition, but the second is easier to read.
+
+### Integer overflow and limits
+
+Fundamental types have finite range. When calculations exceed that range, they wrap (unsigned) or overflow (implementation-defined for signed). Keep safeguards in mind:
+
+```cpp
+#include <limits>
+int x = std::numeric_limits<int>::max();
+int y = x + 1; // overflow, undefined behavior for signed integers
+```
+
+For critical financial or scientific applications consider arbitary precision libraries or 128-bit integers where available.
 
 ## Integer vs floating-point division
 
-Dividing two integers discards the fractional part. If you need a precise result, promote at least one operand to `double`:
+Division between integers truncates toward zero:
 
 ```cpp
 int total{7};
 int pieces{2};
-double exactShare = static_cast<double>(total) / pieces; // 3.5
+int truncated = total / pieces;          // 3
+double exact = static_cast<double>(total) / pieces; // 3.5
 ```
 
-## Reading multiple values
+Convert at least one operand to `double` before dividing when you need fractional results. Use `static_cast<double>` or multiply by `1.0`.
 
-You can chain extractions with `std::cin` to read multiple values in one line, or prompt separately:
+### Rounding strategies
 
 ```cpp
-int a{};
-int b{};
-
-std::cout << "Enter two integers separated by spaces:\n";
-std::cin >> a >> b;
+#include <cmath>
+double raw = 7.0 / 3.0; // ≈ 2.3333
+double rounded = std::round(raw * 100.0) / 100.0; // 2.33 (two decimal places)
 ```
 
-## Guarding against invalid input
+- `std::round` rounds half away from zero.
+- `std::floor` and `std::ceil` step down or up to the nearest integer.
+- `std::trunc` discards the fractional part like integer division but on doubles.
 
-If a user types something that cannot be converted, `std::cin` enters a failure state. Clear the error and discard the invalid characters before trying again:
+## Gathering multiple values
+
+Encourage friendly prompts and handle errors gracefully.
 
 ```cpp
-if (!std::cin) {
+#include <iostream>
+#include <limits>
+
+int main() {
+    int a{};
+    int b{};
+
+    std::cout << "Enter two integers separated by spaces: ";
+    while (!(std::cin >> a >> b)) {
+        std::cerr << "Please enter numeric values.\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Enter two integers separated by spaces: ";
+    }
+
+    std::cout << "You entered " << a << " and " << b << '\n';
+}
+```
+
+### Reading decimals safely
+
+```cpp
+double hours{};
+std::cout << "Enter weekly study hours: ";
+while (!(std::cin >> hours)) {
+    std::cerr << "Hours must be numeric. Try again.\n";
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 ```
 
-## Practice Time
+Always clear the stream after a failure before retrying.
 
-Try the following before moving on:
+## Arithmetic helper functions
 
-1. Ask the user for two integers on separate lines.
-2. Compute and print their sum, difference, product, and quotient (as a floating-point value with one decimal place).
-3. Label every result so the output is easy to read.
-4. Use `static_cast<double>` for the quotient to avoid integer division surprises.
+```cpp
+#include <cmath>
 
-When you are ready, open the exercise to reinforce I/O mixed with arithmetic operations.
+double base{2.0};
+double exponent{3.0};
+double power = std::pow(base, exponent);    // 8.0
+double root = std::sqrt(49.0);              // 7.0
+double absolute = std::fabs(-12.5);         // 12.5
+```
+
+- `<cmath>` functions operate on `double` by default; overloads for `float` and `long double` exist.
+- Combine standard functions with arithmetic operators to create rich formulas without reimplementing math.
+
+## Formatting the results
+
+Leverage `<iomanip>` to display aligned tables:
+
+```cpp
+#include <iomanip>
+
+std::cout << std::fixed << std::setprecision(1);
+std::cout << std::setw(12) << "Sum" << " : " << sum << '\n';
+std::cout << std::setw(12) << "Difference" << " : " << difference << '\n';
+std::cout << std::setw(12) << "Product" << " : " << product << '\n';
+std::cout << std::setw(12) << "Quotient" << " : " << quotient << '\n';
+```
+
+- `std::setw` aligns labels.
+- `std::fixed` and `std::setprecision` control decimal places.
+- Reset formatting with `std::cout.unsetf(std::ios::floatfield);` when done.
+
+## Worked example: course load calculator
+
+```cpp
+#include <iomanip>
+#include <iostream>
+#include <limits>
+
+int main() {
+    int completed{};
+    int target{};
+    double weeklyHours{};
+
+    std::cout << "Completed credits: ";
+    while (!(std::cin >> completed)) {
+        std::cerr << "Enter a whole number please.\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Completed credits: ";
+    }
+
+    std::cout << "Target credits: ";
+    while (!(std::cin >> target) || target <= completed) {
+        std::cerr << "Target must exceed completed credits.\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Target credits: ";
+    }
+
+    std::cout << "Weekly study hours: ";
+    while (!(std::cin >> weeklyHours) || weeklyHours < 0.0) {
+        std::cerr << "Hours must be non-negative.\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Weekly study hours: ";
+    }
+
+    const int remaining = target - completed;
+    constexpr double creditsPerSemester{30.0};
+    const double semestersNeeded = static_cast<double>(remaining) / creditsPerSemester;
+    const double hoursPerCredit = weeklyHours / creditsPerSemester;
+
+    std::cout << '\n';
+    std::cout << std::fixed << std::setprecision(1);
+    std::cout << "Remaining credits : " << remaining << '\n';
+    std::cout << "Semesters needed  : " << semestersNeeded << '\n';
+    std::cout << "Hours per credit  : " << hoursPerCredit << '\n';
+}
+```
+
+This sample ties together input validation, arithmetic conversions, and formatted output.
+
+## Common pitfalls
+
+- Dividing integers accidentally when you need precise averages.
+- Ignoring the possibility of division by zero—always guard the denominator.
+- Using `%` with negative operands; the sign of the remainder matches the dividend in C++.
+- Forgetting to clear the input stream after a failed extraction, causing infinite loops.
+- Repeating literal values (`30.0`, `42.5`) instead of naming them with `constexpr` constants.
+
+## Practice time
+
+1. **Trip cost estimator:** Ask for distance (km), fuel efficiency (litres per 100 km), and fuel price (per litre). Compute total fuel cost and average cost per kilometre.
+2. **Grade calculator:** Read five assignment scores (double), drop the lowest, average the rest, and display the result to two decimal places.
+3. **Time splitter:** Input a total number of minutes and output hours plus remaining minutes using integer division and modulus.
+4. **Robust division:** Prompt for numerator and denominator. If the denominator is zero, keep prompting. Print quotient as double and remainder as integer when appropriate.
+
+## Self-check questions
+
+1. What is the difference between `/` and `%`, and when should you use `std::fmod`?
+2. Why does `5 / 2` yield `2` while `5 / 2.0` yields `2.5`?
+3. How do you prevent division-by-zero crashes during interactive input?
+4. When should you prefer compound assignment operators like `+=`?
+5. Which `<cmath>` function would you use to round a value to two decimal places?
+
+Answer these before moving on to conditionals where arithmetic results drive branching logic.

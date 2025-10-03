@@ -1,237 +1,285 @@
 # Variables and Data Types
 
-Now that you can display output, let's learn how to store and work with data using variables!
+Output is exciting, but programs become powerful when they remember information. This lesson unpacks how Ruby handles values, how dynamic typing works, and how to pick the right representation for the job. By the time you finish, variables, constants, and core data types will feel like second nature.
 
-## What are Variables?
+## Learning goals
 
-Variables are like labeled containers that hold information. You can store data in a variable and use it throughout your program.
+- Understand how Ruby binds names to objects using assignment, and how scope affects visibility.
+- Explore the main Ruby value classes—strings, numbers, symbols, booleans, arrays, hashes, ranges, and `nil`.
+- Convert between types safely, watching for edge cases with user input or external data.
+- Apply naming conventions that make code self-documenting and maintainable.
+- Guard against mutation surprises when multiple variables reference the same object.
 
-Think of a variable as a box with a label on it - you can put something inside and refer to it by its label.
+## Variables in Ruby: labels pointing to objects
 
-## Creating Variables
-
-In Ruby, creating a variable is super simple - just give it a name and assign a value:
+In Ruby, variables are references to objects. When you assign `name = "Alice"`, the variable `name` points to a String object stored on the heap. Reassigning the variable simply points it to a new object; the old object sticks around until no references remain and the garbage collector reclaims it.
 
 ```ruby
 name = "Alice"
-age = 25
-height = 1.75
+puts name.object_id
+
+name = "Bob"
+puts name.object_id # different object; reassignment doesn't mutate the original
 ```
 
-No need to declare types or use special keywords - Ruby figures it out!
+Ruby's dynamic typing means variables do not have fixed types. Each object carries its own class information, so the same variable can hold integers, strings, or arrays throughout a program. While flexibility is great, descriptive naming and predictable transformations keep code understandable.
 
-## Variable Naming Rules
+## Naming conventions and style
 
-Ruby has some rules for variable names:
-
-- Start with a lowercase letter or underscore
-- Use lowercase letters, numbers, and underscores
-- Use snake_case for multi-word names
-- Make names descriptive and meaningful
+- Use snake_case for local variables and methods: `total_points`, `user_name`.
+- Avoid single-letter names unless inside a tight loop (e.g., `i` in `each_with_index`).
+- Leading underscores signal "intentionally unused" variables (`_unused`), often in pattern matching or destructuring assignments.
+- Ruby is case-sensitive, so `count` and `Count` refer to different identifiers.
 
 ```ruby
-# Good variable names
-first_name = "Bob"
-user_age = 30
-total_score = 95
-
-# Bad variable names (but valid)
-x = "Bob"
-n = 30
-ts = 95
+first_name = "Ada"
+total_hours_worked = 37.5
+_unused_placeholder = "ignored"
 ```
 
-> **Best Practice**: Use descriptive names that explain what the variable contains!
+## Local scope essentials
 
-## Data Types
+Variables defined inside a method or block are local to that scope. If you assign to a variable inside a block without prior assignment outside, Ruby treats it as a new, block-local variable.
 
-Ruby has several built-in data types. Let's explore the most common ones:
+```ruby
+value = "outside"
+
+3.times do |i|
+  value = "iteration #{i}" # reuses the existing local variable
+end
+
+puts value # => "iteration 2"
+```
+
+Inside methods, local variables vanish once the method returns. Use instance variables (`@name`), class variables (`@@total`), or constants when you need broader access—later lessons dive deeper into those.
+
+## A tour of core value types
 
 ### Strings
 
-Text enclosed in quotes (single or double):
+- Created with single or double quotes; double quotes enable interpolation and escape sequences.
+- Use `%Q{...}` for double-quoted strings without escaping quotes, `%q{...}` for single-quoted behavior.
+- Immutable by default when `# frozen_string_literal: true` is used, otherwise mutable.
 
 ```ruby
-name = "Alice"
-greeting = 'Hello'
-message = "Welcome to Ruby!"
+title = "Ruby 101"
+subtitle = %Q{Beginner's Guide}
+escaped = "Line 1\nLine 2"
 ```
 
-### Integers
+### Symbols
 
-Whole numbers without decimals:
+Symbols (e.g., `:status`) are immutable identifiers often used as hash keys or method names. They are lightweight and unique—Ruby creates only one copy of a given symbol.
 
 ```ruby
-age = 25
-year = 2025
-temperature = -5
-big_number = 1_000_000  # Underscores make numbers readable
+status = :pending
+action = :save!
 ```
 
-### Floats
+### Numbers: Integers, Floats, Rational, Complex, BigDecimal
 
-Numbers with decimal points:
+- Integers (`Integer`) scale automatically to arbitrary precision—no overflow surprises.
+- Floats (`Float`) follow IEEE 754 double-precision; expect rounding errors.
+- Use `Rational(1, 3)` for exact fractions and `Complex(1, 2)` for complex numbers.
+- `BigDecimal` (from the standard library) helps with precise financial calculations.
 
 ```ruby
-height = 1.75
+count = 42
 price = 19.99
-pi = 3.14159
+exact_third = Rational(1, 3)
+precise_total = BigDecimal("12.345") * 3
 ```
 
-### Booleans
+Require `bigdecimal` for the last example.
 
-True or false values:
+### Booleans and truthiness
+
+Ruby has two singleton booleans: `true` (`TrueClass`) and `false` (`FalseClass`). In conditionals, everything except `nil` and `false` evaluates as truthy. Even `0` and empty strings count as true!
 
 ```ruby
-is_student = true
-has_graduated = false
-is_raining = true
+puts "truthy" if "" # prints despite empty string
+puts "falsey" if nil  # never prints
 ```
 
-### Nil
+### Nil: the "no value" object
 
-Represents "nothing" or "no value":
+`nil` is Ruby's null object. Use it to signal missing data or optional values. Methods like `nil?`, `&.` (safe navigation), and `||=` help you work with nil gracefully.
 
 ```ruby
-middle_name = nil
-unknown_value = nil
+nickname = nil
+puts nickname || "Guest"       # => "Guest"
+
+person = nil
+puts person&.name               # safe navigation prevents NoMethodError
 ```
 
-## Checking Data Types
+### Arrays and hashes (quick preview)
 
-Use the `.class` method to see what type a variable is:
+Even though dedicated lessons cover collections, they're worth mentioning here because variables frequently hold them.
 
 ```ruby
-name = "Alice"
-puts name.class  # String
-
-age = 25
-puts age.class  # Integer
-
-price = 19.99
-puts price.class  # Float
-
-is_active = true
-puts is_active.class  # TrueClass
+numbers = [1, 2, 3]
+profile = { name: "Ada", role: "Engineer" }
 ```
 
-## Type Conversion
+### Ranges
 
-You can convert between different types:
+Ranges express sequences and are commonly used for iteration or validation.
 
 ```ruby
-# String to Integer
-age_string = "25"
-age_number = age_string.to_i  # 25
+inclusive = 1..5  # includes 5
+exclusive = 1...5 # excludes 5
 
-# Integer to String
-score = 100
-score_text = score.to_s  # "100"
-
-# String to Float
-price_string = "19.99"
-price_number = price_string.to_f  # 19.99
-
-# Integer to Float
-whole = 5
-decimal = whole.to_f  # 5.0
+puts inclusive.include?(5) # true
 ```
 
-## Variable Reassignment
+## Inspecting types and object ancestry
 
-You can change what's stored in a variable:
+Use `.class` to inspect the runtime class. Chain `.ancestors` on the class to see inherited modules.
 
 ```ruby
-score = 10
-puts score  # 10
-
-score = 20
-puts score  # 20
-
-score = score + 5
-puts score  # 25
+value = [1, 2, 3]
+puts value.class            # => Array
+puts value.class.ancestors  # => [Array, Enumerable, Object, Kernel, BasicObject]
 ```
 
-## Multiple Assignment
+`obj.is_a?(ClassName)` checks whether an object descends from a particular class or module.
 
-Ruby lets you assign multiple variables at once:
+## Type conversion and coercion
+
+Ruby provides `to_s`, `to_i`, `to_f`, `to_sym`, `to_a`, and more for explicit conversions. Watch out for edge cases: converting invalid strings yields `0` with `to_i` and `0.0` with `to_f`.
 
 ```ruby
-# Assign same value to multiple variables
-x = y = z = 0
+"15".to_i       # 15
+"hello".to_i    # 0 (careful!)
+"19.99".to_f    # 19.99
+42.to_s         # "42"
+"total".to_sym  # :total
+```
 
-# Assign different values
+For safer integer parsing, use `Integer(string, exception: false)` which returns `nil` on failure.
+
+```ruby
+Integer("42")                 # 42
+Integer("not-a-number", exception: false) # nil
+```
+
+## Mutation vs. reassignment
+
+Reassignment points a variable to a new object. Mutation changes the object in place. Two variables referencing the same object will both observe mutations.
+
+```ruby
+greeting = "Hello"
+alias_ref = greeting
+
+greeting << ", world" # mutates the original string
+puts alias_ref         # => "Hello, world"
+
+greeting = greeting + "!" # creates a new string
+puts alias_ref             # still "Hello, world"
+```
+
+Freeze an object with `freeze` (or use the magic comment `# frozen_string_literal: true`) to guard against accidental mutation.
+
+## Multiple assignment and parallel destructuring
+
+Ruby destructures arrays on the left-hand side, enabling concise swaps and unpacking.
+
+```ruby
+first, second = ["Ada", "Grace"]
+x, y = y, x # classic swap
+
 name, age, city = "Alice", 25, "Riga"
-puts name  # Alice
-puts age   # 25
-puts city  # Riga
 ```
 
-## Constants
-
-Variables in ALL_CAPS are treated as constants (shouldn't change):
+Combine with the splat operator to capture remaining values.
 
 ```ruby
-PI = 3.14159
-MAX_USERS = 100
-COMPANY_NAME = "TSI"
+head, *tail = [1, 2, 3, 4]
+# head => 1, tail => [2, 3, 4]
 ```
 
-Ruby will warn you if you try to change a constant (but won't stop you).
-
-## String Interpolation
-
-Use double quotes and `#{}` to insert variables into strings:
+Hash destructuring (Ruby 2.7+) lets you extract values by key:
 
 ```ruby
-name = "Alice"
-age = 25
-
-# With interpolation (double quotes only!)
-message = "My name is #{name} and I am #{age} years old"
-puts message  # My name is Alice and I am 25 years old
-
-# You can also do calculations inside
-price = 10
-puts "Total: #{price * 2} dollars"  # Total: 20 dollars
+user = { name: "Ada", country: "LV", verified: true }
+{ name:, country: } = user
 ```
 
-Single quotes don't support interpolation:
+## Constants and the object model
+
+Constants start with an uppercase letter. Ruby allows reassignment but prints a warning. Keeping constants immutable (freeze them or use immutable data structures) prevents bugs.
 
 ```ruby
-name = "Alice"
-puts 'Hello, #{name}'  # Prints: Hello, #{name}
-puts "Hello, #{name}"  # Prints: Hello, Alice
+APP_NAME = "TSI Toolkit".freeze
+MAX_RETRIES = 3
+
+module Config
+  TIMEOUT = 5
+end
 ```
 
-## Key Takeaways
+Constants live within modules/classes. Access nested constants with `::`, e.g., `Config::TIMEOUT`.
 
-- Variables store data for later use
-- Use snake_case for variable names
-- Ruby has multiple data types: String, Integer, Float, Boolean, Nil
-- Use `.class` to check a variable's type
-- Use `.to_i`, `.to_s`, `.to_f` for type conversion
-- Use `#{}` for string interpolation (double quotes only)
-- Constants use ALL_CAPS
+### Global, instance, and class variables (preview)
 
-## Practice Time
+- Global variables start with `$` (`$stdout`)—use sparingly.
+- Instance variables belong to objects (`@balance`).
+- Class variables (`@@count`) are shared across a class hierarchy. Later lessons explore them fully.
 
-Ready to practice working with variables and data types? Click below to start the exercise!
+## String interpolation power tips
 
-### Exercise Goals
+- Interpolation works inside double-quoted strings and heredocs.
+- Wrap complex expressions in `{}`.
+- Use `format` or `sprintf` for complex numeric alignment.
 
-1. Create variables of different types
-2. Perform type conversions
-3. Use string interpolation
-4. Work with multiple assignment
-5. Practice descriptive naming
+```ruby
+name = "Ada"
+age = 28
+puts "#{name} will be #{age + 5} in five years."
+```
 
-> **Tip**: String interpolation only works with double quotes, not single quotes!
+`format("%.2f", value)` rounds floats without mutating them.
 
-## What's Next?
+## Practical patterns and best practices
 
-In the next lesson, you'll dive deeper into strings and learn powerful methods for manipulating text. Get ready to become a string master! 🎸
+- Initialize variables close to first use to clarify intent.
+- Avoid implicit `nil` by providing defaults (`count ||= 0`).
+- Use `fetch` with hashes to supply fallback values or raise helpful errors.
+- Lean on symbols for identifiers, but use strings when data needs user-friendly formatting.
 
----
+## Guided practice
 
-**Remember**: Good variable names make your code easier to read and understand. Take time to choose meaningful names!
+1. **Profile builder**
+   - Create variables for name, age, city, languages (array), and primary_skill (symbol).
+   - Interpolate them into a multi-line introduction using a heredoc.
+   - Print the `.class` of each variable afterward.
+
+2. **Type conversion clinic**
+   - Prompt for an item price as text (e.g., `"19.95"`).
+   - Convert it to `BigDecimal` for precise arithmetic.
+   - Multiply by a quantity and format the result with two decimals.
+
+3. **Mutation detective**
+   - Assign the same array to two variables.
+   - Mutate through one reference (`<<`, `push`, or `map!`).
+   - Print both variables to observe shared state, then repeat using `dup` to create a copy before mutating.
+
+4. **Constant catalog**
+   - Define a module `Limits` with constants representing rate caps, bonus multipliers, and timeouts.
+   - Freeze any arrays or hashes stored in constants to prevent accidental changes.
+
+5. **Destructuring challenge**
+   - Given `response = { status: 200, body: "ok", headers: { content_type: "text/plain" } }`, extract `status` and `content_type` into local variables via destructuring.
+
+## Self-check questions
+
+1. How does Ruby's object model handle assignment, and why does that matter for mutable objects?
+2. Which values evaluate to false in conditionals, and how does that differ from other languages you may know?
+3. When should you reach for `BigDecimal` or `Rational` instead of floats?
+4. What dangers arise from using `to_i` on user input, and how can `Integer(input, exception: false)` help?
+5. How can you prevent constants that reference collections from being modified elsewhere in your code?
+
+## Next steps
+
+Experiment liberally—create variables, mutate them, inspect object IDs, and practice destructuring. Mastery of variables and types makes the rest of Ruby's features click, whether you are parsing API payloads or modeling business logic. Next up, we zoom in on strings and text manipulation, expanding your toolkit for working with human-readable data.

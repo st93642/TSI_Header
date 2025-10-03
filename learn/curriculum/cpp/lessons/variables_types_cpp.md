@@ -1,55 +1,213 @@
 # Variables and Type Basics
 
-Before you can store answers in a program you need variables. This lesson focuses on the fundamental types, declarations, and initialisation styles you will use most often.
+C++ is strongly typed: every object has a well-defined type that dictates what operations are valid and how many bytes are required. This expanded lesson builds intuition for primitive types, type safety, and modern initialization practices so that values remain predictable as programs grow.
 
-## Declaring variables
+## Learning goals
 
-A declaration introduces a name and associates it with a type. In C++, declarations usually look like this:
+By the end of this lesson you will be able to:
 
-```cpp
-int score;      // declaration without initial value
-int lives{3};   // declaration with brace initialisation
+- Define variables with explicit or deduced types while avoiding uninitialized storage.
+- Choose between fundamental numeric types (`int`, `long long`, `float`, `double`), `bool`, `char`, and `std::string` based on required range and semantics.
+- Apply `const`, `constexpr`, and `auto` to express intent and enable compiler optimizations.
+- Understand narrowing conversions and how brace initialization prevents them.
+- Use structured bindings and references to access compound data without copying.
+
+## The anatomy of a declaration
+
+Every variable declaration follows this pattern:
+
+```text
+storage-specifiers type declarator = initialiser;
 ```
 
-Prefer giving every variable an initial value so it never holds garbage data.
-
-## Fundamental types
-
-- `int` stores whole numbers (positive, negative, or zero)
-- `double` stores floating-point values with fractional parts
-- `char` stores individual characters
-- `bool` stores `true` or `false`
-
-Use `std::string` from the &lt;string&gt; header when you need text.
-
-## Initialisation styles
-
-C++ offers several syntaxes:
-
-- Copy initialisation: `int width = 640;`
-- Direct initialisation: `int height(480);`
-- Brace initialisation: `int depth{24};`
-
-Brace initialisation prevents narrowing conversions, making it the safest default.
-
-## Type inference with `auto`
-
-`auto` lets the compiler deduce a type from the initialiser:
+Examples:
 
 ```cpp
-auto ratio = 0.618;     // deduced as double
-auto name = std::string{"Ada"};
+int score{};                // zero-initialized, automatic storage
+const double vatRate{0.21}; // read-only constant value
+std::string city = "Riga";  // requires #include <string>
 ```
 
-Use `auto` when the deduced type is obvious from the right-hand side; otherwise be explicit.
+- The **type** describes the kind of data and operations allowed.
+- The **declarator** (identifier) names the object.
+- The **initializer** sets an initial value; omit it and you risk indeterminate data for fundamental types.
 
-## Practice Time
+### Storage duration and lifetime
 
-Try the following before moving on:
+- **Automatic** (default inside a block): object exists while the enclosing scope executes.
+- **Static** (`static int counter`): created once, persists until program exit.
+- **Dynamic** (`new`/`delete`): manual lifetime management; avoid until you understand RAII and smart pointers.
 
-1. Declare and initialise an `int` for the number of students in your cohort.
-2. Declare a `double` storing the average grade and a `char` holding the highest grade symbol.
-3. Use `auto` to capture whether the lab is open as a `bool` literal.
-4. Print a summary message that includes all the values with clear labels.
+Prefer automatic storage unless you have a compelling reason otherwise.
 
-When you are ready, open the exercise to reinforce declarations, initialisation, and formatted output.
+## Fundamental type families
+
+| Category | Typical types | Use when |
+| --- | --- | --- |
+| Integers | `int`, `short`, `long`, `long long`, `std::size_t` | Counting, indexing, discrete values |
+| Floating point | `float`, `double`, `long double` | Measurements requiring fractions |
+| Boolean | `bool` | Flags, logical decisions |
+| Character | `char`, `wchar_t`, `char16_t`, `char32_t` | Single code units (ASCII/Unicode) |
+| Text | `std::string`, `std::u16string` | Human-readable text |
+
+Key guidelines:
+
+- Start with `int` for counters; use `std::size_t` when indexing containers.
+- Use `double` for real numbers—the extra precision vs `float` is worth the cost on modern CPUs.
+- Avoid unsigned integers for loop indices unless you understand wraparound behavior (negative values silently convert to large positives).
+- Use `char` for individual characters, `std::string` for sequences.
+
+## Initialization styles compared
+
+```cpp
+int width = 640;        // copy initialization
+int height(480);        // direct initialization
+int depth{24};          // brace (list) initialization
+int maxDepth{};         // value initialization (zero)
+```
+
+- **Copy initialization** invokes implicit conversions; `double rate = 4;` converts 4 to 4.0.
+- **Direct initialization** behaves similarly but can select explicit constructors for class types.
+- **Brace initialization** prevents narrowing conversions:
+
+```cpp
+int tiny{3.5};   // error: narrowing from double to int
+int tiny = 3.5;  // OK but value becomes 3 (narrowed)
+```
+
+Default to braces—they make mistakes visible.
+
+### Zero-initialization with `{}`
+
+```cpp
+int counter{};      // 0
+double total{};     // 0.0
+bool isActive{};    // false
+std::string name{}; // empty string
+```
+
+Using `{}` ensures deterministic starting values without verbose assignments inside the body of `main`.
+
+## Constants and immutability
+
+- `const` objects cannot change after initialization. Use this for configuration values or intermediate results that should not mutate.
+- `constexpr` implies `const` **and** guarantees the value is usable at compile time (when the initializer is constant). This enables array bounds, template parameters, and switch cases.
+
+```cpp
+constexpr int semesterWeeks{16};
+const double tuitionPerCredit{42.5};
+```
+
+Favor `constexpr` when the value never depends on runtime input.
+
+## Type deduction with `auto`
+
+`auto` helps eliminate redundant type declarations while preserving strong typing. The deduced type is determined by the initializer.
+
+```cpp
+auto ratio = 0.6180339887;        // double
+auto name = std::string{"Ada"};  // std::string
+const auto maxCredits = 180;      // const int
+auto& ref = tuitionPerCredit;     // reference (when `&` is present)
+```
+
+Guidelines:
+
+- Use `auto` when the type is obvious or irrelevant (iterators, lambda expressions).
+- Avoid `auto` if the initializer hides important semantics (`auto flag = getStatus();` may be unclear if `flag` is bool or enum).
+- Combine with `const`/`&` to control mutability and value category.
+
+### Structured bindings (C++17)
+
+```cpp
+std::pair<int, double> result{42, 3.14};
+auto [count, average] = result; // count: int, average: double
+```
+
+Use structured bindings to unpack tuples, pairs, or structs returned from helper functions without creating temporary variables.
+
+## Implicit conversions and casting
+
+Conversions happen automatically when types differ. Classify them as:
+
+- **Safe widening**: `int` → `double` (no data loss).
+- **Potentially unsafe narrowing**: `double` → `int`, `long long` → `int`.
+- **Signed/unsigned mismatch**: `-1` stored in `unsigned int` becomes a large positive number.
+
+Detect narrowing with braces or static analysis tools. When you must convert, be explicit:
+
+```cpp
+double precise = 42.75;
+int rounded = static_cast<int>(precise);
+```
+
+## Scope and shadowing
+
+Variables live inside blocks `{}`. Declaring a variable with the same name in an inner scope hides the outer one. This often leads to bugs:
+
+```cpp
+int credits{60};
+if (true) {
+    int credits{30}; // shadows outer variable
+    // ...
+}
+```
+
+Prefer unique names or restructure logic to avoid shadowing entirely.
+
+## Putting it together: student summary
+
+```cpp
+#include <iomanip>
+#include <iostream>
+#include <string>
+
+int main() {
+    const std::string programName{"Aviation Management"};
+    int completedCredits{};
+    double attendanceRate{0.0};
+
+    std::cout << "Enter completed credits: ";
+    std::cin >> completedCredits;
+
+    std::cout << "Enter attendance rate (0-1): ";
+    std::cin >> attendanceRate;
+
+    constexpr int degreeCredits{180};
+    const int remainingCredits = degreeCredits - completedCredits;
+
+    std::cout << '\n';
+    std::cout << "Programme: " << programName << '\n';
+    std::cout << "Completed: " << completedCredits << " credits" << '\n';
+    std::cout << "Remaining: " << remainingCredits << " credits" << '\n';
+    std::cout << std::fixed << std::setprecision(1);
+    std::cout << "Attendance: " << attendanceRate * 100 << "%" << '\n';
+}
+```
+
+Notice how constants, initialization, and type deduction combine to keep the code expressive and safe.
+
+## Common pitfalls
+
+- Forgetting to initialize fundamental types, resulting in unpredictable values.
+- Using `auto` with brace initialization (`auto value{1};` deduces `int`, but `auto value{1, 2}` is invalid).
+- Assuming `char` is signed or unsigned—it is implementation-defined. When storing raw bytes, prefer `std::uint8_t`.
+- Mixing `float` and `double` in arithmetic; the compiler promotes operands but may lose precision if the result is assigned to `float`.
+- Declaring global variables to share state across functions. Prefer passing parameters or using structures/classes.
+
+## Practice time
+
+1. **Budget snapshot:** Declare constants for tuition per credit and total credits. Read completed credits and compute remaining cost using `double`. Use brace initialization everywhere.
+2. **Sensor log:** Store a timestamp (`std::string`), temperature (`double`), and error flag (`bool`). Print a single formatted line describing the reading.
+3. **Type deduction drill:** Create three variables with `auto` whose deduced types are `int`, `double`, and `std::string`. Print the `typeid(...).name()` to confirm (requires `<typeinfo>`). Reflect on readability.
+4. **Structured binding:** Simulate a function returning `std::tuple<std::string, int, double>` and unpack it into named variables with `auto [name, credits, gpa]`.
+
+## Self-check questions
+
+1. Why is brace initialization preferred over the `=` syntax for new code?
+2. What is the difference between `const` and `constexpr`?
+3. When does `auto` deduce a reference type?
+4. How can you detect and prevent narrowing conversions at compile time?
+5. What advantages do structured bindings offer compared to manually accessing `pair.first` and `pair.second`?
+
+Answer these before moving forward to deepen your comfort with C++'s type system.

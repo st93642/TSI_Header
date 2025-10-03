@@ -1,350 +1,268 @@
 # Attribute Methods
 
-## Overview
+Accessors connect object state to the outside world. In Ruby, instance variables are private by default; you expose them through reader and writer methods. This lesson goes deeper than “use `attr_accessor`” by covering visibility, custom setters, defaults, boolean predicates, class-level accessors, and meta-programming techniques.
 
-In Ruby, instance variables (prefixed with `@`) are private to the object and cannot be accessed directly from outside the class. To expose instance variables to the outside world, we need to create accessor methods. Ruby provides three built-in methods to automatically create these accessors: `attr_reader`, `attr_writer`, and `attr_accessor`.
+## Learning goals
 
-## attr_reader
+- Choose the most restrictive accessor (`attr_reader`, `attr_writer`, `attr_accessor`) for each attribute.
+- Add validation, coercion, and memoization inside accessor methods.
+- Build boolean, predicate-style readers and write-only setters for sensitive data.
+- Create class/module-level accessors with `class << self` or `mattr_accessor`-style patterns.
+- Generate accessors dynamically when working with repetitive structures, while keeping code maintainable.
 
-`attr_reader` creates a "getter" method that allows you to read the value of an instance variable from outside the class.
+## Built-in attribute macros
 
-```ruby
-class Person
-  attr_reader :name, :age
-
-  def initialize(name, age)
-    @name = name
-    @age = age
-  end
-end
-
-person = Person.new("Alice", 30)
-puts person.name  # => "Alice"
-puts person.age   # => 30
-```
-
-This is equivalent to manually defining:
+Ruby provides three macros for instance variables:
 
 ```ruby
 class Person
-  def initialize(name, age)
-    @name = name
-    @age = age
-  end
+  attr_reader :id, :created_at      # getter only
+  attr_writer :password             # setter only
+  attr_accessor :email, :timezone   # getter + setter
 
-  def name
-    @name
-  end
-
-  def age
-    @age
-  end
-end
-```
-
-## attr_writer
-
-`attr_writer` creates a "setter" method that allows you to modify the value of an instance variable from outside the class.
-
-```ruby
-class Person
-  attr_reader :name, :age
-  attr_writer :name, :age
-
-  def initialize(name, age)
-    @name = name
-    @age = age
-  end
-end
-
-person = Person.new("Alice", 30)
-person.name = "Bob"  # Changes @name to "Bob"
-person.age = 35      # Changes @age to 35
-
-puts person.name     # => "Bob"
-puts person.age      # => 35
-```
-
-This is equivalent to manually defining:
-
-```ruby
-class Person
-  def name=(new_name)
-    @name = new_name
-  end
-
-  def age=(new_age)
-    @age = new_age
-  end
-end
-```
-
-## attr_accessor
-
-`attr_accessor` is a combination of `attr_reader` and `attr_writer`. It creates both getter and setter methods for the specified instance variables.
-
-```ruby
-class Person
-  attr_accessor :name, :age, :email
-
-  def initialize(name, age, email)
-    @name = name
-    @age = age
-    @email = email
-  end
-end
-
-person = Person.new("Alice", 30, "alice@example.com")
-
-# Reading values
-puts person.name   # => "Alice"
-puts person.age    # => 30
-puts person.email  # => "alice@example.com"
-
-# Modifying values
-person.name = "Bob"
-person.age = 35
-person.email = "bob@example.com"
-
-puts person.name   # => "Bob"
-```
-
-This is equivalent to:
-
-```ruby
-class Person
-  attr_reader :name, :age, :email
-  attr_writer :name, :age, :email
-end
-```
-
-## Multiple Attributes
-
-You can define accessors for multiple attributes in a single call:
-
-```ruby
-class Product
-  attr_reader :name, :price, :category, :in_stock
-  attr_writer :price, :in_stock
-  attr_accessor :description
-
-  def initialize(name, price, category)
-    @name = name
-    @price = price
-    @category = category
-    @in_stock = true
-    @description = ""
-  end
-end
-
-product = Product.new("Laptop", 999.99, "Electronics")
-
-# Can read all attributes
-puts product.name      # => "Laptop"
-puts product.price     # => 999.99
-puts product.in_stock  # => true
-
-# Can modify price and in_stock (writer methods)
-product.price = 899.99
-product.in_stock = false
-
-# Can read and modify description (accessor)
-product.description = "High-performance laptop"
-puts product.description  # => "High-performance laptop"
-
-# Cannot modify name or category (no writer methods)
-# product.name = "Desktop"  # => NoMethodError
-```
-
-## When to Use Each Type
-
-### Use attr_reader when
-
-- You want to expose a value but prevent external modification
-- The value should only be set during initialization or internally by the class
-- Examples: ID numbers, creation timestamps, calculated values
-
-```ruby
-class Order
-  attr_reader :id, :created_at, :total
-
-  def initialize(items)
-    @id = generate_unique_id
+  def initialize(id:, email:, timezone: "UTC")
+    @id = id
     @created_at = Time.now
-    @items = items
-    @total = calculate_total
-  end
-
-  private
-
-  def calculate_total
-    @items.sum { |item| item[:price] * item[:quantity] }
-  end
-end
-```
-
-### Use attr_writer when
-
-- You want to allow modification but not direct reading
-- The value needs validation or processing when set
-- Examples: Passwords, internal state that shouldn't be exposed
-
-```ruby
-class User
-  attr_reader :username, :email
-  attr_writer :password
-
-  def initialize(username, email)
-    @username = username
+    @password = nil
     @email = email
-    @password_hash = nil
-  end
-
-  def password=(new_password)
-    @password_hash = hash_password(new_password)
-  end
-
-  private
-
-  def hash_password(password)
-    # In a real app, use proper password hashing like bcrypt
-    password.reverse  # Simplified example
+    @timezone = timezone
   end
 end
 ```
 
-### Use attr_accessor when
+- `attr_reader` prevents outside mutation, great for identifiers or derived values.
+- `attr_writer` hides sensitive fields while allowing updates (e.g., passwords).
+- `attr_accessor` is convenient but use it only when both directions truly belong in the public API.
 
-- You need both read and write access
-- The attribute is a simple value that can be set directly
-- Examples: User profile information, configuration settings
+## Customizing accessors
 
-```ruby
-class Configuration
-  attr_accessor :theme, :language, :notifications_enabled
-
-  def initialize
-    @theme = "light"
-    @language = "en"
-    @notifications_enabled = true
-  end
-end
-```
-
-## Advanced Usage
-
-### Custom Accessors
-
-Sometimes you need custom logic in your accessors. In these cases, define the methods manually:
+Need validation or side effects? Define methods manually.
 
 ```ruby
 class Temperature
-  def initialize(celsius)
-    @celsius = celsius
-  end
-
-  def celsius
-    @celsius
-  end
+  attr_reader :celsius
 
   def celsius=(value)
-    @celsius = value.clamp(-273.15, 1000)  # Prevent invalid temperatures
+    @celsius = value.to_f.clamp(-273.15, 5_000)
   end
 
   def fahrenheit
-    @celsius * 9.0 / 5.0 + 32.0
+    (@celsius * 9.0 / 5.0) + 32
   end
 
   def fahrenheit=(value)
-    @celsius = (value - 32.0) * 5.0 / 9.0
+    self.celsius = (value.to_f - 32) * 5.0 / 9.0
   end
 end
 
-temp = Temperature.new(20)
-puts temp.celsius     # => 20
-puts temp.fahrenheit  # => 68.0
-
-temp.fahrenheit = 86
-puts temp.celsius     # => 30.0
+temp = Temperature.new
+temp.celsius = 25
+temp.fahrenheit # => 77.0
 ```
 
-### Boolean Attributes
+Manual setters let you clamp values, coerce types, or trigger callbacks.
 
-For boolean attributes, it's common to add a `?` to the reader method name:
+## Boolean predicates
+
+Expose boolean state with a `?` suffix. You can still provide a writer using a regular name.
 
 ```ruby
-class Product
-  attr_reader :name, :price
-  attr_writer :price
-
-  def initialize(name, price)
-    @name = name
-    @price = price
-    @discontinued = false
+class FeatureFlag
+  def enabled?
+    @enabled
   end
 
-  def discontinued?
-    @discontinued
-  end
-
-  def discontinued=(value)
-    @discontinued = !!value
+  def enabled=(value)
+    @enabled = !!value
   end
 end
-
-product = Product.new("Old Product", 29.99)
-puts product.discontinued?  # => false
-product.discontinued = true
-puts product.discontinued?  # => true
 ```
 
-### Class Variables and Accessors
+Ruby doesn’t generate predicate readers automatically; define them explicitly for clarity. Consider `attr_predicate :enabled, true` if you use ActiveSupport.
 
-Attribute accessors work with instance variables, not class variables. For class-level attributes, you need different approaches:
+## Lazy readers and memoization
+
+Use `attr_reader` in combination with helper methods to memoize expensive computations.
 
 ```ruby
-class Database
-  @connection = nil
+class Report
+  attr_reader :data_source
 
+  def totals
+    @totals ||= data_source.fetch_totals
+  end
+end
+```
+
+Memoizing inside the reader keeps repeated calls fast while avoiding premature work.
+
+## Visibility modifiers for accessors
+
+You can make accessors private to restrict usage.
+
+```ruby
+class ApiClient
+  attr_accessor :token
+  private :token, :token=
+
+  def initialize(token:)
+    self.token = token
+  end
+
+  def call(endpoint)
+    HTTP.auth(token).get(endpoint)
+  end
+end
+```
+
+Private readers/writers are useful when values should only be touched internally yet still benefit from accessor syntax.
+
+## Working with keyword accessors
+
+Ruby’s `attr_*` macros operate on instance variables. When you want to support keyword initialization, combine them with keyword arguments in `initialize`.
+
+```ruby
+class Config
+  attr_reader :timeout, :retries
+
+  def initialize(timeout: 5, retries: 3)
+    @timeout = timeout
+    @retries = retries
+  end
+end
+```
+
+## Write-only attributes
+
+Sometimes you only need to set a value (e.g., storing hashed passwords) without exposing it.
+
+```ruby
+class User
+  attr_reader :password_digest
+
+  def password=(value)
+    @password_digest = BCrypt::Password.create(value)
+  end
+end
+```
+
+Avoid using `attr_writer` for passwords if the setter requires custom logic—define it manually so the digest is stored securely.
+
+## Class and module accessors
+
+`attr_*` macros affect instances. For class-level state, open the singleton class.
+
+```ruby
+class Settings
   class << self
-    attr_accessor :connection
-  end
-
-  def self.connect(url)
-    self.connection = url
+    attr_accessor :redis_url, :feature_flags
   end
 end
 
-Database.connect("postgresql://localhost/mydb")
-puts Database.connection  # => "postgresql://localhost/mydb"
+Settings.redis_url = ENV.fetch("REDIS_URL", "redis://localhost:6379")
 ```
 
-## Best Practices
-
-1. **Use the most restrictive accessor that meets your needs**: Prefer `attr_reader` over `attr_accessor` when you don't need write access.
-
-2. **Validate input in setters**: When using `attr_writer` or `attr_accessor`, consider adding validation.
-
-3. **Use meaningful names**: Attribute names should clearly describe what they represent.
-
-4. **Consider thread safety**: In multi-threaded applications, be careful about concurrent access to attributes.
-
-5. **Document your attributes**: Use comments or documentation to explain the purpose and valid values of attributes.
-
-Here's an example of input validation:
+Frameworks like Rails provide `mattr_accessor` and friends for class/module attributes. Implement your own if needed:
 
 ```ruby
-class Person
-  attr_reader :age
-
-  def age=(new_age)
-    if new_age >= 0 && new_age <= 150
-      @age = new_age
-    else
-      raise ArgumentError, "Age must be between 0 and 150"
+module ClassAttribute
+  def cattr_accessor(name)
+    singleton_class.class_eval do
+      attr_accessor name
     end
   end
 end
+
+class Config
+  extend ClassAttribute
+  cattr_accessor :app_name
+end
 ```
 
-Attribute methods are a fundamental part of Ruby's object-oriented programming, providing a clean and consistent way to expose object state while maintaining encapsulation principles.
+## Dynamic accessor generation
+
+When dealing with repetitive attributes (e.g., JSON columns), you can define accessors programmatically.
+
+```ruby
+class Preferences
+  SETTINGS = %i[email_notifications sms_notifications dark_mode].freeze
+
+  SETTINGS.each do |setting|
+    define_method(setting) { @store.fetch(setting, false) }
+    define_method("#{setting}=") { |value| @store[setting] = !!value }
+  end
+
+  def initialize(store = {})
+    @store = store
+  end
+end
+```
+
+Document generated methods to keep your API discoverable.
+
+## Protecting invariants in setters
+
+When an attribute must obey rules, the setter enforces them.
+
+```ruby
+class Order
+  attr_reader :status
+
+  VALID_STATUSES = %w[pending paid shipped cancelled].freeze
+
+  def status=(value)
+    value = value.to_s
+    raise ArgumentError, "Invalid status" unless VALID_STATUSES.include?(value)
+
+    @status = value
+  end
+end
+```
+
+Setters are a natural place for validation, coercion, or callbacks.
+
+## Thread safety considerations
+
+Attribute writers aren’t atomic. For multi-threaded code, guard mutations with mutexes or use thread-safe data structures.
+
+```ruby
+class Counter
+  attr_reader :value
+
+  def initialize
+    @value = 0
+    @mutex = Mutex.new
+  end
+
+  def value=(new_value)
+    @mutex.synchronize { @value = new_value }
+  end
+end
+```
+
+## Guided practice
+
+1. **Immutable ID**
+   - Create a `User` class where `id` is read-only (`attr_reader`), `email` is read/write, and `password` is write-only with hashing.
+
+2. **Settings with defaults**
+   - Implement `AppSettings` that exposes `attr_reader` for defaults, `attr_writer` for overrides, and memoizes combined values.
+
+3. **Boolean helpers**
+   - Add predicate-style readers for `published?` and corresponding setters that coerce truthy/falsey values.
+
+4. **Class-level configuration**
+   - Build a module with `class << self; attr_accessor :logger; end` to share a logger across service classes. Demonstrate usage from multiple classes.
+
+5. **Dynamic accessors**
+   - Generate accessors for a list of CSV column names using `define_method`. Ensure setters trim whitespace before storing values.
+
+## Self-check questions
+
+1. Why is `attr_reader` often safer than `attr_accessor` when exposing internal state?
+2. How can you enforce validation or transformation logic inside a setter created with `attr_writer`?
+3. What’s the difference between instance-level accessors (`attr_accessor`) and class-level accessors defined inside `class << self`?
+4. How do predicate-style readers (`active?`) improve API readability, and how would you implement their setters?
+5. When does it make sense to generate accessors dynamically with `define_method`, and what documentation considerations come with that choice?
+
+Attribute methods help you maintain encapsulation while giving callers the data they need. Reach for the least-permissive accessor, inject validation where it matters, and prefer explicit, well-documented readers and writers over indiscriminate `attr_accessor` usage.

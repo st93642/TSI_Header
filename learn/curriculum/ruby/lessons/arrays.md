@@ -1,131 +1,199 @@
-# Arrays: Collections in Ruby
+# Arrays
 
-Arrays are ordered collections that can store multiple values. They are one of the most commonly used data structures in Ruby.
+Arrays are Ruby’s workhorse collection. They preserve order, accept any object type, and power everything from command-line argument parsing to JSON payload handling. Mastering arrays means knowing how to build them, reshape them, combine them, and apply enumerable transformations efficiently.
 
-## Creating Arrays
+## Learning goals
 
-```ruby
-# Empty array
-my_array = []
+- Create, transform, and access arrays using idiomatic Ruby.
+- Understand how array indexing, slicing, and destructuring work.
+- Apply enumerable methods for searching, mapping, grouping, and reducing data.
+- Manage performance trade-offs with array mutation, freezing, and lazy enumeration.
+- Combine arrays with other core classes (hashes, ranges, strings) for richer data pipelines.
 
-# Array with integers
-numbers = [1, 2, 3, 4, 5]
-
-# Array with strings
-names = ["Alice", "Bob", "Charlie"]
-
-# Mixed types (Ruby allows this)
-mixed = [1, "hello", 3.14, true]
-```
-
-## Accessing Elements
-
-Arrays use zero-based indexing:
+## Building arrays
 
 ```ruby
-numbers = [5, 7, 1, 3, 4]
+empty = []
+numbers = [1, 2, 3, 4]
+mixed = [1, "hello", :symbol, { currency: "USD" }]
 
-numbers[0]   # => 5 (first element)
-numbers[1]   # => 7 (second element)
-numbers[-1]  # => 4 (last element)
-numbers[-2]  # => 3 (second to last)
+Array.new(3)          # => [nil, nil, nil]
+Array.new(4, "hi")   # => ["hi", "hi", "hi", "hi"]
+
+# Dynamic initialization
+Array.new(5) { |i| i * i } # => [0, 1, 4, 9, 16]
+
+%w[ruby rails sorbet]  # shorthand for an array of strings
 ```
 
-## Adding Elements
+Use splats to convert arguments to arrays: `def log(*events) events end`.
+
+## Access patterns
 
 ```ruby
-books = []
+letters = %w[a b c d e]
 
-# Using push
-books.push("The Effective Engineer")
-books.push("Zero to One")
+letters[0]     # => "a"
+letters[-1]    # => "e"
+letters.fetch(10, "missing") # safe access with default
 
-# Using << operator
-books << "Lean Startup"
-books << "Hooked"
+letters[1, 2]  # => ["b", "c"] slice by starting index and length
+letters[1..3]  # => ["b", "c", "d"] inclusive range
+letters[1...3] # => ["b", "c"] exclusive end
 
-puts books
-# => ["The Effective Engineer", "Zero to One", "Lean Startup", "Hooked"]
+# Destructuring
+first, *rest = letters
+# first => "a", rest => ["b", "c", "d", "e"]
+
+head, mid, tail = [1, 2, 3]
+# head => 1, mid => 2, tail => 3
 ```
 
-## Common Array Methods
+`Array#values_at(*indexes)` pulls discontinuous items: `letters.values_at(0, -1)`.
 
-### Size and Length
-```ruby
-numbers = [1, 2, 3, 4, 5]
-numbers.length  # => 5
-numbers.size    # => 5 (same as length)
-numbers.empty?  # => false
-```
+## Mutation and sharing
 
-### First and Last
-```ruby
-numbers.first   # => 1
-numbers.last    # => 5
-```
-
-### Include?
-```ruby
-numbers.include?(3)  # => true
-numbers.include?(10) # => false
-```
-
-### Removing Elements
-```ruby
-numbers = [1, 2, 3, 4, 5]
-
-numbers.pop    # => 5 (removes and returns last)
-numbers.shift  # => 1 (removes and returns first)
-numbers.delete(3)  # Removes element with value 3
-```
-
-## Iterating Over Arrays
+Arrays are mutable. Mutating a shared array changes all references.
 
 ```ruby
-fruits = ["apple", "banana", "orange"]
+config = %w[staging api]
+alias_config = config
+config << "v2"
 
-# Each iterator
-fruits.each do |fruit|
-  puts fruit
-end
+alias_config # => ["staging", "api", "v2"]
 
-# With index
-fruits.each_with_index do |fruit, index|
-  puts "#{index}: #{fruit}"
-end
+config_dup = config.dup
+config_dup << "v3"
+config     # => ["staging", "api", "v2"]
+config_dup # => ["staging", "api", "v2", "v3"]
 ```
 
-## Array Operations
+Freeze arrays when you want an immutable collection: `config.freeze`.
+
+## Adding and removing
 
 ```ruby
-arr1 = [1, 2, 3]
-arr2 = [3, 4, 5]
+queue = []
+queue.push("first")
+queue << "second"
 
-arr1 + arr2    # => [1, 2, 3, 3, 4, 5] (concatenation)
-arr1 - arr2    # => [1, 2] (difference)
-arr1 & arr2    # => [3] (intersection)
-arr1 | arr2    # => [1, 2, 3, 4, 5] (union)
+queue.unshift("urgent") # add to front
+queue.insert(1, "middle")
+
+queue.pop   # remove last
+queue.shift # remove first
+queue.delete("middle")
+
+queue.delete_if { |item| item.start_with?("s") }
 ```
 
-## Useful Methods
+Use `Array#compact` to drop `nil`s and `Array#flatten` to collapse nested arrays.
+
+## Enumerating and transforming
 
 ```ruby
-numbers = [5, 2, 8, 1, 9]
+sales = [120, 95, 130, 160]
 
-numbers.sort      # => [1, 2, 5, 8, 9]
-numbers.reverse   # => [9, 1, 8, 2, 5]
-numbers.uniq      # Removes duplicates
-numbers.max       # => 9
-numbers.min       # => 1
-numbers.sum       # => 25
+sales.map { |amount| amount * 1.1 }
+sales.select { |amount| amount >= 100 }
+sales.reject { |amount| amount < 100 }
+sales.partition { |amount| amount >= 120 }
+
+sales.reduce(0, :+) # => sum
+sales.any?(&:zero?)
+sales.all? { |amount| amount > 50 }
+sales.none? { |amount| amount < 0 }
+
+# Enum helpers via symbols
+sales.map(&:to_s)
 ```
 
-## Key Takeaways
+For chained transformations, use `Enumerator::Lazy`:
 
-- Arrays store ordered collections: `[1, 2, 3]`
-- Zero-based indexing: first element is `[0]`
-- Negative indices count from end: `[-1]` is last
-- Add with `.push()` or `<<` operator
-- Remove with `.pop`, `.shift`, `.delete`
-- Iterate with `.each` method
-- Many built-in methods: `.sort`, `.reverse`, `.uniq`
+```ruby
+File.foreach("events.log")
+    .lazy
+    .map(&:strip)
+    .reject(&:empty?)
+    .take(10)
+    .force
+```
+
+`force` realizes the lazy enumerator.
+
+## Searching and grouping
+
+```ruby
+orders = [
+  { id: 1, status: :open },
+  { id: 2, status: :shipped },
+  { id: 3, status: :open }
+]
+
+orders.find { |o| o[:status] == :open }
+orders.filter_map { |o| o[:id] if o[:status] == :open }
+
+orders.group_by { |o| o[:status] }
+orders.each_with_object(Hash.new(0)) { |o, tally| tally[o[:status]] += 1 }
+```
+
+## Set-like operations and combination
+
+```ruby
+a = [1, 2, 3]
+b = [3, 4, 5]
+
+a + b   # concatenation
+a - b   # => [1, 2]
+a & b   # => [3]
+a | b   # => [1, 2, 3, 4, 5]
+a.zip(%w[one two three])
+```
+
+`Array#product` builds Cartesian products; `Array#permutation` and `#combination` explore ordering.
+
+## Converting between arrays and other types
+
+- Strings: `"2025-10-03".split("-")` and `["api", "v2"].join('/')`.
+- Ranges: `(1..5).to_a` and `%w[a b c].to_enum(:cycle)` to repeat.
+- Hash pairs: `{ currency: "USD" }.to_a # => [[:currency, "USD"]]`.
+
+## Performance notes
+
+- `Array#push`, `#pop` are O(1); `#shift` and `#unshift` are O(n) because items reindex.
+- `Array#map`, `#select`, and friends copy the entire array; prefer lazy enumerators for large or infinite streams.
+- `freeze` reduces accidental mutation and enables sharing between threads without locks.
+- When order doesn’t matter, consider `Set` for faster membership checks.
+
+## Guided practice
+
+1. **CSV rows to objects**
+   - Read lines from a sample CSV string.
+   - Split each line into fields and map to hashes with symbol keys.
+   - Use `group_by` to cluster rows by a status column.
+
+2. **Rolling averages**
+   - Accept an array of numbers and a window size.
+   - Use `each_cons(window)` to compute rolling average values.
+   - Return a new array of averages up to two decimal places.
+
+3. **Tag normalizer**
+   - Given user-provided tags with spaces, uppercase letters, and duplicates, normalize by trimming, downcasing, replacing spaces with hyphens, and deduplicating while keeping original order.
+
+4. **Inventory reconciliation**
+   - You have arrays of SKUs from warehouse scans and shipping manifests.
+   - Use set operations and `difference` (`-`) to report items missing or extra.
+
+5. **Lazy log analyzer**
+   - Stream a large log file lazily.
+   - Filter only lines matching a pattern, take the first 50, and write them to an array without loading the whole file.
+
+## Self-check questions
+
+1. How does destructuring assignment work with arrays, and how can you capture the “rest” of the elements?
+2. What is the difference between `Array#map` and `Array#map!`, and when would you choose one over the other?
+3. How does Ruby’s method lookup handle `Array#method(:sample)` compared to iterating with `Enumerator::Lazy`?
+4. Why might you freeze an array, and how does that impact attempts to mutate it?
+5. What performance implications arise from frequent use of `Array#shift`, and what alternatives could you use for queue-like workloads?
+
+Arrays are ubiquitous in Ruby. Keep them clean, avoid unnecessary mutation, and lean on Enumerable to express data transformations succinctly.

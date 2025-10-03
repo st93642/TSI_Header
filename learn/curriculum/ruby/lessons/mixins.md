@@ -1,22 +1,18 @@
 # Mixins and Modules
 
-Modules are Ruby's way of grouping methods, classes, and constants. They enable code reuse across multiple classes through mixins.
+Modules let you bundle behavior and share it across classes without inheriting. By mixing in modules, you can reuse code, compose features, and shape method lookup order. This lesson explores mixin mechanics, `include` vs `extend` vs `prepend`, hooks, and best practices for building maintainable modules.
 
-## What is a Module?
+## Learning goals
 
-A module is a collection of methods and constants:
+- Understand how `include`, `extend`, and `prepend` alter method lookup.
+- Encapsulate shared behavior in modules and mix it into classes cleanly.
+- Use module callbacks (`included`, `extended`, `prepended`) to configure consumers.
+- Combine modules with namespacing and constants.
+- Recognize when to use mixins versus inheritance or composition.
 
-```ruby
-module Skill
-  def average_speed
-    puts "My average speed is 20mph"
-  end
-end
-```
+## Defining a module
 
-## Including Modules (Mixins)
-
-Use `include` to add module methods to a class:
+Modules are collections of methods, constants, and classes. They can’t be instantiated.
 
 ```ruby
 module Skill
@@ -28,7 +24,13 @@ module Skill
     "25 mph"
   end
 end
+```
 
+## `include`: add instance methods
+
+`include` mixes module methods into the instance method table of a class.
+
+```ruby
 class Runner
   include Skill
 
@@ -37,168 +39,252 @@ class Runner
   end
 end
 
-runner = Runner.new("Alice")
-puts runner.average_speed  # => "20 mph"
-puts runner.max_speed      # => "25 mph"
+Runner.new("Ava").average_speed
 ```
 
-## Multiple Mixins
+Method lookup order after inclusion: the module sits between the class and its superclass (`Runner.ancestors` shows `[Runner, Skill, Object, Kernel, BasicObject]`). Methods in `Skill` override those up the chain but not methods already defined on `Runner` itself.
 
-A class can include multiple modules:
+## Multiple mixins
+
+You can compose behavior from several modules. The most recently included module has higher precedence.
 
 ```ruby
 module Swimming
-  def swim
-    "Swimming..."
+  def move
+    "Swimming"
   end
 end
 
 module Running
-  def run
-    "Running..."
+  def move
+    "Running"
   end
 end
 
 class Triathlete
   include Swimming
   include Running
+end
 
-  def compete
-    "Competing in triathlon"
+Triathlete.new.move # => "Running" (last included wins)
+```
+
+Order matters: include modules in the sequence you want for method lookup.
+
+## `extend`: add class-level behavior
+
+`extend` mixes module methods into a specific object (often the class itself), creating class methods.
+
+```ruby
+module Identifiable
+  def next_id
+    @next_id ||= 0
+    @next_id += 1
   end
 end
 
-athlete = Triathlete.new
-puts athlete.swim       # => "Swimming..."
-puts athlete.run        # => "Running..."
-puts athlete.compete    # => "Competing in triathlon"
+class User
+  extend Identifiable
+end
+
+User.next_id # => 1
 ```
 
-## Namespacing with Modules
+Each class that extends the module gets its own copy of module instance variables.
 
-Modules can group related classes:
+## `prepend`: put module ahead of the class
+
+`prepend` inserts the module before the class in the ancestor chain, letting it wrap or override class methods (useful for decorators).
 
 ```ruby
-module Transportation
-  class Car
-    def drive
-      "Driving car"
+module Instrumentation
+  def perform(*args)
+    start = Time.now
+    result = super
+    puts "#{self.class} took #{Time.now - start}s"
+    result
+  end
+end
+
+class Job
+  prepend Instrumentation
+
+  def perform
+    # work
+  end
+end
+```
+
+`Job.ancestors # => [Instrumentation, Job, Object, ...]`. Use `super` in the module to call the original method.
+
+## Mixins vs inheritance
+
+Ruby supports single inheritance, so modules fill in for multiple inheritance. Use inheritance (`class Sub < Base`) when there’s an “is-a” relationship; use modules when many classes need shared behavior but differ otherwise.
+
+## Module callbacks
+
+Hook into lifecycle events:
+
+- `self.included(base)` — runs when `include` is used.
+- `self.extended(base)` — fires when `extend` is called on an object.
+- `self.prepended(base)` — triggered on `prepend`.
+
+```ruby
+module Cacheable
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
+  module ClassMethods
+    def cache_store(store = nil)
+      @cache_store = store if store
+      @cache_store
     end
   end
 
-  class Bike
-    def ride
-      "Riding bike"
+  def fetch(key)
+    self.class.cache_store.fetch(key)
+  end
+end
+
+class Article
+  include Cacheable
+end
+
+Article.cache_store(MemoryStore.new)
+Article.new.fetch("foo")
+```
+
+This pattern attaches class-level helpers automatically when a module is included. Frameworks like Rails wrap this inside `ActiveSupport::Concern` for cleaner syntax.
+
+## Using `ActiveSupport::Concern`
+
+When available, `ActiveSupport::Concern` simplifies module setup.
+
+```ruby
+module SoftDeletable
+  extend ActiveSupport::Concern
+
+  included do
+    scope :active, -> { where(deleted_at: nil) }
+  end
+
+  def soft_delete
+    update!(deleted_at: Time.current)
+  end
+end
+```
+
+Concerns manage dependency ordering and provide the `included` block without manual hook wiring.
+
+## Sharing state across mixins
+
+Because modules can’t store instance variables directly accessible to each consumer, use accessor methods or initialize state in a hook.
+
+```ruby
+module Trackable
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
+  module ClassMethods
+    def tracked_events
+      @tracked_events ||= []
+    end
+  end
+
+  def track(event)
+    self.class.tracked_events << event
+  end
+end
+```
+
+Each class gets its own `@tracked_events`; subclasses inherit it unless redefined.
+
+## Namespacing with modules
+
+Modules also group related classes, preventing constant name conflicts and signaling ownership.
+
+```ruby
+module Messaging
+  class Email; end
+  class SMS; end
+end
+
+Messaging::Email.new
+```
+
+You can mix namespacing and mixins in the same module tree.
+
+## Refinements (advanced)
+
+Refinements provide scoped monkey-patching by wrapping modifications in a module.
+
+```ruby
+module StringExtensions
+  refine String do
+    def shout
+      upcase + "!"
     end
   end
 end
 
-# Access with ::
-car = Transportation::Car.new
-bike = Transportation::Bike.new
-
-puts car.drive   # => "Driving car"
-puts bike.ride   # => "Riding bike"
+using StringExtensions
+"ruby".shout # => "RUBY!"
 ```
 
-## Module Constants
+Refinements are opt-in within the file or scope where `using` is called. They’re useful when you need targeted overrides without global effects.
+
+## Mixins and super
+
+Modules can call `super` to delegate up the chain. Embrace this to create stackable behavior: loggers, instrumentation, caching layers, etc. Ensure methods call `super` only if the next link is expected to respond; otherwise guard with `defined?(super)`.
 
 ```ruby
-module Math
-  PI = 3.14159
-  E = 2.71828
-
-  def self.circle_area(radius)
-    PI * radius ** 2
+module Retryable
+  def perform(*args)
+    attempts = 0
+    begin
+      attempts += 1
+      super
+    rescue => e
+      retry if attempts < 3
+      raise e
+    end
   end
 end
-
-puts Math::PI  # => 3.14159
-puts Math.circle_area(5)  # => 78.53975
 ```
 
-## Differences: Module vs Class
+## When to avoid mixins
 
-| Module | Class |
-|--------|-------|
-| Cannot be instantiated | Can create objects with `.new` |
-| Can be mixed into classes | Can inherit from one parent |
-| Multiple modules per class | Single inheritance only |
-| Used for code reuse | Used for object creation |
+- Module becomes a grab bag of unrelated methods.
+- Mixins require too much shared state, leading to fragile coupling.
+- Overriding behavior via multiple modules makes method resolution hard to reason about.
 
-## Extend vs Include
+Consider composition (objects containing other objects) or service objects when mixins become unwieldy.
 
-```ruby
-module Greetings
-  def hello
-    "Hello!"
-  end
-end
+## Guided practice
 
-# include - adds instance methods
-class Person
-  include Greetings
-end
+1. **Auditable concern**
+   - Build a `Auditable` module that adds `created_at`/`updated_at` timestamps and a class-level `before_save` hook via `included`.
 
-person = Person.new
-person.hello  # => "Hello!"
+2. **Instrumented jobs**
+   - Implement `Instrumentation` module using `prepend` to time job execution. Ensure it calls `super` and logs duration.
 
-# extend - adds class methods
-class Company
-  extend Greetings
-end
+3. **Dual interface module**
+   - Write a module that, when included, adds instance methods and when extended, adds class methods (`self.included` and `self.extended`). Demonstrate both behaviors.
 
-Company.hello  # => "Hello!"
-```
+4. **Refinement sandbox**
+   - Create a refinement that adds `String#camelize`. Use it inside a specific class without affecting global `String` behavior.
 
-## Real-World Example
+5. **Mixin order exploration**
+   - Include multiple modules defining the same method. Use `ancestors` to inspect resolution order and adjust inclusion order to change behavior.
 
-```ruby
-module Timestampable
-  def created_at
-    @created_at ||= Time.now
-  end
+## Self-check questions
 
-  def updated_at
-    @updated_at ||= Time.now
-  end
-end
+1. How does `include` change a class’s ancestor chain compared to `prepend`?
+2. When would you prefer a mixin over subclassing?
+3. What role do module callbacks like `included` and `extended` play when building reusable concerns?
+4. How does `extend` differ when called on an object versus within `class << self`?
+5. What problems can arise from mixing in too many modules, and how can you mitigate them?
 
-class BlogPost
-  include Timestampable
-  attr_accessor :title, :content
-end
-
-class Comment
-  include Timestampable
-  attr_accessor :text, :author
-end
-
-post = BlogPost.new
-puts post.created_at  # => 2025-10-01 ...
-```
-
-## The Math Module
-
-Ruby's built-in Math module:
-
-```ruby
-Math::PI              # => 3.141592653589793
-Math::E               # => 2.718281828459045
-
-Math.sqrt(16)         # => 4.0
-Math.sin(0)           # => 0.0
-Math.cos(0)           # => 1.0
-Math.log(10)          # => 2.302585092994046
-```
-
-## Key Takeaways
-
-- Modules group related methods/constants
-- Cannot create instances: no `.new`
-- Use `include` to add instance methods
-- Use `extend` to add class methods
-- Classes can include multiple modules
-- Modules enable code reuse (mixins)
-- Use `::` to access module contents
-- Modules provide namespacing
+Mixins provide Ruby’s version of multiple inheritance. Use them to compose behavior across unrelated classes, but keep modules focused, explicit, and well-documented so your ancestor chains remain understandable.

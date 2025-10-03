@@ -1,109 +1,246 @@
 # Conditionals and Control Flow
 
-Control flow statements allow your program to make decisions based on conditions. Ruby provides elegant syntax for conditional logic.
+Conditionals give your Ruby code the power to react, branch, and adapt at runtime. Ruby’s syntax makes branching expressive and concise, whether you’re validating user input, routing HTTP requests, or orchestrating background jobs. This lesson explores the full spectrum of conditional tools—from `if` chains to pattern matching—while emphasizing clarity and maintainability.
 
-## The `if` Statement
+## Learning goals
+
+- Compose conditionals using `if`, `elsif`, `else`, and statement modifiers.
+- Decide when to use `unless`, `case`, or pattern matching for more readable logic.
+- Apply guard clauses and early returns to keep happy paths clear.
+- Understand truthiness, short-circuit evaluation, and ternary expressions.
+- Practice structuring nested logic into well-named helper methods.
+
+## Basic `if` usage
+
+The classic `if` expression executes its block when its condition evaluates to truthy (anything except `false` or `nil`).
 
 ```ruby
 age = 18
+
 if age >= 18
-  puts "You are an adult"
+  puts "You can vote."
 end
 ```
 
-## `if-else` Statement
+Ruby’s `if` returns the last evaluated expression, allowing assignment:
 
 ```ruby
-temperature = 25
-
-if temperature > 30
-  puts "It's hot!"
+message = if age >= 18
+  "Eligible"
 else
-  puts "Weather is pleasant"
+  "Not yet"
 end
 ```
 
-## `if-elsif-else` Statement
+Avoid trailing `return` inside the branches when the `if` expression itself is the return value of a method.
+
+## `if`/`elsif`/`else` chains
+
+Use chained branches to handle mutually exclusive scenarios.
 
 ```ruby
-score = 85
-
-if score >= 90
-  puts "Grade: A"
-elsif score >= 80
-  puts "Grade: B"
-elsif score >= 70
-  puts "Grade: C"
-else
-  puts "Grade: F"
+def grade_for(score)
+  if score >= 90
+    "A"
+  elsif score >= 80
+    "B"
+  elsif score >= 70
+    "C"
+  else
+    "F"
+  end
 end
 ```
 
-## Inline `if` Modifier
+Order matters: Ruby evaluates conditions top to bottom and stops at the first truthy branch. When conditions become complex, consider extracting them into predicate methods (`excellent?`, `passing?`) for readability.
 
-Ruby allows concise one-line conditions:
+## Guard clauses and early returns
+
+Guard clauses exit a method early if prerequisites fail. They keep the main logic close to the left margin and reduce nested indentation.
 
 ```ruby
-puts "You can vote!" if age >= 18
-send_email if user_subscribed
+def process_order(order)
+  return "No items" if order.items.empty?
+  return "Account locked" unless order.account.active?
+
+  ship(order)
+end
 ```
 
-## Comparison Operators
+`return` exits the method immediately. Inside blocks (like `each`), use `next` to skip to the following iteration.
+
+## Statement modifiers: concise conditionals
+
+Ruby allows postfix conditionals for single expressions.
 
 ```ruby
-5 == 5      # => true  (equal to)
-5 != 3      # => true  (not equal to)
-5 > 3       # => true  (greater than)
-5 < 3       # => false (less than)
-5 >= 5      # => true  (greater or equal)
-5 <= 3      # => false (less or equal)
+puts "High score!" if score > 100
+warn "Disk space low" unless free_space_gb > 5
 ```
 
-## Logical Operators
+Use them for brief, readable conditions. If the logic grows or requires an `else`, revert to multi-line `if` blocks.
+
+## `unless` for negative checks
+
+`unless` executes its block unless the condition is truthy. Treat it as the opposite of `if`.
 
 ```ruby
-# AND - both must be true
-if age >= 18 && has_license
-  puts "You can drive"
-end
-
-# OR - at least one must be true
-if is_weekend || is_holiday
-  puts "No work today!"
-end
-
-# NOT - negates condition
-if !raining
-  puts "Let's go outside"
+unless user&.verified?
+  puts "Please verify your email."
 end
 ```
 
-## Truthiness in Ruby
+Avoid combining `unless` with `else`; it inverts twice and harms readability. Opt for `if` in those cases.
 
-Only `false` and `nil` are falsy - everything else is truthy:
+## Ternary operator
 
-```ruby
-if 0
-  puts "0 is truthy!"  # This executes
-end
-
-if ""
-  puts "Empty string is truthy!"  # This executes
-end
-```
-
-## Ternary Operator
+`condition ? true_branch : false_branch` returns one of two values succinctly.
 
 ```ruby
 age = 20
 status = age >= 18 ? "Adult" : "Minor"
 ```
 
-## Key Takeaways
+Keep ternaries simple. When branches require multiple statements, use a regular `if` expression instead.
 
-- `if`, `elsif`, `else` control program flow
-- Inline modifiers: `puts "Hi" if condition`
-- Only `false` and `nil` are falsy
-- Ternary: `condition ? true_value : false_value`
-- Logical operators: `&&` (AND), `||` (OR), `!` (NOT)
-- Comparison: `==`, `!=`, `>`, `<`, `>=`, `<=`
+## Combining logical operators
+
+Use `&&` (AND), `||` (OR), and `!` (NOT) to compose complex conditions. Remember that `&&` and `||` short-circuit.
+
+```ruby
+if user.logged_in? && user.admin?
+  puts "Welcome, admin."
+end
+
+if weekend? || holiday?
+  puts "Enjoy your time off!"
+end
+
+puts "Bring umbrella" if raining? && !indoors?
+```
+
+Group with parentheses for clarity.
+
+## `case` expressions
+
+`case` shines when matching one object against many possibilities. It uses `===` internally, enabling ranges, classes, and regex matches.
+
+```ruby
+grade = case score
+        when 90..100 then "A"
+        when 80...90 then "B"
+        when 70...80 then "C"
+        else "Needs improvement"
+        end
+```
+
+`case` can also omit the target to evaluate arbitrary conditions:
+
+```ruby
+message = case
+          when temp > 30 then "Too hot"
+          when temp < 10 then "Too cold"
+          else "Just right"
+          end
+```
+
+## Pattern matching (Ruby 2.7+)
+
+Enhanced `case` lets you destructure hashes and arrays while matching.
+
+```ruby
+case response
+in { status: 200, body: }
+  puts "OK: #{body}"
+in { status: 404 }
+  puts "Not found"
+else
+  puts "Unexpected response"
+end
+```
+
+Add guards (`if condition`) to refine matches.
+
+## Safe navigation with conditionals
+
+Use `&.` to call methods on objects that might be `nil`, avoiding `NoMethodError`.
+
+```ruby
+if user&.profile&.completed?
+  puts "Thanks for completing your profile!"
+else
+  puts "Please complete your profile."
+end
+```
+
+Combine with `||` to supply defaults: `user&.name || "Guest"`.
+
+## Building expressive predicates
+
+Encapsulate logic in predicate methods (`deadline_passed?`, `eligible?`) to keep conditionals readable.
+
+```ruby
+def overdue?(invoice)
+  Time.current > invoice.due_at && !invoice.paid?
+end
+
+puts "Overdue" if overdue?(invoice)
+```
+
+## Nested conditionals vs. refactoring
+
+Deeply nested `if` statements hinder readability. Strategies to flatten them include:
+
+- Guard clauses to exit early.
+- Extracting helper methods for inner logic.
+- Using hashes to map keys to actions (dispatch tables).
+
+```ruby
+HANDLERS = {
+  "paid" => ->(order) { ship(order) },
+  "pending" => ->(order) { enqueue_verification(order) }
+}.freeze
+
+handler = HANDLERS[order.status] || ->(_) { warn "Unknown status" }
+handler.call(order)
+```
+
+## Practice: boolean expressions recap
+
+Remember that only `false` and `nil` are falsy. Use trait methods and checkers (`empty?`, `any?`, `zero?`) to convey intent.
+
+```ruby
+puts "Inventory empty" unless items&.any?
+```
+
+## Guided practice
+
+1. **Shipping router**
+   - Write `shipping_method(order)` that returns "express" when the destination is domestic and the order total exceeds 100, "standard" for domestic orders otherwise, and "international" for everything else.
+   - Use guard clauses for missing address information.
+
+2. **On-call schedule**
+   - Implement logic that prints who is on call based on day of week and whether the person is already covering another shift.
+   - Use `case` with `Date.today.wday` and a fallback branch.
+
+3. **Feature toggle evaluator**
+   - Combine environment variables, user roles, and percentage rollouts (`rollout_percentage > rand(100)`) into a single predicate `feature_enabled?(user)`.
+   - Keep the expression readable with intermediate variables or helper methods.
+
+4. **Pattern match API responses**
+   - Given hashes with keys `:status`, `:body`, and optional `:error`, use pattern matching to log success, retry, or escalate.
+   - Add guards to check `error[:code]` when present.
+
+5. **Input validator**
+   - Prompt for a username and classify it as "valid", "missing", or "invalid" using an `if`/`elsif` chain.
+   - Requirements: present, 3–16 characters, only lowercase letters or underscores.
+
+## Self-check questions
+
+1. When would you prefer `case` over multiple `elsif` branches?
+2. How does the ternary operator differ from `if` in terms of return value and readability?
+3. Why should you avoid `unless` with `else` clauses?
+4. How do guard clauses improve the structure of methods with multiple failure conditions?
+5. What advantages does pattern matching provide for handling structured data compared to nested conditionals?
+
+Dependable control flow stems from clear boolean logic and a toolbox of conditional constructs. Experiment with each technique, refactor nested branches into descriptive helper methods, and you’ll write Ruby code that communicates its intent with confidence.

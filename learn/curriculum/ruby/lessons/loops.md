@@ -1,10 +1,28 @@
 # Loops and Iteration
 
-Loops allow you to execute code repeatedly. Ruby provides several ways to create loops, each suited for different situations.
+Iteration is the heartbeat of automation: we repeat operations to transform data, poll services, retry flaky work, or generate reports. Ruby offers a rich toolkit that balances expressiveness with safety, from classic `while` loops to lazy enumerators. This lesson explores each option, when to use it, and how to write loops that are both efficient and easy to read.
 
-## The `while` Loop
+## Learning goals
 
-Executes code as long as a condition is true:
+- Choose the most expressive looping construct for a task.
+- Control repetition with `while`, `until`, `loop`, numeric iterators, and collection methods.
+- Use `break`, `next`, `redo`, and `throw`/`catch` to steer control flow precisely.
+- Leverage enumerators (`each`, `each_with_index`, `Enumerator::Lazy`) for composable pipelines.
+- Refactor nested or long-running loops to remain maintainable and performant.
+
+## Choosing the right loop
+
+Ask these questions before writing a loop:
+
+1. **Is the number of repetitions known?** Prefer numeric iterators (`Integer#times`, `upto`, `downto`, `step`).
+2. **Am I traversing a collection?** Reach for `Enumerable` methods (`each`, `map`, `each_with_index`).
+3. **Do I need a manual condition?** Use `while`/`until` with clear exit criteria.
+4. **Do I need an infinite loop with manual exits?** Use `Kernel#loop` with `break`.
+5. **Am I building a chain of transformations?** Create an `Enumerator` or use lazy evaluation.
+
+## Foundational loops: `while` and `until`
+
+`while` executes its block while the condition is truthy. Always ensure that the condition eventually becomes falsy.
 
 ```ruby
 count = 1
@@ -13,35 +31,9 @@ while count <= 5
   puts "Count: #{count}"
   count += 1
 end
-
-# Output:
-# Count: 1
-# Count: 2
-# Count: 3
-# Count: 4
-# Count: 5
 ```
 
-**Important:** Always ensure the condition will eventually become false to avoid infinite loops!
-
-```ruby
-# Infinite loop (BAD - will run forever!)
-# while true
-#   puts "This never stops!"
-# end
-
-# Safe version with break
-count = 0
-while true
-  puts count
-  count += 1
-  break if count >= 5  # Exit condition
-end
-```
-
-## The `until` Loop
-
-The opposite of `while` - runs until condition becomes true:
+`until` is the inverse: it runs until the condition becomes truthy.
 
 ```ruby
 count = 1
@@ -50,311 +42,260 @@ until count > 5
   puts "Count: #{count}"
   count += 1
 end
-
-# Same result as the while loop above
 ```
 
-## The `for` Loop
+Prefer meaningful predicates (`while invoices.pending?`) rather than cryptic counters when possible.
 
-Iterate over a range or collection:
+### Guarding against infinite loops
+
+Inline safety checks with `break` or `raise` to prevent runaway processes, especially when waiting for external resources.
 
 ```ruby
-# Iterate over range
-for num in 1..5
-  puts "Number: #{num}"
+attempts = 0
+
+while attempts < 5
+  response = http_client.get(url)
+  break if response.success?
+
+  attempts += 1
+  sleep(2**attempts)
 end
 
-# Iterate over array
-fruits = ["apple", "banana", "orange"]
-for fruit in fruits
-  puts fruit
-end
+raise "Service unavailable" unless response&.success?
 ```
 
-**Note:** Ruby developers prefer iterators (`.each`, `.times`) over `for` loops.
+## `loop` for explicit infinite iteration
 
-## The `loop` Method
-
-Creates an infinite loop that must be broken with `break`:
+`Kernel#loop` creates an infinite loop that you manually exit. Combine it with `break`, `next`, or `throw` for fine-grained control.
 
 ```ruby
 loop do
-  puts "Enter 'quit' to exit:"
-  input = gets.chomp
-  break if input == "quit"
+  print "Enter command (quit to exit): "
+  input = gets&.chomp
+  break if input == "quit" || input.nil?
+
   puts "You entered: #{input}"
 end
 ```
 
-## The `.times` Iterator
-
-Execute code a specific number of times:
+You can supply a value to `break` to make the loop expression return meaningful data:
 
 ```ruby
-# Simple repetition
-5.times do
-  puts "Hello!"
+result = loop do
+  token = queue.pop
+  break token if token.valid?
 end
 
-# With block parameter (index)
+puts "Processing #{result}"  # => uses the value passed to break
+```
+
+## Numeric iterators: `times`, `upto`, `downto`, `step`
+
+Integers enhance readability when the iteration count is clear.
+
+```ruby
 5.times do |i|
-  puts "Iteration #{i}"
+  puts "Iteration #{i}"  # i starts at 0
 end
-# Output: Iteration 0, 1, 2, 3, 4 (starts at 0)
+
+1.upto(5) { |n| puts n }
+10.downto(1) { |n| puts "T-minus #{n}" }
+(0..10).step(2) { |even| puts even }
 ```
 
-## Breaking Out of Loops
-
-### `break` - Exit loop immediately
+These methods return the starting integer, allowing method chaining with caution:
 
 ```ruby
-count = 0
-while count < 10
-  puts count
-  break if count == 5  # Exit when count is 5
-  count += 1
-end
-# Output: 0, 1, 2, 3, 4, 5
+total = 0
+10.times.reduce(total) { |acc, _| acc + 1 }  # => 10
 ```
 
-### `next` - Skip to next iteration
+## Iterating collections: `each` and friends
+
+Most Ruby code iterates using `Enumerable` methods. Here’s an idiomatic traversal with contextual metadata:
 
 ```ruby
-1.upto(10) do |i|
-  next if i.even?  # Skip even numbers
-  puts i
-end
-# Output: 1, 3, 5, 7, 9
-```
+orders = [
+  { id: 1, total: 49.99 },
+  { id: 2, total: 120.00 },
+  { id: 3, total: 15.25 }
+]
 
-### `redo` - Restart current iteration
-
-```ruby
-count = 0
-5.times do |i|
-  count += 1
-  puts "i: #{i}, count: #{count}"
-  redo if count < 3  # Redo first iteration twice
+orders.each_with_index do |order, index|
+  puts "##{index + 1} order ##{order[:id]} => $#{order[:total]}"
 end
 ```
 
-## Iterating with Ranges
+Prefer `each_with_index` over manual counters. For nested structures, chain enumerators or use `flat_map` to keep depth manageable.
 
-Ranges provide powerful iteration:
+### External enumerators
+
+Calling `to_enum` (or the shorthand `enum_for`) converts an iterator into an `Enumerator` object you can traverse manually.
 
 ```ruby
-# Inclusive range (includes end)
-(1..5).each do |num|
-  puts num
-end
-# Output: 1, 2, 3, 4, 5
+enumerator = orders.to_enum
 
-# Exclusive range (excludes end)
-(1...5).each do |num|
-  puts num
+loop do
+  order = enumerator.next
+  puts "Processing ##{order[:id]}"
 end
-# Output: 1, 2, 3, 4
-
-# Countdown
-5.downto(1) do |i|
-  puts "#{i}..."
-end
-puts "Blast off!"
-
-# Count up
-1.upto(5) do |i|
-  puts i
-end
-
-# Step through range
-(0..10).step(2) do |i|
-  puts i  # Prints even numbers: 0, 2, 4, 6, 8, 10
+rescue StopIteration
+  puts "All orders processed."
 end
 ```
 
-## Loop Modifiers
+External iteration is handy when coordinating multiple collections or pausing/resuming work.
 
-Create compact one-line loops:
+### Lazy enumeration
+
+Large or infinite sequences benefit from `Enumerator::Lazy`, which defers execution until values are consumed.
 
 ```ruby
-# Inline while
-count = 0
+primes = (2..).lazy.select { |n| prime?(n) }
+
+puts primes.take(10).force.inspect
+```
+
+Use lazy enumerators to stream files, paginate APIs, or process big datasets without loading everything into memory.
+
+## Loop control keywords
+
+- `break` exits the loop immediately and can return a value.
+- `next` skips to the next iteration without exiting the loop.
+- `redo` restarts the current iteration without reevaluating the condition (use sparingly).
+- `throw`/`catch` provide labeled exits for nested loops.
+
+```ruby
+def fetch_first_matching(records)
+  catch(:found) do
+    records.each do |record|
+      next unless record.ready?
+      throw(:found, record) if record.valid?
+    end
+  end
+end
+```
+
+Be mindful: `redo` can easily create infinite loops if state is not mutated.
+
+## Loop modifiers and one-liners
+
+Inline loops improve brevity for simple cases.
+
+```ruby
 puts count += 1 while count < 5
-
-# Inline until
-count = 0
-puts count += 1 until count >= 5
+puts count -= 1 until count.zero?
 ```
 
-## Practical Examples
+Reserve one-liners for truly simple expressions. Multiline loops with clear indentation remain easier to debug.
 
-### Countdown timer
+## Nested loops and refactoring strategies
 
-```ruby
-10.downto(1) do |i|
-  puts i
-  sleep(1)  # Wait 1 second
-end
-puts "Happy New Year!"
-```
-
-### Sum of numbers
+Nested loops crop up in matrix operations, reporting, and pairing data. Tame complexity by extracting helper methods, using `product`, or leveraging hashes as lookup tables.
 
 ```ruby
-sum = 0
-num = 1
+products = ["Laptop", "Phone", "Tablet"]
+regions = ["NA", "EU", "APAC"]
 
-while num <= 10
-  sum += num
-  num += 1
-end
-
-puts "Sum of 1-10: #{sum}"  # => 55
-```
-
-### User input validation
-
-```ruby
-password = nil
-
-until password == "secret"
-  puts "Enter password:"
-  password = gets.chomp
-  puts "Wrong password!" unless password == "secret"
-end
-
-puts "Access granted!"
-```
-
-### Multiplication table
-
-```ruby
-number = 5
-
-1.upto(10) do |i|
-  result = number * i
-  puts "#{number} x #{i} = #{result}"
+products.product(regions).each do |product, region|
+  puts "Forecasting #{product} in #{region}"
 end
 ```
 
-### Find first even number
+Break apart deeply nested loops by delegating work to smaller methods or using enumerator combinators (`zip`, `flat_map`).
+
+## Performance and memory considerations
+
+- Prefer lazy enumeration for huge datasets or IO streams.
+- Avoid building large intermediate arrays when chaining; use `each` plus immediate work, or `lazy`.
+- For CPU-bound loops, benchmark (`Benchmark.measure`) to compare `times` vs `each` vs `while`.
+- Extract pure computations (like regex, math) outside the loop to avoid repeated allocation.
 
 ```ruby
-numbers = [1, 3, 5, 7, 8, 10, 11]
-found = nil
+require "benchmark"
 
-for num in numbers
-  if num.even?
-    found = num
-    break  # Stop at first even number
+Benchmark.bm do |bm|
+  bm.report("times") { 1_000_000.times { |n| n + 1 } }
+  bm.report("while") do
+    i = 0
+    while i < 1_000_000
+      i += 1
+    end
   end
 end
-
-puts "First even number: #{found}"
 ```
 
-## Nested Loops
+## Real-world patterns
 
-Loops can be nested for multi-dimensional iteration:
-
-```ruby
-# Multiplication table
-1.upto(5) do |i|
-  1.upto(5) do |j|
-    print "#{i * j}\t"
-  end
-  puts  # New line after each row
-end
-
-# Pattern printing
-5.times do |i|
-  (i + 1).times do
-    print "*"
-  end
-  puts
-end
-# Output:
-# *
-# **
-# ***
-# ****
-# *****
-```
-
-## Performance Considerations
+### Polling with backoff
 
 ```ruby
-# Less efficient (for loop)
-for i in 1..1000
-  # do something
-end
+max_attempts = 5
 
-# More efficient (each with range)
-(1..1000).each do |i|
-  # do something
-end
+max_attempts.times do |attempt|
+  response = api_client.fetch
+  break process(response) if response.success?
 
-# Most efficient for simple repetition
-1000.times do |i|
-  # do something
+  sleep(2**attempt)
 end
 ```
 
-## Best Practices
-
-1. **Prefer iterators** (`.each`, `.times`) over `for` loops
-2. **Use `break`** to exit loops early when condition met
-3. **Avoid infinite loops** - always have exit condition
-4. **Use meaningful loop variable names**
-5. **Use `next`** to skip iterations instead of deep nesting
-6. **Use ranges** for numeric sequences
-7. **Consider `.upto`, `.downto`, `.step`** for readability
-
-## Common Patterns
+### Paginating API results
 
 ```ruby
-# Loop with counter
-counter = 0
+results = []
+page = 1
+
 loop do
-  counter += 1
-  break if counter > 10
-end
+  batch = api.fetch(page: page)
+  break if batch.empty?
 
-# Loop until user quits
-loop do
-  puts "Menu: 1) Option A  2) Option B  3) Quit"
-  choice = gets.chomp.to_i
-  break if choice == 3
-  # Handle other choices
-end
-
-# Retry pattern
-attempts = 0
-max_attempts = 3
-
-until success || attempts >= max_attempts
-  result = try_operation
-  attempts += 1
+  results.concat(batch)
+  page += 1
 end
 ```
 
-## Key Takeaways
+### Stream processing with lazy enumerators
 
-- `while` loops continue while condition is true
-- `until` loops continue until condition is true
-- `for` loops iterate over collections (rarely used in Ruby)
-- `.times` repeats code a specific number of times
-- `break` exits loop, `next` skips iteration, `redo` repeats
-- Ranges provide elegant iteration: `1..10`, `1.upto(10)`
-- Always have an exit condition to prevent infinite loops
-- Ruby developers prefer iterators over traditional loops
+```ruby
+File.foreach("logs/access.log")
+    .lazy
+    .select { |line| line.include?("ERROR") }
+    .take(20)
+    .each { |line| puts line }
+```
 
-## Practice
+## Guided practice
 
-Try these exercises:
+1. **Inventory reconciliation**
+   - Iterate through a `products` array, each with `:expected` and `:actual` counts.
+   - Print discrepancies and accumulate the total difference.
+   - Exit early if a product is missing (`:actual` is `nil`) and log a warning.
 
-1. Print all numbers from 1 to 100
-2. Calculate factorial of a number using a loop
-3. Create FizzBuzz: print numbers 1-100, but "Fizz" for multiples of 3, "Buzz" for 5, "FizzBuzz" for both
-4. Find all prime numbers up to 50
-5. Build a number guessing game with limited attempts
+2. **Retry with exponential backoff**
+   - Write `attempt_with_retry(max_attempts: 5)` that yields to a block.
+   - Retry until the block returns truthy or attempts are exhausted.
+   - Use `sleep(2**attempt)` between tries and return the successful value via `break`.
+
+3. **Chunked processing**
+   - Given an array of 10,000 integers, process them in slices of 250.
+   - Use `each_slice` to handle a chunk, compute its sum, and append to `chunk_sums`.
+   - Verify that the total of `chunk_sums` matches the sum of the original array.
+
+4. **Lazy Fibonacci generator**
+   - Implement `fibonacci = Enumerator.new { |y| ... }` to generate the sequence.
+   - Use `lazy` to stream the first 15 numbers greater than 1,000.
+
+5. **Matrix transposition**
+   - Build `transpose(matrix)` using nested loops or `zip`.
+   - Ensure the function works for square and rectangular matrices.
+
+## Self-check questions
+
+1. When would you choose `while` over `loop { ... break }`?
+2. How does `break value` influence the return value of a loop expression?
+3. Why might `Enumerator::Lazy` be preferable when reading very large files?
+4. How can you exit two nested loops without using a flag variable?
+5. What are the trade-offs between inline loop modifiers and multiline loops?
+
+Loops are everywhere in Ruby—data pipelines, background jobs, command-line tools, even inside framework internals. Mastery comes from choosing the right construct, naming intent clearly, and building guardrails against infinite runs or runaway memory. Practice the scenarios above, experiment with enumerators, and profile long-running code to keep your iterations lean and expressive.

@@ -1,60 +1,135 @@
 # Organising Lookups with `std::map`
 
-`std::map` keeps key-value pairs sorted by key and provides logarithmic lookup, insertion, and removal. It is perfect when you want deterministic ordering alongside efficient searches.
+`std::map` stores key-value pairs in sorted order and guarantees logarithmic-time lookups, insertions, and removals. This lesson explores map fundamentals, iteration patterns, comparison with other associative containers, and best practices for safe updates.
 
-## Declaring maps
+## Learning goals
 
-Include &lt;map&gt; and choose types for both the key and the value:
+- Declare maps with the proper key/value types and initialise them flexibly.
+- Insert, update, and query entries without accidentally creating defaults.
+- Iterate in sorted order and perform aggregations on values.
+- Choose between `std::map`, `std::unordered_map`, and `std::multimap` for different workloads.
+- Manage custom comparison rules when the default key ordering is not enough.
+
+## Declaring and initialising maps
+
+Include `<map>` and specify the key/value types:
 
 ```cpp
 #include <map>
+#include <string>
 
 std::map<std::string, int> fruitCounts;
 std::map<char, double> grades{{'A', 4.0}, {'B', 3.0}};
 ```
 
-Keys are unique. Writing to `map[key]` inserts the key if it does not already exist.
+- Keys must be unique and comparable using `operator<` by default.
+- Use brace initialisers to seed data. Missing keys will be inserted automatically if you access them with `operator[]`.
 
-## Adding or updating entries
+## Inserting and updating entries
 
-Use the subscript operator or `insert` to add items:
-
-```cpp
-fruitCounts["apple"] = 12;       // inserts or updates
-fruitCounts.insert({"pear", 6});  // does nothing if the key exists
-```
-
-`operator[]` default-constructs missing values. For read-only access, prefer `at` which throws for missing keys.
-
-## Iterating in order
-
-`std::map` iterates in ascending key order. Ranged-for loops expose each key-value pair:
+- `map[key] = value;` inserts or overwrites. It default-constructs a value when the key is new.
+- `at(key)` accesses without insertion and throws `std::out_of_range` if the key is missing.
+- `insert({key, value})` adds only when the key does not exist, returning a pair with an iterator and a success flag.
+- `emplace(key, value)` constructs the element in place without extra copies.
 
 ```cpp
-for (const auto &entry : fruitCounts) {
-    std::cout << entry.first << " -> " << entry.second << '\n';
+fruitCounts["apple"] = 12;                 // insert or update
+auto [pos, inserted] = fruitCounts.insert({"pear", 6});
+if (!inserted) {
+    pos->second += 3; // pear already existed; update value
+}
+
+try {
+    int bananas = fruitCounts.at("banana");
+} catch (const std::out_of_range&) {
+    std::cout << "No bananas tracked yet.\n";
 }
 ```
 
-To change values while iterating, drop the `const` on the reference.
+## Iterating in order
 
-## Counting and aggregating
+Maps maintain ascending key order (based on `operator<` or a custom comparator). Iterate with ranged-for loops:
 
-Combine `map::size()` with &lt;numeric&gt; algorithms to compute summary metrics. `std::accumulate` works with iterator pairs, so you can sum the values by accumulating over the map and adding `entry.second`.
+```cpp
+for (const auto& [fruit, count] : fruitCounts) {
+    std::cout << fruit << " -> " << count << '\n';
+}
+```
+
+Structured bindings (C++17) unpack keys and values elegantly. Omit `const` when you need to mutate values during iteration.
+
+## Searching and erasing
+
+- `find(key)` returns an iterator to the entry or `end()` if not found.
+- `contains(key)` (C++20) returns a boolean.
+- `erase(iterator)` or `erase(key)` removes entries.
+
+```cpp
+if (auto it = fruitCounts.find("apple"); it != fruitCounts.end()) {
+    std::cout << "Apples tracked: " << it->second << '\n';
+}
+
+fruitCounts.erase("pear");
+```
+
+## Aggregating values
+
+Combine map iteration with `<numeric>` to compute summaries:
 
 ```cpp
 #include <numeric>
 
-auto total = std::accumulate(fruitCounts.begin(), fruitCounts.end(), 0,
-    [](int sum, const auto &entry) { return sum + entry.second; });
+int total = std::accumulate(
+    fruitCounts.begin(), fruitCounts.end(), 0,
+    [](int sum, const auto& entry) { return sum + entry.second; });
 ```
 
-## Practice Time
+You can also transform values into a vector for statistical analysis or export.
 
-1. Read a handful of key/value pairs from the user and store them in a `std::map`.
-2. Print each entry as `key -> value`, proving that the map keeps keys sorted.
-3. Report how many unique keys you collected with `map::size()`.
-4. Use `std::accumulate` (or a loop) to total the values and present the result to the user.
-5. Consider how the map's ordering and logarithmic lookups help whenever you need quick searches.
+## Choosing the right associative container
 
-When you are comfortable with maps, tackle the exercise to reinforce the pattern.
+- `std::map`: ordered, balanced tree, iterators stay valid after inserts, logarithmic complexity.
+- `std::unordered_map`: hash table, average constant-time operations, no ordering, invalidates iterators on rehash.
+- `std::multimap`: allows duplicate keys.
+
+Choose based on whether deterministic ordering or maximal throughput matters most.
+
+## Custom comparators
+
+Provide a comparator type when you need non-standard ordering:
+
+```cpp
+#include <algorithm>
+#include <cctype>
+
+struct CaseInsensitiveLess {
+    bool operator()(const std::string& lhs, const std::string& rhs) const {
+        return std::lexicographical_compare(
+            lhs.begin(), lhs.end(), rhs.begin(), rhs.end(),
+            [](unsigned char a, unsigned char b) {
+                return std::tolower(a) < std::tolower(b);
+            });
+    }
+};
+
+std::map<std::string, int, CaseInsensitiveLess> inventory;
+```
+
+Use `std::tolower` from `<cctype>` and guard conversions to avoid undefined behaviour.
+
+## Practice time
+
+1. **Inventory counter:** Read `item quantity` pairs until EOF, update a `std::map<std::string, int>`, and print totals sorted alphabetically.
+2. **Frequency analysis:** Count character frequencies in a string using a map. Use `contains` or `find` to avoid default-inserting for read-only queries.
+3. **Leaderboard:** Maintain a score map where inserting a new score updates the existing total if the player already exists. Print the map in reverse order using `std::map::reverse_iterator`.
+4. **Case-insensitive lookup:** Implement the custom comparator above and verify that `"Apple"` and `"apple"` land in the same bucket.
+
+## Self-check questions
+
+1. What is the complexity of inserting into `std::map`, and why?
+2. When would you prefer `at()` to `operator[]`?
+3. How do you remove an entry safely while iterating?
+4. What trade-offs push you toward `std::unordered_map` instead?
+5. How does a custom comparator change iteration order, and what constraints must it satisfy?
+
+Answer these before moving on to see how algorithms and other containers complement maps in real programs.

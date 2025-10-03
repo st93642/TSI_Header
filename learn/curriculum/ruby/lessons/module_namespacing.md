@@ -1,10 +1,16 @@
 # Lesson 8.5: Module Namespacing
 
-## Overview
+Modules are the primary tool for namespacing in Ruby. By grouping related constants, classes, and methods under a module, you avoid collisions, communicate ownership, and make large codebases navigable. This lesson focuses on structuring namespaces effectively, loading namespaced code, and balancing nesting depth with clarity.
 
-Modules in Ruby serve two main purposes: as **mixins** (adding behavior to classes) and as **namespaces** (organizing code and preventing name conflicts). Namespacing allows you to group related classes, constants, and methods under a common module name.
+## Learning goals
 
-## Basic Namespacing
+- Define modules to group related code and prevent constant collisions.
+- Understand how constant lookup works inside nested modules.
+- Organize directory structures that align with namespace hierarchies.
+- Leverage autoloading (`require`, `require_relative`, `autoload`) alongside namespaced modules.
+- Adopt naming conventions and patterns that scale in large applications.
+
+## Core namespacing pattern
 
 ```ruby
 module Graphics
@@ -21,144 +27,109 @@ module Graphics
   end
 end
 
-# Access classes through the module namespace
-circle = Graphics::Circle.new
-square = Graphics::Square.new
-
-puts circle.draw  # => "Drawing a circle"
-puts square.draw  # => "Drawing a square"
+Graphics::Circle.new.draw
 ```
 
-## Constants in Namespaces
+Here, `Graphics::Circle` and `Graphics::Square` live under the `Graphics` namespace. Ruby stores both classes as constants `Circle` and `Square` on the `Graphics` module object.
+
+## Constant lookup in nested modules
+
+Ruby resolves constants by scanning the lexical scope first, then the ancestors of the current class/module, and finally `Object`. Nested modules narrow the lookup to the namespace you intend.
 
 ```ruby
-module MathConstants
+module Math
   PI = 3.14159
-  E = 2.71828
 
-  module Trigonometry
+  module Trig
     def self.sin(x)
-      # Simplified implementation
-      x - (x**3)/6
+      # use namespaced constant
+      x - (x**3) / 6.0
     end
   end
 end
 
-puts MathConstants::PI        # => 3.14159
-puts MathConstants::E         # => 2.71828
-puts MathConstants::Trigonometry.sin(0.5)  # => 0.479166
+Math::Trig.sin(0.5)
 ```
 
-## Nested Modules
+Access nested constants with `::`: `Math::Trig` or `Math::PI`. Use `::PI` for top-level constants.
+
+`Module.nesting` shows the current lexical namespace stack—helpful when debugging constant resolution.
+
+## Deep namespaces and directory structure
+
+Mirroring namespaces in the filesystem keeps autoloaders and future maintainers happy.
+
+```text
+app/
+  services/
+    payments/
+      charge.rb   # defines Services::Payments::Charge
+```
+
+File `charge.rb`:
 
 ```ruby
-module Company
-  module HR
-    class Employee
-      attr_reader :name, :department
-
-      def initialize(name, department)
-        @name = name
-        @department = department
-      end
-    end
-
-    module Payroll
-      def self.calculate_salary(employee)
-        base_salary = 50000
-        department_bonus = employee.department == "Engineering" ? 10000 : 0
-        base_salary + department_bonus
-      end
-    end
-  end
-
-  module IT
-    class Server
-      def initialize(name)
-        @name = name
+module Services
+  module Payments
+    class Charge
+      def call
+        # implementation
       end
     end
   end
 end
-
-employee = Company::HR::Employee.new("Alice", "Engineering")
-puts Company::HR::Payroll.calculate_salary(employee)  # => 60000
-
-server = Company::IT::Server.new("web-server-01")
 ```
 
-## Avoiding Name Conflicts
+Tools like Zeitwerk (used by Rails) expect `Services::Payments::Charge` to live at `services/payments/charge.rb`. Following this convention avoids load errors.
 
-Namespacing prevents conflicts between similarly named classes:
+## Avoiding name collisions
+
+Namespacing lets identical class names coexist without interfering.
 
 ```ruby
 module Blog
-  class Post
-    def initialize(title)
-      @title = title
-    end
-
-    def publish
-      "Published blog post: #{@title}"
-    end
-  end
+  class Post; end
 end
 
-module SocialMedia
-  class Post
-    def initialize(content)
-      @content = content
-    end
-
-    def publish
-      "Posted to social media: #{@content}"
-    end
-  end
+module Social
+  class Post; end
 end
 
-# No conflict between these classes
-blog_post = Blog::Post.new("Ruby Namespacing")
-social_post = SocialMedia::Post.new("Check out this Ruby tip!")
-
-puts blog_post.publish
-puts social_post.publish
+Blog::Post.new
+Social::Post.new
 ```
 
-## Module Functions as Namespaces
+Each `Post` is distinct because it lives under a different module.
+
+## Module functions and singleton methods
+
+Modules can expose functionality via module (singleton) methods without becoming mixins.
 
 ```ruby
 module StringUtils
-  def self.capitalize_words(text)
-    text.split.map(&:capitalize).join(' ')
-  end
+  module_function
 
-  def self.truncate(text, length)
-    text.length > length ? text[0...length] + "..." : text
-  end
-
-  def self.slugify(text)
-    text.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')
+  def slugify(text)
+    text.downcase.gsub(/[^a-z0-9]+/, "-").gsub(/^-|-$/, "")
   end
 end
 
-puts StringUtils.capitalize_words("hello world")  # => "Hello World"
-puts StringUtils.truncate("This is a long text", 10)  # => "This is a ..."
-puts StringUtils.slugify("Hello, World!")  # => "hello-world"
+StringUtils.slugify("Hello, World!")
 ```
 
-## Including Modules for Mixins
+`module_function` marks methods as both module-level and private instance methods when mixed in.
 
-Modules can be both namespaces and mixins:
+Alternatively, define methods as `self.method_name` to expose utilities within the namespace: `Services::Clock.now`.
+
+## Combining mixins with namespaces
+
+Modules can encapsulate shared behavior and namespaced classes side by side.
 
 ```ruby
 module Database
   module Connection
     def connect(url)
       @connection = "Connected to #{url}"
-    end
-
-    def disconnect
-      @connection = nil
     end
 
     def connected?
@@ -168,188 +139,123 @@ module Database
 
   class PostgreSQL
     include Connection
-
-    def initialize(url)
-      connect(url)
-    end
-  end
-
-  class MySQL
-    include Connection
-
-    def initialize(url)
-      connect(url)
-    end
   end
 end
 
-pg = Database::PostgreSQL.new("postgresql://localhost/mydb")
-mysql = Database::MySQL.new("mysql://localhost/mydb")
-
-puts pg.connected?     # => true
-puts mysql.connected?  # => true
+Database::PostgreSQL.new.connect("postgres://localhost")
 ```
 
-## Organizing Large Codebases
+Keep mixins near the classes that rely on them for quick discovery.
+
+## Autoloading namespaced code
+
+Explicit requires:
 
 ```ruby
-module Ecommerce
-  module Models
-    class Product
-      attr_reader :name, :price
+require_relative "services/payments/charge"
 
-      def initialize(name, price)
-        @name = name
-        @price = price
-      end
-    end
+Services::Payments::Charge.new.call
+```
 
-    class Order
-      def initialize
-        @items = []
-      end
+Lazy loading via `Module#autoload`:
 
-      def add_item(product, quantity = 1)
-        @items << { product: product, quantity: quantity }
-      end
-    end
-  end
-
-  module Services
-    class PaymentProcessor
-      def process(order)
-        "Processing payment for order with #{order.items.size} items"
-      end
-    end
-
-    class ShippingCalculator
-      def calculate(order)
-        base_cost = 5.99
-        item_cost = order.items.size * 2.50
-        base_cost + item_cost
-      end
-    end
-  end
-
-  module Controllers
-    class OrdersController
-      def create
-        product = Models::Product.new("Laptop", 999.99)
-        order = Models::Order.new
-        order.add_item(product)
-
-        payment_result = Services::PaymentProcessor.new.process(order)
-        shipping_cost = Services::ShippingCalculator.new.calculate(order)
-
-        "Order created: #{payment_result}, Shipping: $#{shipping_cost}"
-      end
-    end
-  end
+```ruby
+module Services
+  autoload :Invoice, "services/invoice"
 end
 
-controller = Ecommerce::Controllers::OrdersController.new
-puts controller.create
+Services::Invoice.new # loads file when first accessed
 ```
 
-## Requiring Namespaced Code
+In frameworks with autoloading (Rails, Hanami), follow naming conventions and let the loader manage `require` statements.
+
+## Versioning and API boundaries
+
+Namespaces excel at isolating versions or feature slices.
 
 ```ruby
-# In file: lib/my_gem.rb
-module MyGem
-  VERSION = "1.0.0"
-
-  class Client
-    def initialize(api_key)
-      @api_key = api_key
-    end
-
-    def fetch_data
-      "Data fetched with API key: #{@api_key}"
-    end
-  end
-end
-
-# Usage
-require 'my_gem'
-
-client = MyGem::Client.new("secret-key")
-puts client.fetch_data
-```
-
-## Best Practices
-
-1. **Use consistent naming**: Module names should be descriptive and follow Ruby conventions
-2. **Avoid deep nesting**: Don't nest modules more than 2-3 levels deep
-3. **Group related functionality**: Keep related classes and modules together
-4. **Use :: for access**: Prefer `Module::Class` over including everything
-5. **Document your namespaces**: Make module purposes clear
-
-```ruby
-# Good: Clear namespace structure
 module API
   module V1
     class UsersController; end
-    class PostsController; end
   end
 
   module V2
     class UsersController; end
-    class PostsController; end
   end
 end
-
-# Access specific versions
-users_v1 = API::V1::UsersController.new
-users_v2 = API::V2::UsersController.new
 ```
 
-## Common Patterns
+Controllers remain independent yet share a logical grouping. This approach simplifies gradual upgrades.
 
-### Service Objects Pattern
+## Namespacing and gems
+
+Gem authors wrap public classes inside a root module to prevent collisions.
 
 ```ruby
-module Services
-  class UserRegistration
-    def self.call(user_params)
-      user = Models::User.new(user_params)
-      if user.valid?
-        Repositories::UserRepository.save(user)
-        Notifications::EmailService.send_welcome(user)
-        { success: true, user: user }
-      else
-        { success: false, errors: user.errors }
-      end
-    end
-  end
+module MyGem
+  class Client; end
 end
 
-# Usage
-result = Services::UserRegistration.call(name: "Alice", email: "alice@example.com")
+MyGem::Client.new
 ```
 
-### Configuration Pattern
+The top-level file typically sets up the namespace and requires additional files: `require "my_gem/client"` etc.
+
+## Guarding privacy with `private_constant`
+
+Hide implementation details by keeping helper classes private to a namespace.
 
 ```ruby
-module MyApp
-  module Config
-    DATABASE_URL = ENV.fetch('DATABASE_URL', 'sqlite://db.sqlite3')
-    REDIS_URL = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
+module Payments
+  class TokenSigner; end
+  private_constant :TokenSigner
 
-    module Development
-      DEBUG = true
-      LOG_LEVEL = :debug
-    end
-
-    module Production
-      DEBUG = false
-      LOG_LEVEL = :warn
-    end
+  def self.sign(payload)
+    TokenSigner.new.call(payload)
   end
 end
 
-# Usage
-puts MyApp::Config::DATABASE_URL
-puts MyApp::Config::Development::DEBUG
+# Payments::TokenSigner # => NameError
 ```
 
-Modules provide powerful namespacing capabilities that help organize large Ruby applications and prevent naming conflicts. They create clear boundaries and make code more maintainable and understandable.
+This keeps your external API intentional and malleable.
+
+## Guidelines for healthy namespaces
+
+- **Choose descriptive module names.** Favor `Billing::Invoices` over `BI`.
+- **Keep nesting shallow.** Two to three levels is usually enough; deeper trees impede discovery.
+- **Align directories with namespaces.** Autoloaders and human readers expect this convention.
+- **Avoid polluting the global namespace.** Wrap top-level behavior in a root module (`MyApp`).
+- **Document module responsibilities.** A short YARD docstring or comment prevents guesswork.
+
+## Guided practice
+
+1. **Service grouping**
+   - Create `Ecommerce::Services::PaymentProcessor` and `Ecommerce::Services::ShippingCalculator` in separate files.
+   - Ensure `require_relative` or autoload wires them correctly from a small runner script.
+
+2. **Versioned API**
+   - Implement `API::V1::OrdersController` and `API::V2::OrdersController` with different response shapes.
+   - Build a router that dispatches based on version parameter using `const_get`.
+
+3. **Feature isolation**
+   - Create `Features::Checkout` and `Features::Profile` modules. Each should expose a `.enabled?` method reading from environment variables.
+   - Hide helper constants behind `private_constant`.
+
+4. **Autoload experiment**
+   - Define a namespace `Analytics` with `autoload :Reporter, "analytics/reporter"`.
+   - Verify the file is only loaded when `Analytics::Reporter` is referenced.
+
+5. **Constant lookup exploration**
+   - Inside a nested namespace, define constants with duplicate names (`Status`) at different levels.
+   - Use `Module.nesting` and `ancestors` prints to show which `Status` Ruby resolves.
+
+## Self-check questions
+
+1. How does Ruby determine which constant to use when names are duplicated across modules?
+2. Why should directory structure mirror namespace structure, especially in autoloaded projects?
+3. When might you favor modules with singleton methods (`module_function`) over classes?
+4. How can `private_constant` help maintain a clean public API inside a namespace?
+5. What are the pros and cons of deep namespace hierarchies, and how do you keep them manageable?
+
+Thoughtful namespacing keeps Ruby codebases intuitive as they grow. Group related components, expose clear APIs, and lean on modules to prevent naming conflicts while maintaining a discoverable structure.
