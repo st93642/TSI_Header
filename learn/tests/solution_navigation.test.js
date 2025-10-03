@@ -60,7 +60,9 @@ function loadCurriculum(language) {
         'basic_exceptions_cpp',
         'exception_safety_cpp',
         'file_streams_cpp',
-        'priority_queues_heaps_cpp'
+    'priority_queues_intro_cpp',
+    'priority_queues_heaps_cpp',
+    'union_find_disjoint_sets_cpp'
     ];
 
     for (let index = 0; index < expectedSequence.length - 1; index++) {

@@ -206,9 +206,21 @@
       "description": "Apply advanced data structures and algorithmic patterns to solve performance-critical problems in modern C++.",
       "lessons": [
         {
+          "id": "priority_queues_intro_cpp",
+          "title": "Lesson 11.0: Launching Advanced Data Structures",
+          "duration": 65,
+          "difficulty": "advanced"
+        },
+        {
           "id": "priority_queues_heaps_cpp",
           "title": "Lesson 11.1: Heaps and Priority Queues",
           "duration": 75,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "union_find_disjoint_sets_cpp",
+          "title": "Lesson 11.2: Union-Find and Disjoint Set Optimisation",
+          "duration": 80,
           "difficulty": "advanced"
         }
       ]

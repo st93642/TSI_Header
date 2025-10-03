@@ -1,0 +1,69 @@
+{
+  "exerciseId": "priority_queues_intro_cpp_exercise",
+  "languageId": "cpp",
+  "mode": "quiz",
+  "explanation": "This answer key reinforces the invariants, diagnostic habits, and adaptor insights introduced in Lesson 11.0 so learners can self-correct before attempting more complex heap mechanics.",
+  "answerKey": [
+    {
+      "questionId": "pq_intro_invariant_pair",
+      "answers": ["option_b", "option_c"],
+      "rationale": "Heaps rely on completeness plus comparator-dominant parents. Perfect balance and sibling ordering are not required." }
+    ,
+    {
+      "questionId": "pq_intro_index_math",
+      "answers": ["option_b"],
+      "rationale": "The demonstration code subtracts one, halves the result, and floors it via integer arithmetic." }
+    ,
+    {
+      "questionId": "pq_intro_adapter_surface",
+      "answers": ["option_b"],
+      "rationale": "Iterators would expose raw references to elements, enabling mutations that could violate the heap property." }
+    ,
+    {
+      "questionId": "pq_intro_warmup",
+      "answers": ["false"],
+      "rationale": "The comparator first inspects integer priority; alphabetical ordering only resolves ties." }
+    ,
+    {
+      "questionId": "pq_intro_streaming",
+      "answers": ["option_b"],
+      "rationale": "Keeping a min-heap of the current champions makes it trivial to evict the weakest of the top ten." }
+    ,
+    {
+      "questionId": "pq_intro_diagnostics",
+      "answers": ["option_a", "option_b"],
+      "rationale": "Skipping stale entries and validating comparator symmetry were the two checklist items covering stale entry defence." }
+    ,
+    {
+      "questionId": "pq_intro_adapter_flow",
+      "answers": ["option_b"],
+      "rationale": "The diagram highlights comparator logic flowing into the adaptor to govern ordering." }
+    ,
+    {
+      "questionId": "pq_intro_make_heap",
+      "answers": ["true"],
+      "rationale": "Bottom-up heapify touches each level proportionally, yielding O(n) build time." }
+    ,
+    {
+      "questionId": "pq_intro_observability",
+      "answers": ["option_b"],
+      "rationale": "Copy-by-value creates a temporary heap, enabling safe logging without mutating live data." }
+    ,
+    {
+      "questionId": "pq_intro_scenario_dispatch",
+      "answers": ["option_b"],
+      "rationale": "Creation timestamps enforce FIFO fairness when severity is equal." }
+  ],
+  "keyPoints": [
+    "Completeness plus comparator dominance define heap legality.",
+    "Index arithmetic ((i - 1) / 2, 2i + 1, 2i + 2) underpins efficient navigation.",
+    "Restricting adaptor access prevents invariant-breaking mutations.",
+    "Comparator tie-breakers must be deterministic to avoid stall conditions.",
+    "Logging via heap copies gives observability without risk.",
+    "Min-heaps of fixed size excel at maintaining top-k sets.",
+    "Stale-entry defences rely on guard clauses and comparator audits.",
+    "Bottom-up heap construction is linear-time.",
+    "Telemetry helps verify scheduling fairness in real time.",
+    "Lesson 11.0 establishes the mental toolkit needed for deeper heap operations."
+  ]
+}

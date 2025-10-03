@@ -80,4 +80,13 @@
 		- The VS Code tree view reflects this structure; completing an exercise updates progress and unlocks the next node.
 		- Lesson content + exercises use shared IDs so telemetry, persistence, and hint throttling remain consistent.
 		- Any new asset must respect this chain: curriculum entry → Markdown lesson → exercise JSON → starter file → solution JSON → tests.
+8. **Module 11 lesson + quiz playbook**
+	- Use this checklist when expanding the Data Structures & Algorithms module so future agents stay aligned:
+		1. **TDD first** – update or add a targeted test (for example `TEST_Suite/test_learn_cpp_module11.rb`) that asserts the new lesson ID, Markdown, exercise, and solution exist. Run it to verify failure before you implement.
+		2. **Curriculum wiring** – append the lesson to `learn/curriculum/cpp/curriculum.json`, keeping numbering sequential (11.x), durations realistic, and difficulty justified.
+		3. **Markdown authoring** – create `learn/curriculum/cpp/lessons/<lesson_id>.md` with at least 500 lines, deep theory, guided walkthroughs, self-checks, and a `## Practice Time` section. Prefer bullet lists over tables for stable rendering. Add images and diagrams as needed, fetch online resources.
+		4. **Exercise JSON** – publish `learn/curriculum/cpp/exercises/<lesson_id>_exercise.json` that mirrors lesson outcomes. Include escaped `starterCode` with `TODO` markers, numbered steps, hints, and either a 10-question quiz or a code task with automated tests.
+		5. **Solution JSON** – mirror the exercise in `learn/curriculum/cpp/solutions/<lesson_id>_exercise.json`, providing the canonical answer, an explanation, and a `keyPoints` array (or `answerKey` for quizzes).
+		6. **Regression sweep** – run `ruby TEST_Suite/test_learn_cpp_module11.rb` followed by `ruby TEST_Suite/test_learn_module.rb`; fix escaping or metadata mismatches immediately.
+		7. **Packaging reminder** – when asked to refresh locally, rebuild and reinstall via `npm run compile`, `npx vsce package`, and `code --install-extension <vsix>` so Module 11 updates ship inside the extension.
 

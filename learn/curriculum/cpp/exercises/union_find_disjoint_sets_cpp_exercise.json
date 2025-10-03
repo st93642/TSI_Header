@@ -1,0 +1,28 @@
+{
+  "id": "union_find_disjoint_sets_cpp_exercise",
+  "mode": "code",
+  "title": "Implement Union-Find with Path Compression",
+  "description": "Build a reusable disjoint-set forest that maintains dynamic connectivity with union-by-rank and path compression. Your program must read commands from standard input and print answers for connectivity and size queries.\n\nSteps:\n1. Implement a `DisjointSetForest` class that stores parent, rank (or size), and component size metadata.\n2. Expose member functions `find`, `unite`, `connected`, and `componentSize`. Apply path compression inside `find` and union-by-rank (or size) within `unite`.\n3. In `main`, read the number of nodes `n` and the number of operations `q`. Process each command: `UNION a b`, `CHECK a b`, or `SIZE x`.\n4. Print `YES` or `NO` for connectivity checks and the component size for `SIZE` queries. Maintain 0-based indices to match the lesson code.\n\nExpected output/results: The sample tests demonstrate the required formatting and query behaviour.",
+  "tags": ["cpp", "data-structures", "union-find", "disjoint-set"],
+  "starterCode": "#include <iostream>\n#include <string>\n#include <vector>\n\nclass DisjointSetForest {\npublic:\n    explicit DisjointSetForest(std::size_t n)\n        : parent_(n), rank_(n, 0), component_size_(n, 1), components_(n) {\n        // TODO: initialise each node to be its own parent\n        // for (std::size_t i = 0; i < n; ++i) {\n        //     parent_[i] = i;\n        // }\n    }\n\n    std::size_t find(std::size_t node) {\n        // TODO: implement path compression\n        return node;\n    }\n\n    bool unite(std::size_t a, std::size_t b) {\n        // TODO: find roots, merge by rank, update component sizes and component count\n        return false;\n    }\n\n    bool connected(std::size_t a, std::size_t b) {\n        // TODO: determine whether two nodes share a representative\n        return false;\n    }\n\n    std::size_t componentSize(std::size_t node) {\n        // TODO: return the size of the set containing node\n        return 1;\n    }\n\n    std::size_t components() const {\n        return components_;\n    }\n\nprivate:\n    std::vector<std::size_t> parent_;\n    std::vector<std::size_t> rank_;\n    std::vector<std::size_t> component_size_;\n    std::size_t components_;\n};\n\nint main() {\n    std::ios::sync_with_stdio(false);\n    std::cin.tie(nullptr);\n\n    std::size_t n, q;\n    if (!(std::cin >> n >> q)) {\n        return 0;\n    }\n    DisjointSetForest dsu(n);\n\n    while (q--) {\n        std::string op;\n        std::cin >> op;\n        if (op == \"UNION\") {\n            std::size_t a, b;\n            std::cin >> a >> b;\n            // TODO: join the sets containing a and b\n        } else if (op == \"CHECK\") {\n            std::size_t a, b;\n            std::cin >> a >> b;\n            // TODO: output \"YES\" or \"NO\"\n        } else if (op == \"SIZE\") {\n            std::size_t node;\n            std::cin >> node;\n            // TODO: output the size of the component containing node\n        }\n    }\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "Basic unions and checks",
+      "type": "output",
+      "input": "5 5\nUNION 0 1\nUNION 2 3\nCHECK 0 1\nCHECK 1 2\nSIZE 3\n",
+      "expected": "YES\nNO\n2\n"
+    },
+    {
+      "name": "Chained unions with sizes",
+      "type": "output",
+      "input": "6 7\nUNION 0 1\nUNION 1 2\nUNION 4 5\nCHECK 0 2\nCHECK 3 4\nUNION 2 4\nSIZE 5\n",
+      "expected": "YES\nNO\n4\n"
+    }
+  ],
+  "hints": [
+    "Store parent pointers and ranks (or sizes) in parallel vectors.",
+    "Path compression should assign parent[node] to the representative returned by the recursive call.",
+    "When merging, attach the shallower tree under the deeper tree and keep ranks in sync.",
+    "Maintain component counts and sizes so SIZE queries return accurate values."
+  ]
+}

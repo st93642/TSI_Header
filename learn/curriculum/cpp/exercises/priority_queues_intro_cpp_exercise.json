@@ -1,0 +1,119 @@
+{
+  "id": "priority_queues_intro_cpp_exercise",
+  "mode": "quiz",
+  "title": "Quiz: Launching Advanced Data Structures",
+  "description": "Solidify the concepts from Lesson 11.0 before tackling heap internals.\n\nSteps:\n1. Read each question carefully; reflect on the invariants and workflows introduced in the lesson.\n2. Select the best answer(s) for each prompt. Some questions require multiple selections.\n3. Use the explanations after submission to revisit sections of the lesson if needed.\n\nExpected results: Answer at least 7 out of 10 questions correctly to mark the quiz as complete.",
+  "tags": ["cpp", "data-structures", "priority-queue", "quiz"],
+  "passScore": 7,
+  "questions": [
+    {
+      "id": "pq_intro_invariant_pair",
+      "type": "multiple",
+      "prompt": "Select the two structural invariants that define a binary heap as described in Lesson 11.0.",
+      "options": [
+        { "id": "option_a", "text": "The tree must be perfectly balanced with equal height on both sides." },
+        { "id": "option_b", "text": "Every level except possibly the last one is full and the last level is filled left to right.", "correct": true },
+        { "id": "option_c", "text": "Every parent compares as dominant over its children according to the comparator.", "correct": true },
+        { "id": "option_d", "text": "All siblings must appear in ascending order." }
+      ],
+      "explanation": "Lesson 11.0 emphasises completeness plus the heap-order property as the defining invariants." }
+    ,
+    {
+      "id": "pq_intro_index_math",
+      "type": "single",
+      "prompt": "In the lesson's index demo, what formula maps a node index i (i > 0) to its parent in a 0-indexed heap array?",
+      "options": [
+        { "id": "option_a", "text": "i / 2" },
+        { "id": "option_b", "text": "(i - 1) / 2", "correct": true },
+        { "id": "option_c", "text": "2 * i + 1" },
+        { "id": "option_d", "text": "(i + 1) / 2" }
+      ],
+      "explanation": "Subtract one to remove the left-child offset, then halve to move up one level." }
+    ,
+    {
+      "id": "pq_intro_adapter_surface",
+      "type": "single",
+      "prompt": "Why does std::priority_queue deliberately avoid exposing iterators, according to the lesson's adaptor section?",
+      "options": [
+        { "id": "option_a", "text": "Iterators would make the adaptor slower due to extra virtual calls." },
+        { "id": "option_b", "text": "Iterators would allow arbitrary mutation that could violate the heap invariant.", "correct": true },
+        { "id": "option_c", "text": "Iterators are unnecessary because the container always holds at most one element." },
+        { "id": "option_d", "text": "Iterators would force the container to become node-based." }
+      ],
+      "explanation": "Restricting the surface area keeps the heap invariant safe; iteration would enable unsupervised edits." }
+    ,
+    {
+      "id": "pq_intro_warmup",
+      "type": "truefalse",
+      "prompt": "True or False: The lesson's warm-up practice uses a comparator that sorts tasks alphabetically before considering priority.",
+      "answer": "false",
+      "explanation": "The comparator first compares the integer priority; lexicographical ordering only breaks ties after priority is equal." }
+    ,
+    {
+      "id": "pq_intro_streaming",
+      "type": "single",
+      "prompt": "When maintaining a top-10 leaderboard as described, what container configuration does the lesson recommend?",
+      "options": [
+        { "id": "option_a", "text": "A max-heap of size 10 that stores the highest scores." },
+        { "id": "option_b", "text": "A min-heap of size 10 that ejects the smallest score when a better one arrives.", "correct": true },
+        { "id": "option_c", "text": "A deque where new scores push_front and old scores pop_back." },
+        { "id": "option_d", "text": "A sorted list that stores every score ever seen." }
+      ],
+      "explanation": "A fixed-size min-heap keeps the worst of the current champions at the top, facilitating cheap replacement." }
+    ,
+    {
+      "id": "pq_intro_diagnostics",
+      "type": "multiple",
+      "prompt": "During heap debugging, which checklist items from the lesson help surface stale entries?",
+      "options": [
+        { "id": "option_a", "text": "Log whether stale entries are being skipped and confirm guards like if (dist > best) continue.", "correct": true },
+        { "id": "option_b", "text": "Ensure comparator branches include deterministic tie-breakers.", "correct": true },
+        { "id": "option_c", "text": "Freeze the underlying container to prevent reallocations." },
+        { "id": "option_d", "text": "Disable logging to keep the priority queue performant." }
+      ],
+      "explanation": "The lesson’s debugging journal highlights guard conditions and comparator audits as the primary stale-entry defences." }
+    ,
+    {
+      "id": "pq_intro_adapter_flow",
+      "type": "single",
+      "prompt": "According to the Adapter Flow diagram, which component feeds comparison logic into the adaptor?",
+      "options": [
+        { "id": "option_a", "text": "Telemetry hooks" },
+        { "id": "option_b", "text": "Comparator logic", "correct": true },
+        { "id": "option_c", "text": "Incoming events buffer" },
+        { "id": "option_d", "text": "Underlying allocator" }
+      ],
+      "explanation": "The visual highlights comparator logic as the channel that shapes ordering inside the adaptor." }
+    ,
+    {
+      "id": "pq_intro_make_heap",
+      "type": "truefalse",
+      "prompt": "True or False: Lesson 11.0 states that building a heap with std::make_heap runs in linear time.",
+      "answer": "true",
+      "explanation": "The structural discussion ties completeness to the O(n) bottom-up heapify cost." }
+    ,
+    {
+      "id": "pq_intro_observability",
+      "type": "single",
+      "prompt": "What purpose does the log_state helper serve in the observability section?",
+      "options": [
+        { "id": "option_a", "text": "It mutates the original heap to remove stale entries." },
+        { "id": "option_b", "text": "It copies the heap by value so you can inspect ordering without altering the live structure.", "correct": true },
+        { "id": "option_c", "text": "It replaces the comparator at runtime." },
+        { "id": "option_d", "text": "It swaps underlying containers between std::vector and std::deque." }
+      ],
+      "explanation": "Copying the heap allows snapshots for debugging without breaking the invariant in production code." }
+    ,
+    {
+      "id": "pq_intro_scenario_dispatch",
+      "type": "single",
+      "prompt": "In the incident response scenario, which tie-breaker keeps service order fair for tickets with identical severity?",
+      "options": [
+        { "id": "option_a", "text": "Ticket identifier ordering descending." },
+        { "id": "option_b", "text": "Creation timestamp ascending to prioritise earlier submissions.", "correct": true },
+        { "id": "option_c", "text": "Random shuffling to avoid bias." },
+        { "id": "option_d", "text": "String comparison on the ticket title." }
+      ],
+      "explanation": "Lesson 11.0’s comparator example breaks severity ties with the earliest creation timestamp so no urgent ticket waits behind a later twin." }
+  ]
+}
