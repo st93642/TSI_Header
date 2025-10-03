@@ -23,6 +23,10 @@
 	- Study Mode unit tests: `cd studyMode && npm test` (Node built-in runner executing `timer.test.js`).
 	- Build/preview the extension with `npm run compile` (Ruby `scripts/compile.rb` copies `core/src/extension.js` into `out/`); package via `npx vsce package`.
 	- `npm test` is wired to `node unified_test_suite.js`, which is currently absent—lean on the Ruby/Node suites above until that harness returns.
+	- **Escape-character regression (Oct 2025):** Unescaped control characters inside exercise JSON (`starterCode`, descriptions, hints) caused Learn Mode to crash at runtime and generated starter files with invalid C/C++ source. Fix by always emitting escaped newlines in JSON and letting `LearnManager.startExercise` materialize the starter on demand. Guard rails:
+		- `node learn/tests/exercise_escape_integrity.test.js` scans every exercise JSON for raw control characters and verifies `JSON.parse` still succeeds.
+		- `node learn/tests/learn_manager_starter_creation.test.js` spins up a temporary workspace and asserts the generated starter file exactly matches the escaped JSON payload.
+		- Both scripts are executed automatically when you run `ruby TEST_Suite/test_learn_module.rb`; keep them green whenever you touch exercises, starters, or LearnManager write paths.
 4. **Patterns to follow**
 	- Respect configuration precedence: VS Code settings → `git config` → `TSI_USERNAME/TSI_EMAIL`; use `TSICore.utils.getUserConfig` instead of custom lookups.
 	- Use `core.utils.detectLanguageFromExtension` when handling nonstandard extensions (`.erb`, `.vue`, `.h`, etc.).

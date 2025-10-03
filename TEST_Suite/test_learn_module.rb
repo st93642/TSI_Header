@@ -8,6 +8,7 @@
 
 require 'json'
 require 'pathname'
+require 'open3'
 
 # Minimal TestModule for standalone execution
 unless defined?(TestModule)
@@ -165,7 +166,7 @@ end
 
 class TestLearnModule < TestModule
   LANGUAGE_CONFIG = {
-    'c' => { language: 'C', starter_extension: '.c', require_starter_file: true },
+    'c' => { language: 'C', starter_extension: '.c', require_starter_file: false, auto_creates_starter: true },
     'cpp' => { language: 'C++', starter_extension: '.cpp', require_starter_file: false },
     'ruby' => { language: 'Ruby', starter_extension: '.rb', require_starter_file: true }
   }.freeze
@@ -174,10 +175,14 @@ class TestLearnModule < TestModule
     @repo_root = Pathname.new(__dir__).parent.expand_path
     @curriculum_cache = {}
 
-    total_tests = LANGUAGE_CONFIG.size * 4
+    total_tests = LANGUAGE_CONFIG.size * 4 + 4
     start_progress_bar(total_tests, 'Learn Modules')
 
-    index = 0
+  index = 0
+    run_test_with_progress('Exercise descriptions audit', total_tests, index += 1) { run_node_test('exercise_descriptions.test.js') }
+    run_test_with_progress('Solution navigation audit', total_tests, index += 1) { run_node_test('solution_navigation.test.js') }
+    run_test_with_progress('Exercise escape integrity', total_tests, index += 1) { run_node_test('exercise_escape_integrity.test.js') }
+    run_test_with_progress('LearnManager starter creation', total_tests, index += 1) { run_node_test('learn_manager_starter_creation.test.js') }
     LANGUAGE_CONFIG.each do |lang, lang_config|
       run_test_with_progress("#{lang_config[:language]} curriculum", total_tests, index += 1) { validate_curriculum(lang, lang_config) }
       run_test_with_progress("#{lang_config[:language]} lessons", total_tests, index += 1) { validate_lessons(lang, lang_config) }
@@ -211,6 +216,16 @@ class TestLearnModule < TestModule
     end
 
     true
+  end
+
+  def run_node_test(filename)
+    script_path = @repo_root.join('learn', 'tests', filename)
+    assert_file_exists(script_path, "Node test script missing: #{filename}")
+
+    stdout, stderr, status = Open3.capture3('node', script_path.to_s)
+    return true if status.success?
+
+    raise "#{filename} failed:\n#{stdout}#{stderr}"
   end
 
   def validate_lessons(lang, _lang_config)
@@ -266,6 +281,9 @@ class TestLearnModule < TestModule
         assert_file_exists(starter_path, "Starter code file missing for #{lang}/#{lesson_id}")
       elsif starter_path.exist? && starter_path.file?
         true
+      elsif lang_config[:auto_creates_starter]
+        assert(!starter_path.exist? || File.zero?(starter_path),
+               "Starter file for #{lang}/#{lesson_id} should be generated dynamically, but non-empty file is present")
       end
     end
 

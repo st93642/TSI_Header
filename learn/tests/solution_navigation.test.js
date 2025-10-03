@@ -46,10 +46,18 @@ function loadCurriculum(language) {
     assert(resolvedBeyondModule, 'Expected next lesson after variables module');
     assert.strictEqual(resolvedBeyondModule.id, 'arithmetic_input_cpp', 'Should continue to next chronological lesson');
 
-    const sequentialAfterFinal = learnManager.getLessonAfter(curriculum, 'header_basics_cpp');
-    assert.strictEqual(sequentialAfterFinal, null, 'Last lesson should not return a next lesson');
+    const sequentialAfterModuleFour = learnManager.getLessonAfter(curriculum, 'header_basics_cpp');
+    assert(sequentialAfterModuleFour, 'Lesson after Module 4 should exist');
+    assert.strictEqual(sequentialAfterModuleFour.id, 'vectors_cpp', 'Should advance to Module 5 after headers');
 
-    const resolvedAfterFinal = learnManager.getNextLessonForSolution(curriculum, progress, 'header_basics_cpp');
+    const sequentialAfterModuleFive = learnManager.getLessonAfter(curriculum, 'structs_cpp');
+    assert(sequentialAfterModuleFive, 'Lesson after Module 5 should exist');
+    assert.strictEqual(sequentialAfterModuleFive.id, 'maps_cpp', 'Should advance to Module 6 after structs');
+
+    const sequentialAfterFinal = learnManager.getLessonAfter(curriculum, 'stl_algorithms_cpp');
+    assert.strictEqual(sequentialAfterFinal, null, 'Final lesson should not return a next lesson');
+
+    const resolvedAfterFinal = learnManager.getNextLessonForSolution(curriculum, progress, 'stl_algorithms_cpp');
     assert(resolvedAfterFinal, 'Expected a fallback lesson after reaching the end');
     assert.strictEqual(resolvedAfterFinal.id, nextFromProgress.id, 'At curriculum end, fall back to first incomplete lesson');
 

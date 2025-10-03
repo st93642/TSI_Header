@@ -1,106 +1,41 @@
 {
   "id": "conditionals_c_exercise",
   "title": "Schedule Advising Sessions",
-  "description": "Write a decision helper that classifies students by GPA and disciplinary flags, then maps them to an advising track. Practice chained conditionals, logical operators, and a fall-through-safe switch.
-
-Steps:
-1. Prompt for `Enter cumulative GPA:` and `Enter disciplinary incidents:`; read a `double` GPA and an `int` count. Reject invalid input by printing `Invalid input.` and returning `1` when either `scanf` call fails.
-2. Clamp the incident count to zero or greater (treat negative numbers as zero) and ensure GPA stays within 0.0–4.0; print `Invalid ranges.` and return `1` when outside this range.
-3. Classify the student with the following ladder and store the result in a string-like label (an `enum` index or integer code is fine):
-   - GPA >= 3.5 and incidents == 0 → "Honours"
-   - GPA >= 2.5 and incidents <= 1 → "Good"
-   - GPA >= 2.0 and incidents <= 2 → "Needs Support"
-   - otherwise → "Probation"
-4. Print the classification (`Status: ...`) and then advise next steps using a `switch` on the status code. Messages:
-   - Honours → `Meet honours advisor.`
-   - Good → `Keep strong progress.`
-   - Needs Support → `Enroll in support workshops.`
-   - Probation → `Schedule dean review.`
-5. Ask for a follow-up command with `Enter action (p=plan, r=resources, q=quit):` and use a `switch` that handles both lowercase and uppercase inputs by grouping `case` labels. Print:
-   - `Planning session underway.` for `p` / `P`
-   - `Resources email sent.` for `r` / `R`
-   - `Good luck this term!` for `q` / `Q`
-   - `Unknown action.` otherwise
-
-Input format:
-- Line 1: GPA (double)
-- Line 2: disciplinary incidents (integer)
-- Line 3: follow-up action character
-
-Expected output:
-Enter cumulative GPA:
-Enter disciplinary incidents:
-Status: {Honours|Good|Needs Support|Probation}
-{Advisor Message}
-Enter action (p=plan, r=resources, q=quit):
-{Follow-up message}
-
-Example run:
-$ ./advising_helper
-Enter cumulative GPA:
-Enter disciplinary incidents:
-Status: Good
-Keep strong progress.
-Enter action (p=plan, r=resources, q=quit):
-Planning session underway.",
+  "description": "Write a decision helper that classifies students by GPA and disciplinary flags, then maps them to an advising track. Practice chained conditionals, logical operators, and a fall-through-safe switch.\n\nSteps:\n1. Prompt for `Enter cumulative GPA:` and `Enter disciplinary incidents:`; read a `double` GPA and an `int` count. Reject invalid input by printing `Invalid input.` and returning `1` when either `scanf` call fails.\n2. Clamp the incident count to zero or greater (treat negative numbers as zero) and ensure GPA stays within 0.0\u20134.0; print `Invalid ranges.` and return `1` when outside this range.\n3. Classify the student with the following ladder and store the result in a string-like label (an `enum` index or integer code is fine):\n   - GPA >= 3.5 and incidents == 0 \u2192 \"Honours\"\n   - GPA >= 2.5 and incidents <= 1 \u2192 \"Good\"\n   - GPA >= 2.0 and incidents <= 2 \u2192 \"Needs Support\"\n   - otherwise \u2192 \"Probation\"\n4. Print the classification (`Status: ...`) and then advise next steps using a `switch` on the status code. Messages:\n   - Honours \u2192 `Meet honours advisor.`\n   - Good \u2192 `Keep strong progress.`\n   - Needs Support \u2192 `Enroll in support workshops.`\n   - Probation \u2192 `Schedule dean review.`\n5. Ask for a follow-up command with `Enter action (p=plan, r=resources, q=quit):` and use a `switch` that handles both lowercase and uppercase inputs by grouping `case` labels. Print:\n   - `Planning session underway.` for `p` / `P`\n   - `Resources email sent.` for `r` / `R`\n   - `Good luck this term!` for `q` / `Q`\n   - `Unknown action.` otherwise\n\nInput format:\n- Line 1: GPA (double)\n- Line 2: disciplinary incidents (integer)\n- Line 3: follow-up action character\n\nExpected output:\nEnter cumulative GPA:\nEnter disciplinary incidents:\nStatus: {Honours|Good|Needs Support|Probation}\n{Advisor Message}\nEnter action (p=plan, r=resources, q=quit):\n{Follow-up message}\n\nExample run:\n$ ./advising_helper\nEnter cumulative GPA:\nEnter disciplinary incidents:\nStatus: Good\nKeep strong progress.\nEnter action (p=plan, r=resources, q=quit):\nPlanning session underway.",
   "difficulty": "beginner",
-  "starterCode": "#include <stdio.h>
-
-int main(void)
-{
-    double gpa = 0.0;
-    int incidents = 0;
-
-    printf("Enter cumulative GPA:\n");
-    // TODO: Read gpa and guard against scanf failure.
-
-    printf("Enter disciplinary incidents:\n");
-    // TODO: Read incidents and guard against scanf failure.
-
-    // TODO: Validate ranges (0.0 <= gpa <= 4.0, incidents >= 0). Exit with message if invalid.
-
-    int statusCode = 0; /* 0=Honours, 1=Good, 2=Needs Support, 3=Probation */
-
-    // TODO: Classify using if/else ladder and store the status code.
-
-    // TODO: Print the Status line and follow-up advisor message via switch(statusCode).
-
-    printf("Enter action (p=plan, r=resources, q=quit):\n");
-
-    int action = getchar();
-    // TODO: Consume newline leftovers if needed and ensure action holds the command character.
-
-    // TODO: Use switch with grouped cases (uppercase + lowercase) to print the follow-up message.
-
-    return 0;
-}
-", 
+  "starterCode": "#include <stdio.h>\n\nint main(void)\n{\n    double gpa = 0.0;\n    int incidents = 0;\n\n    printf(\"Enter cumulative GPA:\\n\");\n    // TODO: Read gpa and guard against scanf failure.\n\n    printf(\"Enter disciplinary incidents:\\n\");\n    // TODO: Read incidents and guard against scanf failure.\n\n    // TODO: Validate ranges (0.0 <= gpa <= 4.0, incidents >= 0). Exit with message if invalid.\n\n    int statusCode = 0; /* 0=Honours, 1=Good, 2=Needs Support, 3=Probation */\n\n    // TODO: Classify using if/else ladder and store the status code.\n\n    // TODO: Print the Status line and follow-up advisor message via switch(statusCode).\n\n    printf(\"Enter action (p=plan, r=resources, q=quit):\\n\");\n\n    int action = getchar();\n    // TODO: Consume newline leftovers if needed and ensure action holds the command character.\n\n    // TODO: Use switch with grouped cases (uppercase + lowercase) to print the follow-up message.\n\n    return 0;\n}\n",
   "tests": [
     {
       "name": "classifies honours student and quits",
       "type": "output",
-      "input": "3.8\n0\nq\n",
-      "expected": "Enter cumulative GPA:\nEnter disciplinary incidents:\nStatus: Honours\nMeet honours advisor.\nEnter action (p=plan, r=resources, q=quit):\nGood luck this term!"
+      "input": "3.8\\n0\\nq\\n",
+      "expected": "Enter cumulative GPA:\\nEnter disciplinary incidents:\\nStatus: Honours\\nMeet honours advisor.\\nEnter action (p=plan, r=resources, q=quit):\\nGood luck this term!"
     },
     {
       "name": "needs support with planning",
       "type": "output",
-      "input": "2.1\n2\np\n",
-      "expected": "Enter cumulative GPA:\nEnter disciplinary incidents:\nStatus: Needs Support\nEnroll in support workshops.\nEnter action (p=plan, r=resources, q=quit):\nPlanning session underway."
+      "input": "2.1\\n2\\np\\n",
+      "expected": "Enter cumulative GPA:\\nEnter disciplinary incidents:\\nStatus: Needs Support\\nEnroll in support workshops.\\nEnter action (p=plan, r=resources, q=quit):\\nPlanning session underway."
     },
     {
       "name": "probation triggers resources",
       "type": "output",
-      "input": "1.5\n4\nr\n",
-      "expected": "Enter cumulative GPA:\nEnter disciplinary incidents:\nStatus: Probation\nSchedule dean review.\nEnter action (p=plan, r=resources, q=quit):\nResources email sent."
+      "input": "1.5\\n4\\nr\\n",
+      "expected": "Enter cumulative GPA:\\nEnter disciplinary incidents:\\nStatus: Probation\\nSchedule dean review.\\nEnter action (p=plan, r=resources, q=quit):\\nResources email sent."
     }
   ],
   "hints": [
-    "Treat scanf failures as immediate errors—compare the return value against 1.",
+    "Treat scanf failures as immediate errors\u2014compare the return value against 1.",
     "Clamp negative incidents by resetting them to zero before classification.",
     "Use a status code integer (0-3) to drive both the status string and switch messaging.",
     "Call getchar() twice if you need to remove the newline left by the previous scanf.",
     "Group uppercase letters in the switch by stacking case labels before the shared block."
   ],
-  "tags": ["c", "conditionals", "switch", "input-validation", "beginner"]
+  "tags": [
+    "c",
+    "conditionals",
+    "switch",
+    "input-validation",
+    "beginner"
+  ]
 }
