@@ -206,3 +206,6 @@ out/
 # Local development
 local/
 dev/
+
+# Copilot instructions (internal development guide)
+.github/copilot-instructions.md
