@@ -1,0 +1,13 @@
+{
+  "exerciseId": "error_debug_c_exercise",
+  "languageId": "c",
+  "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <errno.h>\n#include <assert.h>\n#include <string.h>\n\ntypedef enum {\n    SUCCESS = 0,\n    INVALID_INPUT,\n    DIVISION_BY_ZERO,\n    INVALID_OPERATION\n} ErrorCode;\n\n#define LOG(level, msg) printf(\"[%s] %s\\n\", level, msg)\n\nint safe_atoi(const char *str, int *result) {\n    char *end;\n    errno = 0;\n    *result = strtol(str, &end, 10);\n    if (errno != 0 || *end != '\\0') {\n        return 0; // failure\n    }\n    return 1; // success\n}\n\nErrorCode perform_operation(char op, int a, int b, int *result) {\n    switch (op) {\n        case '+':\n            *result = a + b;\n            break;\n        case '-':\n            *result = a - b;\n            break;\n        case '*':\n            *result = a * b;\n            break;\n        case '/':\n            if (b == 0) {\n                return DIVISION_BY_ZERO;\n            }\n            *result = a / b;\n            break;\n        default:\n            return INVALID_OPERATION;\n    }\n    return SUCCESS;\n}\n\nint main(void) {\n    char op_str[10], a_str[10], b_str[10];\n    int a, b, res;\n    \n    if (scanf(\"%s %s %s\", op_str, a_str, b_str) != 3) {\n        LOG(\"ERROR\", \"Invalid input format\");\n        return 1;\n    }\n    \n    if (!safe_atoi(a_str, &a) || !safe_atoi(b_str, &b)) {\n        LOG(\"ERROR\", \"Invalid numbers\");\n        return 1;\n    }\n    \n    char op = op_str[0];\n    ErrorCode err = perform_operation(op, a, b, &res);\n    if (err != SUCCESS) {\n        LOG(\"ERROR\", \"Operation failed\");\n        return 1;\n    }\n    \n    LOG(\"INFO\", \"Operation successful\");\n    printf(\"Result: %d\\n\", res);\n    \n    return 0;\n}",
+  "explanation": "This solution implements error handling by defining custom error codes, using a logging macro, validating inputs safely, and checking for operation errors like division by zero. The perform_operation function returns error codes, and main handles them by logging 'Operation failed' for errors and 'Operation successful' for success. Logging provides debug information, and safe_atoi prevents invalid conversions.",
+  "keyPoints": [
+    "Define error codes enum for different failure types.",
+    "Use LOG macro for consistent message formatting.",
+    "Implement safe_atoi with strtol and errno checking.",
+    "Check for division by zero and invalid operators in perform_operation.",
+    "Handle errors in main by logging and exiting appropriately."
+  ]
+}

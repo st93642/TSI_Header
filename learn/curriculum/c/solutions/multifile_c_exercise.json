@@ -1,0 +1,11 @@
+{
+  "exerciseId": "multifile_c_exercise",
+  "languageId": "c",
+  "code": "#include <stdio.h>\n\n// Function declarations\nint sum(int a, int b);\nint product(int a, int b);\n\n// Function definitions\nint sum(int a, int b) {\n    return a + b;\n}\n\nint product(int a, int b) {\n    return a * b;\n}\n\nint main(void) {\n    printf(\"Sum: %d\\n\", sum(10, 5));\n    printf(\"Product: %d\\n\", product(10, 5));\n    return 0;\n}",
+  "explanation": "Declares functions at top, defines below, uses in main to compute and print sum and product.",
+  "keyPoints": [
+    "Separate declarations from definitions.",
+    "Declarations allow forward references.",
+    "Organize code for modularity."
+  ]
+}

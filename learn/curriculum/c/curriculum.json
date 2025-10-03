@@ -62,6 +62,24 @@
           "title": "Lesson 1.9: Preprocessor Directives and Macros",
           "duration": 90,
           "difficulty": "beginner"
+        },
+        {
+          "id": "multifile_c",
+          "title": "Lesson 1.10: Multi-file Programs and Compilation",
+          "duration": 90,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "error_debug_c",
+          "title": "Lesson 1.11: Error Handling and Debugging",
+          "duration": 90,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "stdlib_c",
+          "title": "Lesson 1.12: Standard Library in C",
+          "duration": 90,
+          "difficulty": "beginner"
         }
       ]
     }

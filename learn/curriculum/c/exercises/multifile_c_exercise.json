@@ -1,0 +1,26 @@
+{
+  "id": "multifile_c_exercise",
+  "title": "Multi-file Style Program",
+  "description": "Implement a program that demonstrates multi-file organization by declaring functions at the top (header style), defining them below (source style), and using them in main. Compute sum and product of two numbers.\n\nDetailed Steps:\n1. At top, declare int sum(int a, int b); int product(int a, int b);\n2. Below declarations, define sum and product functions.\n3. In main, call sum(10,5) and product(10,5), print \"Sum: %d\\n\" and \"Product: %d\\n\".\n\nInput: None.\nExpected Output: Sum: 15\\nProduct: 50\\n",
+  "difficulty": "beginner",
+  "starterCode": "#include <stdio.h>\n\n/*\nMulti-file Style Program Exercise\n\nTask: Declare functions at top, define below, use in main.\n\nSteps:\n1. // Function declarations\n2. // Function definitions\n3. In main: printf(\"Sum: %d\\n\", sum(10,5)); printf(\"Product: %d\\n\", product(10,5));\n\nExpected Output: Sum: 15\nProduct: 50\n*/\n\n// TODO: Declare functions\n\n// TODO: Define functions\n\nint main(void)\n{\n    // TODO: Call functions and print\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "basic",
+      "type": "output",
+      "input": "",
+      "expected": "Sum: 15\nProduct: 50\n"
+    }
+  ],
+  "hints": [
+    "Declare functions at top.",
+    "Define below declarations.",
+    "Call in main."
+  ],
+  "tags": [
+    "c",
+    "multifile",
+    "organization",
+    "beginner"
+  ]
+}
