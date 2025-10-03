@@ -1,254 +1,200 @@
-# Student Event Management System
+# Time and date handling
 
-Time and date handling are fundamental concepts in programming. Ruby provides powerful built-in classes for working with temporal data. The `Time` class handles moments in time with microsecond precision, while the `Date` class focuses on calendar dates without time components.
+Scheduling jobs, storing timestamps, and formatting reports all rely on robust temporal logic. Ruby’s core library supplies `Time`, `Date`, and `DateTime`, while common gems add time zones, durations, and human-friendly formatting. This lesson helps you reason about temporal data accurately and efficiently.
 
-## Getting the Current Time
+## Learning goals
 
-The most common way to work with time is to get the current moment:
+- Create `Time`, `Date`, and `DateTime` objects for specific instants or calendar days.
+- Perform arithmetic, comparisons, and conversions between temporal classes.
+- Format and parse timestamps with `strftime`, `iso8601`, and flexible parsing helpers.
+- Understand time zones, UTC vs local time, and strategies for storing and displaying timestamps safely.
+- Build utilities that compute durations, countdowns, and recurring schedules.
 
-```ruby
-# Current time
-now = Time.now
-puts now  # => 2025-10-01 14:30:45 +0200
-
-# Alternative syntax
-current_time = Time.new
-puts current_time  # => 2025-10-01 14:30:45 +0200
-```
-
-## Creating Specific Times
-
-You can create Time objects for specific moments:
+## Getting the current moment
 
 ```ruby
-# Create a time for a specific date and time
-birthday = Time.new(1990, 12, 25, 8, 30, 0)  # Christmas morning 1990
-puts birthday  # => 1990-12-25 08:30:00 +0100
-
-# Just specify year and month
-new_year = Time.new(2025, 1, 1)  # New Year's Day 2025
-puts new_year  # => 2025-01-01 00:00:00 +0100
-
-# Local time (uses system timezone)
-meeting = Time.local(2025, 10, 15, 14, 0)  # 2 PM local time
-puts meeting  # => 2025-10-15 14:00:00 +0200
-
-# UTC time
-utc_time = Time.utc(2025, 10, 15, 12, 0)  # Noon UTC
-puts utc_time  # => 2025-10-15 12:00:00 UTC
+now = Time.now         # system local time with zone offset
+utc_now = Time.now.utc # convert to UTC
+Time.new               # alias for Time.now
 ```
 
-## Time Components
+`Time` stores seconds since the Unix epoch with microsecond precision. `Time.now` honors the system time zone; `Time.now.utc` or `Time.now.getutc` normalizes to UTC.
 
-Time objects have many methods to access individual components:
+## Constructing specific times
 
 ```ruby
-t = Time.new(2025, 10, 1, 15, 30, 45)
+launch = Time.new(2025, 10, 3, 14, 30, 0, "+02:00")
+#            year  month day hour min  sec offset
 
-puts t.year    # => 2025
-puts t.month   # => 10
-puts t.day     # => 1
-puts t.hour    # => 15
-puts t.min     # => 30
-puts t.sec     # => 45
-
-puts t.wday    # => 2 (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-puts t.yday    # => 274 (day of year, 1-366)
-puts t.zone    # => "CEST" (timezone abbreviation)
+Time.local(2025, 10, 3, 14, 30) # uses system zone
+Time.utc(2025, 10, 3, 12, 30)    # explicit UTC
 ```
 
-## Time Arithmetic
+Time constructors accept fractional seconds (`Time.new(2025, 10, 3, 14, 30, 0.123456)`) and custom offsets. Use UTC for persistence; convert to local time when presenting to users.
 
-You can add and subtract seconds from Time objects:
+## Components and comparisons
+
+```ruby
+Time.new(2025, 10, 3, 14, 30).tap do |t|
+  t.year    # => 2025
+  t.month   # => 10
+  t.day     # => 3
+  t.hour    # => 14
+  t.zone    # => "CEST"
+  t.wday    # => 5 (Friday)
+  t.yday    # => 276 (day of year)
+end
+
+Time.new(2025, 10, 3) > Time.new(2024, 12, 31)  # => true
+```
+
+`Time` objects compare chronologically; subtracting two times yields a floating-point number of seconds.
+
+## Time arithmetic
 
 ```ruby
 now = Time.now
-puts "Now: #{now}"
+in_an_hour  = now + 3600      # seconds
+one_day_ago = now - 24 * 3600
 
-# Add seconds
-one_hour_later = now + 3600  # 3600 seconds = 1 hour
-puts "In 1 hour: #{one_hour_later}"
-
-# Subtract seconds
-one_hour_ago = now - 3600
-puts "1 hour ago: #{one_hour_ago}"
-
-# Time difference
-future_time = Time.new(2026, 1, 1)
-seconds_until_then = future_time - now
-days_until_then = seconds_until_then / (24 * 60 * 60)
-puts "Days until 2026: #{days_until_then.to_i}"
+future = Time.new(2026, 1, 1)
+seconds_until_future = future - now
+minutes = (seconds_until_future / 60).floor
 ```
 
-## Formatting Time
+For readable intervals, consider the `active_support` duration helpers (`1.hour`, `3.days`) when Rails or ActiveSupport is available.
 
-The `strftime` method formats time as strings:
+## Formatting and parsing
 
 ```ruby
-t = Time.new(2025, 10, 1, 15, 30, 45)
+time = Time.new(2025, 10, 3, 14, 30, 45)
 
-# Common formats
-puts t.strftime("%Y-%m-%d")     # => "2025-10-01"
-puts t.strftime("%H:%M:%S")     # => "15:30:45"
-puts t.strftime("%A, %B %d")    # => "Tuesday, October 01"
+time.strftime("%Y-%m-%d %H:%M:%S") # => "2025-10-03 14:30:45"
 
-# Complete date and time
-puts t.strftime("%Y-%m-%d %H:%M:%S")  # => "2025-10-01 15:30:45"
-
-# 12-hour format
-puts t.strftime("%I:%M %p")     # => "03:30 PM"
+time.iso8601            # => "2025-10-03T14:30:45+02:00"
+Time.iso8601("2025-10-03T14:30:45+02:00") # parsing
 ```
 
 Common `strftime` directives:
 
-- `%Y` - Year with century (2025)
-- `%m` - Month (01-12)
-- `%d` - Day of month (01-31)
-- `%H` - Hour (00-23)
-- `%M` - Minute (00-59)
-- `%S` - Second (00-60)
-- `%A` - Full weekday name
-- `%B` - Full month name
-- `%I` - Hour (01-12, 12-hour clock)
-- `%p` - AM/PM
+- `%Y` year, `%m` month, `%d` day
+- `%H` 24-hour, `%I` 12-hour, `%M` minute, `%S` second
+- `%A` weekday name, `%B` month name
 
-## The Date Class
+Avoid custom parsers when built-in formatters suffice; ISO 8601 is a safe default for interchange.
 
-The `Date` class works with calendar dates without time:
+## Dates without time
 
 ```ruby
-require 'date'
-
-# Current date
-today = Date.today
-puts today  # => 2025-10-01
-
-# Specific date
-independence_day = Date.new(1776, 7, 4)
-puts independence_day  # => 1776-07-04
-
-# Date components
-puts today.year   # => 2025
-puts today.month  # => 10
-puts today.day    # => 1
-puts today.wday   # => 2 (0 = Sunday)
-```
-
-## Converting Between Time and Date
-
-```ruby
-require 'date'
-
-# Time to Date
-now = Time.now
-today = now.to_date
-puts today  # => 2025-10-01
-
-# Date to Time (midnight in local timezone)
-some_date = Date.new(2025, 12, 25)
-christmas_time = some_date.to_time
-puts christmas_time  # => 2025-12-25 00:00:00 +0100
-```
-
-## Date Arithmetic
-
-```ruby
-require 'date'
+require "date"
 
 today = Date.today
-puts "Today: #{today}"
+Date.new(2025, 10, 3)   # calendar date
+today.year              # => 2025
 
-# Add days
+# Arithmetic (days)
 tomorrow = today + 1
-puts "Tomorrow: #{tomorrow}"
+next_month = today >> 1      # shift by months
+prev_week = today - 7
 
-next_week = today + 7
-puts "Next week: #{next_week}"
-
-# Add months
-next_month = today >> 1  # >> shifts by months
-puts "Next month: #{next_month}"
-
-# Add years
-next_year = today >> 12
-puts "Next year: #{next_year}"
-
-# Date differences
-birthday = Date.new(1990, 5, 15)
-age_in_days = today - birthday
-puts "Age in days: #{age_in_days.to_i}"
+# Difference returns Rational days
+days_old = today - Date.new(1990, 5, 15)  # => #<Rational 12959/1>
+days_old.to_i                           # => 12959
 ```
 
-## Practical Examples
+`Date` handles calendar arithmetic accurately across leap years and transitions. Use it when the time of day is irrelevant (birthdays, billing cycles, reporting periods).
 
-### Age Calculator
+## Bridging `Time` and `Date`
 
 ```ruby
-require 'date'
+require "date"
 
-def calculate_age(birth_year, birth_month, birth_day)
-  today = Date.today
-  birthday = Date.new(birth_year, birth_month, birth_day)
-
-  age = today.year - birthday.year
-  age -= 1 if today < birthday + age  # Haven't had birthday yet this year
-
-  age
-end
-
-puts calculate_age(1990, 5, 15)  # => 35 (in 2025)
+Time.now.to_date             # => Date instance at local midnight
+Date.today.to_time           # => local midnight as Time
+Date.today.to_time(:utc)     # => UTC midnight
+DateTime.parse("2025-10-03T14:30:00+02:00")
+DateTime.now.new_offset(0)   # change offset without altering UTC instant
 ```
 
-### Time Until Event
+`DateTime` supports arbitrary time zones and astronomical calendars; prefer `Time` for most application code and convert to `Date` when you only need days.
+
+## Time zones and best practices
+
+- Store timestamps in UTC (`Time.now.utc`, database `TIMESTAMP WITH TIME ZONE`).
+- Convert to the user’s zone for display. In Rails, `ActiveSupport::TimeZone["Europe/Riga"].at(time)` or `time.in_time_zone("Europe/Riga")`.
+- Beware of daylight-saving transitions when adding hours or days; shifting by calendar units is safer with `Date` + custom logic or `ActiveSupport::Duration`.
+
+## Durations and countdowns
 
 ```ruby
-def time_until(target_year, target_month, target_day)
-  now = Time.now
-  target = Time.new(target_year, target_month, target_day)
+def countdown(to_time)
+  seconds = (to_time - Time.now).to_i
+  return "Elapsed" if seconds.negative?
 
-  if target > now
-    seconds = target - now
-    days = (seconds / (24 * 60 * 60)).to_i
-    hours = (seconds / (60 * 60) % 24).to_i
-    minutes = (seconds / 60 % 60).to_i
+  days, rem = seconds.divmod(86_400)
+  hours, rem = rem.divmod(3600)
+  minutes, seconds = rem.divmod(60)
 
-    "#{days} days, #{hours} hours, #{minutes} minutes"
-  else
-    "Event has already passed"
-  end
+  format("%dd %02dh %02dm %02ds", days, hours, minutes, seconds)
 end
 
-puts time_until(2025, 12, 25)  # => "54 days, 9 hours, 29 minutes"
+countdown(Time.now + 48 * 3600) # => "2d 00h 00m 00s"
 ```
 
-## Key Takeaways
+Break seconds into human-readable intervals with `Integer#divmod`. For relative phrases (“in 3 days”), consider gems like `rails-i18n` or `distance_of_time_in_words` (Rails).
 
-- `Time.now` gets the current moment
-- `Time.new(year, month, day, hour, min, sec)` creates specific times
-- Use `strftime` to format times as strings
-- `Date.today` gets today's date
-- `Date.new(year, month, day)` creates specific dates
-- Time arithmetic uses seconds, Date arithmetic uses days
-- Convert between Time and Date with `to_date` and `to_time`
+## Parsing flexible input
 
-## Practice Time
+```ruby
+require "date"
+Date.parse("October 3, 2025")          # => Date
+Date.parse("2025-10-03")               # => Date
+Time.parse("2025-10-03 14:30")         # => Time in local zone
+Time.strptime("03-10-2025", "%d-%m-%Y")
+```
 
-Now it's time to practice working with time and date. Click the button below to start the exercise.
+`Date.parse` and `Time.parse` accept many formats but rely on locale assumptions; prefer explicit formats with `strptime` when possible.
 
-### Exercise Goals
+## Testing temporal code
 
-1. Create and manipulate Time objects
-2. Format times using strftime
-3. Perform time and date arithmetic
-4. Convert between Time and Date objects
-5. Build practical time-based calculations
+Time-dependent logic is easier to test with clock injection or time-travel helpers:
 
-> **Tip**: Always consider timezones when working with times. Use UTC for storage and convert to local time for display.
+```ruby
+Time.stub :now, Time.new(2025, 10, 3, 12, 0, 0) do
+  assert_equal "noon", schedule.current_slot
+end
+```
 
-## What's Next
+Gems like `timecop`, `active_support/testing/time_helpers`, or `travel_to` (Rails) provide richer APIs for freezing or traveling in time during tests.
 
-In the next lesson, you'll learn about working with strings - Ruby's flexible text manipulation capabilities. You'll discover concatenation, interpolation, and powerful string methods.
+## Guided practice
 
----
+1. **Reminder scheduler**
+   - Implement `next_occurrence(start_time:, interval_seconds:)` that returns the next future `Time` after `Time.now`.
+   - Write tests that stub `Time.now` to verify edge cases.
 
-**Remember**: Time flies when you're programming! 🕐✨
+2. **Countdown CLI**
+   - Build a script that accepts a target ISO 8601 timestamp and prints the remaining days/hours/minutes each second until the event.
+   - Handle past timestamps gracefully.
+
+3. **Business hours checker**
+   - Given a time zone and an interval (e.g., 09:00–17:00 Monday–Friday), return whether a given `Time` falls within business hours.
+   - Carefully handle daylight-saving transitions by converting to the zone first.
+
+4. **Monthly billing cycle**
+   - Write `billing_period(date)` returning the start/end dates of the cycle (e.g., 15th to 14th of next month).
+   - Use date arithmetic (`>>`, `<<`) and ensure leap years don’t break it.
+
+5. **ISO formatter utility**
+   - Create `format_timestamp(time, zone:)` that converts a `Time` to a specific time zone and returns a string like `"2025-10-03T14:30:00+03:00"`.
+   - Guard against `nil` inputs and allow injecting a default zone.
+
+## Self-check questions
+
+1. Why is storing timestamps in UTC considered best practice, and how do you safely present them to users in different time zones?
+2. What’s the difference between `Time`, `Date`, and `DateTime`, and when would you choose each?
+3. How does `strftime` differ from `iso8601` for formatting, and when would you favor one over the other?
+4. What pitfalls arise when adding hours across daylight-saving boundaries, and how can you avoid them?
+5. How can stubbing or freezing `Time.now` improve the reliability of tests that depend on the current moment?
+
+Temporal logic is notoriously tricky—plan for time zones, daylight saving, and user locale early. With Ruby’s time and date toolkit (supplemented by well-chosen gems), you can model schedules, countdowns, and recurring events with confidence.

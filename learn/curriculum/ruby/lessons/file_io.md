@@ -1,193 +1,230 @@
-# File Input/Output
+# File input and output
 
-Ruby makes it easy to read from and write to files. File I/O is essential for saving data, loading configuration, and processing text files.
+Persistent data lives in files—configuration, logs, exports, and more. Ruby’s IO classes make reading and writing straightforward, whether you’re streaming gigabytes or editing a tiny JSON snippet. Mastering these tools helps you process data efficiently and safely.
 
-## Reading Files
+## Learning goals
 
-### Read Entire File
+- Read and write text and binary files using the `File` API and IO enumerators.
+- Choose appropriate modes (`"r"`, `"w"`, `"a"`, binary flags) and manage encoding explicitly.
+- Work with structured formats (CSV, JSON, YAML) via the standard library.
+- Use helpers like `Pathname`, `Dir`, `Tempfile`, and file locking to build robust scripts.
+- Avoid resource leaks and race conditions by embracing block form and defensive coding.
+
+## Reading files
 
 ```ruby
-# Read entire file into string
+# Entire file as string (watch memory usage for large files)
 content = File.read("example.txt")
-puts content
 
-# Read into array of lines
-lines = File.readlines("example.txt")
-lines.each { |line| puts line }
-```
+# Array of lines (includes trailing newlines)
+lines = File.readlines("example.txt", chomp: true)
 
-### Read Line by Line
-
-```ruby
+# Streaming line by line
 File.open("example.txt", "r") do |file|
-  file.each_line do |line|
-    puts line
+  file.each_line.with_index do |line, index|
+    puts "#{index + 1}: #{line.chomp}"
   end
 end
-```
 
-## Writing Files
-
-### Write (Overwrite)
-
-```ruby
-# Write string to file (overwrites existing)
-File.write("output.txt", "Hello, World!")
-
-# Write multiple lines
-content = "Line 1
-Line 2
-Line 3"
-File.write("output.txt", content)
-```
-
-### Append to File
-
-```ruby
-# Append without overwriting
-File.open("log.txt", "a") do |file|
-  file.puts "New log entry"
-  file.puts "Another entry"
+# Enumerator for lazy processing
+File.foreach("example.txt") do |line|
+  # handles file opening/closing automatically
 end
 ```
 
-## File Modes
+Prefer streaming methods (`foreach`, `each_line`) for large files to avoid loading everything into memory.
 
-Common file open modes:
-
-- `"r"` - Read only (default)
-- `"w"` - Write only (overwrites)
-- `"a"` - Append only
-- `"r+"` - Read and write
-- `"w+"` - Read and write (overwrites)
-- `"a+"` - Read and append
+## Writing files
 
 ```ruby
-# Read and write
-File.open("data.txt", "r+") do |file|
-  content = file.read
-  file.write("
-New line")
+File.write("output.txt", "Hello, world!\n")         # overwrites
+
+File.open("log.txt", "a") do |file|                   # append mode
+  file.puts "[#{Time.now.iso8601}] Started"
+end
+
+File.open("data.bin", "wb") do |file|                 # binary write
+  file.write([0xFF, 0x00, 0x12].pack("C*"))
 end
 ```
 
-## File Existence
+Opening files with a block ensures they close automatically—even if an exception occurs. Modes:
+
+- `"r"`: read-only (default)
+- `"w"`: write-only, truncates existing file
+- `"a"`: append write
+- `"r+"`: read/write without truncation
+- Add `b` for binary (`"rb"`, `"wb"`) and `:encoding` option for text: `File.open("notes.txt", "r", encoding: "UTF-8")`.
+
+## File metadata and existence checks
 
 ```ruby
-if File.exist?("config.txt")
-  puts "File exists!"
-else
-  puts "File not found"
+path = "example.txt"
+
+File.exist?(path)        # => true/false
+File.file?(path)         # true if regular file
+File.directory?(path)    # true if directory
+
+File.size(path)          # bytes
+File.mtime(path)         # last modified Time
+File.basename(path)      # file name
+File.dirname(path)       # directory portion
+File.extname(path)       # ".txt"
+```
+
+`FileUtils` adds copying, moving, and removal helpers; require it when doing maintenance tasks.
+
+## Handling encodings
+
+Specify encodings to avoid surprises:
+
+```ruby
+File.open("input.txt", "r", encoding: "ISO-8859-1") do |file|
+  text = file.read.encode("UTF-8")
 end
-
-# Alternative
-File.file?("config.txt")  # true if regular file
-File.directory?("data")   # true if directory
 ```
 
-## File Information
+When reading unknown input, use `Encoding::Converter` or `String#scrub` to handle invalid bytes gracefully.
+
+## Temporary files and directories
 
 ```ruby
-file_path = "example.txt"
+require "tempfile"
 
-File.size(file_path)        # Size in bytes
-File.basename(file_path)    # => "example.txt"
-File.dirname(file_path)     # Directory path
-File.extname(file_path)     # => ".txt"
-
-# Modification time
-File.mtime(file_path)       # => Time object
+Tempfile.create("snapshot") do |tmp|
+  tmp.write("intermediate data")
+  tmp.flush
+  puts "Stored at #{tmp.path}"
+end  # temp file removed automatically
 ```
 
-## Safe File Handling
+`Dir.mktmpdir` yields a temporary directory you can populate and clean up automatically.
 
-Using blocks ensures files are closed automatically:
+## File locking
+
+Prevent concurrent writers from corrupting data by locking.
 
 ```ruby
-# File closes automatically after block
-File.open("data.txt", "r") do |file|
-  content = file.read
-  # Process content
+File.open("app.log", "a") do |file|
+  file.flock(File::LOCK_EX)
+  file.puts "[#{Process.pid}] #{message}"
+  file.flush
+  file.flock(File::LOCK_UN)
 end
-# File is closed here
-
-# Manual close (not recommended)
-file = File.open("data.txt", "r")
-content = file.read
-file.close  # Don't forget!
 ```
 
-## CSV Files
+Use shared locks (`LOCK_SH`) for readers and exclusive locks (`LOCK_EX`) for writers.
+
+## Working with directories
 
 ```ruby
-require 'csv'
+Dir.entries("logs")             # => [".", "..", "today.log", ...]
+Dir.glob("logs/**/*.log")       # recursive glob
 
-# Write CSV
+Dir.mkdir("exports") unless Dir.exist?("exports")
+```
+
+`Pathname` (from the standard library) offers object-oriented path manipulation:
+
+```ruby
+require "pathname"
+
+root = Pathname.new(__dir__)
+log_path = root.join("logs", "app.log")
+log_path.exist?
+```
+
+## Structured data: CSV, JSON, YAML
+
+```ruby
+require "csv"
 CSV.open("users.csv", "w") do |csv|
-  csv << ["Name", "Age", "City"]
-  csv << ["Alice", 30, "NYC"]
-  csv << ["Bob", 25, "LA"]
+  csv << %w[id email]
+  users.each { |u| csv << [u.id, u.email] }
 end
 
-# Read CSV
 CSV.foreach("users.csv", headers: true) do |row|
-  puts "Name: #{row['Name']}, Age: #{row['Age']}"
+  puts row["email"]
 end
 ```
 
-## JSON Files
-
 ```ruby
-require 'json'
+require "json"
 
-# Write JSON
-data = { name: "Alice", age: 30, city: "NYC" }
-File.write("user.json", JSON.pretty_generate(data))
+payload = { name: "Ada", skills: %w[ruby c] }
+File.write("user.json", JSON.pretty_generate(payload))
 
-# Read JSON
-json_string = File.read("user.json")
-user = JSON.parse(json_string)
-puts user["name"]  # => "Alice"
+data = JSON.parse(File.read("user.json"))
 ```
 
-## Practical Examples
-
-### Count lines in file
-
 ```ruby
-line_count = File.readlines("example.txt").size
-puts "File has #{line_count} lines"
+require "yaml"
+settings = { retries: 3, timeout: 5 }
+File.write("config.yml", settings.to_yaml)
+
+YAML.safe_load(File.read("config.yml"), symbolize_names: true)
 ```
 
-### Find and replace in file
+Use `JSON.parse(..., symbolize_names: true)` or `YAML.safe_load` for controlled conversion. Avoid `YAML.load` on untrusted input—it's capable of instantiating arbitrary objects.
+
+## Large files and streaming transforms
+
+When processing huge files, combine IO streaming with enumerators:
 
 ```ruby
-content = File.read("config.txt")
-updated = content.gsub("old_value", "new_value")
-File.write("config.txt", updated)
-```
-
-### Log to file
-
-```ruby
-def log_message(message)
-  timestamp = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-  File.open("app.log", "a") do |file|
-    file.puts "[#{timestamp}] #{message}"
-  end
+File.open("data.log", "r") do |file|
+  file.lazy
+      .reject { |line| line.start_with?("#") }
+      .map(&:strip)
+      .take(1000)
+      .each { |entry| process(entry) }
 end
-
-log_message("Application started")
-log_message("User logged in")
 ```
 
-## Key Takeaways
+`IO#each_byte`, `#readpartial`, and `#gets` give fine-grained control over buffering when implementing custom protocols.
 
-- `File.read()` - read entire file
-- `File.readlines()` - read as array of lines
-- `File.write()` - write (overwrites)
-- `File.open() { |f| }` - safe file handling
-- Use `"r"` for read, `"w"` for write, `"a"` for append
-- `File.exist?()` - check if file exists
-- Blocks auto-close files
-- Use CSV and JSON libraries for structured data
+## Error handling
+
+Wrap file operations in begin/rescue blocks to handle missing files, permission issues, or encoding errors.
+
+```ruby
+begin
+  File.open("config.yml", "r") { |f| load_config(f) }
+rescue Errno::ENOENT
+  warn "Config file missing; using defaults"
+rescue Errno::EACCES
+  warn "Insufficient permissions"
+end
+```
+
+`Errno::EINVAL`, `IOError`, and `EOFError` cover other edge cases.
+
+## Guided practice
+
+1. **Log rotator**
+   - Write a script that checks `app.log` size and moves it to `app-YYYYMMDD.log` when it exceeds 5 MB.
+   - Use `FileUtils.mv` and ensure the new log file is created atomically.
+
+2. **CSV aggregator**
+   - Merge multiple CSV files in a directory into a single normalized file.
+   - Preserve headers, skip duplicates, and stream line by line to avoid memory blow-ups.
+
+3. **Binary inspector**
+   - Read a binary file in chunks (`readpartial(1024)`) and print hex dumps using `String#bytes`.
+   - Detect unexpected null bytes or control characters.
+
+4. **Config loader**
+   - Load settings from YAML with defaults. Provide `settings.fetch(:timeout, 5)` style access and raise friendly errors for missing required keys.
+
+5. **Concurrent logger**
+   - Implement a logging helper that acquires a lock, appends a timestamped message, and safely truncates the file when it exceeds a configurable limit.
+
+## Self-check questions
+
+1. When should you use `File.foreach` instead of `File.read`, and what trade-offs does each entail?
+2. How do file modes (`"w"`, `"a"`, `"r+"`) differ, and what happens if you open a file in the wrong mode?
+3. Why is it important to specify encodings when reading and writing text files, and how can you handle invalid byte sequences?
+4. Which standard-library helpers (`Tempfile`, `FileUtils`, `Pathname`) simplify working with files and directories in larger scripts?
+5. How does file locking prevent race conditions, and what are the differences between shared and exclusive locks?
+
+With these tools, your Ruby scripts can ingest logs, export reports, and manage configuration safely. Combine streaming IO with structured data helpers, and you’ll be ready to automate real-world workflows with confidence.

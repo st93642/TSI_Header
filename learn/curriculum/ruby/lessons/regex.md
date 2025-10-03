@@ -1,204 +1,194 @@
-# Regular Expressions (Regex)
+# Regular expressions
 
-Master pattern matching with regular expressions in Ruby.
+Regular expressions (regex) describe patterns in text. Ruby ships with the Onigmo engine, supporting advanced features like named captures, lookarounds, Unicode properties, and extended mode formatting. Mastering regex lets you validate input, parse logs, and transform strings concisely—all while keeping code maintainable.
 
-## What are Regular Expressions?
+## Learning goals
 
-Regular expressions (regex) are powerful patterns for matching text. They let you:
+- Construct regex literals and understand `Regexp`, `String`, and `MatchData` interactions.
+- Apply anchors, character classes, quantifiers, alternation, and grouping.
+- Use named captures, lookarounds, and Unicode properties for precise matching.
+- Combine regex with `scan`, `match?`, `sub`/`gsub`, and `split` to query and refactor text.
+- Structure complex patterns with extended mode, reuse via `Regexp.union`, and avoid catastrophic backtracking.
 
-- Validate formats (email, phone, postal codes)
-- Search and find specific patterns
-- Extract data from text
-- Replace text patterns
-
-## Basic Syntax
-
-In Ruby, regex patterns are written between forward slashes:
+## Creating patterns
 
 ```ruby
-/pattern/
+pattern = /ruby/           # literal notation
+regex   = Regexp.new("ruby", Regexp::IGNORECASE)
+
+pattern =~ "Ruby"         # => 0 (match index) or nil
+"Ruby".match?(pattern)    # => true (boolean)
 ```
 
-## Simple Patterns
+`match?` performs a match without creating a `MatchData` object—use it for fast boolean checks. To capture details, call `match` or use `=~` and inspect `$~` (special global holding the last match).
 
-Match exact text:
+## Anchors and boundaries
 
 ```ruby
-text = "Hello, World!"
-text =~ /World/  # Returns 7 (position where match starts)
-text =~ /Ruby/   # Returns nil (no match)
-
-# Use match? for boolean result
-text.match?(/World/)  # true
-text.match?(/Ruby/)   # false
+/^start/      # beginning of string
+/end$/        # end of string
+\A\w+\Z      # whole string (multiline safe)
+\bword\b     # word boundary
 ```
 
-## Special Characters
+Use `\A`/`\z` (lowercase z) to restrict to the entire string, even in multiline mode. `^`/`$` respect line breaks when the `m` flag is enabled.
 
-### The Dot (.) - Any Single Character
+## Character classes and Unicode properties
 
 ```ruby
-/c.t/.match?("cat")  # true
-/c.t/.match?("cot")  # true
-/c.t/.match?("cut")  # true
-/c.t/.match?("cart") # false (two characters between c and t)
+/[abc]/       # any of a, b, c
+/[0-9]/       # digit
+/\d/          # digit shortcut
+/\h/          # hex digit (Onigmo extension)
+
+/\p{Han}/     # any CJK ideograph
+/\p{L}/       # any letter
 ```
 
-### Anchors - Start and End
+Negate classes with `^` inside the brackets: `/[^\d]/` matches any non-digit. Combine ranges and literals: `/[A-Fa-f0-9]/` for hex.
+
+## Quantifiers and greediness
 
 ```ruby
-# ^ = start of string
-/^Hello/.match?("Hello World")  # true
-/^World/.match?("Hello World")  # false
-
-# $ = end of string
-/World$/.match?("Hello World")  # true
-/Hello$/.match?("Hello World")  # false
-
-# Both anchors - exact match
-/^test$/.match?("test")   # true
-/^test$/.match?("testing") # false
+/t.*t/        # greedy (matches the longest span)
+/t.*?t/       # non-greedy (shortest span)
+/a{3}/        # exactly three
+/a{2,5}/      # between two and five
+/a{2,}/       # at least two
 ```
 
-### Character Classes - Options
+Be mindful of greedy quantifiers when matching delimiters; switch to `*?`, `+?`, or more specific patterns to avoid overconsumption.
+
+## Grouping and alternation
 
 ```ruby
-# [abc] = matches a, b, or c
-/[aeiou]/.match?("hello")  # true (matches 'e')
-
-# [0-9] = any digit
-/[0-9]/.match?("Room 123") # true
-
-# [a-z] = any lowercase letter
-/[a-z]/.match?("Hello")    # true
-
-# [A-Z] = any uppercase letter
-/[A-Z]/.match?("hello")    # false
+/(cat|dog)/   # alternation
+/(?:cat|dog)/ # non-capturing group
 ```
 
-## Quantifiers - How Many?
+Use non-capturing groups `(?:...)` when you don’t need the submatch; this keeps `MatchData` indexes tidy.
+
+## Capturing data
 
 ```ruby
-# * = zero or more
-/ab*c/.match?("ac")    # true (zero b's)
-/ab*c/.match?("abc")   # true (one b)
-/ab*c/.match?("abbbc") # true (three b's)
-
-# + = one or more
-/ab+c/.match?("ac")    # false (needs at least one b)
-/ab+c/.match?("abc")   # true
-
-# ? = zero or one (optional)
-/colou?r/.match?("color")   # true
-/colou?r/.match?("colour")  # true
-
-# {n} = exactly n times
-/\d{3}/.match?("123")   # true (exactly 3 digits)
-/\d{3}/.match?("12")    # false
-
-# {n,m} = between n and m times
-/\d{2,4}/.match?("12")    # true
-/\d{2,4}/.match?("1234")  # true
-/\d{2,4}/.match?("12345") # true (matches first 4)
+text = "Price: $19.99"
+match = text.match(/\$(?<dollars>\d+)\.(?<cents>\d{2})/)
+match[:dollars] # => "19"
+match[:cents]   # => "99"
+match.captures  # => ["19", "99"]
 ```
 
-## Shorthand Character Classes
+Named captures and `MatchData` helpers (`pre_match`, `post_match`) make extraction concise. Reuse named captures across repetitions by referencing them with `\k<name>`.
 
-Ruby provides shortcuts for common patterns:
+## Lookarounds (zero-width assertions)
 
 ```ruby
-\d  # digit [0-9]
-\w  # word character [a-zA-Z0-9_]
-\s  # whitespace (space, tab, newline)
-
-\D  # NOT a digit
-\W  # NOT a word character
-\S  # NOT whitespace
-
-# Examples
-/\d{3}-\d{4}/.match?("555-1234")  # true (phone number)
-/\w+@\w+\.\w+/.match?("test@example.com")  # true (simple email)
+/(?<=USD)\d+/     # lookbehind: digits preceded by "USD"
+/\d+(?= items)/   # lookahead: digits followed by " items"
+/(?<!not )ok/     # negative lookbehind
+/ok(?!ay)/        # negative lookahead
 ```
 
-## Extraction with Capture Groups
+Lookarounds validate context without consuming characters—ideal for selective replacements.
 
-Use parentheses to capture parts of the match:
+## Working with `MatchData`
 
 ```ruby
-text = "My phone is 555-1234"
-match = text.match(/(\d{3})-(\d{4})/)
-
-match[0]  # "555-1234" (full match)
-match[1]  # "555" (first capture group)
-match[2]  # "1234" (second capture group)
-
-# Named captures for clarity
-match = text.match(/(?<area>\d{3})-(?<number>\d{4})/)
-match[:area]    # "555"
-match[:number]  # "1234"
+if (m = "abc123".match(/(?<letters>\w+?)(?<digits>\d+)/))
+  m[0]          # "abc123"
+  m[:letters]   # "abc"
+  m[:digits]    # "123"
+  m.named_captures # {"letters"=>"abc", "digits"=>"123"}
+end
 ```
 
-## Common Patterns
+`MatchData` responds to `captures`, `offset`, `begin`, `end` to locate submatches precisely.
 
-### Email Validation (Simple)
+## String helpers
 
 ```ruby
-email_pattern = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-email_pattern.match?("user@example.com")  # true
+text.scan(/\d+/)                        # all numeric substrings
+text.gsub(/\s+/, " ")                  # collapse whitespace
+text.sub(/\A\s+/, "")                 # remove leading whitespace once
+tokens = text.split(/[\s,;]+/)         # tokenize by delimiters
 ```
 
-### Phone Number
+`gsub` accepts a block or hash:
 
 ```ruby
-phone_pattern = /\A\d{3}-\d{3}-\d{4}\z/
-phone_pattern.match?("555-123-4567")  # true
+message.gsub(/\b(yes|no)\b/, "yes" => "👍", "no" => "👎")
 ```
 
-### URL
+Inside a block, the current match is provided as a string argument; use `$~` if you need captures.
+
+## Flags and extended mode
 
 ```ruby
-url_pattern = /\Ahttps?:\/\/[\w\-.]+(\/[\w\-.]*)*\z/
-url_pattern.match?("https://example.com/page")  # true
+regex = /
+  \A                 # start
+  (?<username>\w+)   # name
+  @
+  (?<domain>[\w.-]+) # domain
+  \z
+/x
+
+regex.match?("user@example.com")
 ```
 
-## String Methods with Regex
+- `i` — case-insensitive
+- `m` — multiline (`.` matches newline)
+- `x` — extended/verbose (ignores unescaped whitespace and allows comments)
+- `o` — interpolate once when using `#{}` inside a literal
 
-### scan - Find All Matches
+Combine flags by suffixing them to the literal or passing to `Regexp.new`.
+
+## Composition with `Regexp.union`
+
+Build complex patterns safely:
 
 ```ruby
-text = "The prices are $10, $25, and $100"
-text.scan(/\$\d+/)  # ["$10", "$25", "$100"]
+keywords = %w[ruby rails rack]
+pattern = Regexp.union(*keywords)
+pattern # => /ruby|rails|rack/
 ```
 
-### gsub - Replace All Matches
+`Regexp.escape(string)` escapes metacharacters when interpolating user input.
 
-```ruby
-text = "Hello World"
-text.gsub(/[aeiou]/, "*")  # "H*ll* W*rld"
+## Avoiding pitfalls
 
-# With block for custom replacement
-text.gsub(/\w+/) { |word| word.capitalize }  # "Hello World"
-```
+- Watch for catastrophic backtracking in nested quantifiers (e.g., `(.*a){10}`); tighten patterns or use possessive quantifiers (`*+`, `++`) when available.
+- Prefer `match?` over `match` when you don’t need submatches; it’s GC-friendly.
+- Anchor patterns for validation (`\A...\z`) to avoid partial matches.
+- Test patterns with representative data, including edge cases and Unicode input.
 
-### split - Split by Pattern
+## Guided practice
 
-```ruby
-"one,two;three:four".split(/[,;:]/)  # ["one", "two", "three", "four"]
-```
+1. **Log parser**
+   - Extract timestamp, log level, and message from lines like `2025-10-03T12:00:00Z [WARN] Disk nearly full`.
+   - Use named captures and convert matches into hashes.
 
-## Flags
+2. **Markdown link replacer**
+   - Convert `[text](url)` to HTML `<a>` tags using `gsub` with captures.
+   - Handle nested brackets inside the link text.
 
-Modify regex behavior with flags:
+3. **Feature flag tokenizer**
+   - Split a string like `beta:on, dark_mode:off` into key/value pairs.
+   - Normalize keys to symbols and values to booleans.
 
-```ruby
-/pattern/i   # case-insensitive
-/pattern/m   # multiline mode (. matches newlines)
-/pattern/x   # extended mode (allows comments and whitespace)
+4. **Password validator**
+   - Implement `valid_password?(string)` ensuring: ≥12 chars, at least one upper/lower/digit/symbol, and no whitespace.
+   - Combine regex tests with `match?` and lookaheads.
 
-# Example
-/hello/i.match?("HELLO")  # true (case-insensitive)
-```
+5. **CSV sanitization**
+   - Detect fields containing unescaped quotes or unexpected control characters using Unicode properties (`\p{Cntrl}`).
+   - Replace invalid bytes with placeholders and report positions.
 
-## Try It Yourself
+## Self-check questions
 
-Complete the exercise to practice regex pattern matching!
+1. When should you reach for `match?` instead of `match`, and what performance difference does it make?
+2. How do named captures improve readability over positional captures, and how can you access them from `MatchData`?
+3. What situations call for lookahead/lookbehind assertions, and how do they differ from consuming matches?
+4. How does extended mode (`/x`) help manage complex patterns, and what must you escape when using it?
+5. Which strategies help prevent catastrophic backtracking in large or user-supplied input?
+
+Regex can be powerful but opaque—treat them like code: keep them readable, validate edge cases, and extract them into well-named constants. With thoughtful patterns, you’ll parse and validate text confidently across your Ruby projects.

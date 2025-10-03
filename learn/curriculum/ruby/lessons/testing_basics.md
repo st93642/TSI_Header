@@ -1,212 +1,236 @@
-# Testing Basics with Minitest
+# Testing basics with Minitest
 
-## Overview
+Minitest ships with Ruby, giving you a lightweight but capable testing framework. Whether you prefer the classic xUnit style or a spec-driven DSL, Minitest keeps feedback fast, integrates easily with CI, and plays nicely with gems like `minitest-reporters` and `mocha`. This lesson lays the foundation for reliable, maintainable test suites.
 
-Automated testing is crucial for ensuring your code works correctly and preventing regressions. Ruby's standard testing framework is Minitest, which provides a simple yet powerful way to write and run tests.
+## Learning goals
 
-## Why Test?
+- Write test classes inheriting from `Minitest::Test`, organizing setup/teardown and assertions.
+- Use the most common assertions, including value checks, type checks, and exception expectations.
+- Structure suites with helpers, test doubles, and focused naming conventions.
+- Run tests from the command line, filter by name, and seed random order to surface order dependencies.
+- Extend Minitest with reporters, spec-style syntax, and custom assertions.
 
-- **Catch bugs early**: Tests help identify issues before they reach production
-- **Prevent regressions**: Tests ensure new changes don't break existing functionality
-- **Document behavior**: Tests serve as living documentation of what your code should do
-- **Enable refactoring**: Tests give confidence when restructuring code
-
-## Minitest Basics
-
-Minitest is Ruby's built-in testing framework. It comes in two main flavors:
-
-- **Minitest::Test**: Unit testing framework
-- **Minitest::Spec**: Behavior-driven development (BDD) style testing
-
-## Writing Your First Test
+## Anatomy of a test case
 
 ```ruby
-require 'minitest/autorun'
+require "minitest/autorun"
+require_relative "calculator"
 
 class CalculatorTest < Minitest::Test
-  def test_addition
-    calculator = Calculator.new
-    result = calculator.add(2, 3)
-    assert_equal 5, result
-  end
-end
-```
-
-## Common Assertions
-
-### Equality Assertions
-
-```ruby
-assert_equal expected, actual    # Check if values are equal
-assert_same expected, actual     # Check if objects are the same instance
-refute_equal expected, actual    # Check if values are NOT equal
-```
-
-### Boolean Assertions
-
-```ruby
-assert truthy_value              # Check if value is truthy
-refute falsy_value               # Check if value is falsy
-assert_nil value                 # Check if value is nil
-refute_nil value                 # Check if value is NOT nil
-```
-
-### Collection Assertions
-
-```ruby
-assert_includes collection, item    # Check if collection includes item
-assert_empty collection            # Check if collection is empty
-assert_kind_of Class, object        # Check object type
-```
-
-### Exception Assertions
-
-```ruby
-assert_raises ExceptionClass do
-  # Code that should raise exception
-end
-```
-
-## Test Structure
-
-```ruby
-require 'minitest/autorun'
-
-class MyClassTest < Minitest::Test
   def setup
-    # Code to run before each test method
-    @object = MyClass.new
+    @calculator = Calculator.new
+  end
+
+  def test_adds_two_numbers
+    assert_equal 5, @calculator.add(2, 3)
   end
 
   def teardown
-    # Code to run after each test method
-    # Cleanup code here
-  end
-
-  def test_some_behavior
-    # Test code here
-    result = @object.some_method
-    assert_equal expected_result, result
-  end
-
-  def test_another_behavior
-    # Another test
+    # optional cleanup (e.g., disconnect from DB)
   end
 end
 ```
 
-## Running Tests
+- `setup` runs before each test; `teardown` runs after.
+- Test method names must start with `test_`; keep them descriptive and behavior-focused.
+- `require "minitest/autorun"` bootstraps the test runner automatically when the file executes.
 
-### Run all tests in a file
-
-```bash
-ruby test_file.rb
-```
-
-### Run specific test
+## Core assertions
 
 ```ruby
-# In your test file
-ruby -e "require './test_file.rb'; MyClassTest.new(:test_method_name).run"
+assert_equal expected, actual
+refute_equal unexpected, actual
+assert_nil value
+refute_nil value
+assert_in_delta 3.14, value, 0.01  # approximate equality
+assert_includes collection, element
+assert_raises(ArgumentError) { subject.call }
+assert_output(/done/) { task.run }
 ```
 
-### Using rake (if you have a Rakefile)
+A few favorites:
 
-```bash
-rake test
-```
+- `assert` / `refute`: truthiness checks.
+- `assert_kind_of(klass, object)` / `assert_instance_of`.
+- `assert_predicate(object, :valid?)` ensures predicate returns truthy.
+- `assert_changes` (Rails) or custom helper: compare before/after states.
+- `assert_raises` and `assert_throws` for exceptions and `throw`/`catch` control flow.
 
-## Test Naming Conventions
+## Custom assertions
 
-- Test methods should start with `test_`
-- Test names should describe what they're testing
-- Use descriptive names that explain the expected behavior
+Encapsulate repeated patterns inside helper modules.
 
 ```ruby
-# Good test names
-def test_add_returns_sum_of_two_numbers
-def test_empty_list_returns_zero_for_sum
-def test_invalid_input_raises_argument_error
-
-# Bad test names
-def test_method1
-def test_add
-def test_error
-```
-
-## Testing Best Practices
-
-1. **Test one thing per test**: Each test should verify a single behavior
-2. **Use descriptive names**: Test names should explain what they're testing
-3. **Test edge cases**: Don't just test the happy path
-4. **Keep tests independent**: Tests shouldn't rely on each other
-5. **Use setup/teardown**: Initialize test data properly
-6. **Test both positive and negative cases**: Test what should work and what shouldn't
-
-## Example: Testing a Simple Class
-
-```ruby
-class Calculator
-  def add(a, b)
-    a + b
-  end
-
-  def divide(a, b)
-    raise ArgumentError, 'Cannot divide by zero' if b == 0
-    a / b
+module CustomAssertions
+  def assert_even(number)
+    assert number.even?, "Expected #{number} to be even"
   end
 end
 
-# Test file
-require 'minitest/autorun'
-require_relative 'calculator'
+class NumberTest < Minitest::Test
+  include CustomAssertions
 
-class CalculatorTest < Minitest::Test
+  def test_even_number
+    assert_even 4
+  end
+end
+```
+
+Keep assertion messages clear; Minitest displays them on failure.
+
+## Organizing helpers
+
+Use plain Ruby methods inside the test class or include modules for reusable helpers. Avoid global state—pass data explicitly or reset it in `setup`.
+
+```ruby
+class UserRepositoryTest < Minitest::Test
   def setup
-    @calc = Calculator.new
+    @repo = UserRepository.new
+    seed_user!
   end
 
-  def test_add_positive_numbers
-    result = @calc.add(2, 3)
-    assert_equal 5, result
+  def test_find_by_email
+    assert_equal "ada@example.com", @repo.find_by_email("ada@example.com").email
   end
 
-  def test_add_negative_numbers
-    result = @calc.add(-2, -3)
-    assert_equal -5, result
-  end
+  private
 
-  def test_divide_normal_case
-    result = @calc.divide(10, 2)
-    assert_equal 5, result
-  end
-
-  def test_divide_by_zero_raises_error
-    assert_raises ArgumentError do
-      @calc.divide(10, 0)
-    end
+  def seed_user!
+    @repo.create(email: "ada@example.com")
   end
 end
 ```
 
-## Understanding Test Output
+## Stubs and mocks
 
-When tests run, you'll see output like:
+Minitest provides basic stubs; use `mocha` or Minitest’s mock helpers for richer behavior.
 
-```text
-Run options: --seed 12345
+```ruby
+require "minitest/mock"
 
-# Running:
+def test_fetches_remote_data
+  client = Minitest::Mock.new
+  client.expect(:get, "OK", ["/status"])
 
-.....
+  service = StatusService.new(client:)
+  assert_equal "OK", service.fetch
 
-Finished in 0.001234s, 4065.0409 runs/s, 4065.0409 assertions/s.
-
-5 runs, 5 assertions, 0 failures, 0 errors, 0 skips
+  client.verify
+end
 ```
 
-- **Runs**: Number of test methods executed
-- **Assertions**: Number of assert statements that passed
-- **Failures**: Tests that failed (assertions that were false)
-- **Errors**: Unexpected exceptions during test execution
-- **Skips**: Tests that were intentionally skipped
+For quick stubs:
+
+```ruby
+Time.stub :now, Time.new(2025, 10, 3, 12, 0, 0) do
+  assert_equal 12, Scheduler.current_hour
+end
+```
+
+`stub` replaces the method temporarily and restores it afterward.
+
+## Running tests
+
+From the shell:
+
+```bash
+ruby test/calculator_test.rb
+```
+
+Filter by name using `-n` (regexp allowed):
+
+```bash
+ruby test/calculator_test.rb -n test_adds_two_numbers
+ruby test/calculator_test.rb -n /adds/
+```
+
+Randomize order to detect inter-test dependencies:
+
+```bash
+ruby test/calculator_test.rb --seed 12345
+```
+
+Integrate with `rake test` or bundler’s `bundle exec rake test` for project-wide runs.
+
+## Spec style (optional)
+
+Minitest also supports `describe` / `it` syntax via `minitest/spec`.
+
+```ruby
+require "minitest/autorun"
+require "minitest/spec"
+
+describe Calculator do
+  let(:calculator) { Calculator.new }
+
+  it "adds numbers" do
+    _(calculator.add(1, 2)).must_equal 3
+  end
+end
+```
+
+- `_()` wraps values for expectations.
+- `must_equal`, `wont_be_nil`, `must_raise`, etc., mirror assertion helpers.
+- `let`, `before`, and `after` provide lazily evaluated helpers similar to RSpec.
+
+Pick one style per project to keep consistency.
+
+## Reporting and output
+
+Enhance readability with reporters (e.g., `minitest-reporters`).
+
+```ruby
+require "minitest/reporters"
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+```
+
+Place reporter configuration in `test/test_helper.rb` so every test file requires the helper and picks up the same settings.
+
+## Fixtures and factories
+
+Minitest doesn’t mandate a factory library, but you can:
+
+- Roll your own helper methods to build objects.
+- Use gems like `factory_bot` with Minitest (`require "factory_bot"` in test helper and `include FactoryBot::Syntax::Methods`).
+- Leverage YAML fixtures (`ActiveSupport::TestCase`) if you’re in Rails.
+
+Keep test data small and explicit; prefer factories that produce minimal objects and customize per test (`build(:user, admin: true)`).
+
+## Keeping tests fast and isolated
+
+- Reset global state in `teardown` or use `around` helpers.
+- Avoid network calls; stub external services.
+- Use temporary directories (`Dir.mktmpdir`) and in-memory stores (e.g., `sqlite3` with `:memory:`) for integration tests.
+- Run tests in random order (`Minitest::Test.i_suck_and_my_tests_are_order_dependent!` as a humorous reminder not to rely on order).
+
+## Guided practice
+
+1. **Prime tester**
+   - Implement a simple `PrimeChecker` and write tests covering prime, composite, negative, and edge cases.
+   - Use `assert`/`refute` along with descriptive failure messages.
+
+2. **HTTP client mock**
+   - Build a `WeatherClient` that calls `HTTP.get("/forecast")`.
+   - Stub `HTTP.get` to return canned JSON and assert parsing behavior without hitting the network.
+
+3. **Custom assertion**
+   - Create `assert_valid(record)` that fails with `record.errors.full_messages.join(", ")` when validation fails.
+   - Use it in tests covering valid and invalid cases.
+
+4. **Spec-style rewrite**
+   - Convert an existing xUnit-style test to spec style.
+   - Identify pros/cons of each approach in the test comments.
+
+5. **Seed debugging**
+   - Introduce a deliberate order dependency between two tests.
+   - Run with different seeds to expose the issue, then refactor to remove the dependency.
+
+## Self-check questions
+
+1. What’s the difference between `assert_equal`, `assert_same`, and `assert_in_delta`, and when would you choose each?
+2. How does `setup`/`teardown` help keep tests isolated, and what should you avoid doing inside them?
+3. When mocking collaborators, how do you verify expectations were met and reset stubs afterward?
+4. Why might you run tests with a random seed, and how do you reproduce a failure triggered by randomness?
+5. What trade-offs exist between Minitest’s spec style and the traditional test class style?
+
+Minitest’s low ceremony encourages fast feedback. Keep tests small, deterministic, and expressive, and they’ll safeguard your codebase as it grows.

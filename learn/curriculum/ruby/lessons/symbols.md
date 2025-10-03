@@ -1,275 +1,184 @@
-# Symbols in Ruby
+# Symbols
 
-Learn about symbols - one of Ruby's most distinctive and efficient features.
+Symbols are immutable identifiers—lightweight labels Ruby uses for method names, hash keys, state machines, and internal bookkeeping. Because each symbol is unique and stored once, they’re faster to compare and cheaper to reuse than strings. Knowing when to reach for symbols keeps APIs consistent and memory usage predictable.
 
-## What is a Symbol?
+## Learning goals
 
-A symbol is an immutable identifier represented by a name preceded by a colon:
+- Recognize how symbols differ from strings in identity, mutability, and garbage collection.
+- Choose symbols for stable identifiers (hash keys, enum-like states) while keeping mutable text as strings.
+- Convert safely between strings and symbols without leaking memory or exposing security risks.
+- Use symbols in metaprogramming (dynamic method dispatch, reflection) and configuration objects.
+- Audit symbol-heavy code for performance pitfalls, especially when dealing with untrusted input.
+
+## Creating and inspecting symbols
 
 ```ruby
 :name
-:email
-:status
-:user_id
+:"symbol with spaces"
+:'quoted'
+:"interpolated_#{id}" # evaluated like double-quoted strings
+
+:name.class        # => Symbol
+:name.object_id    # same every time in a process
 ```
 
-## Symbols vs Strings
+Each distinct symbol exists once per Ruby process. Calling `:hello.object_id` repeatedly returns the same identifier; strings don’t behave that way.
 
-Symbols look like strings but behave very differently:
+## Symbols vs. strings
 
-```ruby
-# Strings
-"hello".object_id  # 70123456789000
-"hello".object_id  # 70123456789020 (different!)
+| Aspect              | Symbol                            | String                               |
+|---------------------|-----------------------------------|---------------------------------------|
+| Mutability          | Immutable, frozen                 | Mutable by default                    |
+| Identity            | Unique per name (`:foo` is single)| New object per literal unless frozen  |
+| Garbage collection  | Ruby 2.2+ collects dynamic symbols| Always GC’d                           |
+| Typical usage       | Keys, identifiers                 | User-visible text, mutable content    |
 
-# Symbols
-:hello.object_id   # 1234567
-:hello.object_id   # 1234567 (same!)
-```
+Comparing symbols is pointer equality (`:foo == :foo` is instant). Comparing strings walks characters unless both are frozen and reused.
 
-**Key Difference:** Each unique symbol exists only once in memory, while strings create new objects each time.
+## Hash keys and configuration
 
-## When to Use Symbols
-
-### 1. Hash Keys (Most Common)
-
-```ruby
-# Good: Symbols as hash keys
-user = {
-  name: "Alice",
-  age: 25,
-  email: "alice@example.com"
-}
-
-# Accessing
-user[:name]  # "Alice"
-user[:age]   # 25
-
-# Less efficient: Strings as keys
-user = {
-  "name" => "Alice",
-  "age" => 25
-}
-```
-
-### 2. Method Names and Identifiers
-
-```ruby
-# send method uses symbols
-object.send(:method_name, args)
-
-# attr_accessor uses symbols
-class Person
-  attr_accessor :name, :age
-end
-
-# respond_to? checks method existence
-user.respond_to?(:save)  # true or false
-```
-
-### 3. Constants and Configuration
-
-```ruby
-STATUS = {
-  pending: 0,
-  approved: 1,
-  rejected: 2
-}
-
-def set_status(status)
-  case status
-  when :pending
-    "Waiting for approval"
-  when :approved
-    "All good!"
-  when :rejected
-    "Sorry, denied"
-  end
-end
-```
-
-## Symbol Properties
-
-### Immutable
-
-Symbols cannot be changed:
-
-```ruby
-name = :hello
-# No methods like upcase!, reverse!, etc.
-# Symbols are frozen by default
-```
-
-### Memory Efficient
-
-```ruby
-# Creating 10,000 strings uses more memory
-10_000.times { "hello" }  # Creates 10,000 objects
-
-# Creating 10,000 symbols uses less memory
-10_000.times { :hello }   # References same object 10,000 times
-```
-
-### Faster Comparisons
-
-```ruby
-# Symbol comparison is faster
-:name == :name  # Compare object IDs (fast)
-
-# String comparison is slower
-"name" == "name"  # Compare character by character
-```
-
-## Converting Between Symbols and Strings
-
-```ruby
-# Symbol to String
-:hello.to_s   # "hello"
-
-# String to Symbol
-"hello".to_sym   # :hello
-"hello".intern   # :hello (older syntax)
-
-# Useful for user input
-user_input = "name"
-hash_key = user_input.to_sym  # :name
-user[hash_key]
-```
-
-## Symbol Methods
-
-Symbols support some string-like operations:
-
-```ruby
-:hello.upcase     # :HELLO
-:hello.capitalize # :Hello
-:hello.length     # 5
-:hello.to_s.reverse  # "olleh" (converts to string first)
-```
-
-## Modern Hash Syntax
-
-Ruby provides clean syntax for symbol keys:
-
-```ruby
-# Old style (hashrocket)
-user = { :name => "Alice", :age => 25 }
-
-# New style (JSON-like)
-user = { name: "Alice", age: 25 }
-
-# They're equivalent!
-{ :name => "Alice" } == { name: "Alice" }  # true
-```
-
-## When NOT to Use Symbols
-
-### Don't Use for User Input
-
-```ruby
-# Bad: Creating symbols from user input
-user_input = gets.chomp
-symbol = user_input.to_sym  # Dangerous!
-```
-
-**Why?** Symbols are never garbage collected. If users can create arbitrary symbols, you'll have a memory leak.
-
-### Don't Use for Changing Text
-
-```ruby
-# Bad: Using symbol for text that changes
-message = :hello  # Can't modify
-
-# Good: Use string
-message = "hello"
-message.upcase!   # Can modify
-```
-
-## Practical Examples
-
-### Configuration Hash
+Symbols shine as hash keys when the set of keys is fixed.
 
 ```ruby
 config = {
   host: "localhost",
   port: 3000,
-  timeout: 30,
-  retry: true
+  features: { dark_mode: true }
 }
 
-# Access with symbol
-config[:host]  # "localhost"
+config[:host]         # => "localhost"
+config.fetch(:port)   # => 3000
 ```
 
-### State Machine
+Symbols keep APIs consistent and avoid typos; Ruby will raise on unknown keys with `fetch`.
+
+## Method references and metaprogramming
+
+```ruby
+object.send(:save)
+user.respond_to?(:update?)
+public_send(:authenticate!, token)
+
+class Person
+  attr_accessor :name
+end
+```
+
+Many core APIs accept symbols to reference methods (`send`, `public_send`, `method`, `define_method`). Because the interpreter already tracks method names as symbols, you get efficient lookup.
+
+## Enumerations and state machines
 
 ```ruby
 class Order
+  STATES = %i[pending approved shipped cancelled].freeze
+
   def initialize
     @state = :pending
   end
-  
-  def approve!
-    @state = :approved
+
+  def transition_to(new_state)
+    raise ArgumentError unless STATES.include?(new_state)
+    @state = new_state
   end
-  
-  def reject!
-    @state = :rejected
-  end
-  
-  def approved?
-    @state == :approved
-  end
+
+  def approved? = @state == :approved
 end
 ```
 
-### Method Dispatch
+Symbols serve as lightweight enum values; compare them directly without needing extra objects.
+
+## Conversions
 
 ```ruby
-operations = {
-  add: ->(a, b) { a + b },
-  subtract: ->(a, b) { a - b },
-  multiply: ->(a, b) { a * b }
-}
+:status.to_s          # => "status"
+"status".to_sym       # => :status
+"status".intern       # => :status (alias)
 
-def calculate(operation, a, b)
-  operations[operation].call(a, b)
-end
-
-calculate(:add, 5, 3)       # 8
-calculate(:multiply, 4, 2)  # 8
+"status".to_sym.frozen? # => true
 ```
 
-## Quick Reference
+Converting user input to symbols can leak memory if the set of inputs is unbounded. Ruby 2.7+ garbage collects symbols created with `to_sym`, but older versions do not. Even with GC, avoid symbolizing attacker-controlled strings unless you whitelist them first.
 
 ```ruby
-# Create symbols
-:symbol
-:"symbol with spaces"
-
-# Check type
-:hello.class  # Symbol
-
-# Convert
-:hello.to_s   # "hello"
-"hello".to_sym  # :hello
-
-# Compare
-:a == :a  # true (same object)
-:a == :b  # false
-
-# List all symbols (debugging)
-Symbol.all_symbols.size  # Shows how many symbols exist
+ALLOWED = %i[name email phone].freeze
+key = params[:sort].to_sym
+raise "Invalid" unless ALLOWED.include?(key)
 ```
 
-## Best Practices
+## Symbol literals from strings
 
-1. **Use symbols for identifiers** - method names, hash keys, states
-2. **Use strings for data** - user input, text that changes, display text
-3. **Never create symbols from untrusted input** - memory leak risk
-4. **Prefer symbol keys in hashes** - faster and cleaner
-5. **Use symbols for constants** - status codes, configuration keys
+Double-quoted symbols support interpolation, but they’re created only once per file load.
 
-## Try It Yourself
+```ruby
+suffix = "name"
+field = :"user_#{suffix}"   # => :user_name
+```
 
-Complete the exercise to practice working with symbols!
+Dynamic combinations at runtime still produce interned symbols—mind the memory cost.
+
+## Symbol methods
+
+Symbols offer a subset of string-like behavior, returning new symbols where possible or strings when necessary.
+
+```ruby
+:hello.upcase         # => :HELLO
+:hello.capitalize     # => :Hello
+:hello.length         # => 5
+:hello.to_s.reverse   # => "olleh"
+```
+
+In Ruby 3+, many of these return symbols; earlier versions may return strings. Check your target Ruby version when relying on return types.
+
+## Reflection helpers
+
+```ruby
+Symbol.all_symbols.size     # total symbols currently interned
+Symbol.all_symbols.grep(/^set_/)
+```
+
+`Symbol.all_symbols` aids debugging but should stay out of hot code paths (it creates a new array each call).
+
+## Performance considerations
+
+- Reusing symbols avoids allocations and speeds comparisons.
+- Symbols in large hashes reduce memory overhead versus strings for repeated keys.
+- Creating symbols dynamically inside tight loops can still be costly—cache the symbol or use strings when the identifier set is huge or user-driven.
+
+## Safety tips
+
+- **Don’t symbolize arbitrary input.** Validate or whitelist first.
+- **Freeze constant hashes.** Prevent accidental mutation: `SETTINGS = {...}.freeze`.
+- **Prefer strings for mutable text.** Error messages, UI copy, translations, user content—all should stay as strings.
+- **Log responsibly.** Converting sensitive data to symbols hides content but doesn’t protect memory access. Use strings for secrets and clear them if needed.
+
+## Guided practice
+
+1. **Enum guard**
+   - Implement `status_from(string)` that maps user input to one of `:pending`, `:approved`, `:rejected`.
+   - Reject unexpected values without creating new symbols.
+
+2. **Dispatch table**
+   - Build a hash mapping symbols to lambdas (`:add`, `:subtract`, etc.).
+   - Write `calculate(operation, a, b)` that looks up the handler safely and raises for unsupported operations.
+
+3. **Symbol cache**
+   - Benchmark converting the same string to a symbol 100,000 times versus reusing a memoized symbol.
+   - Print timing differences using `Benchmark.realtime`.
+
+4. **Metaprogrammed accessors**
+   - Given an array of field names, dynamically define reader methods using `define_method` and symbols.
+   - Ensure method names are sanitized before defining them.
+
+5. **Configuration loader**
+   - Parse a YAML file into a hash.
+   - Recursively symbolize keys only if they exist in a whitelist per nesting level.
+
+## Self-check questions
+
+1. Why are symbols faster to compare than strings, and how does Ruby ensure their uniqueness?
+2. When is it appropriate to convert strings to symbols, and what safeguards should you implement beforehand?
+3. How do symbols enable metaprogramming features like `send`, `respond_to?`, and `define_method`?
+4. What changed about symbol garbage collection in Ruby 2.2 and later, and why does it matter for long-running processes?
+5. In what scenarios would strings still be the better choice over symbols, even for keys or identifiers?
+
+Symbols are Ruby’s efficient labels—perfect for stable identifiers and internal wiring. Use them to make intent clear and performance brisk, but keep user-driven or mutable text as strings so your programs remain safe and flexible.
