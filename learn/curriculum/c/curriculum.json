@@ -26,6 +26,12 @@
           "title": "Lesson 1.3: Making Decisions with Conditionals",
           "duration": 75,
           "difficulty": "beginner"
+        },
+        {
+          "id": "loops_iteration_c",
+          "title": "Lesson 1.4: Mastering Loops and Iteration",
+          "duration": 90,
+          "difficulty": "beginner"
         }
       ]
     }

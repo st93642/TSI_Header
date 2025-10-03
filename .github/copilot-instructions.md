@@ -5,13 +5,20 @@
 	- Preserve the 79-character TSI header format; rely on `core/lib/tsi_header_cli.rb` instead of hand-editing headers.
 	- Adding lessons to learn modules requires:
 		1. A Markdown lesson in `learn/curriculum/<lang>/lessons/` with concept explanation, examples, and practice steps.
-		2. An exercise JSON in `learn/curriculum/<lang>/exercises/` defining the task, input/output format, and tests.
-		3. A starter code file in `learn_exercises/<lang>/` with scaffolding aligned to the exercise steps.
+		2. An exercise JSON in `learn/curriculum/<lang>/exercises/` defining the task, input/output format, tests, hints, and the `starterCode` payload.
+		3. No checked-in starter files—`learn_exercises/` stays empty until `LearnManager.startExercise` materialises them from the JSON payload.
 		4. A solution JSON in `learn/curriculum/<lang>/solutions/` containing the canonical answer.
 		5. Updates to `learn/curriculum/<lang>/curriculum.json` to link the lesson and exercise.
 		6. Lessons to be deep and broad, covering each topic thoroughly without external references, self-contained (Fetch online, can combine from different sources).
 	- Every Learn lecture Markdown must be enriched and remain at least 300 lines long—expand existing lessons before progressing to new tasks.
 	- When a user requests "a lesson", fulfil the entire lesson bundle: curriculum entry, Markdown lesson, exercise JSON, starter code, and solution JSON.
+	- Lesson bundle workflow reference (repeat for every new lesson, e.g., C lesson 1.4 loops):
+		1. Author the Markdown lesson under `learn/curriculum/<lang>/lessons/`, ensuring >300 lines, deep coverage, guided practice, self-checks, and lint compliance.
+		2. Create a matching exercise JSON in `learn/curriculum/<lang>/exercises/` that aligns with lesson goals, spells out steps, I/O formats, tests, hints, and embeds starter scaffolding in the `starterCode` field (escaped correctly).
+		3. Do not create physical starter files—leave `learn_exercises/<lang>/` empty so LearnManager can generate workspace files from the JSON on demand.
+		4. Deliver the canonical solution JSON under `learn/curriculum/<lang>/solutions/`, keeping code, explanation, and key points in sync with the exercise tests.
+		5. Update `learn/curriculum/<lang>/curriculum.json` to register the new lesson ID, title, duration, and difficulty within the correct module sequence.
+		6. Run `ruby TEST_Suite/test_learn_module.rb` (plus language-specific suites when applicable) to validate curriculum wiring, exercise metadata, and escape integrity before handing off.
 2. **Architecture snapshot**
 	- VS Code entry `core/src/extension.js` orchestrates commands and shells to the Ruby CLI via `execSync`.
 	- Shared interface `core/index.js` exposes `TSICore` (header manager, code generator, project scaffolding, utils); call through it rather than deep-linking modules.
@@ -54,9 +61,9 @@
 		4. Close the loop: summarize key takeaways, list next steps (exercise + tests to run), and reference required tooling.
 		5. Run markdown lint and ensure code fences compile conceptually (syntax-highlighted language, real include paths, etc.).
 	- **Interactive exercise pipeline**
-		1. Mirror the lesson IDs: create/update `learn/curriculum/<lang>/exercises/<lesson_id>_exercise.json` plus a matching starter file under `learn_exercises/<lang>/` and a solution JSON under `learn/curriculum/<lang>/solutions/`.
+		1. Mirror the lesson IDs: create/update `learn/curriculum/<lang>/exercises/<lesson_id>_exercise.json` (with `starterCode`) and the paired solution JSON under `learn/curriculum/<lang>/solutions/`; keep `learn_exercises/<lang>/` empty so runtime generation works.
 		2. Author a concise brief with scenario, numbered steps, explicit input/output format, and an example run identical to tests.
-		3. Provide runnable starter code: include placeholders and comments aligned with each numbered step; avoid hidden magic.
+		3. Provide runnable starter code within the JSON payload: include placeholders and comments aligned with each numbered step; avoid hidden magic and ensure newline escaping.
 		4. Define tests in JSON (`type: "output"`, `"code"`, or custom harness) so `ExerciseRunner` can execute via the Ruby suite.
 		5. Write the canonical solution, emphasizing edge cases introduced in the lesson; validate manually before committing.
 	- **Checks & quality gates**

@@ -1,0 +1,41 @@
+{
+  "id": "loops_iteration_c_exercise",
+  "title": "Weekly Study Loop Tracker",
+  "description": "Build a dashboard that ingests study minutes for several weeks, summarises each period, and highlights the strongest performance. Practise nested loops, accumulators, and guard clauses to keep the workflow predictable.\n\nSteps:\n1. Prompt with `Enter number of weeks (1-4):` and read an integer. If `scanf` fails or the value is outside 1-4, print `Invalid number of weeks.` and return `1`.\n2. For each week `w` in the valid range, iterate days 1-7. Before reading, print `Enter minutes for week w day d:` (replace `w` and `d`). Read an integer. If any `scanf` fails or the value is negative, print `Invalid minutes.` and return `1`.\n3. Inside the inner loop, accumulate the weekly total and track the peak day index. When two days tie, keep the earlier day (do not overwrite the stored index).\n4. After the inner loop, compute the weekly average as `total / 7.0` and print `Week w: total=TOTAL avg=AVERAGE peak=Day D`, formatting the average with one decimal place.\n5. Track the best-performing week (highest total) across the outer loop; when totals tie, keep the earliest week. After all data is processed, compute the overall minutes and average per day across all weeks.\n6. Print the summary lines `Top week: Week W` and `Overall average: A` where `W` is the best week (1-based) and `A` is the overall average formatted to one decimal place.\n\nInput format:\n- Line 1: integer number of weeks\n- Lines 2..n: 7 integers per week, each provided on its own line following the prompts\n\nExpected output:\nEnter number of weeks (1-4):\n[Prompts for each day]\nWeek w: total=TOTAL avg=AVERAGE peak=Day D\n... (one line per week)\nTop week: Week W\nOverall average: A\n\nExample run:\n$ ./loop_tracker\nEnter number of weeks (1-4):\nEnter minutes for week 1 day 1:\nEnter minutes for week 1 day 2:\n...\nWeek 1: total=735 avg=105.0 peak=Day 5\nTop week: Week 1\nOverall average: 105.0",
+  "difficulty": "beginner",
+  "starterCode": "#include <stdio.h>\n\nstatic const int DAYS_PER_WEEK = 7;\n\nint main(void)\n{\n    int weeks = 0;\n\n    printf(\"Enter number of weeks (1-4):\\n\");\n    if (scanf(\"%d\", &weeks) != 1 || weeks < 1 || weeks > 4)\n    {\n        printf(\"Invalid number of weeks.\\n\");\n        return 1;\n    }\n\n    int topWeekIndex = 0;        /* store index of the best week (0-based) */\n    int topWeekTotal = -1;       /* best total minutes seen so far */\n    int overallMinutes = 0;\n\n    for (int week = 0; week < weeks; ++week)\n    {\n        int weekTotal = 0;\n        int weekPeakDay = 0;\n        int weekPeakMinutes = -1;\n\n        for (int day = 0; day < DAYS_PER_WEEK; ++day)\n        {\n            int minutes = 0;\n            printf(\"Enter minutes for week %d day %d:\\n\", week + 1, day + 1);\n\n            // TODO: Read minutes, guard against scanf failure or negative values.\n\n            // TODO: Add minutes to weekTotal and overallMinutes.\n\n            // TODO: Update weekPeakDay and weekPeakMinutes when a new maximum appears.\n            //       Remember to keep the earlier day when values tie.\n        }\n\n        // TODO: Compute the weekly average as a double (weekTotal / 7.0).\n        // TODO: Print the week summary line in the required format.\n\n        // TODO: Update topWeekIndex and topWeekTotal if this week beats the previous best.\n    }\n\n    // TODO: After all weeks, compute overall average per day (overallMinutes / (weeks * 7.0)).\n    // TODO: Print the summary lines for the top week and overall average.\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "single week with increasing minutes",
+      "type": "output",
+      "input": "1\n90\n95\n100\n110\n120\n105\n115\n",
+      "expected": "Enter number of weeks (1-4):\nEnter minutes for week 1 day 1:\nEnter minutes for week 1 day 2:\nEnter minutes for week 1 day 3:\nEnter minutes for week 1 day 4:\nEnter minutes for week 1 day 5:\nEnter minutes for week 1 day 6:\nEnter minutes for week 1 day 7:\nWeek 1: total=735 avg=105.0 peak=Day 5\nTop week: Week 1\nOverall average: 105.0"
+    },
+    {
+      "name": "two weeks with second week best",
+      "type": "output",
+      "input": "2\n80\n80\n80\n80\n80\n80\n80\n95\n110\n120\n130\n140\n150\n160\n",
+      "expected": "Enter number of weeks (1-4):\nEnter minutes for week 1 day 1:\nEnter minutes for week 1 day 2:\nEnter minutes for week 1 day 3:\nEnter minutes for week 1 day 4:\nEnter minutes for week 1 day 5:\nEnter minutes for week 1 day 6:\nEnter minutes for week 1 day 7:\nEnter minutes for week 2 day 1:\nEnter minutes for week 2 day 2:\nEnter minutes for week 2 day 3:\nEnter minutes for week 2 day 4:\nEnter minutes for week 2 day 5:\nEnter minutes for week 2 day 6:\nEnter minutes for week 2 day 7:\nWeek 1: total=560 avg=80.0 peak=Day 1\nWeek 2: total=905 avg=129.3 peak=Day 7\nTop week: Week 2\nOverall average: 104.6"
+    },
+    {
+      "name": "invalid weeks input",
+      "type": "output",
+      "input": "0\n",
+      "expected": "Enter number of weeks (1-4):\nInvalid number of weeks."
+    }
+  ],
+  "hints": [
+    "Divide the logic into helper variables: weekTotal, weekPeakMinutes, overallMinutes.",
+    "When a new maximum is detected, store both the minutes and the day index.",
+    "Remember to convert counts to double by multiplying by 1.0 or dividing by 7.0 to get fractional averages.",
+    "Guard against negative minute entries immediately so bad data does not pollute later calculations.",
+    "Track the top week by comparing weekTotal against the best so far; update when strictly greater."
+  ],
+  "tags": [
+    "c",
+    "loops",
+    "nested-loops",
+    "averages",
+    "beginner"
+  ]
+}
