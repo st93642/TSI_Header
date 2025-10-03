@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 03 2025 11:10 st93642                                       */
+/*  Updated: Oct 04 2025 01:11 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -1404,6 +1404,213 @@ extern "C" {
     });
 
     context.subscriptions.push(runExerciseTestsCppCommand);
+
+    const learnCppDsaCommand = vscode.commands.registerCommand('tsiheader.learnCppDsa', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+
+            const curriculum = await learnInstance.learnManager.loadCurriculum('cpp');
+            const modules = Array.isArray(curriculum.modules) ? curriculum.modules : [];
+            const dsaModuleId = 'advanced_data_structures_cpp';
+            const dsaModule = modules.find(module => module.id === dsaModuleId);
+
+            if (!dsaModule) {
+                vscode.window.showErrorMessage('The C++ Data Structures & Algorithms module is not available in the curriculum.');
+                return;
+            }
+
+            const lessons = Array.isArray(dsaModule.lessons) ? dsaModule.lessons : [];
+            if (lessons.length === 0) {
+                vscode.window.showWarningMessage('No lessons were found in the C++ Data Structures & Algorithms module.');
+                return;
+            }
+
+            const progress = await learnInstance.progressTracker.getProgress('cpp');
+            const normalize = id => learnInstance.progressTracker.normalizeLessonId(id);
+            const completedLessons = new Set((progress.completed || [])
+                .map(id => normalize(id))
+                .filter(Boolean));
+
+            let nextLesson = lessons.find(lesson => !completedLessons.has(normalize(lesson.id)));
+            if (!nextLesson) {
+                nextLesson = lessons[0];
+            }
+
+            if (!nextLesson) {
+                vscode.window.showWarningMessage('Unable to determine the next lesson for the C++ DSA module.');
+                return;
+            }
+
+            const enrichedLesson = {
+                ...nextLesson,
+                sectionTitle: dsaModule.title,
+                sectionId: dsaModule.id,
+                sectionType: 'module',
+                moduleTitle: dsaModule.title,
+                moduleId: dsaModule.id,
+                exerciseVariants: nextLesson.exerciseVariants || []
+            };
+
+            await learnInstance.learnManager.openLesson('cpp', enrichedLesson);
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error starting C++ DSA learning: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(learnCppDsaCommand);
+
+    const browseLessonsCppDsaCommand = vscode.commands.registerCommand('tsiheader.browseLessonsCppDsa', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+
+            const curriculum = await learnInstance.learnManager.loadCurriculum('cpp');
+            const modules = Array.isArray(curriculum.modules) ? curriculum.modules : [];
+            const dsaModuleId = 'advanced_data_structures_cpp';
+            const dsaModule = modules.find(module => module.id === dsaModuleId);
+
+            if (!dsaModule) {
+                vscode.window.showErrorMessage('The C++ Data Structures & Algorithms module is not available in the curriculum.');
+                return;
+            }
+
+            const lessons = Array.isArray(dsaModule.lessons) ? dsaModule.lessons : [];
+            if (lessons.length === 0) {
+                vscode.window.showWarningMessage('No lessons were found in the C++ Data Structures & Algorithms module.');
+                return;
+            }
+
+            const progress = await learnInstance.progressTracker.getProgress('cpp');
+            const normalize = id => learnInstance.progressTracker.normalizeLessonId(id);
+            const completedLessons = new Set((progress.completed || [])
+                .map(id => normalize(id))
+                .filter(Boolean));
+
+            const items = lessons.map(lesson => {
+                const normalizedId = normalize(lesson.id);
+                const isCompleted = normalizedId ? completedLessons.has(normalizedId) : false;
+                const statusIcon = isCompleted ? '$(check)' : '$(circle-large-outline)';
+                const difficulty = lesson.difficulty ? lesson.difficulty.charAt(0).toUpperCase() + lesson.difficulty.slice(1) : 'Unspecified';
+                const duration = lesson.duration ? `${lesson.duration} min` : 'Duration N/A';
+                return {
+                    label: `${statusIcon} ${lesson.title || lesson.id}`,
+                    description: `${difficulty} • ${duration}`,
+                    detail: dsaModule.description || 'Focus on advanced data structures and algorithms in C++.',
+                    lesson
+                };
+            });
+
+            const selection = await vscode.window.showQuickPick(items, {
+                placeHolder: 'Select a C++ DSA lesson to open'
+            });
+
+            if (!selection || !selection.lesson) {
+                return;
+            }
+
+            const selectedLesson = selection.lesson;
+            const enrichedLesson = {
+                ...selectedLesson,
+                sectionTitle: dsaModule.title,
+                sectionId: dsaModule.id,
+                sectionType: 'module',
+                moduleTitle: dsaModule.title,
+                moduleId: dsaModule.id,
+                exerciseVariants: selectedLesson.exerciseVariants || []
+            };
+
+            await learnInstance.learnManager.openLesson('cpp', enrichedLesson);
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error browsing C++ DSA lessons: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(browseLessonsCppDsaCommand);
+
+    const viewLearnProgressCppDsaCommand = vscode.commands.registerCommand('tsiheader.viewLearnProgressCppDsa', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+
+            const curriculum = await learnInstance.learnManager.loadCurriculum('cpp');
+            const modules = Array.isArray(curriculum.modules) ? curriculum.modules : [];
+            const dsaModuleId = 'advanced_data_structures_cpp';
+            const dsaModule = modules.find(module => module.id === dsaModuleId);
+
+            if (!dsaModule) {
+                vscode.window.showErrorMessage('The C++ Data Structures & Algorithms module is not available in the curriculum.');
+                return;
+            }
+
+            const lessons = Array.isArray(dsaModule.lessons) ? dsaModule.lessons : [];
+            if (lessons.length === 0) {
+                vscode.window.showWarningMessage('No lessons were found in the C++ Data Structures & Algorithms module.');
+                return;
+            }
+
+            const progress = await learnInstance.progressTracker.getProgress('cpp');
+            const normalize = id => learnInstance.progressTracker.normalizeLessonId(id);
+            const completedLessons = new Set((progress.completed || [])
+                .map(id => normalize(id))
+                .filter(Boolean));
+
+            const totalLessons = lessons.length;
+            const completedCount = lessons.reduce((count, lesson) => {
+                const normalizedId = normalize(lesson.id);
+                if (normalizedId && completedLessons.has(normalizedId)) {
+                    return count + 1;
+                }
+                return count;
+            }, 0);
+
+            const remainingCount = totalLessons - completedCount;
+            const completionRate = totalLessons === 0 ? 0 : Math.round((completedCount / totalLessons) * 100);
+
+            const nextLesson = lessons.find(lesson => {
+                const normalizedId = normalize(lesson.id);
+                return !(normalizedId && completedLessons.has(normalizedId));
+            }) || null;
+
+            const messageLines = [
+                '📊 C++ Data Structures & Algorithms Progress',
+                '',
+                `${dsaModule.title}`,
+                `Lessons Completed: ${completedCount}/${totalLessons} (${completionRate}%)`,
+                `Remaining Lessons: ${remainingCount}`
+            ];
+
+            if (nextLesson) {
+                messageLines.push(`Next Recommended Lesson: ${nextLesson.title || nextLesson.id}`);
+            } else {
+                messageLines.push('🎉 You have completed every lesson in this module!');
+            }
+
+            const message = messageLines.join('\n');
+
+            const buttons = [];
+            if (nextLesson) {
+                buttons.push('Start Next Lesson');
+            }
+            buttons.push('Browse Lessons');
+
+            const action = await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                ...buttons
+            );
+
+            if (action === 'Start Next Lesson') {
+                await vscode.commands.executeCommand('tsiheader.learnCppDsa');
+            } else if (action === 'Browse Lessons') {
+                await vscode.commands.executeCommand('tsiheader.browseLessonsCppDsa');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing C++ DSA progress: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewLearnProgressCppDsaCommand);
 
     // Register feature module commands
     // Code quality enforcement module removed

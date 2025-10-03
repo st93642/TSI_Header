@@ -228,6 +228,12 @@
           "title": "Lesson 11.3: Graph Traversal with DFS and BFS",
           "duration": 85,
           "difficulty": "advanced"
+        },
+        {
+          "id": "shortest_paths_dijkstra_bellman_ford_cpp",
+          "title": "Lesson 11.4: Shortest Paths Algorithms (Dijkstra and Bellman-Ford)",
+          "duration": 90,
+          "difficulty": "advanced"
         }
       ]
     }

@@ -17,7 +17,7 @@ module_11 = modules.find { |mod| mod['id'] == 'advanced_data_structures_cpp' }
 raise 'Module 11 (advanced_data_structures_cpp) is missing' unless module_11
 
 lesson_ids = (module_11['lessons'] || []).map { |lesson| lesson['id'] }
-expected_lessons = %w[priority_queues_intro_cpp priority_queues_heaps_cpp union_find_disjoint_sets_cpp graph_traversal_dfs_bfs_cpp]
+expected_lessons = %w[priority_queues_intro_cpp priority_queues_heaps_cpp union_find_disjoint_sets_cpp graph_traversal_dfs_bfs_cpp shortest_paths_dijkstra_bellman_ford_cpp]
 raise "Module 11 lessons mismatch. Expected #{expected_lessons.join(', ')}, got #{lesson_ids.join(', ')}" unless lesson_ids == expected_lessons
 
 lesson_path = cpp_root.join('lessons', 'graph_traversal_dfs_bfs_cpp.md')
@@ -61,4 +61,26 @@ missing = question_ids - answer_ids
 raise "Union-Find quiz solution missing answers for: #{missing.join(', ')}" unless missing.empty?
 raise 'Union-Find quiz solution must include key points' unless (union_find_solution['keyPoints'] || []).any?
 
-puts '✅ Module 11 graph traversal lesson bundle validated'
+shortest_paths_lesson_path = cpp_root.join('lessons', 'shortest_paths_dijkstra_bellman_ford_cpp.md')
+raise 'Lesson markdown missing for shortest_paths_dijkstra_bellman_ford_cpp' unless shortest_paths_lesson_path.exist?
+
+shortest_paths_lesson_content = shortest_paths_lesson_path.read
+raise 'Lesson must include a Practice Time section' unless shortest_paths_lesson_content.include?('## Practice Time')
+
+shortest_paths_exercise_path = cpp_root.join('exercises', 'shortest_paths_dijkstra_bellman_ford_cpp_exercise.json')
+raise 'Exercise file missing for shortest_paths_dijkstra_bellman_ford_cpp' unless shortest_paths_exercise_path.exist?
+shortest_paths_exercise = JSON.parse(shortest_paths_exercise_path.read)
+raise 'Shortest paths exercise must be a quiz' unless shortest_paths_exercise['type'] == 'quiz'
+questions = shortest_paths_exercise['questions'] || []
+raise 'Shortest paths quiz must contain at least 8 questions' if questions.length < 8
+
+shortest_paths_solution_path = cpp_root.join('solutions', 'shortest_paths_dijkstra_bellman_ford_cpp_exercise.json')
+raise 'Solution file missing for shortest_paths_dijkstra_bellman_ford_cpp' unless shortest_paths_solution_path.exist?
+shortest_paths_solution = JSON.parse(shortest_paths_solution_path.read)
+raise 'Shortest paths solution must reference exercise id' unless shortest_paths_solution['id'] == 'shortest_paths_dijkstra_bellman_ford_cpp_exercise'
+raise 'Shortest paths solution must specify quiz type' unless shortest_paths_solution['type'] == 'quiz'
+answer_key = shortest_paths_solution['answerKey'] || []
+raise 'Shortest paths quiz solution must provide answer key' if answer_key.empty?
+raise 'Shortest paths quiz solution must include key points' unless (shortest_paths_solution['keyPoints'] || []).any?
+
+puts '✅ Module 11 shortest paths lesson bundle validated'

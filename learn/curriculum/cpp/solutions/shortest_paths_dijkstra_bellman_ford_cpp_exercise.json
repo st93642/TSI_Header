@@ -1,0 +1,64 @@
+{
+  "id": "shortest_paths_dijkstra_bellman_ford_cpp_exercise",
+  "type": "quiz",
+  "explanation": "This quiz comprehensively tests understanding of Dijkstra's and Bellman-Ford algorithms, their differences, complexities, and applications. The questions cover theoretical foundations, practical considerations, and real-world use cases.",
+  "keyPoints": [
+    "Dijkstra's algorithm uses a greedy approach that fails with negative weights because it doesn't reconsider previously computed shortest paths",
+    "Bellman-Ford uses dynamic programming with repeated edge relaxation, allowing it to handle negative weights and detect negative cycles",
+    "Time complexity differences make Dijkstra's preferable for non-negative weight graphs, especially sparse ones",
+    "Bellman-Ford's ability to detect negative cycles is crucial for applications like currency arbitrage and constraint validation",
+    "Algorithm choice depends on graph properties: non-negative weights favor Dijkstra's, negative weights require Bellman-Ford"
+  ],
+  "answerKey": [
+    {
+      "questionId": "dijkstra_negative_weights",
+      "answers": ["option_a"],
+      "rationale": "Dijkstra's greedy strategy assumes that once a vertex is processed with its final shortest distance, no shorter path will be found later. Negative weights violate this assumption."
+    },
+    {
+      "questionId": "dijkstra_time_complexity",
+      "answers": ["option_b"],
+      "rationale": "The binary heap implementation gives O((V + E) log V) time complexity, which is efficient for sparse graphs."
+    },
+    {
+      "questionId": "bellman_ford_negative_cycles",
+      "answers": ["option_b"],
+      "rationale": "After V-1 iterations of relaxing all edges, any further improvement in distances during the V-th iteration indicates a negative cycle."
+    },
+    {
+      "questionId": "algorithm_choice_road_network",
+      "answers": ["option_b"],
+      "rationale": "Road networks have non-negative distances, making Dijkstra's algorithm the optimal choice due to its better time complexity."
+    },
+    {
+      "questionId": "currency_arbitrage",
+      "answers": ["option_b"],
+      "rationale": "By modeling exchange rates as edge weights (-log(rate)), a negative cycle represents a way to increase your starting currency through cyclic exchanges."
+    },
+    {
+      "questionId": "dijkstra_negative_weights_consequences",
+      "answers": ["option_b"],
+      "rationale": "Without the non-negative weight assumption, Dijkstra's may process vertices in wrong order and miss better paths that include negative edges."
+    },
+    {
+      "questionId": "bellman_ford_complexity",
+      "answers": ["option_b"],
+      "rationale": "Bellman-Ford relaxes all edges V-1 times, giving O(V × E) complexity, which is higher than Dijkstra's but necessary for negative weights."
+    },
+    {
+      "questionId": "fundamental_difference",
+      "answers": ["option_b"],
+      "rationale": "This is the core difference: Dijkstra's assumes non-negative weights for its greedy approach to work correctly."
+    },
+    {
+      "questionId": "bellman_ford_preferred_scenario",
+      "answers": ["option_b"],
+      "rationale": "Traffic penalties can be modeled as negative weights to discourage certain routes, requiring Bellman-Ford's ability to handle negative edges."
+    },
+    {
+      "questionId": "negative_cycle_detection_return",
+      "answers": ["option_c"],
+      "rationale": "The empty vector return value signals that a negative cycle was detected, making shortest paths undefined for that graph."
+    }
+  ]
+}

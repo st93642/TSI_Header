@@ -1,0 +1,157 @@
+{
+  "id": "shortest_paths_dijkstra_bellman_ford_cpp_exercise",
+  "title": "Shortest Paths Algorithms Quiz",
+  "description": "Test your understanding of Dijkstra's and Bellman-Ford algorithms for finding shortest paths in graphs.",
+  "type": "quiz",
+  "mode": "quiz",
+  "difficulty": "advanced",
+  "timeEstimate": 20,
+  "questions": [
+    {
+      "id": "dijkstra_negative_weights",
+      "type": "single",
+      "prompt": "Why can't Dijkstra's algorithm handle graphs with negative edge weights?",
+      "options": [
+        { "id": "option_a", "text": "It uses a greedy approach that assumes non-negative weights for correctness", "correct": true },
+        { "id": "option_b", "text": "It has higher time complexity with negative weights" },
+        { "id": "option_c", "text": "It cannot detect negative cycles" },
+        { "id": "option_d", "text": "It requires bidirectional edges" }
+      ],
+      "explanation": "Dijkstra's algorithm uses a greedy strategy that assumes once a vertex is processed with its final shortest distance, no shorter path will be found later. Negative weights violate this assumption."
+    },
+    {
+      "id": "dijkstra_time_complexity",
+      "type": "single",
+      "prompt": "What is the time complexity of Dijkstra's algorithm using a binary heap?",
+      "options": [
+        { "id": "option_a", "text": "O(V²)" },
+        { "id": "option_b", "text": "O((V + E) log V)", "correct": true },
+        { "id": "option_c", "text": "O(V × E)" },
+        { "id": "option_d", "text": "O(E log V)" }
+      ],
+      "explanation": "With a binary heap priority queue, Dijkstra's algorithm runs in O((V + E) log V) time, where V is the number of vertices and E is the number of edges."
+    },
+    {
+      "id": "bellman_ford_negative_cycles",
+      "type": "single",
+      "prompt": "How does Bellman-Ford detect negative cycles in a graph?",
+      "options": [
+        { "id": "option_a", "text": "By checking for infinite loops during execution" },
+        { "id": "option_b", "text": "By running an extra iteration after V-1 iterations and checking if any distance can still be updated", "correct": true },
+        { "id": "option_c", "text": "By calculating the sum of all edge weights" },
+        { "id": "option_d", "text": "By using negative infinity as initial distance" }
+      ],
+      "explanation": "After relaxing all edges V-1 times, Bellman-Ford performs one more iteration. If any distance can still be reduced, it indicates the presence of a negative cycle reachable from the source."
+    },
+    {
+      "id": "algorithm_choice_road_network",
+      "type": "single",
+      "prompt": "Which algorithm would you choose for finding shortest paths in a road network where all distances are positive?",
+      "options": [
+        { "id": "option_a", "text": "Bellman-Ford, because it's more general" },
+        { "id": "option_b", "text": "Dijkstra's, because it's more efficient for non-negative weights", "correct": true },
+        { "id": "option_c", "text": "Either algorithm works equally well" },
+        { "id": "option_d", "text": "Neither, use BFS instead" }
+      ],
+      "explanation": "Road networks have non-negative distances, making Dijkstra's algorithm the optimal choice due to its better time complexity."
+    },
+    {
+      "id": "currency_arbitrage",
+      "type": "single",
+      "prompt": "In currency arbitrage detection, negative cycles in the exchange rate graph indicate:",
+      "options": [
+        { "id": "option_a", "text": "Losses in currency exchange" },
+        { "id": "option_b", "text": "Profit opportunities through cyclic exchanges", "correct": true },
+        { "id": "option_c", "text": "Stable exchange rates" },
+        { "id": "option_d", "text": "Invalid exchange data" }
+      ],
+      "explanation": "A negative cycle in the exchange rate graph (where edge weights are -log(exchange rates)) means you can start with some currency, exchange it through the cycle, and end up with more of the original currency - representing an arbitrage opportunity."
+    },
+    {
+      "id": "dijkstra_negative_weights_consequences",
+      "type": "single",
+      "prompt": "What happens if you run Dijkstra's algorithm on a graph with negative weights?",
+      "options": [
+        { "id": "option_a", "text": "It always gives correct results" },
+        { "id": "option_b", "text": "It may give incorrect shortest paths", "correct": true },
+        { "id": "option_c", "text": "It runs faster" },
+        { "id": "option_d", "text": "It detects negative cycles" }
+      ],
+      "explanation": "Without the non-negative weight assumption, Dijkstra's may process vertices in wrong order and miss better paths that include negative edges."
+    },
+    {
+      "id": "bellman_ford_complexity",
+      "type": "single",
+      "prompt": "Which of the following is true about Bellman-Ford's time complexity?",
+      "options": [
+        { "id": "option_a", "text": "It's O(V²) in all cases" },
+        { "id": "option_b", "text": "It's O(V × E) in the worst case", "correct": true },
+        { "id": "option_c", "text": "It's faster than Dijkstra's on sparse graphs" },
+        { "id": "option_d", "text": "It uses a priority queue for efficiency" }
+      ],
+      "explanation": "Bellman-Ford relaxes all edges V-1 times, giving O(V × E) complexity, which is higher than Dijkstra's but necessary for negative weights."
+    },
+    {
+      "id": "fundamental_difference",
+      "type": "single",
+      "prompt": "What is the key difference between Dijkstra's and Bellman-Ford algorithms?",
+      "options": [
+        { "id": "option_a", "text": "Dijkstra's is recursive, Bellman-Ford is iterative" },
+        { "id": "option_b", "text": "Dijkstra's requires non-negative weights, Bellman-Ford handles negative weights", "correct": true },
+        { "id": "option_c", "text": "Dijkstra's finds all-pairs shortest paths, Bellman-Ford finds single-source" },
+        { "id": "option_d", "text": "Dijkstra's uses adjacency matrix, Bellman-Ford uses adjacency list" }
+      ],
+      "explanation": "The fundamental difference is that Dijkstra's algorithm requires all edge weights to be non-negative for correctness, while Bellman-Ford can handle graphs with negative edge weights."
+    },
+    {
+      "id": "bellman_ford_preferred_scenario",
+      "type": "single",
+      "prompt": "In which scenario would Bellman-Ford be preferred over Dijkstra's?",
+      "options": [
+        { "id": "option_a", "text": "Finding shortest paths in social networks" },
+        { "id": "option_b", "text": "GPS navigation with traffic penalties (which can be negative)", "correct": true },
+        { "id": "option_c", "text": "Finding shortest paths in unweighted graphs" },
+        { "id": "option_d", "text": "All of the above" }
+      ],
+      "explanation": "Traffic penalties can be modeled as negative weights to discourage certain routes, requiring Bellman-Ford's ability to handle negative edges."
+    },
+    {
+      "id": "negative_cycle_detection_return",
+      "type": "single",
+      "prompt": "What does it mean if Bellman-Ford returns an empty distance array?",
+      "options": [
+        { "id": "option_a", "text": "The graph is disconnected" },
+        { "id": "option_b", "text": "All vertices are unreachable" },
+        { "id": "option_c", "text": "A negative cycle was detected", "correct": true },
+        { "id": "option_d", "text": "Memory allocation failed" }
+      ],
+      "explanation": "The empty vector return value signals that a negative cycle was detected, making shortest paths undefined for that graph."
+    }
+  ],
+  "hints": [
+    "Think about the greedy choice property and when it fails.",
+    "Consider the worst-case scenario for graph density.",
+    "Remember the extra iteration after V-1 relaxations.",
+    "Efficiency matters for large-scale applications.",
+    "Convert real-world problems to graph problems.",
+    "Greedy algorithms have assumptions that must be met.",
+    "Count the number of relaxation operations.",
+    "Focus on the fundamental algorithmic differences.",
+    "Consider real-world constraints and data characteristics.",
+    "Check the implementation's error handling."
+  ],
+  "starterCode": "",
+  "solution": {
+    "explanation": "This quiz tests understanding of shortest path algorithms, their differences, and appropriate use cases. Key concepts include greedy vs dynamic programming approaches, handling of negative weights, and real-world applications.",
+    "keyPoints": [
+      "Dijkstra's algorithm requires non-negative weights for correctness",
+      "Bellman-Ford can handle negative weights and detect negative cycles",
+      "Time complexities: Dijkstra's O((V+E)log V), Bellman-Ford O(V×E)",
+      "Choose algorithm based on graph characteristics and requirements",
+      "Shortest path algorithms have many practical applications"
+    ],
+    "answerKey": [
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 2
+    ]
+  }
+}

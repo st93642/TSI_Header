@@ -85,7 +85,8 @@ class TSITreeDataProvider {
             return Promise.resolve([
                 new TSITreeItem('Ruby', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-ruby'),
                 new TSITreeItem('C', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-c'),
-                new TSITreeItem('C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-cpp')
+                new TSITreeItem('C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-cpp'),
+                new TSITreeItem('DSA C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-dsa-cpp')
             ]);
         } else if (element.id === 'learn-ruby') {
             // Ruby learning section
@@ -157,6 +158,24 @@ class TSITreeDataProvider {
                     command: 'tsiheader.viewLearnProgressCpp',
                     title: 'View Progress',
                     tooltip: 'View your C++ learning progress and achievements'
+                })
+            ]);
+        } else if (element.id === 'learn-dsa-cpp') {
+            return Promise.resolve([
+                new TSITreeItem('Start Learning', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.learnCppDsa',
+                    title: 'Start Learning DSA in C++',
+                    tooltip: 'Jump straight into the C++ Data Structures & Algorithms module'
+                }),
+                new TSITreeItem('Browse All Lessons', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.browseLessonsCppDsa',
+                    title: 'Browse DSA Lessons',
+                    tooltip: 'Review every lesson in the C++ DSA module'
+                }),
+                new TSITreeItem('View Progress', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewLearnProgressCppDsa',
+                    title: 'View DSA Progress',
+                    tooltip: 'Check your progress across the C++ DSA module'
                 })
             ]);
         }
@@ -309,17 +328,23 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('file-code');
         } else if (id === 'learn-cpp') {
             this.iconPath = new vscode.ThemeIcon('file-code');
+        } else if (id === 'learn-dsa-cpp') {
+            this.iconPath = new vscode.ThemeIcon('graph');
         } else if (command?.command === 'tsiheader.learnRuby') {
             this.iconPath = new vscode.ThemeIcon('play-circle');
         } else if (command?.command === 'tsiheader.learnC') {
             this.iconPath = new vscode.ThemeIcon('play-circle');
         } else if (command?.command === 'tsiheader.learnCpp') {
             this.iconPath = new vscode.ThemeIcon('play-circle');
+        } else if (command?.command === 'tsiheader.learnCppDsa') {
+            this.iconPath = new vscode.ThemeIcon('play-circle');
         } else if (command?.command === 'tsiheader.browseLessons') {
             this.iconPath = new vscode.ThemeIcon('list-tree');
         } else if (command?.command === 'tsiheader.browseLessonsC') {
             this.iconPath = new vscode.ThemeIcon('list-tree');
         } else if (command?.command === 'tsiheader.browseLessonsCpp') {
+            this.iconPath = new vscode.ThemeIcon('list-tree');
+        } else if (command?.command === 'tsiheader.browseLessonsCppDsa') {
             this.iconPath = new vscode.ThemeIcon('list-tree');
         } else if (command?.command === 'tsiheader.runExerciseTests') {
             this.iconPath = new vscode.ThemeIcon('beaker');
@@ -332,6 +357,8 @@ class TSITreeItem extends vscode.TreeItem {
         } else if (command?.command === 'tsiheader.viewLearnProgressC') {
             this.iconPath = new vscode.ThemeIcon('graph');
         } else if (command?.command === 'tsiheader.viewLearnProgressCpp') {
+            this.iconPath = new vscode.ThemeIcon('graph');
+        } else if (command?.command === 'tsiheader.viewLearnProgressCppDsa') {
             this.iconPath = new vscode.ThemeIcon('graph');
         }
     }

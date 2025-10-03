@@ -306,6 +306,24 @@
         "title": "Run C++ Exercise Tests",
         "category": "Learn",
         "icon": "$(play)"
+      },
+      {
+        "command": "tsiheader.learnCppDsa",
+        "title": "Learn C++ DSA",
+        "category": "Learn",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "tsiheader.browseLessonsCppDsa",
+        "title": "Browse C++ DSA Lessons",
+        "category": "Learn",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "tsiheader.viewLearnProgressCppDsa",
+        "title": "View C++ DSA Progress",
+        "category": "Learn",
+        "icon": "$(graph)"
       }
     ],
     "menus": {

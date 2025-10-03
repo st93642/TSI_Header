@@ -63,7 +63,8 @@ function loadCurriculum(language) {
     'priority_queues_intro_cpp',
     'priority_queues_heaps_cpp',
     'union_find_disjoint_sets_cpp',
-    'graph_traversal_dfs_bfs_cpp'
+    'graph_traversal_dfs_bfs_cpp',
+    'shortest_paths_dijkstra_bellman_ford_cpp'
     ];
 
     for (let index = 0; index < expectedSequence.length - 1; index++) {
