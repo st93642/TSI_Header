@@ -156,4 +156,244 @@ You now have everything needed for the exercise: declarations, calculations, for
 - All numeric values display with clear labels (for example, `Completion percentage: 17.8%`).
 - When run with different study schedules, the totals update automatically without touching the code.
 
+## 7. Accept command-line arguments
+
+Many console utilities read data from command-line arguments instead of prompting users interactively. Update `main` to accept parameters and convert them to numbers with `strtol` or `strtod`.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+   if (argc != 3)
+   {
+      fprintf(stderr, "Usage: %s <credits> <goal-gpa>\n", argv[0]);
+      return 1;
+   }
+
+   int credits = (int)strtol(argv[1], NULL, 10);
+   double goal = strtod(argv[2], NULL);
+
+   printf("Credits: %d\n", credits);
+   printf("Goal GPA: %.2f\n", goal);
+
+   return 0;
+}
+```
+
+- `argc` counts the arguments; `argv[0]` is the programme name.
+- Use `fprintf(stderr, ...)` for error messages so they appear even when standard output is redirected.
+- Always validate the argument count before reading values to avoid accessing out-of-range memory.
+
+### Checkpoint: Convert your snapshot
+
+1. Modify the student snapshot mini project so it accepts completed and total credits as command-line inputs.
+2. Provide defaults (for example, fall back to interactive prompts) when arguments are missing.
+3. Test the programme both with and without arguments and confirm output stays accurate.
+
+## 8. Organise logic with helper functions
+
+Even small programmes benefit from breaking work into functions. Helper functions improve reusability and make unit testing possible.
+
+```c
+#include <stdio.h>
+
+int remaining_credits(int total, int completed)
+{
+   return total - completed;
+}
+
+double completion_percent(int total, int completed)
+{
+   if (total == 0)
+   {
+      return 0.0;
+   }
+   return (completed / (double)total) * 100.0;
+}
+
+int main(void)
+{
+   int total = 180;
+   int completed = 42;
+
+   printf("Remaining: %d\n", remaining_credits(total, completed));
+   printf("Percent: %.1f%%\n", completion_percent(total, completed));
+
+   return 0;
+}
+```
+
+- Place helper functions above `main` or declare prototypes at the top of the file.
+- Keep functions focused: single responsibility, descriptive names, and explicit parameter types.
+- Later lessons will show how to move helpers into separate translation units for larger projects.
+
+### Checkpoint: Extract repeated work
+
+1. Identify a block of code in `main` that performs a calculation and converts it into a helper function.
+2. Add documentation comments above each helper describing inputs, outputs, and failure cases.
+3. Compile with `-Wall` to ensure you declared prototypes correctly and that no implicit conversions occur.
+
+## 9. Split programmes across multiple source files
+
+Once helpers grow numerous, place them in separate `.c` files with corresponding headers. Compile each file then link the results.
+
+```bash
+gcc -Wall -Wextra -Werror progress.c calculations.c -o progress
+```
+
+Example layout:
+
+```c
+/* calculations.h */
+#ifndef CALCULATIONS_H
+#define CALCULATIONS_H
+
+int remaining_credits(int total, int completed);
+double completion_percent(int total, int completed);
+
+#endif
+```
+
+```c
+/* calculations.c */
+#include "calculations.h"
+
+int remaining_credits(int total, int completed)
+{
+   return total - completed;
+}
+
+double completion_percent(int total, int completed)
+{
+   if (total == 0)
+   {
+      return 0.0;
+   }
+   return (completed / (double)total) * 100.0;
+}
+```
+
+```c
+/* progress.c */
+#include <stdio.h>
+#include "calculations.h"
+
+int main(void)
+{
+   printf("Remaining: %d\n", remaining_credits(180, 42));
+   printf("Percent: %.1f%%\n", completion_percent(180, 42));
+   return 0;
+}
+```
+
+- Header guards (`#ifndef`, `#define`, `#endif`) prevent double inclusion errors.
+- Keep shared declarations in headers and implementations in `.c` files to clarify dependencies.
+- Recompile both translation units whenever you modify shared headers.
+
+### Checkpoint: Modularise your snapshot
+
+1. Move calculations into `calculations.c` and include a header in `main`.
+2. Create a `io_helpers.c` file that wraps `scanf` prompts, returning `int` success status codes.
+3. Build the project with a single `gcc` command that lists every source file, confirming no undefined reference errors occur.
+
+## 10. Explore debugging workflows
+
+Compiler warnings help, but deeper issues require debugging tools. Start with `printf`-style logging, then graduate to `gdb` or `lldb`.
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+   int target = 100;
+   int guess = 0;
+
+   printf("DEBUG: target=%d\n", target);
+
+   do
+   {
+      printf("Enter a guess: ");
+      if (scanf("%d", &guess) != 1)
+      {
+         printf("Invalid input.\n");
+         return 1;
+      }
+
+      if (guess < target)
+      {
+         printf("Too low.\n");
+      }
+      else if (guess > target)
+      {
+         printf("Too high.\n");
+      }
+
+   } while (guess != target);
+
+   printf("Correct!\n");
+   return 0;
+}
+```
+
+- Prefix debug messages so you can filter them out with tools like `grep`.
+- Compile with `-g` to include debug symbols, then run `gdb ./program` to step through execution line by line.
+- Set breakpoints (`break main`), run the programme, inspect variables (`print guess`), and continue (`next`, `continue`) to understand the control flow.
+
+### Checkpoint: Trace a bug interactively
+
+1. Introduce an intentional bug (for example, a missing `else`) and use `gdb` to locate the faulty branch.
+2. Practice the `backtrace` command to view the call stack when your programme hits an error.
+3. Remove debug prints once the issue is resolved to keep output clean.
+
+## 11. Automate builds with `make`
+
+As projects grow, manual compilation becomes cumbersome. A simple `Makefile` captures build rules and dependencies.
+
+```make
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -std=c11 -g
+
+all: progress
+
+progress: progress.o calculations.o
+   $(CC) $(CFLAGS) $^ -o $@
+
+progress.o: progress.c calculations.h
+   $(CC) $(CFLAGS) -c $<
+
+calculations.o: calculations.c calculations.h
+   $(CC) $(CFLAGS) -c $<
+
+clean:
+   rm -f progress *.o
+```
+
+- `$@` expands to the target name, `$^` to all prerequisites, and `$<` to the first prerequisite.
+- The tab characters before commands are required; configure your editor accordingly.
+- Run `make` to compile only the files that changed, and `make clean` to remove build artefacts.
+
+### Checkpoint: Script your workflow
+
+1. Create a `Makefile` for the snapshot project and verify `make` builds without errors.
+2. Add a `run` target that depends on `progress` and executes the programme with sample arguments.
+3. Document in a README how classmates should build and run your project using the new targets.
+
+## 12. Capstone: Intake survey assistant
+
+Combine everything into a richer console app that supports both interactive prompts and command-line arguments.
+
+1. Accept optional arguments for student name, total credits, completed credits, and target GPA. If arguments are missing, fall back to interactive prompts.
+2. Move calculations into dedicated source files, compile with a Makefile, and ensure each function has a prototype in a header.
+3. Add debug logging controlled by a `--debug` flag; when enabled, print intermediate values using `fprintf(stderr, ...)`.
+4. Provide a summary report that includes completion percentage, weekly study plan, and a status message derived from conditional checks.
+5. Exit with non-zero status codes on invalid input, and print usage instructions to assist future users.
+
+### Stretch goals
+
+- Persist survey results to a CSV file by opening it with `fopen` in append mode.
+- Integrate a lightweight unit test harness that reuses helper functions without running the entire interactive flow.
+- Experiment with sanitiser builds (`-fsanitize=address`) to catch memory bugs introduced while expanding the codebase.
+
 When these boxes are checked, you are ready for the accompanying exercises that reinforce the same ideas in a guided setting.

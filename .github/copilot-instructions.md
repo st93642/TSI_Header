@@ -10,6 +10,7 @@
 		4. A solution JSON in `learn/curriculum/<lang>/solutions/` containing the canonical answer.
 		5. Updates to `learn/curriculum/<lang>/curriculum.json` to link the lesson and exercise.
 		6. Lessons to be deep and broad, covering each topic thoroughly without external references, self-contained (Fetch online, can combine from different sources).
+	- Every Learn lecture Markdown must be enriched and remain at least 300 lines long—expand existing lessons before progressing to new tasks.
 	- When a user requests "a lesson", fulfil the entire lesson bundle: curriculum entry, Markdown lesson, exercise JSON, starter code, and solution JSON.
 2. **Architecture snapshot**
 	- VS Code entry `core/src/extension.js` orchestrates commands and shells to the Ruby CLI via `execSync`.

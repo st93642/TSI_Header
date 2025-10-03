@@ -178,6 +178,153 @@ Bring everything together by building a structured report for a fictional studen
 - All monetary values format with two decimal places; percentages format with one.
 - Edge cases (zero credits completed, extremely high weekly study minutes) still produce meaningful output and warnings.
 
+## 7. Inspect type sizes with `sizeof`
+
+Every C implementation defines the width of primitive types, but the exact number of bytes can vary between platforms. Use `sizeof` to confirm assumptions and document them in your programme.
+
+```c
+#include <stdio.h>
+#include <stdint.h>
+
+int main(void)
+{
+    printf("Size of char: %zu byte\n", sizeof(char));
+    printf("Size of short: %zu bytes\n", sizeof(short));
+    printf("Size of int: %zu bytes\n", sizeof(int));
+    printf("Size of long: %zu bytes\n", sizeof(long));
+    printf("Size of long long: %zu bytes\n", sizeof(long long));
+    printf("Size of double: %zu bytes\n", sizeof(double));
+    printf("Size of int32_t: %zu bytes\n", sizeof(int32_t));
+
+    return 0;
+}
+```
+
+- Include `<stdint.h>` when you need fixed-width types such as `int32_t` or `uint8_t` for portable data structures.
+- `%zu` prints an unsigned size value; never cast a `size_t` to an `int` just for display purposes.
+- Record the results in comments if your project must guarantee a particular memory layout.
+
+### Checkpoint: Inventory the platform
+
+1. Extend the programme to measure `float`, `long double`, and `_Bool`.
+2. Print a header line that labels the columns, then align the output using `printf("%-12s %zu\n", ...)`.
+3. Compare the byte counts with your compiler documentation and note any differences.
+
+## 8. Control output formatting with precision and width
+
+`printf` offers rich formatting controls so your reports stay readable. Combine width, precision, and flags to align values and show signs consistently.
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    double tuition = 1835.5;
+    double balance = -420.25;
+
+    printf("%-20s %10.2f\n", "Tuition (EUR)", tuition);
+    printf("%-20s %+10.2f\n", "Account balance", balance);
+    printf("%-20s %010.2f\n", "Zero-padded", tuition);
+
+    return 0;
+}
+```
+
+- `%-20s` left-aligns the string within 20 characters.
+- `%+10.2f` reserves 10 characters, shows the sign, and keeps two digits after the decimal point.
+- `%010.2f` pads with zeros on the left; use it sparingly for financial statements but it is helpful when matching fixed-format specifications.
+
+### Checkpoint: Align a progress table
+
+1. Create arrays for course names and achieved percentages.
+2. Loop through them, printing each row with aligned columns and two digits after the decimal.
+3. Add a column that shows the raw points out of 100 with zero padding for single-digit scores.
+
+## 9. Guard against overflow and truncation
+
+Small mistakes in type selection can overflow integers or drop fractional precision. Build safeguards into your code.
+
+```c
+#include <stdio.h>
+#include <limits.h>
+
+int main(void)
+{
+    int creditsPerSemester = 30;
+    int semestersNeeded = 12;
+
+    long long projectedCredits = (long long)creditsPerSemester * semestersNeeded;
+
+    if (projectedCredits > INT_MAX)
+    {
+        printf("Projected credits exceed int range!\n");
+    }
+    else
+    {
+        printf("Projected credits fit in int: %lld\n", projectedCredits);
+    }
+
+    return 0;
+}
+```
+
+- Cast before multiplying so the calculation occurs in a wider type.
+- Compare against limits from `<limits.h>` and `<float.h>` to detect when values might not fit.
+- When performing financial calculations, prefer integer cents (e.g., store `189900` for `1899.00`) to avoid floating-point rounding surprises.
+
+### Checkpoint: Stress-test your assumptions
+
+1. Simulate a university with `50000` students and an `unsigned long` tuition per student. Determine whether the total fits inside a 64-bit integer.
+2. Add assertions (`#include <assert.h>`) that fail fast when totals exceed acceptable boundaries.
+3. Document in comments what corrective action the programme should take when limits are hit.
+
+## 10. Link variables to memory addresses
+
+Understanding how variables map to memory helps you debug pointer issues later. Use the address-of operator (`&`) alongside `sizeof` to build intuition.
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int cohort = 42;
+    double retention = 0.9125;
+    char initial = 'T';
+
+    printf("cohort value: %d at %p (%zu bytes)\n", cohort, (void *)&cohort, sizeof cohort);
+    printf("retention value: %.4f at %p (%zu bytes)\n", retention, (void *)&retention, sizeof retention);
+    printf("initial value: %c at %p (%zu bytes)\n", initial, (void *)&initial, sizeof initial);
+
+    return 0;
+}
+```
+
+- Cast pointers to `(void *)` when printing with `%p`; it is the only portable format specifier for addresses.
+- Note how neighbouring variables often appear at increasing addresses due to stack allocation. The exact addresses change per run, but relative ordering is educational.
+- Capture screenshots or notes from your experiments—they become invaluable when debugging pointer arithmetic later in the course.
+
+### Checkpoint: Trace layout changes
+
+1. Rearrange the declarations (`double` first, then `int`, etc.) and rerun the programme. Observe how padding affects addresses.
+2. Add an `int array[4]` and print the address of each element in a loop.
+3. Explain why consecutive elements differ by exactly `sizeof(int)` bytes.
+
+## 11. Capstone extension: Academic analytics dashboard
+
+Combine the previous steps into a more ambitious console report.
+
+1. Read the number of students, average credits completed, and tuition per credit as doubles to accommodate decimal inputs.
+2. Store immutable thresholds (`MIN_COMPLETION`, `MAX_COMPLETION`, etc.) as `const double` values near the top of `main`.
+3. Calculate totals using widened types (`double` or `long double`) and guard every multiplication with overflow checks.
+4. Produce a formatted table with headers, aligned numeric columns, and conditional warnings when any metric drifts outside acceptable ranges.
+5. Print a footer summarising memory usage by calling `sizeof` on key structures so administrators appreciate the programmes footprint.
+
+### Stretch goals
+
+- Extract calculations into helper functions (for example, `double completion_percent(int earned, int total)`), then call them from `main`.
+- Write compile-time assertions using `_Static_assert` to ensure critical assumptions, like `sizeof(long long) >= 8`.
+- Add command-line parsing (preview for later lessons) that lets users pass the input values directly; include a help message displaying the expected arguments.
+
 ## Recap and next steps
 
 You can now:
@@ -185,5 +332,7 @@ You can now:
 - Pick the correct primitive type for integers, floating-point numbers, and characters.
 - Initialise variables, guard constants, and prevent accidental mutation.
 - Combine arithmetic operators with explicit casts to control the result type.
+- Measure type sizes, control output formatting, and defend against overflow before it corrupts your results.
+- Relate variables to memory addresses so you can reason about layout and alignment.
 
 Next, tackle the companion exercise to reinforce these ideas by building a reusable progress report function, then move on to control flow so your programmes can react to real-world scenarios.
