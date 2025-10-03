@@ -40,4 +40,25 @@ solution = JSON.parse(solution_path.read)
 raise 'Solution must reference exercise id' unless solution['exerciseId'] == 'graph_traversal_dfs_bfs_cpp_exercise'
 raise 'Solution explanation must be present' unless solution['explanation'].is_a?(String) && !solution['explanation'].strip.empty?
 
+union_find_exercise_path = cpp_root.join('exercises', 'union_find_disjoint_sets_cpp_exercise.json')
+raise 'Exercise file missing for union_find_disjoint_sets_cpp' unless union_find_exercise_path.exist?
+union_find_exercise = JSON.parse(union_find_exercise_path.read)
+raise 'Union-Find exercise must be a quiz' unless union_find_exercise['mode'] == 'quiz'
+questions = union_find_exercise['questions'] || []
+raise 'Union-Find quiz must contain at least 8 questions' if questions.length < 8
+raise 'Union-Find quiz must define a numeric passScore' unless union_find_exercise['passScore'].is_a?(Numeric)
+
+union_find_solution_path = cpp_root.join('solutions', 'union_find_disjoint_sets_cpp_exercise.json')
+raise 'Solution file missing for union_find_disjoint_sets_cpp' unless union_find_solution_path.exist?
+union_find_solution = JSON.parse(union_find_solution_path.read)
+raise 'Union-Find solution must reference exercise id' unless union_find_solution['exerciseId'] == 'union_find_disjoint_sets_cpp_exercise'
+raise 'Union-Find solution must specify quiz mode' unless union_find_solution['mode'] == 'quiz'
+answer_key = union_find_solution['answerKey'] || []
+raise 'Union-Find quiz solution must provide answer key entries' if answer_key.empty?
+question_ids = questions.map { |q| q['id'] }
+answer_ids = answer_key.map { |entry| entry['questionId'] }
+missing = question_ids - answer_ids
+raise "Union-Find quiz solution missing answers for: #{missing.join(', ')}" unless missing.empty?
+raise 'Union-Find quiz solution must include key points' unless (union_find_solution['keyPoints'] || []).any?
+
 puts '✅ Module 11 graph traversal lesson bundle validated'

@@ -1,28 +1,120 @@
 {
   "id": "union_find_disjoint_sets_cpp_exercise",
-  "mode": "code",
-  "title": "Implement Union-Find with Path Compression",
-  "description": "Build a reusable disjoint-set forest that maintains dynamic connectivity with union-by-rank and path compression. Your program must read commands from standard input and print answers for connectivity and size queries.\n\nSteps:\n1. Implement a `DisjointSetForest` class that stores parent, rank (or size), and component size metadata.\n2. Expose member functions `find`, `unite`, `connected`, and `componentSize`. Apply path compression inside `find` and union-by-rank (or size) within `unite`.\n3. In `main`, read the number of nodes `n` and the number of operations `q`. Process each command: `UNION a b`, `CHECK a b`, or `SIZE x`.\n4. Print `YES` or `NO` for connectivity checks and the component size for `SIZE` queries. Maintain 0-based indices to match the lesson code.\n\nExpected output/results: The sample tests demonstrate the required formatting and query behaviour.",
-  "tags": ["cpp", "data-structures", "union-find", "disjoint-set"],
-  "starterCode": "#include <iostream>\n#include <string>\n#include <vector>\n\nclass DisjointSetForest {\npublic:\n    explicit DisjointSetForest(std::size_t n)\n        : parent_(n), rank_(n, 0), component_size_(n, 1), components_(n) {\n        // TODO: initialise each node to be its own parent\n        // for (std::size_t i = 0; i < n; ++i) {\n        //     parent_[i] = i;\n        // }\n    }\n\n    std::size_t find(std::size_t node) {\n        // TODO: implement path compression\n        return node;\n    }\n\n    bool unite(std::size_t a, std::size_t b) {\n        // TODO: find roots, merge by rank, update component sizes and component count\n        return false;\n    }\n\n    bool connected(std::size_t a, std::size_t b) {\n        // TODO: determine whether two nodes share a representative\n        return false;\n    }\n\n    std::size_t componentSize(std::size_t node) {\n        // TODO: return the size of the set containing node\n        return 1;\n    }\n\n    std::size_t components() const {\n        return components_;\n    }\n\nprivate:\n    std::vector<std::size_t> parent_;\n    std::vector<std::size_t> rank_;\n    std::vector<std::size_t> component_size_;\n    std::size_t components_;\n};\n\nint main() {\n    std::ios::sync_with_stdio(false);\n    std::cin.tie(nullptr);\n\n    std::size_t n, q;\n    if (!(std::cin >> n >> q)) {\n        return 0;\n    }\n    DisjointSetForest dsu(n);\n\n    while (q--) {\n        std::string op;\n        std::cin >> op;\n        if (op == \"UNION\") {\n            std::size_t a, b;\n            std::cin >> a >> b;\n            // TODO: join the sets containing a and b\n        } else if (op == \"CHECK\") {\n            std::size_t a, b;\n            std::cin >> a >> b;\n            // TODO: output \"YES\" or \"NO\"\n        } else if (op == \"SIZE\") {\n            std::size_t node;\n            std::cin >> node;\n            // TODO: output the size of the component containing node\n        }\n    }\n\n    return 0;\n}\n",
-  "tests": [
+  "mode": "quiz",
+  "title": "Quiz: Union-Find and Disjoint Set Optimisation",
+  "description": "Check your mastery of union-find internals, optimisation techniques, and the real-world scenarios discussed in the lesson.\n\nSteps:\n1. Review each prompt carefully and recall the lesson walk-throughs and visual aids.\n2. Choose the best answer or answers for every question. Some prompts accept multiple selections.\n3. Submit the quiz to reveal feedback and reinforce key union-find principles.\n\nExpected results: Earn at least the pass score to complete the lesson and unlock the next activity.",
+  "tags": ["cpp", "data-structures", "union-find", "disjoint-set", "quiz"],
+  "passScore": 8,
+  "questions": [
     {
-      "name": "Basic unions and checks",
-      "type": "output",
-      "input": "5 5\nUNION 0 1\nUNION 2 3\nCHECK 0 1\nCHECK 1 2\nSIZE 3\n",
-      "expected": "YES\nNO\n2\n"
+      "id": "uf_core_operations",
+      "type": "single",
+      "prompt": "Which pair of operations defines the core interface of a disjoint-set (union-find) data structure?",
+      "options": [
+        { "id": "option_a", "text": "insert and delete" },
+        { "id": "option_b", "text": "find and union", "correct": true },
+        { "id": "option_c", "text": "push and pop" },
+        { "id": "option_d", "text": "enqueue and dequeue" }
+      ],
+      "explanation": "Union-find maintains connectivity by locating representatives (find) and merging components (union)."
     },
     {
-      "name": "Chained unions with sizes",
-      "type": "output",
-      "input": "6 7\nUNION 0 1\nUNION 1 2\nUNION 4 5\nCHECK 0 2\nCHECK 3 4\nUNION 2 4\nSIZE 5\n",
-      "expected": "YES\nNO\n4\n"
+      "id": "uf_path_compression_effect",
+      "type": "single",
+      "prompt": "What is the primary effect of applying path compression during find?",
+      "options": [
+        { "id": "option_a", "text": "It increases the tree height to preserve ranks." },
+        { "id": "option_b", "text": "It flattens the tree by redirecting nodes to the representative, speeding up future queries.", "correct": true },
+        { "id": "option_c", "text": "It swaps parents and children to maintain a balanced binary tree." },
+        { "id": "option_d", "text": "It prevents union-by-rank from executing." }
+      ],
+      "explanation": "Path compression rewrites parent pointers so subsequent finds travel directly to the leader, shrinking the tree."
+    },
+    {
+      "id": "uf_union_by_rank",
+      "type": "multiple",
+      "prompt": "Select the statements that describe union-by-rank (or union-by-size).",
+      "options": [
+        { "id": "option_a", "text": "The shallower tree becomes a child of the deeper tree.", "correct": true },
+        { "id": "option_b", "text": "Ranks (or sizes) help avoid tall, skewed trees.", "correct": true },
+        { "id": "option_c", "text": "It requires an explicit rebalance step after every union." },
+        { "id": "option_d", "text": "It is unnecessary when path compression is used." }
+      ],
+      "explanation": "Union-by-rank attaches the smaller tree beneath the larger to keep depth minimal, complementing path compression."
+    },
+    {
+      "id": "uf_amortized_complexity",
+      "type": "truefalse",
+      "prompt": "True or False: With both path compression and union-by-rank, each operation runs in strictly O(1) time.",
+      "answer": "false",
+      "explanation": "The amortised complexity is inverse Ackermann, α(n), which is effectively constant in practice but not strictly O(1)."
+    },
+    {
+      "id": "uf_component_size",
+      "type": "single",
+      "prompt": "How does the lesson's DisjointSetForest implementation answer SIZE queries in O(α(n)) time?",
+      "options": [
+        { "id": "option_a", "text": "By scanning every node to count members of the component." },
+        { "id": "option_b", "text": "By storing component sizes on the representative and returning the cached value.", "correct": true },
+        { "id": "option_c", "text": "By maintaining a priority queue keyed by component size." },
+        { "id": "option_d", "text": "By using recursion to recompute the size from scratch each time." }
+      ],
+      "explanation": "Component sizes are tracked on the leader node and updated on union, so SIZE queries simply read the cached value."
+    },
+    {
+      "id": "uf_initialisation",
+      "type": "single",
+      "prompt": "Which initialisation step is required before processing any unions?",
+      "options": [
+        { "id": "option_a", "text": "Randomly assign parents to ensure balance." },
+        { "id": "option_b", "text": "Set parent[i] = i for every node so each element starts in its own set.", "correct": true },
+        { "id": "option_c", "text": "Run find on every node to pre-compress the structure." },
+        { "id": "option_d", "text": "Assign component_size to zero for all leaders." }
+      ],
+      "explanation": "Each element must begin as a singleton set by pointing to itself; other metadata builds on that base state."
+    },
+    {
+      "id": "uf_real_world",
+      "type": "multiple",
+      "prompt": "Which real-world scenarios from the lesson map naturally to union-find?",
+      "options": [
+        { "id": "option_a", "text": "Tracking connected components in a network as links come online.", "correct": true },
+        { "id": "option_b", "text": "Managing airline seat reservations in sorted order." },
+        { "id": "option_c", "text": "Kruskal's algorithm for minimum spanning trees.", "correct": true },
+        { "id": "option_d", "text": "Detecting cycles while processing undirected edges.", "correct": true }
+      ],
+      "explanation": "Union-find shines in dynamic connectivity tasks such as Kruskal's algorithm, cycle detection, and evolving networks."
+    },
+    {
+      "id": "uf_find_semantics",
+      "type": "single",
+      "prompt": "After calling find(x), what value is guaranteed to be returned?",
+      "options": [
+        { "id": "option_a", "text": "The immediate parent of x before any compression." },
+        { "id": "option_b", "text": "The representative (root) of the set containing x.", "correct": true },
+        { "id": "option_c", "text": "The depth of x within its tree." },
+        { "id": "option_d", "text": "A newly allocated id representing the merged set." }
+      ],
+      "explanation": "find always returns the canonical representative used to identify the component that contains the queried element."
+    },
+    {
+      "id": "uf_equal_ranks",
+      "type": "truefalse",
+      "prompt": "True or False: When two roots have equal rank, union-by-rank can attach either tree as the new child but must increment the resulting root's rank.",
+      "answer": "true",
+      "explanation": "Ties are broken arbitrarily; whichever root becomes parent has its rank (or size) increased to reflect the taller structure."
+    },
+    {
+      "id": "uf_component_count",
+      "type": "single",
+      "prompt": "Why does the lesson's implementation track a components() counter?",
+      "options": [
+        { "id": "option_a", "text": "To report how many disjoint sets remain after processing unions.", "correct": true },
+        { "id": "option_b", "text": "To enforce that every set has the same size." },
+        { "id": "option_c", "text": "To limit the number of union operations that may execute." },
+        { "id": "option_d", "text": "To support priority queue operations over components." }
+      ],
+      "explanation": "Tracking the component count lets algorithms know when the structure has consolidated and is used in MST and dynamic connectivity tasks."
     }
-  ],
-  "hints": [
-    "Store parent pointers and ranks (or sizes) in parallel vectors.",
-    "Path compression should assign parent[node] to the representative returned by the recursive call.",
-    "When merging, attach the shallower tree under the deeper tree and keep ranks in sync.",
-    "Maintain component counts and sizes so SIZE queries return accurate values."
   ]
 }

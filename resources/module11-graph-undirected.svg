@@ -1,0 +1,36 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Nodes -->
+  <circle cx="100" cy="100" r="25" fill="#4CAF50" stroke="#333" stroke-width="2"/>
+  <text x="100" y="107" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">A</text>
+
+  <circle cx="200" cy="100" r="25" fill="#2196F3" stroke="#333" stroke-width="2"/>
+  <text x="200" y="107" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">B</text>
+
+  <circle cx="300" cy="100" r="25" fill="#FF9800" stroke="#333" stroke-width="2"/>
+  <text x="300" y="107" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">C</text>
+
+  <circle cx="150" cy="200" r="25" fill="#9C27B0" stroke="#333" stroke-width="2"/>
+  <text x="150" y="207" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">D</text>
+
+  <circle cx="250" cy="200" r="25" fill="#F44336" stroke="#333" stroke-width="2"/>
+  <text x="250" y="207" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">E</text>
+
+  <!-- Undirected Edges (no arrows) -->
+  <line x1="125" y1="115" x2="175" y2="115" stroke="#333" stroke-width="3"/>
+  <line x1="225" y1="115" x2="275" y2="115" stroke="#333" stroke-width="3"/>
+  <line x1="125" y1="125" x2="150" y2="175" stroke="#333" stroke-width="3"/>
+  <line x1="175" y1="125" x2="200" y2="175" stroke="#333" stroke-width="3"/>
+  <line x1="225" y1="125" x2="250" y2="175" stroke="#333" stroke-width="3"/>
+  <line x1="275" y1="125" x2="300" y2="175" stroke="#333" stroke-width="3"/>
+  <line x1="175" y1="225" x2="225" y2="225" stroke="#333" stroke-width="3"/>
+
+  <!-- Labels -->
+  <text x="200" y="30" text-anchor="middle" fill="#333" font-family="Arial" font-size="18" font-weight="bold">Undirected Graph Example</text>
+  <text x="200" y="280" text-anchor="middle" fill="#666" font-family="Arial" font-size="12">Nodes: A, B, C, D, E | Edges: {A,B}, {B,C}, {A,D}, {B,D}, {B,E}, {C,E}, {D,E}</text>
+</svg>

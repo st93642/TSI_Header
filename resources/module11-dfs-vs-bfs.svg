@@ -1,0 +1,95 @@
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" fill="#333" font-family="Arial" font-size="24" font-weight="bold">DFS vs BFS Comparison</text>
+
+  <!-- DFS Section -->
+  <rect x="50" y="60" width="300" height="400" fill="#FFF3E0" stroke="#FF9800" stroke-width="3" rx="10"/>
+  <text x="200" y="90" text-anchor="middle" fill="#E65100" font-family="Arial" font-size="20" font-weight="bold">Depth-First Search (DFS)</text>
+
+  <!-- DFS Characteristics -->
+  <text x="70" y="120" fill="#333" font-family="Arial" font-size="16" font-weight="bold">Characteristics:</text>
+  <circle cx="85" cy="140" r="4" fill="#4CAF50"/>
+  <text x="100" y="145" fill="#333" font-family="Arial" font-size="14">Explores deep before wide</text>
+  <circle cx="85" cy="165" r="4" fill="#4CAF50"/>
+  <text x="100" y="170" fill="#333" font-family="Arial" font-size="14">Uses Stack (LIFO)</text>
+  <circle cx="85" cy="190" r="4" fill="#4CAF50"/>
+  <text x="100" y="195" fill="#333" font-family="Arial" font-size="14">Recursive or iterative</text>
+
+  <!-- DFS Time/Space -->
+  <text x="70" y="225" fill="#333" font-family="Arial" font-size="16" font-weight="bold">Complexity:</text>
+  <text x="85" y="245" fill="#333" font-family="Arial" font-size="14"><tspan font-weight="bold">Time:</tspan> O(V + E)</text>
+  <text x="85" y="265" fill="#333" font-family="Arial" font-size="14"><tspan font-weight="bold">Space:</tspan> O(V) worst case</text>
+
+  <!-- DFS Use Cases -->
+  <text x="70" y="295" fill="#333" font-family="Arial" font-size="16" font-weight="bold">Best For:</text>
+  <circle cx="85" cy="315" r="3" fill="#2196F3"/>
+  <text x="100" y="320" fill="#333" font-family="Arial" font-size="12">Finding any path</text>
+  <circle cx="85" cy="335" r="3" fill="#2196F3"/>
+  <text x="100" y="340" fill="#333" font-family="Arial" font-size="12">Cycle detection</text>
+  <circle cx="85" cy="355" r="3" fill="#2196F3"/>
+  <text x="100" y="360" fill="#333" font-family="Arial" font-size="12">Topological sorting</text>
+  <circle cx="85" cy="375" r="3" fill="#2196F3"/>
+  <text x="100" y="380" fill="#333" font-family="Arial" font-size="12">Memory constrained</text>
+
+  <!-- DFS Visual -->
+  <rect x="70" y="390" width="80" height="50" fill="#FFE0B2" stroke="#FF9800" stroke-width="2"/>
+  <text x="110" y="410" text-anchor="middle" fill="#E65100" font-family="Arial" font-size="12" font-weight="bold">Stack</text>
+  <rect x="75" y="415" width="15" height="15" fill="#4CAF50"/>
+  <text x="82.5" y="427" text-anchor="middle" fill="white" font-family="Arial" font-size="10">A</text>
+  <rect x="95" y="415" width="15" height="15" fill="#2196F3"/>
+  <text x="102.5" y="427" text-anchor="middle" fill="white" font-family="Arial" font-size="10">B</text>
+  <rect x="115" y="415" width="15" height="15" fill="#9C27B0"/>
+  <text x="122.5" y="427" text-anchor="middle" fill="white" font-family="Arial" font-size="10">D</text>
+
+  <!-- BFS Section -->
+  <rect x="450" y="60" width="300" height="400" fill="#E3F2FD" stroke="#1976D2" stroke-width="3" rx="10"/>
+  <text x="600" y="90" text-anchor="middle" fill="#0D47A1" font-family="Arial" font-size="20" font-weight="bold">Breadth-First Search (BFS)</text>
+
+  <!-- BFS Characteristics -->
+  <text x="470" y="120" fill="#333" font-family="Arial" font-size="16" font-weight="bold">Characteristics:</text>
+  <circle cx="485" cy="140" r="4" fill="#1976D2"/>
+  <text x="500" y="145" fill="#333" font-family="Arial" font-size="14">Explores wide before deep</text>
+  <circle cx="485" cy="165" r="4" fill="#1976D2"/>
+  <text x="500" y="170" fill="#333" font-family="Arial" font-size="14">Uses Queue (FIFO)</text>
+  <circle cx="485" cy="190" r="4" fill="#1976D2"/>
+  <text x="500" y="195" fill="#333" font-family="Arial" font-size="14">Always iterative</text>
+
+  <!-- BFS Time/Space -->
+  <text x="470" y="225" fill="#333" font-family="Arial" font-size="16" font-weight="bold">Complexity:</text>
+  <text x="485" y="245" fill="#333" font-family="Arial" font-size="14"><tspan font-weight="bold">Time:</tspan> O(V + E)</text>
+  <text x="485" y="265" fill="#333" font-family="Arial" font-size="14"><tspan font-weight="bold">Space:</tspan> O(V) worst case</text>
+
+  <!-- BFS Use Cases -->
+  <text x="470" y="295" fill="#333" font-family="Arial" font-size="16" font-weight="bold">Best For:</text>
+  <circle cx="485" cy="315" r="3" fill="#FF9800"/>
+  <text x="500" y="320" fill="#333" font-family="Arial" font-size="12">Shortest path (unweighted)</text>
+  <circle cx="485" cy="335" r="3" fill="#FF9800"/>
+  <text x="500" y="340" fill="#333" font-family="Arial" font-size="12">Level-order traversal</text>
+  <circle cx="485" cy="355" r="3" fill="#FF9800"/>
+  <text x="500" y="360" fill="#333" font-family="Arial" font-size="12">Finding minimum steps</text>
+  <circle cx="485" cy="375" r="3" fill="#FF9800"/>
+  <text x="500" y="380" fill="#333" font-family="Arial" font-size="12">Web crawling</text>
+
+  <!-- BFS Visual -->
+  <rect x="470" y="390" width="80" height="50" fill="#BBDEFB" stroke="#1976D2" stroke-width="2"/>
+  <text x="510" y="410" text-anchor="middle" fill="#0D47A1" font-family="Arial" font-size="12" font-weight="bold">Queue</text>
+  <rect x="475" y="415" width="15" height="15" fill="#4CAF50"/>
+  <text x="482.5" y="427" text-anchor="middle" fill="white" font-family="Arial" font-size="10">A</text>
+  <rect x="495" y="415" width="15" height="15" fill="#2196F3"/>
+  <text x="502.5" y="427" text-anchor="middle" fill="white" font-family="Arial" font-size="10">B</text>
+  <rect x="515" y="415" width="15" height="15" fill="#9C27B0"/>
+  <text x="522.5" y="427" text-anchor="middle" fill="white" font-family="Arial" font-size="10">D</text>
+
+  <!-- Comparison arrows -->
+  <path d="M 350 200 Q 400 200 400 200" fill="none" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="400" y="195" text-anchor="middle" fill="#666" font-family="Arial" font-size="12">Same O(V+E) time</text>
+
+  <path d="M 350 250 Q 400 250 400 250" fill="none" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="400" y="245" text-anchor="middle" fill="#666" font-family="Arial" font-size="12">Similar space usage</text>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+</svg>

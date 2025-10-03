@@ -39,11 +39,31 @@
 
 - **Extension not activating**: Ensure VS Code is version 1.74.0+. Reload the window (Ctrl+Shift+P > "Developer: Reload Window").
 - **Headers not inserting**: Check user settings (`tsiheader.username`, `tsiheader.email`) or Git config. Run `git config --global user.name` to verify.
-- **C/C++ compilation errors on Windows**: The Learn Mode requires a GCC-compatible compiler. If you see "g++ not found":
-  - **Install MinGW-w64**: Download from [mingw-w64.org](https://www.mingw-w64.org/) and add `C:\mingw64\bin` to your PATH.
-  - **Or install MSYS2**: Download from [msys2.org](https://www.msys2.org/), run `pacman -S mingw-w64-x86_64-gcc` and add to PATH.
-  - **Verify installation**: Open Command Prompt and run `g++ --version`.
-  - **Alternative**: Install Visual Studio with C++ workload, but ensure GCC tools are preferred.
+- **C/C++ compilation errors on Windows**: Learn Mode automatically probes `g++`, `gcc`, and `clang++` in your PATH plus common MinGW/MSYS2/LLVM install folders. If you still see a "g++ not found" error, follow these steps:
+  1. **Install MSYS2 (recommended)**
+     - Download the installer from [msys2.org](https://www.msys2.org/) and complete the setup.
+     - Open the *MSYS2 MinGW 64-bit* terminal and run:
+
+       ```bash
+       pacman -Syu
+       pacman -S mingw-w64-x86_64-toolchain
+       ```
+
+     - Add `C:\msys64\mingw64\bin` to your Windows `Path` environment variable if it is not added automatically.
+  2. **Alternative: Stand-alone MinGW-w64**
+     - Download a build from [winlibs.com](https://winlibs.com/) or the official MinGW-w64 project.
+     - Extract it to a folder such as `C:\MinGW` and add `C:\MinGW\bin` to `Path`.
+  3. **Optional: LLVM/Clang**
+     - Install LLVM from [llvm.org](https://releases.llvm.org/download.html) and add `C:\Program Files\LLVM\bin` to `Path` so the runner can find `clang++`.
+  4. **Restart VS Code** to ensure the updated environment variables are picked up.
+  5. **Verify the compiler** by running:
+
+     ```bash
+     g++ --version
+     ```
+
+     If you prefer Clang, run `clang++ --version` instead.
+  6. **Re-run the Learn exercise**; the runner should automatically pick up the installed compiler. The error message lists every location it checks—use it to confirm your PATH settings if the issue persists.
 - **Compilation errors**: For C/C++ projects, ensure a compatible compiler (GCC/Clang) is installed and in PATH. Test with `g++ --version`.
 - **Learn Mode exercises failing**: Verify Node.js and Ruby are installed. Run `ruby TEST_Suite/test_learn_module.rb` to check curriculum integrity.
 - **Study Mode not persisting**: Data is stored in VS Code's global state; try resetting with "TSI Header: Reset Study Progress".
