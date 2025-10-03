@@ -1,0 +1,11 @@
+{
+  "exerciseId": "preprocessor_c_exercise",
+  "languageId": "c",
+  "code": "#include <stdio.h>\n\n#define ADD(a,b) ((a) + (b))\n#define SUB(a,b) ((a) - (b))\n#define MUL(a,b) ((a) * (b))\n#define DIV(a,b) ((a) / (b))\n\nint main(void)\n{\n    char op;\n    int a, b;\n    if (scanf(\"%c %d %d\", &op, &a, &b) != 3)\n    {\n        printf(\"Invalid input\\n\");\n        return 1;\n    }\n\n    switch (op)\n    {\n        case '+':\n            printf(\"%d\\n\", ADD(a, b));\n            break;\n        case '-':\n            printf(\"%d\\n\", SUB(a, b));\n            break;\n        case '*':\n            printf(\"%d\\n\", MUL(a, b));\n            break;\n        case '/':\n            printf(\"%d\\n\", DIV(a, b));\n            break;\n        default:\n            printf(\"Invalid\\n\");\n            break;\n    }\n\n    return 0;\n}",
+  "explanation": "Defines macros with proper parentheses for operations. Reads op, a, b from stdin, uses switch to select macro and print result.",
+  "keyPoints": [
+    "Macros need parentheses to prevent precedence issues.",
+    "Switch handles different operations.",
+    "scanf reads formatted input."
+  ]
+}

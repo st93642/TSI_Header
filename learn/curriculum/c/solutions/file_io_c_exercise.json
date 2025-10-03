@@ -1,0 +1,12 @@
+{
+  "exerciseId": "file_io_c_exercise",
+  "languageId": "c",
+  "code": "#include <stdio.h>\n#include <ctype.h>\n#include <string.h>\n\nint main(void)\n{\n    char filename[256];\n    if (fgets(filename, sizeof(filename), stdin) == NULL)\n    {\n        return 1;\n    }\n    filename[strcspn(filename, \"\\n\")] = 0;\n\n    FILE *fp = fopen(filename, \"r\");\n    if (fp == NULL)\n    {\n        perror(\"Error opening file\");\n        return 1;\n    }\n\n    int word_count = 0;\n    int in_word = 0;\n    int ch;\n    while ((ch = fgetc(fp)) != EOF)\n    {\n        if (isspace(ch))\n        {\n            in_word = 0;\n        }\n        else if (isalnum(ch) && !in_word)\n        {\n            word_count++;\n            in_word = 1;\n        }\n    }\n\n    fclose(fp);\n    printf(\"%d\\n\", word_count);\n    return 0;\n}",
+  "explanation": "The program checks for one argument, opens the file, reads char by char, uses in_word flag to count word starts when transitioning from non-word to word chars, closes file, prints count.",
+  "keyPoints": [
+    "Validate command line arguments.",
+    "Handle file open errors with perror.",
+    "Use fgetc for char-by-char reading.",
+    "Track word state to avoid counting multiple chars in one word."
+  ]
+}

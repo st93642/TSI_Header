@@ -1,0 +1,57 @@
+{
+  "id": "functions_c_exercise",
+  "title": "Simple Function-Based Calculator",
+  "description": "Implement a calculator that performs basic arithmetic operations using separate functions for each operation. Practice function definitions, parameters, return values, and error handling.\n\nSteps:\n1. Define four functions: `int add(int a, int b)`, `int subtract(int a, int b)`, `int multiply(int a, int b)`, and `int divide(int a, int b)`. The `divide` function should return 0 if `b` is 0 and print an error message.\n2. In `main`, read an operation character ('+', '-', '*', '/') and two integers `a` and `b`.\n3. Use a switch statement to call the appropriate function and print the result in the format `Result: X`.\n4. If the operation is invalid, print `Invalid operation.`.\n5. Handle division by zero by printing `Error: Division by zero.` and not printing a result.\n\nInput format:\n- Line 1: operation character\n- Line 2: integer a\n- Line 3: integer b\n\nExpected output:\nResult: X\nor\nError: Division by zero.\nor\nInvalid operation.\n\nExample run:\n$ ./calculator\n+\n10\n5\nResult: 15",
+  "difficulty": "beginner",
+  "starterCode": "#include <stdio.h>\n\n// TODO: Define the add function\n\n// TODO: Define the subtract function\n\n// TODO: Define the multiply function\n\n// TODO: Define the divide function\n\nint main(void)\n{\n    char op;\n    int a, b;\n\n    if (scanf(\"%c\", &op) != 1)\n    {\n        printf(\"Invalid input.\\n\");\n        return 1;\n    }\n\n    if (scanf(\"%d\", &a) != 1 || scanf(\"%d\", &b) != 1)\n    {\n        printf(\"Invalid numbers.\\n\");\n        return 1;\n    }\n\n    int result = 0;\n    int valid = 1;\n\n    // TODO: Use switch to call the appropriate function and set result\n    // TODO: Handle invalid operations and division by zero\n\n    if (valid)\n    {\n        printf(\"Result: %d\\n\", result);\n    }\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "addition",
+      "type": "output",
+      "input": "+\n10\n5\n",
+      "expected": "Result: 15"
+    },
+    {
+      "name": "subtraction",
+      "type": "output",
+      "input": "-\n10\n5\n",
+      "expected": "Result: 5"
+    },
+    {
+      "name": "multiplication",
+      "type": "output",
+      "input": "*\n10\n5\n",
+      "expected": "Result: 50"
+    },
+    {
+      "name": "division",
+      "type": "output",
+      "input": "/\n10\n5\n",
+      "expected": "Result: 2"
+    },
+    {
+      "name": "division by zero",
+      "type": "output",
+      "input": "/\n10\n0\n",
+      "expected": "Error: Division by zero."
+    },
+    {
+      "name": "invalid operation",
+      "type": "output",
+      "input": "%\n10\n5\n",
+      "expected": "Invalid operation."
+    }
+  ],
+  "hints": [
+    "Define each function with int return type and two int parameters.",
+    "In divide, check if b == 0, print error, and return a dummy value like 0.",
+    "Use switch(op) with cases '+', '-', '*', '/', and default for invalid.",
+    "Set a flag like valid to control whether to print the result."
+  ],
+  "tags": [
+    "c",
+    "functions",
+    "arithmetic",
+    "beginner"
+  ]
+}

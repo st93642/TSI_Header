@@ -32,6 +32,36 @@
           "title": "Lesson 1.4: Mastering Loops and Iteration",
           "duration": 90,
           "difficulty": "beginner"
+        },
+        {
+          "id": "functions_c",
+          "title": "Lesson 1.5: Defining and Using Functions",
+          "duration": 90,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "pointers_memory_c",
+          "title": "Lesson 1.6: Pointers and Memory Management",
+          "duration": 90,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "structs_data_c",
+          "title": "Lesson 1.7: Structs and Data Structures",
+          "duration": 90,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "file_io_c",
+          "title": "Lesson 1.8: File Input and Output",
+          "duration": 90,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "preprocessor_c",
+          "title": "Lesson 1.9: Preprocessor Directives and Macros",
+          "duration": 90,
+          "difficulty": "beginner"
         }
       ]
     }

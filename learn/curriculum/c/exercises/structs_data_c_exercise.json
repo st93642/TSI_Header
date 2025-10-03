@@ -1,0 +1,40 @@
+{
+  "id": "structs_data_c_exercise",
+  "title": "Struct-Based Linked List",
+  "description": "Implement a simple linked list using structs to store integers. Practice struct definition, dynamic allocation, and pointer manipulation.\n\nDetailed Steps:\n1. Define a struct Node with int data and struct Node *next.\n2. Use typedef for Node.\n3. Write a function Node* create_node(int data) that allocates and initializes a node.\n4. Write void append_node(Node **head, int data) to add a node to the end.\n5. Write void print_list(Node *head) to print the list.\n6. Write void free_list(Node *head) to free all nodes.\n7. In main, read number of elements, then read each int and append to list.\n8. Print the list, then free it.\n\nInput format:\n- First line: int n (number of elements)\n- Second line: n integers\n\nExpected output:\nThe list elements separated by spaces.\n\nExample run:\n$ ./list\n3\n1 2 3\n1 2 3",
+  "difficulty": "beginner",
+  "starterCode": "#include <stdio.h>\n#include <stdlib.h>\n\n/*\nStruct-Based Linked List Exercise\n\nTask: Implement a linked list using structs.\n\nSteps:\n1. Define typedef struct Node { int data; struct Node *next; } Node;\n2. Node* create_node(int data): malloc, set data, next=NULL.\n3. void append_node(Node **head, int data): if *head NULL, *head = create_node, else traverse to end and append.\n4. void print_list(Node *head): while head, printf \"%d \", head->data, head = head->next.\n5. void free_list(Node *head): while head, temp = head, head = head->next, free temp.\n6. In main: read n, for i=0 to n-1, read data, append.\n7. print_list, free_list.\n\nInput: n, then n ints.\nOutput: ints separated by spaces.\n*/\n\n// TODO: Define Node struct and typedef\n\n// TODO: Implement create_node\nNode* create_node(int data);\n\n// TODO: Implement append_node\nvoid append_node(Node **head, int data);\n\n// TODO: Implement print_list\nvoid print_list(Node *head);\n\n// TODO: Implement free_list\nvoid free_list(Node *head);\n\nint main(void)\n{\n    int n;\n    if (scanf(\"%d\", &n) != 1 || n < 0)\n    {\n        return 1;\n    }\n\n    Node *head = NULL;\n\n    for (int i = 0; i < n; ++i)\n    {\n        int data;\n        if (scanf(\"%d\", &data) != 1)\n        {\n            free_list(head);\n            return 1;\n        }\n        append_node(&head, data);\n    }\n\n    print_list(head);\n    free_list(head);\n    return 0;\n}\n\n// TODO: Define functions\nNode* create_node(int data)\n{\n    // Implement\n}\n\nvoid append_node(Node **head, int data)\n{\n    // Implement\n}\n\nvoid print_list(Node *head)\n{\n    // Implement\n}\n\nvoid free_list(Node *head)\n{\n    // Implement\n}",
+  "tests": [
+    {
+      "name": "empty list",
+      "type": "output",
+      "input": "0\n",
+      "expected": ""
+    },
+    {
+      "name": "single element",
+      "type": "output",
+      "input": "1\n42\n",
+      "expected": "42 "
+    },
+    {
+      "name": "multiple elements",
+      "type": "output",
+      "input": "3\n1 2 3\n",
+      "expected": "1 2 3 "
+    }
+  ],
+  "hints": [
+    "Use double pointer in append to modify head if NULL.",
+    "Traverse with while (current->next) to find end.",
+    "Free in loop, careful with temp pointer.",
+    "Handle n=0 gracefully."
+  ],
+  "tags": [
+    "c",
+    "structs",
+    "linked-list",
+    "pointers",
+    "beginner"
+  ]
+}

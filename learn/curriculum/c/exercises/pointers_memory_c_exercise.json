@@ -1,0 +1,40 @@
+{
+  "id": "pointers_memory_c_exercise",
+  "title": "Pointer-Based Array Reversal",
+  "description": "Implement a program that reads an array of integers from input, reverses it in place using pointers and pointer arithmetic, and prints the reversed array. This exercise practices dynamic memory allocation, pointer manipulation, and safe memory management.\n\nDetailed Steps:\n1. **Define the reverse_array function**:\n   - Declare a function with signature: `void reverse_array(int *arr, size_t size)`.\n   - Inside the function, check if size is 1 or less; if so, return immediately (no reversal needed).\n   - Initialize two pointers: one pointing to the start of the array (`int *start = arr;`), and one to the end (`int *end = arr + size - 1;`).\n   - Use a while loop to swap elements: while `start < end`, swap `*start` and `*end`, then increment `start` and decrement `end`.\n   - This reverses the array in place without using extra space.\n\n2. **In main, handle input validation**:\n   - Read the size of the array using `scanf(\"%zu\", &size)`.\n   - If scanf fails or size is 0, return 1 (error exit).\n\n3. **Allocate dynamic memory**:\n   - Use `malloc(size * sizeof(int))` to allocate memory for the array.\n   - Check if malloc returns NULL; if so, return 1.\n\n4. **Read array elements**:\n   - Use a for loop to read `size` integers into the array using `scanf(\"%d\", &arr[i])`.\n   - If any scanf fails, free the allocated memory and return 1.\n\n5. **Call the reverse function**:\n   - Pass the array pointer and size to `reverse_array(arr, size);`.\n\n6. **Print the reversed array**:\n   - Use a for loop to print each element followed by a space: `printf(\"%d \", arr[i]);`.\n   - After the loop, print a newline: `printf(\"\\n\");`.\n\n7. **Free memory**:\n   - Call `free(arr);` to release the allocated memory.\n   - Return 0 for success.\n\nInput format:\n- First line: a single unsigned integer (size_t) representing the number of elements (1 <= size <= 1000).\n- Second line: 'size' integers separated by spaces.\n\nExpected output:\n- A single line with the reversed array elements, each separated by a single space, ending with a space before the newline.\n\nExample run:\n$ ./reverse\n5\n1 2 3 4 5\n5 4 3 2 1 \n\nNote: The program must handle memory allocation failures and invalid inputs gracefully by exiting with code 1. Do not use any standard library functions for reversal; implement it manually with pointers.",
+  "difficulty": "beginner",
+  "starterCode": "#include <stdio.h>\n#include <stdlib.h>\n\n/*\nPointer-Based Array Reversal Exercise\n\nTask: Implement a program that reads an array of integers from input, reverses it in place using pointers and pointer arithmetic, and prints the reversed array.\n\nDetailed Steps:\n1. Define the reverse_array function:\n   - Declare: void reverse_array(int *arr, size_t size)\n   - If size <= 1, return (no reversal needed).\n   - Initialize: int *start = arr; int *end = arr + size - 1;\n   - While start < end: swap *start and *end, then start++, end--.\n\n2. In main, handle input:\n   - Read size with scanf(\"%zu\", &size); if fails or size==0, return 1.\n\n3. Allocate memory:\n   - int *arr = malloc(size * sizeof(int));\n   - If NULL, return 1.\n\n4. Read elements:\n   - For loop: scanf(\"%d\", &arr[i]); if fails, free(arr), return 1.\n\n5. Call reverse:\n   - reverse_array(arr, size);\n\n6. Print reversed array:\n   - For loop: printf(\"%d \", arr[i]); then printf(\"\\n\");\n\n7. Free memory:\n   - free(arr);\n   - return 0;\n\nInput: First line size, second line size ints.\nOutput: Reversed ints separated by spaces.\n*/\n\n// TODO: Implement the reverse_array function as described above\nvoid reverse_array(int *arr, size_t size);\n\nint main(void)\n{\n    size_t size;\n    // Read size, validate\n    if (scanf(\"%zu\", &size) != 1 || size == 0)\n    {\n        return 1;\n    }\n\n    // Allocate memory\n    int *arr = malloc(size * sizeof(int));\n    if (arr == NULL)\n    {\n        return 1;\n    }\n\n    // Read elements, validate\n    for (size_t i = 0; i < size; ++i)\n    {\n        if (scanf(\"%d\", &arr[i]) != 1)\n        {\n            free(arr);\n            return 1;\n        }\n    }\n\n    // TODO: Call reverse_array here\n\n    // Print reversed array\n    for (size_t i = 0; i < size; ++i)\n    {\n        printf(\"%d \", arr[i]);\n    }\n    printf(\"\\n\");\n\n    // Free memory\n    free(arr);\n    return 0;\n}\n\n// TODO: Define the reverse_array function\nvoid reverse_array(int *arr, size_t size)\n{\n    // Implement as per instructions\n}",
+  "tests": [
+    {
+      "name": "reverse small array",
+      "type": "output",
+      "input": "5\n1 2 3 4 5\n",
+      "expected": "5 4 3 2 1 "
+    },
+    {
+      "name": "reverse single element",
+      "type": "output",
+      "input": "1\n42\n",
+      "expected": "42 "
+    },
+    {
+      "name": "reverse even size",
+      "type": "output",
+      "input": "4\n10 20 30 40\n",
+      "expected": "40 30 20 10 "
+    }
+  ],
+  "hints": [
+    "Use two pointers: one at start, one at end.",
+    "Swap elements using pointer dereference.",
+    "Move pointers towards center.",
+    "Handle size 1 as no-op."
+  ],
+  "tags": [
+    "c",
+    "pointers",
+    "arrays",
+    "memory",
+    "beginner"
+  ]
+}

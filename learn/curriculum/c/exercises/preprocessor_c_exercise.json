@@ -1,0 +1,46 @@
+{
+  "id": "preprocessor_c_exercise",
+  "title": "Macro-Based Calculator",
+  "description": "Implement a simple calculator using preprocessor macros for operations. Practice defining function-like macros, conditional compilation, and macro expansion.\n\nDetailed Steps:\n1. Define macros for ADD(a,b), SUB(a,b), MUL(a,b), DIV(a,b).\n2. Use proper parentheses to avoid precedence issues.\n3. In main, read operation char and two ints.\n4. Use switch or if to select macro based on op.\n5. Print result.\n6. Handle invalid op.\n\nInput: op a b, e.g. + 10 5\nExpected Output: Result or error.\n\nExample: Input \"+ 10 5\" -> \"15\\n\"",
+  "difficulty": "beginner",
+  "starterCode": "#include <stdio.h>\n\n/*\nMacro-Based Calculator Exercise\n\nTask: Define macros for arithmetic, use in calculator.\n\nSteps:\n1. #define ADD(a,b) ((a) + (b))\n2. Similarly for SUB, MUL, DIV\n3. In main, char op; int a,b; scanf(\"%c %d %d\", &op, &a, &b)\n4. switch(op) { case '+': printf(\"%d\\n\", ADD(a,b)); break; ... }\n5. default: printf(\"Invalid\\n\");\n\nInput: op a b\nExpected Output: result\n*/\n\n// TODO: Define macros\n\nint main(void)\n{\n    char op;\n    int a, b;\n    if (scanf(\"%c %d %d\", &op, &a, &b) != 3)\n    {\n        printf(\"Invalid input\\n\");\n        return 1;\n    }\n\n    // TODO: Use switch to compute and print result\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "addition",
+      "type": "output",
+      "input": "+ 10 5\n",
+      "expected": "15\n"
+    },
+    {
+      "name": "subtraction",
+      "type": "output",
+      "input": "- 10 5\n",
+      "expected": "5\n"
+    },
+    {
+      "name": "multiplication",
+      "type": "output",
+      "input": "* 10 5\n",
+      "expected": "50\n"
+    },
+    {
+      "name": "invalid op",
+      "type": "output",
+      "input": "% 10 5\n",
+      "expected": "Invalid\n"
+    }
+  ],
+  "hints": [
+    "Define macros with double parentheses.",
+    "Use switch for operation selection.",
+    "Handle scanf failure.",
+    "Print result directly."
+  ],
+  "tags": [
+    "c",
+    "preprocessor",
+    "macros",
+    "calculator",
+    "beginner"
+  ]
+}

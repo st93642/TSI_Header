@@ -1,0 +1,42 @@
+{
+  "id": "file_io_c_exercise",
+  "title": "File Word Counter",
+  "description": "Implement a program that reads a filename from standard input, opens the file, and counts the number of words in it. Practice reading filenames from input, file opening, reading file content, and error handling.\n\nDetailed Steps:\n1. Include <stdio.h> and <ctype.h>.\n2. Read the filename from stdin using fgets or scanf.\n3. Open the file with fopen(filename, \"r\").\n4. If NULL, print error and return 1.\n5. Initialize word_count = 0, in_word = 0.\n6. Read char by char with fgetc until EOF.\n7. If char is space/tab/newline, set in_word = 0.\n8. Else if isalnum(char) and !in_word, increment word_count, set in_word = 1.\n9. Close file.\n10. Print word_count.\n\nInput: First line: filename, then file content is read from the file.\nExpected Output: A single line with the word count as an integer followed by a newline.\n\nExample: Input \"input.txt\\n\" (and file contains \"Hello world\") -> output \"2\\n\".",
+  "difficulty": "beginner",
+  "starterCode": "#include <stdio.h>\n#include <ctype.h>\n#include <string.h>\n\n/*\nFile Word Counter Exercise\n\nTask: Read filename from stdin, open file, count words.\n\nSteps:\n1. char filename[256]; fgets(filename, sizeof(filename), stdin);\n2. Remove newline: filename[strcspn(filename, \"\\n\")] = 0;\n3. FILE *fp = fopen(filename, \"r\"); if NULL, perror, return 1.\n4. int word_count = 0; int in_word = 0;\n5. int ch; while ((ch = fgetc(fp)) != EOF) {\n6.   if (isspace(ch)) in_word = 0;\n7.   else if (isalnum(ch) && !in_word) { word_count++; in_word = 1; }\n8. }\n9. fclose(fp);\n10. printf(\"%d\\n\", word_count);\n\nInput: filename from stdin\nExpected Output: word count\n*/\n\nint main(void)\n{\n    // TODO: Read filename from stdin\n    char filename[256];\n    if (fgets(filename, sizeof(filename), stdin) == NULL)\n    {\n        return 1;\n    }\n    // Remove newline\n    filename[strcspn(filename, \"\\n\")] = 0;\n\n    // TODO: Open file\n    FILE *fp = /* TODO */;\n    if (fp == NULL)\n    {\n        perror(\"Error opening file\");\n        return 1;\n    }\n\n    // TODO: Count words\n    int word_count = 0;\n    int in_word = 0;\n    // TODO: Read char by char and count words\n\n    // TODO: Close file\n    fclose(fp);\n\n    // TODO: Print result\n    printf(\"%d\\n\", word_count);\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "empty file",
+      "type": "output",
+      "input": "input.txt\n",
+      "expected": "0\n",
+      "setup": "touch input.txt"
+    },
+    {
+      "name": "single word",
+      "type": "output",
+      "input": "input.txt\n",
+      "expected": "1\n",
+      "setup": "echo -n 'hello' > input.txt"
+    },
+    {
+      "name": "multiple words",
+      "type": "output",
+      "input": "input.txt\n",
+      "expected": "4\n",
+      "setup": "echo -n 'This is a test' > input.txt"
+    }
+  ],
+  "hints": [
+    "Use isspace for whitespace detection.",
+    "Track in_word to count word starts.",
+    "Handle EOF properly.",
+    "Check argc for filename."
+  ],
+  "tags": [
+    "c",
+    "file-io",
+    "word-count",
+    "beginner"
+  ]
+}

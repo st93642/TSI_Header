@@ -1,0 +1,12 @@
+{
+  "exerciseId": "functions_c_exercise",
+  "languageId": "c",
+  "code": "#include <stdio.h>\n\nint add(int a, int b)\n{\n    return a + b;\n}\n\nint subtract(int a, int b)\n{\n    return a - b;\n}\n\nint multiply(int a, int b)\n{\n    return a * b;\n}\n\nint divide(int a, int b)\n{\n    if (b == 0)\n    {\n        printf(\"Error: Division by zero.\\n\");\n        return 0;\n    }\n    return a / b;\n}\n\nint main(void)\n{\n    char op;\n    int a, b;\n\n    if (scanf(\"%c\", &op) != 1)\n    {\n        printf(\"Invalid input.\\n\");\n        return 1;\n    }\n\n    if (scanf(\"%d\", &a) != 1 || scanf(\"%d\", &b) != 1)\n    {\n        printf(\"Invalid numbers.\\n\");\n        return 1;\n    }\n\n    int result = 0;\n    int valid = 1;\n\n    switch (op)\n    {\n        case '+':\n            result = add(a, b);\n            break;\n        case '-':\n            result = subtract(a, b);\n            break;\n        case '*':\n            result = multiply(a, b);\n            break;\n        case '/':\n            result = divide(a, b);\n            if (b == 0)\n            {\n                valid = 0;\n            }\n            break;\n        default:\n            printf(\"Invalid operation.\\n\");\n            valid = 0;\n            break;\n    }\n\n    if (valid)\n    {\n        printf(\"Result: %d\\n\", result);\n    }\n\n    return 0;\n}\n",
+  "explanation": "The solution defines four arithmetic functions, each taking two ints and returning an int. The divide function checks for zero divisor and prints an error. In main, it reads the operation and numbers, then uses a switch to call the function. For division by zero, it sets valid to false to skip printing the result. Invalid operations also set valid to false and print an error.",
+  "keyPoints": [
+    "Define functions with clear signatures: return type, name, parameters.",
+    "Handle errors like division by zero inside the function and signal to caller.",
+    "Use switch for operation dispatch to keep main clean.",
+    "Validate inputs early and use flags to control output."
+  ]
+}

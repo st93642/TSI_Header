@@ -42,3 +42,4 @@ coverage/
 scripts/add_headers.rb
 scripts/project_status.rb
 scripts/installation_guide.rb
+learn_exercises/

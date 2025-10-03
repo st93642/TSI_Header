@@ -1,0 +1,12 @@
+{
+  "exerciseId": "pointers_memory_c_exercise",
+  "languageId": "c",
+  "code": "#include <stdio.h>\n#include <stdlib.h>\n\nvoid reverse_array(int *arr, size_t size)\n{\n    if (size <= 1)\n    {\n        return;\n    }\n\n    int *start = arr;\n    int *end = arr + size - 1;\n\n    while (start < end)\n    {\n        int temp = *start;\n        *start = *end;\n        *end = temp;\n        start++;\n        end--;\n    }\n}\n\nint main(void)\n{\n    size_t size;\n    if (scanf(\"%zu\", &size) != 1 || size == 0)\n    {\n        return 1;\n    }\n\n    int *arr = malloc(size * sizeof(int));\n    if (arr == NULL)\n    {\n        return 1;\n    }\n\n    for (size_t i = 0; i < size; ++i)\n    {\n        if (scanf(\"%d\", &arr[i]) != 1)\n        {\n            free(arr);\n            return 1;\n        }\n    }\n\n    reverse_array(arr, size);\n\n    for (size_t i = 0; i < size; ++i)\n    {\n        printf(\"%d \", arr[i]);\n    }\n    printf(\"\\n\");\n\n    free(arr);\n    return 0;\n}\n",
+  "explanation": "The reverse_array function uses two pointers to swap elements from start and end, moving towards the center. Main allocates memory dynamically, reads input, calls the function, prints the result, and frees memory.",
+  "keyPoints": [
+    "Use pointer arithmetic for array access.",
+    "Handle edge cases like size 1.",
+    "Always free allocated memory.",
+    "Validate inputs to prevent errors."
+  ]
+}
