@@ -19,7 +19,7 @@
     }
   ],
   "hints": [
-    "Remember to include <iomanip> so you can use std::fixed and std::setprecision(1).",
+  "Remember to include &lt;iomanip&gt; so you can use std::fixed and std::setprecision(1).",
     "static_cast one of the operands to double before dividing to avoid integer division.",
     "Print the labels exactly as shown to satisfy the tests."
   ],

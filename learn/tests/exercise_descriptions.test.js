@@ -28,7 +28,7 @@ function validateDescription(exercise) {
 }
 
 (function main() {
-    const languages = ['cpp', 'ruby'];
+    const languages = ['cpp', 'ruby', 'c'];
     const failures = [];
 
     for (const language of languages) {

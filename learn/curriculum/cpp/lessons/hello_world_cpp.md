@@ -21,7 +21,7 @@ int main() {
 
 ### Key takeaways
 
-- `#include <iostream>` makes the standard input/output stream library available.
+- `#include` the header &lt;iostream&gt; to make the standard input/output stream library available.
 - `int main()` is the entry point; returning `0` signals success.
 - `std::cout` writes text to the console; `\n` adds a newline.
 

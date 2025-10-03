@@ -1,0 +1,21 @@
+{
+  "id": "bare_metal_io_c_exercise",
+  "title": "Student Study Snapshot",
+  "description": "Build a small console program that prints a preset student summary, gathers weekly study habits from the user, and reports the results using classic stdio functions.\n\nSteps:\n1. Start with the provided constants for the student's name, programme, total credits, and completed credits. Print each value on its own line using `printf`.\n2. Calculate `remainingCredits` and `completionPercentage` (remember to cast to `double` before dividing). Display both with clear labels; format the percentage with one digit after the decimal point.\n3. Prompt the user for `studyDays` and `minutesPerDay` using `printf`/`scanf`, reading two integers.\n4. Compute `totalMinutes` and `averagePerDay`; protect the division so `averagePerDay` becomes `0.0` when `studyDays` is zero.\n5. Print the study-time summary so the output matches the expectations exactly, compiling with `gcc -Wall -Wextra -Werror` to keep the build warning-free.\n\nInput format:\nTwo integers provided by the user: study days on the first line, minutes per day on the second.\n\nExpected output:\nStudent: Alice Johnson\nProgramme: Computer Science\nTotal credits: 180\nCompleted credits: 32\nRemaining credits: 148\nCompletion percentage: 17.8%\nEnter study days in a week:\nEnter minutes per day:\nTotal minutes: 600\nAverage per day: 120.0\n\nExample run:\n$ ./student_snapshot\nStudent: Alice Johnson\nProgramme: Computer Science\nTotal credits: 180\nCompleted credits: 32\nRemaining credits: 148\nCompletion percentage: 17.8%\nEnter study days in a week:\nEnter minutes per day:\nTotal minutes: 600\nAverage per day: 120.0",
+  "difficulty": "beginner",
+  "starterCode": "#include <stdio.h>\n\nint main(void)\n{\n    const char *studentName = \"Alice Johnson\";\n    const char *programme = \"Computer Science\";\n    const int totalCredits = 180;\n    const int completedCredits = 32;\n\n    // TODO: Print the student and programme information using printf.\n\n    int remainingCredits = 0;\n    double completionPercentage = 0.0;\n\n    // TODO: Compute remainingCredits and completionPercentage (use a double cast).\n    // TODO: Print both values, formatting the percentage with one decimal place.\n\n    int studyDays = 0;\n    int minutesPerDay = 0;\n\n    // TODO: Prompt for studyDays and minutesPerDay using printf and read them with scanf.\n    // TODO: Calculate totalMinutes and averagePerDay (guard against division by zero).\n    // TODO: Print the results exactly as shown in the expected output.\n\n    return 0;\n}\n",
+  "tests": [
+    {
+      "name": "produces expected diagnostics",
+      "type": "output",
+      "input": "5\n120\n",
+      "expected": "Student: Alice Johnson\nProgramme: Computer Science\nTotal credits: 180\nCompleted credits: 32\nRemaining credits: 148\nCompletion percentage: 17.8%\nEnter study days in a week:\nEnter minutes per day:\nTotal minutes: 600\nAverage per day: 120.0"
+    }
+  ],
+  "hints": [
+    "Cast one side of the division to double before computing the completion percentage so you keep the fractional component.",
+    "`scanf` needs an address; pass `&studyDays` and `&minutesPerDay` when reading integers.",
+    "Use the ternary operator `(studyDays > 0) ? ... : ...` to avoid dividing by zero when the user enters 0 study days."
+  ],
+  "tags": ["c", "stdio", "beginner", "variables", "input-output"]
+}

@@ -47,7 +47,7 @@ Many algorithms have stable variants (such as `std::stable_sort`) that preserve 
 
 1. Read a sequence of integers into a `std::vector<int>`.
 2. Use `std::sort` to order the numbers ascending and display the result.
-3. Produce a descending view using `std::sort` with `std::greater<int>{}` or views from `<ranges>` if available.
+3. Produce a descending view using `std::sort` with `std::greater<int>{}` or views from &lt;ranges&gt; if available.
 4. Count the number of even values with `std::count_if` and report the tally.
 5. Verify whether every number is positive with `std::all_of` and present the result clearly.
 

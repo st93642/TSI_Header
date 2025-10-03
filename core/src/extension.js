@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 02 2025 21:29 st93642                                       */
+/*  Updated: Oct 03 2025 11:10 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -1169,6 +1169,124 @@ extern "C" {
 
     context.subscriptions.push(runExerciseTestsCommand);
 
+    // C Learning Commands
+    const learnCCommand = vscode.commands.registerCommand('tsiheader.learnC', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+
+            vscode.window.showInformationMessage(
+                '⚙️ Start C Learning Journey?\n\n' +
+                'Launch an interactive C curriculum featuring:\n' +
+                '• Core concepts of memory, pointers, and data structures\n' +
+                '• Hands-on exercises with automated feedback\n' +
+                '• Progress tracking, streaks, and achievements\n\n' +
+                'Ready to begin?',
+                { modal: true },
+                'Start Learning',
+                'Browse Lessons',
+                'View Progress',
+                'Cancel'
+            ).then(async selection => {
+                if (selection === 'Start Learning') {
+                    await learnInstance.startLearning('c');
+                } else if (selection === 'Browse Lessons') {
+                    await learnInstance.browseLessons('c');
+                } else if (selection === 'View Progress') {
+                    try {
+                        const stats = await learnInstance.getStats('c');
+                        vscode.window.showInformationMessage(
+                            `📊 Your C Learning Progress\n\n` +
+                            `Lessons Completed: ${stats.lessonsCompleted}\n` +
+                            `Exercises Completed: ${stats.exercisesCompleted}\n` +
+                            `Current Streak: ${stats.currentStreak} days\n` +
+                            `Study Time: ${stats.totalStudyTime} minutes\n` +
+                            `Achievements: ${stats.achievements}`,
+                            { modal: true },
+                            'Continue Learning',
+                            'Got it!'
+                        ).then(choice => {
+                            if (choice === 'Continue Learning') {
+                                learnInstance.startLearning('c');
+                            }
+                        });
+                    } catch (progressError) {
+                        vscode.window.showErrorMessage(`Error loading progress: ${progressError.message}`, { modal: true }, 'OK');
+                    }
+                }
+            });
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error starting C learning: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(learnCCommand);
+
+    const browseLessonsCCommand = vscode.commands.registerCommand('tsiheader.browseLessonsC', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+            await learnInstance.browseLessons('c');
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error browsing C lessons: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(browseLessonsCCommand);
+
+    const viewLearnProgressCCommand = vscode.commands.registerCommand('tsiheader.viewLearnProgressC', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+
+            const stats = await learnInstance.getStats('c');
+
+            const message = `📊 C Learning Progress\n\n`
+                + `Lessons Completed: ${stats.lessonsCompleted}\n`
+                + `Exercises Completed: ${stats.exercisesCompleted}\n`
+                + `Current Streak: ${stats.currentStreak} days\n`
+                + `Total Study Time: ${stats.totalStudyTime} minutes\n`
+                + `Achievements: ${stats.achievements}\n\n`
+                + `Keep up the great work! 🚀`;
+
+            const action = await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                'Continue Learning',
+                'View All Lessons'
+            );
+
+            if (action === 'Continue Learning') {
+                await learnInstance.startLearning('c');
+            } else if (action === 'View All Lessons') {
+                await learnInstance.browseLessons('c');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing C progress: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewLearnProgressCCommand);
+
+    const runExerciseTestsCCommand = vscode.commands.registerCommand('tsiheader.runExerciseTestsC', async () => {
+        const activeEditor = vscode.window.activeTextEditor;
+        if (!activeEditor) {
+            vscode.window.showWarningMessage('Please open a C exercise file first.');
+            return;
+        }
+
+        const filePath = activeEditor.document.fileName;
+        const isCFile = filePath.endsWith('.c');
+        if (!filePath.includes('learn_exercises') || !isCFile) {
+            vscode.window.showWarningMessage('Please open a C exercise file (.c) from the learn_exercises directory.');
+            return;
+        }
+
+        await vscode.commands.executeCommand('tsiheader.runExerciseTests', { language: 'c' });
+    });
+
+    context.subscriptions.push(runExerciseTestsCCommand);
+
     // C++ Learning Commands
     const learnCppCommand = vscode.commands.registerCommand('tsiheader.learnCpp', async () => {
         try {
@@ -1271,24 +1389,18 @@ extern "C" {
     const runExerciseTestsCppCommand = vscode.commands.registerCommand('tsiheader.runExerciseTestsCpp', async () => {
         const activeEditor = vscode.window.activeTextEditor;
         if (!activeEditor) {
-            vscode.window.showWarningMessage('Please open a C or C++ exercise file first.');
+            vscode.window.showWarningMessage('Please open a C++ exercise file first.');
             return;
         }
 
         const filePath = activeEditor.document.fileName;
-        const isCFile = filePath.endsWith('.c');
         const isCppFile = filePath.endsWith('.cpp');
-        if (!filePath.includes('learn_exercises') || (!isCFile && !isCppFile)) {
-            vscode.window.showWarningMessage('Please open a C or C++ exercise file (.c or .cpp) from the learn_exercises directory.');
+        if (!filePath.includes('learn_exercises') || !isCppFile) {
+            vscode.window.showWarningMessage('Please open a C++ exercise file (.cpp) from the learn_exercises directory.');
             return;
         }
 
-        // Delegate to the unified learn exercise test runner
-        if (isCFile) {
-            await vscode.commands.executeCommand('tsiheader.runExerciseTests', { language: 'c' });
-        } else {
-            await vscode.commands.executeCommand('tsiheader.runExerciseTests');
-        }
+        await vscode.commands.executeCommand('tsiheader.runExerciseTests');
     });
 
     context.subscriptions.push(runExerciseTestsCppCommand);

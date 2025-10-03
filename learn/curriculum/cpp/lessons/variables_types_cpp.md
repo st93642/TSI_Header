@@ -20,7 +20,7 @@ Prefer giving every variable an initial value so it never holds garbage data.
 - `char` stores individual characters
 - `bool` stores `true` or `false`
 
-Use `std::string` from `<string>` when you need text.
+Use `std::string` from the &lt;string&gt; header when you need text.
 
 ## Initialisation styles
 

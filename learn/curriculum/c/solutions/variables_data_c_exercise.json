@@ -1,0 +1,13 @@
+{
+  "exerciseId": "variables_data_c_exercise",
+  "languageId": "c",
+  "code": "#include <stdio.h>\n\nint main(void)\n{\n    const int TOTAL_CREDITS = 180;\n    const int CREDITS_PER_SEMESTER = 30;\n    const double TUITION_PER_CREDIT = 42.50;\n\n    int completedCredits = 0;\n    int weeklyMinutes = 0;\n\n    printf(\"Enter completed credits:\\n\");\n    if (scanf(\"%d\", &completedCredits) != 1) {\n        return 1;\n    }\n\n    printf(\"Enter weekly study minutes:\\n\");\n    if (scanf(\"%d\", &weeklyMinutes) != 1) {\n        return 1;\n    }\n\n    if (completedCredits < 0) {\n        completedCredits = 0;\n    }\n    if (completedCredits > TOTAL_CREDITS) {\n        completedCredits = TOTAL_CREDITS;\n    }\n\n    int remainingCredits = TOTAL_CREDITS - completedCredits;\n    if (remainingCredits < 0) {\n        remainingCredits = 0;\n    }\n\n    int semestersRounded = 0;\n    if (remainingCredits > 0) {\n        semestersRounded = (remainingCredits + CREDITS_PER_SEMESTER - 1) / CREDITS_PER_SEMESTER;\n    }\n\n    double semestersExact = remainingCredits / (double)CREDITS_PER_SEMESTER;\n    double weeklyHours = weeklyMinutes / 60.0;\n    double tuitionRemaining = remainingCredits * TUITION_PER_CREDIT;\n\n    printf(\"Completed credits: %d\\n\", completedCredits);\n    printf(\"Remaining credits: %d\\n\", remainingCredits);\n    printf(\"Semesters remaining (rounded): %d\\n\", semestersRounded);\n    printf(\"Semesters remaining (exact): %.1f\\n\", semestersExact);\n    printf(\"Weekly study hours: %.1f\\n\", weeklyHours);\n    printf(\"Tuition remaining: %.2f EUR\\n\", tuitionRemaining);\n\n    if (weeklyHours > 40.0) {\n        printf(\"Study load warning: Reduce load\\n\");\n    } else {\n        printf(\"Study load warning: OK\\n\");\n    }\n\n    return 0;\n}\n",
+  "explanation": "The programme combines constants, integer arithmetic, and explicit casts to build a degree progress report. Remaining credits are clamped to a safe range, the ceiling semester count uses integer math, and floating-point values are printed with fixed precision so the output matches the exercise specification.",
+  "keyPoints": [
+    "Clamp completed credits before subtracting to avoid negative remaining values.",
+    "Use (remaining + divisor - 1) / divisor to compute an integer ceiling without math libraries.",
+    "Cast to double before dividing to preserve fractional precision for percentages and hours.",
+    "Format monetary values with %.2f and time-based ratios with %.1f for readable reports.",
+    "Issue the load warning by comparing the floating-point hours directly instead of the raw minutes."
+  ]
+}

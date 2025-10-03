@@ -1,0 +1,42 @@
+{
+  "language": "C",
+  "version": "0.1.0",
+  "description": "Beginner-friendly C programming path that introduces program structure, I/O, and core language fundamentals before moving toward systems topics.",
+  "estimatedHours": 24,
+  "modules": [
+    {
+      "id": "c_getting_started",
+      "title": "Module 1: Getting Started with C",
+      "description": "Write, compile, and run classic C programs while learning the purpose of headers, functions, variables, and console input/output.",
+      "lessons": [
+        {
+          "id": "bare_metal_io_c",
+          "title": "Lesson 1.1: Your First C Programs",
+          "duration": 60,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "variables_data_c",
+          "title": "Lesson 1.2: Variables and Calculations",
+          "duration": 75,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "conditionals_c",
+          "title": "Lesson 1.3: Making Decisions with Conditionals",
+          "duration": 75,
+          "difficulty": "beginner"
+        }
+      ]
+    }
+  ],
+  "prerequisites": [
+    "Familiarity with a terminal",
+    "Basic understanding of files and folders"
+  ],
+  "outcomes": [
+    "Recognise the structure of a simple C program and the role of headers, functions, and the `main` entry point",
+    "Compile and run console applications with `gcc`, reading compiler output and fixing common warnings",
+    "Use `printf` and `scanf` to display information and read user input, including basic formatting and numeric calculations"
+  ]
+}

@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header - st93642",
   "description": "Code generation and headers for 120+ languages with 100% quality assurance",
-  "version": "5.3.9",
+  "version": "5.4.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -260,6 +260,30 @@
         "icon": "$(play)"
       },
       {
+        "command": "tsiheader.learnC",
+        "title": "Learn C",
+        "category": "Learn",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "tsiheader.browseLessonsC",
+        "title": "Browse All C Lessons",
+        "category": "Learn",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "tsiheader.viewLearnProgressC",
+        "title": "View C Learning Progress",
+        "category": "Learn",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "tsiheader.runExerciseTestsC",
+        "title": "Run C Exercise Tests",
+        "category": "Learn",
+        "icon": "$(play)"
+      },
+      {
         "command": "tsiheader.learnCpp",
         "title": "Learn C++",
         "category": "Learn",
@@ -339,6 +363,11 @@
         {
           "command": "tsiheader.runExerciseTests",
           "when": "resourcePath =~ /learn_exercises/",
+          "group": "9_learn"
+        },
+        {
+          "command": "tsiheader.runExerciseTestsC",
+          "when": "resourcePath =~ /learn_exercises.*\\.c$/",
           "group": "9_learn"
         },
         {

@@ -4,7 +4,7 @@
 
 ## Declaring maps
 
-Include `<map>` and choose types for both the key and the value:
+Include &lt;map&gt; and choose types for both the key and the value:
 
 ```cpp
 #include <map>
@@ -40,7 +40,7 @@ To change values while iterating, drop the `const` on the reference.
 
 ## Counting and aggregating
 
-Combine `map::size()` with `<numeric>` algorithms to compute summary metrics. `std::accumulate` works with iterator pairs, so you can sum the values by accumulating over the map and adding `entry.second`.
+Combine `map::size()` with &lt;numeric&gt; algorithms to compute summary metrics. `std::accumulate` works with iterator pairs, so you can sum the values by accumulating over the map and adding `entry.second`.
 
 ```cpp
 #include <numeric>

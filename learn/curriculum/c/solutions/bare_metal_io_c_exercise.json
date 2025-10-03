@@ -1,0 +1,11 @@
+{
+  "exerciseId": "bare_metal_io_c_exercise",
+  "languageId": "c",
+  "code": "#include <stdio.h>\n\nint main(void)\n{\n    const char *studentName = \"Alice Johnson\";\n    const char *programme = \"Computer Science\";\n    const int totalCredits = 180;\n    const int completedCredits = 32;\n    const int remainingCredits = totalCredits - completedCredits;\n    const double completionPercentage = (completedCredits / (double)totalCredits) * 100.0;\n\n    printf(\"Student: %s\\n\", studentName);\n    printf(\"Programme: %s\\n\", programme);\n    printf(\"Total credits: %d\\n\", totalCredits);\n    printf(\"Completed credits: %d\\n\", completedCredits);\n    printf(\"Remaining credits: %d\\n\", remainingCredits);\n    printf(\"Completion percentage: %.1f%%\\n\", completionPercentage);\n\n    int studyDays = 0;\n    int minutesPerDay = 0;\n\n    printf(\"Enter study days in a week:\\n\");\n    if (scanf(\"%d\", &studyDays) != 1)\n        return 1;\n\n    printf(\"Enter minutes per day:\\n\");\n    if (scanf(\"%d\", &minutesPerDay) != 1)\n        return 1;\n\n    const int totalMinutes = studyDays * minutesPerDay;\n    const double averagePerDay = (studyDays > 0) ? (totalMinutes / (double)studyDays) : 0.0;\n\n    printf(\"Total minutes: %d\\n\", totalMinutes);\n    printf(\"Average per day: %.1f\\n\", averagePerDay);\n\n    return 0;\n}\n",
+  "explanation": "The program prints a fixed student summary, computes progress metrics with a floating-point cast, collects two integers via `scanf`, and guards the division so the average stays well-defined even when the user enters 0 study days.",
+  "keyPoints": [
+    "Casting one operand to `double` keeps the completion percentage from truncating to zero.",
+    "Checking the result of `scanf` allows the program to abort if input parsing fails.",
+    "A ternary expression protects the average calculation from dividing by zero."
+  ]
+}
