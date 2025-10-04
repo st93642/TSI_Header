@@ -1,131 +1,124 @@
 {
+  "id": "dsa_dynamic_programming_fundamentals_cpp_exercise",
   "mode": "quiz",
+  "title": "Dynamic Programming Fundamentals Quiz",
+  "description": "Validate your understanding of memoization versus tabulation, optimal substructure, overlapping subproblems, and when to deploy dynamic programming over other paradigms.",
+  "passScore": 8,
+  "tags": ["cpp", "dynamic programming", "algorithms"],
   "questions": [
     {
       "id": "dp_fundamentals_1",
-      "type": "single-select",
+      "type": "single",
       "prompt": "What are the two fundamental characteristics that make a problem suitable for dynamic programming?",
       "options": [
-        {"id": "0", "text": "Optimal substructure and overlapping subproblems"},
-        {"id": "1", "text": "Greedy choice property and optimal substructure"},
-        {"id": "2", "text": "Divide and conquer and greedy algorithms"},
-        {"id": "3", "text": "Backtracking and brute force"}
+        {"id": "option_a", "text": "Optimal substructure and overlapping subproblems"},
+        {"id": "option_b", "text": "Greedy choice property and optimal substructure"},
+        {"id": "option_c", "text": "Divide and conquer and greedy algorithms"},
+        {"id": "option_d", "text": "Backtracking and brute force"}
       ],
-      "correctAnswer": 0,
+      "answer": "option_a",
       "explanation": "Dynamic programming requires optimal substructure (optimal solutions contain optimal subsolutions) and overlapping subproblems (same subproblems solved multiple times). These properties allow DP to cache and reuse solutions efficiently."
     },
     {
       "id": "dp_fundamentals_2",
-      "type": "true-false",
+      "type": "truefalse",
       "prompt": "Memoization is a top-down approach that computes all subproblems iteratively from smallest to largest.",
-      "options": [
-        {"id": "true", "text": "True"},
-        {"id": "false", "text": "False"}
-      ],
-      "correctAnswer": 1,
-      "explanation": "False. Memoization is top-down (recursive) and only computes subproblems as needed. Tabulation is the bottom-up approach that computes all subproblems iteratively from smallest to largest."
+      "answer": "false",
+      "explanation": "Memoization is top-down (recursive) and only computes subproblems as needed. Tabulation is the bottom-up approach that computes all subproblems iteratively from smallest to largest."
     },
     {
       "id": "dp_fundamentals_3",
-      "type": "multi-select",
+      "type": "multiple",
       "prompt": "Which of the following are advantages of tabulation over memoization? (Select all that apply)",
       "options": [
-        {"id": "0", "text": "No recursion depth limits"},
-        {"id": "1", "text": "Only stores computed subproblems"},
-        {"id": "2", "text": "Cache-friendly memory access patterns"},
-        {"id": "3", "text": "Easier to reconstruct optimal solutions"},
-        {"id": "4", "text": "More natural for recursive thinking"}
+        {"id": "option_a", "text": "No recursion depth limits"},
+        {"id": "option_b", "text": "Only stores computed subproblems"},
+        {"id": "option_c", "text": "Cache-friendly memory access patterns"},
+        {"id": "option_d", "text": "Easier to reconstruct optimal solutions"},
+        {"id": "option_e", "text": "More natural for recursive thinking"}
       ],
-      "correctAnswer": [0, 2, 3],
+      "answer": ["option_a", "option_c", "option_d"],
       "explanation": "Tabulation avoids recursion depth limits, provides cache-friendly sequential memory access, and makes solution reconstruction easier since all subproblems are computed. Memoization is more natural for recursive thinking and only stores accessed subproblems."
     },
     {
       "id": "dp_fundamentals_4",
-      "type": "single-select",
+      "type": "single",
       "prompt": "In the context of dynamic programming, what does 'optimal substructure' mean?",
       "options": [
-        {"id": "0", "text": "The problem can be solved using the most efficient algorithm"},
-        {"id": "1", "text": "An optimal solution contains optimal solutions to its subproblems"},
-        {"id": "2", "text": "The problem has the smallest possible state space"},
-        {"id": "3", "text": "The solution requires minimal memory usage"}
+        {"id": "option_a", "text": "The problem can be solved using the most efficient algorithm"},
+        {"id": "option_b", "text": "An optimal solution contains optimal solutions to its subproblems"},
+        {"id": "option_c", "text": "The problem has the smallest possible state space"},
+        {"id": "option_d", "text": "The solution requires minimal memory usage"}
       ],
-      "correctAnswer": 1,
+      "answer": "option_b",
       "explanation": "Optimal substructure means that an optimal solution to the problem contains within it optimal solutions to its subproblems. This property allows DP to build solutions by combining optimal subsolutions."
     },
     {
       "id": "dp_fundamentals_5",
-      "type": "true-false",
+      "type": "truefalse",
       "prompt": "Overlapping subproblems occur when the same subproblem is solved multiple times in a naive recursive solution.",
-      "options": [
-        {"id": "true", "text": "True"},
-        {"id": "false", "text": "False"}
-      ],
-      "correctAnswer": 0,
-      "explanation": "True. Overlapping subproblems is the key insight that enables dynamic programming. When a naive recursive solution recomputes the same subproblems multiple times, DP can cache these results for reuse."
+      "answer": "true",
+      "explanation": "Overlapping subproblems is the key insight that enables dynamic programming. When a naive recursive solution recomputes the same subproblems multiple times, DP can cache these results for reuse."
     },
     {
       "id": "dp_fundamentals_6",
-      "type": "multi-select",
+      "type": "multiple",
       "prompt": "When should you choose memoization over tabulation? (Select all that apply)",
       "options": [
-        {"id": "0", "text": "When the problem has sparse subproblem dependencies"},
-        {"id": "1", "text": "When you need to compute all possible subproblems"},
-        {"id": "2", "text": "When recursion comes naturally to the problem"},
-        {"id": "3", "text": "When memory is limited and you want to avoid storing unused results"},
-        {"id": "4", "text": "When you need sequential memory access for cache efficiency"}
+        {"id": "option_a", "text": "When the problem has sparse subproblem dependencies"},
+        {"id": "option_b", "text": "When you need to compute all possible subproblems"},
+        {"id": "option_c", "text": "When recursion comes naturally to the problem"},
+        {"id": "option_d", "text": "When memory is limited and you want to avoid storing unused results"},
+        {"id": "option_e", "text": "When you need sequential memory access for cache efficiency"}
       ],
-      "correctAnswer": [0, 2, 3],
+      "answer": ["option_a", "option_c", "option_d"],
       "explanation": "Choose memoization for sparse problems (not all subproblems needed), when recursion is natural, and when memory is limited (only stores accessed subproblems). Choose tabulation when all subproblems are needed or when cache-friendly access is important."
     },
     {
       "id": "dp_fundamentals_7",
-      "type": "single-select",
+      "type": "single",
       "prompt": "What is the primary disadvantage of memoization compared to tabulation?",
       "options": [
-        {"id": "0", "text": "Higher space complexity"},
-        {"id": "1", "text": "Limited by recursion depth"},
-        {"id": "2", "text": "Cannot handle overlapping subproblems"},
-        {"id": "3", "text": "Requires more complex state definitions"}
+        {"id": "option_a", "text": "Higher space complexity"},
+        {"id": "option_b", "text": "Limited by recursion depth"},
+        {"id": "option_c", "text": "Cannot handle overlapping subproblems"},
+        {"id": "option_d", "text": "Requires more complex state definitions"}
       ],
-      "correctAnswer": 1,
+      "answer": "option_b",
       "explanation": "Memoization is limited by recursion depth, which can cause stack overflow for deep recursions. Tabulation avoids this by using iteration instead of recursion."
     },
     {
       "id": "dp_fundamentals_8",
-      "type": "true-false",
+      "type": "truefalse",
       "prompt": "Dynamic programming can only be applied to optimization problems, not counting problems.",
-      "options": [
-        {"id": "true", "text": "True"},
-        {"id": "false", "text": "False"}
-      ],
-      "correctAnswer": 1,
-      "explanation": "False. Dynamic programming can be applied to both optimization problems (finding best solution) and counting problems (counting number of ways). Both types can exhibit optimal substructure and overlapping subproblems."
+      "answer": "false",
+      "explanation": "Dynamic programming can be applied to both optimization problems (finding best solution) and counting problems (counting number of ways). Both types can exhibit optimal substructure and overlapping subproblems."
     },
     {
       "id": "dp_fundamentals_9",
-      "type": "multi-select",
+      "type": "multiple",
       "prompt": "Which of these problems typically exhibit overlapping subproblems? (Select all that apply)",
       "options": [
-        {"id": "0", "text": "Binary search on a sorted array"},
-        {"id": "1", "text": "Computing Fibonacci numbers recursively"},
-        {"id": "2", "text": "Finding the maximum element in an array"},
-        {"id": "3", "text": "Solving the 0/1 knapsack problem"},
-        {"id": "4", "text": "Merging two sorted arrays"}
+        {"id": "option_a", "text": "Binary search on a sorted array"},
+        {"id": "option_b", "text": "Computing Fibonacci numbers recursively"},
+        {"id": "option_c", "text": "Finding the maximum element in an array"},
+        {"id": "option_d", "text": "Solving the 0/1 knapsack problem"},
+        {"id": "option_e", "text": "Merging two sorted arrays"}
       ],
-      "correctAnswer": [1, 3],
+      "answer": ["option_b", "option_d"],
       "explanation": "Fibonacci computation and 0/1 knapsack both have overlapping subproblems. Binary search, finding maximum, and merging arrays don't have significant subproblem overlap in their optimal solutions."
     },
     {
       "id": "dp_fundamentals_10",
-      "type": "single-select",
+      "type": "single",
       "prompt": "What is the key insight that enables dynamic programming to achieve better time complexity than naive recursion?",
       "options": [
-        {"id": "0", "text": "Using more memory to store intermediate results"},
-        {"id": "1", "text": "Avoiding recursion entirely"},
-        {"id": "2", "text": "Solving subproblems in a specific order"},
-        {"id": "3", "text": "Eliminating redundant computations through caching"}
+        {"id": "option_a", "text": "Using more memory to store intermediate results"},
+        {"id": "option_b", "text": "Avoiding recursion entirely"},
+        {"id": "option_c", "text": "Solving subproblems in a specific order"},
+        {"id": "option_d", "text": "Eliminating redundant computations through caching"}
       ],
-      "correctAnswer": 3,
+      "answer": "option_d",
       "explanation": "The key insight is eliminating redundant computations by caching subproblem solutions. This transforms exponential time complexity (from naive recursion with overlapping subproblems) into polynomial time."
     }
   ]

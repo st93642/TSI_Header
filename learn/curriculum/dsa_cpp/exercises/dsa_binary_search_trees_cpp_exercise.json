@@ -3,6 +3,8 @@
   "mode": "quiz",
   "title": "Binary Search Trees and Balanced Trees - Practice Quiz",
   "description": "Test your understanding of BST operations, balancing algorithms, and performance characteristics in C++.",
+  "totalQuestions": 10,
+  "passScore": 7,
   "questions": [
     {
       "id": "bst_property",

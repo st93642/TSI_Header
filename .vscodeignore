@@ -12,6 +12,7 @@ scripts/
 !scripts/comprehensive_language_test.rb
 *.test.js
 *.test.rb
+learn/tests/
 test_output/
 TEST_Suite/
 Libft/

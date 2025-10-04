@@ -1,5 +1,6 @@
 {
-  "id": "dsa_minimum_spanning_tree_cpp",
+  "exerciseId": "dsa_minimum_spanning_tree_cpp_exercise",
+  "id": "dsa_minimum_spanning_tree_cpp_exercise",
   "mode": "quiz",
   "answerKey": {
     "mst_definition": 1,

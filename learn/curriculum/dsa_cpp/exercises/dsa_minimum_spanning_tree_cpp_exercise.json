@@ -1,5 +1,5 @@
 {
-  "id": "dsa_minimum_spanning_tree_cpp",
+  "id": "dsa_minimum_spanning_tree_cpp_exercise",
   "mode": "quiz",
   "title": "Prim's Algorithm and Kruskal's Algorithm",
   "description": "Test your understanding of Minimum Spanning Tree algorithms, Prim's and Kruskal's approaches, Union-Find data structure, and their applications in C++.",

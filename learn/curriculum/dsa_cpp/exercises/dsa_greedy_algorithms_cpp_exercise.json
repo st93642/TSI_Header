@@ -3,6 +3,8 @@
   "mode": "quiz",
   "title": "Greedy Algorithms Quiz",
   "description": "Test your understanding of greedy algorithms, greedy choice property, and optimization techniques.",
+  "totalQuestions": 10,
+  "passScore": 7,
   "questions": [
     {
       "id": "greedy_choice_property",

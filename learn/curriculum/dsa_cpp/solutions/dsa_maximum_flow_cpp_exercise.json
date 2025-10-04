@@ -1,5 +1,6 @@
 {
-  "id": "dsa_maximum_flow_cpp",
+  "exerciseId": "dsa_maximum_flow_cpp_exercise",
+  "id": "dsa_maximum_flow_cpp_exercise",
   "mode": "quiz",
   "title": "Ford-Fulkerson and Edmonds-Karp Algorithms - Solutions",
   "description": "Complete solutions and explanations for maximum flow algorithm questions.",

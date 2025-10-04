@@ -1,17 +1,18 @@
 {
+  "exerciseId": "dsa_dynamic_programming_fundamentals_cpp_exercise",
   "mode": "quiz",
-  "id": "dsa_dynamic_programming_fundamentals_cpp",
+  "id": "dsa_dynamic_programming_fundamentals_cpp_exercise",
   "answerKey": {
-    "dp_fundamentals_1": "0",
+    "dp_fundamentals_1": "option_a",
     "dp_fundamentals_2": "false",
-    "dp_fundamentals_3": ["0", "2", "3"],
-    "dp_fundamentals_4": "1",
+    "dp_fundamentals_3": ["option_a", "option_c", "option_d"],
+    "dp_fundamentals_4": "option_b",
     "dp_fundamentals_5": "true",
-    "dp_fundamentals_6": ["0", "2", "3"],
-    "dp_fundamentals_7": "1",
+    "dp_fundamentals_6": ["option_a", "option_c", "option_d"],
+    "dp_fundamentals_7": "option_b",
     "dp_fundamentals_8": "false",
-    "dp_fundamentals_9": ["1", "3"],
-    "dp_fundamentals_10": "3"
+    "dp_fundamentals_9": ["option_b", "option_d"],
+    "dp_fundamentals_10": "option_d"
   },
   "keyPoints": [
     "Dynamic programming requires optimal substructure and overlapping subproblems to be effective",

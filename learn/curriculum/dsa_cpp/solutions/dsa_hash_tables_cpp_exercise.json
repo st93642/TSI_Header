@@ -2,18 +2,20 @@
   "mode": "quiz",
   "title": "Hash Tables & Hash-based Data Structures - Solutions",
   "description": "Answer key and detailed explanations for the hash tables quiz.",
-  "answerKey": [
-    1,
-    2,
-    [0, 1, 2],
-    1,
-    true,
-    2,
-    1,
-    [1, 2, 3],
-    1,
-    1
-  ],
+  "exerciseId": "dsa_hash_tables_cpp_exercise",
+  "id": "dsa_hash_tables_cpp_exercise",
+  "answerKey": {
+    "hash_table_advantage": "option_b",
+    "separate_chaining_structure": "option_c",
+    "hash_function_requirements": ["option_a", "option_b", "option_c"],
+    "load_factor_importance": "option_b",
+    "open_addressing_cache_performance": "true",
+    "rehashing_process": "option_c",
+    "linear_probing_technique": "option_b",
+    "open_addressing_disadvantages": ["option_b", "option_c", "option_d"],
+    "avalanche_effect_meaning": "option_b",
+    "worst_case_complexity": "option_b"
+  },
   "keyPoints": [
     "Hash tables achieve average O(1) performance through key-to-index mapping, making them ideal for fast lookups when order doesn't matter.",
     "Separate chaining uses linked lists per bucket for collision resolution, offering simplicity and good performance at high load factors.",

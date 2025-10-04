@@ -1,5 +1,5 @@
 {
-  "id": "dsa_maximum_flow_cpp",
+  "id": "dsa_maximum_flow_cpp_exercise",
   "mode": "quiz",
   "title": "Ford-Fulkerson and Edmonds-Karp Algorithms",
   "description": "Test your understanding of maximum flow algorithms, residual graphs, Ford-Fulkerson method, and Edmonds-Karp implementation in C++.",
