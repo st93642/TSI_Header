@@ -1,0 +1,117 @@
+{
+  "id": "dsa_linked_lists_cpp_exercise",
+  "mode": "quiz",
+  "title": "Quiz: Linked Lists, Memory Management, and Operations",
+  "description": "Test your understanding of linked list fundamentals, memory management patterns, and operation complexities in C++.\n\nSteps:\n1. Review the linked list implementations and memory concepts.\n2. Answer each question about linked list behavior and C++ memory management.\n3. Submit the quiz to validate your grasp of dynamic data structures.\n\nExpected results: Score at least 8 out of 10 to demonstrate solid understanding.",
+  "tags": ["cpp", "linked-lists", "memory-management", "pointers", "dynamic-allocation", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "linked_list_advantage",
+      "type": "single",
+      "prompt": "What is the primary advantage of linked lists over arrays?",
+      "options": [
+        { "id": "option_a", "text": "Faster random access" },
+        { "id": "option_b", "text": "Dynamic sizing without reallocation", "correct": true },
+        { "id": "option_c", "text": "Better cache locality" },
+        { "id": "option_d", "text": "Fixed memory usage" }
+      ],
+      "explanation": "Linked lists can grow and shrink dynamically by allocating/deallocating individual nodes, unlike arrays which require contiguous memory blocks."
+    },
+    {
+      "id": "singly_linked_structure",
+      "type": "truefalse",
+      "prompt": "In a singly linked list, each node contains data and a pointer to the next node only.",
+      "answer": "true",
+      "explanation": "Singly linked lists have unidirectional traversal - each node points only to the next node in the sequence."
+    },
+    {
+      "id": "constant_time_operations",
+      "type": "multiple",
+      "prompt": "Which operations are O(1) in a singly linked list when you have a pointer to the relevant node?",
+      "options": [
+        { "id": "option_a", "text": "Insert at beginning", "correct": true },
+        { "id": "option_b", "text": "Insert at end" },
+        { "id": "option_c", "text": "Delete node", "correct": true },
+        { "id": "option_d", "text": "Access by index" },
+        { "id": "option_e", "text": "Search for value" }
+      ],
+      "explanation": "With a direct pointer to the node, insertion at beginning and deletion of a known node involve only pointer manipulation and are O(1)."
+    },
+    {
+      "id": "memory_leak_consequence",
+      "type": "single",
+      "prompt": "What happens if you forget to delete dynamically allocated nodes in a linked list?",
+      "options": [
+        { "id": "option_a", "text": "Compile error" },
+        { "id": "option_b", "text": "Runtime crash" },
+        { "id": "option_c", "text": "Memory leak", "correct": true },
+        { "id": "option_d", "text": "Stack overflow" }
+      ],
+      "explanation": "Failing to deallocate memory with delete causes memory leaks, where memory remains allocated but inaccessible to the program."
+    },
+    {
+      "id": "doubly_linked_tradeoff",
+      "type": "truefalse",
+      "prompt": "Doubly linked lists allow traversal in both directions but require more memory per node.",
+      "answer": "true",
+      "explanation": "Each node in a doubly linked list has both prev and next pointers, doubling the pointer overhead compared to singly linked lists."
+    },
+    {
+      "id": "smart_pointers_benefit",
+      "type": "single",
+      "prompt": "Which C++ feature helps prevent memory leaks in linked list implementations?",
+      "options": [
+        { "id": "option_a", "text": "Templates" },
+        { "id": "option_b", "text": "Smart pointers", "correct": true },
+        { "id": "option_c", "text": "Operator overloading" },
+        { "id": "option_d", "text": "Exception handling" }
+      ],
+      "explanation": "Smart pointers like std::unique_ptr automatically manage memory deallocation, preventing leaks in linked list implementations."
+    },
+    {
+      "id": "common_pitfalls",
+      "type": "multiple",
+      "prompt": "What are common pitfalls when implementing linked list operations?",
+      "options": [
+        { "id": "option_a", "text": "Off-by-one errors in loops", "correct": true },
+        { "id": "option_b", "text": "Dangling pointers after deletion", "correct": true },
+        { "id": "option_c", "text": "Null pointer dereference", "correct": true },
+        { "id": "option_d", "text": "Integer overflow" },
+        { "id": "option_e", "text": "Memory fragmentation" }
+      ],
+      "explanation": "Linked list operations commonly suffer from loop boundary errors, accessing deleted memory, and failing to check for null pointers."
+    },
+    {
+      "id": "insertion_end_complexity",
+      "type": "single",
+      "prompt": "In terms of time complexity, what is the worst-case for inserting at the end of a singly linked list?",
+      "options": [
+        { "id": "option_a", "text": "O(1)" },
+        { "id": "option_b", "text": "O(log n)" },
+        { "id": "option_c", "text": "O(n)", "correct": true },
+        { "id": "option_d", "text": "O(n²)" }
+      ],
+      "explanation": "To insert at the end, you must traverse the entire list to find the last node, making it O(n) in the worst case."
+    },
+    {
+      "id": "circular_list_benefit",
+      "type": "truefalse",
+      "prompt": "Circular linked lists can be useful for implementing queues without needing separate front and rear pointers.",
+      "answer": "true",
+      "explanation": "In a circular linked list, the last node points back to the first, allowing queue operations to wrap around efficiently."
+    },
+    {
+      "id": "doubly_vs_array_overhead",
+      "type": "single",
+      "prompt": "What is the space overhead per element in a doubly linked list compared to an array?",
+      "options": [
+        { "id": "option_a", "text": "Same as array" },
+        { "id": "option_b", "text": "One extra pointer" },
+        { "id": "option_c", "text": "Two extra pointers", "correct": true },
+        { "id": "option_d", "text": "Depends on element size" }
+      ],
+      "explanation": "Each node in a doubly linked list has prev and next pointers, adding two pointer-sized overheads beyond the data itself."
+    }
+  ]
+}

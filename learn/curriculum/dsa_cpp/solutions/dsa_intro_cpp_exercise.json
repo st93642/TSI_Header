@@ -1,0 +1,63 @@
+{
+  "exerciseId": "dsa_intro_cpp_exercise",
+  "languageId": "cpp",
+  "mode": "quiz",
+  "explanation": "This answer key summarises the foundational lessons about modelling problems, running instrumented experiments, and translating metrics into insight.",
+  "answerKey": [
+    {
+      "questionId": "dsa_intro_loop_stages",
+      "answers": ["option_a", "option_b", "option_c"],
+      "rationale": "The loop stresses modelling, transformation, measurement, and iteration; bypassing iteration contradicts the feedback cycle."
+    },
+    {
+      "questionId": "dsa_intro_bruteforce",
+      "answers": ["option_a"],
+      "rationale": "Ad-hoc brute force ignores scaling realities, so it fails when datasets grow." 
+    },
+    {
+      "questionId": "dsa_intro_instrumentation",
+      "answers": ["option_b"],
+      "rationale": "MeasurementRecord collected timing samples for statistical summaries." 
+    },
+    {
+      "questionId": "dsa_intro_dataset_shuffle",
+      "answers": ["true"],
+      "rationale": "Randomised inputs stress caches and branches, revealing behaviour beyond best-case ordering." 
+    },
+    {
+      "questionId": "dsa_intro_checksum_meaning",
+      "answers": ["option_b"],
+      "rationale": "The checksum verified frequency ordering consistency across experiments." 
+    },
+    {
+      "questionId": "dsa_intro_iteration_reason",
+      "answers": ["option_a"],
+      "rationale": "Measurements often surface new constraints, motivating another design pass." 
+    },
+    {
+      "questionId": "dsa_intro_realworld",
+      "answers": ["option_a", "option_b", "option_c"],
+      "rationale": "Autocomplete, fraud detection, and robotics require predictable performance; the quarterly rendering scenario does not." 
+    },
+    {
+      "questionId": "dsa_intro_metrics_vs_insight",
+      "answers": ["option_a"],
+      "rationale": "Metrics provide data; insights interpret the data to influence design decisions." 
+    },
+    {
+      "questionId": "dsa_intro_logging",
+      "answers": ["option_a", "option_b", "option_d"],
+      "rationale": "Intentional logging includes hypotheses, distributions, and reflective notes captured for future modules." 
+    },
+    {
+      "questionId": "dsa_intro_takeaway",
+      "answers": ["false"],
+      "rationale": "The lesson emphasises validating intuition through disciplined measurement." 
+    }
+  ],
+  "keyPoints": [
+    "Effective DSA practice pairs structural modelling with empirical measurement.",
+    "Instrumentation such as MeasurementRecord turns raw experiments into actionable summaries.",
+    "Reflecting on benchmarks before and after iteration keeps intuition grounded in evidence."
+  ]
+}

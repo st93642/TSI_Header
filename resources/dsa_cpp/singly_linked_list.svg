@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 14px; fill: #333; }
+      .node { fill: #4A90E2; stroke: #2171B5; stroke-width: 2; }
+      .arrow { fill: #E94B3C; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Singly Linked List: Unidirectional Traversal</text>
+  <rect x="50" y="50" width="80" height="50" class="node" rx="5"/>
+  <text x="70" y="75">Data: A</text>
+  <text x="70" y="90">Next: →</text>
+  <line x1="130" y1="75" x2="180" y2="75" stroke="#E94B3C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <rect x="200" y="50" width="80" height="50" class="node" rx="5"/>
+  <text x="220" y="75">Data: B</text>
+  <text x="220" y="90">Next: →</text>
+  <line x1="280" y1="75" x2="330" y2="75" stroke="#E94B3C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <rect x="350" y="50" width="80" height="50" class="node" rx="5"/>
+  <text x="370" y="75">Data: C</text>
+  <text x="370" y="90">Next: null</text>
+  <text x="10" y="140">Traversal only in forward direction. Cannot go back without starting from head.</text>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="arrow"/>
+    </marker>
+  </defs>
+</svg>

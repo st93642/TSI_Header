@@ -1,0 +1,120 @@
+{
+  "id": "dsa_intro_cpp_exercise",
+  "mode": "quiz",
+  "title": "Quiz: Foundations of Data Structures & Algorithms",
+  "description": "Check your understanding of the introductory lesson by answering ten questions that revisit the core narrative, instrumentation patterns, and reflective prompts.\n\nSteps:\n1. Read every question carefully and recall the measurement experiments you carried out.\n2. Select the best answer or answers. Some prompts accept multiple selections.\n3. Submit the quiz to review feedback and reinforce the lesson takeaways.\n\nExpected results: Achieve at least the pass score to move forward in the roadmap.",
+  "tags": ["cpp", "dsa", "foundations", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "dsa_intro_loop_stages",
+      "type": "multiple",
+      "prompt": "Which checkpoints make up the problem-solving loop described in the lesson?",
+      "options": [
+        { "id": "option_a", "text": "Model the domain", "correct": true },
+        { "id": "option_b", "text": "Transform inputs incrementally", "correct": true },
+        { "id": "option_c", "text": "Measure candidate approaches", "correct": true },
+        { "id": "option_d", "text": "Ship directly to production without iteration" }
+      ],
+      "explanation": "The loop cycles through model, transform, measure, and iterate; skipping iteration contradicts the roadmap philosophy."
+    },
+    {
+      "id": "dsa_intro_bruteforce",
+      "type": "single",
+      "prompt": "Why is ad-hoc brute force rarely sustainable beyond toy inputs?",
+      "options": [
+        { "id": "option_a", "text": "It ignores algorithmic complexity and explodes under larger datasets.", "correct": true },
+        { "id": "option_b", "text": "It always requires concurrency primitives." },
+        { "id": "option_c", "text": "It depends on templates that the compiler cannot optimise." },
+        { "id": "option_d", "text": "It guarantees deterministic results regardless of distribution." }
+      ],
+      "explanation": "Brute force approaches disregard scaling costs, so they crumble as data sizes grow." 
+    },
+    {
+      "id": "dsa_intro_instrumentation",
+      "type": "single",
+      "prompt": "What purpose did the MeasurementRecord structure serve in the experiments?",
+      "options": [
+        { "id": "option_a", "text": "It generated random inputs for quick tests." },
+        { "id": "option_b", "text": "It stored timing samples to compute min, max, and mean statistics.", "correct": true },
+        { "id": "option_c", "text": "It replaced std::vector with a linked list implementation." },
+        { "id": "option_d", "text": "It synchronised threads across experiments." }
+      ],
+      "explanation": "The struct aggregated repeated timings so learners could translate raw data into insight." 
+    },
+    {
+      "id": "dsa_intro_dataset_shuffle",
+      "type": "truefalse",
+      "prompt": "True or False: Shuffling the dataset before transformation helps expose cache behaviour and branch prediction outcomes.",
+      "answer": "true",
+      "explanation": "Randomising input surfaces how the algorithm reacts to unpredictable layouts, stressing caches and branches." 
+    },
+    {
+      "id": "dsa_intro_checksum_meaning",
+      "type": "single",
+      "prompt": "What insight did the checksum calculation provide in the experiment harness?",
+      "options": [
+        { "id": "option_a", "text": "It revealed how many threads the CPU scheduled." },
+        { "id": "option_b", "text": "It tracked whether bucketed frequencies changed across trials.", "correct": true },
+        { "id": "option_c", "text": "It measured GPU utilisation for parallel workloads." },
+        { "id": "option_d", "text": "It encoded the entire dataset for compression benchmarks." }
+      ],
+      "explanation": "The checksum tied execution to actual data transformations, confirming that iterations produced consistent frequency orderings." 
+    },
+    {
+      "id": "dsa_intro_iteration_reason",
+      "type": "single",
+      "prompt": "Why does the lesson emphasise iteration after measuring candidate approaches?",
+      "options": [
+        { "id": "option_a", "text": "Measurements often reveal new constraints that demand revised structures.", "correct": true },
+        { "id": "option_b", "text": "The compiler insists on a second pass for optimisation." },
+        { "id": "option_c", "text": "Iteration is needed only when code fails to compile." },
+        { "id": "option_d", "text": "Iteration ensures the checksum remains constant." }
+      ],
+      "explanation": "Empirical evidence reshapes assumptions; iteration integrates those insights into the design." 
+    },
+    {
+      "id": "dsa_intro_realworld",
+      "type": "multiple",
+      "prompt": "Which real-world scenarios from the lesson demand predictable algorithmic performance?",
+      "options": [
+        { "id": "option_a", "text": "Search autocomplete systems", "correct": true },
+        { "id": "option_b", "text": "Fraud detection on streaming graphs", "correct": true },
+        { "id": "option_c", "text": "Robotics motion planning", "correct": true },
+        { "id": "option_d", "text": "Rendering static images once per quarter" }
+      ],
+      "explanation": "Interactive systems and safety-critical pipelines require guarantees that DSA principles deliver." 
+    },
+    {
+      "id": "dsa_intro_metrics_vs_insight",
+      "type": "single",
+      "prompt": "What distinction did the lesson draw between metrics and insights?",
+      "options": [
+        { "id": "option_a", "text": "Metrics are raw numbers; insights interpret them to guide future decisions.", "correct": true },
+        { "id": "option_b", "text": "Metrics are qualitative interviews, insights are code listings." },
+        { "id": "option_c", "text": "Metrics always prove optimality while insights remain speculative." },
+        { "id": "option_d", "text": "Metrics belong to managers; insights stay with engineers." }
+      ],
+      "explanation": "Numbers alone do not change behaviour; analysis converts them into actionable understanding." 
+    },
+    {
+      "id": "dsa_intro_logging",
+      "type": "multiple",
+      "prompt": "Which logging strategies were recommended for production-grade experiments?",
+      "options": [
+        { "id": "option_a", "text": "Capture hypotheses before running benchmarks", "correct": true },
+        { "id": "option_b", "text": "Record distributional assumptions alongside timing results", "correct": true },
+        { "id": "option_c", "text": "Disable assertions to avoid noise" },
+        { "id": "option_d", "text": "Store findings in a lab notebook for later modules", "correct": true }
+      ],
+      "explanation": "Structured logs keep experiments reproducible and inform future optimisation work." 
+    },
+    {
+      "id": "dsa_intro_takeaway",
+      "type": "truefalse",
+      "prompt": "True or False: The lesson concludes that intuition alone is sufficient and measurements add little value.",
+      "answer": "false",
+      "explanation": "The narrative repeatedly stresses that intuition must be validated through measurement." 
+    }
+  ]
+}

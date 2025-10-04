@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 14px; fill: #666; }
+      .bucket { fill: #4A90E2; stroke: #2171B5; stroke-width: 2; }
+      .key { fill: #E94B3C; stroke: #C0392B; stroke-width: 1; }
+      .value { fill: #50C878; stroke: #228B22; stroke-width: 1; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Hash Table Structure: Key-Value Mapping with Buckets</text>
+  <text x="10" y="40">Hash function converts keys to indices, values stored in corresponding buckets</text>
+
+  <!-- Hash table buckets -->
+  <text x="50" y="70">Index</text>
+  <text x="150" y="70">Bucket</text>
+
+  <!-- Bucket 0 -->
+  <rect x="40" y="80" width="40" height="25" class="bucket" rx="3"/>
+  <text x="55" y="95">0</text>
+  <rect x="120" y="80" width="80" height="25" fill="#F5F5F5" stroke="#CCC" stroke-width="1" rx="3"/>
+  <text x="130" y="95">Empty</text>
+
+  <!-- Bucket 1 -->
+  <rect x="40" y="115" width="40" height="25" class="bucket" rx="3"/>
+  <text x="55" y="130">1</text>
+  <rect x="120" y="115" width="35" height="25" class="key" rx="3"/>
+  <text x="125" y="130">K1</text>
+  <rect x="165" y="115" width="35" height="25" class="value" rx="3"/>
+  <text x="175" y="130">V1</text>
+
+  <!-- Bucket 2 -->
+  <rect x="40" y="150" width="40" height="25" class="bucket" rx="3"/>
+  <text x="55" y="165">2</text>
+  <rect x="120" y="150" width="80" height="25" fill="#F5F5F5" stroke="#CCC" stroke-width="1" rx="3"/>
+  <text x="130" y="165">Empty</text>
+
+  <!-- Bucket 3 -->
+  <rect x="40" y="185" width="40" height="25" class="bucket" rx="3"/>
+  <text x="55" y="200">3</text>
+  <rect x="120" y="185" width="35" height="25" class="key" rx="3"/>
+  <text x="125" y="200">K2</text>
+  <rect x="165" y="185" width="35" height="25" class="value" rx="3"/>
+  <text x="175" y="200">V2</text>
+
+  <!-- Bucket 4 - Collision -->
+  <rect x="40" y="220" width="40" height="25" class="bucket" rx="3"/>
+  <text x="55" y="235">4</text>
+  <rect x="120" y="220" width="35" height="25" class="key" rx="3"/>
+  <text x="125" y="235">K3</text>
+  <rect x="165" y="220" width="35" height="25" class="value" rx="3"/>
+  <text x="175" y="235">V3</text>
+  <line x1="210" y1="232" x2="250" y2="232" stroke="#E94B3C" stroke-width="2"/>
+  <rect x="260" y="220" width="35" height="25" class="key" rx="3"/>
+  <text x="265" y="235">K4</text>
+  <rect x="305" y="220" width="35" height="25" class="value" rx="3"/>
+  <text x="315" y="235">V4</text>
+
+  <!-- Hash function illustration -->
+  <text x="400" y="100" font-weight="bold">Hash Function</text>
+  <rect x="380" y="110" width="60" height="30" fill="#FFF" stroke="#333" stroke-width="1" rx="3"/>
+  <text x="390" y="125">Key →</text>
+  <line x1="450" y1="125" x2="480" y2="125" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <rect x="490" y="110" width="60" height="30" fill="#FFF" stroke="#333" stroke-width="1" rx="3"/>
+  <text x="500" y="125">Index</text>
+
+  <text x="10" y="280">Each key is mapped to an index using a hash function. Collisions occur when different keys map to the same index.</text>
+  <text x="10" y="300">Bucket 4 shows a collision resolved using separate chaining (linked list of key-value pairs).</text>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

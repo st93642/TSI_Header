@@ -1,0 +1,120 @@
+{
+  "id": "dsa_simple_algorithms_cpp_exercise",
+  "mode": "quiz",
+  "title": "Quiz: Simple Algorithm Patterns in Modern C++",
+  "description": "Reinforce the lesson by answering ten questions that test your understanding of scanners, selectors, aggregators, and instrumentation habits.\n\nSteps:\n1. Revisit the annotated patterns from the lesson and recall the reasoning behind each component.\n2. For every question, choose the single best response or all applicable responses when indicated.\n3. Submit answers to check feedback and close the loop before advancing.\n\nExpected results: Earn at least the pass score to unlock subsequent roadmap modules.",
+  "tags": ["cpp", "algorithms", "instrumentation", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "simple_patterns_archetypes",
+      "type": "multiple",
+      "prompt": "Which archetypes did the lesson emphasise for building simple algorithms?",
+      "options": [
+        { "id": "option_a", "text": "Scanners", "correct": true },
+        { "id": "option_b", "text": "Selectors", "correct": true },
+        { "id": "option_c", "text": "Aggregators", "correct": true },
+        { "id": "option_d", "text": "Quantum annealers" }
+      ],
+      "explanation": "The lesson framed scanners, selectors, and aggregators as foundational building blocks." 
+    },
+    {
+      "id": "simple_patterns_guard_clauses",
+      "type": "single",
+      "prompt": "Why are guard clauses recommended before entering the main loop of a simple algorithm?",
+      "options": [
+        { "id": "option_a", "text": "They clarify preconditions and prevent undefined behaviour.", "correct": true },
+        { "id": "option_b", "text": "They reduce the need for instrumentation." },
+        { "id": "option_c", "text": "They guarantee O(1) runtime." },
+        { "id": "option_d", "text": "They allow the compiler to skip code generation." }
+      ],
+      "explanation": "Guard clauses make assumptions explicit and avert error-prone states." 
+    },
+    {
+      "id": "simple_patterns_tracer_role",
+      "type": "single",
+      "prompt": "What role does AlgorithmTracer play in the pattern library?",
+      "options": [
+        { "id": "option_a", "text": "It selects the optimal algorithm at runtime." },
+        { "id": "option_b", "text": "It records stage durations for later reporting.", "correct": true },
+        { "id": "option_c", "text": "It replaces iterators with raw pointers." },
+        { "id": "option_d", "text": "It handles memory allocation automatically." }
+      ],
+      "explanation": "AlgorithmTracer captures timings for each labelled stage so developers can interpret performance." 
+    },
+    {
+      "id": "simple_patterns_span_reason",
+      "type": "single",
+      "prompt": "Why does the linear_search helper accept std::span?",
+      "options": [
+        { "id": "option_a", "text": "It enables views over contiguous sequences without copying.", "correct": true },
+        { "id": "option_b", "text": "It forces compile-time evaluation." },
+        { "id": "option_c", "text": "It disallows const access." },
+        { "id": "option_d", "text": "It guarantees O(log n) search." }
+      ],
+      "explanation": "std::span provides lightweight, bounds-aware access to contiguous data without additional storage." 
+    },
+    {
+      "id": "simple_patterns_selection_sort_cost",
+      "type": "single",
+      "prompt": "What complexity narrative should accompany selection sort during stakeholder briefings?",
+      "options": [
+        { "id": "option_a", "text": "O(n²) comparisons with predictable behaviour even on worst-case inputs.", "correct": true },
+        { "id": "option_b", "text": "O(n log n) due to divide and conquer." },
+        { "id": "option_c", "text": "O(1) because swaps dominate." },
+        { "id": "option_d", "text": "O(n) once compiled with optimisations." }
+      ],
+      "explanation": "Selection sort always performs quadratic comparisons; the lesson emphasised narrating predictability alongside cost." 
+    },
+    {
+      "id": "simple_patterns_partition_goal",
+      "type": "single",
+      "prompt": "What is the goal of the pivot_partition helper in the pattern library?",
+      "options": [
+        { "id": "option_a", "text": "Divide the dataset around a pivot for quickselect or quicksort.", "correct": true },
+        { "id": "option_b", "text": "Compute averages for aggregation." },
+        { "id": "option_c", "text": "Allocate buffers for concurrency." },
+        { "id": "option_d", "text": "Serialize tracer output to JSON." }
+      ],
+      "explanation": "Partitioning reorganises elements so values not exceeding the pivot fall to the left, priming divide-and-conquer algorithms." 
+    },
+    {
+      "id": "simple_patterns_release_builds",
+      "type": "multiple",
+      "prompt": "Which tracer behaviours might you disable in release builds?",
+      "options": [
+        { "id": "option_a", "text": "Expensive string formatting for reports", "correct": true },
+        { "id": "option_b", "text": "Timing capture for essential telemetry" },
+        { "id": "option_c", "text": "Verbose assertions or debug-only counters", "correct": true },
+        { "id": "option_d", "text": "Basic bounds checks that prevent crashes" }
+      ],
+      "explanation": "Keep protective checks while trimming ancillary logging and string formatting when performance is paramount." 
+    },
+    {
+      "id": "simple_patterns_swap_counter",
+      "type": "truefalse",
+      "prompt": "True or False: Counting swaps separately from comparisons helps identify hidden constant factors in selection sort.",
+      "answer": "true",
+      "explanation": "Separate counters reveal whether certain operations dominate runtime despite identical big-O behaviour." 
+    },
+    {
+      "id": "simple_patterns_storytelling",
+      "type": "single",
+      "prompt": "How should you frame complexity for non-technical stakeholders according to the lesson?",
+      "options": [
+        { "id": "option_a", "text": "Translate big-O terms into latency and memory expectations.", "correct": true },
+        { "id": "option_b", "text": "Show only the source code and let them infer meaning." },
+        { "id": "option_c", "text": "Promise that algorithms never need revisiting." },
+        { "id": "option_d", "text": "Avoid discussing trade-offs to prevent confusion." }
+      ],
+      "explanation": "Stakeholders respond to tangible metrics tied to user experience rather than raw asymptotic notation." 
+    },
+    {
+      "id": "simple_patterns_iteration_signal",
+      "type": "truefalse",
+      "prompt": "True or False: When tracer output shows large variance between runs, it signals a need to iterate on the algorithm or instrumentation.",
+      "answer": "true",
+      "explanation": "Variance points to hidden factors—data distribution, cache behaviour, or instrumentation noise—that warrant another iteration." 
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 12px; fill: #333; }
+      .element { fill: #4A90E2; stroke: #2171B5; stroke-width: 2; }
+      .new-element { fill: #FFA500; stroke: #FF8C00; stroke-width: 2; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Stack Operations: Push and Pop</text>
+  
+  <!-- Initial stack -->
+  <text x="50" y="50">Initial Stack:</text>
+  <rect x="50" y="60" width="60" height="30" class="element" rx="3"/>
+  <text x="65" y="80">5</text>
+  <rect x="50" y="90" width="60" height="30" class="element" rx="3"/>
+  <text x="65" y="110">3</text>
+  <rect x="50" y="120" width="60" height="30" class="element" rx="3"/>
+  <text x="65" y="140">1</text>
+  
+  <!-- Push operation -->
+  <text x="200" y="50">After Push(7):</text>
+  <rect x="200" y="60" width="60" height="30" class="new-element" rx="3"/>
+  <text x="215" y="80">7</text>
+  <rect x="200" y="90" width="60" height="30" class="element" rx="3"/>
+  <text x="215" y="110">5</text>
+  <rect x="200" y="120" width="60" height="30" class="element" rx="3"/>
+  <text x="215" y="140">3</text>
+  <rect x="200" y="150" width="60" height="30" class="element" rx="3"/>
+  <text x="215" y="170">1</text>
+  
+  <!-- Pop operation -->
+  <text x="350" y="50">After Pop():</text>
+  <rect x="350" y="90" width="60" height="30" class="element" rx="3"/>
+  <text x="365" y="110">5</text>
+  <rect x="350" y="120" width="60" height="30" class="element" rx="3"/>
+  <text x="365" y="140">3</text>
+  <rect x="350" y="150" width="60" height="30" class="element" rx="3"/>
+  <text x="365" y="170">1</text>
+  
+  <text x="10" y="220">Returns 7</text>
+  
+  <!-- Code examples -->
+  <text x="10" y="250" font-weight="bold">Stack Interface:</text>
+  <text x="10" y="270">• push(element) - Add to top</text>
+  <text x="10" y="285">• pop() - Remove and return top</text>
+  <text x="10" y="300">• top()/peek() - Return top without removing</text>
+  <text x="10" y="315">• empty() - Check if stack is empty</text>
+  <text x="10" y="330">• size() - Return number of elements</text>
+  
+  <text x="10" y="360" font-weight="bold">Time Complexity:</text>
+  <text x="10" y="375">• All operations: O(1)</text>
+  <text x="10" y="390">• No traversal needed - direct access to top</text>
+</svg>

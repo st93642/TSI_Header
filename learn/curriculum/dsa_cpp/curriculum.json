@@ -1,0 +1,93 @@
+{
+  "title": "C++ Data Structures & Algorithms Roadmap",
+  "description": "A dedicated roadmap covering data structures, algorithms, and complexity analysis in modern C++.",
+  "modules": [
+    {
+      "id": "dsa_foundations_cpp",
+      "title": "Module 1: Foundations of Data Structures & Algorithms",
+      "description": "Establish fundamental terminology, problem-solving strategies, and the role of algorithm analysis in C++.",
+      "lessons": [
+        {
+          "id": "dsa_intro_cpp",
+          "title": "Lesson 1.1: Why Data Structures & Algorithms Matter",
+          "duration": 75,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "dsa_simple_algorithms_cpp",
+          "title": "Lesson 1.2: Building Simple Algorithms in C++",
+          "duration": 90,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "dsa_core_data_structures_cpp",
+          "title": "Lesson 1.3: Core Data Structures and Memory Semantics",
+          "duration": 110,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "dsa_arrays_cpp",
+      "title": "Module 2: Arrays, Searching & Foundational Sorting",
+      "description": "Investigate contiguous storage patterns, baseline searching strategies, and the evolution from naive to instrumented sorting in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_arrays_analysis_cpp",
+          "title": "Lesson 2.1: Arrays, Search Patterns, and Instrumented Sorting",
+          "duration": 120,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "dsa_linked_lists_cpp",
+      "title": "Module 3: Linked Lists & Dynamic Memory Management",
+      "description": "Explore node-based structures, pointer semantics, and memory allocation patterns for flexible data storage in C++.",
+      "lessons": [
+        {
+          "id": "dsa_linked_lists_cpp",
+          "title": "Lesson 3.1: Linked Lists, Memory Management, and Operations",
+          "duration": 130,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "dsa_stacks_queues_cpp",
+      "title": "Module 4: Stacks & Queues - LIFO and FIFO Data Structures",
+      "description": "Master Last-In-First-Out (LIFO) and First-In-First-Out (FIFO) patterns with efficient implementations in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_stacks_queues_cpp",
+          "title": "Lesson 4.1: Stacks, Queues, and Their C++ Implementations",
+          "duration": 125,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "dsa_hash_tables_cpp",
+      "title": "Module 5: Hash Tables & Hash-based Data Structures",
+      "description": "Master key-value mapping with hash functions, collision resolution, and efficient lookup operations in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_hash_tables_cpp",
+          "title": "Lesson 5.1: Hash Tables, Hash Functions, and Collision Resolution",
+          "duration": 140,
+          "difficulty": "intermediate"
+        }
+      ]
+    }
+  ],
+  "prerequisites": [
+    "Comfortable with compiling and running basic C++ programs",
+    "Familiarity with standard library headers and namespaces",
+    "Ability to use a debugger or logging statements to inspect program state"
+  ],
+  "outcomes": [
+    "Explain the relationship between data structures, algorithms, and performance",
+    "Trace the execution of simple algorithms and reason about their complexity",
+    "Use baseline analytical tools to classify runtime growth in C++ programs"
+  ]
+}

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 12px; fill: #666; }
+      .bucket { fill: #4A90E2; stroke: #2171B5; stroke-width: 2; }
+      .key { fill: #E94B3C; stroke: #C0392B; stroke-width: 1; }
+      .value { fill: #50C878; stroke: #228B22; stroke-width: 1; }
+      .collision { fill: #FFA500; stroke: #FF8C00; stroke-width: 1; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Collision Resolution: Handling Keys that Hash to Same Index</text>
+
+  <!-- Separate Chaining -->
+  <text x="50" y="50" font-weight="bold">Separate Chaining</text>
+  <text x="50" y="65">Store colliding elements in linked lists</text>
+
+  <rect x="40" y="75" width="30" height="20" class="bucket" rx="3"/>
+  <text x="45" y="88">2</text>
+
+  <!-- Linked list in bucket -->
+  <rect x="90" y="75" width="25" height="20" class="key" rx="3"/>
+  <text x="95" y="88">K1</text>
+  <rect x="125" y="75" width="25" height="20" class="value" rx="3"/>
+  <text x="130" y="88">V1</text>
+  <line x1="155" y1="85" x2="175" y2="85" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <rect x="185" y="75" width="25" height="20" class="collision" rx="3"/>
+  <text x="190" y="88">K2</text>
+  <rect x="220" y="75" width="25" height="20" class="collision" rx="3"/>
+  <text x="225" y="88">V2</text>
+  <line x1="250" y1="85" x2="270" y2="85" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <rect x="280" y="75" width="25" height="20" class="collision" rx="3"/>
+  <text x="285" y="88">K3</text>
+  <rect x="315" y="75" width="25" height="20" class="collision" rx="3"/>
+  <text x="320" y="88">V3</text>
+
+  <!-- Open Addressing -->
+  <text x="50" y="120" font-weight="bold">Open Addressing</text>
+  <text x="50" y="135">Find next available slot using probing</text>
+
+  <rect x="40" y="145" width="30" height="20" class="bucket" rx="3"/>
+  <text x="45" y="158">2</text>
+  <rect x="90" y="145" width="25" height="20" class="key" rx="3"/>
+  <text x="95" y="158">K1</text>
+  <rect x="125" y="145" width="25" height="20" class="value" rx="3"/>
+  <text x="130" y="158">V1</text>
+
+  <!-- Probing sequence -->
+  <text x="180" y="158">Probe to →</text>
+  <rect x="250" y="145" width="30" height="20" class="bucket" rx="3"/>
+  <text x="255" y="158">5</text>
+  <rect x="300" y="145" width="25" height="20" class="collision" rx="3"/>
+  <text x="305" y="158">K2</text>
+  <rect x="335" y="145" width="25" height="20" class="collision" rx="3"/>
+  <text x="340" y="158">V2</text>
+
+  <!-- Comparison -->
+  <text x="50" y="200" font-weight="bold">Separate Chaining:</text>
+  <text x="50" y="215">• Simple to implement</text>
+  <text x="50" y="230">• Handles high load factors well</text>
+  <text x="50" y="245">• Extra space for pointers</text>
+  <text x="50" y="260">• Cache unfriendly</text>
+
+  <text x="350" y="200" font-weight="bold">Open Addressing:</text>
+  <text x="350" y="215">• No extra space for pointers</text>
+  <text x="350" y="230">• Better cache performance</text>
+  <text x="350" y="245">• Clustering problems</text>
+  <text x="350" y="260">• Deletion is complex</text>
+
+  <!-- Linear probing example -->
+  <text x="50" y="300" font-weight="bold">Linear Probing Example:</text>
+  <text x="50" y="315">h(K1) = 2, h(K2) = 2</text>
+  <text x="50" y="330">K1 goes to index 2</text>
+  <text x="50" y="345">K2 probes: 2 (occupied) → 3 (empty)</text>
+
+  <text x="10" y="380">Separate chaining uses linked lists per bucket, open addressing finds alternative locations.</text>
+  <text x="10" y="400">Choice depends on load factor expectations and memory constraints.</text>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

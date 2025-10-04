@@ -1,0 +1,28 @@
+{
+  "id": "dsa_simple_algorithms_cpp_exercise",
+  "title": "Solution: Simple Algorithm Patterns in Modern C++",
+  "mode": "quiz",
+  "answerKey": {
+    "simple_patterns_archetypes": ["option_a", "option_b", "option_c"],
+    "simple_patterns_guard_clauses": "option_a",
+    "simple_patterns_tracer_role": "option_b",
+    "simple_patterns_span_reason": "option_a",
+    "simple_patterns_selection_sort_cost": "option_a",
+    "simple_patterns_partition_goal": "option_a",
+    "simple_patterns_release_builds": ["option_a", "option_c"],
+    "simple_patterns_swap_counter": "true",
+    "simple_patterns_storytelling": "option_a",
+    "simple_patterns_iteration_signal": "true"
+  },
+  "explanation": "The quiz reinforces how scanners, selectors, and aggregators collaborate with instrumentation habits to deliver transparent algorithm implementations. Each response aligns with the rationale emphasised in the lesson's annotated pattern library.",
+  "keyPoints": [
+    "Guard clauses and preconditions keep control flow safe and debuggable.",
+    "AlgorithmTracer provides structured timing data so teams can reason about performance.",
+    "std::span unlocks zero-copy access to contiguous memory for scanning patterns.",
+    "Selection sort remains O(n²); articulate predictability and costs honestly.",
+    "Partition helpers set the stage for quickselect/quicksort by organising around pivots.",
+    "Threat modelling release builds involves trimming only non-essential instrumentation.",
+    "Stakeholder storytelling translates complexity notation into user-facing metrics.",
+    "Variance in tracer logs is a prompt to investigate data distribution or implementation details."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "dsa_arrays_analysis_cpp_exercise",
+  "title": "Solution: Arrays, Search Patterns, and Instrumented Sorting",
+  "mode": "quiz",
+  "answerKey": {
+    "ledger_alignment_callout": "option_b",
+    "span_hub_advantage": ["option_a", "option_c"],
+    "linear_search_story": "option_b",
+    "galloping_search_bounds": "option_b",
+    "interpolation_guardrails": ["option_a", "option_c"],
+    "sorting_comparison_profile": "option_b",
+    "insertion_sort_story": "option_b",
+    "dashboard_story": ["option_a", "option_c"],
+    "practice_commitment": "true",
+    "ledger_resets": "option_a"
+  },
+  "explanation": "These answers align with the lesson's emphasis on observable arrays, layered search strategies, and storytelling dashboards that translate instrumentation into action.",
+  "keyPoints": [
+    "Stride equal to sizeof(T) confirms contiguous access patterns.",
+    "SpanHub centralises safe slicing and ledger reuse.",
+    "Linear search remains viable for small or front-heavy datasets.",
+    "Galloping search bounds the region before delegating to binary search.",
+    "Interpolation search needs empty and denominator guards to remain safe.",
+    "Selection sort balances predictable comparisons with low swap counts.",
+    "Insertion sort excels when data is nearly sorted.",
+    "Diagnostic narratives require context, observation, interpretation, and recommendation.",
+    "Instrumented harnesses should be committed with regression tests.",
+    "Resetting the ledger keeps experiments comparable across runs."
+  ]
+}

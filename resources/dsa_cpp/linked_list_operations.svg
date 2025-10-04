@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 12px; fill: #333; }
+      .node { fill: #4A90E2; stroke: #2171B5; stroke-width: 2; }
+      .new-node { fill: #50C878; stroke: #228B22; stroke-width: 2; }
+      .arrow { fill: #E94B3C; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Linked List Operations: Insert and Delete</text>
+  <text x="10" y="40">Insert at Beginning</text>
+  <rect x="50" y="60" width="60" height="40" class="new-node" rx="5"/>
+  <text x="65" y="80">42</text>
+  <line x1="110" y1="80" x2="140" y2="80" stroke="#E94B3C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <rect x="150" y="60" width="60" height="40" class="node" rx="5"/>
+  <text x="165" y="80">10</text>
+  <line x1="210" y1="80" x2="240" y2="80" stroke="#E94B3C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <rect x="250" y="60" width="60" height="40" class="node" rx="5"/>
+  <text x="265" y="80">20</text>
+  <text x="10" y="120">New head points to old head.</text>
+  <text x="10" y="140">Delete from Middle</text>
+  <rect x="50" y="160" width="60" height="40" class="node" rx="5"/>
+  <text x="65" y="180">10</text>
+  <line x1="110" y1="180" x2="140" y2="180" stroke="#E94B3C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <rect x="150" y="160" width="60" height="40" class="node" rx="5" opacity="0.5"/>
+  <text x="165" y="180">20</text>
+  <line x1="210" y1="180" x2="240" y2="180" stroke="#E94B3C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <rect x="250" y="160" width="60" height="40" class="node" rx="5"/>
+  <text x="265" y="180">30</text>
+  <text x="10" y="220">Previous node skips the deleted node.</text>
+  <text x="10" y="240">Key operations involve pointer manipulation for O(1) insert/delete at known positions.</text>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" class="arrow"/>
+    </marker>
+  </defs>
+</svg>

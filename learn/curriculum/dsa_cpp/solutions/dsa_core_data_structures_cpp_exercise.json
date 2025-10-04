@@ -1,0 +1,28 @@
+{
+  "id": "dsa_core_data_structures_cpp_exercise",
+  "title": "Solution: Core Data Structures and Memory Semantics",
+  "mode": "quiz",
+  "answerKey": {
+    "contiguity_stride": "option_b",
+    "list_random_access": "option_b",
+    "stack_reserve": "option_c",
+    "queue_allocator": ["option_a", "option_c"],
+    "unordered_rehash": "option_c",
+    "map_range_queries": "option_b",
+    "span_role": "option_b",
+    "lifetime_metrics": ["option_a", "option_c"],
+    "storytelling_value": "option_b",
+    "journal_practice": "true"
+  },
+  "explanation": "The quiz reinforces the lesson's emphasis on measuring locality, tracking lifetime costs, and translating data structure behaviour into clear recommendations.",
+  "keyPoints": [
+    "Stride equals sizeof(T) and determines how contiguous storage interacts with caches.",
+    "Linked structures struggle with random hops because traversal restarts unpredictably.",
+    "Reserving capacity or using custom allocators tames constructor churn in stacks and queues.",
+    "Hash table rehashes invalidate iterators; planning capacity ahead prevents surprises.",
+    "Ordered maps complement hash tables by enabling range queries and stable iteration.",
+    "std::span separates access from ownership, simplifying instrumentation pipelines.",
+    "Storytelling that links metrics to stakeholder outcomes drives better container decisions.",
+    "Reflection journals capture lessons learned and inform future trade-offs."
+  ]
+}

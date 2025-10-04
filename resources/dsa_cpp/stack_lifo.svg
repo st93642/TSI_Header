@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 14px; fill: #333; }
+      .element { fill: #4A90E2; stroke: #2171B5; stroke-width: 2; }
+      .arrow { fill: #E94B3C; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Stack: Last-In-First-Out (LIFO) Principle</text>
+  <text x="10" y="40">Elements are added and removed from the same end (top)</text>
+  
+  <!-- Stack visualization -->
+  <rect x="100" y="200" width="80" height="40" class="element" rx="5"/>
+  <text x="120" y="225">C</text>
+  <text x="140" y="240">(Top)</text>
+  
+  <rect x="100" y="160" width="80" height="40" class="element" rx="5"/>
+  <text x="120" y="185">B</text>
+  
+  <rect x="100" y="120" width="80" height="40" class="element" rx="5"/>
+  <text x="120" y="145">A</text>
+  <text x="140" y="160">(Bottom)</text>
+  
+  <!-- Push operation -->
+  <text x="250" y="80" font-weight="bold">Push Operation</text>
+  <rect x="250" y="90" width="80" height="40" class="element" rx="5"/>
+  <text x="270" y="115">D</text>
+  <line x1="290" y1="130" x2="290" y2="160" stroke="#E94B3C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <!-- Pop operation -->
+  <text x="400" y="80" font-weight="bold">Pop Operation</text>
+  <line x1="440" y1="120" x2="440" y2="90" stroke="#E94B3C" stroke-width="3" marker-end="url(#arrowhead2)"/>
+  <rect x="400" y="130" width="80" height="40" class="element" rx="5"/>
+  <text x="420" y="155">C</text>
+  
+  <text x="10" y="300">Stack operations: push adds to top, pop removes from top. Last element pushed is first popped.</text>
+  
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="arrow"/>
+    </marker>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto">
+      <polygon points="10 0, 0 3.5, 10 7" class="arrow"/>
+    </marker>
+  </defs>
+</svg>

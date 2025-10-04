@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="420" viewBox="0 0 940 420">
+  <style>
+    text { font-family: 'Fira Sans', 'Segoe UI', sans-serif; fill: #10324c; }
+    .title { font-size: 26px; font-weight: 700; }
+    .label { font-size: 18px; }
+    .bubble { fill: #e9f3fb; stroke: #2a6f97; stroke-width: 2; }
+  </style>
+  <rect x="20" y="20" width="900" height="380" fill="#ffffff" stroke="#d0dee7" stroke-width="2" rx="24" />
+  <text x="70" y="80" class="title">Building Blocks for Simple Algorithms</text>
+  <ellipse cx="220" cy="190" rx="140" ry="90" class="bubble" />
+  <text x="130" y="185" class="label">Data Access</text>
+  <text x="150" y="215" font-size="16px" fill="#3f5d73">spans, iterators</text>
+  <ellipse cx="470" cy="190" rx="140" ry="90" class="bubble" />
+  <text x="410" y="185" class="label">Decisions</text>
+  <text x="420" y="215" font-size="16px" fill="#3f5d73">selectors, guards</text>
+  <ellipse cx="720" cy="190" rx="140" ry="90" class="bubble" />
+  <text x="650" y="185" class="label">Summaries</text>
+  <text x="650" y="215" font-size="16px" fill="#3f5d73">aggregators</text>
+  <line x1="360" y1="190" x2="330" y2="190" stroke="#2a6f97" stroke-width="3" marker-end="url(#arrowLeft)" />
+  <line x1="580" y1="190" x2="610" y2="190" stroke="#2a6f97" stroke-width="3" marker-end="url(#arrowRight)" />
+  <defs>
+    <marker id="arrowLeft" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+      <polygon points="0 0, 12 6, 0 12" fill="#2a6f97" />
+    </marker>
+    <marker id="arrowRight" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+      <polygon points="0 0, 12 6, 0 12" fill="#2a6f97" />
+    </marker>
+  </defs>
+  <text x="470" y="320" text-anchor="middle" font-size="16px" fill="#4b6375">Instrumentation observes transitions and records context.</text>
+</svg>

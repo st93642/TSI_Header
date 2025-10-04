@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="420" viewBox="0 0 940 420">
+  <style>
+    text { font-family: 'Fira Sans', 'Segoe UI', sans-serif; fill: #123a63; }
+    .title { font-size: 26px; font-weight: 700; }
+    .label { font-size: 18px; }
+  </style>
+  <rect x="20" y="20" width="900" height="380" fill="#ffffff" stroke="#d0dee7" stroke-width="2" rx="24" />
+  <text x="70" y="80" class="title">Complexity Comparison: Selection vs Insertion vs Quickselect</text>
+  <line x1="120" y1="340" x2="120" y2="120" stroke="#123a63" stroke-width="3" marker-end="url(#arrowY)" />
+  <line x1="120" y1="340" x2="820" y2="340" stroke="#123a63" stroke-width="3" marker-end="url(#arrowX)" />
+  <defs>
+    <marker id="arrowY" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#123a63" />
+    </marker>
+    <marker id="arrowX" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#123a63" />
+    </marker>
+  </defs>
+  <text x="90" y="120" class="label" transform="rotate(-90 90 120)">Operations</text>
+  <text x="820" y="370" class="label">Input size n</text>
+  <polyline points="140,320 240,300 340,280 440,260 540,240 640,220 740,200" fill="none" stroke="#2a6f97" stroke-width="4" />
+  <polyline points="140,320 240,310 340,300 440,290 540,280 640,270 740,260" fill="none" stroke="#56a3d8" stroke-width="4" />
+  <polyline points="140,320 240,260 340,220 440,200 540,180 640,170 740,165" fill="none" stroke="#10324c" stroke-width="4" stroke-dasharray="10 6" />
+  <text x="760" y="200" font-size="16px" fill="#2a6f97">Selection Sort</text>
+  <text x="760" y="260" font-size="16px" fill="#56a3d8">Insertion Sort</text>
+  <text x="760" y="170" font-size="16px" fill="#10324c">Quickselect (avg)</text>
+  <text x="480" y="360" text-anchor="middle" font-size="14px" fill="#4b6375">Instrument results to confirm theoretical growth.</text>
+</svg>

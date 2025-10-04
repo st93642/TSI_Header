@@ -1,0 +1,30 @@
+{
+  "id": "dsa_linked_lists_cpp_exercise",
+  "title": "Solution: Linked Lists, Memory Management, and Operations",
+  "mode": "quiz",
+  "answerKey": {
+    "linked_list_advantage": "option_b",
+    "singly_linked_structure": "true",
+    "constant_time_operations": ["option_a", "option_c"],
+    "memory_leak_consequence": "option_c",
+    "doubly_linked_tradeoff": "true",
+    "smart_pointers_benefit": "option_b",
+    "common_pitfalls": ["option_a", "option_b", "option_c"],
+    "insertion_end_complexity": "option_c",
+    "circular_list_benefit": "true",
+    "doubly_vs_array_overhead": "option_c"
+  },
+  "explanation": "These answers demonstrate understanding of linked list mechanics, memory management challenges, and performance characteristics in C++.",
+  "keyPoints": [
+    "Linked lists provide dynamic sizing through node-based allocation, unlike fixed-size arrays",
+    "Singly linked lists enable O(1) insertions/deletions at known positions but require O(n) traversal",
+    "Doubly linked lists support bidirectional traversal at the cost of increased memory overhead",
+    "Proper memory management with new/delete or smart pointers prevents leaks and undefined behavior",
+    "Time complexity varies: O(1) for end operations with tail pointer, O(n) for position-based access",
+    "Space complexity includes pointer overhead: 1 pointer for singly, 2 for doubly linked lists",
+    "Common operations involve pointer manipulation: updating next/prev references during insert/delete",
+    "Circular linked lists eliminate null checks for traversal but require careful cycle detection",
+    "RAII principles and smart pointers simplify memory management in modern C++ implementations",
+    "Choose linked lists for frequent insertions/deletions; prefer arrays/vectors for random access patterns"
+  ]
+}

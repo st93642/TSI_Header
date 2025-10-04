@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 14px; fill: #333; }
+      .node { fill: #4A90E2; stroke: #2171B5; stroke-width: 2; }
+      .arrow { fill: #E94B3C; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Doubly Linked List: Bidirectional Traversal</text>
+  <rect x="50" y="50" width="80" height="50" class="node" rx="5"/>
+  <text x="70" y="70">Prev: null</text>
+  <text x="70" y="85">Data: A</text>
+  <text x="70" y="100">Next: →</text>
+  <line x1="130" y1="85" x2="180" y2="85" stroke="#E94B3C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <rect x="200" y="50" width="80" height="50" class="node" rx="5"/>
+  <text x="220" y="70">Prev: ←</text>
+  <text x="220" y="85">Data: B</text>
+  <text x="220" y="100">Next: →</text>
+  <line x1="280" y1="85" x2="330" y2="85" stroke="#E94B3C" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <line x1="200" y1="60" x2="130" y2="60" stroke="#E94B3C" stroke-width="3" marker-end="url(#arrowhead2)"/>
+  <rect x="350" y="50" width="80" height="50" class="node" rx="5"/>
+  <text x="370" y="70">Prev: ←</text>
+  <text x="370" y="85">Data: C</text>
+  <text x="370" y="100">Next: null</text>
+  <line x1="350" y1="60" x2="280" y2="60" stroke="#E94B3C" stroke-width="3" marker-end="url(#arrowhead2)"/>
+  <text x="10" y="140">Each node has prev and next pointers, allowing traversal in both directions.</text>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" class="arrow"/>
+    </marker>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto">
+      <polygon points="10 0, 0 3.5, 10 7" class="arrow"/>
+    </marker>
+  </defs>
+</svg>

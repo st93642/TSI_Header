@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 12px; fill: #666; }
+      .key { fill: #E94B3C; stroke: #C0392B; stroke-width: 1; }
+      .bucket { fill: #4A90E2; stroke: #2171B5; stroke-width: 2; }
+      .arrow { fill: #666; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Hash Function Distribution: Mapping Keys to Indices</text>
+  <text x="10" y="40">Good hash functions distribute keys uniformly across available indices</text>
+
+  <!-- Keys -->
+  <text x="50" y="80">Keys:</text>
+  <rect x="100" y="65" width="30" height="20" class="key" rx="3"/>
+  <text x="110" y="78">"Alice"</text>
+  <rect x="140" y="65" width="30" height="20" class="key" rx="3"/>
+  <text x="145" y="78">"Bob"</text>
+  <rect x="180" y="65" width="30" height="20" class="key" rx="3"/>
+  <text x="190" y="78">"John"</text>
+  <rect x="220" y="65" width="30" height="20" class="key" rx="3"/>
+  <text x="225" y="78">"Mary"</text>
+
+  <!-- Hash function -->
+  <text x="300" y="80">Hash Function:</text>
+  <rect x="380" y="65" width="80" height="20" fill="#FFF" stroke="#333" stroke-width="1" rx="3"/>
+  <text x="390" y="78">string_hash()</text>
+
+  <!-- Arrows to indices -->
+  <line x1="130" y1="85" x2="130" y2="120" stroke="#E94B3C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="170" y1="85" x2="170" y2="155" stroke="#E94B3C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="210" y1="85" x2="210" y2="190" stroke="#E94B3C" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="250" y1="85" x2="250" y2="225" stroke="#E94B3C" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Hash table indices -->
+  <text x="50" y="140">Hash Table (size 8):</text>
+
+  <rect x="120" y="145" width="20" height="20" class="bucket" rx="2"/>
+  <text x="125" y="158">2</text>
+  <rect x="160" y="145" width="20" height="20" class="bucket" rx="2"/>
+  <text x="165" y="158">5</text>
+  <rect x="200" y="145" width="20" height="20" class="bucket" rx="2"/>
+  <text x="205" y="158">6</text>
+  <rect x="240" y="145" width="20" height="20" class="bucket" rx="2"/>
+  <text x="245" y="158">7</text>
+
+  <rect x="120" y="180" width="20" height="20" class="bucket" rx="2"/>
+  <text x="125" y="193">3</text>
+  <rect x="160" y="180" width="20" height="20" class="bucket" rx="2"/>
+  <text x="165" y="193">0</text>
+  <rect x="200" y="180" width="20" height="20" class="bucket" rx="2"/>
+  <text x="205" y="193">1</text>
+  <rect x="240" y="180" width="20" height="20" class="bucket" rx="2"/>
+  <text x="245" y="193">4</text>
+
+  <!-- Distribution visualization -->
+  <text x="350" y="140" font-weight="bold">Good Distribution:</text>
+  <text x="350" y="160">• Keys spread evenly across indices</text>
+  <text x="350" y="175">• Minimal collisions</text>
+  <text x="350" y="190">• O(1) average case performance</text>
+
+  <text x="350" y="220" font-weight="bold">Poor Distribution:</text>
+  <text x="350" y="240">• Keys cluster in few indices</text>
+  <text x="350" y="255">• Many collisions</text>
+  <text x="350" y="270">• O(n) worst case performance</text>
+
+  <text x="10" y="320">Hash functions should minimize collisions by distributing keys uniformly.</text>
+  <text x="10" y="340">Good hash functions use properties like string length, character values, and modular arithmetic.</text>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" class="arrow"/>
+    </marker>
+  </defs>
+</svg>

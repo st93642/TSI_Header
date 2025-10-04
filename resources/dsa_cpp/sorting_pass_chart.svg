@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="420" viewBox="0 0 940 420">
+  <style>
+    text { font-family: 'Fira Sans', 'Segoe UI', sans-serif; fill: #102d4a; }
+    .title { font-size: 28px; font-weight: 700; }
+    .axis { stroke: #2a6f97; stroke-width: 2; }
+  </style>
+  <rect x="20" y="20" width="900" height="380" fill="#ffffff" stroke="#d5e2ed" stroke-width="2" rx="24" />
+  <text x="70" y="90" class="title">Sorting Pass Diagnostics</text>
+  <line x1="140" y1="320" x2="140" y2="140" class="axis" marker-end="url(#arrowY)" />
+  <line x1="140" y1="320" x2="780" y2="320" class="axis" marker-end="url(#arrowX)" />
+  <defs>
+    <marker id="arrowX" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+      <polygon points="0 0, 12 6, 0 12" fill="#2a6f97" />
+    </marker>
+    <marker id="arrowY" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+      <polygon points="0 0, 12 6, 0 12" fill="#2a6f97" />
+    </marker>
+  </defs>
+  <polyline points="160,300 240,280 320,250 400,220 480,200 560,190 640,180 720,175" fill="none" stroke="#2a6f97" stroke-width="4" />
+  <polyline points="160,300 240,290 320,280 400,250 480,230 560,220 640,205 720,200" fill="none" stroke="#d08c2c" stroke-width="4" stroke-dasharray="12 6" />
+  <polyline points="160,300 240,270 320,240 400,210 480,180 560,150 640,130 720,120" fill="none" stroke="#5b4da6" stroke-width="4" />
+  <text x="720" y="180" font-size="16px" fill="#2a6f97">Bubble (comparisons)</text>
+  <text x="720" y="210" font-size="16px" fill="#d08c2c">Selection (moves)</text>
+  <text x="720" y="130" font-size="16px" fill="#5b4da6">Insertion (shifts)</text>
+  <text x="130" y="150" font-size="16px" transform="rotate(-90 130 150)" fill="#2a6f97">Operations</text>
+  <text x="780" y="340" font-size="16px" fill="#2a6f97">Pass number</text>
+  <text x="470" y="360" text-anchor="middle" font-size="16px" fill="#4a6275">Use tracer output to correlate pass counts with movement types.</text>
+</svg>

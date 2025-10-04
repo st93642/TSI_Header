@@ -1,0 +1,125 @@
+{
+  "id": "dsa_core_data_structures_cpp_exercise",
+  "mode": "quiz",
+  "title": "Quiz: Core Data Structures and Memory Semantics",
+  "description": "Consolidate your understanding of contiguous storage, stack and queue lifetimes, and associative container semantics. Each question connects instrumentation insights to real-world decision making.\n\nSteps:\n1. Review the lesson's tracer outputs and narratives.\n2. Answer each question with the best response or all applicable responses where indicated.\n3. Hit submit to check your mastery before moving deeper into the roadmap.\n\nExpected results: Achieve the pass score to unlock the next module.",
+  "tags": ["cpp", "data structures", "memory", "instrumentation", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "contiguity_stride",
+      "type": "single",
+      "prompt": "What does the stride between elements in a contiguous block represent?",
+      "options": [
+        { "id": "option_a", "text": "The number of cache lines per element." },
+        { "id": "option_b", "text": "The byte distance between consecutive elements, equal to sizeof(T).", "correct": true },
+        { "id": "option_c", "text": "The total memory reserved by the allocator." },
+        { "id": "option_d", "text": "The growth factor when reallocating vectors." }
+      ],
+      "explanation": "Stride captures how far the CPU must jump to reach the next element, which equals sizeof(T) for contiguous storage." 
+    },
+    {
+      "id": "list_random_access",
+      "type": "single",
+      "prompt": "In the contiguous versus list hopping experiment, why do lists incur more branch mispredictions?",
+      "options": [
+        { "id": "option_a", "text": "Because list nodes are contiguous and the branch predictor over-optimises." },
+        { "id": "option_b", "text": "Each hop restarts traversal from the head, introducing unpredictable control flow.", "correct": true },
+        { "id": "option_c", "text": "Lists store branch predictor metadata alongside nodes." },
+        { "id": "option_d", "text": "Vectors issue hardware prefetch hints that pay down mispredictions." }
+      ],
+      "explanation": "Linked traversal re-enters loops at varying positions, making branch outcomes harder to predict." 
+    },
+    {
+      "id": "stack_reserve",
+      "type": "single",
+      "prompt": "What primary benefit does reserving the vector-backed stack provide during push storms?",
+      "options": [
+        { "id": "option_a", "text": "It reduces the need to instrument constructors." },
+        { "id": "option_b", "text": "It prevents iterator invalidation for external observers." },
+        { "id": "option_c", "text": "It removes most reallocations, lowering allocation counts and constructor churn.", "correct": true },
+        { "id": "option_d", "text": "It changes the stack from LIFO to FIFO semantics." }
+      ],
+      "explanation": "Reserving capacity on the underlying vector amortises push_back calls without triggering repeated reallocations." 
+    },
+    {
+      "id": "queue_allocator",
+      "type": "multiple",
+      "prompt": "Which actions can reduce allocation churn in the queue experiment?",
+      "options": [
+        { "id": "option_a", "text": "Switching to a ring buffer implementation", "correct": true },
+        { "id": "option_b", "text": "Calling reserve on std::deque" },
+        { "id": "option_c", "text": "Using a polymorphic_allocator with a monotonic buffer", "correct": true },
+        { "id": "option_d", "text": "Disabling instrumentation" }
+      ],
+      "explanation": "Deque lacks reserve, so alternative storage (ring buffer) or a custom allocator pool reduces allocations." 
+    },
+    {
+      "id": "unordered_rehash",
+      "type": "single",
+      "prompt": "What event triggered iterator invalidations in the hash table tracer?",
+      "options": [
+        { "id": "option_a", "text": "Calling find() with heterogenous lookup." },
+        { "id": "option_b", "text": "Reserving capacity before inserts." },
+        { "id": "option_c", "text": "Rehashing when load factor exceeded the threshold.", "correct": true },
+        { "id": "option_d", "text": "Iterating with structured bindings." }
+      ],
+      "explanation": "When the table rehashes to grow bucket count, references and iterators from previous buckets become invalid." 
+    },
+    {
+      "id": "map_range_queries",
+      "type": "single",
+      "prompt": "Why might you keep a std::map alongside std::unordered_map in the same service?",
+      "options": [
+        { "id": "option_a", "text": "std::map guarantees contiguous storage." },
+        { "id": "option_b", "text": "Tree ordering enables efficient range queries and lower_bound lookups.", "correct": true },
+        { "id": "option_c", "text": "Hash tables cannot store strings." },
+        { "id": "option_d", "text": "Tree iterators remain valid after rehashes of the hash table." }
+      ],
+      "explanation": "Ordered maps support range walks and lower_bound semantics that hash tables cannot match." 
+    },
+    {
+      "id": "span_role",
+      "type": "single",
+      "prompt": "What role does std::span play in the contiguous experiment?",
+      "options": [
+        { "id": "option_a", "text": "It owns memory and reallocates under the hood." },
+        { "id": "option_b", "text": "It exposes a lightweight window over contiguous storage without copying.", "correct": true },
+        { "id": "option_c", "text": "It converts linked lists into contiguous blocks." },
+        { "id": "option_d", "text": "It disables bounds checking in debug builds." }
+      ],
+      "explanation": "std::span provides a non-owning view that lets the tracer accept vectors or arrays interchangeably." 
+    },
+    {
+      "id": "lifetime_metrics",
+      "type": "multiple",
+      "prompt": "Which metrics from the stack/queue tracer signal that you should investigate allocator strategy?",
+      "options": [
+        { "id": "option_a", "text": "Constructor/destructor counts skyrocketing", "correct": true },
+        { "id": "option_b", "text": "Moves staying near zero" },
+        { "id": "option_c", "text": "Allocation count comparable to push volume", "correct": true },
+        { "id": "option_d", "text": "Nanoseconds trending toward zero" }
+      ],
+      "explanation": "High ctor/dtor churn and allocations per push highlight opportunities for pool allocators or reserve strategies." 
+    },
+    {
+      "id": "storytelling_value",
+      "type": "single",
+      "prompt": "When briefing stakeholders, what is the most useful way to communicate tracer findings?",
+      "options": [
+        { "id": "option_a", "text": "List raw nanosecond values without context." },
+        { "id": "option_b", "text": "Translate metrics into user-facing outcomes and actionable recommendations.", "correct": true },
+        { "id": "option_c", "text": "Explain the assembly emitted by the compiler." },
+        { "id": "option_d", "text": "Focus solely on big-O complexity tables." }
+      ],
+      "explanation": "Stakeholders respond to practical implications; connect numbers to latency budgets and product wins." 
+    },
+    {
+      "id": "journal_practice",
+      "type": "truefalse",
+      "prompt": "True or False: Maintaining a reflection journal helps you integrate instrumentation insights into future container decisions.",
+      "answer": "true",
+      "explanation": "A written log builds intuition and speeds up decisions when requirements change." 
+    }
+  ]
+}

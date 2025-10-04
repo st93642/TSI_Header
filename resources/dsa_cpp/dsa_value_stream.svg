@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="360" viewBox="0 0 920 360">
+  <style>
+    text { font-family: 'Fira Sans', 'Segoe UI', sans-serif; font-size: 18px; fill: #0b1f33; }
+    .title { font-size: 26px; font-weight: bold; fill: #123a63; }
+    .label { font-size: 18px; }
+    .box { fill: #f2f6fb; stroke: #2a6f97; stroke-width: 2; rx: 12; ry: 12; }
+    .arrow { stroke: #2a6f97; stroke-width: 3; marker-end: url(#arrowhead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2a6f97" />
+    </marker>
+  </defs>
+  <rect x="30" y="40" width="860" height="280" fill="#ffffff" stroke="#d0dee7" stroke-width="2" rx="20" />
+  <text x="80" y="90" class="title">Data Structures &amp; Algorithms Value Stream</text>
+  <rect x="80" y="120" width="200" height="120" class="box" />
+  <text x="110" y="160" class="label">Problem</text>
+  <text x="95" y="190" class="label">Understanding</text>
+  <rect x="340" y="120" width="200" height="120" class="box" />
+  <text x="370" y="160" class="label">Modeling &amp;</text>
+  <text x="362" y="190" class="label">Representation</text>
+  <rect x="600" y="120" width="200" height="120" class="box" />
+  <text x="635" y="150" class="label">Algorithm</text>
+  <text x="630" y="180" class="label">Selection &amp;</text>
+  <text x="640" y="210" class="label">Optimization</text>
+  <line x1="280" y1="180" x2="340" y2="180" class="arrow" />
+  <line x1="540" y1="180" x2="600" y2="180" class="arrow" />
+  <path d="M700 240 Q720 300 630 300 H290 Q200 300 220 240" fill="none" class="arrow" />
+  <text x="420" y="290" class="label">Measurement Feedback Loop</text>
+</svg>

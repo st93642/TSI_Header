@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 12px; fill: #333; }
+      .memory { fill: #F5F5F5; stroke: #CCC; stroke-width: 1; }
+      .pointer { fill: #E94B3C; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Linked List Memory Layout: Non-contiguous Storage</text>
+  <text x="10" y="40">Heap Memory Allocation</text>
+  <rect x="50" y="60" width="150" height="80" class="memory"/>
+  <text x="60" y="80">Address: 0x1000</text>
+  <text x="60" y="95">Data: 10</text>
+  <text x="60" y="110">Next: 0x1010</text>
+  <circle cx="180" cy="100" r="5" class="pointer"/>
+  <line x1="185" y1="100" x2="220" y2="100" stroke="#E94B3C" stroke-width="2"/>
+  <rect x="250" y="60" width="150" height="80" class="memory"/>
+  <text x="260" y="80">Address: 0x1010</text>
+  <text x="260" y="95">Data: 20</text>
+  <text x="260" y="110">Next: 0x1020</text>
+  <circle cx="380" cy="100" r="5" class="pointer"/>
+  <line x1="385" y1="100" x2="420" y2="100" stroke="#E94B3C" stroke-width="2"/>
+  <rect x="450" y="60" width="150" height="80" class="memory"/>
+  <text x="460" y="80">Address: 0x1020</text>
+  <text x="460" y="95">Data: 30</text>
+  <text x="460" y="110">Next: nullptr</text>
+  <text x="10" y="180">Unlike arrays, linked list nodes are scattered in memory, connected by pointers.</text>
+  <text x="10" y="200">This allows dynamic sizing but requires pointer dereferencing for access.</text>
+</svg>

@@ -1,0 +1,29 @@
+{
+  "mode": "quiz",
+  "title": "Hash Tables & Hash-based Data Structures - Solutions",
+  "description": "Answer key and detailed explanations for the hash tables quiz.",
+  "answerKey": [
+    1,
+    2,
+    [0, 1, 2],
+    1,
+    true,
+    2,
+    1,
+    [1, 2, 3],
+    1,
+    1
+  ],
+  "keyPoints": [
+    "Hash tables achieve average O(1) performance through key-to-index mapping, making them ideal for fast lookups when order doesn't matter.",
+    "Separate chaining uses linked lists per bucket for collision resolution, offering simplicity and good performance at high load factors.",
+    "Hash functions must be deterministic, fast, and provide uniform distribution to ensure optimal table performance.",
+    "Load factor management is crucial - keeping it below 0.75 prevents performance degradation from excessive collisions.",
+    "Open addressing provides better cache performance than separate chaining but suffers from clustering and complex deletion.",
+    "Rehashing maintains performance by creating larger tables and redistributing elements when load factors become too high.",
+    "Linear probing is a simple open addressing technique that searches sequentially for available slots after collisions.",
+    "Open addressing requires careful load factor management and has more complex deletion semantics than separate chaining.",
+    "Good hash functions exhibit the avalanche effect, ensuring small input changes produce large output variations.",
+    "Hash table worst-case O(n) performance occurs with pathological collision patterns, highlighting the importance of robust hash functions."
+  ]
+}

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="920" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      text { font-family: 'Fira Sans', sans-serif; font-size: 12px; fill: #666; }
+      .good { fill: #50C878; stroke: #228B22; stroke-width: 1; }
+      .warning { fill: #F39C12; stroke: #E67E22; stroke-width: 1; }
+      .danger { fill: #E94B3C; stroke: #C0392B; stroke-width: 1; }
+      .rehash { fill: #9B59B6; stroke: #8E44AD; stroke-width: 1; }
+    </style>
+  </defs>
+  <text x="10" y="20" font-weight="bold">Load Factor Impact: Performance Degradation and Rehashing</text>
+
+  <!-- Load Factor Scale -->
+  <text x="50" y="50">Load Factor (α = elements / table size)</text>
+  <line x1="50" y1="60" x2="850" y2="60" stroke="#333" stroke-width="2"/>
+  <text x="40" y="75">0.0</text>
+  <text x="200" y="75">0.5</text>
+  <text x="350" y="75">0.75</text>
+  <text x="500" y="75">1.0</text>
+  <text x="650" y="75">1.5</text>
+  <text x="800" y="75">2.0+</text>
+
+  <!-- Performance zones -->
+  <rect x="50" y="80" width="250" height="30" class="good" rx="5"/>
+  <text x="150" y="98">Optimal Performance</text>
+  <text x="130" y="113">O(1) operations</text>
+
+  <rect x="300" y="80" width="150" height="30" class="warning" rx="5"/>
+  <text x="360" y="98">Moderate Collisions</text>
+  <text x="350" y="113">Some degradation</text>
+
+  <rect x="450" y="80" width="200" height="30" class="danger" rx="5"/>
+  <text x="530" y="98">Severe Degradation</text>
+  <text x="520" y="113">O(n) worst case</text>
+
+  <!-- Rehashing threshold -->
+  <line x1="375" y1="55" x2="375" y2="110" stroke="#9B59B6" stroke-width="3"/>
+  <text x="360" y="130" class="rehash">Rehash Threshold</text>
+  <text x="365" y="145">(α = 0.75)</text>
+
+  <!-- Performance curves -->
+  <text x="50" y="180" font-weight="bold">Average Probe Count vs Load Factor</text>
+
+  <!-- Linear probing -->
+  <polyline points="50,200 150,210 250,225 350,250 450,300 550,400 650,550" fill="none" stroke="#E94B3C" stroke-width="3"/>
+  <text x="660" y="200" fill="#E94B3C">Linear Probing</text>
+
+  <!-- Separate chaining -->
+  <polyline points="50,200 150,205 250,215 350,235 450,270 550,320 650,400" fill="none" stroke="#4A90E2" stroke-width="3"/>
+  <text x="660" y="215" fill="#4A90E2">Separate Chaining</text>
+
+  <!-- Quadratic probing -->
+  <polyline points="50,200 150,205 250,220 350,240 450,280 550,350 650,450" fill="none" stroke="#50C878" stroke-width="3"/>
+  <text x="660" y="230" fill="#50C878">Quadratic Probing</text>
+
+  <text x="50" y="240">Probes</text>
+  <line x1="40" y1="200" x2="40" y2="400" stroke="#333" stroke-width="1"/>
+  <text x="20" y="200">1</text>
+  <text x="20" y="250">5</text>
+  <text x="20" y="300">10</text>
+  <text x="20" y="350">15</text>
+  <text x="20" y="400">20</text>
+
+  <!-- Rehashing visualization -->
+  <text x="50" y="280" font-weight="bold">Rehashing Process</text>
+  <text x="50" y="295">When α exceeds threshold:</text>
+
+  <!-- Before rehash -->
+  <text x="50" y="315">Before: Table size = 8, elements = 6, α = 0.75</text>
+  <rect x="50" y="320" width="400" height="40" fill="none" stroke="#333" stroke-width="1"/>
+  <rect x="50" y="320" width="50" height="40" class="good"/>
+  <rect x="100" y="320" width="50" height="40" class="good"/>
+  <rect x="150" y="320" width="50" height="40" class="good"/>
+  <rect x="200" y="320" width="50" height="40" class="good"/>
+  <rect x="250" y="320" width="50" height="40" class="good"/>
+  <rect x="300" y="320" width="50" height="40" class="good"/>
+  <rect x="350" y="320" width="50" height="40" fill="#EEE"/>
+  <rect x="400" y="320" width="50" height="40" fill="#EEE"/>
+
+  <!-- After rehash -->
+  <text x="50" y="375">After: Table size = 16, elements = 6, α = 0.375</text>
+  <rect x="50" y="380" width="800" height="40" fill="none" stroke="#333" stroke-width="1"/>
+  <rect x="50" y="380" width="50" height="40" class="good"/>
+  <rect x="100" y="380" width="50" height="40" class="good"/>
+  <rect x="150" y="380" width="50" height="40" class="good"/>
+  <rect x="200" y="380" width="50" height="40" class="good"/>
+  <rect x="250" y="380" width="50" height="40" class="good"/>
+  <rect x="300" y="380" width="50" height="40" class="good"/>
+  <rect x="350" y="380" width="50" height="40" fill="#EEE"/>
+  <rect x="400" y="380" width="50" height="40" fill="#EEE"/>
+  <rect x="450" y="380" width="50" height="40" fill="#EEE"/>
+  <rect x="500" y="380" width="50" height="40" fill="#EEE"/>
+  <rect x="550" y="380" width="50" height="40" fill="#EEE"/>
+  <rect x="600" y="380" width="50" height="40" fill="#EEE"/>
+  <rect x="650" y="380" width="50" height="40" fill="#EEE"/>
+  <rect x="700" y="380" width="50" height="40" fill="#EEE"/>
+  <rect x="750" y="380" width="50" height="40" fill="#EEE"/>
+  <rect x="800" y="380" width="50" height="40" fill="#EEE"/>
+
+  <text x="10" y="450">Load factor directly impacts collision probability and operation performance.</text>
+  <text x="10" y="465">Rehashing maintains optimal load factors but requires O(n) time to complete.</text>
+  <text x="10" y="480">Choose initial table size based on expected maximum elements to minimize rehashing.</text>
+</svg>
