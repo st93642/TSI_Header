@@ -1,0 +1,122 @@
+{
+  "id": "git_troubleshooting_recovery_quiz",
+  "mode": "quiz",
+  "title": "Quiz: Troubleshooting and Recovering Git Repositories",
+  "description": "Ensure you can diagnose issues, restore lost work, and repair repositories using the recovery techniques covered in the lesson.",
+  "tags": ["git", "troubleshooting", "recovery", "reflog", "fsck"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "git-trouble-reflog",
+      "type": "single",
+      "prompt": "Which command lists recent HEAD movements to help you recover lost commits?",
+      "options": [
+        {"id": "a", "text": "git reflog", "correct": true},
+        {"id": "b", "text": "git prune"},
+        {"id": "c", "text": "git shortlog"},
+        {"id": "d", "text": "git blame"}
+      ],
+      "explanation": "`git reflog` records reference movements so you can reset or cherry-pick lost work." 
+    },
+    {
+      "id": "git-trouble-fsck",
+      "type": "multiple",
+      "prompt": "What does `git fsck` help you detect? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Corrupted objects", "correct": true},
+        {"id": "b", "text": "Dangling commits", "correct": true},
+        {"id": "c", "text": "Missing tree entries", "correct": true},
+        {"id": "d", "text": "Typos in README"}
+      ],
+      "explanation": "`git fsck` surfaces object integrity issues and unreachable commits, not documentation typos." 
+    },
+    {
+      "id": "git-trouble-stash",
+      "type": "truefalse",
+      "prompt": "True or False: You can recover a dropped stash via `git fsck --lost-found` and checkout the stash commit.",
+      "answer": "true",
+      "explanation": "Dropped stashes linger as dangling commits that fsck can locate." 
+    },
+    {
+      "id": "git-trouble-reset",
+      "type": "multiple",
+      "prompt": "When would you prefer `git reset --hard <hash>` over `git revert`? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "When undoing local work not yet shared", "correct": true},
+        {"id": "b", "text": "When cleaning your working tree to a known state", "correct": true},
+        {"id": "c", "text": "When rolling back history on a shared branch"},
+        {"id": "d", "text": "When you need a reversible public record"}
+      ],
+      "explanation": "Hard reset rewinds local history and working tree; revert creates new commits for shared history." 
+    },
+    {
+      "id": "git-trouble-restore",
+      "type": "single",
+      "prompt": "Which command selectively restores a file from a previous commit into the working tree?",
+      "options": [
+        {"id": "a", "text": "git restore --source=<hash> path/to/file", "correct": true},
+        {"id": "b", "text": "git clean --force"},
+        {"id": "c", "text": "git cherry"},
+        {"id": "d", "text": "git format-patch"}
+      ],
+      "explanation": "`git restore` (or `git checkout <hash> -- file`) recovers file snapshots without touching other paths." 
+    },
+    {
+      "id": "git-trouble-clean",
+      "type": "truefalse",
+      "prompt": "True or False: `git clean -fdx` removes untracked files, directories, and ignored artifacts.",
+      "answer": "true",
+      "explanation": "`-f` forces deletion, `-d` includes directories, and `-x` includes ignored files." 
+    },
+    {
+      "id": "git-trouble-bisect",
+      "type": "multiple",
+      "prompt": "Which steps describe a successful `git bisect` session? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Mark a known bad commit", "correct": true},
+        {"id": "b", "text": "Mark a known good commit", "correct": true},
+        {"id": "c", "text": "Test midpoint commits until Git narrows the culprit", "correct": true},
+        {"id": "d", "text": "Rewrite history to remove commits"}
+      ],
+      "explanation": "Bisect relies on good/bad markers and iterative testing; it doesn't rewrite history." 
+    },
+    {
+      "id": "git-trouble-merge-msg",
+      "type": "multiple",
+      "prompt": "How can you retry a conflicted merge after aborting? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Run `git merge --abort` then re-run the merge once conflicts are addressed", "correct": true},
+        {"id": "b", "text": "Use `git rerere` to reuse recorded resolutions", "correct": true},
+        {"id": "c", "text": "Force push the conflict to the remote"},
+        {"id": "d", "text": "Delete the repository"}
+      ],
+      "explanation": "Abort resets state; rerere accelerates subsequent attempts by remembering resolutions." 
+    },
+    {
+      "id": "git-trouble-object",
+      "type": "truefalse",
+      "prompt": "True or False: `git cat-file -p <hash>` lets you inspect blob contents or commit metadata during investigations.",
+      "answer": "true",
+      "explanation": "`git cat-file` reveals stored object contents to diagnose issues." 
+    },
+    {
+      "id": "git-trouble-backup",
+      "type": "multiple",
+      "prompt": "Which backup strategies help with disaster recovery? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Regular bare repository mirrors", "correct": true},
+        {"id": "b", "text": "Offsite encrypted backups", "correct": true},
+        {"id": "c", "text": "Automated backup verification", "correct": true},
+        {"id": "d", "text": "Storing backups only on local laptops"}
+      ],
+      "explanation": "Mirrors, offsite copies, and verification protect against hardware or operator failures." 
+    },
+    {
+      "id": "git-trouble-support",
+      "type": "truefalse",
+      "prompt": "True or False: Documenting recovery steps in runbooks shortens future incident resolution time.",
+      "answer": "true",
+      "explanation": "Runbooks capture institutional knowledge, accelerating repeat recoveries." 
+    }
+  ]
+}

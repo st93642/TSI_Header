@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#021022"/>
+  <text x="60" y="80" fill="#f5f9ff" font-family="'Fira Code', monospace" font-size="18">Safety Net Layers</text>
+  <g fill="#102944" stroke="#ffd166" stroke-width="3">
+    <rect x="140" y="150" width="680" height="260" rx="18"/>
+  </g>
+  <g fill="#f5f9ff" font-family="'Fira Code', monospace" font-size="12">
+    <text x="160" y="200">Layer</text>
+    <text x="420" y="200">Purpose</text>
+    <text x="700" y="200">Commands</text>
+  </g>
+  <g fill="#ffe5b3" font-family="'Fira Code', monospace" font-size="10">
+    <text x="160" y="240">Reflog</text>
+    <text x="420" y="240">Recover refs</text>
+    <text x="700" y="240">git reflog</text>
+
+    <text x="160" y="280">Stash</text>
+    <text x="420" y="280">Save WIP</text>
+    <text x="700" y="280">git stash push</text>
+
+    <text x="160" y="320">Worktrees</text>
+    <text x="420" y="320">Parallel edits</text>
+    <text x="700" y="320">git worktree add</text>
+
+    <text x="160" y="360">Backups</text>
+    <text x="420" y="360">Disaster recovery</text>
+    <text x="700" y="360">git bundle, mirror</text>
+  </g>
+</svg>

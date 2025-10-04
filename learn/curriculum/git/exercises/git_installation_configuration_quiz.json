@@ -1,0 +1,132 @@
+{
+  "id": "git_installation_configuration_quiz",
+  "mode": "quiz",
+  "title": "Quiz: Installing Git and Establishing Identity",
+  "description": "Validate your ability to install Git securely, configure identity, and prepare a developer workstation for collaborative workflows.\n\nSteps:\n1. Review the lesson sections covering package managers, signing keys, and configuration scopes.\n2. Answer all questions, paying attention to multi-select prompts.\n3. Compare your answers with the explanations to solidify your setup practices.\n\nExpected results: Achieve 8/10 to demonstrate confidence before proceeding to staging and committing techniques.",
+  "tags": ["git", "setup", "identity", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "git-setup-version-check",
+      "type": "single",
+      "prompt": "Which command verifies the installed Git version from the terminal?",
+      "options": [
+        {"id": "a", "text": "git --status"},
+        {"id": "b", "text": "git --version", "correct": true},
+        {"id": "c", "text": "git config --show"},
+        {"id": "d", "text": "git help version"}
+      ],
+      "explanation": "`git --version` prints the executable version, confirming that Git is available on PATH." 
+    },
+    {
+      "id": "git-setup-package-sources",
+      "type": "multiple",
+      "prompt": "Which installation approaches help ensure a secure and up-to-date Git? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Use official package managers (apt, brew, winget)", "correct": true},
+        {"id": "b", "text": "Download random binaries from unverified blogs"},
+        {"id": "c", "text": "Validate downloads using vendor checksums or signatures", "correct": true},
+        {"id": "d", "text": "Rely solely on legacy versions shipped with IDEs"}
+      ],
+      "explanation": "Platform package managers and checksum validation ensure you install authentic, patched Git releases." 
+    },
+    {
+      "id": "git-setup-identity-scope",
+      "type": "single",
+      "prompt": "Which configuration scope writes settings into the user's home directory so any repository on the machine inherits them?",
+      "options": [
+        {"id": "a", "text": "System"},
+        {"id": "b", "text": "Global", "correct": true},
+        {"id": "c", "text": "Local"},
+        {"id": "d", "text": "Worktree"}
+      ],
+      "explanation": "Global scope stores values in ~/.gitconfig, applying to all repositories for that user." 
+    },
+    {
+      "id": "git-setup-identity-config",
+      "type": "multiple",
+      "prompt": "Which commands establish authorship identity for commits? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "git config --global user.name \"Jane Doe\"", "correct": true},
+        {"id": "b", "text": "git config --global user.email jane@example.com", "correct": true},
+        {"id": "c", "text": "git init --sign"},
+        {"id": "d", "text": "git status --identity"}
+      ],
+      "explanation": "Setting user.name and user.email in the global config ensures commits carry the correct metadata." 
+    },
+    {
+      "id": "git-setup-ssh-https",
+      "type": "single",
+      "prompt": "What is a primary reason to generate an SSH key for Git remotes?",
+      "options": [
+        {"id": "a", "text": "SSH keys allow passwordless, encrypted authentication to hosting providers", "correct": true},
+        {"id": "b", "text": "SSH keys speed up local filesystem operations"},
+        {"id": "c", "text": "SSH keys replace Git's staging area"},
+        {"id": "d", "text": "SSH keys enable automatic merge conflict resolution"}
+      ],
+      "explanation": "SSH keys authenticate pushes and pulls securely without transmitting passwords." 
+    },
+    {
+      "id": "git-setup-config-files",
+      "type": "multiple",
+      "prompt": "Where can Git configuration values be defined? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "$(git --exec-path)/config"},
+        {"id": "b", "text": "$(pwd)/.git/config", "correct": true},
+        {"id": "c", "text": "~/.gitconfig", "correct": true},
+        {"id": "d", "text": "`config.worktree` files inside linked worktrees", "correct": true}
+      ],
+      "explanation": "Git reads configuration from system, global, local, and worktree files to combine final settings." 
+    },
+    {
+      "id": "git-setup-editor",
+      "type": "truefalse",
+      "prompt": "True or False: Setting core.editor ensures Git launches your preferred text editor when editing commit messages.",
+      "answer": "true",
+      "explanation": "`git config --global core.editor` selects the editor invoked for commit messages and other interactive prompts." 
+    },
+    {
+      "id": "git-setup-credential-helper",
+      "type": "single",
+      "prompt": "Which configuration stores HTTPS credentials securely for future authentication?",
+      "options": [
+        {"id": "a", "text": "credential.helper store (plain text)"},
+        {"id": "b", "text": "credential.helper manager-core", "correct": true},
+        {"id": "c", "text": "core.autocrlf"},
+        {"id": "d", "text": "user.signingKey"}
+      ],
+      "explanation": "credential.helper manager-core integrates with OS credential vaults to cache HTTPS tokens securely." 
+    },
+    {
+      "id": "git-setup-autocrlf",
+      "type": "truefalse",
+      "prompt": "True or False: On Windows, enabling core.autocrlf helps normalize line endings when collaborating with Unix environments.",
+      "answer": "true",
+      "explanation": "`core.autocrlf true` converts line endings on checkout and commit to reduce cross-platform diffs." 
+    },
+    {
+      "id": "git-setup-gpg",
+      "type": "multiple",
+      "prompt": "Which steps are part of configuring signed commits with GPG? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Generate a key pair using `gpg --full-generate-key`", "correct": true},
+        {"id": "b", "text": "Export the public key to your Git hosting account", "correct": true},
+        {"id": "c", "text": "Set `git config --global user.signingkey <fingerprint>`", "correct": true},
+        {"id": "d", "text": "Disable commit signing in CI pipelines"}
+      ],
+      "explanation": "Signed commits require a key pair, Git configuration pointing at the key, and publishing the public key for verification." 
+    },
+    {
+      "id": "git-setup-config-check",
+      "type": "single",
+      "prompt": "Which command displays the effective value of a Git configuration key considering all scopes?",
+      "options": [
+        {"id": "a", "text": "git config --get <key>", "correct": true},
+        {"id": "b", "text": "git config --list --default"},
+        {"id": "c", "text": "git status --get"},
+        {"id": "d", "text": "git show --config"}
+      ],
+      "explanation": "`git config --get` resolves the key across scopes and prints the resulting value." 
+    }
+  ]
+}

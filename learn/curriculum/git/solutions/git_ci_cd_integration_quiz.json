@@ -1,0 +1,72 @@
+{
+  "exerciseId": "git_ci_cd_integration_quiz",
+  "answerKey": [
+    {
+      "questionId": "git-ci-triggers",
+      "answers": ["a", "b", "c"],
+      "explanation": "Protected branch pushes, PR updates, and tags initiate CI; local stash operations do not." 
+    },
+    {
+      "questionId": "git-ci-pipeline-stages",
+      "answers": ["b"],
+      "explanation": "Checkout precedes linting, testing, packaging, and deployment in the standard flow." 
+    },
+    {
+      "questionId": "git-ci-artifacts",
+      "answers": ["a", "b", "c"],
+      "explanation": "Binaries, reports, and manifests must persist between stages; shell history is irrelevant." 
+    },
+    {
+      "questionId": "git-ci-status-checks",
+      "answers": ["true"],
+      "explanation": "Branch protection rules should enforce successful CI before merges." 
+    },
+    {
+      "questionId": "git-ci-matrices",
+      "answers": ["b"],
+      "explanation": "A build matrix fans out combinations automatically instead of duplicating configs." 
+    },
+    {
+      "questionId": "git-ci-security",
+      "answers": ["a", "b", "c"],
+      "explanation": "SAST, dependency scanning, and secret detection catch security issues early." 
+    },
+    {
+      "questionId": "git-ci-caching",
+      "answers": ["true"],
+      "explanation": "Cache keys tied to lockfiles recover dependencies across runs." 
+    },
+    {
+      "questionId": "git-ci-secrets",
+      "answers": ["a", "b", "c"],
+      "explanation": "Vaulted, short-lived, masked credentials keep deployments secure." 
+    },
+    {
+      "questionId": "git-cd-environments",
+      "answers": ["a"],
+      "explanation": "Manual approvals gate promotion to production, matching the lesson guidance." 
+    },
+    {
+      "questionId": "git-cd-tags",
+      "answers": ["a", "b", "d"],
+      "explanation": "Release tags trigger CD, pin artifacts, and drive notes; they do not automatically invalidate caches." 
+    },
+    {
+      "questionId": "git-ci-observability",
+      "answers": ["a", "b", "c"],
+      "explanation": "Logs, trace IDs, and retention policies preserve observability; deleting logs would undermine audits." 
+    },
+    {
+      "questionId": "git-ci-fail-fast",
+      "answers": ["true"],
+      "explanation": "Critical jobs should fail fast, while optional jobs continue to report insights." 
+    }
+  ],
+  "keyPoints": [
+    "Trigger CI on pushes, PRs, and tags to keep pipelines responsive.",
+    "Structure stages as checkout, lint, test, package, deploy for clarity.",
+    "Persist artifacts, enforce security scans, and guard secrets rigorously.",
+    "Use manual approvals plus observability to operate reliable CD gates.",
+    "Fail fast on critical regressions while harvesting insights from optional jobs."
+  ]
+}

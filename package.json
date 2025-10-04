@@ -324,6 +324,24 @@
         "title": "View C++ DSA Progress",
         "category": "Learn",
         "icon": "$(graph)"
+      },
+      {
+        "command": "tsiheader.learnGit",
+        "title": "Learn Git",
+        "category": "Learn",
+        "icon": "$(git-branch)"
+      },
+      {
+        "command": "tsiheader.browseLessonsGit",
+        "title": "Browse Git Lessons",
+        "category": "Learn",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "tsiheader.viewLearnProgressGit",
+        "title": "View Git Progress",
+        "category": "Learn",
+        "icon": "$(graph)"
       }
     ],
     "menus": {

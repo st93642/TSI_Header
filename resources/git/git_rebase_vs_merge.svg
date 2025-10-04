@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#031121"/>
+  <text x="60" y="80" fill="#f4f8ff" font-family="'Fira Code', monospace" font-size="28">Rebase vs. Merge</text>
+  <g fill="#0f2944" stroke="#7bd3ff" stroke-width="3">
+    <rect x="120" y="150" width="320" height="260" rx="18"/>
+    <rect x="520" y="150" width="320" height="260" rx="18"/>
+  </g>
+  <g fill="#f4f8ff" font-family="'Fira Code', monospace" font-size="20">
+    <text x="160" y="200">Rebase</text>
+    <text x="560" y="200">Merge</text>
+  </g>
+  <g fill="#9fd6ff" font-family="'Fira Code', monospace" font-size="18">
+    <text x="140" y="240">• Linear history</text>
+    <text x="140" y="270">• Rewrites commit IDs</text>
+    <text x="140" y="300">• Ideal for local cleanup</text>
+    <text x="140" y="330">• Requires force push</text>
+
+    <text x="540" y="240">• Preserves chronology</text>
+    <text x="540" y="270">• Records merge commits</text>
+    <text x="540" y="300">• Safer for shared branches</text>
+    <text x="540" y="330">• Can generate complex DAG</text>
+  </g>
+</svg>

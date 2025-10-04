@@ -1,0 +1,115 @@
+{
+  "id": "git_release_management_quiz",
+  "mode": "quiz",
+  "title": "Quiz: Tags, Release Branches, and Backporting",
+  "description": "Assess your ability to orchestrate Git-driven releases, manage cadence, and backport fixes responsibly.\n\nSteps:\n1. Review the lesson timeline on release cadence, tagging, and backport strategies.\n2. Answer the questions, selecting all valid options for multi-select prompts.\n3. Study the explanations to refine your release playbook.\n\nExpected results: Score at least 8/10 before diving into history rewriting lessons.",
+  "tags": ["git", "release", "tags", "backporting", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "git-release-branch-cut",
+      "type": "single",
+      "prompt": "What is the typical first step in the release cadence described in the lesson?",
+      "options": [
+        {"id": "a", "text": "Create a release branch from main using `git checkout -b release/vX.Y`", "correct": true},
+        {"id": "b", "text": "Force push main to production"},
+        {"id": "c", "text": "Tag the previous release again"},
+        {"id": "d", "text": "Lock all branches indefinitely"}
+      ],
+      "explanation": "Release flows often begin by cutting a dedicated branch for stabilization and documentation work." 
+    },
+    {
+      "id": "git-release-freeze",
+      "type": "multiple",
+      "prompt": "Which activities occur during the stabilization phase? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Cherry-pick critical fixes", "correct": true},
+        {"id": "b", "text": "Freeze feature merges", "correct": true},
+        {"id": "c", "text": "Generate release notes drafts", "correct": true},
+        {"id": "d", "text": "Rewrite commit history on main"}
+      ],
+      "explanation": "Stabilization focuses on critical fixes, freeze windows, and release note preparation." 
+    },
+    {
+      "id": "git-release-tagging",
+      "type": "truefalse",
+      "prompt": "True or False: Annotated tags should include signed metadata and release summaries for traceability.",
+      "answer": "true",
+      "explanation": "Annotated tags capture release details and can be signed for authenticity." 
+    },
+    {
+      "id": "git-release-artifacts",
+      "type": "multiple",
+      "prompt": "Which artifacts accompany a production release according to the lesson? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Published binaries or packages", "correct": true},
+        {"id": "b", "text": "Software Bill of Materials (SBOM)", "correct": true},
+        {"id": "c", "text": "Automated change log", "correct": true},
+        {"id": "d", "text": "Deletion of all previous releases"}
+      ],
+      "explanation": "Production releases bundle artifacts, SBOMs, and change logs for compliance and transparency." 
+    },
+    {
+      "id": "git-release-monitoring",
+      "type": "single",
+      "prompt": "During deployment, what monitoring practices are emphasized?",
+      "options": [
+        {"id": "a", "text": "Track KPIs and error budgets while rolling out", "correct": true},
+        {"id": "b", "text": "Disable metrics to avoid noise"},
+        {"id": "c", "text": "Rely on manual screenshots"},
+        {"id": "d", "text": "Ignore canary results"}
+      ],
+      "explanation": "Monitoring KPIs and error budgets during rollouts ensures quick detection of regressions." 
+    },
+    {
+      "id": "git-release-backport",
+      "type": "multiple",
+      "prompt": "Which steps describe a disciplined backport process? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Identify the release branch requiring the fix", "correct": true},
+        {"id": "b", "text": "Cherry-pick or apply patches to the release branch", "correct": true},
+        {"id": "c", "text": "Retag the release without version bumping"},
+        {"id": "d", "text": "Run targeted smoke tests", "correct": true}
+      ],
+      "explanation": "Backports target release branches, cherry-pick fixes, and validate through targeted testing." 
+    },
+    {
+      "id": "git-release-communication",
+      "type": "truefalse",
+      "prompt": "True or False: Announcing availability and defining a postmortem window are part of the release checklist.",
+      "answer": "true",
+      "explanation": "Communication ensures stakeholders know the rollout status and where to report issues." 
+    },
+    {
+      "id": "git-release-rollback",
+      "type": "multiple",
+      "prompt": "What options exist if a release must be reversed quickly? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Re-deploy the previous tagged release", "correct": true},
+        {"id": "b", "text": "Use feature flags to disable problematic functionality", "correct": true},
+        {"id": "c", "text": "Delete the Git history"},
+        {"id": "d", "text": "Publish a hotfix from the release branch", "correct": true}
+      ],
+      "explanation": "Rollback strategies include redeploying stable tags, toggling flags, or issuing hotfixes." 
+    },
+    {
+      "id": "git-release-governance",
+      "type": "multiple",
+      "prompt": "Which governance controls secure release branches? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Require signed commits and tags", "correct": true},
+        {"id": "b", "text": "Restrict pushing to release branches via CODEOWNERS", "correct": true},
+        {"id": "c", "text": "Allow force pushes from anyone"},
+        {"id": "d", "text": "Store artifacts in tamper-evident registries", "correct": true}
+      ],
+      "explanation": "Signatures, ownership rules, and secure registries protect the release supply chain." 
+    },
+    {
+      "id": "git-release-retrospective",
+      "type": "truefalse",
+      "prompt": "True or False: Capturing go/no-go gates in issue templates ensures each release follows the same checklist.",
+      "answer": "true",
+      "explanation": "Issue templates codify release criteria and keep the process auditable." 
+    }
+  ]
+}

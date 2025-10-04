@@ -1,0 +1,156 @@
+{
+  "title": "Git Mastery Roadmap",
+  "description": "A comprehensive roadmap that transforms developers into confident Git collaborators, from fundamentals to large-scale automation workflows.",
+  "modules": [
+    {
+      "id": "git_foundations",
+      "title": "Module 1: Version Control Foundations",
+      "description": "Understand why version control exists, how Git differs from centralized tools, and how to build reliable local workflows.",
+      "lessons": [
+        {
+          "id": "git_introduction_foundations",
+          "title": "Lesson 1.1: Git in the Software Delivery Lifecycle",
+          "duration": 70,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "git_installation_configuration",
+          "title": "Lesson 1.2: Installing Git and Establishing Identity",
+          "duration": 65,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "git_core_concepts",
+          "title": "Lesson 1.3: Snapshots, Objects, and the Three-Tree Architecture",
+          "duration": 85,
+          "difficulty": "beginner"
+        }
+      ]
+    },
+    {
+      "id": "git_repository_lifecycle",
+      "title": "Module 2: Repository Lifecycle and Daily Work",
+      "description": "Set up repositories, manage staging areas, record commits, and inspect history with confidence.",
+      "lessons": [
+        {
+          "id": "git_repository_management",
+          "title": "Lesson 2.1: Initializing, Cloning, and Structuring Repositories",
+          "duration": 90,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "git_staging_committing",
+          "title": "Lesson 2.2: Staging Strategies, Clean Commits, and Hooks",
+          "duration": 95,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "git_inspecting_history",
+          "title": "Lesson 2.3: Exploring History with Log, Show, Diff, and Bisect",
+          "duration": 105,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "git_branching_merging",
+      "title": "Module 3: Branching Strategies and Merge Design",
+      "description": "Craft branching models, merge confidently, and reason about diverging timelines.",
+      "lessons": [
+        {
+          "id": "git_branching_workflows",
+          "title": "Lesson 3.1: Feature Branching, Trunk-Based, and Gitflow",
+          "duration": 110,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "git_merges_resolving_conflicts",
+          "title": "Lesson 3.2: Fast-Forward, Three-Way Merges, and Conflict Strategy",
+          "duration": 115,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "git_rebasing_strategies",
+          "title": "Lesson 3.3: Interactive Rebases, Autosquashing, and Rewrite Policies",
+          "duration": 125,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "git_collaboration",
+      "title": "Module 4: Collaboration, Reviews, and Release Cadence",
+      "description": "Coordinate across remotes, review contributions at scale, and ship production releases with confidence.",
+      "lessons": [
+        {
+          "id": "git_remote_collaboration",
+          "title": "Lesson 4.1: Remotes, Fetching, Pulling, and Upstream Hygiene",
+          "duration": 110,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "git_code_review_practices",
+          "title": "Lesson 4.2: Pull Requests, Patches, and Collaborative Etiquette",
+          "duration": 120,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "git_release_management",
+          "title": "Lesson 4.3: Tags, Release Branches, and Backporting",
+          "duration": 130,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "git_history_safety",
+      "title": "Module 5: History Rewrites, Recovery, and Security",
+      "description": "Master reflogs, cherry-picks, signing, and safeguarding history for resilient operations.",
+      "lessons": [
+        {
+          "id": "git_history_rewrite",
+          "title": "Lesson 5.1: Rewriting History with Filter-Repo and Filter-Branch",
+          "duration": 135,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "git_troubleshooting_recovery",
+          "title": "Lesson 5.2: Reflog, Stash, and Disaster Recovery Playbooks",
+          "duration": 125,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "git_security_signing",
+          "title": "Lesson 5.3: Commit Signing, Verified Releases, and Supply Chain Trust",
+          "duration": 115,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "git_automation_scaling",
+      "title": "Module 6: Automation, CI/CD, and Scaling Git",
+      "description": "Integrate Git with automation pipelines, manage monorepos, and tune for performance.",
+      "lessons": [
+        {
+          "id": "git_ci_cd_integration",
+          "title": "Lesson 6.1: Automating Quality Gates with Git Hooks and CI",
+          "duration": 125,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "git_monorepo_management",
+          "title": "Lesson 6.2: Monorepo Strategies, Submodules, and Subtrees",
+          "duration": 130,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "git_performance_optimization",
+          "title": "Lesson 6.3: Scaling Git for Large Repositories and Distributed Teams",
+          "duration": 140,
+          "difficulty": "advanced"
+        }
+      ]
+    }
+  ]
+}

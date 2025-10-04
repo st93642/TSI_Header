@@ -1,0 +1,31 @@
+{
+  "exerciseId": "git_installation_configuration_quiz",
+  "languageId": "git",
+  "mode": "quiz",
+  "explanation": "Key answers for configuring Git installations, identity, credential storage, and signing.",
+  "answerKey": [
+    {"questionId": "git-setup-version-check", "answers": ["b"], "rationale": "`git --version` confirms Git is installed and accessible on PATH."},
+    {"questionId": "git-setup-package-sources", "answers": ["a", "c"], "rationale": "Official package sources and checksum validation maintain secure, patched installations."},
+    {"questionId": "git-setup-identity-scope", "answers": ["b"], "rationale": "Global scope writes to ~/.gitconfig for the current user."},
+    {"questionId": "git-setup-identity-config", "answers": ["a", "b"], "rationale": "user.name and user.email establish authorship metadata applied to future commits."},
+    {"questionId": "git-setup-ssh-https", "answers": ["a"], "rationale": "SSH keys enable secure, passwordless authentication to remotes."},
+    {"questionId": "git-setup-config-files", "answers": ["b", "c", "d"], "rationale": "Local, global, and worktree config files contribute to effective Git settings."},
+    {"questionId": "git-setup-editor", "answers": ["true"], "rationale": "core.editor chooses the program invoked for interactive message editing."},
+    {"questionId": "git-setup-credential-helper", "answers": ["b"], "rationale": "credential.helper manager-core integrates with secure OS credential storage."},
+    {"questionId": "git-setup-autocrlf", "answers": ["true"], "rationale": "core.autocrlf mitigates CRLF/LF differences on Windows when collaborating cross-platform."},
+    {"questionId": "git-setup-gpg", "answers": ["a", "b", "c"], "rationale": "Signed commits require generated keys, configuration, and publishing the public key."},
+    {"questionId": "git-setup-config-check", "answers": ["a"], "rationale": "git config --get reads the merged value of a key from all scopes."}
+  ],
+  "keyPoints": [
+    "Verify installations with `git --version` before configuring.",
+    "Use trusted package managers and digital signatures for binaries.",
+    "Global config stores identity for all repositories.",
+    "SSH and credential helpers provide secure remote authentication.",
+    "core.editor and core.autocrlf tailor Git's behavior to your OS.",
+    "Signed commits require key management and host integration.",
+    "Git merges settings from system, global, local, and worktree scopes.",
+    "Credential helpers avoid storing passwords in plain text.",
+    "Line-ending configuration reduces noisy diffs in cross-platform teams.",
+    "Regularly audit git config values to maintain secure defaults."
+  ]
+}

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#030f21"/>
+  <text x="60" y="80" fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="28">Signature Validation Flow</text>
+  <g fill="#102944" stroke="#b39ddb" stroke-width="3">
+    <rect x="120" y="160" width="220" height="120" rx="16"/>
+    <rect x="360" y="160" width="220" height="120" rx="16"/>
+    <rect x="600" y="160" width="220" height="120" rx="16"/>
+  </g>
+  <g fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="18" text-anchor="middle">
+    <text x="230" y="210">Signed Commit</text>
+    <text x="470" y="210">Public Key</text>
+    <text x="710" y="210">Verification</text>
+  </g>
+  <g stroke="#b39ddb" stroke-width="3" marker-end="url(#arrow)">
+    <line x1="340" y1="220" x2="360" y2="220"/>
+    <line x1="580" y1="220" x2="600" y2="220"/>
+  </g>
+  <g fill="#d0c4ff" font-family="'Fira Code', monospace" font-size="18">
+    <text x="120" y="320">• Hash commit contents, decrypt signature</text>
+    <text x="120" y="350">• Compare digest against trusted keyring</text>
+    <text x="120" y="380">• Fail build if verification fails</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b39ddb"/>
+    </marker>
+  </defs>
+</svg>

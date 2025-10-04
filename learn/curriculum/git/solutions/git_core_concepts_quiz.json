@@ -1,0 +1,31 @@
+{
+  "exerciseId": "git_core_concepts_quiz",
+  "languageId": "git",
+  "mode": "quiz",
+  "explanation": "Solutions covering Git's data model, refs, and maintenance concepts.",
+  "answerKey": [
+    {"questionId": "git-core-object-types", "answers": ["a", "b", "c"], "rationale": "Git stores blobs, trees, and commits inside the object database."},
+    {"questionId": "git-core-ref-pointer", "answers": ["a"], "rationale": "Refs are mutable pointers to commit hashes."},
+    {"questionId": "git-core-head", "answers": ["a"], "rationale": "HEAD tracks the current branch which refers to the latest commit."},
+    {"questionId": "git-core-fast-forward", "answers": ["true"], "rationale": "Fast-forward merges only move the branch pointer when no divergence exists."},
+    {"questionId": "git-core-hash", "answers": ["a", "c"], "rationale": "Hashes protect integrity and deduplicate identical content."},
+    {"questionId": "git-core-three-tree-sync", "answers": ["a", "b", "c"], "rationale": "Add, commit, and reset --hard update the relationships between working tree, index, and HEAD."},
+    {"questionId": "git-core-dag", "answers": ["a"], "rationale": "Git history forms a directed acyclic graph."},
+    {"questionId": "git-core-packfiles", "answers": ["b"], "rationale": "Packfiles delta-compress objects for efficient storage and transfer."},
+    {"questionId": "git-core-tags", "answers": ["a", "b", "d"], "rationale": "Lightweight tags are refs, annotated tags contain metadata and can be signed."},
+    {"questionId": "git-core-refs-storage", "answers": ["a"], "rationale": "Branch refs reside under .git/refs/heads unless packed."},
+    {"questionId": "git-core-gc", "answers": ["true"], "rationale": "git gc performs maintenance, pruning expired unreachable objects."}
+  ],
+  "keyPoints": [
+    "Git commits, trees, and blobs compose the object database.",
+    "Refs provide movable pointers to commit hashes.",
+    "History forms a DAG, enabling branching and merging.",
+    "Fast-forward merges advance refs without new commits when possible.",
+    "Hashes guarantee integrity and support deduplication.",
+    "Packfiles compress and deltafy Git objects for performance.",
+    "Tags can be lightweight or annotated (and signed for trust).",
+    "Three-tree synchronization uses add, commit, and reset flows.",
+    "Branch refs live under .git/refs/heads unless packed-ref optimized.",
+    "gc cleans and repacks repositories when retention windows expire."
+  ]
+}

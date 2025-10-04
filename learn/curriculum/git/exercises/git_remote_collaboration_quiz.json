@@ -1,0 +1,120 @@
+{
+  "id": "git_remote_collaboration_quiz",
+  "mode": "quiz",
+  "title": "Quiz: Remotes, Fetching, Pulling, and Upstream Hygiene",
+  "description": "Confirm your command of remote management, sync routines, and collaboration hygiene across distributed teams.\n\nSteps:\n1. Revisit the lesson on remote configuration, fetch strategies, and sync cadences.\n2. Answer all questions, selecting every valid option on multi-select items.\n3. Review explanations to reinforce clean collaboration practices.\n\nExpected results: Score 8/10 before tackling code review etiquette.",
+  "tags": ["git", "remotes", "collaboration", "sync", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "git-remote-add",
+      "type": "multiple",
+      "prompt": "Which commands manage remote aliases? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "git remote add upstream git@github.com:org/repo.git", "correct": true},
+        {"id": "b", "text": "git remote rename origin backup", "correct": true},
+        {"id": "c", "text": "git pull --tags"},
+        {"id": "d", "text": "git remote remove old-origin", "correct": true}
+      ],
+      "explanation": "Remote add, rename, and remove manage aliases linking to different URLs." 
+    },
+    {
+      "id": "git-remote-fetch",
+      "type": "single",
+      "prompt": "What does `git fetch --prune` accomplish?",
+      "options": [
+        {"id": "a", "text": "It fetches new remote commits and deletes local refs that no longer exist remotely", "correct": true},
+        {"id": "b", "text": "It removes local branches with unmerged work"},
+        {"id": "c", "text": "It prunes your working tree"},
+        {"id": "d", "text": "It resets the stash"}
+      ],
+      "explanation": "Fetch --prune cleans up stale tracking refs while bringing in new remote updates." 
+    },
+    {
+      "id": "git-remote-upstream-flow",
+      "type": "multiple",
+      "prompt": "Which steps maintain a clean fork workflow? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Add the original project as an upstream remote", "correct": true},
+        {"id": "b", "text": "Fetch upstream regularly", "correct": true},
+        {"id": "c", "text": "Merge upstream/main into local main", "correct": true},
+        {"id": "d", "text": "Force push to upstream/main"}
+      ],
+      "explanation": "Fork workflows track upstream to sync changes while keeping origin for your forked repo." 
+    },
+    {
+      "id": "git-remote-tracking",
+      "type": "truefalse",
+      "prompt": "True or False: Remote-tracking branches (origin/main) update after `git fetch` even if you do not merge them into local branches.",
+      "answer": "true",
+      "explanation": "Fetching updates remote-tracking refs, making new commits visible without affecting local branches." 
+    },
+    {
+      "id": "git-remote-auto-fetch",
+      "type": "multiple",
+      "prompt": "Which practices keep teams aligned on shared history? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Schedule regular fetch + rebase sequences", "correct": true},
+        {"id": "b", "text": "Enable automatic fetch in IDEs with appropriate cadence", "correct": true},
+        {"id": "c", "text": "Ignore upstream changes until release day"},
+        {"id": "d", "text": "Communicate before force pushing shared branches", "correct": true}
+      ],
+      "explanation": "Frequent sync, tooling automation, and clear communication prevent integration surprises." 
+    },
+    {
+      "id": "git-remote-pullrebase",
+      "type": "single",
+      "prompt": "What does `git pull --rebase` do on a feature branch?",
+      "options": [
+        {"id": "a", "text": "Fetches remote updates then rebases local commits atop them", "correct": true},
+        {"id": "b", "text": "Creates a merge commit between local and remote"},
+        {"id": "c", "text": "Deletes local commits"},
+        {"id": "d", "text": "Resets HEAD to origin/main"}
+      ],
+      "explanation": "Pull --rebase keeps the local branch linear by rebasing onto updated upstream commits." 
+    },
+    {
+      "id": "git-remote-tags",
+      "type": "multiple",
+      "prompt": "How can you fetch tags from remotes? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "git fetch --tags", "correct": true},
+        {"id": "b", "text": "git fetch origin --prune-tags", "correct": true},
+        {"id": "c", "text": "git pull --orphan"},
+        {"id": "d", "text": "git fetch origin refs/tags/*:refs/tags/*", "correct": true}
+      ],
+      "explanation": "Tags can be fetched via --tags, prune-tags, or explicit refspecs." 
+    },
+    {
+      "id": "git-remote-upstream-hygiene",
+      "type": "truefalse",
+      "prompt": "True or False: Keeping local branches up to date with upstream reduces merge conflicts and rework.",
+      "answer": "true",
+      "explanation": "Regular sync reduces divergence, avoiding large merge conflict bursts." 
+    },
+    {
+      "id": "git-remote-credential-security",
+      "type": "multiple",
+      "prompt": "Which measures secure remote authentication? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Rotate SSH keys on a schedule", "correct": true},
+        {"id": "b", "text": "Use personal access tokens with least privilege", "correct": true},
+        {"id": "c", "text": "Commit credentials for safe keeping"},
+        {"id": "d", "text": "Use credential helpers with OS keychains", "correct": true}
+      ],
+      "explanation": "Key rotation, scoped tokens, and credential helpers protect remote authentication." 
+    },
+    {
+      "id": "git-remote-push-default",
+      "type": "single",
+      "prompt": "Which configuration prevents accidental pushes of unrelated branches?",
+      "options": [
+        {"id": "a", "text": "git config --global push.default simple", "correct": true},
+        {"id": "b", "text": "git config --global fetch.prune false"},
+        {"id": "c", "text": "git config --global merge.ff false"},
+        {"id": "d", "text": "git config --global alias.pushall"}
+      ],
+      "explanation": "push.default simple only pushes the current branch to its matching remote branch." 
+    }
+  ]
+}

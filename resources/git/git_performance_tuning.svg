@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#061020"/>
+  <g fill="#f5f8ff" font-family="'Fira Code', monospace" font-size="26">
+    <text x="60" y="80">Performance Tuning Cheatsheet</text>
+  </g>
+  <g fill="#132a45" stroke="#4dd0e1" stroke-width="3">
+    <rect x="140" y="150" width="680" height="260" rx="18"/>
+  </g>
+  <g fill="#f5f8ff" font-family="'Fira Code', monospace" font-size="18">
+    <text x="180" y="210">• git config pack.windowMemory 256m</text>
+    <text x="180" y="240">• git config fetch.parallel 8</text>
+    <text x="180" y="270">• git gc --aggressive --prune=now</text>
+    <text x="180" y="300">• git bundle create backup.bundle --all</text>
+    <text x="180" y="330">• Use multi-pack-index for huge repos</text>
+  </g>
+</svg>

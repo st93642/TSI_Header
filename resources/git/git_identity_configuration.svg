@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#04111f"/>
+  <text x="60" y="90" fill="#f5f7ff" font-family="'Fira Code', monospace" font-size="28">Configure Git Identity</text>
+  <line x1="220" y1="140" x2="220" y2="420" stroke="#4dd0e1" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="220" cy="180" r="18" fill="#4dd0e1"/>
+  <circle cx="220" cy="260" r="18" fill="#4dd0e1"/>
+  <circle cx="220" cy="340" r="18" fill="#4dd0e1"/>
+  <circle cx="220" cy="420" r="18" fill="#4dd0e1"/>
+  <g fill="#f5f7ff" font-family="'Fira Code', monospace" font-size="20">
+    <text x="270" y="188">Run git config --global user.name &quot;Full Name&quot;</text>
+    <text x="270" y="268">Run git config --global user.email you@example.com</text>
+    <text x="270" y="348">Generate SSH key: ssh-keygen -t ed25519</text>
+    <text x="270" y="428">Add key: ssh-add ~/.ssh/id_ed25519</text>
+  </g>
+  <g fill="#a7c6f9" font-family="'Fira Code', monospace" font-size="18">
+    <text x="270" y="220">Credentials stored in ~/.gitconfig</text>
+    <text x="270" y="300">Verify with git config --global --list</text>
+    <text x="270" y="380">Test auth: ssh -T git@github.com</text>
+  </g>
+</svg>

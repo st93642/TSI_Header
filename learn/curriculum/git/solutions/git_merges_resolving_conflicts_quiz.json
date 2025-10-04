@@ -1,0 +1,30 @@
+{
+  "exerciseId": "git_merges_resolving_conflicts_quiz",
+  "languageId": "git",
+  "mode": "quiz",
+  "explanation": "Solutions for merge mechanics, conflict resolution techniques, and prevention strategies.",
+  "answerKey": [
+    {"questionId": "git-merge-fast-forward", "answers": ["a"], "rationale": "Fast-forward merges advance the target ref when no divergence exists."},
+    {"questionId": "git-merge-no-ff", "answers": ["true"], "rationale": "--no-ff creates a merge commit even when fast-forward is possible."},
+    {"questionId": "git-merge-conflict-types", "answers": ["a", "b", "c"], "rationale": "Textual, semantic, and binary conflicts require different mitigation tactics."},
+    {"questionId": "git-merge-tools", "answers": ["a", "b", "c"], "rationale": "Mergetool wrappers, GUIs, and rerere accelerate resolution."},
+    {"questionId": "git-merge-tracking", "answers": ["a"], "rationale": "git rerere enable caches resolutions for future conflicts."},
+    {"questionId": "git-merge-cherry-pick", "answers": ["true"], "rationale": "Cherry-pick ports specific fixes without merging full branches."},
+    {"questionId": "git-merge-ours-theirs", "answers": ["a", "b", "c"], "rationale": "Resolvers can choose sides, edit manually, or abort to retry."},
+    {"questionId": "git-merge-verify", "answers": ["a", "b", "c"], "rationale": "Testing, reviewing diffs, and removing markers ensure clean merges."},
+    {"questionId": "git-merge-conflict-prevention", "answers": ["a", "b", "c"], "rationale": "Frequent integration, focused commits, and ownership communication lower conflict risk."},
+    {"questionId": "git-merge-conflict-diagnostics", "answers": ["a"], "rationale": "git merge-base identifies the common ancestor used during three-way merges."}
+  ],
+  "keyPoints": [
+    "Fast-forward vs. --no-ff merges affect history shape and traceability.",
+    "Conflicts arise textually, semantically, or in binaries and need different tactics.",
+    "Mergetool integrations and rerere speed up repeated resolutions.",
+    "Cherry-pick targets isolated fixes across branches.",
+    "Selecting ours/theirs or manual edits depends on context and safety.",
+    "Automated tests and diff reviews validate resolved merges.",
+    "Prevent conflicts with frequent integration and clear ownership.",
+    "merge-base reveals the common ancestor for debugging merges.",
+    "Conflict matrices help teams triage resolution approaches.",
+    "Communication and policy alignment reduce merge surprises." 
+  ]
+}

@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 04 2025 01:28 st93642                                       */
+/*  Updated: Oct 04 2025 18:01 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -1529,6 +1529,122 @@ extern "C" {
     });
 
     context.subscriptions.push(viewLearnProgressCppDsaCommand);
+
+    const learnGitCommand = vscode.commands.registerCommand('tsiheader.learnGit', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+
+            const message = '🧭 Git Mastery Roadmap\n\n' +
+                'Level up your version-control workflow with a guided Git curriculum:\n' +
+                '• Foundations, branching strategies, collaboration, and automation\n' +
+                '• Each lesson delivers narrative walkthroughs, CLI transcripts, and diagrams\n' +
+                '• Quizzes reinforce command fluency, workflows, and troubleshooting\n\n' +
+                'How would you like to begin?';
+
+            const action = await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                'Start Journey',
+                'Browse Lessons',
+                'View Progress'
+            );
+
+            if (action === 'Start Journey') {
+                await learnInstance.startLearning('git');
+            } else if (action === 'Browse Lessons') {
+                await learnInstance.browseLessons('git');
+            } else if (action === 'View Progress') {
+                await vscode.commands.executeCommand('tsiheader.viewLearnProgressGit');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error starting Git roadmap: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(learnGitCommand);
+
+    const browseLessonsGitCommand = vscode.commands.registerCommand('tsiheader.browseLessonsGit', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+            await learnInstance.browseLessons('git');
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error browsing Git lessons: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(browseLessonsGitCommand);
+
+    const viewLearnProgressGitCommand = vscode.commands.registerCommand('tsiheader.viewLearnProgressGit', async () => {
+        try {
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+
+            const curriculum = await learnInstance.learnManager.loadCurriculum('git');
+            const modules = Array.isArray(curriculum.modules) ? curriculum.modules : [];
+            const allLessons = modules.flatMap(module => module.lessons || []);
+
+            if (allLessons.length === 0) {
+                vscode.window.showWarningMessage('No lessons were found in the Git roadmap.');
+                return;
+            }
+
+            const progress = await learnInstance.progressTracker.getProgress('git');
+            const normalize = id => learnInstance.progressTracker.normalizeLessonId(id);
+            const completedLessons = new Set((progress.completed || [])
+                .map(id => normalize(id))
+                .filter(Boolean));
+
+            const totalLessons = allLessons.length;
+            const completedCount = allLessons.reduce((count, lesson) => {
+                const normalizedId = normalize(lesson.id);
+                return normalizedId && completedLessons.has(normalizedId) ? count + 1 : count;
+            }, 0);
+
+            const remainingCount = totalLessons - completedCount;
+            const completionRate = totalLessons === 0 ? 0 : Math.round((completedCount / totalLessons) * 100);
+
+            const nextLesson = allLessons.find(lesson => {
+                const normalizedId = normalize(lesson.id);
+                return !(normalizedId && completedLessons.has(normalizedId));
+            }) || null;
+
+            const messageLines = [
+                '📊 Git Roadmap Progress',
+                '',
+                `Modules: ${modules.length}`,
+                `Lessons Completed: ${completedCount}/${totalLessons} (${completionRate}%)`,
+                `Remaining Lessons: ${remainingCount}`
+            ];
+
+            if (nextLesson) {
+                messageLines.push(`Next Recommended Lesson: ${nextLesson.title || nextLesson.id}`);
+            } else {
+                messageLines.push('🎉 You have completed every lesson in the Git roadmap!');
+            }
+
+            const buttons = nextLesson
+                ? ['Open Next Lesson', 'Browse Lessons', 'Close']
+                : ['Browse Lessons', 'Close'];
+
+            const selection = await vscode.window.showInformationMessage(
+                messageLines.join('\n'),
+                { modal: true },
+                ...buttons
+            );
+
+            if (selection === 'Open Next Lesson' && nextLesson) {
+                await learnInstance.learnManager.openLesson('git', nextLesson);
+            } else if (selection === 'Browse Lessons') {
+                await learnInstance.browseLessons('git');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing Git progress: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewLearnProgressGitCommand);
 
     // Register feature module commands
     // Code quality enforcement module removed

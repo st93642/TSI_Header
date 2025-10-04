@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#030f21"/>
+  <text x="60" y="80" fill="#f5faff" font-family="'Fira Code', monospace" font-size="18">Fork Synchronization Flow</text>
+  <g fill="#102944" stroke="#80deea" stroke-width="3">
+    <rect x="140" y="150" width="220" height="120" rx="16"/>
+    <rect x="380" y="150" width="220" height="120" rx="16"/>
+    <rect x="620" y="150" width="220" height="120" rx="16"/>
+  </g>
+  <g fill="#f5faff" font-family="'Fira Code', monospace" font-size="12" text-anchor="middle">
+    <text x="250" y="200">Upstream</text>
+    <text x="490" y="200">Local Clone</text>
+    <text x="730" y="200">Fork (origin)</text>
+  </g>
+  <g stroke="#80deea" stroke-width="3" marker-end="url(#arrow)">
+    <line x1="360" y1="210" x2="380" y2="210"/>
+    <line x1="600" y1="210" x2="620" y2="210"/>
+    <line x1="250" y1="270" x2="250" y2="340"/>
+  </g>
+  <g fill="#9fd8ff" font-family="'Fira Code', monospace" font-size="12">
+    <text x="150" y="360">git fetch upstream</text>
+    <text x="390" y="360">git rebase upstream/main</text>
+    <text x="630" y="360">git push origin main --force-with-lease</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#80deea"/>
+    </marker>
+  </defs>
+</svg>

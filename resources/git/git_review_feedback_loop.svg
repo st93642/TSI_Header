@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#031021"/>
+  <text x="60" y="80" fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="28">Review Feedback Loop</text>
+  <g fill="#102944" stroke="#7dd0ff" stroke-width="3">
+    <circle cx="240" cy="240" r="70"/>
+    <circle cx="480" cy="240" r="70"/>
+    <circle cx="720" cy="240" r="70"/>
+  </g>
+  <g stroke="#7dd0ff" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M300 240 C340 160, 420 160, 450 220"/>
+    <path d="M540 220 C580 160, 660 160, 700 220"/>
+    <path d="M700 260 C660 320, 580 320, 540 260"/>
+    <path d="M450 260 C410 320, 330 320, 300 260"/>
+  </g>
+  <g fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="18" text-anchor="middle">
+    <text x="240" y="240">Author</text>
+    <text x="480" y="240">Reviewer</text>
+    <text x="720" y="240">Automation</text>
+  </g>
+  <g fill="#9fd6ff" font-family="'Fira Code', monospace" font-size="18">
+    <text x="60" y="360">• Draft status invites early comments.</text>
+    <text x="60" y="390">• Reviewer approvals unblock merges.</text>
+    <text x="60" y="420">• CI bots tag build failures with actionable logs.</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7dd0ff"/>
+    </marker>
+  </defs>
+</svg>

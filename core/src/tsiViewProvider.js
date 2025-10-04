@@ -86,7 +86,8 @@ class TSITreeDataProvider {
                 new TSITreeItem('Ruby', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-ruby'),
                 new TSITreeItem('C', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-c'),
                 new TSITreeItem('C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-cpp'),
-                new TSITreeItem('DSA C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-dsa-cpp')
+                new TSITreeItem('DSA C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-dsa-cpp'),
+                new TSITreeItem('Git', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-git')
             ]);
         } else if (element.id === 'learn-ruby') {
             // Ruby learning section
@@ -176,6 +177,24 @@ class TSITreeDataProvider {
                     command: 'tsiheader.viewLearnProgressCppDsa',
                     title: 'View DSA Progress',
                     tooltip: 'Check your progress across the C++ DSA module'
+                })
+            ]);
+        } else if (element.id === 'learn-git') {
+            return Promise.resolve([
+                new TSITreeItem('Start Learning', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.learnGit',
+                    title: 'Start Learning Git',
+                    tooltip: 'Begin the Git mastery roadmap from fundamentals to advanced collaboration'
+                }),
+                new TSITreeItem('Browse All Lessons', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.browseLessonsGit',
+                    title: 'Browse Git Lessons',
+                    tooltip: 'Explore all Git lessons in the roadmap'
+                }),
+                new TSITreeItem('View Progress', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewLearnProgressGit',
+                    title: 'View Git Progress',
+                    tooltip: 'Review your Git learning progress and achievements'
                 })
             ]);
         }
@@ -330,6 +349,8 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('file-code');
         } else if (id === 'learn-dsa-cpp') {
             this.iconPath = new vscode.ThemeIcon('graph');
+        } else if (id === 'learn-git') {
+            this.iconPath = new vscode.ThemeIcon('git-branch');
         } else if (command?.command === 'tsiheader.learnRuby') {
             this.iconPath = new vscode.ThemeIcon('play-circle');
         } else if (command?.command === 'tsiheader.learnC') {
@@ -338,6 +359,8 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('play-circle');
         } else if (command?.command === 'tsiheader.learnCppDsa') {
             this.iconPath = new vscode.ThemeIcon('play-circle');
+        } else if (command?.command === 'tsiheader.learnGit') {
+            this.iconPath = new vscode.ThemeIcon('play-circle');
         } else if (command?.command === 'tsiheader.browseLessons') {
             this.iconPath = new vscode.ThemeIcon('list-tree');
         } else if (command?.command === 'tsiheader.browseLessonsC') {
@@ -345,6 +368,8 @@ class TSITreeItem extends vscode.TreeItem {
         } else if (command?.command === 'tsiheader.browseLessonsCpp') {
             this.iconPath = new vscode.ThemeIcon('list-tree');
         } else if (command?.command === 'tsiheader.browseLessonsCppDsa') {
+            this.iconPath = new vscode.ThemeIcon('list-tree');
+        } else if (command?.command === 'tsiheader.browseLessonsGit') {
             this.iconPath = new vscode.ThemeIcon('list-tree');
         } else if (command?.command === 'tsiheader.runExerciseTests') {
             this.iconPath = new vscode.ThemeIcon('beaker');
@@ -359,6 +384,8 @@ class TSITreeItem extends vscode.TreeItem {
         } else if (command?.command === 'tsiheader.viewLearnProgressCpp') {
             this.iconPath = new vscode.ThemeIcon('graph');
         } else if (command?.command === 'tsiheader.viewLearnProgressCppDsa') {
+            this.iconPath = new vscode.ThemeIcon('graph');
+        } else if (command?.command === 'tsiheader.viewLearnProgressGit') {
             this.iconPath = new vscode.ThemeIcon('graph');
         }
     }

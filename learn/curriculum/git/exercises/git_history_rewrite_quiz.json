@@ -1,0 +1,127 @@
+{
+  "id": "git_history_rewrite_quiz",
+  "mode": "quiz",
+  "title": "Quiz: Safely Rewriting Git History",
+  "description": "Validate your understanding of history rewriting, from amend and rebase to repository scrubbing.",
+  "tags": ["git", "history", "rewrite", "rebase", "filter"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "git-rewrite-amend",
+      "type": "single",
+      "prompt": "Which command updates the tip commit's message without touching earlier history?",
+      "options": [
+        {"id": "a", "text": "git commit --amend", "correct": true},
+        {"id": "b", "text": "git filter-branch"},
+        {"id": "c", "text": "git replace"},
+        {"id": "d", "text": "git revert"}
+      ],
+      "explanation": "`git commit --amend` rewrites only the latest commit, handy for fixing metadata quickly." 
+    },
+    {
+      "id": "git-rewrite-interactive",
+      "type": "multiple",
+      "prompt": "Which actions can you perform during an interactive rebase? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Reorder commits", "correct": true},
+        {"id": "b", "text": "Squash commits together", "correct": true},
+        {"id": "c", "text": "Mark commits to drop", "correct": true},
+        {"id": "d", "text": "Directly edit remote branches without checkout"}
+      ],
+      "explanation": "Interactive rebase lets you reorder, squash, edit, or drop commits, but it operates on local branches." 
+    },
+    {
+      "id": "git-rewrite-public",
+      "type": "truefalse",
+      "prompt": "True or False: Rewriting shared history requires force pushing and coordination with collaborators.",
+      "answer": "true",
+      "explanation": "Once history is published, rewriting it risks divergence, so communicate and use force pushes carefully." 
+    },
+    {
+      "id": "git-rewrite-safety",
+      "type": "multiple",
+      "prompt": "How can you protect yourself before aggressive history rewriting? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Create a backup branch", "correct": true},
+        {"id": "b", "text": "Record the current commit hash", "correct": true},
+        {"id": "c", "text": "Run `git reflog` to confirm recent references", "correct": true},
+        {"id": "d", "text": "Delete `.git` to start clean"}
+      ],
+      "explanation": "Backups and reflog awareness give you escape hatches if rewriting goes wrong." 
+    },
+    {
+      "id": "git-rewrite-filter-repo",
+      "type": "single",
+      "prompt": "Which tool is preferred for large-scale history rewriting tasks like removing files?",
+      "options": [
+        {"id": "a", "text": "git filter-branch"},
+        {"id": "b", "text": "git filter-repo", "correct": true},
+        {"id": "c", "text": "git prune"},
+        {"id": "d", "text": "git worktree"}
+      ],
+      "explanation": "`git filter-repo` replaced `filter-branch` for performance and reliability when rewriting entire histories." 
+    },
+    {
+      "id": "git-rewrite-reflog",
+      "type": "multiple",
+      "prompt": "What roles does the reflog play during history rewrite recovery? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Tracking previous HEAD positions", "correct": true},
+        {"id": "b", "text": "Providing hashes to restore with `git reset`", "correct": true},
+        {"id": "c", "text": "Cleaning packfiles automatically"},
+        {"id": "d", "text": "Expiring entries immediately after rewrite"}
+      ],
+      "explanation": "Reflog entries let you revisit prior HEAD states, enabling resets after mistakes." 
+    },
+    {
+      "id": "git-rewrite-signed-off",
+      "type": "truefalse",
+      "prompt": "True or False: When rewriting commits, you may need to reapply signatures or sign-offs so policies remain satisfied.",
+      "answer": "true",
+      "explanation": "Changing commit contents invalidates signatures; re-sign to comply with DCO or GPG requirements." 
+    },
+    {
+      "id": "git-rewrite-replace",
+      "type": "multiple",
+      "prompt": "How can `git replace` assist with history rewrites? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Temporarily graft rewritten commits without altering the database", "correct": true},
+        {"id": "b", "text": "Swap a commit with a rewritten version for testing", "correct": true},
+        {"id": "c", "text": "Permanently delete refs"},
+        {"id": "d", "text": "Migrate large binaries automatically"}
+      ],
+      "explanation": "`git replace` overlays commits for experimentation before making permanent rewrites." 
+    },
+    {
+      "id": "git-rewrite-bfg",
+      "type": "single",
+      "prompt": "What is the BFG Repo-Cleaner primarily used for?",
+      "options": [
+        {"id": "a", "text": "Creating annotated tags"},
+        {"id": "b", "text": "Removing large files or secrets from history", "correct": true},
+        {"id": "c", "text": "Generating release notes"},
+        {"id": "d", "text": "Managing submodules"}
+      ],
+      "explanation": "BFG Repo-Cleaner accelerates history scrubbing to purge sensitive or heavy files." 
+    },
+    {
+      "id": "git-rewrite-force-push",
+      "type": "multiple",
+      "prompt": "When force pushing rewritten history, which practices reduce disruption? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Coordinate a freeze window", "correct": true},
+        {"id": "b", "text": "Notify collaborators about the new base", "correct": true},
+        {"id": "c", "text": "Force push with `--force-with-lease`", "correct": true},
+        {"id": "d", "text": "Rewrite main without communication"}
+      ],
+      "explanation": "Communication and using `--force-with-lease` keep collaborators from losing work." 
+    },
+    {
+      "id": "git-rewrite-validation",
+      "type": "truefalse",
+      "prompt": "True or False: After rewriting history, running the test suite and regenerating release notes verifies consistency.",
+      "answer": "true",
+      "explanation": "Post-rewrite validation ensures the new history behaves as expected and documentation stays accurate." 
+    }
+  ]
+}

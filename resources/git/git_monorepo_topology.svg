@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#05101f"/>
+  <g fill="#f8fbff" font-family="'Fira Code', monospace" font-size="26">
+    <text x="60" y="80">Monorepo Topology</text>
+  </g>
+  <g stroke="#4fc3f7" stroke-width="3" fill="#132945">
+    <rect x="140" y="150" width="260" height="140" rx="18"/>
+    <rect x="500" y="150" width="320" height="140" rx="18"/>
+  </g>
+  <g fill="#f8fbff" font-family="'Fira Code', monospace" font-size="18">
+    <text x="170" y="200">Root repo</text>
+    <text x="170" y="230">Bazel / Nx config</text>
+    <text x="530" y="200">Packages apps/</text>
+    <text x="530" y="230">services/ libraries/</text>
+  </g>
+  <g stroke="#4fc3f7" stroke-width="3" marker-end="url(#arrow)">
+    <line x1="270" y1="290" x2="270" y2="360"/>
+    <line x1="660" y1="290" x2="660" y2="360"/>
+  </g>
+  <g fill="#90caf9" font-family="'Fira Code', monospace" font-size="18">
+    <text x="240" y="390">Sparse checkout patterns</text>
+    <text x="610" y="390">Codeowners guard rails</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4fc3f7"/>
+    </marker>
+  </defs>
+</svg>

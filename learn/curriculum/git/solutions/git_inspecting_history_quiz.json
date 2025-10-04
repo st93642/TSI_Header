@@ -1,0 +1,30 @@
+{
+  "exerciseId": "git_inspecting_history_quiz",
+  "languageId": "git",
+  "mode": "quiz",
+  "explanation": "Solutions for history inspection, diffing, bisecting, and reflog analysis.",
+  "answerKey": [
+    {"questionId": "git-history-log-format", "answers": ["a", "b", "d"], "rationale": "--oneline, --graph, and --decorate shorten logs while preserving topology."},
+    {"questionId": "git-history-show", "answers": ["a"], "rationale": "git show reveals commit metadata and patches."},
+    {"questionId": "git-history-diff-range", "answers": ["a", "b", "d"], "rationale": "Diff accepts commit ranges and path filters; --cached compares index vs HEAD."},
+    {"questionId": "git-history-bisect-start", "answers": ["true"], "rationale": "Bisect requires a starting bad/good pair for binary search."},
+    {"questionId": "git-history-bisect-commands", "answers": ["a", "b", "c", "d"], "rationale": "Marking bad/good commits, testing each step, and aborting resets the search."},
+    {"questionId": "git-history-reflog", "answers": ["a"], "rationale": "Reflog records ref movements locally for recovery."},
+    {"questionId": "git-history-blame", "answers": ["a", "b"], "rationale": "Blame attributes line histories with author and commit metadata."},
+    {"questionId": "git-history-shortlog", "answers": ["a"], "rationale": "Shortlog groups commits by author for summaries."},
+    {"questionId": "git-history-range-log", "answers": ["a", "b", "c"], "rationale": "Range expressions and time filters focus log output."},
+    {"questionId": "git-history-stat", "answers": ["true"], "rationale": "--stat presents per-file insertion/deletion counts."}
+  ],
+  "keyPoints": [
+    "Format git log with graphing, decoration, and concise lines.",
+    "git show examines commit details including patches.",
+    "Range-based diffs highlight differences between references.",
+    "Bisect narrows regressions via binary search and automated tests.",
+    "Reflog preserves ref movements for recovery from mistakes.",
+    "Blame attributes code lines to authors and commits.",
+    "Shortlog summarises history by author for release notes.",
+    "Time and range filters make logs actionable.",
+    "--stat condenses diff output, aiding quick review.",
+    "Mastering history tools accelerates debugging and auditing." 
+  ]
+}

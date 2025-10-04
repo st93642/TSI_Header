@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#011527"/>
+  <text x="60" y="70" fill="#f6fbff" font-family="'Fira Code', monospace" font-size="20">Git Recovery Matrix</text>
+  <text x="60" y="96" fill="#c0e4ff" font-family="'Fira Code', monospace" font-size="11">Pair each incident with a recovery strategy, safety rating, and retention window.</text>
+
+  <g font-family="'Fira Code', monospace" fill="#f6fbff" font-size="12">
+    <text x="120" y="140">Scenario</text>
+    <text x="360" y="140">Primary Command</text>
+    <text x="620" y="140">Safety</text>
+    <text x="780" y="140">Window</text>
+  </g>
+
+  <line x1="60" y1="150" x2="900" y2="150" stroke="#195079" stroke-width="1.2"/>
+
+  <g font-family="'Fira Code', monospace" font-size="10">
+    <text x="120" y="180" fill="#a6dbff">Lost track of commit</text>
+    <text x="360" y="180" fill="#f6fbff">git reflog</text>
+    <text x="620" y="180" fill="#9ef1d3">Safe</text>
+    <text x="780" y="180" fill="#ffdca8">Indefinite (local reflog)</text>
+
+    <line x1="60" y1="195" x2="900" y2="195" stroke="#123556" stroke-width="1" stroke-dasharray="5 6"/>
+
+    <text x="120" y="225" fill="#a6dbff">Deleted local branch</text>
+    <text x="360" y="225" fill="#f6fbff">git branch --list --reflog</text>
+    <text x="620" y="225" fill="#9ef1d3">Safe</text>
+    <text x="780" y="225" fill="#ffdca8">≈30 days (gc.pruneExpire)</text>
+
+    <line x1="60" y1="240" x2="900" y2="240" stroke="#123556" stroke-width="1" stroke-dasharray="5 6"/>
+
+    <text x="120" y="270" fill="#a6dbff">Removed tracked file locally</text>
+    <text x="360" y="270" fill="#f6fbff">git checkout HEAD -- path</text>
+    <text x="620" y="270" fill="#9ef1d3">Safe</text>
+    <text x="780" y="270" fill="#ffdca8">Until overwritten by new commit</text>
+
+    <line x1="60" y1="285" x2="900" y2="285" stroke="#123556" stroke-width="1" stroke-dasharray="5 6"/>
+
+    <text x="120" y="315" fill="#a6dbff">Staged file vanished</text>
+    <text x="360" y="315" fill="#f6fbff">git fsck --lost-found</text>
+    <text x="620" y="315" fill="#f7cc8f">Caution</text>
+    <text x="780" y="315" fill="#ffdca8">Recover blob then checkout sha</text>
+
+    <line x1="60" y1="330" x2="900" y2="330" stroke="#123556" stroke-width="1" stroke-dasharray="5 6"/>
+
+    <text x="120" y="360" fill="#a6dbff">Force-pushed bad history</text>
+    <text x="360" y="360" fill="#f6fbff">git reflog origin/main</text>
+    <text x="620" y="360" fill="#f48b7f">Risky</text>
+    <text x="780" y="360" fill="#ffdca8">Remote reflog retention (~90 days)</text>
+
+    <line x1="60" y1="375" x2="900" y2="375" stroke="#123556" stroke-width="1" stroke-dasharray="5 6"/>
+
+    <text x="120" y="405" fill="#a6dbff">Damaged working tree</text>
+    <text x="360" y="405" fill="#f6fbff">git clean -fd && git reset --hard</text>
+    <text x="620" y="405" fill="#f48b7f">Destructive</text>
+    <text x="780" y="405" fill="#ffdca8">No recovery after cleanup</text>
+  </g>
+
+  <line x1="60" y1="425" x2="900" y2="425" stroke="#195079" stroke-width="1.2"/>
+
+  <text x="60" y="455" fill="#88c7ff" font-family="'Fira Code', monospace" font-size="10">Reminder: tune gc.reflogExpire and gc.pruneExpire in repos with long-lived release branches to extend rescue windows.</text>
+</svg>

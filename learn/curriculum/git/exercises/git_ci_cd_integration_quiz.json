@@ -1,0 +1,139 @@
+{
+  "id": "git_ci_cd_integration_quiz",
+  "mode": "quiz",
+  "title": "Quiz: Automating Builds, Tests, and Deployments",
+  "description": "Gauge how effectively you can wire Git repositories into CI/CD pipelines, automate validation, and secure release gates.\n\nSteps:\n1. Revisit the lesson coverage on workflow triggers, pipeline stages, and policy enforcement.\n2. Complete the quiz, noting that some questions require multiple selections.\n3. Use the explanations to refine your automation strategy before proceeding to the final modules.",
+  "tags": ["git", "ci", "cd", "automation", "pipeline"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "git-ci-triggers",
+      "type": "multiple",
+      "prompt": "Which Git events commonly trigger CI pipelines in the lesson flow? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Pushes to protected branches", "correct": true},
+        {"id": "b", "text": "Pull request updates", "correct": true},
+        {"id": "c", "text": "New annotated tags", "correct": true},
+        {"id": "d", "text": "Local stash creation"}
+      ],
+      "explanation": "CI pipelines typically react to pushes, PR updates, and new tags, not local-only operations."
+    },
+    {
+      "id": "git-ci-pipeline-stages",
+      "type": "single",
+      "prompt": "What is the recommended order of stages in the baseline pipeline?",
+      "options": [
+        {"id": "a", "text": "Deploy -> package -> test -> lint -> checkout"},
+        {"id": "b", "text": "Checkout -> lint -> test -> package -> deploy", "correct": true},
+        {"id": "c", "text": "Lint -> deploy -> package -> test -> checkout"},
+        {"id": "d", "text": "Package -> deploy -> test -> lint -> checkout"}
+      ],
+      "explanation": "Checkout precedes linting, testing, packaging, and deployment in the standard flow."
+    },
+    {
+      "id": "git-ci-artifacts",
+      "type": "multiple",
+      "prompt": "Which build artifacts should persist between stages to support the lesson's workflow? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Built binaries or container images", "correct": true},
+        {"id": "b", "text": "Test and coverage reports", "correct": true},
+        {"id": "c", "text": "Software bill of materials or manifests", "correct": true},
+        {"id": "d", "text": "Interactive shell history from runners"}
+      ],
+      "explanation": "Binaries, reports, and manifests must persist between stages; shell history is irrelevant."
+    },
+    {
+      "id": "git-ci-status-checks",
+      "type": "truefalse",
+      "prompt": "True or False: Branch protection rules should require successful CI checks before merges.",
+      "answer": "true",
+      "explanation": "Branch protection rules should enforce successful CI before merges."
+    },
+    {
+      "id": "git-ci-matrices",
+      "type": "single",
+      "prompt": "How does the lesson recommend covering runtime and platform combinations without duplicating workflows?",
+      "options": [
+        {"id": "a", "text": "Manually duplicate the workflow for every runtime"},
+        {"id": "b", "text": "Use a build matrix to expand runtime and platform combinations automatically", "correct": true},
+        {"id": "c", "text": "Limit the pipeline to a single runtime to reduce complexity"},
+        {"id": "d", "text": "Run builds sequentially on developer laptops"}
+      ],
+      "explanation": "A build matrix fans out combinations automatically instead of duplicating configs."
+    },
+    {
+      "id": "git-ci-security",
+      "type": "multiple",
+      "prompt": "Which security scans belong in the CI stage of the pipeline? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Static application security testing (SAST)", "correct": true},
+        {"id": "b", "text": "Dependency vulnerability scanning", "correct": true},
+        {"id": "c", "text": "Secret detection and leak prevention", "correct": true},
+        {"id": "d", "text": "Disabling security checks to speed up builds"}
+      ],
+      "explanation": "SAST, dependency scanning, and secret detection catch security issues early."
+    },
+    {
+      "id": "git-ci-caching",
+      "type": "truefalse",
+      "prompt": "True or False: Cache keys tied to dependency lockfiles allow pipelines to restore installations between runs.",
+      "answer": "true",
+      "explanation": "Cache keys tied to lockfiles recover dependencies across runs."
+    },
+    {
+      "id": "git-ci-secrets",
+      "type": "multiple",
+      "prompt": "How should deployment credentials be handled according to the lesson? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Store credentials in a managed secrets vault or pipeline variable store", "correct": true},
+        {"id": "b", "text": "Issue short-lived tokens rotated for each pipeline run", "correct": true},
+        {"id": "c", "text": "Mask secrets in logs to prevent accidental exposure", "correct": true},
+        {"id": "d", "text": "Hard-code long-lived secrets in the repository"}
+      ],
+      "explanation": "Vaulted, short-lived, masked credentials keep deployments secure."
+    },
+    {
+      "id": "git-cd-environments",
+      "type": "single",
+      "prompt": "What gating practice promotes safe progression from staging to production?",
+      "options": [
+        {"id": "a", "text": "Require manual approval before promoting to production", "correct": true},
+        {"id": "b", "text": "Automatically deploy to production on every push without review"},
+        {"id": "c", "text": "Skip staging environments to save time"},
+        {"id": "d", "text": "Disable monitoring after deployment"}
+      ],
+      "explanation": "Manual approvals gate promotion to production, matching the lesson guidance."
+    },
+    {
+      "id": "git-cd-tags",
+      "type": "multiple",
+      "prompt": "Why are signed release tags central to the deployment flow? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "They trigger pipelines that build and publish artifacts", "correct": true},
+        {"id": "b", "text": "They pin the exact commit associated with a release", "correct": true},
+        {"id": "c", "text": "They automatically clear every build cache"},
+        {"id": "d", "text": "They drive release notes and documentation generation", "correct": true}
+      ],
+      "explanation": "Release tags trigger CD, pin artifacts, and drive notes; they do not automatically invalidate caches."
+    },
+    {
+      "id": "git-ci-observability",
+      "type": "multiple",
+      "prompt": "Which observability practices should accompany CI/CD pipelines? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Aggregate structured logs with correlation or trace IDs", "correct": true},
+        {"id": "b", "text": "Emit run identifiers that link pipeline executions to deployments", "correct": true},
+        {"id": "c", "text": "Retain logs according to compliance policies", "correct": true},
+        {"id": "d", "text": "Delete logs immediately after deployment"}
+      ],
+      "explanation": "Logs, trace IDs, and retention policies preserve observability; deleting logs would undermine audits."
+    },
+    {
+      "id": "git-ci-fail-fast",
+      "type": "truefalse",
+      "prompt": "True or False: Critical jobs should fail fast while optional jobs continue to surface insights.",
+      "answer": "true",
+      "explanation": "Critical jobs should fail fast, while optional jobs continue to report insights."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#031022"/>
+  <text x="60" y="80" fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="20">Monorepo CI Matrix</text>
+  <g fill="#102944" stroke="#7dd0ff" stroke-width="3">
+    <rect x="120" y="150" width="720" height="260" rx="18"/>
+  </g>
+  <g fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="12">
+    <text x="160" y="200">Dimension</text>
+    <text x="400" y="200">Variants</text>
+    <text x="680" y="200">Automation</text>
+  </g>
+  <g fill="#9fd6ff" font-family="'Fira Code', monospace" font-size="10">
+    <text x="160" y="240">Packages</text>
+    <text x="400" y="240">api, web, mobile</text>
+    <text x="680" y="240">Detect via git diff</text>
+
+    <text x="160" y="280">Runtimes</text>
+    <text x="400" y="280">node14, node20</text>
+    <text x="680" y="280">Matrix strategy</text>
+
+    <text x="160" y="320">Platforms</text>
+    <text x="400" y="320">linux, macOS</text>
+    <text x="680" y="320">Parallel jobs</text>
+
+    <text x="160" y="360">Feature Flags</text>
+    <text x="400" y="360">on/off</text>
+    <text x="680" y="360">Targeted test lists</text>
+  </g>
+</svg>

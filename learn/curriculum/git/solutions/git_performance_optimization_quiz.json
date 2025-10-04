@@ -1,0 +1,66 @@
+{
+  "exerciseId": "git_performance_optimization_quiz",
+  "answerKey": [
+    {
+      "questionId": "git-perf-diagnose",
+      "answers": ["a"],
+      "explanation": "`git count-objects -v` surfaces loose object counts and pack sizes." 
+    },
+    {
+      "questionId": "git-perf-maintenance",
+      "answers": ["a", "b", "c"],
+      "explanation": "Maintenance tasks cover GC, commit graphs, and object prefetching." 
+    },
+    {
+      "questionId": "git-perf-commitgraph",
+      "answers": ["true"],
+      "explanation": "Commit graphs accelerate ancestry-related operations." 
+    },
+    {
+      "questionId": "git-perf-partial",
+      "answers": ["a", "b", "c"],
+      "explanation": "Filter, depth, and single-branch flags shrink clone payloads." 
+    },
+    {
+      "questionId": "git-perf-multipack",
+      "answers": ["a"],
+      "explanation": "Multi-pack indexes unify object lookups across packs." 
+    },
+    {
+      "questionId": "git-perf-lfs",
+      "answers": ["true"],
+      "explanation": "LFS replaces large binaries with lightweight pointers." 
+    },
+    {
+      "questionId": "git-perf-fetch",
+      "answers": ["a", "b", "d"],
+      "explanation": "Warm caches and shared objects keep clones synced without blocking developers." 
+    },
+    {
+      "questionId": "git-perf-delta",
+      "answers": ["a", "b", "c"],
+      "explanation": "Pack window, depth, and reverse indexes tune delta compression and access." 
+    },
+    {
+      "questionId": "git-perf-worktree",
+      "answers": ["true"],
+      "explanation": "Worktrees reuse the same object database for multiple branches." 
+    },
+    {
+      "questionId": "git-perf-monitoring",
+      "answers": ["a", "b", "c"],
+      "explanation": "Monitoring latency, pack creation, and ref payload sizes tracks server health." 
+    },
+    {
+      "questionId": "git-perf-cleanup",
+      "answers": ["true"],
+      "explanation": "Aggressive pruning should avoid peak times to prevent service disruption." 
+    }
+  ],
+  "keyPoints": [
+    "Measure repository health before optimizing.",
+    "Automate maintenance tasks like GC, commit graphs, and prefetches.",
+    "Use partial clones, LFS, and worktrees to reduce local overhead.",
+    "Tune packfile settings and monitor server metrics to stay ahead of scaling issues." 
+  ]
+}

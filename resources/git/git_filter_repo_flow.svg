@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#031124"/>
+  <text x="60" y="90" fill="#f5f8ff" font-family="'Fira Code', monospace" font-size="18">git filter-repo Flow</text>
+  <g fill="#0d2946" stroke="#69f0ae" stroke-width="3">
+    <rect x="80" y="130" width="240" height="240" rx="16"/>
+    <rect x="360" y="130" width="240" height="240" rx="16"/>
+    <rect x="640" y="130" width="240" height="240" rx="16"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L0,12 L12,6 z" fill="#69f0ae"/>
+    </marker>
+  </defs>
+  <g stroke="#69f0ae" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M320 250 h40"/>
+    <path d="M600 250 h40"/>
+  </g>
+  <g fill="#f5f8ff" font-family="'Fira Code', monospace" font-size="12" text-anchor="middle">
+    <text x="200" y="170">Baseline Mirror</text>
+    <text x="480" y="170">Filter Script</text>
+    <text x="760" y="170">Rewrite &amp; Publish</text>
+  </g>
+  <g fill="#f5f8ff" font-family="'Fira Code', monospace" font-size="10">
+    <text x="100" y="210">• git clone --mirror repo.git</text>
+    <text x="100" y="240">• Prune stale refs, verify size</text>
+    <text x="100" y="270">• Create backup of packed-refs</text>
+
+    <text x="380" y="210">• Define branch/path rewrites</text>
+    <text x="380" y="240">• Compose JSON rules or regex</text>
+    <text x="380" y="270">• Dry-run with --dry-run to diff</text>
+
+    <text x="660" y="210">• git filter-repo --path &lt;dir&gt;</text>
+    <text x="660" y="240">• Validate logs and tags</text>
+    <text x="660" y="270">• git push --force --tags</text>
+  </g>
+  <g fill="#9fd3ff" font-family="'Fira Code', monospace" font-size="10">
+    <text x="60" y="420">Checklist: update downstream mirrors and alert teams about rewritten SHAs.</text>
+  </g>
+</svg>

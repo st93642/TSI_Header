@@ -1,0 +1,30 @@
+{
+  "exerciseId": "git_remote_collaboration_quiz",
+  "languageId": "git",
+  "mode": "quiz",
+  "explanation": "Answer key for remote management, fork hygiene, and collaboration security.",
+  "answerKey": [
+    {"questionId": "git-remote-add", "answers": ["a", "b", "d"], "rationale": "Remote add/rename/remove commands manage remote aliases."},
+    {"questionId": "git-remote-fetch", "answers": ["a"], "rationale": "fetch --prune updates remotes and removes stale tracking refs."},
+    {"questionId": "git-remote-upstream-flow", "answers": ["a", "b", "c"], "rationale": "Tracking upstream remotes, fetching, and merging keep forks synced."},
+    {"questionId": "git-remote-tracking", "answers": ["true"], "rationale": "Remote-tracking refs update on fetch without impacting local branches."},
+    {"questionId": "git-remote-auto-fetch", "answers": ["a", "b", "d"], "rationale": "Regular sync and communication keep shared history aligned."},
+    {"questionId": "git-remote-pullrebase", "answers": ["a"], "rationale": "pull --rebase fetches updates then rebases local commits on top."},
+    {"questionId": "git-remote-tags", "answers": ["a", "b", "d"], "rationale": "Tags can be fetched via --tags, prune-tags, or explicit refspecs."},
+    {"questionId": "git-remote-upstream-hygiene", "answers": ["true"], "rationale": "Staying current with upstream reduces conflict risk."},
+    {"questionId": "git-remote-credential-security", "answers": ["a", "b", "d"], "rationale": "Rotations, scoped tokens, and credential helpers secure authentication."},
+    {"questionId": "git-remote-push-default", "answers": ["a"], "rationale": "push.default simple pushes only the current branch to its matching remote branch."}
+  ],
+  "keyPoints": [
+    "Manage remotes with add, rename, remove, and set-url commands.",
+    "Fetch --prune keeps remote-tracking refs tidy.",
+    "Fork workflows rely on syncing upstream regularly.",
+    "Remote-tracking refs update on fetch without merging automatically.",
+    "Disciplined sync cadences prevent large integration conflicts.",
+    "pull --rebase maintains linear feature branch history.",
+    "Fetch tags explicitly to mirror release metadata.",
+    "Keep branches current with upstream to minimize rework.",
+    "Secure credentials through rotation, least privilege, and helpers.",
+    "push.default simple guards against unintended multi-branch pushes." 
+  ]
+}

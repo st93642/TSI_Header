@@ -1,0 +1,127 @@
+{
+  "id": "git_monorepo_management_quiz",
+  "mode": "quiz",
+  "title": "Quiz: Operating Git Monorepos at Scale",
+  "description": "Check your mastery of monorepo strategies, tooling, and workflow optimizations discussed in the lesson.",
+  "tags": ["git", "monorepo", "scale", "sparse-checkout", "workflow"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "git-monorepo-structure",
+      "type": "single",
+      "prompt": "Which layout principle keeps monorepos maintainable?",
+      "options": [
+        {"id": "a", "text": "Consistent top-level domain directories", "correct": true},
+        {"id": "b", "text": "Random directories per engineer"},
+        {"id": "c", "text": "Duplicating shared libraries per project"},
+        {"id": "d", "text": "Flat directory with thousands of files"}
+      ],
+      "explanation": "Domain-aligned directories keep ownership boundaries clear." 
+    },
+    {
+      "id": "git-monorepo-sparse",
+      "type": "multiple",
+      "prompt": "Which commands enable sparse checkouts in Git? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "git sparse-checkout set", "correct": true},
+        {"id": "b", "text": "git sparse-checkout init", "correct": true},
+        {"id": "c", "text": "git sparse-checkout add", "correct": true},
+        {"id": "d", "text": "git sparse --prune"}
+      ],
+      "explanation": "Init, set, and add drive sparse checkouts by defining included paths." 
+    },
+    {
+      "id": "git-monorepo-partial-clone",
+      "type": "truefalse",
+      "prompt": "True or False: Partial clones reduce fetch payload by omitting blob data until requested.",
+      "answer": "true",
+      "explanation": "Partial clone with `--filter=blob:none` fetches commit metadata and downloads blobs lazily." 
+    },
+    {
+      "id": "git-monorepo-tooling",
+      "type": "multiple",
+      "prompt": "Which tools help orchestrate builds in a monorepo? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Bazel or Pants build systems", "correct": true},
+        {"id": "b", "text": "Nx or Turborepo task runners", "correct": true},
+        {"id": "c", "text": "Per-directory Makefiles", "correct": true},
+        {"id": "d", "text": "Manual spreadsheet tracking"}
+      ],
+      "explanation": "Automated build graph tools coordinate dependency-aware workflows across large trees." 
+    },
+    {
+      "id": "git-monorepo-codeowners",
+      "type": "single",
+      "prompt": "How are CODEOWNERS files leveraged in monorepos?",
+      "options": [
+        {"id": "a", "text": "To map directory patterns to reviewers", "correct": true},
+        {"id": "b", "text": "To define Git aliases"},
+        {"id": "c", "text": "To compress packfiles"},
+        {"id": "d", "text": "To store build artifacts"}
+      ],
+      "explanation": "CODEOWNERS automatically requests reviews from responsible teams." 
+    },
+    {
+      "id": "git-monorepo-automation",
+      "type": "multiple",
+      "prompt": "Which automations prevent cross-team regressions? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Path-aware CI pipelines", "correct": true},
+        {"id": "b", "text": "Impact analysis to determine affected projects", "correct": true},
+        {"id": "c", "text": "Automatic dependency graph visualization", "correct": true},
+        {"id": "d", "text": "Disable tests to speed up merges"}
+      ],
+      "explanation": "Path-aware builds and impact analysis ensure only affected projects rebuild yet keep safety high." 
+    },
+    {
+      "id": "git-monorepo-submodules",
+      "type": "truefalse",
+      "prompt": "True or False: The lesson recommends submodules for monorepo component boundaries.",
+      "answer": "false",
+      "explanation": "Submodules fragment history; monorepos favor a single repository with tooling to manage scope." 
+    },
+    {
+      "id": "git-monorepo-perf",
+      "type": "multiple",
+      "prompt": "Which Git configurations help large monorepo performance? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "`core.multiPackIndex`", "correct": true},
+        {"id": "b", "text": "`fetch.writeCommitGraph`", "correct": true},
+        {"id": "c", "text": "`gc.writeCommitGraph`", "correct": true},
+        {"id": "d", "text": "`advice.detachedHead`"}
+      ],
+      "explanation": "Multi-pack indexes and commit graphs accelerate operations on large histories." 
+    },
+    {
+      "id": "git-monorepo-review",
+      "type": "multiple",
+      "prompt": "How can review tooling stay focused in a monorepo? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Use path-based reviewer assignments", "correct": true},
+        {"id": "b", "text": "Filter diffs by directories or labels", "correct": true},
+        {"id": "c", "text": "Bundle unrelated changes into single PRs"},
+        {"id": "d", "text": "Adopt templates capturing component context", "correct": true}
+      ],
+      "explanation": "Targeted reviewers, filters, and templates keep reviews scoped to affected areas." 
+    },
+    {
+      "id": "git-monorepo-release",
+      "type": "truefalse",
+      "prompt": "True or False: Release orchestration can use tags per service even inside a monorepo.",
+      "answer": "true",
+      "explanation": "Teams often tag subdirectory releases with naming conventions while sharing a common repo." 
+    },
+    {
+      "id": "git-monorepo-dx",
+      "type": "multiple",
+      "prompt": "What developer experience investments keep monorepos productive? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Bootstrap scripts that configure sparse checkout defaults", "correct": true},
+        {"id": "b", "text": "Documentation for ownership boundaries", "correct": true},
+        {"id": "c", "text": "Local caching proxies for dependencies", "correct": true},
+        {"id": "d", "text": "Requiring manual cherry-picks for every change"}
+      ],
+      "explanation": "Setup automation, clear docs, and caching make contributing to monorepos smoother." 
+    }
+  ]
+}

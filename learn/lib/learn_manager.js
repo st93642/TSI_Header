@@ -1172,9 +1172,43 @@ class LearnManager {
      */
     async startExercise(language, lesson, exerciseId, options = {}) {
         try {
-            const exercisePath = path.join(__dirname, '..', 'curriculum', language, 'exercises', `${exerciseId}.json`);
-            const exerciseContent = await fs.readFile(exercisePath, 'utf8');
+            const requestedExerciseId = exerciseId;
+            const exercisesRoot = path.join(__dirname, '..', 'curriculum', language, 'exercises');
+            let resolvedExerciseId = exerciseId;
+            let exercisePath = path.join(exercisesRoot, `${resolvedExerciseId}.json`);
+            let exerciseContent;
+
+            try {
+                exerciseContent = await fs.readFile(exercisePath, 'utf8');
+            } catch (readError) {
+                if (readError.code === 'ENOENT' && resolvedExerciseId.endsWith('_exercise')) {
+                    const quizCandidateId = resolvedExerciseId.replace(/_exercise$/, '_quiz');
+                    const quizCandidatePath = path.join(exercisesRoot, `${quizCandidateId}.json`);
+                    try {
+                        exerciseContent = await fs.readFile(quizCandidatePath, 'utf8');
+                        resolvedExerciseId = quizCandidateId;
+                        exercisePath = quizCandidatePath;
+                    } catch (quizError) {
+                        if (quizError.code === 'ENOENT') {
+                            throw readError;
+                        }
+                        throw quizError;
+                    }
+                } else {
+                    throw readError;
+                }
+            }
+
             const exercise = JSON.parse(exerciseContent);
+            if (!exercise.id) {
+                exercise.id = resolvedExerciseId;
+            }
+            if (!exercise.baseExerciseId) {
+                exercise.baseExerciseId = requestedExerciseId;
+            }
+            if (!exercise.curriculumLanguage) {
+                exercise.curriculumLanguage = language;
+            }
 
             const variantId = options.variantId;
             const exerciseLanguage = (options.exerciseLanguage || (variantId ? null : language) || language).toLowerCase();
@@ -1219,7 +1253,7 @@ class LearnManager {
             
             const exerciseDirectoryLanguage = runtimeLanguage || language;
             const fileExtension = this.getFileExtension(exerciseDirectoryLanguage);
-            const targetExerciseId = variant ? variant.id : exercise.id || exerciseId;
+            const targetExerciseId = variant ? variant.id : exercise.id || resolvedExerciseId;
             const exerciseFilePath = path.join(
                 workspaceFolder.uri.fsPath,
                 'learn_exercises',
@@ -1278,8 +1312,9 @@ class LearnManager {
                 // Legacy fields retained for backwards compatibility with existing data
                 moduleId: lesson.moduleId || lesson.sectionId,
                 moduleTitle: lesson.moduleTitle || lesson.sectionTitle,
-                baseExerciseId: exercise.id || exerciseId,
-                baseExerciseFile: exerciseId,
+                baseExerciseId: exercise.id || resolvedExerciseId,
+                baseExerciseFile: resolvedExerciseId,
+                requestedExerciseId,
                 variantId: targetExerciseId,
                 variantLanguage: exerciseDirectoryLanguage,
                 difficulty,
@@ -1436,9 +1471,36 @@ class LearnManager {
      */
     async loadSolution(language, exerciseId, variantId = null) {
         try {
-            const solutionPath = path.join(__dirname, '..', 'curriculum', language, 'solutions', `${exerciseId}.json`);
-            const content = await fs.readFile(solutionPath, 'utf8');
+            const solutionsRoot = path.join(__dirname, '..', 'curriculum', language, 'solutions');
+            let resolvedExerciseId = exerciseId;
+            let solutionPath = path.join(solutionsRoot, `${resolvedExerciseId}.json`);
+            let content;
+
+            try {
+                content = await fs.readFile(solutionPath, 'utf8');
+            } catch (readError) {
+                if (readError.code === 'ENOENT' && resolvedExerciseId.endsWith('_exercise')) {
+                    const quizCandidateId = resolvedExerciseId.replace(/_exercise$/, '_quiz');
+                    const quizCandidatePath = path.join(solutionsRoot, `${quizCandidateId}.json`);
+                    try {
+                        content = await fs.readFile(quizCandidatePath, 'utf8');
+                        resolvedExerciseId = quizCandidateId;
+                        solutionPath = quizCandidatePath;
+                    } catch (quizError) {
+                        if (quizError.code === 'ENOENT') {
+                            throw readError;
+                        }
+                        throw quizError;
+                    }
+                } else {
+                    throw readError;
+                }
+            }
+
             const solution = JSON.parse(content);
+            if (!solution.exerciseId) {
+                solution.exerciseId = resolvedExerciseId;
+            }
 
             if (Array.isArray(solution.variants) && solution.variants.length > 0) {
                 const match = variantId
@@ -1448,7 +1510,7 @@ class LearnManager {
                     throw new Error(`Solution variant '${variantId}' not found.`);
                 }
                 return {
-                    exerciseId: solution.exerciseId || exerciseId,
+                    exerciseId: solution.exerciseId || resolvedExerciseId,
                     ...match
                 };
             }

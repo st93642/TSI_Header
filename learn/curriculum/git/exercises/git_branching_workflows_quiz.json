@@ -1,0 +1,120 @@
+{
+  "id": "git_branching_workflows_quiz",
+  "mode": "quiz",
+  "title": "Quiz: Feature Branching, Trunk-Based Development, and Gitflow",
+  "description": "Test your understanding of branching models, environment promotion, and policy matrices.\n\nSteps:\n1. Revisit the lesson diagrams comparing branching strategies and promotion flows.\n2. Answer each question, selecting all valid options for multi-select prompts.\n3. Review explanations to cement when to choose each workflow.\n\nExpected results: Score 8/10 or higher before tackling merge conflict resolution.",
+  "tags": ["git", "branching", "workflow", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "git-branching-model-fit",
+      "type": "multiple",
+      "prompt": "Which scenarios typically favor trunk-based development? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Teams deploying multiple times per day", "correct": true},
+        {"id": "b", "text": "Teams requiring long-running release branches"},
+        {"id": "c", "text": "Organizations emphasizing continuous integration", "correct": true},
+        {"id": "d", "text": "Small teams that can keep branches short-lived", "correct": true}
+      ],
+      "explanation": "Trunk-based thrives with rapid deployments, strong CI discipline, and short-lived feature flags." 
+    },
+    {
+      "id": "git-branching-feature",
+      "type": "single",
+      "prompt": "What is a key benefit of feature branching?",
+      "options": [
+        {"id": "a", "text": "It isolates work-in-progress changes until code review completes", "correct": true},
+        {"id": "b", "text": "It eliminates the need for code review"},
+        {"id": "c", "text": "It enforces long-lived divergence"},
+        {"id": "d", "text": "It automatically deploys to production"}
+      ],
+      "explanation": "Feature branches keep work isolated and support structured review before integration." 
+    },
+    {
+      "id": "git-branching-gitflow",
+      "type": "multiple",
+      "prompt": "Which components are core to the Gitflow model? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Dedicated develop branch", "correct": true},
+        {"id": "b", "text": "Release branches for stabilization", "correct": true},
+        {"id": "c", "text": "Hotfix branches cut from main for urgent patches", "correct": true},
+        {"id": "d", "text": "Mandatory rebasing onto trunk before merge"}
+      ],
+      "explanation": "Gitflow orchestrates develop, release, hotfix, and feature branches to support scheduled deployments." 
+    },
+    {
+      "id": "git-branching-policy-matrix",
+      "type": "truefalse",
+      "prompt": "True or False: Branch policy matrices should align required checks and automation with each branch pattern.",
+      "answer": "true",
+      "explanation": "Policies map branch types to review counts, checks, and automation for predictable flow." 
+    },
+    {
+      "id": "git-branching-preview-env",
+      "type": "multiple",
+      "prompt": "What automation pairs well with short-lived feature branches? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Ephemeral preview environments", "correct": true},
+        {"id": "b", "text": "Automatic deletion of merged branches", "correct": true},
+        {"id": "c", "text": "Weekly manual merges"},
+        {"id": "d", "text": "Status checks gating pull requests", "correct": true}
+      ],
+      "explanation": "Preview environments, auto-cleanup, and status checks keep feature branching nimble." 
+    },
+    {
+      "id": "git-branching-env-promotion",
+      "type": "single",
+      "prompt": "In the lesson's promotion flow, where do release branches typically deploy before production?",
+      "options": [
+        {"id": "a", "text": "Staging environments with smoke tests", "correct": true},
+        {"id": "b", "text": "Directly to production with no gates"},
+        {"id": "c", "text": "Only to developer laptops"},
+        {"id": "d", "text": "To disconnected preview systems"}
+      ],
+      "explanation": "Release branches promote through staging with targeted validations prior to production rollout." 
+    },
+    {
+      "id": "git-branching-metrics",
+      "type": "multiple",
+      "prompt": "Which metrics signal that your branching strategy is effective? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Short lead time from merge to deploy", "correct": true},
+        {"id": "b", "text": "Low frequency of long-running merge conflicts", "correct": true},
+        {"id": "c", "text": "High change failure rate"},
+        {"id": "d", "text": "Consistent cadence of small merges", "correct": true}
+      ],
+      "explanation": "Healthy flows manifest through fast delivery, minimal conflicts, and steady, small merges." 
+    },
+    {
+      "id": "git-branching-trunk-flags",
+      "type": "truefalse",
+      "prompt": "True or False: Feature flags allow trunk-based teams to merge incomplete work while keeping production stable.",
+      "answer": "true",
+      "explanation": "Feature toggles decouple deployment from release by hiding unfinished functionality." 
+    },
+    {
+      "id": "git-branching-hotfix",
+      "type": "single",
+      "prompt": "Why do Gitflow teams maintain hotfix branches?",
+      "options": [
+        {"id": "a", "text": "To ship urgent patches directly from main while backporting to develop", "correct": true},
+        {"id": "b", "text": "To rewrite history in production"},
+        {"id": "c", "text": "To stage experiments that may never release"},
+        {"id": "d", "text": "To enforce code freezes indefinitely"}
+      ],
+      "explanation": "Hotfix branches bypass release cadences for urgent fixes, then merge back into main and develop." 
+    },
+    {
+      "id": "git-branching-communication",
+      "type": "multiple",
+      "prompt": "What communication practices support branching model success? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Publishing branch policies in team docs", "correct": true},
+        {"id": "b", "text": "Enforcing CODEOWNERS for critical paths", "correct": true},
+        {"id": "c", "text": "Keeping rules implicit to maintain flexibility"},
+        {"id": "d", "text": "Tracking automation results in dashboards", "correct": true}
+      ],
+      "explanation": "Documented policies, clear ownership, and visible automation uphold branching discipline." 
+    }
+  ]
+}

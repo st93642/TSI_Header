@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#041224"/>
+  <text x="60" y="80" fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="18">Diff Inspection Layers</text>
+  <g fill="#102943" stroke="#6fd0ff" stroke-width="3">
+    <rect x="140" y="150" width="680" height="260" rx="18"/>
+  </g>
+  <g fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="12">
+    <text x="180" y="200">Working Tree ↔ Index</text>
+    <text x="180" y="230">Command: git diff</text>
+    <text x="180" y="260">Purpose: Review unstaged edits</text>
+
+    <text x="180" y="310">Index ↔ HEAD</text>
+    <text x="180" y="340">Command: git diff --staged</text>
+    <text x="180" y="370">Purpose: Verify next commit</text>
+  </g>
+  <g fill="#9fd4ff" font-family="'Fira Code', monospace" font-size="10">
+    <text x="500" y="240">Commit ranges: git diff HEAD~3..HEAD</text>
+    <text x="500" y="270">Word mode: git diff --word-diff</text>
+    <text x="500" y="300">Function context: git diff --function-context</text>
+    <text x="500" y="330">Patience: git diff --patience</text>
+    <text x="500" y="360">Range diff: git range-diff topic..origin/topic</text>
+  </g>
+</svg>

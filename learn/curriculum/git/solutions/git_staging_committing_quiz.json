@@ -1,0 +1,30 @@
+{
+  "exerciseId": "git_staging_committing_quiz",
+  "languageId": "git",
+  "mode": "quiz",
+  "explanation": "Answer key covering partial staging, commit craft, and hook automation.",
+  "answerKey": [
+    {"questionId": "git-stage-partial", "answers": ["a", "b", "d"], "rationale": "Patch mode, GUI, and interactive commit flows enable granular staging."},
+    {"questionId": "git-stage-verify", "answers": ["a"], "rationale": "git diff --staged previews index changes."},
+    {"questionId": "git-stage-clean-message", "answers": ["a", "b", "d"], "rationale": "Effective commits use imperative subjects, explain motivation, and wrap bodies."},
+    {"questionId": "git-stage-amend", "answers": ["true"], "rationale": "--amend rewrites the latest commit entirely."},
+    {"questionId": "git-stage-hooks", "answers": ["a", "b", "d"], "rationale": "Pre-commit hooks run linters, tests, and secret scans before accepting a commit."},
+    {"questionId": "git-stage-prepare-commit", "answers": ["a"], "rationale": "prepare-commit-msg modifies the commit template before editors open."},
+    {"questionId": "git-stage-signed-off", "answers": ["true"], "rationale": "-s appends a Signed-off-by trailer based on git config."},
+    {"questionId": "git-stage-reuse-message", "answers": ["a"], "rationale": "--reuse-message copies a prior commit message for reuse."},
+    {"questionId": "git-stage-restore", "answers": ["a", "b"], "rationale": "restore --staged and reset <path> unstage while preserving working files."},
+    {"questionId": "git-stage-commit-size", "answers": ["a", "b", "d"], "rationale": "Small commits ease review, bisecting, and cherry-picking."}
+  ],
+  "keyPoints": [
+    "Interactive staging isolates logical changes.",
+    "Preview staged diffs before committing to avoid surprises.",
+    "Commit messages should be concise, imperative, and informative.",
+    "Hooks automate linting, testing, and security checks.",
+    "Amending rewrites the latest commit; use with care on shared history.",
+    "Signed-off-by trailers document developer certification.",
+    "Reuse or template commit messages to maintain consistency.",
+    "Unstage without losing work using restore --staged or reset path.",
+    "Focused commits simplify code review and maintenance.",
+    "Hook scripting centralizes quality gates across teams."
+  ]
+}

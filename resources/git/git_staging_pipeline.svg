@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#0c1826"/>
+  <g fill="#ffffff" font-family="'Fira Code', monospace" font-size="26">
+    <text x="60" y="80">Staging Pipeline</text>
+  </g>
+  <g stroke="#ff8a65" stroke-width="4" fill="#142b41">
+    <rect x="120" y="150" width="200" height="120" rx="14"/>
+    <rect x="380" y="150" width="200" height="120" rx="14"/>
+    <rect x="640" y="150" width="200" height="120" rx="14"/>
+  </g>
+  <g fill="#ffffff" font-family="'Fira Code', monospace" font-size="18">
+    <text x="150" y="210">Working Tree</text>
+    <text x="410" y="210">Index (Stage)</text>
+    <text x="690" y="210">Repository</text>
+  </g>
+  <g stroke="#ff8a65" stroke-width="3" marker-end="url(#arrow)">
+    <line x1="320" y1="210" x2="380" y2="210"/>
+    <line x1="580" y1="210" x2="640" y2="210"/>
+  </g>
+  <g fill="#ffffff" font-family="'Fira Code', monospace" font-size="18">
+    <text x="150" y="310">git add path/</text>
+    <text x="410" y="310">git commit -m "message"</text>
+    <text x="150" y="350">git reset HEAD -- path removes from stage</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ff8a65"/>
+    </marker>
+  </defs>
+</svg>

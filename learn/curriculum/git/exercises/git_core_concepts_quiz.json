@@ -1,0 +1,132 @@
+{
+  "id": "git_core_concepts_quiz",
+  "mode": "quiz",
+  "title": "Quiz: Snapshots, Objects, and the Three-Tree Architecture",
+  "description": "Evaluate your understanding of Git's object database, reference model, and commit graph fundamentals.\n\nSteps:\n1. Re-read the lesson sections on blobs, trees, commits, and refs.\n2. Answer the quiz questions, noting that some prompt multi-select responses.\n3. Review explanations to ensure you can reason about Git's data model confidently.\n\nExpected results: Score at least 8/10 before moving to repository lifecycle workflows.",
+  "tags": ["git", "core", "objects", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "git-core-object-types",
+      "type": "multiple",
+      "prompt": "Which object types are stored in Git's object database? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Blobs", "correct": true},
+        {"id": "b", "text": "Trees", "correct": true},
+        {"id": "c", "text": "Commits", "correct": true},
+        {"id": "d", "text": "Databases"}
+      ],
+      "explanation": "Git stores blobs for file contents, trees for directory structures, and commits referencing those trees." 
+    },
+    {
+      "id": "git-core-ref-pointer",
+      "type": "single",
+      "prompt": "What is a Git reference (ref) such as HEAD or refs/heads/main?",
+      "options": [
+        {"id": "a", "text": "A mutable pointer to a commit ID", "correct": true},
+        {"id": "b", "text": "A compressed pack file"},
+        {"id": "c", "text": "A remote branch that cannot be updated"},
+        {"id": "d", "text": "A permanent tag"}
+      ],
+      "explanation": "Refs are lightweight pointers that can move to new commit hashes as history evolves." 
+    },
+    {
+      "id": "git-core-head",
+      "type": "single",
+      "prompt": "HEAD typically references which of the following?",
+      "options": [
+        {"id": "a", "text": "The current commit pointed to by your active branch", "correct": true},
+        {"id": "b", "text": "The default remote"},
+        {"id": "c", "text": "The git index"},
+        {"id": "d", "text": "The stash"}
+      ],
+      "explanation": "HEAD generally points to the current branch ref, which in turn points to the latest commit on that branch." 
+    },
+    {
+      "id": "git-core-fast-forward",
+      "type": "truefalse",
+      "prompt": "True or False: A fast-forward merge moves a branch pointer without creating a new commit when the target branch is strictly ahead.",
+      "answer": "true",
+      "explanation": "Fast-forward merges simply advance the ref because no divergent commits exist." 
+    },
+    {
+      "id": "git-core-hash",
+      "type": "multiple",
+      "prompt": "Why does Git compute hashes for every object? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "To detect corruption or tampering", "correct": true},
+        {"id": "b", "text": "To compress working tree files"},
+        {"id": "c", "text": "To deduplicate identical content", "correct": true},
+        {"id": "d", "text": "To generate user passwords"}
+      ],
+      "explanation": "Hashes provide integrity guarantees and allow Git to deduplicate content-addressed objects." 
+    },
+    {
+      "id": "git-core-three-tree-sync",
+      "type": "multiple",
+      "prompt": "Which commands synchronize differences between the three trees? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "git add", "correct": true},
+        {"id": "b", "text": "git commit", "correct": true},
+        {"id": "c", "text": "git reset --hard", "correct": true},
+        {"id": "d", "text": "git clone"}
+      ],
+      "explanation": "`git add` updates the index from the working tree, `git commit` persists the index as a new commit, and `git reset --hard` aligns working tree and index with HEAD." 
+    },
+    {
+      "id": "git-core-dag",
+      "type": "single",
+      "prompt": "How is Git's history graph structured?",
+      "options": [
+        {"id": "a", "text": "As a directed acyclic graph (DAG) of commits", "correct": true},
+        {"id": "b", "text": "As a doubly linked list"},
+        {"id": "c", "text": "As a balanced binary tree"},
+        {"id": "d", "text": "As an unordered hash table"}
+      ],
+      "explanation": "Git history is a DAG where each commit references parents, forming acyclic ancestry relationships." 
+    },
+    {
+      "id": "git-core-packfiles",
+      "type": "single",
+      "prompt": "What benefit do packfiles provide in Git repositories?",
+      "options": [
+        {"id": "a", "text": "They garbage-collect unreachable commits"},
+        {"id": "b", "text": "They compress and deltafy objects for efficient storage and transfer", "correct": true},
+        {"id": "c", "text": "They enforce branch protection"},
+        {"id": "d", "text": "They store Git configuration"}
+      ],
+      "explanation": "Packfiles consolidate and delta-compress objects to reduce disk usage and speed up network operations." 
+    },
+    {
+      "id": "git-core-tags",
+      "type": "multiple",
+      "prompt": "Which statements about tags are accurate? (Select all that apply)",
+      "options": [
+        {"id": "a", "text": "Lightweight tags are simple refs pointing to commits", "correct": true},
+        {"id": "b", "text": "Annotated tags are stored as full objects containing metadata", "correct": true},
+        {"id": "c", "text": "Tags move automatically when new commits are added"},
+        {"id": "d", "text": "Annotated tags can be signed to guarantee authenticity", "correct": true}
+      ],
+      "explanation": "Lightweight tags are refs, annotated tags are objects with metadata (optionally signed), and tags do not advance automatically." 
+    },
+    {
+      "id": "git-core-refs-storage",
+      "type": "single",
+      "prompt": "Where are branch references stored in an uncompressed repository?",
+      "options": [
+        {"id": "a", "text": "In .git/refs/heads/", "correct": true},
+        {"id": "b", "text": "In .git/config"},
+        {"id": "c", "text": "In .git/objects/info/alternates"},
+        {"id": "d", "text": "In the working tree root"}
+      ],
+      "explanation": "Branch refs reside as plain text files under .git/refs/heads/ unless packed into packed-refs for optimization." 
+    },
+    {
+      "id": "git-core-gc",
+      "type": "truefalse",
+      "prompt": "True or False: `git gc` can prune unreachable objects after they expire according to reflog settings.",
+      "answer": "true",
+      "explanation": "`git gc` performs maintenance, repacking and pruning objects once their retention windows pass." 
+    }
+  ]
+}

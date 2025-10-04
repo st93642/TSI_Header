@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#031022"/>
+  <text x="60" y="80" fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="28">Hotfix Flow</text>
+  <g fill="#102944" stroke="#ff8a65" stroke-width="3">
+    <rect x="160" y="160" width="200" height="120" rx="16"/>
+    <rect x="380" y="160" width="200" height="120" rx="16"/>
+    <rect x="600" y="160" width="200" height="120" rx="16"/>
+  </g>
+  <g fill="#f6f9ff" font-family="'Fira Code', monospace" font-size="18" text-anchor="middle">
+    <text x="260" y="210">Checkout tag</text>
+    <text x="260" y="240">git checkout v2.3.0</text>
+    <text x="480" y="210">Apply fix</text>
+    <text x="480" y="240">Tests + verification</text>
+    <text x="700" y="210">Tag &amp; release</text>
+    <text x="700" y="240">git tag v2.3.1</text>
+  </g>
+  <g stroke="#ff8a65" stroke-width="3" marker-end="url(#arrow)">
+    <line x1="360" y1="220" x2="380" y2="220"/>
+    <line x1="580" y1="220" x2="600" y2="220"/>
+  </g>
+  <g fill="#ffbea6" font-family="'Fira Code', monospace" font-size="18">
+    <text x="160" y="320">Cherry-pick fix onto main &amp; active release branches</text>
+    <text x="160" y="350">Communicate release impact and rollback path</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ff8a65"/>
+    </marker>
+  </defs>
+</svg>

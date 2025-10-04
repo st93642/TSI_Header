@@ -1,0 +1,31 @@
+{
+  "exerciseId": "git_introduction_foundations_quiz",
+  "languageId": "git",
+  "mode": "quiz",
+  "explanation": "Answer key for the foundational Git lifecycle quiz covering distributed architecture, three-tree workflows, and collaboration patterns.",
+  "answerKey": [
+    {"questionId": "git-intro-commit-objective", "answers": ["b"], "rationale": "Commit hashes make tampering obvious and guarantee each snapshot's integrity."},
+    {"questionId": "git-intro-centralized-vs-distributed", "answers": ["a", "b", "d"], "rationale": "Git's distributed clones keep the full history, allow offline work, and derive trust from hashed object IDs."},
+    {"questionId": "git-intro-three-trees", "answers": ["b"], "rationale": "The index (staging area) holds the curated snapshot that becomes the next commit."},
+    {"questionId": "git-intro-command-flows", "answers": ["a", "c", "d"], "rationale": "Add stages files, checkout hydrates the working tree, and restore --staged removes entries from the index."},
+    {"questionId": "git-intro-offline", "answers": ["false"], "rationale": "Git repositories work offline because clones contain the entire history graph."},
+    {"questionId": "git-intro-integrity", "answers": ["c"], "rationale": "Git's Merkle DAG ensures history verification via cryptographic hashes."},
+    {"questionId": "git-intro-collaboration", "answers": ["a", "b", "d"], "rationale": "Teams can use multiple remotes, collaborate offline, and exchange complete commit graphs peer-to-peer."},
+    {"questionId": "git-intro-log-comparison", "answers": ["false"], "rationale": "The working tree reflects local modifications, which may diverge from HEAD."},
+    {"questionId": "git-intro-object-model", "answers": ["a"], "rationale": "Commits point to trees, which index directories of blobs representing file contents."},
+    {"questionId": "git-intro-branch-benefits", "answers": ["a", "b", "d"], "rationale": "Branches are lightweight refs that enable parallel streams and flexible integration."},
+    {"questionId": "git-intro-history-visibility", "answers": ["b"], "rationale": "`git log` surfaces the commit timeline with author and metadata information."}
+  ],
+  "keyPoints": [
+    "Git commit hashes create immutable, verifiable history snapshots.",
+    "Distributed clones permit offline work and redundant backups.",
+    "The staging area curates what will be recorded next.",
+    "Commands move content between working tree, index, and commits.",
+    "Branches are lightweight references for parallel development.",
+    "`git log` exposes the chronological evolution of a project.",
+    "Checkout and restore operations hydrate or reset the working tree.",
+    "Cryptographic IDs provide integrity without central servers.",
+    "Multiple remotes support mesh collaboration topologies.",
+    "Understanding the three-tree model is foundational to Git mastery."
+  ]
+}

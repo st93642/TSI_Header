@@ -1,0 +1,30 @@
+{
+  "exerciseId": "git_branching_workflows_quiz",
+  "languageId": "git",
+  "mode": "quiz",
+  "explanation": "Answer key for branching strategy selection, promotion flows, and policy alignment.",
+  "answerKey": [
+    {"questionId": "git-branching-model-fit", "answers": ["a", "c", "d"], "rationale": "Trunk-based development suits rapid deployment teams with strong CI and short-lived branches."},
+    {"questionId": "git-branching-feature", "answers": ["a"], "rationale": "Feature branching isolates work for review before integration."},
+    {"questionId": "git-branching-gitflow", "answers": ["a", "b", "c"], "rationale": "Gitflow coordinates develop, release, and hotfix branches around scheduled releases."},
+    {"questionId": "git-branching-policy-matrix", "answers": ["true"], "rationale": "Policy matrices map branch types to required checks and automation."},
+    {"questionId": "git-branching-preview-env", "answers": ["a", "b", "d"], "rationale": "Preview environments, auto-cleanup, and status checks reinforce short-lived feature branches."},
+    {"questionId": "git-branching-env-promotion", "answers": ["a"], "rationale": "Release branches typically deploy to staging for smoke tests before production."},
+    {"questionId": "git-branching-metrics", "answers": ["a", "b", "d"], "rationale": "Effective workflows demonstrate fast lead times, fewer conflicts, and steady, small merges."},
+    {"questionId": "git-branching-trunk-flags", "answers": ["true"], "rationale": "Feature flags let trunk-based teams merge incomplete work safely."},
+    {"questionId": "git-branching-hotfix", "answers": ["a"], "rationale": "Hotfix branches deliver urgent patches and backport them to develop."},
+    {"questionId": "git-branching-communication", "answers": ["a", "b", "d"], "rationale": "Publishing policies, enforcing ownership, and exposing automation results keep teams aligned."}
+  ],
+  "keyPoints": [
+    "Branching models should reflect deployment cadence and team size.",
+    "Trunk-based development thrives on automation and feature flags.",
+    "Gitflow balances scheduled releases with dedicated release/hotfix branches.",
+    "Policy matrices translate branch patterns into required checks.",
+    "Preview environments and status checks support feature branches.",
+    "Staging environments validate release branches before production.",
+    "Delivery metrics reveal whether branching choices are effective.",
+    "Feature flags decouple code integration from feature exposure.",
+    "Hotfix branches address urgent production issues quickly.",
+    "Transparent documentation and dashboards reinforce shared understanding."
+  ]
+}

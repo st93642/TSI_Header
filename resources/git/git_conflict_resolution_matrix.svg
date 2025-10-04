@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#041225"/>
+  <text x="60" y="70" fill="#f7fbff" font-family="'Fira Code', monospace" font-size="20">Conflict Resolution Playbook</text>
+  <text x="60" y="100" fill="#b9ddff" font-family="'Fira Code', monospace" font-size="11">Facilitation first, then the Git command that makes it stick.</text>
+
+  <line x1="60" y1="120" x2="900" y2="120" stroke="#123a63" stroke-width="1.5"/>
+
+  <g font-family="'Fira Code', monospace" font-size="12" fill="#f7fbff">
+    <text x="60" y="150">1. Whitespace &amp; Formatting</text>
+    <text x="60" y="170" font-size="10" fill="#cfe5ff">Agree on formatter settings, re-run before opening the PR.</text>
+    <text x="60" y="190" font-size="10" fill="#ffd99b">Git helpers: git merge -X ours/theirs · .editorconfig · lint-staged</text>
+
+    <line x1="60" y1="210" x2="900" y2="210" stroke="#123a63" stroke-width="1.5" stroke-dasharray="6 6"/>
+
+    <text x="60" y="240">2. Overlapping Logic</text>
+    <text x="60" y="260" font-size="10" fill="#cfe5ff">Pair-program the merge, encode the outcome in automated tests.</text>
+    <text x="60" y="280" font-size="10" fill="#9dd8ff">Git helpers: VS Code merge editor · git rerere diff · test harness</text>
+
+    <line x1="60" y1="300" x2="900" y2="300" stroke="#123a63" stroke-width="1.5" stroke-dasharray="6 6"/>
+
+    <text x="60" y="330">3. Binary / Large Assets</text>
+    <text x="60" y="350" font-size="10" fill="#cfe5ff">Reserve edit windows and track handoffs to avoid divergent binaries.</text>
+    <text x="60" y="370" font-size="10" fill="#9dd8ff">Git helpers: git merge -s ours · Git LFS locking · changelog doc</text>
+
+    <line x1="60" y1="390" x2="900" y2="390" stroke="#123a63" stroke-width="1.5" stroke-dasharray="6 6"/>
+
+    <text x="60" y="420">4. Recurring Conflicts</text>
+    <text x="60" y="440" font-size="10" fill="#cfe5ff">Capture the final merge once, let Git learn the resolution pattern.</text>
+    <text x="60" y="460" font-size="10" fill="#ffd99b">Git helpers: git config rerere.enabled true · merge drivers · runbooks</text>
+  </g>
+</svg>
