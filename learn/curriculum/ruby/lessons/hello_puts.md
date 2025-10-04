@@ -153,6 +153,52 @@ This pattern makes `greeting` easy to test.
    - Write a small driver script that calls `puts build_banner(...)`.
    - Verify the banner builds correctly without the helper itself printing anything.
 
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Printing Patterns and Tests
+
+This appendix offers helpers for test-friendly printing and a small HTML table comparing output helpers.
+
+```ruby
+def prompt(label)
+  print "#{label}: "
+  STDOUT.flush
+  gets.chomp
+end
+
+# Capture print output in tests
+require 'stringio'
+
+def capture_stdout
+  old_stdout = $stdout
+  $stdout = StringIO.new
+  yield
+  $stdout.string
+ensure
+  $stdout = old_stdout
+end
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Helper</th><th>Behavior</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>puts</td><td>Newline after each arg</td><td>User-friendly output</td></tr>
+    <tr><td>print</td><td>No newline</td><td>Interactive prompts</td></tr>
+    <tr><td>p</td><td>inspect output</td><td>Debugging</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Implement `prompt` and test it by simulating STDIN and capturing STDOUT.
+2. Build a banner generator function that returns a string to be printed externally.
+
+<!-- markdownlint-enable MD010 -->
+
 ## Self-check questions
 
 1. Why is returning a string from a method more flexible than printing inside the method?
@@ -162,3 +208,124 @@ This pattern makes `greeting` easy to test.
 5. When combining output and business logic, what strategies keep your code testable and maintainable?
 
 A solid grasp of `puts` and its relatives keeps your scripts tidy from day one. Print at the boundaries, return values elsewhere, and you’ll build Ruby programs that are both friendly to users and friendly to tests.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Script Smoke Tests & CI (Appendix)
+
+Add a CI snippet to run small scripts and a table comparing script types.
+
+```yaml
+name: Script Smoke
+on: [push]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run hello
+        run: ruby bin/hello.rb || true
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Type</th><th>Test</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Utility</td><td>Smoke run</td><td>Quick verification</td></tr>
+    <tr><td>Library</td><td>Unit tests</td><td>More coverage</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix)
+
+1. Add a smoke test that runs `ruby bin/hello.rb` in CI.
+2. Add a `--name` flag and test the output formatting in CI.
+
+<!-- markdownlint-enable MD010 -->
+
+## Practical Appendix: External Tools & Examples (Appendix — External Tools — hello_puts-ruby)
+
+A short appendix with I/O examples, ruby-doc references, and tiny exercises focused on `puts`/`print` and output formatting.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Why</th><th>Reference</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>IO and puts</td><td>Simple output & newline rules</td><td><a href="https://ruby-doc.org/core/IO.html">IO docs</a></td></tr>
+    <tr><td>Formatting</td><td>sprintf/format</td><td><a href="https://ruby-doc.org/core/String.html">String docs</a></td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick examples
+
+```ruby
+puts "hello"          # prints with newline
+print "hello"         # prints without newline
+printf("%04d", 5)    # formatted output
+```
+
+### Exercises (hello_puts-ruby)
+
+1. Create a short script demonstrating the difference between `puts`, `print`, and `printf`, and add tests that assert expected output using `StringIO` to capture stdout.
+2. Document how `$stdout.sync = true` affects realtime output behavior in scripts.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: puts/print — Tests & Scripts (Appendix — hello_puts-ruby2)
+
+Test-friendly helpers, quick scripts, and CI examples for I/O-focused exercises.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Helper</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>capture_stdout</td><td>Test printed output</td><td>Use StringIO to isolate output</td></tr>
+    <tr><td>prompt helper</td><td>Interactive scripts</td><td>Flush STDOUT before gets</td></tr>
+    <tr><td>CI smoke</td><td>Run example scripts</td><td>Make scripts idempotent</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### capture_stdout helper
+
+```ruby
+require 'stringio'
+
+def capture_stdout
+  old = $stdout
+  $stdout = StringIO.new
+  yield
+  $stdout.string
+ensure
+  $stdout = old
+end
+```
+
+### CI smoke example
+
+```yaml
+name: hello smoke
+on: [push]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run hello script
+        run: ruby learn/curriculum/ruby/lessons/hello_puts_sample.rb || true
+```
+
+### Exercises (Appendix — hello_puts-ruby2)
+
+1. Implement `prompt(label)` that flushes stdout and returns chomped input; unit-test it by stubbing `$stdin` and capturing `$stdout`.
+2. Add a smoke script that prints a greeting and ensure CI runs it on push.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

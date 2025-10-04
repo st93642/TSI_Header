@@ -173,6 +173,41 @@ Symbol.all_symbols.grep(/^set_/)
    - Parse a YAML file into a hash.
    - Recursively symbolize keys only if they exist in a whitelist per nesting level.
 
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Symbols — Safe Usage and Patterns
+
+This appendix gives safe usage patterns for symbols, conversion helpers, and a brief HTML table showing common pitfalls.
+
+```ruby
+ALLOWED_KEYS = %i[name email phone].freeze
+
+def safe_to_sym(s)
+  k = s.to_sym
+  raise ArgumentError unless ALLOWED_KEYS.include?(k)
+  k
+end
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Operation</th><th>Symbol</th><th>String</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Key reuse</td><td>Efficient</td><td>Allocating</td></tr>
+    <tr><td>Mutable data</td><td>Not suitable</td><td>Preferred</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Implement `safe_to_sym` and test it rejects unexpected keys.
+2. Benchmark symbolization of repeated keys vs reused symbols.
+
+<!-- markdownlint-enable MD010 -->
+
 ## Self-check questions
 
 1. Why are symbols faster to compare than strings, and how does Ruby ensure their uniqueness?
@@ -182,3 +217,63 @@ Symbol.all_symbols.grep(/^set_/)
 5. In what scenarios would strings still be the better choice over symbols, even for keys or identifiers?
 
 Symbols are Ruby’s efficient labels—perfect for stable identifiers and internal wiring. Use them to make intent clear and performance brisk, but keep user-driven or mutable text as strings so your programs remain safe and flexible.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: External Tools & Examples (Appendix — External Tools — symbols-ruby)
+
+Notes on Ruby symbols, performance trade-offs vs strings, and quick examples. Links point to Ruby docs.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concept</th><th>Why</th><th>Reference</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Symbols</td><td>Immutable identifiers with lower allocation overhead</td><td><a href="https://ruby-doc.org/core/Symbol.html">Symbol docs</a></td></tr>
+    <tr><td>Strings vs Symbols</td><td>Choose based on mutability & memory use</td><td>Prefer strings for user data</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (symbols-ruby)
+
+1. Replace a hash keyed by strings with one keyed by symbols and benchmark access time for a large dataset.
+2. Document why interned symbols can be a memory leak risk in long-running processes when generated from untrusted input.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Symbols — Safe Usage (Appendix — symbols-ruby2)
+
+Guidelines for safe symbol use, conversion helpers, and testing strategies to avoid symbol-related memory issues.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Risk</th><th>Mitigation</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Symbolizing user input</td><td>Whitelist keys</td><td>Use ALLOWED_KEYS.include?(key.to_sym)</td></tr>
+    <tr><td>Dynamic symbols</td><td>Cache or avoid creating repeatedly</td><td>Memoize symbol conversions</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Safe converter
+
+```ruby
+ALLOWED = %i[name email phone].freeze
+
+def safe_to_sym(s)
+  k = s.to_sym
+  raise ArgumentError unless ALLOWED.include?(k)
+  k
+end
+```
+
+### Exercises (Appendix — symbols-ruby2)
+
+1. Implement `safe_to_sym` and test it rejects unexpected keys.
+2. Benchmark repeated `to_sym` on the same string vs memoized symbol usage.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

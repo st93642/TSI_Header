@@ -289,6 +289,28 @@ Implement a simple address book using linked list of structs.
 3. How to free a linked list?
 4. Advantages of designated initializers?
 
+## Practical Appendix: Structs & Data Layout (Appendix — structs_data_c-appendix)
+
+Notes on struct packing, alignment, and portability concerns for C lessons that use data structures.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Concern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Alignment</td><td>Padding between members</td><td>Use `offsetof` and `sizeof` to inspect</td></tr>
+    <tr><td>Packing</td><td>Reduce size</td><td>Use `#pragma pack` carefully</td></tr>
+    <tr><td>Endianness</td><td>Binary formats</td><td>Document and account for endian conversions</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (structs_data_c-appendix)
+
+1. Write a small program that prints `sizeof` for a struct and the offset of each member using `offsetof`.
+2. Demonstrate how `#pragma pack` affects layout and discuss portability trade-offs.
+
 ## Recap and next steps
 
 Structs empower you to model real-world entities. Next, explore file I/O to persist data.

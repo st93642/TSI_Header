@@ -214,3 +214,99 @@ Calculator with error handling.
 ## Recap and next steps
 
 Error handling makes programs reliable. Next, explore advanced C features.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Debugging & Tools (Appendix — Debug Tools — error_debug_c)
+
+This appendix lists quick debugging recipes for C lessons: using gdb, AddressSanitizer (ASAN), and Valgrind for memory and runtime issues. Links point to Valgrind and standard debugging tools.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Primary Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>gdb</td><td>Interactive debugging</td><td>Use `break`, `run`, `backtrace`, `print`</td></tr>
+    <tr><td>ASAN</td><td>Fast memory bugs at runtime</td><td>Compile with `-fsanitize=address -g`</td></tr>
+    <tr><td>Valgrind</td><td>Deep Memcheck reporting</td><td>Use when ASAN isn't available or for detailed leak reports</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### gdb quick recipe
+
+```bash
+# compile with debug symbols
+gcc -g -O0 -o lesson_bin main.c
+# run under gdb
+gdb --args ./lesson_bin arg1 arg2
+# inside gdb:
+# (gdb) break main
+# (gdb) run
+# (gdb) bt
+# (gdb) print var
+```
+
+### ASAN quick recipe
+
+Compile and run to get immediate diagnostics:
+
+```bash
+gcc -fsanitize=address -g -O1 -o lesson_bin main.c
+./lesson_bin
+```
+
+ASAN outputs stack traces and allocation info for invalid accesses.
+
+### Exercises (error_debug_c)
+
+1. Reproduce a small heap-use-after-free bug, show the ASAN output, and fix the code.
+2. Run the fixed program under Valgrind and add a short note about differences in output between ASAN and Valgrind.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Debugging Tools — Recipes (Appendix — error_debug_c-appendix2)
+
+Compact recipes for using gdb, ASAN, and Valgrind in exercises and CI, plus notes on interpreting core outputs.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Command</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>gdb</td><td>gdb --args ./program</td><td>Interactive stepping and backtraces</td></tr>
+    <tr><td>ASAN</td><td>gcc -fsanitize=address -g</td><td>Fast detection of invalid memory</td></tr>
+    <tr><td>Valgrind</td><td>valgrind --leak-check=full</td><td>Deep leak analysis</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### ASAN vs Valgrind note
+
+- ASAN is fast and provides immediate diagnostic output during runtime.
+- Valgrind is slower but can provide more detailed leak tracing on some platforms.
+
+### Quick gdb recipe
+
+```bash
+# compile
+gcc -g -O0 program.c -o program
+# run
+gdb --args ./program arg1 arg2
+# inside gdb
+# (gdb) break main
+# (gdb) run
+# (gdb) bt
+# (gdb) print var
+```
+
+### Exercises (Appendix — error_debug_c-appendix2)
+
+1. Produce a small use-after-free example and show ASAN output; then fix it and verify no leaks with Valgrind.
+2. Create a CI job (optional) that compiles with `-fsanitize=address` and runs the binary as a smoke test.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

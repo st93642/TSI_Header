@@ -254,3 +254,30 @@ end
 5. What naming conventions help signal that a method returns a boolean?
 
 Strong boolean logic unlocks robust conditionals, readable code, and fewer surprises. Keep experimenting with combinations, guard clauses, and expressive predicate methods—you’ll quickly find your Ruby code becoming clearer and more reliable.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Operator Precedence & Patterns
+
+This appendix shows precedence examples, safe boolean helpers, and an HTML table summarising operator precedence and common idioms.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Operator</th><th>Precedence</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>!</td><td>High</td><td>Negation</td></tr>
+    <tr><td>&&</td><td>Higher</td><td>Logical AND</td></tr>
+    <tr><td>||</td><td>Lower</td><td>Logical OR</td></tr>
+    <tr><td>and/or</td><td>Very low</td><td>Use for control flow, not expressions</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Build a `truthy_value?(v)` helper that normalizes common boolean-like strings to booleans.
+2. Rewrite a complex conditional using intermediate variables for clarity and add unit tests.
+
+<!-- markdownlint-enable MD010 -->

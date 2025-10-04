@@ -234,3 +234,46 @@ Keep test data small and explicit; prefer factories that produce minimal objects
 5. What trade-offs exist between Minitest’s spec style and the traditional test class style?
 
 Minitest’s low ceremony encourages fast feedback. Keep tests small, deterministic, and expressive, and they’ll safeguard your codebase as it grows.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Test Helpers & CI
+
+This appendix adds common test helpers, a GitHub Actions snippet to run tests, and an HTML table comparing assertions.
+
+```yaml
+name: Ruby tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+      - name: Install
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rake test
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Assertion</th><th>Purpose</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>assert_equal</td><td>Equality</td><td>assert_equal 3, sum(1,2)</td></tr>
+    <tr><td>assert_raises</td><td>Error expectation</td><td>assert_raises(ArgumentError) { call }</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Add a `test_helper.rb` that sets up `minitest/reporters` and requires support files.
+2. Add a CI badge to the README and demonstrate failing tests in CI when appropriate.
+
+<!-- markdownlint-enable MD010 -->

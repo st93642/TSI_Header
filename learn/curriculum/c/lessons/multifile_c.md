@@ -188,3 +188,88 @@ Create calculator as library.
 ## Recap and next steps
 
 Multi-file programs enable large projects. Next, explore error handling and debugging.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Build & Debug Resources (Appendix — External Links)
+
+Authoritative tools for multi-file C projects and debugging.
+
+- Valgrind manual: [Valgrind manual](https://valgrind.org/docs/manual/manual.html)
+- Build guidance: use Make/CMake; see [CMake](https://cmake.org/)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Link</th><th>Use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Valgrind</td><td><a href="https://valgrind.org/docs/manual/manual.html">Valgrind manual</a></td><td>Memory/debugging</td></tr>
+    <tr><td>CMake</td><td><a href="https://cmake.org/">CMake</a></td><td>Cross-platform builds</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Run the project under Valgrind and capture a leak report; add suppression rules for known third-party leaks.
+2. Convert the Makefile to a minimal CMakeLists.txt and verify builds on Linux and macOS.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Multi-file Builds & Debugging (Appendix — MultiFile — multifile_c-appendix)
+
+Notes on organizing multi-file C programs, compilation units, linker usage, and common pitfalls.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Area</th><th>Why</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Compilation Units</td><td>Separate translation units for clarity</td><td>Compile each `.c` to `.o` and link</td></tr>
+    <tr><td>Linking</td><td>Combine object files</td><td>Use `gcc -o prog a.o b.o`</td></tr>
+    <tr><td>Header Hygiene</td><td>Avoid duplicate definitions</td><td>Use include guards or `#pragma once`</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example Makefile snippet
+
+```makefile
+CC=gcc
+CFLAGS=-g -O0 -Wall -std=c11
+SRCS=main.c module.c
+OBJS=$(SRCS:.c=.o)
+
+all: lesson_bin
+
+lesson_bin: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+clean:
+	rm -f $(OBJS) lesson_bin
+```
+
+### Exercises (multifile_c-appendix)
+
+1. Split a simple one-file example into `module.c` / `module.h` and update the Makefile to build separate objects.
+2. Demonstrate a linker error caused by missing `-lm` (math library) and document the fix.
+
+## Further Reading: Build Systems & Profiling (Appendix — multifile_c-further)
+
+A few links and tips for profiling multi-file C programs and integrating with CI.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Use</th><th>Link</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Valgrind</td><td>Memory & profiling</td><td><a href="https://valgrind.org/docs/manual/manual.html">Valgrind Manual</a></td></tr>
+    <tr><td>gprof / perf</td><td>Profiling</td><td>Use for hotspots analysis</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->

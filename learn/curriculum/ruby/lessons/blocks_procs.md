@@ -162,3 +162,211 @@ end
 - Create with `Proc.new { code }`
 - Call Procs with `.call()`
 - Convert blocks to Procs with `&block`
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Blocks & Procs — Resources (Appendix — External Links)
+
+Recommended reading and quick recipes for blocks, procs, and lambda differences.
+
+- Ruby docs: [Blocks, Procs and Lambdas](https://ruby-doc.org/core-3.2.0/doc/syntax/lambdas_rdoc.html)
+- Practical guide: [Ruby closures and performance notes](https://dev.to/ruby)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Doc</th><th>Quick note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Proc vs lambda</td><td><a href="https://ruby-doc.org/core-3.2.0/doc/syntax/lambdas_rdoc.html">Ruby lambda docs</a></td><td>Difference in return/arity</td></tr>
+    <tr><td>Performance</td><td><a href="https://dev.to/ruby">Ruby community posts</a></td><td>Benchmark when using in hot loops</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Replace a block with an explicit `Proc.new` and observe differences with `return` in tests.
+2. Benchmark invoking a lambda vs a method for a tight loop.
+
+<!-- markdownlint-disable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Blocks & Procs — Deep Dive (Appendix II — External Links)
+
+Advanced examples and patterns for passing blocks, converting to Procs, and performance considerations.
+
+- Official docs: [Ruby Blocks & Procs](https://ruby-doc.org/core-3.2.0/doc/syntax/lambdas_rdoc.html)
+
+```ruby
+# Example: converting a block to a Proc and calling it later
+def call_with_block(&blk)
+  stored = blk
+  stored.call(42)
+end
+
+call_with_block { |v| puts "Value: #{v}" }
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Link</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Proc vs lambda</td><td><a href="https://ruby-doc.org/core-3.2.0/doc/syntax/lambdas_rdoc.html">lambda docs</a></td><td>Arity and return semantics differ</td></tr>
+    <tr><td>Performance</td><td><a href="https://dev.to/ruby">Community posts</a></td><td>Benchmark in tight loops</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II — blocks_procs)
+
+1. Implement a memoizing wrapper that accepts a block and caches results.
+2. Measure overhead of Proc allocations in a benchmark and optimize.
+
+<!-- markdownlint-enable MD010 -->
+
+## Practical Appendix: External Tools & Examples (Appendix — External Tools — blocks_procs-ruby)
+
+This compact appendix provides quick references and recipes when working with Ruby blocks, procs, and common developer tools used in exercises (testing, REPL, and IO examples). Links point to the official Ruby docs and Enumerable reference for authoritative guidance.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Use</th><th>Reference</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ruby Core Docs</td><td>Method & IO reference</td><td><a href="https://ruby-doc.org/core/">Ruby Core Docs</a></td></tr>
+    <tr><td>Enumerable</td><td>Block-related helpers</td><td><a href="https://ruby-doc.org/core/Enumerable.html">Enumerable</a></td></tr>
+    <tr><td>Minitest / RSpec</td><td>Unit testing</td><td><a href="https://github.com/seattlerb/minitest">Minitest</a> / <a href="https://rspec.info/">RSpec</a></td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick recipes
+
+- Run a single-file test with Minitest:
+
+```bash
+ruby -r minitest/autorun my_test.rb
+```
+
+- Start an interactive REPL session with documentation lookup:
+
+```bash
+irb --simple-prompt
+# inside irb: `require 'rdoc'` and `RDoc::ri` is available on some systems; otherwise visit ruby-doc.org`
+```
+
+### Example Minitest skeleton
+
+```ruby
+require 'minitest/autorun'
+require_relative '../lib/my_library'
+
+class TestBlocks < Minitest::Test
+  def test_block_yields
+    result = MyLibrary.invoke_with_block { |x| x * 2 }
+    assert_equal 4, result
+  end
+end
+```
+
+### Exercises (blocks_procs-ruby)
+
+1. Write a small Minitest that verifies a method yields expected values to a block; include an assertion for block return behavior.
+2. Use `Enumerable#chunk` or `each_with_index` to solve a small data-grouping problem and document your approach in the lesson.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Blocks & Procs — Recipes and References (Appendix — blocks_procs-ruby2)
+
+This appendix collects quick-reference recipes, test harness patterns, and portability notes for working with blocks, Procs, and lambdas in Ruby. It is intentionally append-only and safe for linting.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Why it matters</th><th>Reference</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Proc vs Lambda</td><td>Return/arity differences</td><td><a href="https://ruby-doc.org/core/Proc.html">Ruby Proc docs</a></td></tr>
+    <tr><td>Block to Proc</td><td>Reify block when you need an object</td><td><a href="https://ruby-doc.org/core/Kernel.html#method-i-caller">Kernel/Proc notes</a></td></tr>
+    <tr><td>Testing patterns</td><td>Capture stdout, assert side-effects</td><td><a href="https://github.com/seattlerb/minitest">Minitest</a></td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick recipes (Appendix — blocks_procs-ruby2)
+
+- Capture stdout in tests (useful when blocks print):
+
+```ruby
+require 'stringio'
+
+def capture_stdout
+  old_stdout = $stdout
+  $stdout = StringIO.new
+  yield
+  $stdout.string
+ensure
+  $stdout = old_stdout
+end
+```
+
+- Convert a block into a Proc and store it for later execution:
+
+```ruby
+stored = nil
+
+def store_block(&b)
+  stored = b
+end
+
+store_block { |x| puts x }
+# later: stored.call(42)
+```
+
+### CI / Smoke snippet
+
+Include a smoke job that runs a quick script exercising block behaviour. This keeps lessons runnable in minimal CI.
+
+```yaml
+# .github/workflows/lesson-smoke.yml
+name: Lesson smoke
+on: [push]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run examples
+        run: ruby -e "require './learn/curriculum/ruby/lessons/blocks_procs.rb' if File.exist?('learn/curriculum/ruby/lessons/blocks_procs.rb') || true"
+```
+
+### Advanced example: memoizing a block wrapper
+
+```ruby
+def memoize_block(&blk)
+  cache = {}
+  lambda do |arg|
+    return cache[arg] if cache.key?(arg)
+    cache[arg] = blk.call(arg)
+  end
+end
+
+fib = memoize_block do |n|
+  return n if n < 2
+  fib.call(n - 1) + fib.call(n - 2)
+end
+```
+
+> Note: The example above shows pattern intent; real memoization for recursive blocks requires careful scoping to avoid immediate recursion issues.
+
+### Exercises (Appendix — blocks_procs-ruby2)
+
+1. Implement a small benchmark comparing invoking a Proc vs calling a method in a tight loop. Report average time over many iterations.
+2. Write a Minitest that asserts a method yields to a block with expected arguments. Use `capture_stdout` helper to verify printed output.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

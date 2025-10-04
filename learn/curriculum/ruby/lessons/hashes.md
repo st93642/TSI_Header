@@ -241,3 +241,40 @@ Use `to_h` on enumerables of pairs to create hashes, and `hash1 <= hash2` to che
 5. Why might you freeze a hash, and how do you provide updated copies without mutating the original?
 
 Hashes are Ruby’s flexible dictionaries—lean on them to organize structured data, memoize results, and communicate intent through clear key names. Combine them with Enumerable power, and they’ll become your go-to data structure for everyday Ruby work.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Deep Merge & Safe Defaults
+
+This appendix provides a safe deep merge helper, a short HTML table for default strategies, and exercises.
+
+```ruby
+def deep_merge(a, b)
+  a.merge(b) do |_k, old, new|
+    if old.is_a?(Hash) && new.is_a?(Hash)
+      deep_merge(old, new)
+    else
+      new
+    end
+  end
+end
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Strategy</th><th>Behavior</th><th>Use case</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>shallow merge</td><td>values from other overwrite</td><td>Flat configs</td></tr>
+    <tr><td>deep merge</td><td>merge nested hashes</td><td>Complex config files</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Implement `deep_merge` and test with nested hashes including arrays.
+2. Provide a `with_overrides(config, overrides)` helper that returns a merged, frozen result.
+
+<!-- markdownlint-enable MD010 -->

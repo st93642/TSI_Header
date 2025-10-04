@@ -220,3 +220,69 @@ Create logger with macros for different levels.
 ## Recap and next steps
 
 Preprocessor enables flexible code. Next, explore multi-file programs and linking.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: External Tools & Examples (Appendix — External Tools — preprocessor_c-appendix)
+
+Quick notes on preprocessing directives, macro hygiene, and references to cppreference's preprocessor page.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Directive</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>#define</td><td>Define macros</td><td>Avoid complex macros; prefer inline functions</td></tr>
+    <tr><td>#include</td><td>Include headers</td><td>Use angle brackets for system headers</td></tr>
+    <tr><td>#ifdef / #ifndef</td><td>Conditional compilation</td><td>Use for platform-specific guards</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+Reference: [cppreference preprocessor](https://en.cppreference.com/w/c/preprocessor)
+
+### Exercises (preprocessor_c-appendix)
+
+1. Replace a small macro with an inline static function and run the unit tests to ensure behavior matches.
+2. Add include guards or `#pragma once` to a sample header and document the differences.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Macro Hygiene & Alternatives (Appendix — preprocessor_c-continued)
+
+Guidelines and small examples for replacing macros with safer constructs and testing preprocessor-driven code.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>Alternative</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Function-like macro</td><td>static inline function</td><td>Preserve behavior and type-safety</td></tr>
+    <tr><td>Constants</td><td>const or enum</td><td>Avoid textual replacement pitfalls</td></tr>
+    <tr><td>Conditional builds</td><td>CMake options</td><td>Prefer build-system flags over pervasive #defines</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: macro -> inline function
+
+```c
+// Bad macro
+#define MAX(a,b) ((a) > (b) ? (a) : (b))
+
+// Better
+static inline int max_int(int a, int b) { return a > b ? a : b; }
+```
+
+### Testing note
+
+When macros affect API shapes, prefer adding small integration tests that compile variants under different defines to ensure behaviour.
+
+### Exercises (Appendix — preprocessor_c-continued)
+
+1. Replace a function-like macro in a small sample with a `static inline` function and verify behaviour with unit tests.
+2. Add a small CMake option that toggles a compile-time flag and ensure both variants compile in CI.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

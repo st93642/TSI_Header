@@ -162,3 +162,105 @@ Nested loops multiply runtime (`O(n^2)`, `O(n*m)` etc.). Use them when traversin
 5. Why should you reset the input stream after a failed extraction inside a loop?
 
 Answer these before moving on—the next lessons combine loops with containers and algorithms.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Loops & Iteration (Appendix — loops_cpp-appendix)
+
+Compact reference for loop forms in C++ (traditional for, range-based for), iterator safety, and performance notes.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Form</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>for (i=0;...)</td><td>Classic index loops</td><td>Fine for arrays</td></tr>
+    <tr><td>range-based for</td><td>Containers & ranges</td><td>Prefer for readability</td></tr>
+    <tr><td>std::for_each</td><td>Functional style</td><td>Useful with algorithms</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: range-based loop
+
+```cpp
+#include <vector>
+#include <iostream>
+int main(){
+    std::vector<int> v{1,2,3};
+    for(auto& x : v) std::cout << x << '\n';
+}
+```
+
+### Exercises (loops_cpp-appendix)
+
+1. Convert a classic `for` loop into a range-based loop and measure readability changes.
+2. Show a case where modifying a container during iteration invalidates iterators; explain correct alternatives.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Loop Correctness & Safety (Appendix II)
+
+Notes on off-by-one errors, iterator safety, and a table of common loop traps.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Trap</th><th>Symptom</th><th>Fix</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Off-by-one</td><td>Incorrect bounds</td><td>Prefer range-based loops or use size_t carefully</td></tr>
+    <tr><td>Iterator invalidation</td><td>Crash/UB</td><td>Use erase-returning iterators or copy indices</td></tr>
+    <tr><td>Concurrent mutation</td><td>Race</td><td>Protect with locks or avoid shared mutation</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II — loops)
+
+1. Create unit tests that catch off-by-one via boundary inputs.
+2. Convert a raw pointer loop into a range-based for and compare results.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Loop Patterns — Deep Dive (Appendix II — External Links)
+
+Examples showing `std::span`, range-based for, and micro-benchmarking loop performance.
+
+```cpp
+// Example: using std::span for safe subrange access (C++20)
+#include <span>
+#include <vector>
+#include <iostream>
+
+void print_span(std::span<int> s) {
+    for (int v : s) std::cout << v << ' ';
+}
+
+int main() {
+    std::vector<int> v{1,2,3,4,5};
+    print_span({v.data(), 3});
+}
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>Link</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Range-for</td><td><a href="https://en.cppreference.com/w/cpp/language/range-for">range-for</a></td><td>Readability + safety</td></tr>
+    <tr><td>std::span</td><td><a href="https://en.cppreference.com/w/cpp/container/span">std::span</a></td><td>Lightweight view (C++20)</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II)
+
+1. Replace an index-based loop with `std::span` and add unit tests.
+2. Micro-benchmark a loop with iterators vs indexing using `std::chrono` and report results.
+
+<!-- markdownlint-enable MD010 -->

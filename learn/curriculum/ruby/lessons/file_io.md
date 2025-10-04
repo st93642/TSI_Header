@@ -227,4 +227,39 @@ end
 4. Which standard-library helpers (`Tempfile`, `FileUtils`, `Pathname`) simplify working with files and directories in larger scripts?
 5. How does file locking prevent race conditions, and what are the differences between shared and exclusive locks?
 
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: File IO Patterns for Production
+
+This appendix collects patterns for robust file IO: temp files, locking, encoding, and a small HTML table summarizing modes.
+
+```ruby
+require 'tempfile'
+Tempfile.create('upload') do |tmp|
+  tmp.write(uploaded_data)
+  tmp.flush
+  process(tmp.path)
+end
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Mode</th><th>Description</th><th>Use case</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>"r"</td><td>Read</td><td>Open configs</td></tr>
+    <tr><td>"w"</td><td>Write (truncate)</td><td>Export reports</td></tr>
+    <tr><td>"a"</td><td>Append</td><td>Log files</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Implement a rotator that renames `app.log` when it exceeds 5 MB and creates a new log file.
+2. Write a script that safely appends lines to a shared CSV file using file locks.
+
+<!-- markdownlint-enable MD010 -->
+
 With these tools, your Ruby scripts can ingest logs, export reports, and manage configuration safely. Combine streaming IO with structured data helpers, and you’ll be ready to automate real-world workflows with confidence.

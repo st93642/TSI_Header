@@ -58,6 +58,7 @@ This appendix expands on tagging, automation, backporting, hotfix workflows, rol
 
 Tags are the immutable anchor of releases. Use annotated tags for releases and prefer signed annotated tags for production releases that must be auditable.
 
+<!-- markdownlint-disable MD033 MD010 -->
 <table>
   <thead>
     <tr>
@@ -84,6 +85,8 @@ Tags are the immutable anchor of releases. Use annotated tags for releases and p
     </tr>
   </tbody>
 </table>
+<!-- markdownlint-enable MD033 MD010 -->
+<!-- markdownlint-enable MD033 MD010 -->
 
 Always push tags explicitly with `git push origin --tags` or `git push origin v1.2.0` to avoid accidental omission.
 
@@ -468,3 +471,77 @@ git push origin main
 ---
 
 <!-- end release appendix -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Release Playbook: Governance, Verification, and Safe Rollouts
+
+This appendix provides governance templates for rollback approvals, a CI verification job for tag publication, a release checklist (HTML table), and exercises to practice safe releases and rollbacks.
+
+### Governance: Rollback Approval Matrix (HTML)
+
+<table>
+  <thead>
+    <tr><th>Trigger</th><th>Approval Required</th><th>Approver</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Hotfix roll to production</td><td>Yes</td><td>Release Manager</td></tr>
+    <tr><td>Rollback of stable release</td><td>Yes</td><td>Release Manager + Platform Lead</td></tr>
+    <tr><td>Minor re-deploy</td><td>No</td><td>On-call</td></tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-enable MD033 MD010 -->
+
+### CI Verification Job for Tag Publication (GitHub Actions)
+
+```yaml
+name: verify-tag-publish
+on:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify tag exists and is signed
+        run: |
+          git fetch --tags
+          if ! git verify-tag ${{ github.event.inputs.tag }}; then
+            echo "Tag is not signed or missing"; exit 1
+          fi
+      - name: Run artifact checks
+        run: |
+          ./ci/run_smoke.sh
+          ./ci/check_artifact_checksums.sh
+```
+
+### Release checklist (HTML table)
+
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Step</th><th>Owner</th><th>Confirm</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>All PRs merged</td><td>Repo Maintainers</td><td>Yes</td></tr>
+    <tr><td>CI Green</td><td>CI</td><td>Yes</td></tr>
+    <tr><td>Tags signed</td><td>Release Engineer</td><td>Yes</td></tr>
+    <tr><td>Canary deployment</td><td>Platform</td><td>Observed</td></tr>
+  </tbody>
+
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
+
+### Release Playbook Exercises (unique)
+
+1. Implement `verify-tag-publish` in a sample project and test it by creating a signed tag and running the job.
+2. Simulate a rollback scenario and document the approval flow and timeline for the rollback.
+3. Add artifact checksum verification to your release pipeline and demonstrate detection of a tampered artifact.
+
+---
+
+End of Release Playbook appendix.

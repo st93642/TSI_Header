@@ -185,6 +185,50 @@ Only convert when you truly need a materialized sequence; otherwise iterate lazi
    - Implement a log parser that uses case/`in` with ranges to classify response times (fast/acceptable/slow).
    - Ensure a fallback branch captures unexpected values.
 
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Ranges in Practice
+
+This appendix shows how to use `cover?` for dates, `step` for numeric sequences, and includes a short HTML table comparing `include?` vs `cover?`.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Method</th><th>Behavior</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>include?</td><td>Enumerates members</td><td>Discrete checks</td></tr>
+    <tr><td>cover?</td><td>Bounds-only check</td><td>Ranges over numbers/dates</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Practical Appendix: Further Reading & Resources (Appendix — External Links)
+
+Recommended authoritative references and short actionable snippets to deepen your understanding of ranges and their uses.
+
+- Ruby docs: [Ruby Range docs](https://ruby-doc.org/core/Range.html)
+- Practical guide: [DevDocs: Ruby Range](https://devdocs.io/ruby~3.2/Range)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Resource</th><th>Why read</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Range methods</td><td><a href="https://ruby-doc.org/core/Range.html">Ruby Range docs</a></td><td>Reference for #cover?, #include?, #each</td></tr>
+    <tr><td>Enumerator integrations</td><td><a href="https://ruby-doc.org/core/Enumerator.html">Enumerator docs</a></td><td>How ranges and enumerables interoperate</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Use a range to generate a sequence of dates and map them to weekday names.
+2. Replace a manual index loop with a range-based iterator and test the output.
+
+<!-- markdownlint-disable MD010 -->
+
 ## Self-check questions
 
 1. When would you choose `include?` instead of `cover?`, and why?
@@ -194,3 +238,36 @@ Only convert when you truly need a materialized sequence; otherwise iterate lazi
 5. Why might `Range#clamp` be preferable to manual `min`/`max` comparisons?
 
 Ranges make interval logic expressive and efficient. Whether you’re validating input, iterating over discrete steps, or matching structured data, lean on ranges to communicate intent clearly with minimal code.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Ranges — Deep Dive (Appendix II — External Links)
+
+Examples using ranges with dates, enumerables, and performance considerations.
+
+```ruby
+# generate date sequence using Range and Date
+require 'date'
+start = Date.new(2025,10,1)
+finish = Date.new(2025,10,5)
+(start..finish).each { |d| puts d.strftime('%Y-%m-%d') }
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Link</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Date ranges</td><td><a href="https://ruby-doc.org/core/Range.html">Range docs</a></td><td>Works with Date if comparable</td></tr>
+    <tr><td>Enumerator integration</td><td><a href="https://ruby-doc.org/core/Enumerator.html">Enumerator docs</a></td><td>Lazy evaluation when needed</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II — ranges)
+
+1. Create a date-range generator that yields only weekdays and test it.
+2. Replace an eager mapping with lazy enumerables for large ranges and benchmark memory.
+
+<!-- markdownlint-enable MD010 -->

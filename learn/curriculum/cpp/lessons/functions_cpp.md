@@ -129,6 +129,44 @@ static_assert(square(4) == 16);
 - Write unit tests for pure functions—they are easy to verify.
 - Document assumptions and side effects, either in comments or in the header above the declaration.
 
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Functions — APIs and Testing
+
+This appendix shows how to structure headers, test pure functions, and add a simple CMake test target.
+
+### Header and implementation pattern
+
+`math_utils.h`:
+
+```cpp
+#pragma once
+int add(int a, int b);
+```
+
+`math_utils.cpp`:
+
+```cpp
+#include "math_utils.h"
+int add(int a, int b) { return a + b; }
+```
+
+### CMake test snippet
+
+```cmake
+add_executable(math_tests tests/math_tests.cpp)
+find_package(Catch2 REQUIRED)
+target_link_libraries(math_tests PRIVATE Catch2::Catch2WithMain)
+add_test(NAME math-tests COMMAND math_tests)
+```
+
+### Exercises
+
+1. Implement `add`, `sub`, `mul`, `div` with tests covering typical and edge cases (division by zero should throw).
+2. Refactor a long function into smaller helpers and add unit tests for each.
+
+<!-- markdownlint-enable MD010 -->
+
 ## Practice time
 
 1. **Math helpers:** Implement `int triple(int value)` and `double average(double first, double second)` in a header/source pair. Use const references where appropriate.
@@ -145,3 +183,162 @@ static_assert(square(4) == 16);
 5. Where should you place the declaration versus definition of a function in a multi-file project?
 
 Once you are comfortable with these patterns, move on to the exercise to cement your function-writing workflow.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Functions — Performance & API Design
+
+This appendix covers common function-level design considerations: `noexcept`, `inline`, move semantics, and passing strategies.
+
+```cpp
+// Example: prefer passing by const ref for heavy objects
+void process(const std::string &s);
+
+// noexcept for small, non-throwing utilities
+int add(int a, int b) noexcept { return a + b; }
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Strategy</th><th>When to use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>pass by value</td><td>Small trivials/when moving</td><td>Allows move from caller</td></tr>
+    <tr><td>pass by const&</td><td>Large non-mutable</td><td>Avoids copies</td></tr>
+    <tr><td>noexcept</td><td>Move ops, swap</td><td>Enables optimizations</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Practical Appendix)
+
+1. Write `sort_by_key` taking a vector of pairs and a comparator; test exception-safety when comparator throws.
+2. Add `noexcept` to the move constructor of a small type and measure effect on container move operations.
+
+<!-- markdownlint-disable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Function Contracts & Testing (Appendix II)
+
+Notes on designing clear contracts, writing precondition tests, and a small table comparing parameter passing styles.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Passing</th><th>When</th><th>Cost</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>by value</td><td>small trivials</td><td>copy cost</td></tr>
+    <tr><td>by const&</td><td>large read-only</td><td>no copy</td></tr>
+    <tr><td>by rvalue</td><td>take ownership</td><td>move</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II — functions)
+
+1. Add tests that assert preconditions using asserts or contract checks.
+2. Document when to use `noexcept` for move operations.
+
+<!-- markdownlint-enable MD010 -->
+
+## Practical Appendix: External Tools & Examples (Appendix — External Tools — functions_cpp-appendix)
+
+This appendix gives quick references for function-related topics (std::function, lambdas, noexcept), links to cppreference, and small test snippets to exercise functions in C++ lessons.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Resource</th><th>Focus</th><th>Link</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>cppreference: functions</td><td>Language & std utilities</td><td><a href="https://en.cppreference.com/w/cpp/language/functions">cppreference - functions</a></td></tr>
+    <tr><td>cppreference: lambdas</td><td>Lambda syntax & captures</td><td><a href="https://en.cppreference.com/w/cpp/language/lambda">cppreference - lambda</a></td></tr>
+    <tr><td>GoogleTest</td><td>Unit testing</td><td><a href="https://github.com/google/googletest">Google Test</a></td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick example (lambda wrapper)
+
+```cpp
+#include <functional>
+#include <iostream>
+
+int main() {
+    auto add = [](int a, int b){ return a + b; };
+    std::function<int(int,int)> f = add;
+    std::cout << f(2,3) << "\n"; // 5
+}
+```
+
+### Minimal GoogleTest example
+
+```cpp
+#include <gtest/gtest.h>
+
+int add(int a, int b){ return a + b; }
+
+TEST(AddTest, Basic) {
+    EXPECT_EQ(5, add(2,3));
+}
+```
+
+### Exercises (functions_cpp-appendix)
+
+1. Implement a small higher-order function that takes a callable and returns a wrapped callable that logs arguments.
+2. Add a basic GoogleTest that verifies behavior for at least two callables (lambda and function pointer).
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Functions — Design & Tests (Appendix — functions_cpp-continued)
+
+A compact set of recipes for writing well-tested functions, designing APIs, and adding simple CI test targets for C++ lessons.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Focus</th><th>Why</th><th>Resource</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Header/Source split</td><td>Encapsulation & linkage</td><td><a href="https://en.cppreference.com/w/cpp/language/functions">cppreference - functions</a></td></tr>
+    <tr><td>constexpr</td><td>Compile-time computation</td><td><a href="https://en.cppreference.com/w/cpp/language/constexpr">constexpr</a></td></tr>
+    <tr><td>Testing</td><td>Unit tests for pure functions</td><td><a href="https://github.com/google/googletest">GoogleTest</a></td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Minimal CMake test target
+
+```cmake
+# CMakeLists.txt snippet
+add_executable(example_test tests/example_test.cpp)
+find_package(GTest REQUIRED)
+target_link_libraries(example_test PRIVATE GTest::gtest_main)
+add_test(NAME example-test COMMAND example_test)
+```
+
+### Example function test (GoogleTest)
+
+```cpp
+#include <gtest/gtest.h>
+int add(int a, int b) { return a + b; }
+
+TEST(AddTest, Basic) {
+    EXPECT_EQ(5, add(2,3));
+}
+```
+
+### API design checklist
+
+- Prefer clear names and short parameter lists.
+- Document ownership and lifetime expectations (who owns pointers, if any).
+- Use `const &` for heavy read-only params.
+- Mark small, non-throwing functions `noexcept` when appropriate.
+
+### Exercises (Appendix — functions_cpp-continued)
+
+1. Add a GoogleTest for `triple(int)` and `average(double,double)`. Ensure tests compile under CMake.
+2. Convert a small macro into an `inline constexpr` function and add a compile-time check using `static_assert`.

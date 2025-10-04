@@ -137,3 +137,131 @@ With ranges (C++20), algorithms accept projections—functions applied to each e
 5. How can lambdas make algorithm calls more expressive?
 
 Once you can answer these, jump into the exercise to solidify your algorithm toolkit.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: STL Algorithms (Appendix)
+
+A short appendix with a CI snippet to run algorithm-focused tests and a table summarizing common algorithms and trade-offs.
+
+```yaml
+# CI: run algorithm tests
+name: STL-Algorithms-CI
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: mkdir -p build && cd build && cmake .. && cmake --build .
+      - name: Run tests
+        run: ./tests/algorithms_test || true
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Algorithm</th><th>Complexity</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::sort</td><td>O(n log n)</td><td>Default choice</td></tr>
+    <tr><td>std::nth_element</td><td>O(n)</td><td>Partial ordering</td></tr>
+    <tr><td>std::partition</td><td>O(n)</td><td>Stable variants exist</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix)
+
+1. Add unit tests that exercise edge cases for `std::partition` and `std::nth_element`.
+2. Add a benchmark harness and commit results as part of CI artifacts.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Algorithm Pitfalls (Appendix II)
+
+Small notes about iterator invalidation, comparator correctness, and a concise table of common pitfalls.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Issue</th><th>Symptom</th><th>Mitigation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Invalid comparator</td><td>Undefined behavior</td><td>Test with edge cases</td></tr>
+    <tr><td>Iterator invalidation</td><td>Use-after-erase</td><td>Capture indices or use erase-remove idiom</td></tr>
+    <tr><td>Stability assumptions</td><td>Order changes</td><td>Use stable_sort if required</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II — Deep Dive — stl_algorithms-1)
+
+1. Add tests that intentionally pass invalid comparators and assert graceful failure modes.
+2. Document when `std::stable_sort` is necessary in the project.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: STL Algorithms — External Links (Appendix — External Links)
+
+Authoritative references for algorithm complexity and example idioms.
+
+- cppreference algorithms: [std::algorithm reference](https://en.cppreference.com/w/cpp/algorithm)
+- Notes on execution policies and parallel algorithms: [execution](https://en.cppreference.com/w/cpp/experimental/execution)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Algorithm</th><th>Link</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::sort</td><td><a href="https://en.cppreference.com/w/cpp/algorithm/sort">sort</a></td><td>Use for general-purpose sorting</td></tr>
+    <tr><td>std::transform</td><td><a href="https://en.cppreference.com/w/cpp/algorithm/transform">transform</a></td><td>Apply element-wise transformations</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Replace a manual loop with `std::transform` and add a small benchmark using `<chrono>`.
+2. Try `std::execution::par` on a CPU-bound transform and note portability caveats.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: STL Algorithms — Deep Dive (Appendix II — External Links)
+
+Notes on algorithm complexity, stable vs unstable sorts, and execution policies for parallel algorithms.
+
+```cpp
+#include <algorithm>
+#include <vector>
+#include <execution>
+
+// simple parallel transform (C++17/C++20 experimental)
+std::vector<int> v = {1,2,3,4};
+std::transform(std::execution::par, v.begin(), v.end(), v.begin(), [](int x){ return x*2; });
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Algorithm</th><th>Link</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::sort</td><td><a href="https://en.cppreference.com/w/cpp/algorithm/sort">sort</a></td><td>Not guaranteed stable</td></tr>
+    <tr><td>execution policies</td><td><a href="https://en.cppreference.com/w/cpp/algorithm">execution</a></td><td>Portability varies</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II — Deep Dive — stl_algorithms-2)
+
+1. Apply `std::execution::par` to a CPU-bound transform and measure speedups across cores; note caveats.
+2. Replace a custom loop with a suitable `std::algorithm` and assert behavior.
+
+<!-- markdownlint-enable MD010 -->

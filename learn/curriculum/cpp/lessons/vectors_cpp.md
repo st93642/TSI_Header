@@ -143,3 +143,183 @@ Be mindful of performance when resizing nested vectors; reserve capacity for eac
 5. How would you sort a vector of structs by a field using `std::sort`?
 
 Master these patterns to wield vectors effectively before moving on to associative containers and algorithms.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Vectors — Performance and Patterns
+
+This appendix provides tips for reserving capacity, using `emplace_back`, memory layout insights, and an HTML table summarising common operations.
+
+### Reserve early
+
+```cpp
+std::vector<int> v;
+v.reserve(1000);
+for (int i=0;i<1000;++i) v.push_back(i);
+```
+
+### Emplace vs push
+
+```cpp
+struct S { std::string s; S(std::string v): s(std::move(v)){} };
+std::vector<S> v;
+v.emplace_back("hello"); // constructs in-place, avoids copy
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Operation</th><th>Method</th><th>Complexity</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Append</td><td>push_back / emplace_back</td><td>Amortized O(1)</td></tr>
+    <tr><td>Random access</td><td>operator[]</td><td>O(1)</td></tr>
+    <tr><td>Resize</td><td>reserve / shrink_to_fit</td><td>Depends on implementation</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Implement a simple dynamic buffer that doubles capacity when full and compare timings with `std::vector` for large insertions.
+2. Use `std::move` to transfer a large vector into a function efficiently.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: std::vector — Capacity & Growth
+
+This appendix includes patterns to avoid reallocations, shrink-to-fit caveats, and a container comparison table.
+
+```cpp
+std::vector<int> v;
+v.reserve(100); // avoid repeated reallocations
+for (int i = 0; i < 100; ++i) v.push_back(i);
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Container</th><th>Access</th><th>When to prefer</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::vector</td><td>O(1)</td><td>Contiguous, random access</td></tr>
+    <tr><td>std::list</td><td>O(n)</td><td>Frequent middle insert/erase</td></tr>
+    <tr><td>std::deque</td><td>O(1)</td><td>Efficient push/pop both ends</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Practical Appendix)
+
+1. Create a microbenchmark showing cost of repeated push_back without reserve vs with reserve.
+2. Implement a small memory-usage report showing capacity vs size over time.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: std::vector — Resources (Appendix — External Links)
+
+Authoritative references and common performance notes for `std::vector`.
+
+- cppreference `std::vector`: [std::vector reference](https://en.cppreference.com/w/cpp/container/vector)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Doc</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Capacity & reserve</td><td><a href="https://en.cppreference.com/w/cpp/container/vector">vector</a></td><td>Use reserve to reduce reallocations</td></tr>
+    <tr><td>Iterator validity</td><td><a href="https://en.cppreference.com/w/cpp/container/vector#Iterator_invalidity">iterator invalidation</a></td><td>Reallocation invalidates pointers/iterators</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Benchmark push_back with and without reserve for a large input set.
+2. Show iterator invalidation by storing an iterator and triggering a reallocation.
+
+<!-- markdownlint-enable MD010 -->
+
+## Practical Appendix: External Tools & Examples (Appendix — External Tools — vectors_cpp-appendix)
+
+Notes and quick recipes for `std::vector` usage, iterator invalidation, and performance tuning. Links point to the authoritative cppreference pages.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Why</th><th>Link</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::vector</td><td>Contiguous storage & APIs</td><td><a href="https://en.cppreference.com/w/cpp/container/vector">cppreference: vector</a></td></tr>
+    <tr><td>Iterator invalidation</td><td>When iterators are invalidated</td><td>See documentation on member function effects at cppreference</td></tr>
+    <tr><td>Reserve/Capacity</td><td>Avoid reallocations</td><td>Use reserve() when size known</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: reserve to avoid reallocations
+
+```cpp
+#include <vector>
+#include <iostream>
+
+int main(){
+    std::vector<int> v;
+    v.reserve(100); // avoid repeated reallocations
+    for(int i=0;i<100;i++) v.push_back(i);
+    std::cout << v.size() << '\n';
+}
+```
+
+### Exercises (vectors_cpp-appendix)
+
+1. Write a short benchmark comparing push_back with and without reserve; report allocation counts if your environment offers them (e.g., instrument allocator or use valgrind/heap profiling).
+2. Demonstrate iterator invalidation by saving an iterator across a capacity-change operation and explain the result.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: std::vector — Performance & Diagnostics (Appendix — vectors_cpp-continued)
+
+Notes and recipes to profile vector usage, avoid reallocations, and instrument allocations in exercises.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Problem</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Repeated push_back</td><td>reserve()</td><td>Pre-reserve to reduce reallocations</td></tr>
+    <tr><td>Iterator invalidation</td><td>Avoid storing iterators across resizes</td><td>Recompute iterators after mutation</td></tr>
+    <tr><td>Large moves</td><td>std::move</td><td>Transfer ownership cheaply</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Microbenchmark example (allocation count)
+
+```cpp
+#include <vector>
+#include <chrono>
+#include <iostream>
+
+int main(){
+    std::vector<int> v;
+    v.reserve(1'000'000);
+    auto t0 = std::chrono::high_resolution_clock::now();
+    for(int i=0;i<1'000'000;++i) v.push_back(i);
+    auto t1 = std::chrono::high_resolution_clock::now();
+    std::cout << "Time: " << std::chrono::duration<double>(t1 - t0).count() << "s\n";
+}
+```
+
+### Exercises (Appendix — vectors_cpp-continued)
+
+1. Build the microbenchmark above and run with and without `reserve` to observe the timing difference.
+2. Demonstrate iterator invalidation by storing an iterator before growing the vector and document the behaviour.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

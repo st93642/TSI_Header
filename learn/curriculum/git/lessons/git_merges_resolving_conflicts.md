@@ -454,3 +454,125 @@ Example pseudo-automation:
 # on regression detection
 gh issue create --title "Merge regression: $MERGE_SHA" --body "Merged PR $PR into main; preview CI: $PREVIEW_URL; post-merge logs: $POST_URL"
 ```
+
+---
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Conflict Ops Appendix: Detection, Automation, and Playbooks
+
+This appendix provides practical snippets to detect merge conflicts early in CI, small automation scripts to aid resolutions, a merge-driver example, and a conflict decision HTML table for triage.
+
+### Early Conflict Detection CI job (GitHub Actions)
+
+Run a preview-merge check when PRs are opened/updated to detect merge conflicts quickly and notify authors before merging.
+
+```yaml
+name: merge-preview
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  preview-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
++        with:
++          fetch-depth: 0
+      - name: Fetch main
+        run: |
+          git fetch origin main:refs/remotes/origin/main
+      - name: Attempt merge preview
+        run: |
+          set -euo pipefail
+          git checkout -b pr-preview
+          git merge --no-commit --no-ff origin/main || echo "MERGE_CONFLICT"
+      - name: Report conflicts
+        if: failure()
+        run: |
+          echo "Merge conflict detected in preview. Notifying author."
+```
+
+### Merge-driver recipe: safest-merge for generated files
+
+Use a merge driver when generated files should be regenerated rather than merged line-by-line.
+
+```text
+# .gitattributes
+*.generated.json merge=regen
+```
+
+```bash
+# .git/config (local)
+[merge "regen"]
+  name = regenerate-generated-file
+  driver = /usr/local/bin/regen-merge %O %A %B
+```
+
+`regen-merge` (simple Python example)
+
+```python
+#!/usr/bin/env python3
+import sys, json
+# %O = base, %A = current, %B = other
+base, current, other = sys.argv[1:4]
+# regenerate by preferring current keys then other
+with open(current) as f:
+    cur = json.load(f)
+with open(other) as f:
+    oth = json.load(f)
+# merge keys: keep current unless missing
+merged = dict(oth)
+merged.update(cur)
+print(json.dumps(merged, indent=2))
+```
+
+### Conflict decision HTML matrix
+
+<table>
+  <thead>
+    <tr><th>Conflict</th><th>Immediate Action</th><th>Responsible</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Whitespace/format</td><td>Run formatter and auto-commit</td><td>CI / Author</td></tr>
+    <tr><td>Semantic code conflict</td><td>Reproduce & run tests, assign to author</td><td>Author</td></tr>
+    <tr><td>Binary/generator conflict</td><td>Use merge driver or regenerate artifact</td><td>Maintainer</td></tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-enable MD033 MD010 -->
+
+### Conflict automation snippets
+
+```bash
+#!/usr/bin/env bash
+# quick: attempt to auto-apply trivial whitespace resolution
+if git merge --no-commit --no-ff origin/main; then
+  echo "No conflicts in preview"
+else
+  # attempt whitespace-aware merge
+  git merge -Xignore-space-change --no-commit --no-ff origin/main || echo "Needs manual resolution"
+fi
+```
+
+### Conflict communication template (short)
+
+```
+Subject: Merge conflict in PR #<PR> - <short title>
+
+Summary: Merge preview failed when merging into main. Conflicting files: <list>
+Action: Please rebase your branch on main and resolve conflicts, or request help from the team.
+```
+
+### Conflict Appendix Exercises
+
+1. Add the `merge-preview` job to a sample repo and demonstrate early conflict detection by creating a PR that conflicts with main.
+2. Implement the `regen-merge` driver for a generated JSON format and validate it by creating conflicting edits in two branches.
+3. Create a small bot or action that labels PRs with `conflict` when the preview merge fails and notify the author with next steps.
+
+---
+
+End of Conflict Ops Appendix.
+
+````markdown

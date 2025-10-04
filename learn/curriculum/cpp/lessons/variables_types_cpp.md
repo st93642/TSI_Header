@@ -211,3 +211,65 @@ Notice how constants, initialization, and type deduction combine to keep the cod
 5. What advantages do structured bindings offer compared to manually accessing `pair.first` and `pair.second`?
 
 Answer these before moving forward to deepen your comfort with C++'s type system.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Variables & Types (Appendix)
+
+Brief RAII examples and an HTML table comparing storage durations.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Storage</th><th>Duration</th><th>When</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Automatic</td><td>Scope</td><td>Local RAII</td></tr>
+    <tr><td>Static</td><td>Program lifetime</td><td>Config caches</td></tr>
+    <tr><td>Heap</td><td>Manual</td><td>Large buffers</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix)
+
+1. Write an RAII wrapper for a raw resource and test scope-based release.
+2. Measure copy vs move for a large object type.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Types & Safety — Deep Dive (Appendix II — External Links)
+
+Guidance for choosing integer types, using fixed-width types, and documenting overflow behavior.
+
+```cpp
+#include <cstdint>
+#include <limits>
+#include <iostream>
+
+int main() {
+    std::int64_t a = std::numeric_limits<std::int64_t>::max();
+    std::cout << "Max int64: " << a << '\n';
+}
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Link</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Fixed-width types</td><td><a href="https://en.cppreference.com/w/cpp/types/integer">integer types</a></td><td>Use for precise sizes</td></tr>
+    <tr><td>Overflow</td><td><a href="https://en.cppreference.com/w/cpp/language/operator_arithmetic">overflow rules</a></td><td>Undefined for signed overflow</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II — variables_types)
+
+1. Replace `int` with fixed-width types in a lesson and add tests that check expected ranges.
+2. Add assertions or checks for potential overflows where inputs are untrusted.
+
+<!-- markdownlint-enable MD010 -->

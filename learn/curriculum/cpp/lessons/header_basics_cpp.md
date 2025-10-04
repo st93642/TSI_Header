@@ -119,3 +119,195 @@ inline T clamp(T value, T low, T high) {
 5. When is a forward declaration appropriate, and when must you include the full header instead?
 
 Once these concepts feel natural, tackle the exercise to practise splitting code between headers and source files.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Header Best Practices & Tooling Appendix
+
+This appendix collects advanced patterns and practical tooling to keep C++ headers maintainable at scale: the PIMPL idiom, include-what-you-use practices, modules intro, header-hygiene CI checks, and helpful scripts.
+
+### PIMPL (Pointer to IMPL) Idiom
+
+PIMPL hides implementation details and reduces compile-time coupling by moving private members into a separate implementation struct. It reduces header churn when members change.
+
+```cpp
+// widget.h
+#ifndef PROJECT_WIDGET_H
+#define PROJECT_WIDGET_H
+
+#include <memory>
+
+class Widget {
+public:
+  Widget();
+  ~Widget();
+  void draw();
+private:
+  struct Impl;
+  std::unique_ptr<Impl> pimpl;
+};
+
+#endif // PROJECT_WIDGET_H
+```
+
+```cpp
+// widget.cpp
+#include "widget.h"
+#include "widget_impl.h" // defines struct Widget::Impl
+
+struct Widget::Impl { /* private fields */ };
+Widget::Widget() : pimpl(std::make_unique<Impl>()) {}
+Widget::~Widget() = default;
+void Widget::draw() { /* forward to pimpl */ }
+```
+
+Benefits:
+- Changes to impl do not require recompiling clients.
+- Improves ABI stability for libraries.
+ 
+Tradeoffs:
+- Slight runtime and code complexity cost (indirection, heap allocation).
+
+### Include-What-You-Use (IWYU) Practices
+
+Always include headers you directly depend on. Use IWYU tools to analyze and suggest missing or redundant includes.
+
+Sample CI step (conceptual) that runs IWYU and fails on regressions:
+
+```yaml
+name: iwyu-check
+on: [push, pull_request]
+jobs:
+  iwyu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dep
+        run: sudo apt-get update && sudo apt-get install -y include-what-you-use
+      - name: Run IWYU
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          run_iwyu.py -p . ../src | tee iwyu.out
+          if grep -q "should add these lines:" iwyu.out; then exit 1; fi
+```
+
+### C++ Modules (brief intro)
+
+C++20 modules aim to improve compile times and encapsulation compared to traditional headers. Trade-offs include toolchain availability and migration complexity.
+
+```cpp
+// math.ixx (module interface)
+export module math;
+export int add(int a, int b);
+```
+
+```cpp
+// math.cppm (module implementation)
+module math;
+int add(int a, int b) { return a + b; }
+```
+
+Pros:
+- Faster builds by avoiding textual inclusion.
+- Stronger encapsulation of implementation.
+ 
+Cons:
+- Tooling and ecosystem support still maturing in many environments.
+
+### Header Hygiene: CI Checks & Scripts
+
+Small scripts and CI checks can catch common header problems: missing include guards, public headers that pull private headers, or headers that include too many transitive dependencies.
+
+Header-check script (simple example):
+
+```bash
+#!/usr/bin/env bash
+# header-hygiene.sh: check for pragma once or include guards and basic IWYU hints
+set -euo pipefail
+fail=0
+for h in $(git ls-files '*.h' '*.hpp' '*.hxx'); do
+  if ! grep -q "#pragma once\|#ifndef" "$h"; then
+    echo "Missing include guard or pragma once: $h"
+    fail=1
+  fi
+done
+exit $fail
+```
+
+Automate this in CI as a pre-merge gate and pair it with a lighter IWYU scan to suggest improvements.
+
+### Header Reference Table (HTML)
+
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Issue</th><th>Check</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Missing include guard</td><td>header-hygiene.sh</td><td>Add `#pragma once` or guard</td></tr>
+    <tr><td>Unnecessary transitive include</td><td>include-what-you-use</td><td>Remove and include direct dependency</td></tr>
+    <tr><td>Large header compile cost</td><td>build timing profile</td><td>Split header, use forward declaration or PIMPL</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
+
+### Practical: Minimal IWYU helper (python)
+
+```python
+#!/usr/bin/env python3
+# scan-headers.py: naive scan for direct includes vs usage (toy example)
+import re,sys
+for path in sys.argv[1:]:
+    text=open(path).read()
+    includes=re.findall(r'\\#include \"([^\"]+)\"', text)
+    uses=re.findall(r'\bstd::\w+\b', text)
+    print(path, 'includes=', includes, 'uses=', list(set(uses)))
+```
+
+### Include Order Enforcement
+
+Enforce a style that puts the corresponding header first; this ensures the header is self-contained. CI can run a quick compile of each header in isolation using the compile_commands.json produced by CMake.
+
+### Header-only Libraries & Inline Costs
+
+For small utilities, header-only libraries reduce friction. For large libraries, prefer compiled libraries with stable headers to limit recompiles.
+
+### HTML: Public vs Private Header Layout
+
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Location</th><th>Purpose</th><th>Visibility</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>include/project/foo.h</td><td>Public API</td><td>Installed to SDK</td></tr>
+    <tr><td>src/foo_impl.h</td><td>Private helpers</td><td>Not installed</td></tr>
+    <tr><td>tests/foo_test.cpp</td><td>Unit tests referencing public header</td><td>Test-only</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
+
+### Module & ABI guidance
+
+- When producing libraries for distribution, maintain a stable header ABI. Use PIMPL for private data and document any ABI-affecting changes.
+- Keep exported headers minimal; do not expose private headers in the installed include path.
+
+### Quick CI snippet: compile headers in isolation (CMake)
+
+```bash
+mkdir -p build && cd build
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+# compile each header's translation unit if supported
+python3 ../scripts/compile_headers.py --compile-commands compile_commands.json
+```
+
+### Exercises: Header Best Practices (unique)
+
+1. Convert a small module to use PIMPL for private members and measure rebuild times before/after a private change.
+2. Add `header-hygiene.sh` to CI as a pre-merge gate and create an exemption process for legacy headers that require gradual migration.
+3. Try migrating a small part of a project to C++ modules and record build time differences on your CI runner.
+
+---
+
+End of Header Best Practices & Tooling Appendix.

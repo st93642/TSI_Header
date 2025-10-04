@@ -235,6 +235,32 @@ puts "Inventory empty" unless items&.any?
    - Prompt for a username and classify it as "valid", "missing", or "invalid" using an `if`/`elsif` chain.
    - Requirements: present, 3–16 characters, only lowercase letters or underscores.
 
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Guard Clauses & Best Practices
+
+This appendix collects guard clause patterns, a short HTML table comparing constructs, and exercises to refactor nested conditionals.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Construct</th><th>When to use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>if/elsif</td><td>Multiple exclusive branches</td><td>Clear ordering important</td></tr>
+    <tr><td>case</td><td>Many discrete matches</td><td>Good for enums</td></tr>
+    <tr><td>pattern matching</td><td>Destructure data</td><td>Ruby 2.7+</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Refactor a nested `if` example into guard clauses.
+2. Implement a `feature_enabled?(user, flags)` helper that composes env checks and membership lists.
+
+<!-- markdownlint-enable MD010 -->
+
 ## Self-check questions
 
 1. When would you prefer `case` over multiple `elsif` branches?

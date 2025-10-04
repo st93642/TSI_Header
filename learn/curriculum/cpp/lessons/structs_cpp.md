@@ -122,6 +122,125 @@ Provide `explicit` constructors when a single argument should not be implicitly 
 - Implement member functions in the corresponding `.cpp` when they become non-trivial.
 - Document each field with a brief comment to explain its purpose, especially for public APIs.
 
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Structs in Multi-file Projects
+
+This appendix covers header layout, simple constructors, serialization for tests, and an HTML comparison table for struct/ class choices.
+
+### Header/Source layout
+
+`city.h`:
+
+```cpp
+#pragma once
+#include <string>
+
+struct City {
+    std::string name;
+    double highTempCelsius{};
+    void print() const;
+};
+```
+
+`city.cpp`:
+
+```cpp
+#include "city.h"
+#include <iostream>
+
+void City::print() const {
+    std::cout << name << " -> " << highTempCelsius << "\n";
+}
+```
+
+### Serialization for tests
+
+```cpp
+std::string to_string(const City& c) {
+    return c.name + ":" + std::to_string(c.highTempCelsius);
+}
+```
+
+### Struct vs Class (HTML)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Struct</th><th>Class</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Default access</td><td>public</td><td>private</td></tr>
+    <tr><td>Use case</td><td>Plain data holders</td><td>Encapsulation and invariants</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Split a `Person` struct across header and source files. Add a `to_string` helper and unit tests.
+2. Show how to move a heavy member (like `std::vector`) into a pointer and manage ownership safely.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Structs, POD, and Layout
+
+This appendix outlines POD vs non-POD types, alignment pitfalls, packing pragmas, and a table comparing `struct` and `class` in C++.
+
+```cpp
+struct Point { double x, y; };
+static_assert(std::is_standard_layout_v<Point>);
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Keyword</th><th>Default access</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>struct</td><td>public</td><td>POD-like aggregates</td></tr>
+    <tr><td>class</td><td>private</td><td>Encapsulation & invariants</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Practical Appendix)
+
+1. Create a packed struct compatible with a binary file format and write a small serializer/deserializer.
+2. Show how alignment introduces padding by printing sizeof of nested structs.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Struct Layout & Alignment — External Links (Appendix — External Links)
+
+Authoritative references for standard-layout types, alignment, and packing.
+
+- cppreference struct layout: [Data members — cppreference](https://en.cppreference.com/w/cpp/language/data_members)
+- Alignment reference: [Alignment — cppreference](https://en.cppreference.com/w/cpp/language/object#Alignment)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Link</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Standard layout</td><td><a href="https://en.cppreference.com/w/cpp/language/data_members">Data members</a></td><td>Helps with ABI interop</td></tr>
+    <tr><td>Alignment</td><td><a href="https://en.cppreference.com/w/cpp/language/object#Alignment">Alignment</a></td><td>Be careful with packed structs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Show padding by printing sizeof for nested structs and experiment with alignment attributes.
+2. Document when to use `#pragma pack` and trade-offs for portability.
+
+<!-- markdownlint-enable MD010 -->
+
 ## Practice time
 
 1. **City climate report:** Define a struct with name, high, and low temperatures. Populate a vector, sort by high temperature, and print a formatted report.

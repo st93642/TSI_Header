@@ -133,3 +133,200 @@ Use `std::tolower` from `<cctype>` and guard conversions to avoid undefined beha
 5. How does a custom comparator change iteration order, and what constraints must it satisfy?
 
 Answer these before moving on to see how algorithms and other containers complement maps in real programs.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: `std::map` in Real Projects
+
+This appendix contains examples for initializing maps from files, serializing small maps for tests, and an HTML table comparing associative containers.
+
+### Loading a map from a file
+
+```cpp
+#include <fstream>
+#include <sstream>
+
+std::map<std::string, int> load_counts(const std::string& path) {
+    std::map<std::string, int> out;
+    std::ifstream in(path);
+    std::string line;
+    while (std::getline(in, line)) {
+        std::istringstream iss(line);
+        std::string key; int value;
+        if (iss >> key >> value) out[key] = value;
+    }
+    return out;
+}
+```
+
+### Small CI snippet (CMake + Catch2)
+
+```cmake
+add_executable(map_tests tests/map_tests.cpp)
+find_package(Catch2 REQUIRED)
+target_link_libraries(map_tests PRIVATE Catch2::Catch2WithMain)
+add_test(NAME map-tests COMMAND map_tests)
+```
+
+### Associative containers comparison (HTML)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Container</th><th>Ordering</th><th>Average Ops</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::map</td><td>Ordered</td><td>O(log n)</td></tr>
+    <tr><td>std::unordered_map</td><td>Unordered</td><td>Average O(1)</td></tr>
+    <tr><td>std::multimap</td><td>Ordered with duplicates</td><td>O(log n)</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Parse a two-column text file into a `std::map<std::string,int>` and then print entries sorted by value.
+2. Compare `std::map` vs `std::unordered_map` performance for a generated workload of 10k keys.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Maps — Ordered vs Unordered
+
+This appendix compares `std::map` and `std::unordered_map`, hash function choices, collision impacts, and when to use each.
+
+```cpp
+#include <unordered_map>
+std::unordered_map<std::string,int> counts;
+counts.reserve(1024);
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Map Type</th><th>Lookup</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::map</td><td>O(log n)</td><td>Ordered iteration, stable iterators</td></tr>
+    <tr><td>std::unordered_map</td><td>Average O(1)</td><td>Fast lookup, no ordering</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Practical Appendix)
+
+1. Benchmark `std::map` vs `std::unordered_map` with 1M keys (measure insert & lookup).
+2. Implement a custom hash for a composite key and validate distribution with histograms.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Maps — Resources (Appendix — External Links)
+
+Links and notes on `std::map` vs `std::unordered_map` with complexity notes.
+
+- cppreference map: [std::map reference](https://en.cppreference.com/w/cpp/container/map)
+- cppreference unordered_map: [std::unordered_map reference](https://en.cppreference.com/w/cpp/container/unordered_map)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Container</th><th>Link</th><th>Performance</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::map</td><td><a href="https://en.cppreference.com/w/cpp/container/map">map</a></td><td>Logarithmic time (ordered)</td></tr>
+    <tr><td>std::unordered_map</td><td><a href="https://en.cppreference.com/w/cpp/container/unordered_map">unordered_map</a></td><td>Average constant time (hash-based)</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Replace a `std::map` with `std::unordered_map` and measure lookup times for large datasets.
+2. Demonstrate how to provide a custom hash for a user-defined type and test correctness.
+
+<!-- markdownlint-enable MD010 -->
+
+## Practical Appendix: External Tools & Examples (Appendix — External Tools — maps_cpp-appendix)
+
+Compact notes for `std::map`, lookup semantics, and example usages; references point to cppreference for `std::map`.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Why</th><th>Link</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::map</td><td>Ordered associative container</td><td><a href="https://en.cppreference.com/w/cpp/container/map">cppreference: map</a></td></tr>
+    <tr><td>Accessors</td><td>operator[] vs at()</td><td>operator[] inserts if missing; at() throws</td></tr>
+    <tr><td>Node handles</td><td>Extract/merge (C++17)</td><td>See node_handle APIs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: basic usage
+
+```cpp
+#include <map>
+#include <string>
+#include <iostream>
+
+int main(){
+    std::map<std::string,int> m{{"a",1},{"b",2}};
+    m["c"] = 3;
+    for(const auto& [k,v] : m) std::cout << k << ":" << v << '\n';
+}
+```
+
+### Exercises (maps_cpp-appendix)
+
+1. Demonstrate the difference between `operator[]` and `at()` when accessing keys that do not exist.
+2. Use `extract` and `merge` APIs to move nodes between two maps (C++17+).
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Maps — Patterns & Tests (Appendix — maps_cpp-appendix2)
+
+A compact set of recipes for testing map-based code, serialising small maps for fixtures, and choosing the right associative container.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Task</th><th>Pattern</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Load from file</td><td>parse lines into key/val</td><td>use std::istringstream</td></tr>
+    <tr><td>Serialize</td><td>dump to JSON or key=value</td><td>use small writer or test fixture</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### CI snippet (CMake + Catch2)
+
+```cmake
+add_executable(map_tests tests/map_tests.cpp)
+find_package(Catch2 REQUIRED)
+target_link_libraries(map_tests PRIVATE Catch2::Catch2WithMain)
+add_test(NAME map-tests COMMAND map_tests)
+```
+
+### Quick test example (Catch2)
+
+```cpp
+#include <catch2/catch.hpp>
+#include <map>
+
+TEST_CASE("map insert and find") {
+    std::map<std::string,int> m;
+    m["a"] = 1;
+    REQUIRE(m.at("a") == 1);
+}
+```
+
+### Exercises (Appendix — maps_cpp-appendix2)
+
+1. Write a unit test that verifies reading a file into a map produces the expected sorted output.
+2. Replace `std::map` with `std::unordered_map` in a benchmark and measure insert & lookup times.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

@@ -198,3 +198,65 @@ Gems like `timecop`, `active_support/testing/time_helpers`, or `travel_to` (Rail
 5. How can stubbing or freezing `Time.now` improve the reliability of tests that depend on the current moment?
 
 Temporal logic is notoriously tricky—plan for time zones, daylight saving, and user locale early. With Ruby’s time and date toolkit (supplemented by well-chosen gems), you can model schedules, countdowns, and recurring events with confidence.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Time & Date Patterns
+
+This appendix shows parsing, timezone handling, and when to prefer `Time` vs `DateTime` or `ActiveSupport::TimeWithZone` in apps.
+
+```ruby
+require 'time'
+Time.parse('2025-10-04T12:00:00Z')
+
+# Formatting
+Time.now.utc.iso8601
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Class</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Time</td><td>System timestamps</td><td>Better for performance</td></tr>
+    <tr><td>DateTime</td><td>Historical dates</td><td>Less performant</td></tr>
+    <tr><td>ActiveSupport::TimeWithZone</td><td>Rails apps</td><td>Handles zones cleanly</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Parse a log file with mixed timezone entries and normalize them to UTC.
+2. Add a small utility that computes age from a birthdate string handling leap years correctly.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Time & Date — Resources (Appendix — External Links)
+
+References for date/time handling and timezone-aware patterns in Ruby.
+
+- Ruby Time and Date docs: [Time](https://ruby-doc.org/core/Time.html), [Date](https://ruby-doc.org/stdlib/date/rdoc/Date.html)
+- ActiveSupport time helpers (Rails): [ActiveSupport::TimeWithZone]
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Doc</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Time</td><td><a href="https://ruby-doc.org/core/Time.html">Time</a></td><td>Use UTC for storage</td></tr>
+    <tr><td>Date</td><td><a href="https://ruby-doc.org/stdlib/date/rdoc/Date.html">Date</a></td><td>Use for date-only logic</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Convert a naive local-time example to UTC and write tests verifying the conversion.
+2. Use `Time.parse` and `Date.parse` in tests and document edge cases around DST transitions.
+
+<!-- markdownlint-enable MD010 -->

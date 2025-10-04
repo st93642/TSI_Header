@@ -160,3 +160,114 @@ For production-grade logs, prefer `logger.debug` or `Rails.logger.debug` with JS
 5. What techniques let you capture or suppress `p` output during automated tests?
 
 `p` is the Rubyist’s quick flashlight—turn it on to illuminate confusing code paths, then switch to more targeted instrumentation once you’ve found the issue. With thoughtful use, it becomes an indispensable part of your debugging toolkit.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Debugging Helpers (Appendix)
+
+A short appendix showing `p`, `pp`, `logger` usage and a table comparing output helpers.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Helper</th><th>Output</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>p</td><td>inspect</td><td>Quick debugging</td></tr>
+    <tr><td>pp</td><td>pretty</td><td>Readable complex objects</td></tr>
+    <tr><td>Logger</td><td>levels/structured</td><td>Production logging</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix)
+
+1. Replace a `puts` call in a small script with `logger` and add a `--verbose` flag.
+2. Add a `debug` helper that prints file and line context before `p` output.
+
+<!-- markdownlint-disable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Debugging Shortcuts (Appendix II)
+
+Quick tips for using `p`, `pp`, `logger`, and a table showing when to pick each.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>When</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>p</td><td>Quick inspect</td><td>p obj</td></tr>
+    <tr><td>pp</td><td>Readable complex</td><td>pp obj</td></tr>
+    <tr><td>logger</td><td>Production</td><td>logger.info 'msg'</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II — p_method)
+
+1. Add a debug helper that prints stack context and the inspected object.
+2. Replace ad-hoc `p` calls with a centralized debug helper in one small example.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Debug Printing & `p` (Appendix — External Links)
+
+Quick references for common debug printing helpers and safe production alternatives.
+
+- Ruby `p` docs: [Kernel#p](https://ruby-doc.org/core/Kernel.html#method-i-p)
+- Debugging guide: [Using Pry/Byebug in development](https://github.com/pry/pry)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Link</th><th>Use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>`p`</td><td><a href="https://ruby-doc.org/core/Kernel.html#method-i-p">Kernel#p</a></td><td>Quick inspect; not for production logs</td></tr>
+    <tr><td>Pry</td><td><a href="https://github.com/pry/pry">Pry</a></td><td>Interactive debugging REPL</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Replace `puts` based debug prints with `p` for a complex object and write a test that asserts structure.
+2. Add a conditional debug helper that only triggers when an environment variable is set.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: `p` & Inspectors — Deep Dive (Appendix II — External Links)
+
+Notes on `p`, `inspect`, and using pretty-print (`pp`) for complex objects.
+
+```ruby
+require 'pp'
+obj = {a: [1,2,3], b: {x: 1}}
+pp obj
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Link</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>`p`</td><td><a href="https://ruby-doc.org/core/Kernel.html#method-i-p">Kernel#p</a></td><td>Quick debugging output</td></tr>
+    <tr><td>`pp`</td><td><a href="https://ruby-doc.org/stdlib/pp/rdoc/PP.html">PrettyPrint</a></td><td>Better readability for nested objects</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II)
+
+1. Replace ad-hoc string inspection with `pp` in a complex test fixture and update expected outputs.
+2. Add a conditional debug printer that respects an environment flag.
+
+<!-- markdownlint-enable MD010 -->

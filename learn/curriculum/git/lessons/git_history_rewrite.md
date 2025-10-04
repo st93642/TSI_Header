@@ -460,3 +460,82 @@ NEW_SHA=$(python3 map-sha.py $OLD_SHA)
 ---
 
 <!-- end appended history-rewrite appendix -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## History Rewriting Playbook: Policy, CI, and Migration Recipes
+
+This playbook gives a compact, runnable set of policies, CI wiring for `git filter-repo` dry-runs, mapping and re-signing helpers, and governance tables to coordinate large rewrites.
+
+### Policy decisions (HTML table)
+
+<table>
+  <thead>
+    <tr><th>Policy Item</th><th>Decision</th><th>Owner</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Allowed branches to rewrite</td><td>Feature branches only (exceptions reviewed)</td><td>Repo Maintainers</td></tr>
+    <tr><td>Production releases</td><td>No rewrite without release manager approval</td><td>Release Team</td></tr>
+    <tr><td>Secrets handling</td><td>Remove and rotate creds, notify legal if PII</td><td>Platform</td></tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-enable MD033 MD010 -->
+
+### CI Dry-Run Job for `git filter-repo`
+
+Use a CI job to run a dry-run of `git filter-repo` and validate the mapping and size impact before any destructive operation.
+
+```yaml
+name: filter-repo-dry-run
+on: [workflow_dispatch]
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
++        with:
++          fetch-depth: 0
++      - name: Install filter-repo
++        run: |
++          python3 -m pip install --user git-filter-repo
++      - name: Run filter-repo dry run
++        run: |
++          git clone --mirror . repo-mirror.git
++          cd repo-mirror.git
++          git filter-repo --path secrets.txt --invert-paths --dry-run
++          # produce a mapping report
++          git count-objects -vH > ../dry-run-counts.txt
+```
+
+### Mapping & Re-sign scripts
+
+```bash
+#!/usr/bin/env bash
+# generate old->new tag mapping after rewrite
+git for-each-ref --format='%(refname:short) %(objectname)' refs/tags > tags-after.txt
+# produce CSV mapping by comparing tags-before.txt and tags-after.txt using diff tools
+```
+
+### Rollback escalation flow
+
+1. If dry-run indicates missing artifacts, halt rollout and open an emergency ticket.
+2. Restore from forensic bundle: `git clone <bundle> restored && git push --mirror origin`.
+3. Notify all integrators and provide tag-mapping CSV for translation.
+
+### Governance checklist for rewrites
+
+- Ensure backup bundles exist and are stored with restricted access.
+- Publish migration notes and scripts in a dedicated repo so contributors can automate rebase/mapping.
+- Validate CI, signing, and deployment workflows against a staging remote for at least 48 hours.
+
+### History Rewriting Exercises (unique)
+
+1. Create a sandbox and use `git filter-repo` to remove a named file across history; publish a tag mapping CSV and validate downstream CI with the mapping.
+2. Implement a CI `filter-repo-dry-run` job and enforce it as a pre-approval gate before any rewrite.
+3. Create a small utility that reads `old_to_new_tags.csv` and translates verification logs by replacing old SHAs with new SHAs.
+
+---
+
+End of History Rewriting Playbook appendix.

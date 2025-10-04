@@ -252,3 +252,29 @@ Pattern matching also supports regex: `in /@(?<handle>\w+)/` assigns captures au
 5. Why is it important to include an `else` branch, and what should it typically do in production code?
 
 Well-structured `case` expressions keep control flow readable and adaptable. As your data models evolve, revisit your branches, tighten guards, and lean on pattern matching to express intent with less code.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Pattern Matching Recipes
+
+This appendix shows common patterns for matching API responses, arrays, and nested hashes. Includes an HTML table and exercises.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>Example</th><th>Use case</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Range</td><td>when 0..9</td><td>Grades, buckets</td></tr>
+    <tr><td>Regexp</td><td>when /email/</td><td>Input parsing</td></tr>
+    <tr><td>Hash match</td><td>in {status: 200, body:}</td><td>API responses</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Build a response router using `case/in` that handles success, redirect, and error cases.
+2. Add guards to match only JSON responses when `headers[:content_type]` includes `json`.
+
+<!-- markdownlint-enable MD010 -->

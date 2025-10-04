@@ -131,3 +131,152 @@ Understanding these internals helps you diagnose failing tests (e.g., missing ne
 5. How would you adapt these patterns when writing tests in another language—what stays the same, and what changes?
 
 Lean on this testing toolbox every time you practice: keep logic pure when possible, isolate IO, and let the harness confirm your code behaves exactly as intended.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Testing in CI and Local Workflows
+
+This appendix provides a reproducible CI configuration, sample test helpers, and instructor notes to make tests reliable across environments.
+
+### GitHub Actions example
+
+```yaml
+name: Ruby test
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+      - name: Install
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rake test
+```
+
+### Test helpers
+
+Provide a tiny helper to capture stdout/stderr in Minitest-style tests.
+
+```ruby
+require 'stringio'
+
+def capture_stdout
+  old_stdout = $stdout
+  $stdout = StringIO.new
+  yield
+  $stdout.string
+ensure
+  $stdout = old_stdout
+end
+```
+
+### CI triage table (HTML)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Check</th><th>Purpose</th><th>Remediation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Bundle install</td><td>Ensure gems are installable</td><td>Pin gem versions in Gemfile</td></tr>
+    <tr><td>Unit tests</td><td>Verify behavior</td><td>Run locally with `rake test`</td></tr>
+    <tr><td>Lint</td><td>Style and consistency</td><td>Run `rubocop` and fix offenses</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example test pattern
+
+```ruby
+require 'minitest/autorun'
+require_relative '../lib/my_code'
+
+class MyCodeTest < Minitest::Test
+  def test_sum
+    assert_equal 3, sum(1,2)
+  end
+end
+```
+
+### Exercises
+
+1. Add tests for edge cases (nil inputs, empty arrays).
+2. Convert an output-based test to a return-value test and explain the benefits.
+3. Add a `rake` task to run tests and wire it into CI.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Testing Helpers & Selective Runs (Appendix)
+
+Add examples of `test_helper.rb`, running single tests, and a small runner comparison table.
+
+```ruby
+# run a single test file
+ruby -Ilib:test test/test_foo.rb
+
+# run a single test method via minitest
+ruby -Ilib:test test/test_foo.rb --name /test_method_name/
+```
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Runner</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>rake test</td><td>Project tasks</td><td>Convenient</td></tr>
+    <tr><td>ruby test</td><td>Single file</td><td>Debugging</td></tr>
+    <tr><td>CI</td><td>Full suite</td><td>Gate PRs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix)
+
+1. Add a `test_helper.rb` that configures temporary dirs and reporter formatting.
+2. Document how to run a single test locally and in CI.
+
+<!-- markdownlint-enable MD010 -->
+
+## Practical Appendix: External Tools & Examples (Appendix — External Tools — testing_demo-ruby)
+
+Quick recipes for testing in Ruby: Minitest skeletons, RSpec pointers, and CI tips for running tests in GitHub Actions.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Use</th><th>Link</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Minitest</td><td>Lightweight unit tests</td><td><a href="https://github.com/seattlerb/minitest">Minitest</a></td></tr>
+    <tr><td>RSpec</td><td>Behaviour-driven tests</td><td><a href="https://rspec.info/">RSpec</a></td></tr>
+    <tr><td>GitHub Actions</td><td>CI for running tests</td><td><a href="https://docs.github.com/actions">GH Actions</a></td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Minitest example
+
+```ruby
+require 'minitest/autorun'
+
+def add(a,b) a+b end
+
+class TestAdd < Minitest::Test
+  def test_add
+    assert_equal 5, add(2,3)
+  end
+end
+```
+
+### Exercises (testing_demo-ruby)
+
+1. Convert one of the lesson's examples into a Minitest and ensure it runs under `ruby -r minitest/autorun`.
+2. Add a simple GitHub Actions workflow that runs `bundle exec rake test` or `ruby -r minitest/autorun` on push.

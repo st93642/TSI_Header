@@ -482,3 +482,54 @@ remotesum=$(aws s3api head-object --bucket git-archives --key "$(basename $repo)
 ---
 
 <!-- end appended repository management appendix -->
+
+## Repository Management — Extended Exercises & Quick Scripts
+
+### Quick script: rename default branch across many clones
+
+```bash
+#!/usr/bin/env bash
+# rename-default-branch.sh
+OLD=${1:-master}
+NEW=${2:-main}
+for repo in "$@"; do
+  echo "Processing $repo"
+  git clone --quiet "$repo" tmp-$RANDOM
+  cd tmp-$RANDOM
+  git branch -m "$OLD" "$NEW" || true
+  git push origin -u "$NEW"
+  git push origin --delete "$OLD" || true
+  cd ..
+  rm -rf tmp-*
+done
+```
+
+### Quick script: bulk archive old repositories
+
+```bash
+#!/usr/bin/env bash
+INVENTORY=$1
+while IFS=, read -r repo owner; do
+  echo "Archiving $repo"
+  git clone --mirror "$repo" /tmp/archives/$(basename "$repo").git
+  tar -czf /tmp/archives/$(basename "$repo").tar.gz -C /tmp/archives $(basename "$repo").git
+  aws s3 cp /tmp/archives/$(basename "$repo").tar.gz s3://git-archives/$(basename "$repo")/
+done < "$INVENTORY"
+```
+
+### Extended checklist (copyable)
+
+- Ensure CODEOWNERS exists and is up-to-date for critical paths.
+- Validate pre-receive hooks for size and policy checks.
+- Run a `git fsck --full` on mirror clones weekly and escalate failures.
+- Maintain a manifest of archive bundles with checksums and creator metadata.
+
+### Extended exercises (unique)
+
+1. Build an automation that scans all repos in an organization and reports those lacking CODEOWNERS, creating issues for repo owners.
+2. Implement a bulk-archive pipeline that creates bundles for repos inactive for >6 months and uploads them to cold storage.
+3. Create a short onboarding checklist and a `bootstrap.sh` script that sets up a sparse checkout for new contributors and enforces local gitconfig recommendations.
+
+---
+
+End of Repository Management — Extended Exercises & Quick Scripts.

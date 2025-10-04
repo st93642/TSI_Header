@@ -224,3 +224,37 @@ This example demonstrates chaining, formatting, error recovery, and mixed input 
 5. Why does `operator>>` stop reading at whitespace, and how can you change that behavior?
 
 Answering these questions solidifies your understanding before moving to richer data processing in the next lesson.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Streams in Production
+
+This appendix includes formatting recipes, a small CI snippet that runs a console program with sample input, and an HTML table comparing stream manipulators.
+
+```bash
+# CI job to build and run a quick smoke test
+mkdir build && cd build
+cmake ..
+cmake --build .
+printf "Ada\n20\n3.8\n" | ./profile_app
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Manipulator</th><th>Purpose</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::setw</td><td>Set field width</td><td>std::cout << std::setw(10) << value;</td></tr>
+    <tr><td>std::setprecision</td><td>Control decimal digits</td><td>std::cout << std::fixed << std::setprecision(2);</td></tr>
+    <tr><td>std::hex</td><td>Hex formatting</td><td>std::cout << std::hex << num;</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Create a small program that reads three values and prints a formatted table using `std::setw` and `std::setprecision`.
+2. Add a `--quiet` flag to suppress `std::clog` messages and test both modes in CI.
+
+<!-- markdownlint-enable MD010 -->

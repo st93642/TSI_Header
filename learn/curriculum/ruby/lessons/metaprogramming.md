@@ -168,3 +168,97 @@ list.show  # => Buy groceries [high]
 - Metaprogramming enables DSLs and frameworks
 - Use carefully - can make code hard to understand
 - Great for reducing repetitive code
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Metaprogramming Patterns & Cautions (Appendix)
+
+Short recipes for safe metaprogramming and a table summarizing trade-offs.
+
+```ruby
+# Define a simple attribute with history
+class AttrHistory
+  def self.attr_history(name)
+    define_method("#{name}_history") { (instance_variable_get("@#{name}_history") || []) }
+    define_method(name) do
+      instance_variable_get("@#{name}")
+    end
+    define_method("#{name}=") do |v|
+      (@#{name}_history ||= []) << v
+      instance_variable_set("@#{name}", v)
+    end
+  end
+end
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Technique</th><th>Pros</th><th>Cons</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>define_method</td><td>DRY APIs</td><td>Harder to trace</td></tr>
+    <tr><td>class_eval</td><td>Dynamic</td><td>Security & readability risks</td></tr>
+    <tr><td>method_missing</td><td>DSLs</td><td>Opaqueness</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix)
+
+1. Implement an `attr_history` macro and write tests.
+2. Audit a `class_eval` use and refactor into safer, explicit methods.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Metaprogramming Best Practices (Appendix II)
+
+Short checklist for when metaprogramming is justified and a table summarizing safe patterns.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>When</th><th>Why</th><th>Alternative</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>DSL required</td><td>Concise API</td><td>Explicit builder pattern</td></tr>
+    <tr><td>Reduce duplication</td><td>Less boilerplate</td><td>Generate code at build time</td></tr>
+    <tr><td>Dynamic adapt</td><td>Pluggable extensions</td><td>Explicit extension points</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II)
+
+1. Review an existing `class_eval` usage and rewrite as explicit methods.
+2. Add documentation comments to dynamically defined methods via `define_method`.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Metaprogramming — Resources (Appendix — External Links)
+
+Reading and cautionary notes for runtime code generation and reflection.
+
+- Ruby Object model & reflection: [Object and Module docs](https://ruby-doc.org/core/Object.html)
+- Best practices: prefer explicit code over complex metaprogramming when possible
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Aspect</th><th>Doc</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>define_method</td><td><a href="https://ruby-doc.org/core/Module.html#method-i-define_method">define_method</a></td><td>Useful for DRYing repetitive methods</td></tr>
+    <tr><td>Method introspection</td><td><a href="https://ruby-doc.org/core/Object.html">Object#methods</a></td><td>Avoid surprising public APIs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Replace a repetitive accessor definition with a `define_method` implementation and add tests that assert behavior.
+2. Add a short note documenting why excessive metaprogramming can harm maintainability.
+
+<!-- markdownlint-enable MD010 -->

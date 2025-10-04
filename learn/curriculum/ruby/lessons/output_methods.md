@@ -214,3 +214,81 @@ system(cmd)
 5. What steps prevent encoding or injection issues when combining strings from user-supplied data?
 
 Mastering Ruby’s string composition patterns gives you the power to craft clear messages, reusable templates, and world-class developer tools. Combine these strategies thoughtfully to keep your output clean, safe, and efficient.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: External Tools & Examples (Appendix — External Tools — output_methods-ruby)
+
+Short references for common output helpers in Ruby and examples showing `puts`, `print`, `p`, and `printf` behavior.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Method</th><th>Effect</th><th>Reference</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>puts</td><td>Appends newline</td><td>IO docs</td></tr>
+    <tr><td>print</td><td>No newline</td><td>IO docs</td></tr>
+    <tr><td>p</td><td>Inspect then newline</td><td>Kernel#p</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercise (output_methods-ruby)
+
+1. Capture stdout with `StringIO` and write tests asserting the exact output of `puts`, `print`, and `p` for the same inputs.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Output Helpers — Tests & CI (Appendix — output_methods-ruby2)
+
+Recipes for verifying output behaviour across `puts`, `print`, and `p`, plus CI smoke examples and test helpers.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Helper</th><th>Test pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>puts</td><td>capture stdout and compare lines</td><td>returns nil, so assert side-effects</td></tr>
+    <tr><td>print</td><td>prompt tests need flush</td><td>use STDOUT.flush</td></tr>
+    <tr><td>p</td><td>inspect output includes quotes</td><td>use to assert exact formatting</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Capture helper (repeatable)
+
+```ruby
+require 'stringio'
+
+def capture_stdout
+  old_stdout = $stdout
+  $stdout = StringIO.new
+  yield
+  $stdout.string
+ensure
+  $stdout = old_stdout
+end
+```
+
+### CI smoke (GitHub Actions)
+
+```yaml
+name: Output helper smoke
+on: [push]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ruby output examples
+        run: ruby -e "puts 'example'"
+```
+
+### Exercises (Appendix — output_methods-ruby2)
+
+1. Create tests that assert the exact output of `puts`, `print`, and `p` using the `capture_stdout` helper.
+2. Add a CI smoke job that runs a small sample script and reports exit status.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

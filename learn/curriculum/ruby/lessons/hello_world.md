@@ -255,3 +255,24 @@ If you see garbled output, ensure your terminal uses UTF-8 and your source files
 Take your time with the practice prompts to build muscle memory around output methods and debugging. When ready, jump to the next lesson to explore variables and data types. You'll start storing values, combining them with output, and crafting scripts that feel interactive and alive.
 
 Happy coding—and remember, every experiment you try in Ruby brings you one step closer to fluency! 🚀
+
+## Practical Appendix: Hello World Enhancements (Appendix — hello_world-ruby)
+
+A small appendix giving suggestions to expand the hello-world lesson with testing, CLI flags, and examples.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Why</th><th>Reference</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>CLI parsing</td><td>Add flags and options</td><td>Use OptionParser standard library</td></tr>
+    <tr><td>Testing</td><td>Validate expected output</td><td>Minitest</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (hello_world-ruby)
+
+1. Add a CLI argument to change the greeting and test it with `StringIO` capture.
+2. Document expected behavior for empty input.

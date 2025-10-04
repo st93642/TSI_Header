@@ -231,3 +231,38 @@ end
 4. **Use blocks for files**: Automatically close files when done
 5. **Pretty-print for debugging**: Use `JSON.pretty_generate` when inspecting data
 6. **Consider performance**: For large files, process line-by-line rather than loading everything into memory
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: JSON & CSV Patterns
+
+This appendix shows quick tips for streaming JSON/CSV, safe parsing, and an HTML table of converters.
+
+```ruby
+require 'json'
+File.open('data.json') do |f|
+  f.each_line do |line|
+    record = JSON.parse(line)
+    process(record)
+  end
+end
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Library</th><th>Purpose</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>JSON</td><td>Serialization</td><td>Use pretty_generate for debug</td></tr>
+    <tr><td>CSV</td><td>Tabular I/O</td><td>Headers: true when available</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Write a streaming CSV aggregator that merges multiple CSV files into one normalized file.
+2. Add a `--pretty` flag to pretty-print JSON output for debugging.
+
+<!-- markdownlint-enable MD010 -->

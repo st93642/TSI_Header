@@ -202,6 +202,32 @@ Ruby’s `i18n` gem (used in Rails) leans heavily on strings. Keep translations 
 puts "Line\nBreak".dump # => "\"Line\\nBreak\""
 ```
 
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Strings — Encoding & Performance
+
+This appendix includes tips on encoding conversion, `StringIO` building, and an HTML table summarizing creation methods.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Creation</th><th>Syntax</th><th>Use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Single quotes</td><td>'...'</td><td>Literal strings</td></tr>
+    <tr><td>Double quotes</td><td>"..."</td><td>Interpolation and escapes</td></tr>
+    <tr><td>Heredoc</td><td><<~TEXT</td><td>Multi-line templates</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Benchmark string concatenation with `+=` vs `StringIO` for 50_000 items.
+2. Write a sanitizer that removes control characters and normalizes whitespace.
+
+<!-- markdownlint-enable MD010 -->
+
 ## Guided practice
 
 1. **Template builder**

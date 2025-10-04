@@ -125,3 +125,209 @@ Spend a few minutes answering these in your own words before moving forward.
 ## Next steps
 
 With your toolchain confirmed, proceed to the next lesson (`iostream_basics`) to gather user input and print formatted data. Keep the `hello.cpp` file handy—it becomes the template for future console programs.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Hello World — Practical Appendix: CI, Tooling, and Debugging
+
+This appendix extends the Hello World lesson with practical, copy-pasteable snippets you can use to build robust, portable examples: a simple CMake project, CI build matrix, cross-compilation Docker tips, sanitizers and runtime checks, static analysis, and debugging recipes.
+
+### Simple CMake project (copyable)
+
+Create a minimal project layout:
+
+```text
+hello-cmake/
+  ├─ CMakeLists.txt
+  ├─ src/hello.cpp
+  └─ include/hello.h
+```
+
+`CMakeLists.txt` (minimal):
+
+```cmake
+cmake_minimum_required(VERSION 3.15)
+project(hello CXX)
+set(CMAKE_CXX_STANDARD 17)
+add_executable(hello src/hello.cpp)
+install(TARGETS hello RUNTIME DESTINATION bin)
+```
+
+This lets you build locally with:
+
+```bash
+mkdir build && cd build
+cmake ..
+cmake --build . --config Release
+./hello
+```
+
+### CI Build Matrix (example for GitHub Actions)
+
+Use a small build matrix to validate on Linux, macOS, and Windows. This example also demonstrates sanitizer and release builds.
+
+```yaml
+name: ci
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        compiler: [gcc, clang, msvc]
+        build_type: [Release, Debug]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup
+        run: |
+          if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then sudo apt-get update && sudo apt-get install -y build-essential cmake; fi
+      - name: Configure
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+      - name: Build
+        run: cmake --build build --config ${{ matrix.build_type }}
+      - name: Run
+        run: ./build/hello
+```
+
+### Build matrix (HTML) — target coverage
+
+<table>
+  <thead>
+    <tr><th>Platform</th><th>Compiler</th><th>Checks</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>ubuntu-latest</td><td>gcc/clang</td><td>Release, Debug, ASan/UBSan</td></tr>
+    <tr><td>macos-latest</td><td>clang</td><td>Release, Debug</td></tr>
+    <tr><td>windows-latest</td><td>MSVC</td><td>Release, Debug</td></tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-enable MD033 MD010 -->
+
+### Sanitizers and runtime checks
+
+Sanitizers find common runtime bugs early. For Hello World these are simple to enable and instructive to run.
+
+- AddressSanitizer (ASan) — finds heap/stack OOB and use-after-free.
+- UndefinedBehaviorSanitizer (UBSan) — finds undefined behavior (e.g., signed integer overflow).
+- LeakSanitizer (LSan) — detects leaks (often part of ASan on Linux).
+
+Compile with sanitizers (gcc/clang):
+
+```bash
+g++ -std=c++17 -fsanitize=address,undefined -fno-omit-frame-pointer -g hello.cpp -o hello.san
+./hello.san
+```
+
+In CI, run sanitizer jobs only on Debug builds or dedicated sanitizer matrix entries to contain runtime costs.
+
+### Static analysis & linters
+
+- Use `clang-tidy` for code-quality suggestions and modernizations.
+- Use `cppcheck` for additional static checks.
+
+Example `clang-tidy` run (CMake integration):
+
+```bash
+mkdir build && cd build
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+clang-tidy ../src/hello.cpp -- -I../include
+```
+
+Fail the CI job if `clang-tidy` reports errors above an agreed threshold.
+
+### Cross-compilation & Docker quickstart
+
+Use lightweight Docker images to provide consistent toolchains for students or CI:
+
+```dockerfile
+FROM ubuntu:24.04
+RUN apt-get update && apt-get install -y build-essential cmake git
+WORKDIR /work
+COPY . /work
+RUN mkdir build && cd build && cmake .. && cmake --build .
+```
+
+For cross-compiling to Windows, consider using `osxcross` (macOS cross) or `mingw-w64` toolchains inside containers.
+
+### Minimal unit test harness (Catch2)
+
+Add a small test to exercise your `add` function. Use a single-header Catch2 distribution for simplicity.
+
+`tests/test_add.cpp`:
+
+```cpp
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
+#include "math_utils.h"
+
+TEST_CASE("add works") {
+  REQUIRE(add(1,2) == 3);
+  REQUIRE(add(-1,1) == 0);
+}
+```
+
+CMake snippet to add tests:
+
+```cmake
+add_subdirectory(third_party/catch2)
+add_executable(tests tests/test_add.cpp)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
+add_test(NAME unit-tests COMMAND tests)
+```
+
+Run tests locally:
+
+```bash
+ctest --output-on-failure
+```
+
+### Debugging quick recipes
+
+- gdb (Linux):
+
+```bash
+g++ -g hello.cpp -o hello.debug
+gdb ./hello.debug
+# inside gdb: run, backtrace, print <var>
+```
+
+- lldb (macOS):
+
+```bash
+lldb ./hello.debug
+(lldb) run
+```
+
+- Visual Studio: open `Developer Command Prompt`, compile with `cl`, or import the CMake project into Visual Studio and set breakpoints.
+
+### Common first-linker errors and fixes
+
+- `undefined reference to` — missing object or library during linking. Ensure you list the library after the object files in the linker command (e.g., `g++ main.o -lmylib -o main`).
+- `duplicate symbol` or `multiple definition` — ensure functions are declared `inline` if defined in headers, or move definitions to `.cpp` files.
+- `cannot find -l<name>` — missing library on system; install dev packages or point the linker to the custom location via `-L`.
+
+### Packaging and distribution notes
+
+- For small exercises, share source and a `CMakeLists.txt` to let students reproduce builds.
+- For artifact distribution, build stable release artifacts in CI and publish them to a temporary storage bucket for exercises.
+
+### Quick checklist for instructors (copyable)
+
+- Ensure the exercise repository contains a `README.md` with build steps for Linux/macOS/Windows.
+- Provide Docker images or CI jobs for reproducible builds.
+- Add `clang-tidy`/`iwyu` checks as optional CI gates for advanced students.
+
+### Exercises: Hello World Extended (unique)
+
+1. Create a small CMake project that builds `hello` and a unit test using Catch2. Add a GitHub Actions workflow that runs the test on push.
+2. Rebuild `hello` with ASan and instrument a small intentional bug (e.g., use-after-free) to observe the sanitizer report.
+3. Create a Dockerfile that builds the project and runs the unit tests; publish the image to a container registry (optional).
+
+---
+
+End of Hello World practical appendix.

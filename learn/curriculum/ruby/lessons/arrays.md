@@ -165,6 +165,31 @@ a.zip(%w[one two three])
 - `freeze` reduces accidental mutation and enables sharing between threads without locks.
 - When order doesn’t matter, consider `Set` for faster membership checks.
 
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Arrays & Enumerable (Appendix — arrays-ruby-appendix)
+
+Short notes about array manipulation, Enumerable helpers, and testing patterns for array-heavy examples.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Method</th><th>Use</th><th>Reference</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>map/select/reject</td><td>Transform & filter</td><td>Enumerable docs</td></tr>
+    <tr><td>each_with_index</td><td>Index-aware iteration</td><td>Use for position-aware transforms</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (arrays-ruby-appendix)
+
+1. Implement a small data transformation using `map` and `select` and add tests verifying correctness.
+2. Demonstrate `each_slice` and `each_cons` for grouping data and document use-cases.
+
+<!-- markdownlint-enable MD010 -->
+
 ## Guided practice
 
 1. **CSV rows to objects**
@@ -197,3 +222,81 @@ a.zip(%w[one two three])
 5. What performance implications arise from frequent use of `Array#shift`, and what alternatives could you use for queue-like workloads?
 
 Arrays are ubiquitous in Ruby. Keep them clean, avoid unnecessary mutation, and lean on Enumerable to express data transformations succinctly.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Arrays — External Links & Notes (Appendix — External Links)
+
+Recommended references and quick recipes for common array operations.
+
+- Ruby Array docs: [Ruby Array docs](https://ruby-doc.org/core/Array.html)
+- Enumerable patterns: [Ruby Enumerable docs](https://ruby-doc.org/core/Enumerable.html)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Operation</th><th>Doc</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Mapping</td><td><a href="https://ruby-doc.org/core/Array.html#method-i-map">Array#map</a></td><td>Prefer map over manual loops for transformations</td></tr>
+    <tr><td>Filtering</td><td><a href="https://ruby-doc.org/core/Array.html#method-i-select">Array#select</a></td><td>Use select/reject for clarity</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Replace manual index-based array transformations with `map` and add unit tests.
+2. Benchmark `Array#map` vs manual loops for a large dataset and report results.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Arrays & Enumerable — Recipes (Appendix — arrays-ruby-appendix2)
+
+Quick recipes for lazy enumeration, testing large datasets, and small benchmarks comparing builders.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>Why</th><th>Examples</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Lazy enumerators</td><td>Avoid full materialization</td><td>File.foreach(...).lazy</td></tr>
+    <tr><td>StringIO builder</td><td>Efficient string assembly</td><td>Use for large reports</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Lazy example
+
+```ruby
+lines = File.foreach('large.log').lazy.map(&:strip).reject(&:empty?).take(100).force
+```
+
+### Benchmark builder
+
+```ruby
+require 'benchmark'
+require 'stringio'
+
+n = 10_000
+Benchmark.realtime do
+  s = ''
+  n.times { |i| s << "line #{i}\n" }
+end
+
+Benchmark.realtime do
+  io = StringIO.new
+  n.times { |i| io << "line #{i}\n" }
+  io.string
+end
+```
+
+### Exercises (Appendix — arrays-ruby-appendix2)
+
+1. Implement a lazy pipeline that reads a large CSV and returns the first 50 distinct users.
+2. Compare `+=` vs `StringIO` for building a large string and report timings.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

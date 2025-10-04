@@ -195,3 +195,70 @@ This routine validates input, branches by range, and returns a descriptive outco
 5. How would you compare two doubles for equality while accounting for floating-point precision errors?
 
 Tackle the exercise once you can answer these confidently—you will combine conditionals with previous I/O and arithmetic skills.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Conditionals — Resources & Patterns (Appendix — External Links)
+
+Authoritative references and patterns for conditional logic, pattern matching (C++23), and best practices.
+
+- cppreference: [cppreference — if statement](https://en.cppreference.com/w/cpp/language/if)
+- C++23 pattern matching notes: [cppreference — pattern matching](https://en.cppreference.com/w/cpp/language/pattern_match) (when available)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Link</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>if/else</td><td><a href="https://en.cppreference.com/w/cpp/language/if">cppreference if</a></td><td>Prefer clear branching</td></tr>
+    <tr><td>constexpr if</td><td><a href="https://en.cppreference.com/w/cpp/language/if#constexpr_if">constexpr if</a></td><td>Use for compile-time dispatch</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (External Resources)
+
+1. Replace a chain of `if/else` that tests types with `constexpr if` or tag dispatch and add compile-time tests.
+2. Document when pattern matching (C++23) simplifies nested conditionals.
+
+<!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+### Practical Appendix: Conditionals — Deep Dive (Appendix II — External Links)
+
+Show more about `constexpr if`, type traits, and when to prefer tag-dispatch or concept-based overloads.
+
+```cpp
+#include <type_traits>
+#include <iostream>
+
+template <typename T>
+void print_if_integer(const T& v) {
+    if constexpr (std::is_integral_v<T>) {
+        std::cout << "integer: " << v << '\n';
+    } else {
+        std::cout << "not integer\n";
+    }
+}
+```
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Link</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>constexpr if</td><td><a href="https://en.cppreference.com/w/cpp/language/if">if (constexpr)</a></td><td>Compile-time branching</td></tr>
+    <tr><td>Type traits</td><td><a href="https://en.cppreference.com/w/cpp/types/type_traits">type_traits</a></td><td>Use to inspect types at compile time</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix II — conditionals)
+
+1. Rework a function to use `if constexpr` to select behavior based on type.
+2. Add a small set of static_asserts that validate template branches.
+
+<!-- markdownlint-enable MD010 -->

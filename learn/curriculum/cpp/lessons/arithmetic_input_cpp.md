@@ -218,3 +218,44 @@ This sample ties together input validation, arithmetic conversions, and formatte
 5. Which `<cmath>` function would you use to round a value to two decimal places?
 
 Answer these before moving on to conditionals where arithmetic results drive branching logic.
+
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Practical Appendix: Numeric I/O & Tools (Appendix — External Tools — arithmetic_input_cpp-appendix)
+
+Short recipes for safe arithmetic input, parsing, and error handling in C++ along with references to cppreference for streams and numeric conversions.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Use</th><th>Reference</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::cin / iostream</td><td>Basic input/output</td><td><a href="https://en.cppreference.com/w/cpp/io">cppreference iostream</a></td></tr>
+    <tr><td>std::stoi / std::stod</td><td>String to numeric conversion</td><td><a href="https://en.cppreference.com/w/cpp/string/basic_string/stol">cppreference conversions</a></td></tr>
+    <tr><td>Robust parsing</td><td>Check stream state and exceptions</td><td>Use fail()/clear() or std::from_chars for performance</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: safe integer read
+
+```cpp
+#include <iostream>
+#include <string>
+#include <limits>
+
+int main(){
+    int x;
+    if(!(std::cin >> x)){
+        std::cerr << "Invalid input\n";
+        return 1;
+    }
+    std::cout << x << '\n';
+}
+```
+
+### Exercises (arithmetic_input_cpp-appendix)
+
+1. Replace `std::cin` parsing with `std::from_chars` for a high-performance parser (C++17+), and document differences.
+2. Add input validation tests that feed invalid input via a redirected stdin file.

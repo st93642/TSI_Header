@@ -1,4 +1,4 @@
-# Lesson 4.1: Remotes, Fetching, Pulling, and Upstream Hygiene
+La# Lesson 4.1: Remotes, Fetching, Pulling, and Upstream Hygiene
 
 ## Remote Fundamentals
 

@@ -468,4 +468,111 @@ with open('CODEOWNERS', 'w') as out:
 
 ---
 
-<!-- end monorepo appendix -->
+<!-- markdownlint-disable MD033 MD010 -->
+
+## Monorepo Operations & Scaling — Deep Dive
+
+This section collects operational recipes for scaling monorepos: deep CI partitioning patterns, LFS and binary governance, observability signals to monitor, rollback strategies for large migrations, and team training exercises.
+
+### Deep CI Partitioning: advanced path-mapping
+
+A robust partitioning scheme maps changed files to a graph of targets and also infers transitive impacts. The simplified approach below can be extended with a caching layer and a small graph database (Redis) to speed repeated computations.
+
+```bash
+#!/usr/bin/env bash
+BASE=${BASE_REF:-origin/main}
+# produce list of changed files
+CHANGED=$(git diff --name-only "$BASE"...HEAD)
+# map files to targets using a manifest function
+map_to_targets() {
+  # mock: map path prefix to project name
+  case "$1" in
+    packages/*) echo "$(echo $1 | cut -d/ -f2)" ;;
+    libs/*) echo "shared" ;;
+    *) echo "infra" ;;
+  esac
+}
+
+declare -A targets
+for f in $CHANGED; do
+  t=$(map_to_targets "$f")
+  targets[$t]=1
+done
+# emit matrix JSON
+printf '{"include":['
+first=true
+for t in "${!targets[@]}"; do
+  if [ "$first" = true ]; then first=false; else printf ','; fi
+  printf '{"name":"%s"}' "$t"
+done
+printf ']}'
+```
+
+### LFS and large-binary governance (HTML table)
+
+<table>
+  <thead>
+    <tr><th>Artifact</th><th>Policy</th><th>Storage</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Build artifacts</td><td>Store in artifact registry</td><td>Artifactory / S3</td></tr>
+    <tr><td>Large media (>5MB)</td><td>Require Git LFS and review</td><td>Git LFS storage</td></tr>
+    <tr><td>Generated binaries</td><td>Do not commit; use artifacts</td><td>CI artifact store</td></tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-enable MD033 MD010 -->
+
+### Remote cache hygiene
+
+- Use deterministic cache keys computed from the effective dependency graph and input hashes.
+- Publish cache artifacts only from main/master to avoid poisoning cache with PR-specific transient data.
+- Evict caches older than a reasonable window (e.g., 90 days) and surface metrics on hit-rate.
+
+### Observability signals for monorepos (HTML table)
+
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Signal</th><th>Why</th><th>Alert</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>CI queue length</td><td>Shows backlog of PRs</td><td>> 50 for 15m</td></tr>
+    <tr><td>Cache hit rate</td><td>CI efficiency metric</td><td>< 60%</td></tr>
+    <tr><td>Average build time</td><td>Performance regression indicator</td><td>> baseline * 1.5</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
+
+### Large-scale rollback and migration safety
+
+When a migration or large rewrite fails, having pre-made rollback artifacts and orchestration simplifies restoration:
+
+- Always keep a mirror bundle (`git bundle --all`) stored in a secure, access-controlled location before starting migration.
+- Publish a mapping file `OLD_TO_NEW_SHA.csv` and a human-readable migration report in the platform docs.
+- Provide automated tooling to translate verification logs and CI references from old to new SHAs.
+
+### Emergency restore recipe (script)
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+BUNDLE=${1:-/tmp/repo-before.bundle}
+RESTORE_DIR=${2:-/tmp/repo-restore}
+mkdir -p "$RESTORE_DIR"
+# restore from bundle
+git clone "$BUNDLE" "$RESTORE_DIR"
+cd "$RESTORE_DIR"
+# verify and push mirror back to origin (coordination required)
+# git push --mirror origin
+```
+
+### Training exercises & playbooks (unique)
+
+1. Create a sandbox monorepo with three packages. Implement the CI partitioning script and measure time saved by targeted builds vs full builds.
+2. Simulate adding a large file (>10MB) and enforce the LFS policy via a pre-push hook and CI check. Practice migrating the blob to LFS using `git lfs migrate` and validating replicas.
+3. Run a migration dry-run using `git filter-repo --dry-run` and produce a mapping CSV, then implement a small translator that updates a sample CI log replacing old SHAs with new SHAs.
+
+---
+
+End of Monorepo Operations & Scaling appendix.
