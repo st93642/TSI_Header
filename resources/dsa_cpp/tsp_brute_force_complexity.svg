@@ -1,0 +1,105 @@
+<svg width="1100" height="700" viewBox="0 0 1100 700" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="550" y="40" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">TSP Brute Force Complexity: Exponential Growth</text>
+
+  <!-- Complexity chart -->
+  <rect x="50" y="70" width="1000" height="250" fill="none" stroke="#666" stroke-width="1" />
+
+  <!-- Grid lines -->
+  <line x1="50" y1="270" x2="1050" y2="270" stroke="#ddd" stroke-width="1" />
+  <line x1="50" y1="220" x2="1050" y2="220" stroke="#ddd" stroke-width="1" />
+  <line x1="50" y1="170" x2="1050" y2="170" stroke="#ddd" stroke-width="1" />
+
+  <!-- X-axis labels -->
+  <text x="140" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=5</text>
+  <text x="230" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=6</text>
+  <text x="320" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=7</text>
+  <text x="410" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=8</text>
+  <text x="500" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=9</text>
+  <text x="590" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=10</text>
+  <text x="680" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=11</text>
+  <text x="770" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=12</text>
+  <text x="860" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=13</text>
+  <text x="950" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=14</text>
+  <text x="1040" y="385" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n=15</text>
+
+  <!-- Y-axis labels -->
+  <text x="30" y="275" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">10³</text>
+  <text x="30" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">10⁶</text>
+  <text x="30" y="175" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">10⁹</text>
+
+  <!-- Complexity bars (factorial growth) -->
+  <!-- n=5: 120 -->
+  <rect x="120" y="270" width="40" height="5" fill="#E74C3C" />
+  <text x="140" y="265" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">120</text>
+
+  <!-- n=6: 720 -->
+  <rect x="210" y="270" width="40" height="10" fill="#E74C3C" />
+  <text x="230" y="265" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">720</text>
+
+  <!-- n=7: 5,040 -->
+  <rect x="300" y="270" width="40" height="20" fill="#E74C3C" />
+  <text x="320" y="265" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">5K</text>
+
+  <!-- n=8: 40,320 -->
+  <rect x="390" y="270" width="40" height="40" fill="#E74C3C" />
+  <text x="410" y="265" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">40K</text>
+
+  <!-- n=9: 362,880 -->
+  <rect x="480" y="270" width="40" height="80" fill="#E74C3C" />
+  <text x="500" y="265" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">363K</text>
+
+  <!-- n=10: 3,628,800 -->
+  <rect x="570" y="220" width="40" height="55" fill="#E74C3C" />
+  <text x="590" y="215" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">3.6M</text>
+
+  <!-- n=11: 39,916,800 -->
+  <rect x="660" y="170" width="40" height="105" fill="#E74C3C" />
+  <text x="680" y="165" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">40M</text>
+
+  <!-- n=12: 479,001,600 -->
+  <rect x="750" y="70" width="40" height="205" fill="#E74C3C" />
+  <text x="770" y="65" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">479M</text>
+
+  <!-- n=13: 6.2 billion -->
+  <rect x="840" y="70" width="40" height="205" fill="#E74C3C" />
+  <text x="860" y="65" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">6.2B</text>
+
+  <!-- n=14: 87.2 billion -->
+  <rect x="930" y="70" width="40" height="205" fill="#E74C3C" />
+  <text x="950" y="65" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">87B</text>
+
+  <!-- n=15: 1.3 trillion -->
+  <rect x="1020" y="70" width="40" height="205" fill="#E74C3C" />
+  <text x="1040" y="65" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#E74C3C">1.3T</text>
+
+  <!-- Axis labels -->
+  <text x="550" y="340" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">Number of Cities (n)</text>
+  <text x="15" y="200" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" transform="rotate(-90,15,200)">Operations</text>
+
+  <!-- Algorithm comparison -->
+  <rect x="50" y="370" width="1000" height="120" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="550" y="395" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#4A90E2" font-weight="bold">⚡ Algorithm Comparison</text>
+
+  <text x="70" y="420" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Brute Force TSP:</text>
+  <text x="70" y="440" font-family="Segoe UI" font-size="12" fill="#666">• Time: O((n-1)!)</text>
+  <text x="70" y="455" font-family="Segoe UI" font-size="12" fill="#666">• Space: O(n)</text>
+  <text x="70" y="470" font-family="Segoe UI" font-size="12" fill="#666">• Optimal: Yes</text>
+  <text x="70" y="485" font-family="Segoe UI" font-size="12" fill="#666">• Practical: n ≤ 12</text>
+
+  <!-- Computational limits -->
+  <rect x="50" y="510" width="1000" height="120" fill="none" stroke="#E67E22" stroke-width="2" rx="10" />
+  <text x="550" y="535" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E67E22" font-weight="bold">⏱️ Computational Limits</text>
+
+  <text x="70" y="560" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Modern Computer (10⁹ ops/sec):</text>
+  <text x="70" y="580" font-family="Segoe UI" font-size="12" fill="#666">• n=12: ~0.5 seconds</text>
+  <text x="70" y="595" font-family="Segoe UI" font-size="12" fill="#666">• n=15: ~1.5 hours</text>
+  <text x="70" y="610" font-family="Segoe UI" font-size="12" fill="#666">• n=20: ~77 million years</text>
+
+  <text x="600" y="560" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Supercomputer (10¹⁵ ops/sec):</text>
+  <text x="600" y="580" font-family="Segoe UI" font-size="12" fill="#666">• n=20: ~77 seconds</text>
+  <text x="600" y="595" font-family="Segoe UI" font-size="12" fill="#666">• n=25: ~2.5 million years</text>
+
+  <!-- Summary -->
+  <text x="550" y="685" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Factorial complexity makes brute force TSP impractical beyond 15 cities, motivating advanced algorithmic approaches</text>
+</svg>

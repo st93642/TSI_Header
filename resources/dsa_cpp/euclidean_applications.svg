@@ -1,0 +1,97 @@
+<svg width="920" height="600" viewBox="0 0 920 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Euclidean Algorithm Applications: Cryptography, Computer Graphics &amp; More</text>
+
+  <!-- Cryptography section -->
+  <rect x="50" y="60" width="400" height="180" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="250" y="85" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#4A90E2" font-weight="bold">🔐 Cryptography</text>
+
+  <text x="70" y="110" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">RSA Key Generation:</text>
+  <text x="70" y="130" font-family="Segoe UI" font-size="12" fill="#666">• Choose primes p, q</text>
+  <text x="70" y="145" font-family="Segoe UI" font-size="12" fill="#666">• Compute n = p × q</text>
+  <text x="70" y="160" font-family="Segoe UI" font-size="12" fill="#666">• Choose e coprime to φ(n)</text>
+  <text x="70" y="175" font-family="Segoe UI" font-size="12" fill="#666">• Find d such that e×d ≡ 1 mod φ(n)</text>
+  <text x="70" y="190" font-family="Segoe UI" font-size="12" fill="#666">• Uses extended Euclidean algorithm</text>
+
+  <text x="300" y="110" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Example:</text>
+  <text x="300" y="130" font-family="Segoe UI" font-size="12" fill="#666">φ(n) = 40, e = 7</text>
+  <text x="300" y="145" font-family="Segoe UI" font-size="12" fill="#666">Find d: 7×d ≡ 1 mod 40</text>
+  <text x="300" y="160" font-family="Segoe UI" font-size="12" fill="#666">GCD(7,40) = 1, so solution exists</text>
+  <text x="300" y="175" font-family="Segoe UI" font-size="12" fill="#666">d = 23 (since 7×23 = 161 ≡ 1 mod 40)</text>
+  <text x="300" y="190" font-family="Segoe UI" font-size="12" fill="#666">Keys: (7, 40) public, (23, 40) private</text>
+
+  <!-- Computer Graphics section -->
+  <rect x="470" y="60" width="400" height="180" fill="none" stroke="#27AE60" stroke-width="2" rx="10" />
+  <text x="670" y="85" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#27AE60" font-weight="bold">🎨 Computer Graphics</text>
+
+  <text x="490" y="110" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Fraction Simplification:</text>
+  <text x="490" y="130" font-family="Segoe UI" font-size="12" fill="#666">• Reduce screen coordinates</text>
+  <text x="490" y="145" font-family="Segoe UI" font-size="12" fill="#666">• Simplify aspect ratios</text>
+  <text x="490" y="160" font-family="Segoe UI" font-size="12" fill="#666">• Normalize vectors</text>
+
+  <text x="720" y="110" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Example:</text>
+  <text x="720" y="130" font-family="Segoe UI" font-size="12" fill="#666">Resolution: 1920×1080</text>
+  <text x="720" y="145" font-family="Segoe UI" font-size="12" fill="#666">GCD(1920,1080) = 120</text>
+  <text x="720" y="160" font-family="Segoe UI" font-size="12" fill="#666">Simplified: 16×9</text>
+  <text x="720" y="175" font-family="Segoe UI" font-size="12" fill="#666">Aspect ratio: 16:9</text>
+
+  <!-- Number Theory section -->
+  <rect x="50" y="260" width="400" height="150" fill="none" stroke="#E67E22" stroke-width="2" rx="10" />
+  <text x="250" y="285" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E67E22" font-weight="bold">🔢 Number Theory</text>
+
+  <text x="70" y="310" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Diophantine Equations:</text>
+  <text x="70" y="330" font-family="Segoe UI" font-size="12" fill="#666">• Linear Diophantine: ax + by = c</text>
+  <text x="70" y="345" font-family="Segoe UI" font-size="12" fill="#666">• Solutions exist iff GCD(a,b) divides c</text>
+  <text x="70" y="360" font-family="Segoe UI" font-size="12" fill="#666">• Find particular solution using extended EA</text>
+
+  <text x="300" y="310" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Example:</text>
+  <text x="300" y="330" font-family="Segoe UI" font-size="12" fill="#666">21x + 14y = 35</text>
+  <text x="300" y="345" font-family="Segoe UI" font-size="12" fill="#666">GCD(21,14) = 7, 7 divides 35 ✓</text>
+  <text x="300" y="360" font-family="Segoe UI" font-size="12" fill="#666">Solution: x = 1, y = 1</text>
+
+  <!-- Computer Science section -->
+  <rect x="470" y="260" width="400" height="150" fill="none" stroke="#9B59B6" stroke-width="2" rx="10" />
+  <text x="670" y="285" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#9B59B6" font-weight="bold">💻 Computer Science</text>
+
+  <text x="490" y="310" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Fractional Arithmetic:</text>
+  <text x="490" y="330" font-family="Segoe UI" font-size="12" fill="#666">• Rational number operations</text>
+  <text x="490" y="345" font-family="Segoe UI" font-size="12" fill="#666">• Greatest common divisor for reduction</text>
+  <text x="490" y="360" font-family="Segoe UI" font-size="12" fill="#666">• Avoid overflow in calculations</text>
+
+  <text x="720" y="310" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Example:</text>
+  <text x="720" y="330" font-family="Segoe UI" font-size="12" fill="#666">Add: 1/6 + 1/15</text>
+  <text x="720" y="345" font-family="Segoe UI" font-size="12" fill="#666">Common denominator: LCM(6,15)</text>
+  <text x="720" y="360" font-family="Segoe UI" font-size="12" fill="#666">LCM = 30, result = 7/30</text>
+
+  <!-- Real-world applications -->
+  <rect x="50" y="430" width="820" height="150" fill="none" stroke="#E74C3C" stroke-width="2" rx="10" />
+  <text x="460" y="455" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E74C3C" font-weight="bold">🌍 Real-World Applications</text>
+
+  <!-- Application examples -->
+  <circle cx="120" cy="485" r="25" fill="#4A90E2" />
+  <text x="120" y="490" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="white" font-weight="bold">SSL</text>
+  <text x="160" y="490" font-family="Segoe UI" font-size="12" fill="#666">Secure web connections</text>
+
+  <circle cx="280" cy="485" r="25" fill="#27AE60" />
+  <text x="280" y="490" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="white" font-weight="bold">GPS</text>
+  <text x="320" y="490" font-family="Segoe UI" font-size="12" fill="#666">Coordinate calculations</text>
+
+  <circle cx="420" cy="485" r="25" fill="#E67E22" />
+  <text x="420" y="490" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="white" font-weight="bold">MIDI</text>
+  <text x="460" y="490" font-family="Segoe UI" font-size="12" fill="#666">Music synchronization</text>
+
+  <circle cx="560" cy="485" r="25" fill="#9B59B6" />
+  <text x="560" y="490" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="white" font-weight="bold">JPEG</text>
+  <text x="600" y="490" font-family="Segoe UI" font-size="12" fill="#666">Image compression</text>
+
+  <circle cx="700" cy="485" r="25" fill="#E74C3C" />
+  <text x="700" y="490" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="white" font-weight="bold">CAD</text>
+  <text x="740" y="490" font-family="Segoe UI" font-size="12" fill="#666">Geometric computations</text>
+
+  <circle cx="820" cy="485" r="25" fill="#F39C12" />
+  <text x="820" y="490" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="white" font-weight="bold">SIM</text>
+  <text x="860" y="490" font-family="Segoe UI" font-size="12" fill="#666">Mobile authentication</text>
+
+  <!-- Summary -->
+  <text x="460" y="580" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Euclidean Algorithm: Foundation of modern cryptography, graphics, and computational mathematics</text>
+</svg>

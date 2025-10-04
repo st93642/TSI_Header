@@ -1,0 +1,167 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">0/1 Knapsack Problem: Real-World Applications</text>
+
+  <!-- Application 1: Project Selection -->
+  <rect x="50" y="80" width="500" height="150" fill="none" stroke="#27AE60" stroke-width="3" rx="15" />
+  <text x="300" y="105" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#27AE60" font-weight="bold">💼 Project Portfolio Optimization</text>
+
+  <!-- Project selection visualization -->
+  <rect x="70" y="120" width="100" height="80" fill="#4A90E2" stroke="#2171B5" stroke-width="2" rx="5" />
+  <text x="120" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Project A</text>
+  <text x="120" y="160" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">$500K, 6 months</text>
+
+  <rect x="180" y="120" width="100" height="80" fill="#E74C3C" stroke="#C0392B" stroke-width="2" rx="5" />
+  <text x="230" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Project B</text>
+  <text x="230" y="160" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">$300K, 4 months</text>
+
+  <rect x="290" y="120" width="100" height="80" fill="#27AE60" stroke="#1E8449" stroke-width="2" rx="5" />
+  <text x="340" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Project C</text>
+  <text x="340" y="160" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">$400K, 5 months</text>
+
+  <rect x="400" y="120" width="100" height="80" fill="#9B59B6" stroke="#8E44AD" stroke-width="2" rx="5" />
+  <text x="450" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Project D</text>
+  <text x="450" y="160" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">$200K, 3 months</text>
+
+  <!-- Budget/Time constraints -->
+  <text x="300" y="220" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Budget: $800K, Time: 10 months</text>
+  <text x="300" y="235" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Maximize profit within constraints</text>
+
+  <!-- Application 2: Investment Portfolio -->
+  <rect x="600" y="80" width="500" height="150" fill="none" stroke="#E67E22" stroke-width="3" rx="15" />
+  <text x="850" y="105" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#E67E22" font-weight="bold">📈 Investment Portfolio Selection</text>
+
+  <!-- Investment visualization -->
+  <rect x="620" y="120" width="100" height="80" fill="#3498DB" stroke="#2980B9" stroke-width="2" rx="5" />
+  <text x="670" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Stocks</text>
+  <text x="670" y="160" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">High risk, High return</text>
+
+  <rect x="730" y="120" width="100" height="80" fill="#1ABC9C" stroke="#16A085" stroke-width="2" rx="5" />
+  <text x="780" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Bonds</text>
+  <text x="780" y="160" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">Low risk, Low return</text>
+
+  <rect x="840" y="120" width="100" height="80" fill="#E74C3C" stroke="#C0392B" stroke-width="2" rx="5" />
+  <text x="890" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Real Estate</text>
+  <text x="890" y="160" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">Medium risk, High return</text>
+
+  <rect x="950" y="120" width="100" height="80" fill="#9B59B6" stroke="#8E44AD" stroke-width="2" rx="5" />
+  <text x="1000" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Crypto</text>
+  <text x="1000" y="160" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">Very high risk, Variable return</text>
+
+  <!-- Risk/Budget constraints -->
+  <text x="850" y="220" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Budget: $100K, Risk Tolerance: Medium</text>
+  <text x="850" y="235" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Maximize expected returns</text>
+
+  <!-- Application 3: Cargo Loading -->
+  <rect x="50" y="270" width="500" height="150" fill="none" stroke="#3498DB" stroke-width="3" rx="15" />
+  <text x="300" y="295" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#3498DB" font-weight="bold">🚚 Cargo Loading Optimization</text>
+
+  <!-- Cargo visualization -->
+  <rect x="70" y="310" width="100" height="80" fill="#8B4513" stroke="#654321" stroke-width="2" rx="5" />
+  <text x="120" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Electronics</text>
+  <text x="120" y="350" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">2 tons, $50K value</text>
+
+  <rect x="180" y="310" width="100" height="80" fill="#D2691E" stroke="#8B4513" stroke-width="2" rx="5" />
+  <text x="230" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Machinery</text>
+  <text x="230" y="350" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">5 tons, $30K value</text>
+
+  <rect x="290" y="310" width="100" height="80" fill="#CD853F" stroke="#8B4513" stroke-width="2" rx="5" />
+  <text x="340" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Textiles</text>
+  <text x="340" y="350" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">1 ton, $20K value</text>
+
+  <rect x="400" y="310" width="100" height="80" fill="#F4A460" stroke="#8B4513" stroke-width="2" rx="5" />
+  <text x="450" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Food</text>
+  <text x="450" y="350" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">3 tons, $15K value</text>
+
+  <!-- Ship constraints -->
+  <text x="300" y="400" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Ship Capacity: 8 tons, Value Priority</text>
+  <text x="300" y="415" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Maximize cargo value</text>
+
+  <!-- Application 4: Budget Allocation -->
+  <rect x="600" y="270" width="500" height="150" fill="none" stroke="#9B59B6" stroke-width="3" rx="15" />
+  <text x="850" y="295" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#9B59B6" font-weight="bold">💰 Budget Allocation in Marketing</text>
+
+  <!-- Marketing budget visualization -->
+  <rect x="620" y="310" width="100" height="80" fill="#E74C3C" stroke="#C0392B" stroke-width="2" rx="5" />
+  <text x="670" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">TV Ads</text>
+  <text x="670" y="350" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">$100K, 40% reach</text>
+
+  <rect x="730" y="310" width="100" height="80" fill="#27AE60" stroke="#1E8449" stroke-width="2" rx="5" />
+  <text x="780" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Social Media</text>
+  <text x="780" y="350" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">$50K, 60% reach</text>
+
+  <rect x="840" y="310" width="100" height="80" fill="#3498DB" stroke="#2980B9" stroke-width="2" rx="5" />
+  <text x="890" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Email</text>
+  <text x="890" y="350" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">$25K, 30% reach</text>
+
+  <rect x="950" y="310" width="100" height="80" fill="#F39C12" stroke="#E67E22" stroke-width="2" rx="5" />
+  <text x="1000" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Events</text>
+  <text x="1000" y="350" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">$75K, 20% reach</text>
+
+  <!-- Marketing constraints -->
+  <text x="850" y="400" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Budget: $150K, Maximize Customer Reach</text>
+  <text x="850" y="415" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Optimize marketing mix</text>
+
+  <!-- Application 5: Course Selection -->
+  <rect x="50" y="460" width="500" height="150" fill="none" stroke="#1ABC9C" stroke-width="3" rx="15" />
+  <text x="300" y="485" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#1ABC9C" font-weight="bold">🎓 University Course Selection</text>
+
+  <!-- Course visualization -->
+  <rect x="70" y="500" width="100" height="80" fill="#3498DB" stroke="#2980B9" stroke-width="2" rx="5" />
+  <text x="120" y="525" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Calculus</text>
+  <text x="120" y="540" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">4 credits, 3.8 GPA</text>
+
+  <rect x="180" y="500" width="100" height="80" fill="#E74C3C" stroke="#C0392B" stroke-width="2" rx="5" />
+  <text x="230" y="525" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Physics</text>
+  <text x="230" y="540" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">4 credits, 3.5 GPA</text>
+
+  <rect x="290" y="500" width="100" height="80" fill="#27AE60" stroke="#1E8449" stroke-width="2" rx="5" />
+  <text x="340" y="525" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Literature</text>
+  <text x="340" y="540" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">3 credits, 4.0 GPA</text>
+
+  <rect x="400" y="500" width="100" height="80" fill="#9B59B6" stroke="#8E44AD" stroke-width="2" rx="5" />
+  <text x="450" y="525" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">History</text>
+  <text x="450" y="540" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">3 credits, 3.7 GPA</text>
+
+  <!-- Academic constraints -->
+  <text x="300" y="590" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Credit Limit: 15, Maximize GPA</text>
+  <text x="300" y="605" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Balance workload and grades</text>
+
+  <!-- Application 6: Cloud Resource Allocation -->
+  <rect x="600" y="460" width="500" height="150" fill="none" stroke="#E74C3C" stroke-width="3" rx="15" />
+  <text x="850" y="485" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#E74C3C" font-weight="bold">☁️ Cloud Computing Resource Allocation</text>
+
+  <!-- Cloud service visualization -->
+  <rect x="620" y="500" width="100" height="80" fill="#3498DB" stroke="#2980B9" stroke-width="2" rx="5" />
+  <text x="670" y="525" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">VM Instance</text>
+  <text x="670" y="540" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">4 vCPUs, $0.10/hr</text>
+
+  <rect x="730" y="500" width="100" height="80" fill="#27AE60" stroke="#1E8449" stroke-width="2" rx="5" />
+  <text x="780" y="525" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Storage</text>
+  <text x="780" y="540" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">100GB, $0.05/GB</text>
+
+  <rect x="840" y="500" width="100" height="80" fill="#E67E22" stroke="#D35400" stroke-width="2" rx="5" />
+  <text x="890" y="525" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">Database</text>
+  <text x="890" y="540" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">SQL, $0.15/hr</text>
+
+  <rect x="950" y="500" width="100" height="80" fill="#9B59B6" stroke="#8E44AD" stroke-width="2" rx="5" />
+  <text x="1000" y="525" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">CDN</text>
+  <text x="1000" y="540" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="white">$0.08/GB</text>
+
+  <!-- Cloud constraints -->
+  <text x="850" y="590" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Budget: $50/hr, Performance Requirements</text>
+  <text x="850" y="605" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Optimize cost-performance ratio</text>
+
+  <!-- Common Pattern Summary -->
+  <rect x="50" y="640" width="1100" height="120" fill="none" stroke="#F39C12" stroke-width="3" rx="15" />
+  <text x="600" y="665" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#F39C12" font-weight="bold">🎯 Common Optimization Pattern</text>
+
+  <text x="70" y="690" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">All applications follow the same pattern:</text>
+  <text x="70" y="710" font-family="Segoe UI" font-size="13" fill="#666">• <b>Items:</b> Projects, investments, cargo, courses, cloud services</text>
+  <text x="70" y="725" font-family="Segoe UI" font-size="13" fill="#666">• <b>Weights:</b> Cost, time, mass, credits, resource requirements</text>
+  <text x="70" y="740" font-family="Segoe UI" font-size="13" fill="#666">• <b>Values:</b> Profit, returns, revenue, GPA, performance metrics</text>
+  <text x="70" y="755" font-family="Segoe UI" font-size="13" fill="#666">• <b>Constraint:</b> Budget, capacity, time, credits, cost limits</text>
+
+  <!-- Summary -->
+  <text x="600" y="785" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">0/1 Knapsack algorithms solve resource allocation problems across diverse domains, from finance to logistics to education</text>
+</svg>

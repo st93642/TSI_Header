@@ -1,0 +1,251 @@
+{
+  "id": "dsa_traveling_salesman_cpp_exercise",
+  "mode": "quiz",
+  "title": "Traveling Salesman Problem & NP-Completeness - Solutions",
+  "description": "Complete solutions and explanations for TSP quiz questions.",
+  "tags": ["cpp", "tsp", "np-complete", "algorithms", "optimization", "solutions"],
+  "questions": [
+    {
+      "id": "tsp_definition",
+      "type": "single",
+      "prompt": "What is the Traveling Salesman Problem (TSP)?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Finding the shortest path between two cities"
+        },
+        {
+          "id": "option_b",
+          "text": "Finding a cycle that visits each city exactly once with minimum total distance",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Finding the minimum number of cities to visit"
+        },
+        {
+          "id": "option_d",
+          "text": "Finding all possible routes between cities"
+        }
+      ],
+      "explanation": "TSP requires finding a Hamiltonian cycle with minimum total edge weight in a complete graph."
+    },
+    {
+      "id": "tsp_complexity",
+      "type": "single",
+      "prompt": "What is the time complexity of brute force TSP solution?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "O(n log n)"
+        },
+        {
+          "id": "option_b",
+          "text": "O(n²)"
+        },
+        {
+          "id": "option_c",
+          "text": "O((n-1)!)",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "O(2ⁿ)"
+        }
+      ],
+      "explanation": "Brute force enumerates all (n-1)! possible tours, making it impractical for n > 12."
+    },
+    {
+      "id": "np_completeness",
+      "type": "truefalse",
+      "prompt": "TSP is NP-complete, meaning it is both in NP and NP-hard.",
+      "answer": "true",
+      "explanation": "TSP is NP-complete because solutions can be verified in polynomial time, and any NP problem can be reduced to TSP."
+    },
+    {
+      "id": "dynamic_programming_tsp",
+      "type": "single",
+      "prompt": "What is the time complexity of the dynamic programming solution for TSP?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "O(n!)"
+        },
+        {
+          "id": "option_b",
+          "text": "O(n² × 2ⁿ)",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "O(n³)"
+        },
+        {
+          "id": "option_d",
+          "text": "O(n log n)"
+        }
+      ],
+      "explanation": "The Held-Karp algorithm uses state compression with O(n² × 2ⁿ) time complexity."
+    },
+    {
+      "id": "christofides_algorithm",
+      "type": "single",
+      "prompt": "What approximation guarantee does Christofides algorithm provide for TSP?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Optimal solution"
+        },
+        {
+          "id": "option_b",
+          "text": "2× optimal"
+        },
+        {
+          "id": "option_c",
+          "text": "1.5× optimal",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "3× optimal"
+        }
+      ],
+      "explanation": "Christofides algorithm provides a 1.5-approximation for metric TSP using minimum spanning trees."
+    },
+    {
+      "id": "nearest_neighbor",
+      "type": "single",
+      "prompt": "Which heuristic TSP method starts from a city and repeatedly visits the nearest unvisited city?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Christofides algorithm"
+        },
+        {
+          "id": "option_b",
+          "text": "Nearest neighbor",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Dynamic programming"
+        },
+        {
+          "id": "option_d",
+          "text": "Brute force"
+        }
+      ],
+      "explanation": "Nearest neighbor heuristic builds a tour by always moving to the closest unvisited city."
+    },
+    {
+      "id": "tsp_reductions",
+      "type": "multiple",
+      "prompt": "Which problems can be reduced to TSP? (Select all that apply)",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Hamiltonian cycle",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Vertex cover",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Sorting"
+        },
+        {
+          "id": "option_d",
+          "text": "Boolean satisfiability (SAT)",
+          "correct": true
+        }
+      ],
+      "explanation": "TSP is NP-hard, so Hamiltonian cycle, vertex cover, and SAT can all be reduced to TSP."
+    },
+    {
+      "id": "practical_tsp_range",
+      "type": "single",
+      "prompt": "For what range of cities is dynamic programming practical for TSP?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "n ≤ 12"
+        },
+        {
+          "id": "option_b",
+          "text": "n ≤ 25",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "n ≤ 100"
+        },
+        {
+          "id": "option_d",
+          "text": "n ≤ 1000"
+        }
+      ],
+      "explanation": "Dynamic programming with state compression handles up to 25 cities before becoming computationally expensive."
+    },
+    {
+      "id": "tsp_applications",
+      "type": "multiple",
+      "prompt": "Which are real-world applications of TSP? (Select all that apply)",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Delivery route optimization",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Circuit board drilling",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Sorting algorithms"
+        },
+        {
+          "id": "option_d",
+          "text": "DNA sequencing",
+          "correct": true
+        }
+      ],
+      "explanation": "TSP has applications in logistics (delivery routes), manufacturing (circuit drilling), and bioinformatics (DNA sequencing)."
+    },
+    {
+      "id": "p_vs_np",
+      "type": "truefalse",
+      "prompt": "If P = NP, then we could solve TSP optimally in polynomial time.",
+      "answer": "true",
+      "explanation": "If P = NP, then all NP-complete problems including TSP would have polynomial-time algorithms."
+    }
+  ],
+  "answerKey": {
+    "tsp_definition": "option_b",
+    "tsp_complexity": "option_c",
+    "np_completeness": "true",
+    "dynamic_programming_tsp": "option_b",
+    "christofides_algorithm": "option_c",
+    "nearest_neighbor": "option_b",
+    "tsp_reductions": ["option_a", "option_b", "option_d"],
+    "practical_tsp_range": "option_b",
+    "tsp_applications": ["option_a", "option_b", "option_d"],
+    "p_vs_np": "true"
+  },
+  "keyPoints": [
+    "TSP requires finding the minimum-cost Hamiltonian cycle visiting each city exactly once",
+    "Brute force TSP has O((n-1)!) complexity, practical only for n ≤ 12",
+    "TSP is NP-complete, making optimal solutions computationally expensive for large instances",
+    "Dynamic programming solves TSP optimally in O(n² × 2ⁿ) time for n ≤ 25 cities",
+    "Christofides algorithm provides 1.5× optimal solutions with polynomial time complexity",
+    "Nearest neighbor and other heuristics offer fast but suboptimal solutions for large instances",
+    "TSP has practical applications in logistics, manufacturing, and bioinformatics",
+    "NP-completeness theory explains why many optimization problems remain challenging",
+    "Approximation algorithms balance solution quality with computational feasibility",
+    "Algorithm selection depends on problem size, time constraints, and solution quality requirements"
+  ]
+}

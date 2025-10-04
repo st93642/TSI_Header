@@ -1,0 +1,73 @@
+<svg width="920" height="500" viewBox="0 0 920 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Best, Average, and Worst Case Analysis</text>
+
+  <!-- Example: Linear Search -->
+  <text x="150" y="70" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">Linear Search Example</text>
+
+  <!-- Array visualization -->
+  <rect x="50" y="80" width="200" height="40" fill="none" stroke="#666" stroke-width="2" />
+  <text x="60" y="100" font-family="Segoe UI" font-size="12" fill="#666">Array: [3, 1, 4, 1, 5, 9, 2, 6]</text>
+  <text x="60" y="115" font-family="Segoe UI" font-size="12" fill="#666">Target: 5</text>
+
+  <!-- Best case -->
+  <rect x="50" y="140" width="200" height="80" fill="none" stroke="#27AE60" stroke-width="2" />
+  <text x="150" y="160" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#27AE60" font-weight="bold">Best Case: O(1)</text>
+  <text x="150" y="175" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Target found at first position</text>
+  <text x="150" y="190" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">1 comparison performed</text>
+  <text x="150" y="205" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Optimal input arrangement</text>
+
+  <!-- Average case -->
+  <rect x="280" y="140" width="200" height="80" fill="none" stroke="#F39C12" stroke-width="2" />
+  <text x="380" y="160" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#F39C12" font-weight="bold">Average Case: O(n)</text>
+  <text x="380" y="175" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Target found in middle positions</text>
+  <text x="380" y="190" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n/2 comparisons on average</text>
+  <text x="380" y="205" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Random input distribution</text>
+
+  <!-- Worst case -->
+  <rect x="510" y="140" width="200" height="80" fill="none" stroke="#E74C3C" stroke-width="2" />
+  <text x="610" y="160" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#E74C3C" font-weight="bold">Worst Case: O(n)</text>
+  <text x="610" y="175" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Target not found or at last position</text>
+  <text x="610" y="190" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">n comparisons performed</text>
+  <text x="610" y="205" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Guarantee for all inputs</text>
+
+  <!-- Example: Quick Sort -->
+  <text x="650" y="250" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">Quick Sort Example</text>
+
+  <!-- Quick sort cases -->
+  <rect x="50" y="270" width="200" height="80" fill="none" stroke="#27AE60" stroke-width="2" />
+  <text x="150" y="290" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#27AE60" font-weight="bold">Best Case: O(n log n)</text>
+  <text x="150" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Pivot always splits array evenly</text>
+  <text x="150" y="320" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Balanced recursion tree</text>
+  <text x="150" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Rare in practice</text>
+
+  <rect x="280" y="270" width="200" height="80" fill="none" stroke="#F39C12" stroke-width="2" />
+  <text x="380" y="290" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#F39C12" font-weight="bold">Average Case: O(n log n)</text>
+  <text x="380" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Random pivot selection</text>
+  <text x="380" y="320" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Good split on average</text>
+  <text x="380" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Common performance</text>
+
+  <rect x="510" y="270" width="200" height="80" fill="none" stroke="#E74C3C" stroke-width="2" />
+  <text x="610" y="290" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#E74C3C" font-weight="bold">Worst Case: O(n²)</text>
+  <text x="610" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Pivot always smallest/largest</text>
+  <text x="610" y="320" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Unbalanced recursion tree</text>
+  <text x="610" y="335" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Sorted/reverse sorted input</text>
+
+  <!-- Key insights -->
+  <rect x="50" y="380" width="820" height="100" fill="none" stroke="#666" stroke-width="1" />
+  <text x="60" y="400" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Key Insights:</text>
+  <text x="70" y="420" font-family="Segoe UI" font-size="12" fill="#666">• Best case: Minimum operations for any input (optimistic)</text>
+  <text x="70" y="435" font-family="Segoe UI" font-size="12" fill="#666">• Average case: Expected performance over random inputs (probabilistic)</text>
+  <text x="70" y="450" font-family="Segoe UI" font-size="12" fill="#666">• Worst case: Maximum operations for any input (guarantee)</text>
+  <text x="70" y="465" font-family="Segoe UI" font-size="12" fill="#666">• Real systems focus on worst case for reliability</text>
+
+  <!-- Color legend -->
+  <circle cx="100" cy="485" r="5" fill="#27AE60" />
+  <text x="110" y="490" font-family="Segoe UI" font-size="12" fill="#666">Best Case - Optimal performance</text>
+
+  <circle cx="350" cy="485" r="5" fill="#F39C12" />
+  <text x="360" y="490" font-family="Segoe UI" font-size="12" fill="#666">Average Case - Typical performance</text>
+
+  <circle cx="600" cy="485" r="5" fill="#E74C3C" />
+  <text x="610" y="490" font-family="Segoe UI" font-size="12" fill="#666">Worst Case - Guaranteed bounds</text>
+</svg>

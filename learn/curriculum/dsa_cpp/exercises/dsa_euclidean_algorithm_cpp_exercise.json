@@ -1,0 +1,120 @@
+{
+  "id": "dsa_euclidean_algorithm_cpp_exercise",
+  "mode": "quiz",
+  "title": "Quiz: Euclidean Algorithm and Number Theory",
+  "description": "Test your understanding of the Euclidean algorithm, GCD properties, and their applications in cryptography and computer science.\n\nSteps:\n1. Review the Euclidean algorithm implementations and mathematical foundations.\n2. Answer each question, selecting all applicable options when prompted.\n3. Submit the quiz to verify your understanding of number theory concepts.\n\nExpected results: Score at least 8 out of 10 to demonstrate mastery of the Euclidean algorithm.",
+  "tags": ["cpp", "euclidean", "gcd", "number-theory", "cryptography", "algorithm", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "euclidean_basic_gcd",
+      "type": "single",
+      "prompt": "What is the GCD of 48 and 18 using the Euclidean algorithm?",
+      "options": [
+        { "id": "option_a", "text": "6", "correct": true },
+        { "id": "option_b", "text": "12" },
+        { "id": "option_c", "text": "18" },
+        { "id": "option_d", "text": "24" }
+      ],
+      "explanation": "Using Euclidean algorithm: GCD(48,18) = GCD(18,12) = GCD(12,6) = GCD(6,0) = 6. The algorithm repeatedly replaces the larger number with the remainder of division until one number becomes zero."
+    },
+    {
+      "id": "euclidean_properties",
+      "type": "multiple",
+      "prompt": "Which of the following are fundamental properties of GCD? (Select all that apply)",
+      "options": [
+        { "id": "option_a", "text": "GCD(a,b) = GCD(b,a) - commutative property", "correct": true },
+        { "id": "option_b", "text": "GCD(a,b) = GCD(a+b,b) - additive property" },
+        { "id": "option_c", "text": "GCD(a,b) = GCD(a mod b, b) - modulo property", "correct": true },
+        { "id": "option_d", "text": "GCD(a,a) = a - identity property", "correct": true }
+      ],
+      "explanation": "The commutative property states GCD(a,b) = GCD(b,a). The modulo property is the foundation of the Euclidean algorithm. The identity property is GCD(a,a) = a. The additive property is not a fundamental property of GCD."
+    },
+    {
+      "id": "extended_euclidean_coefficients",
+      "type": "single",
+      "prompt": "For GCD(48,18) = 6, what are the Bezout coefficients x and y such that 6 = 48x + 18y?",
+      "options": [
+        { "id": "option_a", "text": "x = 1, y = -1" },
+        { "id": "option_b", "text": "x = -1, y = 3", "correct": true },
+        { "id": "option_c", "text": "x = 2, y = -2" },
+        { "id": "option_d", "text": "x = -2, y = 4" }
+      ],
+      "explanation": "Using extended Euclidean algorithm: 6 = -1×48 + 3×18. Verification: -1×48 + 3×18 = -48 + 54 = 6. These coefficients satisfy Bezout's identity."
+    },
+    {
+      "id": "modular_inverse_existence",
+      "type": "truefalse",
+      "prompt": "A modular inverse exists for a modulo m if and only if GCD(a,m) = 1.",
+      "answer": "true",
+      "explanation": "Yes, a modular inverse a⁻¹ exists such that a×a⁻¹ ≡ 1 mod m if and only if GCD(a,m) = 1. This is a direct consequence of Bezout's identity and the extended Euclidean algorithm."
+    },
+    {
+      "id": "binary_gcd_efficiency",
+      "type": "single",
+      "prompt": "Compared to the standard Euclidean algorithm, the binary GCD algorithm is typically:",
+      "options": [
+        { "id": "option_a", "text": "Slower due to more operations" },
+        { "id": "option_b", "text": "Faster due to bit operations", "correct": true },
+        { "id": "option_c", "text": "The same speed" },
+        { "id": "option_d", "text": "Only works for powers of 2" }
+      ],
+      "explanation": "The binary GCD algorithm uses bit shifts and subtractions instead of divisions, making it faster in practice, especially for large numbers where division is expensive."
+    },
+    {
+      "id": "rsa_euclidean_connection",
+      "type": "single",
+      "prompt": "In RSA cryptography, the extended Euclidean algorithm is used to:",
+      "options": [
+        { "id": "option_a", "text": "Generate prime numbers" },
+        { "id": "option_b", "text": "Compute the public key" },
+        { "id": "option_c", "text": "Find the private key exponent d", "correct": true },
+        { "id": "option_d", "text": "Encrypt messages" }
+      ],
+      "explanation": "In RSA, after choosing public exponent e, the private exponent d is found such that e×d ≡ 1 mod φ(n). This requires finding the modular inverse of e modulo φ(n), which is done using the extended Euclidean algorithm."
+    },
+    {
+      "id": "lcm_gcd_relationship",
+      "type": "truefalse",
+      "prompt": "LCM(a,b) × GCD(a,b) = a × b for any positive integers a and b.",
+      "answer": "true",
+      "explanation": "Yes, this is a fundamental relationship between LCM and GCD. It holds because both LCM and GCD can be expressed in terms of the prime factorizations of a and b."
+    },
+    {
+      "id": "euclidean_algorithm_complexity",
+      "type": "single",
+      "prompt": "What is the time complexity of the Euclidean algorithm?",
+      "options": [
+        { "id": "option_a", "text": "O(1)" },
+        { "id": "option_b", "text": "O(log min(a,b))", "correct": true },
+        { "id": "option_c", "text": "O(min(a,b))" },
+        { "id": "option_d", "text": "O(a + b)" }
+      ],
+      "explanation": "The Euclidean algorithm runs in O(log min(a,b)) time because each step reduces the problem size by at least a factor of φ ≈ 1.618 (golden ratio), leading to logarithmic convergence."
+    },
+    {
+      "id": "diophantine_equations",
+      "type": "multiple",
+      "prompt": "For the linear Diophantine equation 21x + 14y = 35, which statements are true? (Select all that apply)",
+      "options": [
+        { "id": "option_a", "text": "Solutions exist because GCD(21,14) = 7 divides 35", "correct": true },
+        { "id": "option_b", "text": "A particular solution is x = 1, y = 1", "correct": true },
+        { "id": "option_c", "text": "The general solution is x = 1 + (14/7)t, y = 1 - (21/7)t for integer t", "correct": true },
+        { "id": "option_d", "text": "No solutions exist because 21 and 14 are not coprime" }
+      ],
+      "explanation": "GCD(21,14) = 7, and 7 divides 35, so solutions exist. A particular solution is x=1, y=1. The general solution is found by adding multiples of the homogeneous solution (14/7, -21/7) = (2, -3)."
+    },
+    {
+      "id": "euclidean_real_world",
+      "type": "single",
+      "prompt": "In computer graphics, the Euclidean algorithm is commonly used for:",
+      "options": [
+        { "id": "option_a", "text": "3D rendering" },
+        { "id": "option_b", "text": "Simplifying aspect ratios", "correct": true },
+        { "id": "option_c", "text": "Color quantization" },
+        { "id": "option_d", "text": "Texture mapping" }
+      ],
+      "explanation": "The Euclidean algorithm is used to find the GCD of screen dimensions (like 1920×1080) to simplify aspect ratios to their lowest terms (16:9), which is essential for proper display scaling and coordinate transformations."
+    }
+  ]
+}

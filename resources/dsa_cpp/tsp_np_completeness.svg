@@ -1,0 +1,177 @@
+<svg width="1100" height="700" viewBox="0 0 1100 700" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="550" y="40" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">TSP and NP-Completeness: Computational Complexity Classes</text>
+
+    <!-- Complexity classes diagram -->
+  <rect x="50" y="70" width="1000" height="220" fill="none" stroke="#666" stroke-width="1" />
+
+  <!-- P class -->
+  <rect x="100" y="100" width="150" height="120" fill="#27AE60" fill-opacity="0.2" stroke="#27AE60" stroke-width="3" rx="10" />
+  <text x="175" y="125" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#27AE60" font-weight="bold">P</text>
+  <text x="175" y="145" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#27AE60" font-weight="bold">Polynomial Time</text>
+
+  <text x="130" y="180" font-family="Segoe UI" font-size="12" fill="#666">• Solvable in O(nᵏ) time</text>
+  <text x="130" y="195" font-family="Segoe UI" font-size="12" fill="#666">• Efficient algorithms exist</text>
+  <text x="130" y="210" font-family="Segoe UI" font-size="12" fill="#666">• Examples: sorting, search</text>
+  <text x="130" y="225" font-family="Segoe UI" font-size="12" fill="#666">• Deterministic computation</text>
+
+  <!-- NP class -->
+  <rect x="350" y="90" width="220" height="180" fill="#E67E22" fill-opacity="0.2" stroke="#E67E22" stroke-width="3" rx="10" />
+  <text x="460" y="115" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E67E22" font-weight="bold">NP</text>
+  <text x="460" y="135" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#E67E22" font-weight="bold">Nondeterministic Polynomial</text>
+
+  <text x="360" y="160" font-family="Segoe UI" font-size="12" fill="#666">• Solutions verifiable in O(nᵏ)</text>
+  <text x="360" y="175" font-family="Segoe UI" font-size="12" fill="#666">• May be hard to find</text>
+  <text x="360" y="190" font-family="Segoe UI" font-size="12" fill="#666">• Examples: TSP, knapsack</text>
+  <text x="360" y="205" font-family="Segoe UI" font-size="12" fill="#666">• Contains P as subset</text>
+  <text x="360" y="220" font-family="Segoe UI" font-size="12" fill="#666">• Nondeterministic verification</text>
+
+  <!-- NP-Complete -->
+  <rect x="620" y="70" width="280" height="200" fill="#E74C3C" fill-opacity="0.2" stroke="#E74C3C" stroke-width="3" rx="10" />
+  <text x="760" y="95" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E74C3C" font-weight="bold">NP-Complete</text>
+  <text x="760" y="115" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#E74C3C" font-weight="bold">Hardest NP Problems</text>
+
+  <text x="630" y="140" font-family="Segoe UI" font-size="12" fill="#666">• In NP and NP-hard</text>
+  <text x="630" y="155" font-family="Segoe UI" font-size="12" fill="#666">• Any NP problem reduces to them</text>
+  <text x="630" y="170" font-family="Segoe UI" font-size="12" fill="#666">• TSP, Hamiltonian cycle</text>
+  <text x="630" y="185" font-family="Segoe UI" font-size="12" fill="#666">• No known polynomial algorithms</text>
+  <text x="630" y="200" font-family="Segoe UI" font-size="12" fill="#666">• P = NP would solve all</text>
+  <text x="630" y="215" font-family="Segoe UI" font-size="12" fill="#666">• $1M Clay Mathematics prize</text>
+
+  <!-- NP class -->
+  <rect x="350" y="80" width="220" height="160" fill="#E67E22" fill-opacity="0.2" stroke="#E67E22" stroke-width="3" rx="10" />
+  <text x="460" y="105" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E67E22" font-weight="bold">NP</text>
+  <text x="460" y="125" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#E67E22" font-weight="bold">Nondeterministic Polynomial</text>
+
+  <text x="360" y="150" font-family="Segoe UI" font-size="12" fill="#666">• Solutions verifiable in O(nᵏ)</text>
+  <text x="360" y="165" font-family="Segoe UI" font-size="12" fill="#666">• May be hard to find</text>
+  <text x="360" y="180" font-family="Segoe UI" font-size="12" fill="#666">• Examples: TSP, knapsack</text>
+  <text x="360" y="195" font-family="Segoe UI" font-size="12" fill="#666">• Contains P as subset</text>
+
+  <!-- NP-Complete -->
+  <rect x="620" y="60" width="280" height="180" fill="#E74C3C" fill-opacity="0.2" stroke="#E74C3C" stroke-width="3" rx="10" />
+  <text x="760" y="85" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E74C3C" font-weight="bold">NP-Complete</text>
+  <text x="760" y="105" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#E74C3C" font-weight="bold">Hardest NP Problems</text>
+
+  <text x="630" y="130" font-family="Segoe UI" font-size="12" fill="#666">• In NP and NP-hard</text>
+  <text x="630" y="145" font-family="Segoe UI" font-size="12" fill="#666">• Any NP problem reduces to them</text>
+  <text x="630" y="160" font-family="Segoe UI" font-size="12" fill="#666">• TSP, Hamiltonian cycle</text>
+  <text x="630" y="175" font-family="Segoe UI" font-size="12" fill="#666">• No known polynomial algorithms</text>
+  <text x="630" y="190" font-family="Segoe UI" font-size="12" fill="#666">• P = NP would solve all</text>
+
+  <!-- NP class -->
+  <rect x="300" y="80" width="200" height="160" fill="#E67E22" fill-opacity="0.2" stroke="#E67E22" stroke-width="3" rx="10" />
+  <text x="400" y="105" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E67E22" font-weight="bold">NP</text>
+  <text x="400" y="125" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#E67E22" font-weight="bold">Nondeterministic Polynomial</text>
+
+  <text x="310" y="150" font-family="Segoe UI" font-size="12" fill="#666">• Solutions verifiable in O(nᵏ)</text>
+  <text x="310" y="165" font-family="Segoe UI" font-size="12" fill="#666">• May be hard to find</text>
+  <text x="310" y="180" font-family="Segoe UI" font-size="12" fill="#666">• Examples: TSP, knapsack</text>
+  <text x="310" y="195" font-family="Segoe UI" font-size="12" fill="#666">• Contains P as subset</text>
+
+  <!-- NP-Complete -->
+  <rect x="550" y="60" width="250" height="180" fill="#E74C3C" fill-opacity="0.2" stroke="#E74C3C" stroke-width="3" rx="10" />
+  <text x="675" y="85" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E74C3C" font-weight="bold">NP-Complete</text>
+  <text x="675" y="105" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#E74C3C" font-weight="bold">Hardest NP Problems</text>
+
+  <text x="560" y="130" font-family="Segoe UI" font-size="12" fill="#666">• In NP and NP-hard</text>
+  <text x="560" y="145" font-family="Segoe UI" font-size="12" fill="#666">• Any NP problem reduces to them</text>
+  <text x="560" y="160" font-family="Segoe UI" font-size="12" fill="#666">• TSP, Hamiltonian cycle</text>
+  <text x="560" y="175" font-family="Segoe UI" font-size="12" fill="#666">• No known polynomial algorithms</text>
+  <text x="560" y="190" font-family="Segoe UI" font-size="12" fill="#666">• P = NP would solve all</text>
+
+  <!-- Arrows showing relationships -->
+  <polygon points="300,170" fill="#666" />
+  <polygon points="570,150" fill="#666" />
+
+  <!-- TSP position -->
+  <circle cx="760" cy="230" r="30" fill="#9B59B6" />
+  <text x="760" y="237" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="white" font-weight="bold">TSP</text>
+
+  <!-- NP-Hard explanation -->
+  <rect x="50" y="320" width="500" height="160" fill="none" stroke="#9B59B6" stroke-width="2" rx="10" />
+  <text x="300" y="345" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#9B59B6" font-weight="bold">🧩 NP-Hard Problems</text>
+
+  <text x="70" y="370" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Definition:</text>
+  <text x="70" y="385" font-family="Segoe UI" font-size="12" fill="#666">• Any NP problem can be reduced to them</text>
+  <text x="70" y="400" font-family="Segoe UI" font-size="12" fill="#666">• Not necessarily in NP themselves</text>
+  <text x="70" y="415" font-family="Segoe UI" font-size="12" fill="#666">• At least as hard as NP problems</text>
+  <text x="70" y="430" font-family="Segoe UI" font-size="12" fill="#666">• May require exponential time</text>
+
+  <text x="70" y="450" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Examples:</text>
+  <text x="70" y="465" font-family="Segoe UI" font-size="12" fill="#666">• Halting problem, TSP variants</text>
+
+  <!-- Cook-Levin Theorem -->
+  <rect x="570" y="320" width="500" height="160" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="820" y="345" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#4A90E2" font-weight="bold">🏆 Cook-Levin Theorem</text>
+
+  <text x="590" y="370" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Fundamental Result:</text>
+  <text x="590" y="385" font-family="Segoe UI" font-size="12" fill="#666">• SAT (Boolean satisfiability) is NP-complete</text>
+  <text x="590" y="400" font-family="Segoe UI" font-size="12" fill="#666">• All NP problems reduce to SAT</text>
+  <text x="590" y="415" font-family="Segoe UI" font-size="12" fill="#666">• Provides foundation for complexity theory</text>
+  <text x="590" y="430" font-family="Segoe UI" font-size="12" fill="#666">• Enables NP-completeness proofs</text>
+
+  <text x="590" y="450" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Implications:</text>
+  <text x="590" y="465" font-family="Segoe UI" font-size="12" fill="#666">• P vs NP is most important unsolved problem</text>
+  <text x="590" y="480" font-family="Segoe UI" font-size="12" fill="#666">• $1M Clay Mathematics Institute prize</text>
+
+  <!-- TSP reductions -->
+  <rect x="50" y="500" width="1000" height="160" fill="none" stroke="#E67E22" stroke-width="2" rx="10" />
+  <text x="550" y="525" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E67E22" font-weight="bold">🔄 NP-Complete Reductions to TSP</text>
+
+  <!-- Reduction examples -->
+  <circle cx="150" cy="550" r="25" fill="#27AE60" />
+  <text x="150" y="557" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">HC</text>
+  <text x="150" y="585" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Hamiltonian</text>
+  <text x="150" y="600" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Cycle</text>
+
+  <polygon points="175,550 195,550 190,545 195,550 190,555" fill="#666" />
+
+  <circle cx="250" cy="550" r="25" fill="#E67E22" />
+  <text x="250" y="557" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">TSP</text>
+
+  <polygon points="275,550 295,550 290,545 295,550 290,555" fill="#666" />
+
+  <circle cx="350" cy="550" r="25" fill="#E74C3C" />
+  <text x="350" y="557" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">VC</text>
+  <text x="350" y="585" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Vertex</text>
+  <text x="350" y="600" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Cover</text>
+
+  <polygon points="375,550 395,550 390,545 395,550 390,555" fill="#666" />
+
+  <circle cx="450" cy="550" r="25" fill="#9B59B6" />
+  <text x="450" y="557" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">3SAT</text>
+  <text x="450" y="585" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Boolean</text>
+  <text x="450" y="600" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">SAT</text>
+
+  <polygon points="475,550 495,550 490,545 495,550 490,555" fill="#666" />
+
+  <circle cx="550" cy="550" r="25" fill="#4A90E2" />
+  <text x="550" y="557" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">KP</text>
+  <text x="550" y="585" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Knapsack</text>
+
+  <polygon points="575,550 595,550 590,545 595,550 590,555" fill="#666" />
+
+  <circle cx="650" cy="550" r="25" fill="#E67E22" />
+  <text x="650" y="557" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">MCP</text>
+  <text x="650" y="585" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Max Cut</text>
+
+  <polygon points="675,550 695,550 690,545 695,550 690,555" fill="#666" />
+
+  <circle cx="750" cy="550" r="25" fill="#27AE60" />
+  <text x="750" y="557" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">ISP</text>
+  <text x="750" y="585" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Independent</text>
+  <text x="750" y="600" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Set</text>
+
+  <polygon points="775,550 795,550 790,545 795,550 790,555" fill="#666" />
+
+  <circle cx="850" cy="550" r="25" fill="#E74C3C" />
+  <text x="850" y="557" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">CLQ</text>
+  <text x="850" y="585" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Clique</text>
+
+  <text x="950" y="550" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">All NP Problems</text>
+  <polygon points="915,550 935,550 930,545 935,550 930,555" fill="#666" />
+
+  <!-- Summary -->
+  <text x="550" y="685" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">TSP's NP-completeness explains why optimal solutions remain elusive, driving development of approximation algorithms</text>
+</svg>

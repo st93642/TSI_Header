@@ -1,0 +1,82 @@
+<svg width="920" height="500" viewBox="0 0 920 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Huffman Coding Variants: Static vs Adaptive vs Canonical</text>
+
+  <!-- Static Huffman -->
+  <rect x="50" y="60" width="400" height="180" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="250" y="85" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#4A90E2" font-weight="bold">📊 Static Huffman Coding</text>
+
+  <text x="70" y="110" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Two-Pass Algorithm:</text>
+  <text x="70" y="130" font-family="Segoe UI" font-size="12" fill="#666">• Pass 1: Count all frequencies</text>
+  <text x="70" y="145" font-family="Segoe UI" font-size="12" fill="#666">• Pass 2: Encode with fixed codes</text>
+  <text x="70" y="160" font-family="Segoe UI" font-size="12" fill="#666">• Optimal for known distributions</text>
+  <text x="70" y="175" font-family="Segoe UI" font-size="12" fill="#666">• Requires frequency table storage</text>
+
+  <text x="300" y="110" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Pros &amp; Cons:</text>
+  <text x="300" y="130" font-family="Segoe UI" font-size="12" fill="#27AE60">+ Optimal compression</text>
+  <text x="300" y="145" font-family="Segoe UI" font-size="12" fill="#27AE60">+ Fast decoding</text>
+  <text x="300" y="160" font-family="Segoe UI" font-size="12" fill="#E74C3C">- Two passes needed</text>
+  <text x="300" y="175" font-family="Segoe UI" font-size="12" fill="#E74C3C">- Frequency table overhead</text>
+
+  <!-- Adaptive Huffman -->
+  <rect x="470" y="60" width="400" height="180" fill="none" stroke="#27AE60" stroke-width="2" rx="10" />
+  <text x="670" y="85" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#27AE60" font-weight="bold">🔄 Adaptive Huffman Coding</text>
+
+  <text x="490" y="110" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">One-Pass Algorithm:</text>
+  <text x="490" y="130" font-family="Segoe UI" font-size="12" fill="#666">• Start with empty tree</text>
+  <text x="490" y="145" font-family="Segoe UI" font-size="12" fill="#666">• Update tree as symbols arrive</text>
+  <text x="490" y="160" font-family="Segoe UI" font-size="12" fill="#666">• No frequency table needed</text>
+  <text x="490" y="175" font-family="Segoe UI" font-size="12" fill="#666">• Handles changing distributions</text>
+
+  <text x="720" y="110" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Pros &amp; Cons:</text>
+  <text x="720" y="130" font-family="Segoe UI" font-size="12" fill="#27AE60">+ Single pass</text>
+  <text x="720" y="145" font-family="Segoe UI" font-size="12" fill="#27AE60">+ Adapts to data changes</text>
+  <text x="720" y="160" font-family="Segoe UI" font-size="12" fill="#E74C3C">- Near-optimal compression</text>
+  <text x="720" y="175" font-family="Segoe UI" font-size="12" fill="#E74C3C">- Complex tree updates</text>
+
+  <!-- Canonical Huffman -->
+  <rect x="50" y="260" width="400" height="180" fill="none" stroke="#E67E22" stroke-width="2" rx="10" />
+  <text x="250" y="285" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#E67E22" font-weight="bold">📋 Canonical Huffman Coding</text>
+
+  <text x="70" y="310" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Code Length Based:</text>
+  <text x="70" y="330" font-family="Segoe UI" font-size="12" fill="#666">• Store only code lengths</text>
+  <text x="70" y="345" font-family="Segoe UI" font-size="12" fill="#666">• Reconstruct codes from lengths</text>
+  <text x="70" y="360" font-family="Segoe UI" font-size="12" fill="#666">• Smaller header than full codes</text>
+  <text x="70" y="375" font-family="Segoe UI" font-size="12" fill="#666">• Used in DEFLATE, JPEG</text>
+
+  <text x="300" y="310" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Pros &amp; Cons:</text>
+  <text x="300" y="330" font-family="Segoe UI" font-size="12" fill="#27AE60">+ Compact representation</text>
+  <text x="300" y="345" font-family="Segoe UI" font-size="12" fill="#27AE60">+ Standard in compression</text>
+  <text x="300" y="360" font-family="Segoe UI" font-size="12" fill="#E74C3C">- Requires length calculation</text>
+  <text x="300" y="375" font-family="Segoe UI" font-size="12" fill="#E74C3C">- More complex implementation</text>
+
+  <!-- Performance comparison -->
+  <rect x="470" y="260" width="400" height="180" fill="none" stroke="#9B59B6" stroke-width="2" rx="10" />
+  <text x="670" y="285" text-anchor="middle" font-family="Segoe UI" font-size="18" fill="#9B59B6" font-weight="bold">⚡ Performance Comparison</text>
+
+  <!-- Comparison table -->
+  <text x="490" y="310" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Compression Ratio:</text>
+  <text x="490" y="325" font-family="Segoe UI" font-size="12" fill="#4A90E2">Static: 40-70%</text>
+  <text x="490" y="340" font-family="Segoe UI" font-size="12" fill="#27AE60">Adaptive: 35-65%</text>
+  <text x="490" y="355" font-family="Segoe UI" font-size="12" fill="#E67E22">Canonical: 40-70%</text>
+
+  <text x="650" y="310" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Speed:</text>
+  <text x="650" y="325" font-family="Segoe UI" font-size="12" fill="#4A90E2">Static: Fastest</text>
+  <text x="650" y="340" font-family="Segoe UI" font-size="12" fill="#27AE60">Adaptive: Medium</text>
+  <text x="650" y="355" font-family="Segoe UI" font-size="12" fill="#E67E22">Canonical: Fast</text>
+
+  <text x="490" y="375" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Memory Usage:</text>
+  <text x="490" y="390" font-family="Segoe UI" font-size="12" fill="#4A90E2">Static: High (freq table)</text>
+  <text x="490" y="405" font-family="Segoe UI" font-size="12" fill="#27AE60">Adaptive: Medium</text>
+  <text x="490" y="420" font-family="Segoe UI" font-size="12" fill="#E67E22">Canonical: Low</text>
+
+  <!-- When to use each -->
+  <text x="50" y="460" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">When to Use Each Variant:</text>
+
+  <text x="50" y="480" font-family="Segoe UI" font-size="14" fill="#4A90E2">• Static Huffman: Known data distributions, batch processing</text>
+  <text x="50" y="495" font-family="Segoe UI" font-size="14" fill="#27AE60">• Adaptive Huffman: Streaming data, changing patterns</text>
+  <text x="50" y="510" font-family="Segoe UI" font-size="14" fill="#E67E22">• Canonical Huffman: Standards compliance, minimal headers</text>
+
+  <!-- Summary -->
+  <text x="460" y="485" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Choose the right Huffman variant based on your data characteristics, processing constraints, and compression requirements</text>
+</svg>

@@ -1,0 +1,30 @@
+{
+  "id": "dsa_euclidean_algorithm_cpp_exercise",
+  "title": "Solution: Euclidean Algorithm and Number Theory",
+  "mode": "quiz",
+  "answerKey": {
+    "euclidean_basic_gcd": "option_a",
+    "euclidean_properties": ["option_a", "option_c", "option_d"],
+    "extended_euclidean_coefficients": "option_b",
+    "modular_inverse_existence": "true",
+    "binary_gcd_efficiency": "option_b",
+    "rsa_euclidean_connection": "option_c",
+    "lcm_gcd_relationship": "true",
+    "euclidean_algorithm_complexity": "option_b",
+    "diophantine_equations": ["option_a", "option_b", "option_c"],
+    "euclidean_real_world": "option_b"
+  },
+  "explanation": "These answers demonstrate understanding of the Euclidean algorithm's mathematical foundations, implementation variants, and real-world applications in cryptography, computer graphics, and number theory.",
+  "keyPoints": [
+    "The Euclidean algorithm efficiently computes GCD through repeated modulo operations",
+    "Extended Euclidean algorithm finds Bezout coefficients for linear Diophantine equations",
+    "Modular inverses exist iff GCD(a,m) = 1, enabling RSA cryptography",
+    "Binary GCD uses bit operations for better performance on modern hardware",
+    "GCD and LCM are related by LCM(a,b) × GCD(a,b) = a × b",
+    "Euclidean algorithm has O(log min(a,b)) time complexity",
+    "Applications span cryptography, computer graphics, number theory, and more",
+    "Bezout's identity enables solving linear Diophantine equations",
+    "Algorithm terminates because remainders strictly decrease to zero",
+    "Understanding GCD properties is crucial for advanced number theory algorithms"
+  ]
+}

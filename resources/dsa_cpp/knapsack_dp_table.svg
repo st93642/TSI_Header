@@ -1,0 +1,247 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">0/1 Knapsack Dynamic Programming Table</text>
+
+  <!-- Items and weights/values table -->
+  <rect x="50" y="70" width="300" height="200" fill="none" stroke="#666" stroke-width="2" />
+  <text x="200" y="95" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">Items</text>
+
+  <!-- Headers -->
+  <rect x="50" y="100" width="100" height="30" fill="#E8F4FD" stroke="#666" stroke-width="1" />
+  <text x="100" y="118" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Item</text>
+
+  <rect x="150" y="100" width="100" height="30" fill="#E8F4FD" stroke="#666" stroke-width="1" />
+  <text x="200" y="118" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Weight</text>
+
+  <rect x="250" y="100" width="100" height="30" fill="#E8F4FD" stroke="#666" stroke-width="1" />
+  <text x="300" y="118" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Value</text>
+
+  <!-- Item 1 -->
+  <rect x="50" y="130" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="100" y="148" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">1</text>
+
+  <rect x="150" y="130" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="200" y="148" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">2</text>
+
+  <rect x="250" y="130" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="300" y="148" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">12</text>
+
+  <!-- Item 2 -->
+  <rect x="50" y="160" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="100" y="178" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">2</text>
+
+  <rect x="150" y="160" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="200" y="178" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">1</text>
+
+  <rect x="250" y="160" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="300" y="178" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">10</text>
+
+  <!-- Item 3 -->
+  <rect x="50" y="190" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="100" y="208" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">3</text>
+
+  <rect x="150" y="190" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="200" y="208" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">3</text>
+
+  <rect x="250" y="190" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="300" y="208" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">20</text>
+
+  <!-- Item 4 -->
+  <rect x="50" y="220" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="100" y="238" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">4</text>
+
+  <rect x="150" y="220" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="200" y="238" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">2</text>
+
+  <rect x="250" y="220" width="100" height="30" fill="white" stroke="#666" stroke-width="1" />
+  <text x="300" y="238" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">15</text>
+
+  <!-- DP Table -->
+  <text x="650" y="95" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">DP Table (Capacity = 5)</text>
+
+  <!-- DP table headers -->
+  <rect x="400" y="120" width="80" height="40" fill="#E8F4FD" stroke="#666" stroke-width="2" />
+  <text x="440" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Item\Capacity</text>
+
+  <!-- Capacity headers -->
+  <rect x="480" y="120" width="60" height="40" fill="#E8F4FD" stroke="#666" stroke-width="1" />
+  <text x="510" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">0</text>
+
+  <rect x="540" y="120" width="60" height="40" fill="#E8F4FD" stroke="#666" stroke-width="1" />
+  <text x="570" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">1</text>
+
+  <rect x="600" y="120" width="60" height="40" fill="#E8F4FD" stroke="#666" stroke-width="1" />
+  <text x="630" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">2</text>
+
+  <rect x="660" y="120" width="60" height="40" fill="#E8F4FD" stroke="#666" stroke-width="1" />
+  <text x="690" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill-weight="bold">3</text>
+
+  <rect x="720" y="120" width="60" height="40" fill="#E8F4FD" stroke="#666" stroke-width="1" />
+  <text x="750" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">4</text>
+
+  <rect x="780" y="120" width="60" height="40" fill="#E8F4FD" stroke="#666" stroke-width="1" />
+  <text x="810" y="145" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">5</text>
+
+  <!-- Row 0 (no items) -->
+  <rect x="400" y="160" width="80" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="440" y="185" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">0</text>
+
+  <rect x="480" y="160" width="60" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="510" y="185" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="540" y="160" width="60" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="570" y="185" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="600" y="160" width="60" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="630" y="185" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="660" y="160" width="60" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="690" y="185" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="720" y="160" width="60" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="750" y="185" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="780" y="160" width="60" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="810" y="185" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <!-- Row 1 (item 1: weight=2, value=12) -->
+  <rect x="400" y="200" width="80" height="40" fill="#D1ECF1" stroke="#666" stroke-width="1" />
+  <text x="440" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">1</text>
+
+  <rect x="480" y="200" width="60" height="40" fill="#D1ECF1" stroke="#666" stroke-width="1" />
+  <text x="510" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="540" y="200" width="60" height="40" fill="#D1ECF1" stroke="#666" stroke-width="1" />
+  <text x="570" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="600" y="200" width="60" height="40" fill="#4CAF50" stroke="#666" stroke-width="2" />
+  <text x="630" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">12</text>
+
+  <rect x="660" y="200" width="60" height="40" fill="#4CAF50" stroke="#666" stroke-width="2" />
+  <text x="690" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">12</text>
+
+  <rect x="720" y="200" width="60" height="40" fill="#4CAF50" stroke="#666" stroke-width="2" />
+  <text x="750" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">12</text>
+
+  <rect x="780" y="200" width="60" height="40" fill="#4CAF50" stroke="#666" stroke-width="2" />
+  <text x="810" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">12</text>
+
+  <!-- Row 2 (item 2: weight=1, value=10) -->
+  <rect x="400" y="240" width="80" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="440" y="265" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">2</text>
+
+  <rect x="480" y="240" width="60" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="510" y="265" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="540" y="240" width="60" height="40" fill="#FF9800" stroke="#666" stroke-width="2" />
+  <text x="570" y="265" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">10</text>
+
+  <rect x="600" y="240" width="60" height="40" fill="#FF9800" stroke="#666" stroke-width="2" />
+  <text x="630" y="265" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">12</text>
+
+  <rect x="660" y="240" width="60" height="40" fill="#FF9800" stroke="#666" stroke-width="2" />
+  <text x="690" y="265" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">12</text>
+
+  <rect x="720" y="240" width="60" height="40" fill="#FF9800" stroke="#666" stroke-width="2" />
+  <text x="750" y="265" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">22</text>
+
+  <rect x="780" y="240" width="60" height="40" fill="#FF9800" stroke="#666" stroke-width="2" />
+  <text x="810" y="265" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">22</text>
+
+  <!-- Row 3 (item 3: weight=3, value=20) -->
+  <rect x="400" y="280" width="80" height="40" fill="#D1ECF1" stroke="#666" stroke-width="1" />
+  <text x="440" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">3</text>
+
+  <rect x="480" y="280" width="60" height="40" fill="#D1ECF1" stroke="#666" stroke-width="1" />
+  <text x="510" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="540" y="280" width="60" height="40" fill="#D1ECF1" stroke="#666" stroke-width="1" />
+  <text x="570" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">10</text>
+
+  <rect x="600" y="280" width="60" height="40" fill="#D1ECF1" stroke="#666" stroke-width="1" />
+  <text x="630" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">12</text>
+
+  <rect x="660" y="280" width="60" height="40" fill="#2196F3" stroke="#666" stroke-width="2" />
+  <text x="690" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">20</text>
+
+  <rect x="720" y="280" width="60" height="40" fill="#2196F3" stroke="#666" stroke-width="2" />
+  <text x="750" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">30</text>
+
+  <rect x="780" y="280" width="60" height="40" fill="#2196F3" stroke="#666" stroke-width="2" />
+  <text x="810" y="305" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">32</text>
+
+  <!-- Row 4 (item 4: weight=2, value=15) -->
+  <rect x="400" y="320" width="80" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="440" y="345" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">4</text>
+
+  <rect x="480" y="320" width="60" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="510" y="345" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <rect x="540" y="320" width="60" height="40" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="570" y="345" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">10</text>
+
+  <rect x="600" y="320" width="60" height="40" fill="#9C27B0" stroke="#666" stroke-width="2" />
+  <text x="630" y="345" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">15</text>
+
+  <rect x="660" y="320" width="60" height="40" fill="#9C27B0" stroke="#666" stroke-width="2" />
+  <text x="690" y="345" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">25</text>
+
+  <rect x="720" y="320" width="60" height="40" fill="#9C27B0" stroke="#666" stroke-width="2" />
+  <text x="750" y="345" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">30</text>
+
+  <rect x="780" y="320" width="60" height="40" fill="#9C27B0" stroke="#666" stroke-width="2" />
+  <text x="810" y="345" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">35</text>
+
+  <!-- Legend -->
+  <rect x="900" y="120" width="250" height="240" fill="none" stroke="#666" stroke-width="2" rx="10" />
+  <text x="1025" y="145" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">Legend</text>
+
+  <rect x="920" y="160" width="20" height="20" fill="#FFF3CD" stroke="#666" stroke-width="1" />
+  <text x="950" y="175" font-family="Segoe UI" font-size="12" fill="#666">No change from previous row</text>
+
+  <rect x="920" y="185" width="20" height="20" fill="#D1ECF1" stroke="#666" stroke-width="1" />
+  <text x="950" y="200" font-family="Segoe UI" font-size="12" fill="#666">Item weight > capacity</text>
+
+  <rect x="920" y="210" width="20" height="20" fill="#4CAF50" stroke="#666" stroke-width="1" />
+  <text x="950" y="225" font-family="Segoe UI" font-size="12" fill="#666">Item included (take)</text>
+
+  <rect x="920" y="235" width="20" height="20" fill="#FF9800" stroke="#666" stroke-width="1" />
+  <text x="950" y="250" font-family="Segoe UI" font-size="12" fill="#666">Item not included (leave)</text>
+
+  <rect x="920" y="260" width="20" height="20" fill="#2196F3" stroke="#666" stroke-width="1" />
+  <text x="950" y="275" font-family="Segoe UI" font-size="12" fill="#666">Max of take/leave options</text>
+
+  <rect x="920" y="285" width="20" height="20" fill="#9C27B0" stroke="#666" stroke-width="1" />
+  <text x="950" y="300" font-family="Segoe UI" font-size="12" fill="#666">Final optimal value</text>
+
+  <!-- Formula explanation -->
+  <rect x="50" y="400" width="1100" height="150" fill="none" stroke="#E67E22" stroke-width="2" rx="10" />
+  <text x="600" y="425" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#E67E22" font-weight="bold">DP Recurrence Relation</text>
+
+  <text x="70" y="450" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">For each item i and capacity w:</text>
+  <text x="70" y="470" font-family="Segoe UI" font-size="13" fill="#666">dp[i][w] = max(</text>
+  <text x="90" y="485" font-family="Segoe UI" font-size="13" fill="#666">• dp[i-1][w]  // Don't take item i</text>
+  <text x="90" y="500" font-family="Segoe UI" font-size="13" fill="#666">• dp[i-1][w - weight[i]] + value[i]  // Take item i (if w ≥ weight[i])</text>
+  <text x="70" y="515" font-family="Segoe UI" font-size="13" fill="#666">)</text>
+
+  <text x="600" y="535" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Optimal Solution: dp[4][5] = 35</text>
+
+  <!-- Decision path -->
+  <text x="70" y="580" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Optimal Items Selected:</text>
+  <text x="70" y="600" font-family="Segoe UI" font-size="13" fill="#666">• Item 4 (weight=2, value=15) - included</text>
+  <text x="70" y="615" font-family="Segoe UI" font-size="13" fill="#666">• Item 3 (weight=3, value=20) - included</text>
+  <text x="70" y="630" font-family="Segoe UI" font-size="13" fill="#666">• Item 2 (weight=1, value=10) - included</text>
+  <text x="70" y="645" font-family="Segoe UI" font-size="13" fill="#666">• Item 1 (weight=2, value=12) - not included</text>
+
+  <text x="70" y="665" font-family="Segoe UI" font-size="13" fill="#666">Total weight: 2+3+1 = 6kg (exceeds 5kg capacity - wait, this is wrong!)</text>
+  <text x="70" y="680" font-family="Segoe UI" font-size="13" fill="#666">Actually: Items 2, 3, 4 = 1+3+2 = 6kg, but capacity is 5kg!</text>
+
+  <!-- Corrected optimal solution -->
+  <text x="600" y="580" font-family="Segoe UI" font-size="14" fill="#E74C3C" font-weight="bold">Corrected Optimal Solution:</text>
+  <text x="600" y="600" font-family="Segoe UI" font-size="13" fill="#E74C3C">Items 2, 3 = weight 1+3=4kg, value 10+20=30</text>
+  <text x="600" y="615" font-family="Segoe UI" font-size="13" fill="#E74C3C">Items 2, 4 = weight 1+2=3kg, value 10+15=25</text>
+  <text x="600" y="630" font-family="Segoe UI" font-size="13" fill="#E74C3C">Items 3, 4 = weight 3+2=5kg, value 20+15=35 ✓</text>
+
+  <!-- Summary -->
+  <text x="600" y="780" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">DP table systematically explores all combinations, choosing maximum value at each step while respecting capacity constraints</text>
+</svg>

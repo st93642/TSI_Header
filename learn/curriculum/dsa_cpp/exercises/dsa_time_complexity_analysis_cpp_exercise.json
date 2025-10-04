@@ -1,0 +1,228 @@
+{
+  "id": "dsa_time_complexity_analysis_cpp_exercise",
+  "mode": "quiz",
+  "title": "Quiz: Time Complexity Analysis",
+  "description": "Test your understanding of algorithmic complexity analysis by answering ten questions covering Big O notation, complexity classes, and practical performance considerations.\n\nSteps:\n1. Review the complexity analysis concepts from the lesson.\n2. Answer each question carefully, selecting the best option(s).\n3. Submit to see detailed explanations and reinforce your learning.\n\nExpected results: Achieve at least the pass score to demonstrate mastery of time complexity analysis.",
+  "tags": ["cpp", "dsa", "complexity", "algorithms", "big-o", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "complexity-basics-1",
+      "type": "single",
+      "prompt": "What does Big O notation O(f(n)) represent?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The exact number of operations for input size n"
+        },
+        {
+          "id": "b",
+          "text": "The upper bound of growth rate for the algorithm",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "The average performance across all inputs"
+        },
+        {
+          "id": "d",
+          "text": "The minimum operations required"
+        }
+      ],
+      "explanation": "Big O notation describes the upper bound or worst-case growth rate of an algorithm's time or space requirements."
+    },
+    {
+      "id": "complexity-classes-2",
+      "type": "single",
+      "prompt": "Which complexity class represents logarithmic growth?",
+      "options": [
+        {
+          "id": "a",
+          "text": "O(1)"
+        },
+        {
+          "id": "b",
+          "text": "O(log n)",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "O(n)"
+        },
+        {
+          "id": "d",
+          "text": "O(n²)"
+        }
+      ],
+      "explanation": "O(log n) represents logarithmic growth, commonly seen in algorithms like binary search that repeatedly divide the problem size."
+    },
+    {
+      "id": "best-worst-case-3",
+      "type": "multiple",
+      "prompt": "Which of the following are true about best, average, and worst case analysis? (Select all that apply)",
+      "options": [
+        {
+          "id": "a",
+          "text": "Best case represents the minimum operations for any input",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Worst case provides guaranteed performance bounds",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Average case requires probability analysis of input distribution",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Best case is always more important than worst case"
+        }
+      ],
+      "explanation": "Best case shows optimal performance, worst case provides guarantees for reliability, and average case considers typical input distributions. All three are important depending on the application context."
+    },
+    {
+      "id": "sorting-complexity-4",
+      "type": "single",
+      "prompt": "What is the worst-case time complexity of bubble sort?",
+      "options": [
+        {
+          "id": "a",
+          "text": "O(n)"
+        },
+        {
+          "id": "b",
+          "text": "O(n log n)"
+        },
+        {
+          "id": "c",
+          "text": "O(n²)",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "O(2ⁿ)"
+        }
+      ],
+      "explanation": "Bubble sort has O(n²) worst-case complexity because it uses nested loops that both iterate through the array."
+    },
+    {
+      "id": "space-complexity-5",
+      "type": "single",
+      "prompt": "Which algorithm typically has O(log n) space complexity due to recursion?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Linear search"
+        },
+        {
+          "id": "b",
+          "text": "Binary search (recursive)",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Bubble sort"
+        },
+        {
+          "id": "d",
+          "text": "Selection sort"
+        }
+      ],
+      "explanation": "Recursive binary search uses O(log n) space for the call stack, as the recursion depth is logarithmic in the input size."
+    },
+    {
+      "id": "amortized-analysis-6",
+      "type": "truefalse",
+      "prompt": "True or False: std::vector push_back operation is O(1) amortized time complexity.",
+      "answer": "true",
+      "explanation": "std::vector push_back is amortized O(1) because while individual operations can be O(n) during resizing, the average cost over many operations is constant."
+    },
+    {
+      "id": "practical-considerations-7",
+      "type": "multiple",
+      "prompt": "Which factors should be considered in practical performance analysis beyond Big O? (Select all that apply)",
+      "options": [
+        {
+          "id": "a",
+          "text": "Constant factors in the algorithm",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Memory access patterns and cache performance",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Input size thresholds where different algorithms become preferable",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "The color of the code comments"
+        }
+      ],
+      "explanation": "Practical performance considers constants, cache behavior, and crossover points where asymptotically slower algorithms may perform better for small inputs."
+    },
+    {
+      "id": "complexity-hierarchy-8",
+      "type": "single",
+      "prompt": "Arrange these complexities in order from best to worst: O(1), O(n²), O(log n), O(n)",
+      "options": [
+        {
+          "id": "a",
+          "text": "O(1), O(log n), O(n), O(n²)",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "O(log n), O(1), O(n), O(n²)"
+        },
+        {
+          "id": "c",
+          "text": "O(n²), O(n), O(log n), O(1)"
+        },
+        {
+          "id": "d",
+          "text": "O(1), O(n), O(log n), O(n²)"
+        }
+      ],
+      "explanation": "From best to worst performance: O(1) constant, O(log n) logarithmic, O(n) linear, O(n²) quadratic."
+    },
+    {
+      "id": "merge-sort-complexity-9",
+      "type": "truefalse",
+      "prompt": "True or False: Merge sort has O(n log n) time complexity in best, average, and worst cases.",
+      "answer": "true",
+      "explanation": "Merge sort consistently achieves O(n log n) time complexity regardless of input ordering, making it more predictable than quicksort."
+    },
+    {
+      "id": "real-world-application-10",
+      "type": "single",
+      "prompt": "In which application domain is worst-case time complexity analysis most critical?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Data analysis scripts"
+        },
+        {
+          "id": "b",
+          "text": "Real-time embedded systems",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Batch processing jobs"
+        },
+        {
+          "id": "d",
+          "text": "Prototype development"
+        }
+      ],
+      "explanation": "Real-time systems require guaranteed worst-case performance bounds to meet timing deadlines and ensure system reliability."
+    }
+  ]
+}

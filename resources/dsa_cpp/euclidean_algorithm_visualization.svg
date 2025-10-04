@@ -1,0 +1,92 @@
+<svg width="920" height="500" viewBox="0 0 920 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Euclidean Algorithm Execution: GCD(48, 18)</text>
+
+  <!-- Initial state -->
+  <rect x="50" y="60" width="820" height="60" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="100" y="85" font-family="Segoe UI" font-size="16" fill="#4A90E2" font-weight="bold">Step 1:</text>
+  <text x="200" y="85" font-family="Segoe UI" font-size="16" fill="#666">GCD(48, 18)</text>
+  <text x="350" y="85" font-family="Segoe UI" font-size="14" fill="#666">→ GCD(18, 48 mod 18) = GCD(18, 12)</text>
+  <circle cx="700" cy="82" r="20" fill="#27AE60" />
+  <text x="700" y="88" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">48÷18=2</text>
+
+  <!-- Step 2 -->
+  <rect x="50" y="130" width="820" height="60" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="100" y="155" font-family="Segoe UI" font-size="16" fill="#4A90E2" font-weight="bold">Step 2:</text>
+  <text x="200" y="155" font-family="Segoe UI" font-size="16" fill="#666">GCD(18, 12)</text>
+  <text x="350" y="155" font-family="Segoe UI" font-size="14" fill="#666">→ GCD(12, 18 mod 12) = GCD(12, 6)</text>
+  <circle cx="700" cy="152" r="20" fill="#27AE60" />
+  <text x="700" y="158" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">18÷12=1</text>
+
+  <!-- Step 3 -->
+  <rect x="50" y="200" width="820" height="60" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="100" y="225" font-family="Segoe UI" font-size="16" fill="#4A90E2" font-weight="bold">Step 3:</text>
+  <text x="200" y="225" font-family="Segoe UI" font-size="16" fill="#666">GCD(12, 6)</text>
+  <text x="350" y="225" font-family="Segoe UI" font-size="14" fill="#666">→ GCD(6, 12 mod 6) = GCD(6, 0)</text>
+  <circle cx="700" cy="222" r="20" fill="#27AE60" />
+  <text x="700" y="228" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">12÷6=2</text>
+
+  <!-- Final step -->
+  <rect x="50" y="270" width="820" height="60" fill="none" stroke="#E67E22" stroke-width="3" rx="10" />
+  <text x="100" y="295" font-family="Segoe UI" font-size="16" fill="#E67E22" font-weight="bold">Step 4:</text>
+  <text x="200" y="295" font-family="Segoe UI" font-size="16" fill="#666">GCD(6, 0)</text>
+  <text x="350" y="295" font-family="Segoe UI" font-size="14" fill="#666">→ When second number is 0, GCD = 6</text>
+  <circle cx="700" cy="292" r="25" fill="#E74C3C" />
+  <text x="700" y="298" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="white" font-weight="bold">GCD=6</text>
+
+  <!-- Visual representation -->
+  <text x="50" y="360" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">Visual Representation:</text>
+
+  <!-- Number line visualization -->
+  <line x1="100" y1="380" x2="800" y2="380" stroke="#666" stroke-width="2" />
+  <text x="95" y="395" font-family="Segoe UI" font-size="12" fill="#666">0</text>
+
+  <!-- Mark 6 -->
+  <line x1="200" y1="375" x2="200" y2="385" stroke="#E74C3C" stroke-width="3" />
+  <text x="200" y="395" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#E74C3C" font-weight="bold">6</text>
+
+  <!-- Mark 12 -->
+  <line x1="350" y1="375" x2="350" y2="385" stroke="#4A90E2" stroke-width="3" />
+  <text x="350" y="395" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#4A90E2" font-weight="bold">12</text>
+
+  <!-- Mark 18 -->
+  <line x1="500" y1="375" x2="500" y2="385" stroke="#27AE60" stroke-width="3" />
+  <text x="500" y="395" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#27AE60" font-weight="bold">18</text>
+
+  <!-- Mark 24 -->
+  <line x1="600" y1="375" x2="600" y2="385" stroke="#9B59B6" stroke-width="2" />
+  <text x="600" y="395" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#9B59B6">24</text>
+
+  <!-- Mark 30 -->
+  <line x1="700" y1="375" x2="700" y2="385" stroke="#9B59B6" stroke-width="2" />
+  <text x="700" y="395" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#9B59B6">30</text>
+
+  <!-- Mark 36 -->
+  <line x1="750" y1="375" x2="750" y2="385" stroke="#9B59B6" stroke-width="2" />
+  <text x="750" y="395" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#9B59B6">36</text>
+
+  <!-- Mark 42 -->
+  <line x1="780" y1="375" x2="780" y2="385" stroke="#9B59B6" stroke-width="2" />
+  <text x="780" y="395" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#9B59B6">42</text>
+
+  <!-- Mark 48 -->
+  <line x1="800" y1="375" x2="800" y2="385" stroke="#F39C12" stroke-width="3" />
+  <text x="800" y="405" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#F39C12" font-weight="bold">48</text>
+
+  <!-- Legend -->
+  <text x="50" y="430" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Legend:</text>
+  <circle cx="120" cy="445" r="8" fill="#E74C3C" />
+  <text x="135" y="450" font-family="Segoe UI" font-size="12" fill="#666">Final GCD result</text>
+
+  <circle cx="280" cy="445" r="8" fill="#4A90E2" />
+  <text x="295" y="450" font-family="Segoe UI" font-size="12" fill="#666">Intermediate values</text>
+
+  <circle cx="440" cy="445" r="8" fill="#27AE60" />
+  <text x="455" y="450" font-family="Segoe UI" font-size="12" fill="#666">Input values</text>
+
+  <circle cx="580" cy="445" r="8" fill="#F39C12" />
+  <text x="595" y="450" font-family="Segoe UI" font-size="12" fill="#666">Original inputs</text>
+
+  <!-- Summary -->
+  <text x="460" y="480" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Euclidean Algorithm: Systematic reduction to find the greatest common divisor</text>
+</svg>

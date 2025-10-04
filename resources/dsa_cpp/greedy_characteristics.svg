@@ -1,0 +1,70 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 24px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 16px; font-weight: bold; fill: #666; }
+      .text { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #666; }
+      .greedy-box { fill: #d4edda; stroke: #28a745; stroke-width: 2; }
+      .dp-box { fill: #fff3cd; stroke: #ffc107; stroke-width: 2; }
+      .arrow { fill: #666; }
+      .works { fill: #28a745; }
+      .fails { fill: #dc3545; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title">Greedy Algorithm Characteristics</text>
+
+  <!-- Greedy Choice Property -->
+  <rect x="50" y="60" width="300" height="120" class="greedy-box" rx="10"/>
+  <text x="200" y="90" text-anchor="middle" class="label">Greedy Choice Property</text>
+  <text x="200" y="110" text-anchor="middle" class="text">Locally optimal choices</text>
+  <text x="200" y="130" text-anchor="middle" class="text">lead to globally optimal</text>
+  <text x="200" y="150" text-anchor="middle" class="text">solutions</text>
+
+  <!-- Optimal Substructure -->
+  <rect x="450" y="60" width="300" height="120" class="greedy-box" rx="10"/>
+  <text x="600" y="90" text-anchor="middle" class="label">Optimal Substructure</text>
+  <text x="600" y="110" text-anchor="middle" class="text">Optimal solutions contain</text>
+  <text x="600" y="130" text-anchor="middle" class="text">optimal subsolutions</text>
+  <text x="600" y="150" text-anchor="middle" class="text">(shared with DP)</text>
+
+  <!-- Arrow between them -->
+  <polygon points="360,120 380,120 375,115 380,120 375,125" class="arrow"/>
+  <line x1="350" y1="120" x2="450" y2="120" stroke="#666" stroke-width="2"/>
+  <text x="400" y="140" text-anchor="middle" class="text">Both Required</text>
+
+  <!-- When Greedy Works -->
+  <text x="400" y="220" text-anchor="middle" class="label">When Greedy Algorithms Work</text>
+
+  <!-- Activity Selection -->
+  <rect x="100" y="240" width="160" height="80" class="greedy-box" rx="5"/>
+  <text x="180" y="260" text-anchor="middle" class="text">Activity Selection</text>
+  <text x="180" y="275" text-anchor="middle" class="text">Earliest finish time</text>
+  <text x="180" y="290" text-anchor="middle" class="text">greedy choice</text>
+  <circle cx="160" cy="305" r="8" class="works"/>
+  <text x="175" y="310" class="text">Works</text>
+
+  <!-- Fractional Knapsack -->
+  <rect x="320" y="240" width="160" height="80" class="greedy-box" rx="5"/>
+  <text x="400" y="260" text-anchor="middle" class="text">Fractional Knapsack</text>
+  <text x="400" y="275" text-anchor="middle" class="text">Value/weight ratio</text>
+  <text x="400" y="290" text-anchor="middle" class="text">greedy choice</text>
+  <circle cx="380" cy="305" r="8" class="works"/>
+  <text x="395" y="310" class="text">Works</text>
+
+  <!-- 0/1 Knapsack -->
+  <rect x="540" y="240" width="160" height="80" class="dp-box" rx="5"/>
+  <text x="620" y="260" text-anchor="middle" class="text">0/1 Knapsack</text>
+  <text x="620" y="275" text-anchor="middle" class="text">Cannot take fraction</text>
+  <text x="620" y="290" text-anchor="middle" class="text">greedy fails</text>
+  <circle cx="600" cy="305" r="8" class="fails"/>
+  <text x="615" y="310" class="text">Needs DP</text>
+
+  <!-- Legend -->
+  <text x="400" y="350" text-anchor="middle" class="label">Legend</text>
+  <circle cx="300" cy="370" r="8" class="works"/>
+  <text x="315" y="375" class="text">Greedy Choice Property Holds</text>
+  <circle cx="300" cy="390" r="8" class="fails"/>
+  <text x="315" y="395" class="text">Greedy Choice Property Fails</text>
+</svg>

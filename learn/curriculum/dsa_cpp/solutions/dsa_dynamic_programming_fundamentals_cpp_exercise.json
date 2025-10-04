@@ -1,0 +1,28 @@
+{
+  "mode": "quiz",
+  "id": "dsa_dynamic_programming_fundamentals_cpp",
+  "answerKey": {
+    "dp_fundamentals_1": "0",
+    "dp_fundamentals_2": "false",
+    "dp_fundamentals_3": ["0", "2", "3"],
+    "dp_fundamentals_4": "1",
+    "dp_fundamentals_5": "true",
+    "dp_fundamentals_6": ["0", "2", "3"],
+    "dp_fundamentals_7": "1",
+    "dp_fundamentals_8": "false",
+    "dp_fundamentals_9": ["1", "3"],
+    "dp_fundamentals_10": "3"
+  },
+  "keyPoints": [
+    "Dynamic programming requires optimal substructure and overlapping subproblems to be effective",
+    "Memoization uses top-down recursion with caching, tabulation uses bottom-up iteration with tables",
+    "Choose memoization for sparse problems and natural recursion, tabulation for dense problems and cache efficiency",
+    "Optimal substructure means optimal solutions contain optimal subsolutions",
+    "Overlapping subproblems enable caching to avoid exponential recomputation",
+    "DP transforms problems from exponential to polynomial time through systematic subproblem reuse",
+    "Memoization is limited by recursion depth, tabulation avoids this with iteration",
+    "DP applies to both optimization and counting problems with the right characteristics",
+    "Space optimization techniques like rolling arrays can reduce DP memory usage significantly",
+    "Understanding when to apply DP vs other paradigms is crucial for algorithm selection"
+  ]
+}

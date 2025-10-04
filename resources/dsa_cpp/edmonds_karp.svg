@@ -1,0 +1,90 @@
+<svg width="920" height="600" viewBox="0 0 920 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+    </marker>
+    <marker id="arrowhead-bfs" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#27AE60" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Edmonds-Karp Algorithm: BFS-Based Augmentation</text>
+
+  <!-- Network -->
+  <circle cx="200" cy="100" r="25" fill="#4A90E2" />
+  <text x="200" y="110" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">S</text>
+
+  <circle cx="400" cy="100" r="25" fill="#4A90E2" />
+  <text x="400" y="110" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">A</text>
+
+  <circle cx="600" cy="100" r="25" fill="#4A90E2" />
+  <text x="600" y="110" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">B</text>
+
+  <circle cx="800" cy="100" r="25" fill="#4A90E2" />
+  <text x="800" y="110" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">T</text>
+
+  <!-- Edges -->
+  <line x1="225" y1="100" x2="375" y2="100" stroke="#666" stroke-width="3" marker-end="url(#arrowhead)" />
+  <text x="300" y="85" font-family="Segoe UI" font-size="12" fill="#666">10</text>
+
+  <line x1="425" y1="100" x2="575" y2="100" stroke="#666" stroke-width="3" marker-end="url(#arrowhead)" />
+  <text x="500" y="85" font-family="Segoe UI" font-size="12" fill="#666">5</text>
+
+  <line x1="625" y1="100" x2="775" y2="100" stroke="#666" stroke-width="3" marker-end="url(#arrowhead)" />
+  <text x="700" y="85" font-family="Segoe UI" font-size="12" fill="#666">10</text>
+
+  <!-- BFS levels -->
+  <text x="200" y="150" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#27AE60">Level 0</text>
+  <text x="400" y="150" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#27AE60">Level 1</text>
+  <text x="600" y="150" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#27AE60">Level 2</text>
+  <text x="800" y="150" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#27AE60">Level 3</text>
+
+  <!-- BFS path highlighting -->
+  <line x1="225" y1="100" x2="375" y2="100" stroke="#27AE60" stroke-width="4" marker-end="url(#arrowhead-bfs)" />
+  <line x1="425" y1="100" x2="575" y2="100" stroke="#27AE60" stroke-width="4" marker-end="url(#arrowhead-bfs)" />
+  <line x1="625" y1="100" x2="775" y2="100" stroke="#27AE60" stroke-width="4" marker-end="url(#arrowhead-bfs)" />
+
+  <!-- Algorithm explanation -->
+  <rect x="50" y="200" width="820" height="350" fill="none" stroke="#666" stroke-width="1" />
+  <text x="60" y="225" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Edmonds-Karp Algorithm:</text>
+
+  <text x="70" y="245" font-family="Segoe UI" font-size="12" fill="#666">• Same as Ford-Fulkerson but uses BFS for finding augmenting paths</text>
+  <text x="70" y="260" font-family="Segoe UI" font-size="12" fill="#666">• BFS finds shortest path (fewest edges) in residual graph</text>
+  <text x="70" y="275" font-family="Segoe UI" font-size="12" fill="#666">• Each BFS explores nodes level by level from source</text>
+  <text x="70" y="290" font-family="Segoe UI" font-size="12" fill="#666">• Path capacity = minimum residual capacity along path</text>
+  <text x="70" y="305" font-family="Segoe UI" font-size="12" fill="#666">• Augments flow and updates residual graph</text>
+  <text x="70" y="320" font-family="Segoe UI" font-size="12" fill="#666">• Repeats until no path exists</text>
+
+  <text x="70" y="340" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Key Advantages:</text>
+  <text x="80" y="355" font-family="Segoe UI" font-size="11" fill="#666">• Guaranteed polynomial time: O(V × E²)</text>
+  <text x="80" y="370" font-family="Segoe UI" font-size="11" fill="#666">• No worst-case exponential behavior</text>
+  <text x="80" y="385" font-family="Segoe UI" font-size="11" fill="#666">• Simple implementation using standard BFS</text>
+  <text x="80" y="400" font-family="Segoe UI" font-size="11" fill="#666">• Good practical performance</text>
+
+  <text x="70" y="420" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">BFS Properties:</text>
+  <text x="80" y="435" font-family="Segoe UI" font-size="11" fill="#666">• Explores graph level by level</text>
+  <text x="80" y="450" font-family="Segoe UI" font-size="11" fill="#666">• Finds shortest path in unweighted graph</text>
+  <text x="80" y="465" font-family="Segoe UI" font-size="11" fill="#666">• O(V + E) time complexity</text>
+  <text x="80" y="480" font-family="Segoe UI" font-size="11" fill="#666">• Uses queue data structure</text>
+
+  <!-- Comparison table -->
+  <text x="400" y="510" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Algorithm Comparison</text>
+
+  <rect x="150" y="520" width="200" height="60" fill="none" stroke="#666" stroke-width="1" />
+  <text x="250" y="535" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Ford-Fulkerson</text>
+  <text x="250" y="550" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">O(F × E)</text>
+  <text x="250" y="565" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Flexible paths</text>
+
+  <rect x="550" y="520" width="200" height="60" fill="none" stroke="#666" stroke-width="1" />
+  <text x="650" y="535" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Edmonds-Karp</text>
+  <text x="650" y="550" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">O(V × E²)</text>
+  <text x="650" y="565" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">BFS shortest paths</text>
+
+  <!-- Legend -->
+  <circle cx="100" cy="570" r="5" fill="#666" />
+  <text x="110" y="575" font-family="Segoe UI" font-size="12" fill="#666">Network edges with capacities</text>
+
+  <circle cx="100" cy="585" r="5" fill="#27AE60" />
+  <text x="110" y="590" font-family="Segoe UI" font-size="12" fill="#27AE60">BFS shortest path</text>
+</svg>

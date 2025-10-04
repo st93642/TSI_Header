@@ -1,0 +1,222 @@
+{
+  "id": "dsa_greedy_algorithms_cpp_exercise",
+  "mode": "quiz",
+  "title": "Greedy Algorithms Quiz",
+  "description": "Test your understanding of greedy algorithms, greedy choice property, and optimization techniques.",
+  "questions": [
+    {
+      "id": "greedy_choice_property",
+      "type": "single",
+      "prompt": "What is the greedy choice property in algorithm design?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Always choosing the most expensive option first"
+        },
+        {
+          "id": "B",
+          "text": "Making locally optimal choices that lead to a globally optimal solution"
+        },
+        {
+          "id": "C",
+          "text": "Considering all possible combinations before deciding"
+        },
+        {
+          "id": "D",
+          "text": "Randomly selecting options until a solution is found"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The greedy choice property states that a globally optimal solution can be arrived at by making locally optimal choices at each step."
+    },
+    {
+      "id": "activity_selection_problem",
+      "type": "single",
+      "prompt": "In the activity selection problem, what is the greedy strategy?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Select the activity with the earliest start time"
+        },
+        {
+          "id": "B",
+          "text": "Select the activity with the shortest duration"
+        },
+        {
+          "id": "C",
+          "text": "Select the activity with the earliest finish time"
+        },
+        {
+          "id": "D",
+          "text": "Select the activity with the most participants"
+        }
+      ],
+      "answer": "C",
+      "explanation": "The greedy algorithm for activity selection sorts activities by finish time and selects the one with the earliest finish time, then repeatedly selects the next non-conflicting activity."
+    },
+    {
+      "id": "fractional_knapsack_difference",
+      "type": "single",
+      "prompt": "What is the key difference between 0/1 knapsack and fractional knapsack problems?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Fractional knapsack allows taking fractions of items"
+        },
+        {
+          "id": "B",
+          "text": "0/1 knapsack has higher time complexity"
+        },
+        {
+          "id": "C",
+          "text": "Fractional knapsack uses dynamic programming"
+        },
+        {
+          "id": "D",
+          "text": "0/1 knapsack can be solved with greedy approach"
+        }
+      ],
+      "answer": "A",
+      "explanation": "The fractional knapsack problem allows taking fractions of items, making it suitable for greedy algorithms, while 0/1 knapsack requires either taking the entire item or leaving it, necessitating dynamic programming."
+    },
+    {
+      "id": "huffman_coding_advantage",
+      "type": "single",
+      "prompt": "What is the main advantage of Huffman coding over fixed-length coding?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Simpler implementation"
+        },
+        {
+          "id": "B",
+          "text": "Variable-length codes with prefix property"
+        },
+        {
+          "id": "C",
+          "text": "Faster encoding speed"
+        },
+        {
+          "id": "D",
+          "text": "Better compression for all file types"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Huffman coding creates variable-length codes where frequently occurring characters get shorter codes, and the codes have the prefix property (no code is a prefix of another)."
+    },
+    {
+      "id": "greedy_vs_dp_complexity",
+      "type": "multiple",
+      "prompt": "Which statements are true about greedy vs dynamic programming algorithms?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Greedy algorithms are always faster than DP"
+        },
+        {
+          "id": "B",
+          "text": "DP guarantees optimal solutions when greedy may not"
+        },
+        {
+          "id": "C",
+          "text": "Greedy algorithms use less memory than DP"
+        },
+        {
+          "id": "D",
+          "text": "DP can solve problems that greedy cannot"
+        }
+      ],
+      "answer": ["B", "C", "D"],
+      "explanation": "DP guarantees optimal solutions and can solve problems where greedy choice property doesn't hold. Greedy algorithms typically use less memory and are faster, but don't always guarantee optimality."
+    },
+    {
+      "id": "greedy_choice_property_verification",
+      "type": "truefalse",
+      "prompt": "The greedy choice property can be verified by proving that any optimal solution begins with a greedy choice.",
+      "answer": "true",
+      "explanation": "To verify the greedy choice property, we need to show that there exists an optimal solution that makes the greedy choice at the first step."
+    },
+    {
+      "id": "activity_selection_correctness",
+      "type": "truefalse",
+      "prompt": "The greedy algorithm for activity selection is correct because it satisfies both the greedy choice property and optimal substructure.",
+      "answer": "true",
+      "explanation": "Activity selection satisfies the greedy choice property (choosing earliest finish time) and optimal substructure (optimal solution to subproblem leads to optimal overall solution)."
+    },
+    {
+      "id": "huffman_tree_property",
+      "type": "single",
+      "prompt": "What property ensures that Huffman codes can be uniquely decoded?",
+      "options": [
+        {
+          "id": "A",
+          "text": "All codes have the same length"
+        },
+        {
+          "id": "B",
+          "text": "No code is a prefix of another code"
+        },
+        {
+          "id": "C",
+          "text": "Codes are sorted by frequency"
+        },
+        {
+          "id": "D",
+          "text": "Tree is balanced"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The prefix property ensures that no Huffman code is a prefix of another, allowing unambiguous decoding of the encoded stream."
+    },
+    {
+      "id": "greedy_algorithm_applications",
+      "type": "multiple",
+      "prompt": "Which of the following problems can be solved using greedy algorithms?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Finding minimum spanning tree (Kruskal's)"
+        },
+        {
+          "id": "B",
+          "text": "Solving the traveling salesman problem"
+        },
+        {
+          "id": "C",
+          "text": "Scheduling jobs on a single processor"
+        },
+        {
+          "id": "D",
+          "text": "Finding longest common subsequence"
+        }
+      ],
+      "answer": ["A", "C"],
+      "explanation": "Kruskal's algorithm for MST and single processor scheduling are greedy algorithms. TSP requires DP or approximation algorithms, and LCS uses DP."
+    },
+    {
+      "id": "greedy_limitation",
+      "type": "single",
+      "prompt": "What is a major limitation of greedy algorithms compared to dynamic programming?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Higher time complexity"
+        },
+        {
+          "id": "B",
+          "text": "Cannot guarantee optimal solutions"
+        },
+        {
+          "id": "C",
+          "text": "Require more memory"
+        },
+        {
+          "id": "D",
+          "text": "Cannot handle large inputs"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Greedy algorithms make locally optimal choices without considering future consequences, so they don't always produce globally optimal solutions, unlike dynamic programming."
+    }
+  ]
+}

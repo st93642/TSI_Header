@@ -136,6 +136,110 @@
           "difficulty": "advanced"
         }
       ]
+    },
+    {
+      "id": "dsa_maximum_flow_cpp",
+      "title": "Module 10: Maximum Flow Algorithms",
+      "description": "Master maximum flow algorithms including Ford-Fulkerson and Edmonds-Karp for finding maximum flow in flow networks.",
+      "lessons": [
+        {
+          "id": "dsa_maximum_flow_cpp",
+          "title": "Lesson 10.1: Ford-Fulkerson and Edmonds-Karp Algorithms",
+          "duration": 165,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_time_complexity_cpp",
+      "title": "Module 11: Time Complexity Analysis",
+      "description": "Master algorithmic complexity analysis, Big O notation, and performance evaluation techniques for C++ programs.",
+      "lessons": [
+        {
+          "id": "dsa_time_complexity_analysis_cpp",
+          "title": "Lesson 11.1: Time Complexity, Big O Notation, and Algorithm Analysis",
+          "duration": 170,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_euclidean_algorithm_cpp",
+      "title": "Module 12: Euclidean Algorithm & Number Theory",
+      "description": "Master the Euclidean algorithm for finding greatest common divisors, extended Euclidean algorithm, and fundamental number theory concepts in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_euclidean_algorithm_cpp",
+          "title": "Lesson 12.1: Euclidean Algorithm, GCD, and Number Theory Fundamentals",
+          "duration": 175,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_huffman_coding_cpp",
+      "title": "Module 13: Huffman Coding & Data Compression",
+      "description": "Master Huffman coding algorithms for lossless data compression, priority queues, and efficient encoding techniques in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_huffman_coding_cpp",
+          "title": "Lesson 13.1: Huffman Coding, Priority Queues, and Data Compression",
+          "duration": 180,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_traveling_salesman_cpp",
+      "title": "Module 14: Traveling Salesman Problem & NP-Complete Problems",
+      "description": "Master the Traveling Salesman Problem (TSP), NP-completeness, approximation algorithms, and heuristic approaches for solving complex optimization problems in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_traveling_salesman_cpp",
+          "title": "Lesson 14.1: Traveling Salesman Problem, NP-Completeness, and Approximation Algorithms",
+          "duration": 185,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_knapsack_cpp",
+      "title": "Module 15: 0/1 Knapsack Problem & Dynamic Programming",
+      "description": "Master the 0/1 Knapsack Problem, dynamic programming optimization techniques, and resource allocation algorithms in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_knapsack_cpp",
+          "title": "Lesson 15.1: 0/1 Knapsack Problem, Dynamic Programming, and Optimization",
+          "duration": 175,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_dynamic_programming_fundamentals_cpp",
+      "title": "Module 16: Dynamic Programming Fundamentals",
+      "description": "Master the fundamental principles of dynamic programming, including memoization vs tabulation, optimal substructure, and overlapping subproblems in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_dynamic_programming_fundamentals_cpp",
+          "title": "Lesson 16.1: Memoization, Tabulation, and Dynamic Programming Principles",
+          "duration": 180,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_greedy_algorithms_cpp",
+      "title": "Module 17: Greedy Algorithms",
+      "description": "Master greedy algorithms, greedy choice property, and optimal substructure for solving optimization problems efficiently in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_greedy_algorithms_cpp",
+          "title": "Lesson 17.1: Greedy Algorithms, Greedy Choice Property, and Optimization",
+          "duration": 185,
+          "difficulty": "advanced"
+        }
+      ]
     }
   ],
   "prerequisites": [

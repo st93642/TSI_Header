@@ -1,0 +1,88 @@
+<svg width="900" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 24px; font-weight: bold; fill: #666; }
+      .section-title { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 14px; font-weight: bold; fill: #666; }
+      .text { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .memo-box { fill: #e6f3ff; stroke: #0066cc; stroke-width: 2; }
+      .tab-box { fill: #fff2e6; stroke: #ff6600; stroke-width: 2; }
+      .arrow { fill: #666; }
+      .code-bg { fill: #f8f8f8; stroke: #ddd; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" class="title">Memoization vs Tabulation</text>
+
+  <!-- Memoization Section -->
+  <rect x="50" y="60" width="350" height="400" class="memo-box" rx="10"/>
+  <text x="225" y="90" text-anchor="middle" class="section-title">Memoization (Top-Down)</text>
+
+  <!-- Memoization Code -->
+  <rect x="70" y="110" width="310" height="120" class="code-bg" rx="5"/>
+  <text x="80" y="130" class="text">long long fib(int n) {</text>
+  <text x="80" y="145" class="text">    if (memo.find(n) != memo.end())</text>
+  <text x="80" y="160" class="text">        return memo[n];</text>
+  <text x="80" y="175" class="text">    return memo[n] = fib(n-1) + fib(n-2);</text>
+  <text x="80" y="190" class="text">}</text>
+
+  <!-- Memoization Characteristics -->
+  <text x="225" y="250" text-anchor="middle" class="label">Characteristics:</text>
+  <circle cx="100" cy="270" r="4" fill="#0066cc"/>
+  <text x="115" y="275" class="text">Recursive approach</text>
+  <circle cx="100" cy="290" r="4" fill="#0066cc"/>
+  <text x="115" y="295" class="text">Lazy evaluation</text>
+  <circle cx="100" cy="310" r="4" fill="#0066cc"/>
+  <text x="115" y="315" class="text">Only computed subproblems stored</text>
+  <circle cx="100" cy="330" r="4" fill="#0066cc"/>
+  <text x="115" y="335" class="text">Natural for sparse problems</text>
+
+  <!-- Memoization Pros/Cons -->
+  <text x="225" y="360" text-anchor="middle" class="label">Pros:</text>
+  <text x="225" y="375" text-anchor="middle" class="text">✓ Easy to implement</text>
+  <text x="225" y="390" text-anchor="middle" class="text">✓ Memory efficient</text>
+  <text x="225" y="405" text-anchor="middle" class="text">✓ Natural recursive thinking</text>
+
+  <text x="225" y="425" text-anchor="middle" class="label">Cons:</text>
+  <text x="225" y="440" text-anchor="middle" class="text">✗ Recursion depth limit</text>
+  <text x="225" y="455" text-anchor="middle" class="text">✗ Potential cache misses</text>
+
+  <!-- Tabulation Section -->
+  <rect x="500" y="60" width="350" height="400" class="tab-box" rx="10"/>
+  <text x="675" y="90" text-anchor="middle" class="section-title">Tabulation (Bottom-Up)</text>
+
+  <!-- Tabulation Code -->
+  <rect x="520" y="110" width="310" height="120" class="code-bg" rx="5"/>
+  <text x="530" y="130" class="text">vector&lt;long long&gt; dp(n+1);</text>
+  <text x="530" y="145" class="text">dp[0] = 0; dp[1] = 1;</text>
+  <text x="530" y="160" class="text">for(int i=2; i&lt;=n; i++)</text>
+  <text x="530" y="175" class="text">    dp[i] = dp[i-1] + dp[i-2];</text>
+  <text x="530" y="190" class="text">return dp[n];</text>
+
+  <!-- Tabulation Characteristics -->
+  <text x="675" y="250" text-anchor="middle" class="label">Characteristics:</text>
+  <circle cx="550" cy="270" r="4" fill="#ff6600"/>
+  <text x="565" y="275" class="text">Iterative approach</text>
+  <circle cx="550" cy="290" r="4" fill="#ff6600"/>
+  <text x="565" y="295" class="text">Eager evaluation</text>
+  <circle cx="550" cy="310" r="4" fill="#ff6600"/>
+  <text x="565" y="315" class="text">All subproblems computed</text>
+  <circle cx="550" cy="330" r="4" fill="#ff6600"/>
+  <text x="565" y="335" class="text">Good for dense problems</text>
+
+  <!-- Tabulation Pros/Cons -->
+  <text x="675" y="360" text-anchor="middle" class="label">Pros:</text>
+  <text x="675" y="375" text-anchor="middle" class="text">✓ No recursion limit</text>
+  <text x="675" y="390" text-anchor="middle" class="text">✓ Cache-friendly</text>
+  <text x="675" y="405" text-anchor="middle" class="text">✓ Complete solution table</text>
+
+  <text x="675" y="425" text-anchor="middle" class="label">Cons:</text>
+  <text x="675" y="440" text-anchor="middle" class="text">✗ May compute unnecessary subproblems</text>
+  <text x="675" y="455" text-anchor="middle" class="text">✗ Less intuitive</text>
+
+  <!-- Comparison Arrow -->
+  <polygon points="410,250 430,250 425,245 430,250 425,255" class="arrow"/>
+  <line x1="400" y1="250" x2="500" y2="250" stroke="#666" stroke-width="2"/>
+  <text x="450" y="270" text-anchor="middle" class="text">vs</text>
+</svg>

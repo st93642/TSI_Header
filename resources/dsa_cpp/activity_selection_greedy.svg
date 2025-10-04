@@ -1,0 +1,131 @@
+<svg width="900" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 24px; font-weight: bold; fill: #666; }
+      .subtitle { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 14px; font-weight: bold; fill: #666; }
+      .text { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .activity { fill: #e9ecef; stroke: #6c757d; stroke-width: 1; }
+      .selected { fill: #d4edda; stroke: #28a745; stroke-width: 2; }
+      .rejected { fill: #f8d7da; stroke: #dc3545; stroke-width: 1; }
+      .timeline { stroke: #666; stroke-width: 2; }
+      .time-marker { stroke: #999; stroke-width: 1; }
+      .arrow { fill: #666; }
+      .step-box { fill: #f8f9fa; stroke: #666; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" class="title">Activity Selection Problem - Greedy Algorithm</text>
+
+  <!-- Timeline -->
+  <line x1="50" y1="80" x2="850" y2="80" class="timeline"/>
+  <!-- Time markers -->
+  <line x1="50" y1="70" x2="50" y2="90" class="time-marker"/>
+  <line x1="150" y1="70" x2="150" y2="90" class="time-marker"/>
+  <line x1="250" y1="70" x2="250" y2="90" class="time-marker"/>
+  <line x1="350" y1="70" x2="350" y2="90" class="time-marker"/>
+  <line x1="450" y1="70" x2="450" y2="90" class="time-marker"/>
+  <line x1="550" y1="70" x2="550" y2="90" class="time-marker"/>
+  <line x1="650" y1="70" x2="650" y2="90" class="time-marker"/>
+  <line x1="750" y1="70" x2="750" y2="90" class="time-marker"/>
+  <line x1="850" y1="70" x2="850" y2="90" class="time-marker"/>
+
+  <!-- Time labels -->
+  <text x="50" y="105" text-anchor="middle" class="text">0</text>
+  <text x="150" y="105" text-anchor="middle" class="text">2</text>
+  <text x="250" y="105" text-anchor="middle" class="text">4</text>
+  <text x="350" y="105" text-anchor="middle" class="text">6</text>
+  <text x="450" y="105" text-anchor="middle" class="text">8</text>
+  <text x="550" y="105" text-anchor="middle" class="text">10</text>
+  <text x="650" y="105" text-anchor="middle" class="text">12</text>
+  <text x="750" y="105" text-anchor="middle" class="text">14</text>
+  <text x="850" y="105" text-anchor="middle" class="text">16</text>
+
+  <!-- Activities Row 1 (Rejected activities) -->
+  <text x="50" y="135" class="label">Rejected Activities:</text>
+
+  <!-- Activity 2: (3,5) -->
+  <rect x="150" y="140" width="100" height="25" class="rejected" rx="3"/>
+  <text x="200" y="157" text-anchor="middle" class="text">A2 (3-5)</text>
+
+  <!-- Activity 3: (0,6) -->
+  <rect x="50" y="170" width="300" height="25" class="rejected" rx="3"/>
+  <text x="200" y="187" text-anchor="middle" class="text">A3 (0-6)</text>
+
+  <!-- Activity 5: (3,9) -->
+  <rect x="150" y="200" width="240" height="25" class="rejected" rx="3"/>
+  <text x="270" y="217" text-anchor="middle" class="text">A5 (3-9)</text>
+
+  <!-- Activity 6: (5,9) -->
+  <rect x="250" y="230" width="240" height="25" class="rejected" rx="3"/>
+  <text x="370" y="247" text-anchor="middle" class="text">A6 (5-9)</text>
+
+  <!-- Activity 8: (8,11) -->
+  <rect x="400" y="260" width="110" height="25" class="rejected" rx="3"/>
+  <text x="455" y="277" text-anchor="middle" class="text">A8 (8-11)</text>
+
+  <!-- Activity 9: (8,12) -->
+  <rect x="400" y="290" width="120" height="25" class="rejected" rx="3"/>
+  <text x="460" y="307" text-anchor="middle" class="text">A9 (8-12)</text>
+
+  <!-- Activity 10: (2,14) -->
+  <rect x="100" y="320" width="280" height="25" class="rejected" rx="3"/>
+  <text x="240" y="337" text-anchor="middle" class="text">A10 (2-14)</text>
+
+  <!-- Selected Activities Row -->
+  <text x="50" y="370" class="label">Selected Activities (Greedy Choice):</text>
+
+  <!-- Activity 1: (1,4) - SELECTED -->
+  <rect x="50" y="375" width="150" height="30" class="selected" rx="5"/>
+  <text x="125" y="395" text-anchor="middle" class="text">A1 (1-4)</text>
+
+  <!-- Activity 4: (5,7) - SELECTED -->
+  <rect x="250" y="375" width="100" height="30" class="selected" rx="5"/>
+  <text x="300" y="395" text-anchor="middle" class="text">A4 (5-7)</text>
+
+  <!-- Activity 7: (6,10) - SELECTED -->
+  <rect x="300" y="375" width="200" height="30" class="selected" rx="5"/>
+  <text x="400" y="395" text-anchor="middle" class="text">A7 (6-10)</text>
+
+  <!-- Activity 11: (12,16) - SELECTED -->
+  <rect x="600" y="375" width="160" height="30" class="selected" rx="5"/>
+  <text x="680" y="395" text-anchor="middle" class="text">A11 (12-16)</text>
+
+  <!-- Algorithm Steps -->
+  <text x="450" y="440" text-anchor="middle" class="subtitle">Greedy Algorithm Steps</text>
+
+  <!-- Step 1 -->
+  <rect x="50" y="450" width="180" height="35" class="step-box" rx="5"/>
+  <text x="60" y="468" class="text">1. Sort activities by finish time</text>
+  <text x="60" y="480" class="text">   (earliest finish first)</text>
+
+  <!-- Step 2 -->
+  <rect x="250" y="450" width="180" height="35" class="step-box" rx="5"/>
+  <text x="260" y="468" class="text">2. Select first activity (A1)</text>
+  <text x="260" y="480" class="text">   Finish time = 4</text>
+
+  <!-- Step 3 -->
+  <rect x="450" y="450" width="180" height="35" class="step-box" rx="5"/>
+  <text x="460" y="468" class="text">3. Select next compatible</text>
+  <text x="460" y="480" class="text">   activity (start ≥ 4)</text>
+
+  <!-- Step 4 -->
+  <rect x="650" y="450" width="180" height="35" class="step-box" rx="5"/>
+  <text x="660" y="468" class="text">4. Repeat until no more</text>
+  <text x="660" y="480" class="text">   compatible activities</text>
+
+  <!-- Result Summary -->
+  <text x="450" y="510" text-anchor="middle" class="label">Result: 4 Activities Selected (A1, A4, A7, A11)</text>
+  <text x="450" y="525" text-anchor="middle" class="text">Optimal solution using greedy choice property</text>
+
+  <!-- Legend -->
+  <rect x="700" y="140" width="150" height="80" fill="#f8f9fa" stroke="#666" stroke-width="1" rx="5"/>
+  <text x="775" y="160" text-anchor="middle" class="label">Legend</text>
+  <rect x="710" y="170" width="20" height="15" class="selected"/>
+  <text x="740" y="182" class="text">Selected</text>
+  <rect x="710" y="190" width="20" height="15" class="rejected"/>
+  <text x="740" y="202" class="text">Rejected</text>
+  <line x1="710" y1="210" x2="730" y2="210" class="timeline"/>
+  <text x="740" y="215" class="text">Timeline</text>
+</svg>

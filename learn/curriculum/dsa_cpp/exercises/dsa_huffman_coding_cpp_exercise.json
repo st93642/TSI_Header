@@ -1,0 +1,115 @@
+{
+  "id": "dsa_huffman_coding_cpp_exercise",
+  "mode": "quiz",
+  "title": "Quiz: Huffman Coding and Data Compression",
+  "description": "Test your understanding of Huffman coding algorithms, priority queues, and data compression techniques.\n\nSteps:\n1. Review the Huffman coding implementation and tree construction algorithms.\n2. Answer each question, selecting all applicable options when prompted.\n3. Submit the quiz to verify your understanding of compression algorithms.\n\nExpected results: Score at least 8 out of 10 to demonstrate mastery of Huffman coding.",
+  "tags": ["cpp", "huffman", "compression", "priority-queue", "greedy-algorithm", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "huffman_tree_construction",
+      "type": "single",
+      "prompt": "In Huffman tree construction, what is the key operation performed at each step?",
+      "options": [
+        { "id": "option_a", "text": "Sort all characters by ASCII value", "correct": false },
+        { "id": "option_b", "text": "Combine the two nodes with lowest frequencies", "correct": true },
+        { "id": "option_c", "text": "Remove the most frequent character", "correct": false },
+        { "id": "option_d", "text": "Split the highest frequency node", "correct": false }
+      ],
+      "explanation": "Huffman coding uses a greedy approach where the two least frequent nodes are repeatedly combined until only one root remains, creating an optimal binary tree."
+    },
+    {
+      "id": "huffman_prefix_property",
+      "type": "truefalse",
+      "prompt": "Huffman codes satisfy the prefix property, meaning no code is a prefix of another code.",
+      "answer": "true",
+      "explanation": "Yes, the prefix property is fundamental to Huffman coding - it ensures that no code is a prefix of another, allowing unambiguous decoding without separators."
+    },
+    {
+      "id": "huffman_priority_queue",
+      "type": "single",
+      "prompt": "What data structure is typically used to efficiently select the two minimum frequency nodes during Huffman tree construction?",
+      "options": [
+        { "id": "option_a", "text": "Stack", "correct": false },
+        { "id": "option_b", "text": "Queue", "correct": false },
+        { "id": "option_c", "text": "Priority Queue (Min-Heap)", "correct": true },
+        { "id": "option_d", "text": "Hash Table", "correct": false }
+      ],
+      "explanation": "A priority queue (implemented as a min-heap) efficiently maintains nodes sorted by frequency, allowing O(log n) extraction of minimum elements."
+    },
+    {
+      "id": "huffman_optimality",
+      "type": "truefalse",
+      "prompt": "Huffman coding produces optimal prefix codes for a given character frequency distribution.",
+      "answer": "true",
+      "explanation": "Yes, Huffman coding is optimal for symbol-by-symbol encoding with a known frequency distribution, achieving the minimum expected code length."
+    },
+    {
+      "id": "huffman_time_complexity",
+      "type": "single",
+      "prompt": "What is the time complexity of Huffman coding tree construction?",
+      "options": [
+        { "id": "option_a", "text": "O(n)", "correct": false },
+        { "id": "option_b", "text": "O(n log n)", "correct": false },
+        { "id": "option_c", "text": "O(k log k) where k is unique characters", "correct": true },
+        { "id": "option_d", "text": "O(k²)", "correct": false }
+      ],
+      "explanation": "Tree construction involves k priority queue operations, each taking O(log k) time, resulting in O(k log k) complexity where k is the number of unique characters."
+    },
+    {
+      "id": "canonical_huffman",
+      "type": "single",
+      "prompt": "What is the main advantage of canonical Huffman codes over standard Huffman codes?",
+      "options": [
+        { "id": "option_a", "text": "Better compression ratio", "correct": false },
+        { "id": "option_b", "text": "Smaller representation in compressed files", "correct": true },
+        { "id": "option_c", "text": "Faster encoding", "correct": false },
+        { "id": "option_d", "text": "Works with any alphabet size", "correct": false }
+      ],
+      "explanation": "Canonical Huffman codes store only the code lengths, not the actual codes, resulting in a more compact representation in compressed file headers."
+    },
+    {
+      "id": "huffman_applications",
+      "type": "multiple",
+      "prompt": "Which of the following are common applications of Huffman coding? (Select all that apply)",
+      "options": [
+        { "id": "option_a", "text": "ZIP file compression", "correct": true },
+        { "id": "option_b", "text": "JPEG image compression", "correct": true },
+        { "id": "option_c", "text": "MP3 audio compression", "correct": true },
+        { "id": "option_d", "text": "Password hashing", "correct": false }
+      ],
+      "explanation": "Huffman coding is used in ZIP/GZIP files, JPEG images (for coefficient coding), and MP3 audio compression, but not for password hashing which requires cryptographic hash functions."
+    },
+    {
+      "id": "adaptive_vs_static",
+      "type": "single",
+      "prompt": "Compared to static Huffman coding, adaptive Huffman coding:",
+      "options": [
+        { "id": "option_a", "text": "Requires two passes through the data", "correct": false },
+        { "id": "option_b", "text": "Can compress streaming data without knowing frequencies in advance", "correct": true },
+        { "id": "option_c", "text": "Always achieves better compression ratios", "correct": false },
+        { "id": "option_d", "text": "Is simpler to implement", "correct": false }
+      ],
+      "explanation": "Adaptive Huffman coding builds and updates the tree as it processes the data, making it suitable for streaming applications where frequencies aren't known in advance."
+    },
+    {
+      "id": "huffman_edge_cases",
+      "type": "multiple",
+      "prompt": "Which edge cases must be handled in Huffman coding implementation? (Select all that apply)",
+      "options": [
+        { "id": "option_a", "text": "Single character input", "correct": true },
+        { "id": "option_b", "text": "All characters having equal frequency", "correct": true },
+        { "id": "option_c", "text": "Empty input", "correct": true },
+        { "id": "option_d", "text": "Characters with frequency zero", "correct": false }
+      ],
+      "explanation": "Huffman coding must handle single characters (degenerate tree), equal frequencies (arbitrary tie-breaking), and empty input (special case), but zero-frequency characters are simply not included."
+    },
+    {
+      "id": "huffman_greedy_algorithm",
+      "type": "truefalse",
+      "prompt": "Huffman coding is an example of a greedy algorithm because it makes locally optimal choices at each step.",
+      "answer": "true",
+      "explanation": "Yes, Huffman coding is greedy because it always combines the two currently least frequent nodes, making locally optimal choices that lead to a globally optimal solution."
+    }
+  ]
+}

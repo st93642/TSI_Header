@@ -1,0 +1,260 @@
+{
+  "id": "dsa_knapsack_cpp_exercise",
+  "mode": "quiz",
+  "title": "0/1 Knapsack Problem & Dynamic Programming",
+  "description": "Test your understanding of the 0/1 knapsack problem, dynamic programming solutions, space optimization, and real-world applications.",
+  "tags": ["cpp", "knapsack", "dynamic-programming", "optimization", "algorithms", "quiz"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "knapsack_definition",
+      "type": "single",
+      "prompt": "What is the 0/1 Knapsack Problem?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Finding the maximum weight that can fit in a knapsack"
+        },
+        {
+          "id": "option_b",
+          "text": "Selecting items to maximize value without exceeding weight capacity, where each item is taken 0 or 1 time",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Finding the minimum number of items needed to fill a knapsack"
+        },
+        {
+          "id": "option_d",
+          "text": "Sorting items by weight for efficient packing"
+        }
+      ],
+      "explanation": "The 0/1 knapsack problem involves binary choices - each item is either included entirely or excluded, with the goal of maximizing total value within weight constraints."
+    },
+    {
+      "id": "knapsack_vs_fractional",
+      "type": "single",
+      "prompt": "What is the key difference between 0/1 knapsack and fractional knapsack?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "0/1 allows partial items, fractional requires whole items"
+        },
+        {
+          "id": "option_b",
+          "text": "0/1 requires whole items only, fractional allows partial items",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Both allow partial items but with different constraints"
+        },
+        {
+          "id": "option_d",
+          "text": "Fractional is NP-complete, 0/1 is solvable in polynomial time"
+        }
+      ],
+      "explanation": "0/1 knapsack requires taking items completely (binary choice), while fractional knapsack allows taking portions of items, enabling greedy solutions."
+    },
+    {
+      "id": "dp_recurrence",
+      "type": "single",
+      "prompt": "What is the dynamic programming recurrence for 0/1 knapsack?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight[i]] + value[i])"
+        },
+        {
+          "id": "option_b",
+          "text": "dp[i][w] = dp[i-1][w] + dp[i][w-1]"
+        },
+        {
+          "id": "option_c",
+          "text": "dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight[i]] + value[i]) if w ≥ weight[i]",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "dp[i][w] = dp[i-1][w] * dp[i][w-weight[i]]"
+        }
+      ],
+      "explanation": "The DP recurrence considers two choices for each item: skip it (use previous row) or take it (add value and reduce capacity) if it fits."
+    },
+    {
+      "id": "time_complexity",
+      "type": "single",
+      "prompt": "What is the time complexity of the standard dynamic programming solution for 0/1 knapsack?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "O(n log n)"
+        },
+        {
+          "id": "option_b",
+          "text": "O(n²)"
+        },
+        {
+          "id": "option_c",
+          "text": "O(n × W) where W is capacity",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "O(2ⁿ)"
+        }
+      ],
+      "explanation": "DP fills a table of size n×W, where n is number of items and W is knapsack capacity, giving O(n×W) time complexity."
+    },
+    {
+      "id": "space_optimization",
+      "type": "single",
+      "prompt": "How can 0/1 knapsack space complexity be optimized from O(n×W) to O(W)?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Use a 1D array and iterate backward through weights"
+        },
+        {
+          "id": "option_b",
+          "text": "Use a 1D array and iterate forward through weights",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Compress the DP table using bit manipulation"
+        },
+        {
+          "id": "option_d",
+          "text": "Use divide and conquer instead of DP"
+        }
+      ],
+      "explanation": "Space optimization uses a single array, iterating from high to low capacity to prevent reusing items, reducing space from O(n×W) to O(W)."
+    },
+    {
+      "id": "brute_force_limit",
+      "type": "single",
+      "prompt": "For what size problem is brute force 0/1 knapsack still practical?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "n ≤ 10"
+        },
+        {
+          "id": "option_b",
+          "text": "n ≤ 15"
+        },
+        {
+          "id": "option_c",
+          "text": "n ≤ 20",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "n ≤ 30"
+        }
+      ],
+      "explanation": "Brute force generates 2ⁿ subsets, so it's practical only for small n (typically ≤ 20) before exponential time becomes prohibitive."
+    },
+    {
+      "id": "optimal_substructure",
+      "type": "single",
+      "prompt": "Why does 0/1 knapsack exhibit optimal substructure?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "The problem can be broken into smaller subproblems with optimal solutions"
+        },
+        {
+          "id": "option_b",
+          "text": "The optimal solution contains optimal solutions to subproblems",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "All subproblems have the same optimal value"
+        },
+        {
+          "id": "option_d",
+          "text": "The problem cannot be decomposed"
+        }
+      ],
+      "explanation": "Optimal substructure means that an optimal solution to the overall problem contains optimal solutions to its subproblems."
+    },
+    {
+      "id": "real_world_application",
+      "type": "single",
+      "prompt": "Which is NOT a typical real-world application of 0/1 knapsack?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Project portfolio selection with budget constraints"
+        },
+        {
+          "id": "option_b",
+          "text": "Investment portfolio optimization"
+        },
+        {
+          "id": "option_c",
+          "text": "Cutting continuous materials like cloth or metal",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Cargo loading with weight limits"
+        }
+      ],
+      "explanation": "Cutting continuous materials is a fractional knapsack problem since materials can be cut into any size, unlike the discrete choices in 0/1 knapsack."
+    },
+    {
+      "id": "bounded_vs_unbounded",
+      "type": "single",
+      "prompt": "In bounded knapsack, each item can be taken:",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Exactly once (0/1)"
+        },
+        {
+          "id": "option_b",
+          "text": "Up to a specified limit k times"
+        },
+        {
+          "id": "option_c",
+          "text": "Up to a specified limit k times",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Unlimited times"
+        }
+      ],
+      "explanation": "Bounded knapsack allows each item to be taken up to k times, while unbounded allows unlimited copies of each item."
+    },
+    {
+      "id": "solution_reconstruction",
+      "type": "single",
+      "prompt": "How do you reconstruct the selected items from a completed DP table?",
+      "options": [
+        {
+          "id": "option_a",
+          "text": "Start from dp[n][W] and work backward through the table"
+        },
+        {
+          "id": "option_b",
+          "text": "Start from dp[0][0] and work forward through the table"
+        },
+        {
+          "id": "option_c",
+          "text": "Start from dp[n][W] and work backward, checking if values changed",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Use a separate tracking array during DP construction"
+        }
+      ],
+      "explanation": "Solution reconstruction starts from the final cell and works backward, checking if the value came from taking the current item or skipping it."
+    }
+  ]
+}

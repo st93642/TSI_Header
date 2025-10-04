@@ -1,0 +1,122 @@
+<svg width="900" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 24px; font-weight: bold; fill: #666; }
+      .subtitle { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 14px; font-weight: bold; fill: #666; }
+      .text { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .greedy-box { fill: #e6f3ff; stroke: #0066cc; stroke-width: 2; }
+      .dp-box { fill: #fff2e6; stroke: #ff6600; stroke-width: 2; }
+      .comparison-box { fill: #f0f8e6; stroke: #4caf50; stroke-width: 2; }
+      .arrow { stroke: #666; stroke-width: 2; marker-end: url(#arrowhead); }
+      .code-text { font-family: 'Courier New', monospace; font-size: 10px; fill: #666; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" class="title">Greedy vs Dynamic Programming: When to Choose</text>
+
+  <!-- Greedy Approach Section -->
+  <text x="225" y="60" text-anchor="middle" class="subtitle">Greedy Approach</text>
+  <rect x="50" y="70" width="350" height="180" class="greedy-box" rx="10"/>
+
+  <!-- Greedy Characteristics -->
+  <text x="80" y="95" class="label">Characteristics:</text>
+  <text x="90" y="115" class="text">• Makes locally optimal choices</text>
+  <text x="90" y="130" class="text">• Never reconsiders decisions</text>
+  <text x="90" y="145" class="text">• Fast execution (O(n log n))</text>
+  <text x="90" y="160" class="text">• Low memory usage</text>
+  <text x="90" y="175" class="text">• Requires greedy choice property</text>
+
+  <!-- Greedy Example -->
+  <text x="80" y="200" class="label">Example: Activity Selection</text>
+  <rect x="60" y="205" width="320" height="35" fill="#f8f9fa" stroke="#666" stroke-width="1" rx="5"/>
+  <text x="70" y="220" class="code-text">Sort activities by finish time, pick first, then greedy select</text>
+  <text x="70" y="235" class="code-text">non-conflicting activities. Optimal if greedy choice holds.</text>
+
+  <!-- DP Approach Section -->
+  <text x="675" y="60" text-anchor="middle" class="subtitle">Dynamic Programming</text>
+  <rect x="500" y="70" width="350" height="180" class="dp-box" rx="10"/>
+
+  <!-- DP Characteristics -->
+  <text x="530" y="95" class="label">Characteristics:</text>
+  <text x="540" y="115" class="text">• Considers all possibilities</text>
+  <text x="540" y="130" class="text">• Uses optimal substructure</text>
+  <text x="540" y="145" class="text">• Slower execution (O(n²), O(2ⁿ))</text>
+  <text x="540" y="160" class="text">• Higher memory usage</text>
+  <text x="540" y="175" class="text">• Always finds optimal solution</text>
+
+  <!-- DP Example -->
+  <text x="530" y="200" class="label">Example: 0/1 Knapsack</text>
+  <rect x="510" y="205" width="320" height="35" fill="#f8f9fa" stroke="#666" stroke-width="1" rx="5"/>
+  <text x="520" y="220" class="code-text">Build DP table considering each item and capacity.</text>
+  <text x="520" y="235" class="code-text">Optimal even when greedy choice doesn't hold.</text>
+
+  <!-- Decision Flowchart -->
+  <text x="450" y="280" text-anchor="middle" class="subtitle">Decision Framework</text>
+  <rect x="300" y="290" width="300" height="180" class="comparison-box" rx="10"/>
+
+  <!-- Decision Tree -->
+  <circle cx="450" cy="320" r="25" fill="#fff" stroke="#666" stroke-width="2"/>
+  <text x="450" y="325" text-anchor="middle" class="text">Problem</text>
+  <text x="450" y="340" text-anchor="middle" class="text">Type?</text>
+
+  <!-- Branches -->
+  <line x1="425" y1="345" x2="375" y2="380" class="arrow"/>
+  <line x1="475" y1="345" x2="525" y2="380" class="arrow"/>
+
+  <!-- Greedy Path -->
+  <circle cx="375" cy="400" r="20" fill="#e6f3ff" stroke="#0066cc" stroke-width="2"/>
+  <text x="375" y="405" text-anchor="middle" class="text">Greedy</text>
+  <text x="375" y="420" text-anchor="middle" class="text">Choice?</text>
+
+  <line x1="355" y1="420" x2="315" y2="450" class="arrow"/>
+  <line x1="395" y1="420" x2="435" y2="450" class="arrow"/>
+
+  <circle cx="315" cy="465" r="18" fill="#4caf50" stroke="#666" stroke-width="2"/>
+  <text x="315" y="470" text-anchor="middle" class="text">YES</text>
+  <text x="315" y="480" text-anchor="middle" class="text">Use Greedy</text>
+
+  <circle cx="435" cy="465" r="18" fill="#f44336" stroke="#666" stroke-width="2"/>
+  <text x="435" y="470" text-anchor="middle" class="text">NO</text>
+  <text x="435" y="480" text-anchor="middle" class="text">Use DP</text>
+
+  <!-- DP Path -->
+  <circle cx="525" cy="400" r="20" fill="#fff2e6" stroke="#ff6600" stroke-width="2"/>
+  <text x="525" y="405" text-anchor="middle" class="text">Optimal</text>
+  <text x="525" y="420" text-anchor="middle" class="text">Required?</text>
+
+  <line x1="505" y1="420" x2="465" y2="450" class="arrow"/>
+  <line x1="545" y1="420" x2="585" y2="450" class="arrow"/>
+
+  <circle cx="465" cy="465" r="18" fill="#4caf50" stroke="#666" stroke-width="2"/>
+  <text x="465" y="470" text-anchor="middle" class="text">YES</text>
+  <text x="465" y="480" text-anchor="middle" class="text">Use DP</text>
+
+  <circle cx="585" cy="465" r="18" fill="#f44336" stroke="#666" stroke-width="2"/>
+  <text x="585" y="470" text-anchor="middle" class="text">NO</text>
+  <text x="585" y="480" text-anchor="middle" class="text">Approx OK</text>
+
+  <!-- Key Insights -->
+  <text x="150" y="320" class="label">When Greedy Works:</text>
+  <text x="160" y="340" class="text">• Activity Selection</text>
+  <text x="160" y="355" class="text">• Huffman Coding</text>
+  <text x="160" y="370" class="text">• Dijkstra's Algorithm</text>
+  <text x="160" y="385" class="text">• Fractional Knapsack</text>
+
+  <text x="650" y="320" class="label">When DP Required:</text>
+  <text x="660" y="340" class="text">• 0/1 Knapsack</text>
+  <text x="660" y="355" class="text">• Longest Common Subsequence</text>
+  <text x="660" y="370" class="text">• Matrix Chain Multiplication</text>
+  <text x="660" y="385" class="text">• Optimal BST</text>
+
+  <!-- Performance Comparison -->
+  <text x="450" y="290" text-anchor="middle" class="label">Performance Trade-offs</text>
+  <rect x="350" y="295" width="200" height="60" fill="#f8f9fa" stroke="#666" stroke-width="1" rx="5"/>
+  <text x="360" y="315" class="text"><tspan font-weight="bold">Greedy:</tspan> Fast, simple, may not be optimal</text>
+  <text x="360" y="330" class="text"><tspan font-weight="bold">DP:</tspan> Slower, complex, always optimal</text>
+  <text x="360" y="345" class="text">Choose based on problem constraints!</text>
+</svg>

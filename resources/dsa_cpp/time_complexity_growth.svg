@@ -1,0 +1,60 @@
+<svg width="920" height="500" viewBox="0 0 920 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Time Complexity Growth Rates</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="400" x2="800" y2="400" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)" />
+  <line x1="80" y1="400" x2="80" y2="80" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)" />
+
+  <!-- Axis labels -->
+  <text x="440" y="430" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">Input Size (n)</text>
+  <text x="40" y="240" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" transform="rotate(-90 40 240)">Time</text>
+
+  <!-- Grid lines -->
+  <line x1="80" y1="350" x2="800" y2="350" stroke="#ddd" stroke-width="1" />
+  <line x1="80" y1="300" x2="800" y2="300" stroke="#ddd" stroke-width="1" />
+  <line x1="80" y1="250" x2="800" y2="250" stroke="#ddd" stroke-width="1" />
+  <line x1="80" y1="200" x2="800" y2="200" stroke="#ddd" stroke-width="1" />
+  <line x1="80" y1="150" x2="800" y2="150" stroke="#ddd" stroke-width="1" />
+  <line x1="80" y1="100" x2="800" y2="100" stroke="#ddd" stroke-width="1" />
+
+  <!-- O(1) - Constant -->
+  <polyline points="100,350 200,350 300,350 400,350 500,350 600,350 700,350" stroke="#27AE60" stroke-width="3" fill="none" />
+  <text x="720" y="355" font-family="Segoe UI" font-size="12" fill="#27AE60">O(1) - Constant</text>
+
+  <!-- O(log n) - Logarithmic -->
+  <polyline points="100,380 150,360 200,340 250,320 300,300 350,285 400,270 450,258 500,248 550,240 600,235 650,232 700,230" stroke="#F39C12" stroke-width="3" fill="none" />
+  <text x="720" y="235" font-family="Segoe UI" font-size="12" fill="#F39C12">O(log n) - Logarithmic</text>
+
+  <!-- O(n) - Linear -->
+  <polyline points="100,380 150,360 200,340 250,320 300,300 350,280 400,260 450,240 500,220 550,200 600,180 650,160 700,140" stroke="#E74C3C" stroke-width="3" fill="none" />
+  <text x="720" y="145" font-family="Segoe UI" font-size="12" fill="#E74C3C">O(n) - Linear</text>
+
+  <!-- O(n log n) - Linearithmic -->
+  <polyline points="100,380 140,350 180,330 220,315 260,305 300,298 340,295 380,295 420,298 460,305 500,315 540,330 580,350 620,375 660,405" stroke="#9B59B6" stroke-width="3" fill="none" />
+  <text x="720" y="410" font-family="Segoe UI" font-size="12" fill="#9B59B6">O(n log n) - Linearithmic</text>
+
+  <!-- O(n²) - Quadratic -->
+  <polyline points="100,380 120,360 140,340 160,320 180,300 200,280 220,260 240,240 260,220 280,200 300,180 320,160 340,140 360,120 380,100 400,80" stroke="#E67E22" stroke-width="3" fill="none" />
+  <text x="420" y="85" font-family="Segoe UI" font-size="12" fill="#E67E22">O(n²) - Quadratic</text>
+
+  <!-- Legend -->
+  <rect x="50" y="420" width="820" height="70" fill="none" stroke="#666" stroke-width="1" />
+  <text x="60" y="440" font-family="Segoe UI" font-size="12" fill="#666">• Constant time algorithms maintain the same performance regardless of input size</text>
+  <text x="60" y="455" font-family="Segoe UI" font-size="12" fill="#666">• Logarithmic algorithms grow very slowly, ideal for large datasets</text>
+  <text x="60" y="470" font-family="Segoe UI" font-size="12" fill="#666">• Linear algorithms scale directly with input size - often acceptable</text>
+  <text x="60" y="485" font-family="Segoe UI" font-size="12" fill="#666">• Quadratic algorithms become impractical for inputs larger than ~1000 elements</text>
+
+  <!-- Input size markers -->
+  <text x="100" y="415" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#666">n=10</text>
+  <text x="250" y="415" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#666">n=100</text>
+  <text x="400" y="415" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#666">n=1000</text>
+  <text x="550" y="415" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#666">n=10000</text>
+  <text x="700" y="415" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#666">n=100000</text>
+</svg>

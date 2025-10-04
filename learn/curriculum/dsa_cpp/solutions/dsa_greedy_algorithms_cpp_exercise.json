@@ -1,0 +1,28 @@
+{
+  "id": "dsa_greedy_algorithms_cpp_exercise",
+  "mode": "quiz",
+  "answerKey": {
+    "greedy_choice_property": "B",
+    "activity_selection_problem": "C",
+    "fractional_knapsack_difference": "A",
+    "huffman_coding_advantage": "B",
+    "greedy_vs_dp_complexity": ["B", "C", "D"],
+    "greedy_choice_property_verification": "true",
+    "activity_selection_correctness": "true",
+    "huffman_tree_property": "B",
+    "greedy_algorithm_applications": ["A", "C"],
+    "greedy_limitation": "B"
+  },
+  "keyPoints": [
+    "Greedy algorithms make locally optimal choices at each step, relying on the greedy choice property for global optimality",
+    "The greedy choice property ensures that an optimal solution contains the greedy choice made at the first step",
+    "Activity selection problem demonstrates greedy choice: sort by finish time and select non-conflicting activities",
+    "Fractional knapsack uses greedy approach (value/weight ratio), while 0/1 knapsack requires dynamic programming",
+    "Huffman coding builds a binary tree using priority queue, assigning shorter codes to frequent characters",
+    "Greedy algorithms are efficient (often O(n log n)) but don't guarantee optimality when greedy choice property fails",
+    "Dynamic programming is more powerful but slower, guaranteeing optimal solutions through optimal substructure",
+    "Choose greedy algorithms when the problem exhibits greedy choice property; use DP otherwise",
+    "Greedy algorithms excel in optimization problems like scheduling, compression, and network design",
+    "Always verify greedy choice property through proof before implementing greedy solutions"
+  ]
+}

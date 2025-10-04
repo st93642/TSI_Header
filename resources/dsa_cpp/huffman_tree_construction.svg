@@ -1,0 +1,105 @@
+<svg width="920" height="600" viewBox="0 0 920 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Huffman Tree Construction: Building Optimal Prefix Codes</text>
+
+  <!-- Initial priority queue -->
+  <rect x="50" y="60" width="820" height="80" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="100" y="80" font-family="Segoe UI" font-size="16" fill="#4A90E2" font-weight="bold">Initial Priority Queue:</text>
+  <text x="300" y="80" font-family="Segoe UI" font-size="14" fill="#666">Characters sorted by frequency (min-heap)</text>
+
+  <!-- Characters in queue -->
+  <circle cx="150" cy="105" r="20" fill="#E74C3C" />
+  <text x="150" y="110" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">D:1</text>
+
+  <circle cx="200" cy="105" r="20" fill="#E74C3C" />
+  <text x="200" y="110" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">E:1</text>
+
+  <circle cx="250" cy="105" r="20" fill="#E74C3C" />
+  <text x="250" y="110" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">H:1</text>
+
+  <circle cx="300" cy="105" r="20" fill="#E74C3C" />
+  <text x="300" y="110" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">R:1</text>
+
+  <circle cx="350" cy="105" r="20" fill="#E74C3C" />
+  <text x="350" y="110" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">W:1</text>
+
+  <circle cx="400" cy="105" r="20" fill="#E74C3C" />
+  <text x="400" y="110" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold"> :1</text>
+
+  <circle cx="450" cy="105" r="20" fill="#27AE60" />
+  <text x="450" y="110" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">O:2</text>
+
+  <circle cx="500" cy="105" r="20" fill="#F39C12" />
+  <text x="500" y="110" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">L:3</text>
+
+  <!-- Step 1 -->
+  <rect x="50" y="160" width="820" height="80" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="100" y="180" font-family="Segoe UI" font-size="16" fill="#4A90E2" font-weight="bold">Step 1:</text>
+  <text x="200" y="180" font-family="Segoe UI" font-size="14" fill="#666">Extract D:1 and E:1, combine into node (2)</text>
+  <text x="200" y="200" font-family="Segoe UI" font-size="14" fill="#666">Insert back into priority queue</text>
+
+  <!-- Tree visualization for step 1 -->
+  <circle cx="650" cy="190" r="25" fill="#9B59B6" />
+  <text x="650" y="195" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">2</text>
+
+  <circle cx="620" cy="220" r="20" fill="#E74C3C" />
+  <text x="620" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">D:1</text>
+
+  <circle cx="680" cy="220" r="20" fill="#E74C3C" />
+  <text x="680" y="225" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">E:1</text>
+
+  <line x1="650" y1="215" x2="620" y2="200" stroke="#666" stroke-width="2" />
+  <line x1="650" y1="215" x2="680" y2="200" stroke="#666" stroke-width="2" />
+
+  <!-- Step 2 -->
+  <rect x="50" y="260" width="820" height="80" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="100" y="280" font-family="Segoe UI" font-size="16" fill="#4A90E2" font-weight="bold">Step 2:</text>
+  <text x="200" y="280" font-family="Segoe UI" font-size="14" fill="#666">Extract H:1 and R:1, combine into node (2)</text>
+  <text x="200" y="300" font-family="Segoe UI" font-size="14" fill="#666">Continue building tree systematically</text>
+
+  <!-- Step 3 -->
+  <rect x="50" y="360" width="820" height="80" fill="none" stroke="#4A90E2" stroke-width="2" rx="10" />
+  <text x="100" y="380" font-family="Segoe UI" font-size="16" fill="#4A90E2" font-weight="bold">Step 3:</text>
+  <text x="200" y="380" font-family="Segoe UI" font-size="14" fill="#666">Continue combining nodes until one root remains</text>
+  <text x="200" y="400" font-family="Segoe UI" font-size="14" fill="#666">Each internal node represents combined frequency</text>
+
+  <!-- Final tree -->
+  <rect x="50" y="460" width="820" height="120" fill="none" stroke="#E67E22" stroke-width="3" rx="10" />
+  <text x="100" y="480" font-family="Segoe UI" font-size="16" fill="#E67E22" font-weight="bold">Final Huffman Tree:</text>
+  <text x="400" y="480" font-family="Segoe UI" font-size="14" fill="#666">Root contains total frequency (11)</text>
+  <text x="400" y="500" font-family="Segoe UI" font-size="14" fill="#666">Left branches = 0, Right branches = 1</text>
+
+  <!-- Simplified final tree -->
+  <circle cx="200" cy="530" r="25" fill="#E67E22" />
+  <text x="200" y="535" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="white" font-weight="bold">11</text>
+
+  <circle cx="150" cy="560" r="20" fill="#9B59B6" />
+  <text x="150" y="565" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">5</text>
+
+  <circle cx="250" cy="560" r="20" fill="#9B59B6" />
+  <text x="250" y="565" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="bold">6</text>
+
+  <line x1="200" y1="555" x2="150" y2="540" stroke="#666" stroke-width="2" />
+  <line x1="200" y1="555" x2="250" y2="540" stroke="#666" stroke-width="2" />
+
+  <!-- Legend -->
+  <text x="500" y="480" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Legend:</text>
+  <circle cx="520" cy="500" r="8" fill="#E74C3C" />
+  <text x="535" y="505" font-family="Segoe UI" font-size="12" fill="#666">Leaf nodes (characters)</text>
+
+  <circle cx="520" cy="520" r="8" fill="#9B59B6" />
+  <text x="535" y="525" font-family="Segoe UI" font-size="12" fill="#666">Internal nodes (sums)</text>
+
+  <circle cx="520" cy="540" r="8" fill="#E67E22" />
+  <text x="535" y="545" font-family="Segoe UI" font-size="12" fill="#666">Root node (total)</text>
+
+  <!-- Key properties -->
+  <text x="700" y="480" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Key Properties:</text>
+  <text x="700" y="500" font-family="Segoe UI" font-size="12" fill="#666">• Greedy algorithm approach</text>
+  <text x="700" y="515" font-family="Segoe UI" font-size="12" fill="#666">• Always combines least frequent</text>
+  <text x="700" y="530" font-family="Segoe UI" font-size="12" fill="#666">• Produces optimal prefix codes</text>
+  <text x="700" y="545" font-family="Segoe UI" font-size="12" fill="#666">• Tree height ≤ log₂(n) + 1</text>
+
+  <!-- Summary -->
+  <text x="460" y="580" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Huffman tree construction: Systematic combination of least frequent nodes creates optimal compression tree</text>
+</svg>

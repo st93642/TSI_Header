@@ -1,0 +1,158 @@
+<svg width="920" height="500" viewBox="0 0 920 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Complexity Analysis Applications</text>
+
+  <!-- Application 1: Database Query Optimization -->
+  <rect x="50" y="60" width="180" height="120" fill="none" stroke="#666" stroke-width="2" rx="10" />
+  <text x="140" y="85" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Database Systems</text>
+
+  <!-- Database icon -->
+  <rect x="90" y="95" width="20" height="25" fill="#4A90E2" />
+  <rect x="85" y="100" width="30" height="4" fill="#4A90E2" />
+  <rect x="85" y="108" width="30" height="4" fill="#4A90E2" />
+  <rect x="85" y="116" width="30" height="4" fill="#4A90E2" />
+
+  <text x="140" y="140" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Query optimization</text>
+  <text x="140" y="155" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Index selection</text>
+  <text x="140" y="170" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Join algorithms</text>
+
+  <!-- Application 2: Network Routing -->
+  <rect x="270" y="60" width="180" height="120" fill="none" stroke="#666" stroke-width="2" rx="10" />
+  <text x="360" y="85" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Network Routing</text>
+
+  <!-- Network icon -->
+  <circle cx="310" cy="110" r="8" fill="#27AE60" />
+  <circle cx="350" cy="110" r="8" fill="#27AE60" />
+  <circle cx="390" cy="110" r="8" fill="#27AE60" />
+  <circle cx="330" cy="130" r="8" fill="#27AE60" />
+  <circle cx="370" cy="130" r="8" fill="#27AE60" />
+
+  <line x1="318" y1="110" x2="342" y2="110" stroke="#666" stroke-width="2" />
+  <line x1="358" y1="110" x2="382" y2="110" stroke="#666" stroke-width="2" />
+  <line x1="318" y1="110" x2="330" y2="122" stroke="#666" stroke-width="2" />
+  <line x1="342" y1="110" x2="330" y2="122" stroke="#666" stroke-width="2" />
+
+  <text x="360" y="155" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Shortest path routing</text>
+  <text x="360" y="170" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Traffic optimization</text>
+
+  <!-- Application 3: Image Processing -->
+  <rect x="490" y="60" width="180" height="120" fill="none" stroke="#666" stroke-width="2" rx="10" />
+  <text x="580" y="85" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Image Processing</text>
+
+  <!-- Image grid -->
+  <rect x="520" y="100" width="40" height="30" fill="none" stroke="#666" stroke-width="1" />
+  <rect x="530" y="110" width="10" height="10" fill="#E74C3C" />
+  <rect x="540" y="110" width="10" height="10" fill="#F39C12" />
+  <rect x="530" y="120" width="10" height="10" fill="#F39C12" />
+  <rect x="540" y="120" width="10" height="10" fill="#E74C3C" />
+
+  <text x="580" y="150" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Segmentation algorithms</text>
+  <text x="580" y="165" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Feature detection</text>
+  <text x="580" y="180" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Pattern recognition</text>
+
+  <!-- Application 4: Machine Learning -->
+  <rect x="710" y="60" width="180" height="120" fill="none" stroke="#666" stroke-width="2" rx="10" />
+  <text x="800" y="85" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Machine Learning</text>
+
+  <!-- Neural network icon -->
+  <circle cx="740" cy="110" r="6" fill="#9B59B6" />
+  <circle cx="760" cy="105" r="6" fill="#9B59B6" />
+  <circle cx="780" cy="110" r="6" fill="#9B59B6" />
+  <circle cx="800" cy="105" r="6" fill="#9B59B6" />
+  <circle cx="820" cy="110" r="6" fill="#9B59B6" />
+
+  <circle cx="750" cy="130" r="6" fill="#9B59B6" />
+  <circle cx="770" cy="135" r="6" fill="#9B59B6" />
+  <circle cx="790" cy="130" r="6" fill="#9B59B6" />
+
+  <line x1="746" y1="116" x2="754" y2="124" stroke="#666" stroke-width="1" />
+  <line x1="766" y1="111" x2="774" y2="129" stroke="#666" stroke-width="1" />
+  <line x1="786" y1="116" x2="794" y2="124" stroke="#666" stroke-width="1" />
+
+  <text x="800" y="155" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Training complexity</text>
+  <text x="800" y="170" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Inference optimization</text>
+  <text x="800" y="185" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Model selection</text>
+
+  <!-- Application 5: Real-time Systems -->
+  <rect x="50" y="220" width="180" height="120" fill="none" stroke="#666" stroke-width="2" rx="10" />
+  <text x="140" y="245" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Real-time Systems</text>
+
+  <!-- Clock icon -->
+  <circle cx="140" cy="270" r="15" fill="#E67E22" />
+  <line x1="140" y1="270" x2="140" y2="260" stroke="#666" stroke-width="2" />
+  <line x1="140" y1="270" x2="148" y2="275" stroke="#666" stroke-width="2" />
+
+  <text x="140" y="305" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Deadline guarantees</text>
+  <text x="140" y="320" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Worst-case analysis</text>
+  <text x="140" y="335" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Resource scheduling</text>
+
+  <!-- Application 6: Compiler Optimization -->
+  <rect x="270" y="220" width="180" height="120" fill="none" stroke="#666" stroke-width="2" rx="10" />
+  <text x="360" y="245" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Compiler Design</text>
+
+  <!-- Code icon -->
+  <rect x="300" y="260" width="25" height="20" fill="#F39C12" />
+  <text x="312" y="275" text-anchor="middle" font-family="Segoe UI" font-size="8" fill="#666">&lt;/&gt;</text>
+
+  <text x="360" y="305" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Code optimization</text>
+  <text x="360" y="320" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Register allocation</text>
+  <text x="360" y="335" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Loop transformations</text>
+
+  <!-- Application 7: Cryptography -->
+  <rect x="490" y="220" width="180" height="120" fill="none" stroke="#666" stroke-width="2" rx="10" />
+  <text x="580" y="245" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Cryptography</text>
+
+  <!-- Lock icon -->
+  <rect x="540" y="260" width="15" height="12" fill="#E74C3C" />
+  <rect x="547" y="255" width="8" height="8" fill="#E74C3C" />
+  <circle cx="551" cy="267" r="2" fill="#666" />
+
+  <text x="580" y="305" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Security analysis</text>
+  <text x="580" y="320" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Attack complexity</text>
+  <text x="580" y="335" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Key space evaluation</text>
+
+  <!-- Application 8: Distributed Systems -->
+  <rect x="710" y="220" width="180" height="120" fill="none" stroke="#666" stroke-width="2" rx="10" />
+  <text x="800" y="245" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Distributed Systems</text>
+
+  <!-- Network nodes -->
+  <circle cx="740" cy="270" r="6" fill="#27AE60" />
+  <circle cx="780" cy="265" r="6" fill="#27AE60" />
+  <circle cx="820" cy="270" r="6" fill="#27AE60" />
+  <circle cx="760" cy="285" r="6" fill="#27AE60" />
+  <circle cx="800" cy="290" r="6" fill="#27AE60" />
+
+  <line x1="746" y1="270" x2="774" y2="265" stroke="#666" stroke-width="1" />
+  <line x1="786" y1="265" x2="814" y2="270" stroke="#666" stroke-width="1" />
+  <line x1="746" y1="270" x2="760" y2="279" stroke="#666" stroke-width="1" />
+
+  <text x="800" y="315" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Consensus algorithms</text>
+  <text x="800" y="330" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Load balancing</text>
+  <text x="800" y="345" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#666">Fault tolerance</text>
+
+  <!-- Summary -->
+  <text x="460" y="380" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Complexity Analysis Powers Modern Computing Systems</text>
+
+  <text x="460" y="400" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">From database optimization to distributed consensus, understanding algorithmic</text>
+  <text x="460" y="415" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">complexity enables building scalable, efficient, and reliable software systems.</text>
+
+  <!-- Legend -->
+  <text x="100" y="440" font-family="Segoe UI" font-size="12" fill="#666" font-weight="bold">Application Domains:</text>
+  <circle cx="120" cy="455" r="4" fill="#4A90E2" />
+  <text x="130" y="460" font-family="Segoe UI" font-size="11" fill="#666">Data Management &amp; Storage</text>
+
+  <circle cx="120" cy="475" r="4" fill="#27AE60" />
+  <text x="130" y="480" font-family="Segoe UI" font-size="11" fill="#666">Network &amp; Communication</text>
+
+  <circle cx="400" cy="455" r="4" fill="#E74C3C" />
+  <text x="410" y="460" font-family="Segoe UI" font-size="11" fill="#666">Computer Vision &amp; AI</text>
+
+  <circle cx="400" cy="475" r="4" fill="#9B59B6" />
+  <text x="410" y="480" font-family="Segoe UI" font-size="11" fill="#666">Machine Learning</text>
+
+  <circle cx="650" cy="455" r="4" fill="#E67E22" />
+  <text x="660" y="460" font-family="Segoe UI" font-size="11" fill="#666">Real-time &amp; Embedded</text>
+
+  <circle cx="650" cy="475" r="4" fill="#F39C12" />
+  <text x="660" y="480" font-family="Segoe UI" font-size="11" fill="#666">Systems &amp; Infrastructure</text>
+</svg>

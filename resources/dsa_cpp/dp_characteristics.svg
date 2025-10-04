@@ -1,0 +1,51 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 24px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 16px; font-weight: bold; fill: #666; }
+      .text { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #666; }
+      .box { fill: #f0f8ff; stroke: #666; stroke-width: 2; }
+      .arrow { fill: #666; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title">Dynamic Programming Problem Characteristics</text>
+
+  <!-- Optimal Substructure -->
+  <rect x="50" y="80" width="300" height="120" class="box" rx="10"/>
+  <text x="200" y="110" text-anchor="middle" class="label">Optimal Substructure</text>
+  <text x="200" y="140" text-anchor="middle" class="text">Optimal solution contains</text>
+  <text x="200" y="160" text-anchor="middle" class="text">optimal subsolutions</text>
+
+  <!-- Overlapping Subproblems -->
+  <rect x="450" y="80" width="300" height="120" class="box" rx="10"/>
+  <text x="600" y="110" text-anchor="middle" class="label">Overlapping Subproblems</text>
+  <text x="600" y="140" text-anchor="middle" class="text">Same subproblems solved</text>
+  <text x="600" y="160" text-anchor="middle" class="text">multiple times</text>
+
+  <!-- Arrow between them -->
+  <polygon points="360,140 380,140 375,135 380,140 375,145" class="arrow"/>
+  <line x1="350" y1="140" x2="450" y2="140" stroke="#666" stroke-width="2"/>
+
+  <!-- Examples -->
+  <text x="400" y="240" text-anchor="middle" class="label">Examples:</text>
+
+  <!-- Shortest Path -->
+  <rect x="100" y="260" width="180" height="80" class="box" rx="5"/>
+  <text x="190" y="285" text-anchor="middle" class="text">Shortest Path</text>
+  <text x="190" y="305" text-anchor="middle" class="text">A→B→C optimal</text>
+  <text x="190" y="325" text-anchor="middle" class="text">implies A→B optimal</text>
+
+  <!-- Fibonacci -->
+  <rect x="320" y="260" width="160" height="80" class="box" rx="5"/>
+  <text x="400" y="285" text-anchor="middle" class="text">Fibonacci</text>
+  <text x="400" y="305" text-anchor="middle" class="text">F(5) = F(4) + F(3)</text>
+  <text x="400" y="325" text-anchor="middle" class="text">F(4) = F(3) + F(2)</text>
+
+  <!-- Knapsack -->
+  <rect x="520" y="260" width="160" height="80" class="box" rx="5"/>
+  <text x="600" y="285" text-anchor="middle" class="text">0/1 Knapsack</text>
+  <text x="600" y="305" text-anchor="middle" class="text">Optimal for capacity C</text>
+  <text x="600" y="325" text-anchor="middle" class="text">uses optimal for C-w</text>
+</svg>

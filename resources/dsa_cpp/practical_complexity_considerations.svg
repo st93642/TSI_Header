@@ -1,0 +1,69 @@
+<svg width="920" height="500" viewBox="0 0 920 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Practical Complexity Considerations</text>
+
+  <!-- Theoretical vs Practical Performance -->
+  <text x="230" y="70" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">Theoretical Analysis</text>
+  <text x="690" y="70" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">Practical Performance</text>
+
+  <!-- Theoretical side -->
+  <rect x="50" y="80" width="360" height="150" fill="none" stroke="#666" stroke-width="2" />
+  <text x="230" y="105" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Big O Notation Focus</text>
+
+  <text x="70" y="130" font-family="Segoe UI" font-size="12" fill="#666">• Ignores constant factors</text>
+  <text x="70" y="145" font-family="Segoe UI" font-size="12" fill="#666">• Ignores lower-order terms</text>
+  <text x="70" y="160" font-family="Segoe UI" font-size="12" fill="#666">• Asymptotic behavior only</text>
+  <text x="70" y="175" font-family="Segoe UI" font-size="12" fill="#666">• Mathematical abstraction</text>
+  <text x="70" y="190" font-family="Segoe UI" font-size="12" fill="#666">• Input size → ∞</text>
+  <text x="70" y="205" font-family="Segoe UI" font-size="12" fill="#666">• Hardware independent</text>
+
+  <!-- Practical side -->
+  <rect x="450" y="80" width="360" height="150" fill="none" stroke="#666" stroke-width="2" />
+  <text x="630" y="105" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Real-World Factors</text>
+
+  <text x="470" y="130" font-family="Segoe UI" font-size="12" fill="#666">• Constant factors matter</text>
+  <text x="470" y="145" font-family="Segoe UI" font-size="12" fill="#666">• Memory access patterns</text>
+  <text x="470" y="160" font-family="Segoe UI" font-size="12" fill="#666">• Cache performance</text>
+  <text x="470" y="175" font-family="Segoe UI" font-size="12" fill="#666">• Branch prediction</text>
+  <text x="470" y="190" font-family="Segoe UI" font-size="12" fill="#666">• Input size thresholds</text>
+  <text x="470" y="205" font-family="Segoe UI" font-size="12" fill="#666">• Hardware specifics</text>
+
+  <!-- Performance crossover example -->
+  <text x="460" y="260" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666" font-weight="bold">Algorithm Crossover Points</text>
+
+  <!-- Crossover graph -->
+  <line x1="100" y1="380" x2="750" y2="380" stroke="#666" stroke-width="2" />
+  <line x1="100" y1="380" x2="100" y2="280" stroke="#666" stroke-width="2" />
+
+  <text x="425" y="400" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">Input Size (n)</text>
+  <text x="80" y="330" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666" transform="rotate(-90 80 330)">Time</text>
+
+  <!-- O(n²) algorithm -->
+  <polyline points="150,370 200,355 250,340 300,325 350,310 400,295 450,280" stroke="#E74C3C" stroke-width="3" fill="none" />
+  <text x="470" y="285" font-family="Segoe UI" font-size="12" fill="#E74C3C">O(n²) - Simple implementation</text>
+
+  <!-- O(n log n) algorithm -->
+  <polyline points="150,375 200,365 250,360 300,358 350,360 400,365 450,372 500,380" stroke="#27AE60" stroke-width="3" fill="none" />
+  <text x="520" y="385" font-family="Segoe UI" font-size="12" fill="#27AE60">O(n log n) - Efficient implementation</text>
+
+  <!-- Crossover point -->
+  <circle cx="320" cy="342" r="4" fill="#F39C12" />
+  <text x="340" y="347" font-family="Segoe UI" font-size="10" fill="#F39C12">Crossover point</text>
+  <text x="320" y="362" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#666">n ≈ 100</text>
+
+  <!-- Practical considerations -->
+  <rect x="50" y="410" width="820" height="80" fill="none" stroke="#666" stroke-width="1" />
+  <text x="60" y="430" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Practical Optimization Strategies:</text>
+  <text x="70" y="450" font-family="Segoe UI" font-size="12" fill="#666">• Choose asymptotically better algorithms for large inputs</text>
+  <text x="70" y="465" font-family="Segoe UI" font-size="12" fill="#666">• Consider constant factors for small to medium inputs</text>
+  <text x="70" y="480" font-family="Segoe UI" font-size="12" fill="#666">• Optimize memory access patterns and cache usage</text>
+
+  <!-- Constants matter illustration -->
+  <text x="200" y="290" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">O(n) with high constant</text>
+  <text x="600" y="320" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#666">O(n²) with low constant</text>
+
+  <!-- Size markers -->
+  <text x="150" y="395" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#666">Small n</text>
+  <text x="300" y="395" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#666">Medium n</text>
+  <text x="450" y="395" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#666">Large n</text>
+</svg>

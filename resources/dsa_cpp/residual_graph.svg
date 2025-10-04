@@ -1,0 +1,62 @@
+<svg width="920" height="500" viewBox="0 0 920 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+    </marker>
+    <marker id="arrowhead-back" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto">
+      <polygon points="10 0, 0 3.5, 10 7" fill="#E74C3C" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Segoe UI" font-size="20" fill="#666" font-weight="bold">Residual Graph Construction</text>
+
+  <!-- Original Graph (left side) -->
+  <text x="200" y="60" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666">Original Graph</text>
+
+  <circle cx="150" cy="120" r="25" fill="#4A90E2" />
+  <text x="150" y="130" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">u</text>
+
+  <circle cx="250" cy="120" r="25" fill="#4A90E2" />
+  <text x="250" y="130" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">v</text>
+
+  <!-- Original edge -->
+  <line x1="175" y1="120" x2="225" y2="120" stroke="#666" stroke-width="3" marker-end="url(#arrowhead)" />
+  <text x="200" y="105" font-family="Segoe UI" font-size="12" fill="#666">cap=10</text>
+  <text x="200" y="140" font-family="Segoe UI" font-size="12" fill="#666">flow=4</text>
+
+  <!-- Residual Graph (right side) -->
+  <text x="650" y="60" text-anchor="middle" font-family="Segoe UI" font-size="16" fill="#666">Residual Graph</text>
+
+  <circle cx="550" cy="120" r="25" fill="#4A90E2" />
+  <text x="550" y="130" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">u</text>
+
+  <circle cx="750" cy="120" r="25" fill="#4A90E2" />
+  <text x="750" y="130" text-anchor="middle" font-family="Segoe UI" font-size="14" fill="#666">v</text>
+
+  <!-- Forward residual edge -->
+  <line x1="575" y1="120" x2="725" y2="120" stroke="#666" stroke-width="3" marker-end="url(#arrowhead)" />
+  <text x="650" y="105" font-family="Segoe UI" font-size="12" fill="#666">residual: 6</text>
+
+  <!-- Backward residual edge -->
+  <line x1="725" y1="120" x2="575" y2="120" stroke="#E74C3C" stroke-width="2" marker-end="url(#arrowhead-back)" />
+  <text x="650" y="155" font-family="Segoe UI" font-size="12" fill="#E74C3C">residual: 4</text>
+
+  <!-- Explanation -->
+  <rect x="50" y="200" width="820" height="250" fill="none" stroke="#666" stroke-width="1" />
+  <text x="60" y="225" font-family="Segoe UI" font-size="14" fill="#666" font-weight="bold">Residual Graph Rules:</text>
+  <text x="70" y="245" font-family="Segoe UI" font-size="12" fill="#666">• Forward edge u→v: capacity(u,v) - flow(u,v) = 10 - 4 = 6</text>
+  <text x="70" y="260" font-family="Segoe UI" font-size="12" fill="#666">• Backward edge v→u: flow(u,v) = 4</text>
+  <text x="70" y="275" font-family="Segoe UI" font-size="12" fill="#666">• Only edges with positive residual capacity are included</text>
+  <text x="70" y="290" font-family="Segoe UI" font-size="12" fill="#666">• Augmenting paths found in residual graph increase total flow</text>
+  <text x="70" y="305" font-family="Segoe UI" font-size="12" fill="#666">• Process repeats until no path from source to sink exists</text>
+
+  <!-- Color legend -->
+  <circle cx="100" cy="330" r="5" fill="#666" />
+  <text x="110" y="335" font-family="Segoe UI" font-size="12" fill="#666">Forward residual edges</text>
+
+  <circle cx="100" cy="350" r="5" fill="#E74C3C" />
+  <text x="110" y="355" font-family="Segoe UI" font-size="12" fill="#E74C3C">Backward residual edges</text>
+
+  <text x="100" y="375" font-family="Segoe UI" font-size="12" fill="#666">Backward edges allow reducing flow on original edges</text>
+</svg>
