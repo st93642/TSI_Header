@@ -1,0 +1,131 @@
+<svg width="920" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" text-anchor="middle" font-family="Fira Sans, Arial" font-size="24" font-weight="bold" fill="#666">Prim's Algorithm: Growing the MST</text>
+
+  <!-- Step 1: Initial State -->
+  <g id="step1">
+    <text x="150" y="70" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" font-weight="bold" fill="#666">Step 1: Start with vertex A</text>
+
+    <!-- Vertices -->
+    <circle cx="100" cy="100" r="20" fill="#4caf50" stroke="#666" stroke-width="3"/>
+    <text x="100" y="107" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="white" font-weight="bold">A</text>
+
+    <circle cx="200" cy="100" r="20" fill="#e1f5fe" stroke="#666" stroke-width="2"/>
+    <text x="200" y="107" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="#666">B</text>
+
+    <circle cx="150" cy="180" r="20" fill="#e1f5fe" stroke="#666" stroke-width="2"/>
+    <text x="150" y="187" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="#666">C</text>
+
+    <circle cx="50" cy="180" r="20" fill="#e1f5fe" stroke="#666" stroke-width="2"/>
+    <text x="50" y="187" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="#666">D</text>
+
+    <!-- Edges -->
+    <line x1="100" y1="100" x2="200" y2="100" stroke="#666" stroke-width="2"/>
+    <text x="150" y="90" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">4</text>
+
+    <line x1="100" y1="100" x2="150" y2="180" stroke="#666" stroke-width="2"/>
+    <text x="110" y="150" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">3</text>
+
+    <line x1="200" y1="100" x2="150" y2="180" stroke="#666" stroke-width="2"/>
+    <text x="190" y="150" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">2</text>
+
+    <line x1="150" y1="180" x2="50" y2="180" stroke="#666" stroke-width="2"/>
+    <text x="100" y="195" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">1</text>
+
+    <text x="150" y="230" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">MST: {A}, Weight: 0</text>
+  </g>
+
+  <!-- Step 2: Add C -->
+  <g id="step2">
+    <text x="450" y="70" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" font-weight="bold" fill="#666">Step 2: Add cheapest edge to C</text>
+
+    <!-- Vertices -->
+    <circle cx="400" cy="100" r="20" fill="#4caf50" stroke="#666" stroke-width="3"/>
+    <text x="400" y="107" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="white" font-weight="bold">A</text>
+
+    <circle cx="500" cy="100" r="20" fill="#e1f5fe" stroke="#666" stroke-width="2"/>
+    <text x="500" y="107" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="#666">B</text>
+
+    <circle cx="450" cy="180" r="20" fill="#4caf50" stroke="#666" stroke-width="3"/>
+    <text x="450" y="187" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="white" font-weight="bold">C</text>
+
+    <circle cx="350" cy="180" r="20" fill="#e1f5fe" stroke="#666" stroke-width="2"/>
+    <text x="350" y="187" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="#666">D</text>
+
+    <!-- Edges -->
+    <line x1="400" y1="100" x2="500" y2="100" stroke="#666" stroke-width="2"/>
+    <text x="450" y="90" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">4</text>
+
+    <line x1="400" y1="100" x2="450" y2="180" stroke="#4caf50" stroke-width="4"/>
+    <text x="410" y="150" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#4caf50" font-weight="bold">3</text>
+
+    <line x1="500" y1="100" x2="450" y2="180" stroke="#666" stroke-width="2"/>
+    <text x="490" y="150" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">2</text>
+
+    <line x1="450" y1="180" x2="350" y2="180" stroke="#666" stroke-width="2"/>
+    <text x="400" y="195" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">1</text>
+
+    <text x="450" y="230" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">MST: {A,C}, Weight: 3</text>
+  </g>
+
+  <!-- Step 3: Add D -->
+  <g id="step3">
+    <text x="750" y="70" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" font-weight="bold" fill="#666">Step 3: Add cheapest edge to D</text>
+
+    <!-- Vertices -->
+    <circle cx="700" cy="100" r="20" fill="#4caf50" stroke="#666" stroke-width="3"/>
+    <text x="700" y="107" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="white" font-weight="bold">A</text>
+
+    <circle cx="800" cy="100" r="20" fill="#e1f5fe" stroke="#666" stroke-width="2"/>
+    <text x="800" y="107" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="#666">B</text>
+
+    <circle cx="750" cy="180" r="20" fill="#4caf50" stroke="#666" stroke-width="3"/>
+    <text x="750" y="187" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="white" font-weight="bold">C</text>
+
+    <circle cx="650" cy="180" r="20" fill="#4caf50" stroke="#666" stroke-width="3"/>
+    <text x="650" y="187" text-anchor="middle" font-family="Fira Sans, Arial" font-size="16" fill="white" font-weight="bold">D</text>
+
+    <!-- Edges -->
+    <line x1="700" y1="100" x2="800" y2="100" stroke="#666" stroke-width="2"/>
+    <text x="750" y="90" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">4</text>
+
+    <line x1="700" y1="100" x2="750" y2="180" stroke="#4caf50" stroke-width="4"/>
+    <text x="710" y="150" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#4caf50" font-weight="bold">3</text>
+
+    <line x1="800" y1="100" x2="750" y2="180" stroke="#666" stroke-width="2"/>
+    <text x="790" y="150" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">2</text>
+
+    <line x1="750" y1="180" x2="650" y2="180" stroke="#4caf50" stroke-width="4"/>
+    <text x="700" y="195" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#4caf50" font-weight="bold">1</text>
+
+    <text x="750" y="230" text-anchor="middle" font-family="Fira Sans, Arial" font-size="14" fill="#666">MST: {A,C,D}, Weight: 4</text>
+  </g>
+
+  <!-- Algorithm Steps -->
+  <g id="algorithm-steps">
+    <rect x="20" y="280" width="880" height="300" fill="#f9f9f9" stroke="#666" stroke-width="1" rx="10"/>
+    <text x="460" y="310" text-anchor="middle" font-family="Fira Sans, Arial" font-size="18" font-weight="bold" fill="#666">Prim's Algorithm Steps</text>
+
+    <text x="50" y="340" font-family="Fira Sans, Arial" font-size="14" fill="#666">1. Start with arbitrary vertex in MST</text>
+    <text x="50" y="360" font-family="Fira Sans, Arial" font-size="14" fill="#666">2. Find minimum-weight edge connecting MST to non-MST vertex</text>
+    <text x="50" y="380" font-family="Fira Sans, Arial" font-size="14" fill="#666">3. Add edge and vertex to MST</text>
+    <text x="50" y="400" font-family="Fira Sans, Arial" font-size="14" fill="#666">4. Repeat until all vertices included</text>
+
+    <text x="50" y="430" font-family="Fira Sans, Arial" font-size="16" font-weight="bold" fill="#666">Key Data Structures:</text>
+    <text x="70" y="450" font-family="Fira Sans, Arial" font-size="14" fill="#666">• Priority Queue: Track minimum edge weights</text>
+    <text x="70" y="470" font-family="Fira Sans, Arial" font-size="14" fill="#666">• Key array: Minimum edge weight to each vertex</text>
+    <text x="70" y="490" font-family="Fira Sans, Arial" font-size="14" fill="#666">• Parent array: Track MST edges</text>
+    <text x="70" y="510" font-family="Fira Sans, Arial" font-size="14" fill="#666">• Visited array: Track vertices in MST</text>
+
+    <text x="500" y="430" font-family="Fira Sans, Arial" font-size="16" font-weight="bold" fill="#666">Time Complexity: O((V + E) log V)</text>
+    <text x="520" y="450" font-family="Fira Sans, Arial" font-size="14" fill="#666">• Binary heap priority queue operations</text>
+    <text x="520" y="470" font-family="Fira Sans, Arial" font-size="14" fill="#666">• Each edge processed once</text>
+    <text x="520" y="490" font-family="Fira Sans, Arial" font-size="14" fill="#666">• Best for dense graphs (E ≈ V²)</text>
+  </g>
+</svg>

@@ -1,0 +1,130 @@
+{
+  "id": "dsa_graphs_cpp_exercise",
+  "mode": "quiz",
+  "title": "Graphs, Representations, and Basic Operations",
+  "description": "Test your understanding of graph data structures, representations, and fundamental algorithms in C++.",
+  "tags": ["cpp", "graphs", "graph-representations", "bfs", "dfs", "adjacency-matrix", "adjacency-list", "graph-traversal"],
+  "passScore": 8,
+  "questions": [
+    {
+      "id": "graph_components",
+      "type": "single",
+      "prompt": "What are the two fundamental components of a graph data structure?",
+      "options": [
+        { "id": "option_a", "text": "Arrays and pointers" },
+        { "id": "option_b", "text": "Vertices and edges", "correct": true },
+        { "id": "option_c", "text": "Nodes and connections" },
+        { "id": "option_d", "text": "Keys and values" }
+      ],
+      "explanation": "Graphs consist of vertices (nodes) and edges (relationships between nodes)."
+    },
+    {
+      "id": "adjacency_matrix_space",
+      "type": "single",
+      "prompt": "What is the space complexity of an adjacency matrix for a graph with V vertices?",
+      "options": [
+        { "id": "option_a", "text": "O(V)" },
+        { "id": "option_b", "text": "O(V + E)" },
+        { "id": "option_c", "text": "O(V²)", "correct": true },
+        { "id": "option_d", "text": "O(E)" }
+      ],
+      "explanation": "Adjacency matrices use a V×V array, requiring O(V²) space regardless of edge count."
+    },
+    {
+      "id": "adjacency_list_space",
+      "type": "single",
+      "prompt": "What is the space complexity of an adjacency list for a graph with V vertices and E edges?",
+      "options": [
+        { "id": "option_a", "text": "O(V)" },
+        { "id": "option_b", "text": "O(V + E)", "correct": true },
+        { "id": "option_c", "text": "O(V²)" },
+        { "id": "option_d", "text": "O(E²)" }
+      ],
+      "explanation": "Adjacency lists store V lists plus 2E edge entries (undirected) or E entries (directed)."
+    },
+    {
+      "id": "bfs_vs_dfs",
+      "type": "single",
+      "prompt": "Which data structure does Breadth-First Search (BFS) primarily use?",
+      "options": [
+        { "id": "option_a", "text": "Stack" },
+        { "id": "option_b", "text": "Queue", "correct": true },
+        { "id": "option_c", "text": "Priority Queue" },
+        { "id": "option_d", "text": "Set" }
+      ],
+      "explanation": "BFS uses a queue to process vertices level by level, ensuring FIFO order."
+    },
+    {
+      "id": "dfs_data_structure",
+      "type": "single",
+      "prompt": "Which data structure does Depth-First Search (DFS) primarily use?",
+      "options": [
+        { "id": "option_a", "text": "Queue" },
+        { "id": "option_b", "text": "Stack", "correct": true },
+        { "id": "option_c", "text": "Priority Queue" },
+        { "id": "option_d", "text": "Heap" }
+      ],
+      "explanation": "DFS uses a stack (or recursion) to explore as far as possible along each branch."
+    },
+    {
+      "id": "graph_representation_choice",
+      "type": "single",
+      "prompt": "For a sparse graph with 1000 vertices and 2000 edges, which representation is most space-efficient?",
+      "options": [
+        { "id": "option_a", "text": "Adjacency Matrix" },
+        { "id": "option_b", "text": "Adjacency List", "correct": true },
+        { "id": "option_c", "text": "Edge List" },
+        { "id": "option_d", "text": "Incidence Matrix" }
+      ],
+      "explanation": "Adjacency lists use O(V + E) space, much better than O(V²) for sparse graphs."
+    },
+    {
+      "id": "connected_components",
+      "type": "single",
+      "prompt": "In an undirected graph, what does the number of connected components represent?",
+      "options": [
+        { "id": "option_a", "text": "Number of vertices" },
+        { "id": "option_b", "text": "Number of edges" },
+        { "id": "option_c", "text": "Number of separate subgraphs", "correct": true },
+        { "id": "option_d", "text": "Number of cycles" }
+      ],
+      "explanation": "Connected components are the maximal connected subgraphs in an undirected graph."
+    },
+    {
+      "id": "cycle_detection",
+      "type": "single",
+      "prompt": "Which algorithm can be used to detect cycles in an undirected graph?",
+      "options": [
+        { "id": "option_a", "text": "Dijkstra's algorithm" },
+        { "id": "option_b", "text": "DFS or BFS with parent tracking", "correct": true },
+        { "id": "option_c", "text": "Topological sort" },
+        { "id": "option_d", "text": "Prim's algorithm" }
+      ],
+      "explanation": "Cycle detection uses DFS/BFS and tracks parent vertices to identify back edges."
+    },
+    {
+      "id": "graph_applications",
+      "type": "multiple",
+      "prompt": "Which of the following are common applications of graph data structures? (Select all that apply)",
+      "options": [
+        { "id": "option_a", "text": "Social network modeling", "correct": true },
+        { "id": "option_b", "text": "Database indexing", "correct": true },
+        { "id": "option_c", "text": "Image processing", "correct": true },
+        { "id": "option_d", "text": "Simple calculator" }
+      ],
+      "explanation": "Graphs model relationships in social networks, web structures, transportation systems, and many other domains."
+    },
+    {
+      "id": "tree_properties",
+      "type": "single",
+      "prompt": "What combination of properties defines a tree in graph theory?",
+      "options": [
+        { "id": "option_a", "text": "Connected and has cycles" },
+        { "id": "option_b", "text": "Connected and acyclic", "correct": true },
+        { "id": "option_c", "text": "Disconnected and acyclic" },
+        { "id": "option_d", "text": "Disconnected and has cycles" }
+      ],
+      "explanation": "A tree is a connected, acyclic graph with V vertices and V-1 edges."
+    }
+  ]
+}

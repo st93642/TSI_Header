@@ -1,0 +1,133 @@
+<svg width="920" height="700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .subtitle { font-family: 'Segoe UI', sans-serif; font-size: 14px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .vertex { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .visited { fill: #E94B3C; stroke: #666; stroke-width: 2; }
+      .current { fill: #F5A623; stroke: #666; stroke-width="3"; }
+      .edge { stroke: #666; stroke-width: 2; fill: none; }
+      .traversal-path { stroke: #E94B3C; stroke-width: 3; fill: none; }
+      .queue-stack { fill: #F8F8F8; stroke: #666; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" class="title" text-anchor="middle">Graph Traversal: Breadth-First Search (BFS) vs Depth-First Search (DFS)</text>
+
+  <!-- Sample Graph -->
+  <text x="230" y="60" class="subtitle" text-anchor="middle">Sample Graph</text>
+
+  <!-- Graph vertices -->
+  <circle cx="150" cy="100" r="20" class="vertex" id="v0"/>
+  <circle cx="250" cy="100" r="20" class="vertex" id="v1"/>
+  <circle cx="200" cy="150" r="20" class="vertex" id="v2"/>
+  <circle cx="100" cy="180" r="20" class="vertex" id="v3"/>
+  <circle cx="300" cy="180" r="20" class="vertex" id="v4"/>
+  <circle cx="200" cy="230" r="20" class="vertex" id="v5"/>
+
+  <!-- Vertex labels -->
+  <text x="150" y="107" class="label" text-anchor="middle">0</text>
+  <text x="250" y="107" class="label" text-anchor="middle">1</text>
+  <text x="200" y="157" class="label" text-anchor="middle">2</text>
+  <text x="100" y="187" class="label" text-anchor="middle">3</text>
+  <text x="300" y="187" class="label" text-anchor="middle">4</text>
+  <text x="200" y="237" class="label" text-anchor="middle">5</text>
+
+  <!-- Graph edges -->
+  <line x1="170" y1="100" x2="230" y2="100" class="edge"/>
+  <line x1="170" y1="100" x2="190" y2="130" class="edge"/>
+  <line x1="230" y1="100" x2="210" y2="130" class="edge"/>
+  <line x1="190" y1="170" x2="130" y2="170" class="edge"/>
+  <line x1="210" y1="170" x2="270" y2="170" class="edge"/>
+  <line x1="130" y1="190" x2="190" y2="210" class="edge"/>
+  <line x1="270" y1="190" x2="210" y2="210" class="edge"/>
+  <line x1="190" y1="250" x2="210" y2="250" class="edge"/>
+
+  <!-- BFS Section -->
+  <text x="150" y="320" class="subtitle" text-anchor="middle">Breadth-First Search (BFS)</text>
+  <text x="150" y="340" class="label" text-anchor="middle">Level-by-level exploration using Queue</text>
+
+  <!-- BFS traversal path -->
+  <circle cx="150" cy="100" r="20" class="visited"/>
+  <circle cx="250" cy="100" r="20" class="visited"/>
+  <circle cx="200" cy="150" r="20" class="visited"/>
+  <circle cx="100" cy="180" r="20" class="visited"/>
+  <circle cx="300" cy="180" r="20" class="visited"/>
+  <circle cx="200" cy="230" r="20" class="visited"/>
+
+  <!-- BFS order arrows -->
+  <path d="M 150 120 Q 150 140 130 160" class="traversal-path" marker-end="url(#arrowhead)"/>
+  <path d="M 130 180 Q 130 200 150 220" class="traversal-path"/>
+  <path d="M 150 240 Q 150 260 170 280" class="traversal-path"/>
+
+  <!-- BFS Queue visualization -->
+  <rect x="50" y="360" width="200" height="120" class="queue-stack" rx="5"/>
+  <text x="150" y="375" class="label" text-anchor="middle">Queue State</text>
+  <text x="60" y="395" class="label">Start: [0]</text>
+  <text x="60" y="410" class="label">Visit 0: [1, 2]</text>
+  <text x="60" y="425" class="label">Visit 1: [2, 3, 4]</text>
+  <text x="60" y="440" class="label">Visit 2: [3, 4, 5]</text>
+  <text x="60" y="455" class="label">Visit 3: [4, 5]</text>
+  <text x="60" y="470" class="label">Visit 4: [5]</text>
+  <text x="60" y="485" class="label">Visit 5: []</text>
+
+  <!-- BFS Result -->
+  <text x="150" y="520" class="label" text-anchor="middle">BFS Order: 0 → 1 → 2 → 3 → 4 → 5</text>
+  <text x="150" y="535" class="label" text-anchor="middle">Shortest paths from source</text>
+
+  <!-- DFS Section -->
+  <text x="650" y="320" class="subtitle" text-anchor="middle">Depth-First Search (DFS)</text>
+  <text x="650" y="340" class="label" text-anchor="middle">Deep exploration using Stack/Recursion</text>
+
+  <!-- DFS traversal path -->
+  <circle cx="150" cy="100" r="20" class="visited"/>
+  <circle cx="200" cy="150" r="20" class="visited"/>
+  <circle cx="100" cy="180" r="20" class="visited"/>
+  <circle cx="200" cy="230" r="20" class="visited"/>
+  <circle cx="300" cy="180" r="20" class="visited"/>
+  <circle cx="250" cy="100" r="20" class="visited"/>
+
+  <!-- DFS order arrows -->
+  <path d="M 150 120 Q 150 140 170 160" class="traversal-path" marker-end="url(#arrowhead)"/>
+  <path d="M 170 180 Q 170 200 150 220" class="traversal-path"/>
+  <path d="M 150 240 Q 150 260 170 280" class="traversal-path"/>
+  <path d="M 190 280 Q 210 280 230 260" class="traversal-path"/>
+  <path d="M 250 220 Q 250 200 230 180" class="traversal-path"/>
+  <path d="M 210 160 Q 210 140 230 120" class="traversal-path"/>
+
+  <!-- DFS Stack visualization -->
+  <rect x="550" y="360" width="200" height="120" class="queue-stack" rx="5"/>
+  <text x="650" y="375" class="label" text-anchor="middle">Stack State</text>
+  <text x="560" y="395" class="label">Push 0</text>
+  <text x="560" y="410" class="label">Push 2</text>
+  <text x="560" y="425" class="label">Push 3</text>
+  <text x="560" y="440" class="label">Push 5</text>
+  <text x="560" y="455" class="label">Pop 5, Push 4</text>
+  <text x="560" y="470" class="label">Pop 4, Pop 3, Pop 2</text>
+  <text x="560" y="485" class="label">Push 1, Pop 1, Pop 0</text>
+
+  <!-- DFS Result -->
+  <text x="650" y="520" class="label" text-anchor="middle">DFS Order: 0 → 2 → 3 → 5 → 4 → 1</text>
+  <text x="650" y="535" class="label" text-anchor="middle">Deep exploration, backtracking</text>
+
+  <!-- Comparison -->
+  <text x="460" y="580" class="subtitle" text-anchor="middle">Key Differences</text>
+  <text x="200" y="610" class="label">• Uses Queue (FIFO)</text>
+  <text x="200" y="625" class="label">• Level-by-level exploration</text>
+  <text x="200" y="640" class="label">• Finds shortest paths</text>
+  <text x="200" y="655" class="label">• Good for finding closest nodes</text>
+
+  <text x="600" y="610" class="label">• Uses Stack (LIFO)</text>
+  <text x="600" y="625" class="label">• Deep exploration first</text>
+  <text x="600" y="640" class="label">• Natural for recursion</text>
+  <text x="600" y="655" class="label">• Good for topological sorting</text>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#E94B3C"/>
+    </marker>
+  </defs>
+</svg>

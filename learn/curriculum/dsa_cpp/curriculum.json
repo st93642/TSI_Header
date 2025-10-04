@@ -78,6 +78,64 @@
           "difficulty": "intermediate"
         }
       ]
+    },
+    {
+      "id": "dsa_trees_cpp",
+      "title": "Module 6: Trees - Hierarchical Data Structures",
+      "description": "Explore tree data structures, binary trees, binary search trees, and tree traversal algorithms in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_trees_cpp",
+          "title": "Lesson 6.1: Trees, Binary Trees, and Tree Traversals",
+          "duration": 135,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "dsa_binary_search_trees_cpp",
+          "title": "Lesson 6.2: Binary Search Trees and Balanced Trees",
+          "duration": 145,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_graphs_cpp",
+      "title": "Module 7: Graphs - Network Data Structures",
+      "description": "Master graph theory, representations, traversal algorithms, and cycle detection in modern C++.",
+      "lessons": [
+        {
+          "id": "dsa_graphs_cpp",
+          "title": "Lesson 7.1: Graphs, Representations, and Basic Operations",
+          "duration": 150,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_shortest_path_cpp",
+      "title": "Module 8: Shortest Path Algorithms",
+      "description": "Master shortest path algorithms including Dijkstra's algorithm and Bellman-Ford for finding optimal routes in weighted graphs.",
+      "lessons": [
+        {
+          "id": "dsa_shortest_path_cpp",
+          "title": "Lesson 8.1: Dijkstra's Algorithm and Bellman-Ford",
+          "duration": 155,
+          "difficulty": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "dsa_minimum_spanning_tree_cpp",
+      "title": "Module 9: Minimum Spanning Tree Algorithms",
+      "description": "Master Prim's and Kruskal's algorithms for finding minimum spanning trees in weighted graphs.",
+      "lessons": [
+        {
+          "id": "dsa_minimum_spanning_tree_cpp",
+          "title": "Lesson 9.1: Prim's Algorithm and Kruskal's Algorithm",
+          "duration": 160,
+          "difficulty": "advanced"
+        }
+      ]
     }
   ],
   "prerequisites": [

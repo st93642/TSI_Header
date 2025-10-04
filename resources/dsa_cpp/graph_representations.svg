@@ -1,0 +1,126 @@
+<svg width="920" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #666; }
+      .matrix-text { font-family: 'Fira Sans', monospace; font-size: 12px; fill: #666; text-anchor: middle; }
+      .list-text { font-family: 'Fira Sans', monospace; font-size: 12px; fill: #666; }
+      .vertex { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .edge { stroke: #666; stroke-width: 2; fill: none; }
+      .arrow { fill: #666; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" class="title" text-anchor="middle">Graph Representations: Adjacency Matrix vs Adjacency List</text>
+
+  <!-- Sample Graph -->
+  <text x="230" y="60" class="label" text-anchor="middle">Sample Graph (Vertices: A, B, C, D)</text>
+
+  <!-- Vertices -->
+  <circle cx="150" cy="100" r="20" class="vertex"/>
+  <circle cx="250" cy="100" r="20" class="vertex"/>
+  <circle cx="200" cy="150" r="20" class="vertex"/>
+  <circle cx="200" cy="200" r="20" class="vertex"/>
+
+  <!-- Vertex labels -->
+  <text x="150" y="107" class="label" text-anchor="middle">A</text>
+  <text x="250" y="107" class="label" text-anchor="middle">B</text>
+  <text x="200" y="157" class="label" text-anchor="middle">C</text>
+  <text x="200" y="207" class="label" text-anchor="middle">D</text>
+
+  <!-- Edges -->
+  <line x1="170" y1="100" x2="230" y2="100" class="edge"/>
+  <line x1="170" y1="100" x2="190" y2="130" class="edge"/>
+  <line x1="230" y1="100" x2="210" y2="130" class="edge"/>
+  <line x1="190" y1="170" x2="190" y2="190" class="edge"/>
+  <line x1="210" y1="170" x2="210" y2="190" class="edge"/>
+
+  <!-- Adjacency Matrix Section -->
+  <text x="150" y="280" class="label" text-anchor="middle">Adjacency Matrix</text>
+  <text x="150" y="300" class="label" text-anchor="middle">O(V²) space</text>
+
+  <!-- Matrix grid -->
+  <rect x="80" y="320" width="140" height="140" fill="none" stroke="#666" stroke-width="1"/>
+  <!-- Horizontal lines -->
+  <line x1="80" y1="360" x2="220" y2="360" stroke="#666" stroke-width="1"/>
+  <line x1="80" y1="400" x2="220" y2="400" stroke="#666" stroke-width="1"/>
+  <line x1="80" y1="440" x2="220" y2="440" stroke="#666" stroke-width="1"/>
+  <!-- Vertical lines -->
+  <line x1="120" y1="320" x2="120" y2="460" stroke="#666" stroke-width="1"/>
+  <line x1="160" y1="320" x2="160" y2="460" stroke="#666" stroke-width="1"/>
+  <line x1="200" y1="320" x2="200" y2="460" stroke="#666" stroke-width="1"/>
+
+  <!-- Matrix labels -->
+  <text x="100" y="345" class="matrix-text">A</text>
+  <text x="140" y="345" class="matrix-text">B</text>
+  <text x="180" y="345" class="matrix-text">C</text>
+  <text x="220" y="345" class="matrix-text">D</text>
+
+  <text x="60" y="375" class="matrix-text">A</text>
+  <text x="60" y="415" class="matrix-text">B</text>
+  <text x="60" y="455" class="matrix-text">C</text>
+
+  <!-- Matrix values -->
+  <text x="100" y="375" class="matrix-text">0</text>
+  <text x="140" y="375" class="matrix-text">1</text>
+  <text x="180" y="375" class="matrix-text">1</text>
+  <text x="220" y="375" class="matrix-text">0</text>
+
+  <text x="100" y="415" class="matrix-text">1</text>
+  <text x="140" y="415" class="matrix-text">0</text>
+  <text x="180" y="415" class="matrix-text">1</text>
+  <text x="220" y="415" class="matrix-text">0</text>
+
+  <text x="100" y="455" class="matrix-text">1</text>
+  <text x="140" y="455" class="matrix-text">1</text>
+  <text x="180" y="455" class="matrix-text">0</text>
+  <text x="220" y="455" class="matrix-text">1</text>
+
+  <!-- Adjacency List Section -->
+  <text x="650" y="280" class="label" text-anchor="middle">Adjacency List</text>
+  <text x="650" y="300" class="label" text-anchor="middle">O(V + E) space</text>
+
+  <!-- List structure -->
+  <text x="550" y="330" class="list-text">A → B → C</text>
+  <text x="550" y="350" class="list-text">B → A → C</text>
+  <text x="550" y="370" class="list-text">C → A → B → D</text>
+  <text x="550" y="390" class="list-text">D → C</text>
+
+  <!-- Visual representation -->
+  <circle cx="600" cy="325" r="3" fill="#666"/>
+  <circle cx="620" cy="325" r="3" fill="#666"/>
+  <circle cx="640" cy="325" r="3" fill="#666"/>
+
+  <circle cx="600" cy="345" r="3" fill="#666"/>
+  <circle cx="620" cy="345" r="3" fill="#666"/>
+  <circle cx="640" cy="345" r="3" fill="#666"/>
+
+  <circle cx="600" cy="365" r="3" fill="#666"/>
+  <circle cx="620" cy="365" r="3" fill="#666"/>
+  <circle cx="640" cy="365" r="3" fill="#666"/>
+  <circle cx="660" cy="365" r="3" fill="#666"/>
+
+  <circle cx="600" cy="385" r="3" fill="#666"/>
+  <circle cx="620" cy="385" r="3" fill="#666"/>
+
+  <!-- Arrows -->
+  <polygon points="615,322 625,325 615,328" class="arrow"/>
+  <polygon points="635,322 645,325 635,328" class="arrow"/>
+
+  <polygon points="615,342 625,345 615,348" class="arrow"/>
+  <polygon points="635,342 645,345 635,348" class="arrow"/>
+
+  <polygon points="615,362 625,365 615,368" class="arrow"/>
+  <polygon points="635,362 645,365 635,368" class="arrow"/>
+  <polygon points="655,362 665,365 655,368" class="arrow"/>
+
+  <polygon points="615,382 625,385 615,388" class="arrow"/>
+
+  <!-- Comparison notes -->
+  <text x="230" y="520" class="label">✓ Fast edge lookup: O(1)</text>
+  <text x="230" y="540" class="label">✗ High space usage for sparse graphs</text>
+
+  <text x="650" y="520" class="label">✓ Space efficient for sparse graphs</text>
+  <text x="650" y="540" class="label">✓ Easy to iterate through neighbors</text>
+</svg>

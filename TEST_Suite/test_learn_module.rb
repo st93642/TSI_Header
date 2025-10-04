@@ -175,16 +175,20 @@ class TestLearnModule < TestModule
     @repo_root = Pathname.new(__dir__).parent.expand_path
     @curriculum_cache = {}
 
-  total_tests = LANGUAGE_CONFIG.size * 4 + 6
+    total_tests = LANGUAGE_CONFIG.size * 4 + 10
     start_progress_bar(total_tests, 'Learn Modules')
 
-  index = 0
-  run_test_with_progress('Exercise descriptions audit', total_tests, index += 1) { run_node_test('exercise_descriptions.test.js') }
-  run_test_with_progress('Solution navigation audit', total_tests, index += 1) { run_node_test('solution_navigation.test.js') }
-  run_test_with_progress('Exercise escape integrity', total_tests, index += 1) { run_node_test('exercise_escape_integrity.test.js') }
-  run_test_with_progress('LearnManager starter creation', total_tests, index += 1) { run_node_test('learn_manager_starter_creation.test.js') }
-  run_test_with_progress('Lesson image rendering', total_tests, index += 1) { run_node_test('markdown_image_rendering.test.js') }
-  run_test_with_progress('Quiz exercise flow', total_tests, index += 1) { run_node_test('quiz_exercise_flow.test.js') }
+    index = 0
+    run_test_with_progress('Exercise descriptions audit', total_tests, index += 1) { run_node_test('exercise_descriptions.test.js') }
+    run_test_with_progress('Solution navigation audit', total_tests, index += 1) { run_node_test('solution_navigation.test.js') }
+    run_test_with_progress('Exercise escape integrity', total_tests, index += 1) { run_node_test('exercise_escape_integrity.test.js') }
+    run_test_with_progress('LearnManager starter creation', total_tests, index += 1) { run_node_test('learn_manager_starter_creation.test.js') }
+    run_test_with_progress('Lesson image rendering', total_tests, index += 1) { run_node_test('markdown_image_rendering.test.js') }
+    run_test_with_progress('Quiz exercise flow', total_tests, index += 1) { run_node_test('quiz_exercise_flow.test.js') }
+    run_test_with_progress('Image resource resolver', total_tests, index += 1) { run_node_test('image_resource_resolver.test.js') }
+    run_test_with_progress('Image processing pipeline', total_tests, index += 1) { run_node_test('image_processing_pipeline.test.js') }
+    run_test_with_progress('Complete image loading', total_tests, index += 1) { run_node_test('complete_image_loading.test.js') }
+    run_test_with_progress('SVG loading validation', total_tests, index += 1) { run_node_test('svg_loading_validation.test.js') }
     LANGUAGE_CONFIG.each do |lang, lang_config|
       run_test_with_progress("#{lang_config[:language]} curriculum", total_tests, index += 1) { validate_curriculum(lang, lang_config) }
       run_test_with_progress("#{lang_config[:language]} lessons", total_tests, index += 1) { validate_lessons(lang, lang_config) }

@@ -1,0 +1,30 @@
+{
+  "id": "dsa_graphs_cpp_exercise",
+  "mode": "quiz",
+  "title": "Graphs, Representations, and Basic Operations - Solutions",
+  "description": "Complete solutions and detailed explanations for the graphs quiz.",
+  "answerKey": {
+    "graph_components": "option_b",
+    "adjacency_matrix_space": "option_c",
+    "adjacency_list_space": "option_b",
+    "bfs_vs_dfs": "option_b",
+    "dfs_data_structure": "option_b",
+    "graph_representation_choice": "option_b",
+    "connected_components": "option_c",
+    "cycle_detection": "option_b",
+    "graph_applications": ["option_a", "option_b", "option_c"],
+    "tree_properties": "option_b"
+  },
+  "keyPoints": [
+    "Graphs consist of vertices (nodes) and edges (relationships) that model complex networks and relationships",
+    "Adjacency matrices provide O(1) edge lookup but require O(V²) space, suitable for dense graphs",
+    "Adjacency lists use O(V + E) space with O(degree) neighbor access, ideal for sparse graphs",
+    "Breadth-First Search (BFS) explores level by level using a queue, finding shortest paths in unweighted graphs",
+    "Depth-First Search (DFS) explores deeply using a stack, useful for topological sorting and cycle detection",
+    "Graph representation choice depends on density: lists for sparse graphs, matrices for dense graphs",
+    "Connected components represent separate subgraphs in undirected graphs, counted using DFS/BFS",
+    "Cycle detection identifies back edges during traversal, crucial for many graph algorithms",
+    "Graphs model real-world systems: social networks, transportation, web structure, dependencies",
+    "Trees are special graphs that are connected and acyclic, with V vertices and V-1 edges"
+  ]
+}

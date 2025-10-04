@@ -1,0 +1,224 @@
+<svg width="920" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .step-title { font-family: 'Segoe UI', sans-serif; font-size: 14px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .vertex { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .visited { fill: #E94B3C; stroke: #666; stroke-width: 2; }
+      .current { fill: #F5A623; stroke: #666; stroke-width: 3; }
+      .edge { stroke: #666; stroke-width: 2; fill: none; }
+      .weight { font-family: 'Segoe UI', sans-serif; font-size: 10px; fill: #666; font-weight: bold; }
+      .distance { font-family: 'Segoe UI', sans-serif; font-size: 10px; fill: #666; }
+      .step-box { fill: #F8F8F8; stroke: #666; stroke-width: 1; }
+      .priority-queue { fill: #FFFFFF; stroke: #666; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" class="title" text-anchor="middle">Dijkstra's Algorithm Execution</text>
+  <text x="460" y="50" class="label" text-anchor="middle">Finding shortest path from A to all vertices</text>
+
+  <!-- Step 1: Initialization -->
+  <text x="150" y="80" class="step-title" text-anchor="middle">Step 1: Initialization</text>
+
+  <!-- Initial graph -->
+  <circle cx="100" cy="110" r="15" class="current"/>
+  <circle cx="200" cy="110" r="15" class="vertex"/>
+  <circle cx="150" cy="160" r="15" class="vertex"/>
+  <circle cx="250" cy="160" r="15" class="vertex"/>
+
+  <text x="100" y="115" class="label" text-anchor="middle">A</text>
+  <text x="200" y="115" class="label" text-anchor="middle">B</text>
+  <text x="150" y="165" class="label" text-anchor="middle">C</text>
+  <text x="250" y="165" class="label" text-anchor="middle">D</text>
+
+  <text x="100" y="140" class="distance" text-anchor="middle">0</text>
+  <text x="200" y="140" class="distance" text-anchor="middle">∞</text>
+  <text x="150" y="190" class="distance" text-anchor="middle">∞</text>
+  <text x="250" y="190" class="distance" text-anchor="middle">∞</text>
+
+  <line x1="115" y1="110" x2="185" y2="110" class="edge"/>
+  <text x="150" y="105" class="weight" text-anchor="middle">4</text>
+
+  <line x1="115" y1="110" x2="135" y2="145" class="edge"/>
+  <text x="120" y="130" class="weight" text-anchor="middle">2</text>
+
+  <line x1="185" y1="110" x2="165" y2="145" class="edge"/>
+  <text x="180" y="130" class="weight" text-anchor="middle">5</text>
+
+  <line x1="165" y1="175" x2="235" y2="145" class="edge"/>
+  <text x="205" y="165" class="weight" text-anchor="middle">3</text>
+
+  <!-- Priority Queue -->
+  <rect x="50" y="200" width="200" height="40" class="priority-queue"/>
+  <text x="150" y="215" class="label" text-anchor="middle">Priority Queue: [A:0]</text>
+  <text x="150" y="230" class="label" text-anchor="middle">Visited: []</text>
+
+  <!-- Step 2: Visit A -->
+  <text x="450" y="80" class="step-title" text-anchor="middle">Step 2: Visit A (distance 0)</text>
+
+  <!-- Graph after visiting A -->
+  <circle cx="400" cy="110" r="15" class="visited"/>
+  <circle cx="500" cy="110" r="15" class="vertex"/>
+  <circle cx="450" cy="160" r="15" class="current"/>
+  <circle cx="550" cy="160" r="15" class="vertex"/>
+
+  <text x="400" y="115" class="label" text-anchor="middle">A</text>
+  <text x="500" y="115" class="label" text-anchor="middle">B</text>
+  <text x="450" y="165" class="label" text-anchor="middle">C</text>
+  <text x="550" y="165" class="label" text-anchor="middle">D</text>
+
+  <text x="400" y="140" class="distance" text-anchor="middle">0</text>
+  <text x="500" y="140" class="distance" text-anchor="middle">4</text>
+  <text x="450" y="190" class="distance" text-anchor="middle">2</text>
+  <text x="550" y="190" class="distance" text-anchor="middle">∞</text>
+
+  <line x1="415" y1="110" x2="485" y2="110" class="edge"/>
+  <text x="450" y="105" class="weight" text-anchor="middle">4</text>
+
+  <line x1="415" y1="110" x2="435" y2="145" class="edge"/>
+  <text x="420" y="130" class="weight" text-anchor="middle">2</text>
+
+  <line x1="485" y1="110" x2="465" y2="145" class="edge"/>
+  <text x="480" y="130" class="weight" text-anchor="middle">5</text>
+
+  <line x1="465" y1="175" x2="535" y2="145" class="edge"/>
+  <text x="505" y="165" class="weight" text-anchor="middle">3</text>
+
+  <!-- Priority Queue -->
+  <rect x="350" y="200" width="250" height="40" class="priority-queue"/>
+  <text x="475" y="215" class="label" text-anchor="middle">Priority Queue: [C:2, B:4]</text>
+  <text x="475" y="230" class="label" text-anchor="middle">Visited: [A]</text>
+
+  <!-- Step 3: Visit C -->
+  <text x="750" y="80" class="step-title" text-anchor="middle">Step 3: Visit C (distance 2)</text>
+
+  <!-- Graph after visiting C -->
+  <circle cx="700" cy="110" r="15" class="visited"/>
+  <circle cx="800" cy="110" r="15" class="vertex"/>
+  <circle cx="750" cy="160" r="15" class="visited"/>
+  <circle cx="850" cy="160" r="15" class="current"/>
+
+  <text x="700" y="115" class="label" text-anchor="middle">A</text>
+  <text x="800" y="115" class="label" text-anchor="middle">B</text>
+  <text x="750" y="165" class="label" text-anchor="middle">C</text>
+  <text x="850" y="165" class="label" text-anchor="middle">D</text>
+
+  <text x="700" y="140" class="distance" text-anchor="middle">0</text>
+  <text x="800" y="140" class="distance" text-anchor="middle">4</text>
+  <text x="750" y="190" class="distance" text-anchor="middle">2</text>
+  <text x="850" y="190" class="distance" text-anchor="middle">5</text>
+
+  <line x1="715" y1="110" x2="785" y2="110" class="edge"/>
+  <text x="750" y="105" class="weight" text-anchor="middle">4</text>
+
+  <line x1="715" y1="110" x2="735" y2="145" class="edge"/>
+  <text x="720" y="130" class="weight" text-anchor="middle">2</text>
+
+  <line x1="785" y1="110" x2="765" y2="145" class="edge"/>
+  <text x="780" y="130" class="weight" text-anchor="middle">5</text>
+
+  <line x1="765" y1="175" x2="835" y2="145" class="edge"/>
+  <text x="805" y="165" class="weight" text-anchor="middle">3</text>
+
+  <!-- Priority Queue -->
+  <rect x="650" y="200" width="250" height="40" class="priority-queue"/>
+  <text x="775" y="215" class="label" text-anchor="middle">Priority Queue: [B:4, D:5]</text>
+  <text x="775" y="230" class="label" text-anchor="middle">Visited: [A, C]</text>
+
+  <!-- Step 4: Visit B -->
+  <text x="150" y="280" class="step-title" text-anchor="middle">Step 4: Visit B (distance 4)</text>
+
+  <!-- Graph after visiting B -->
+  <circle cx="100" cy="310" r="15" class="visited"/>
+  <circle cx="200" cy="310" r="15" class="visited"/>
+  <circle cx="150" cy="360" r="15" class="visited"/>
+  <circle cx="250" cy="360" r="15" class="vertex"/>
+
+  <text x="100" y="315" class="label" text-anchor="middle">A</text>
+  <text x="200" y="315" class="label" text-anchor="middle">B</text>
+  <text x="150" y="365" class="label" text-anchor="middle">C</text>
+  <text x="250" y="365" class="label" text-anchor="middle">D</text>
+
+  <text x="100" y="340" class="distance" text-anchor="middle">0</text>
+  <text x="200" y="340" class="distance" text-anchor="middle">4</text>
+  <text x="150" y="390" class="distance" text-anchor="middle">2</text>
+  <text x="250" y="390" class="distance" text-anchor="middle">5</text>
+
+  <line x1="115" y1="310" x2="185" y2="310" class="edge"/>
+  <text x="150" y="305" class="weight" text-anchor="middle">4</text>
+
+  <line x1="115" y1="310" x2="135" y2="345" class="edge"/>
+  <text x="120" y="330" class="weight" text-anchor="middle">2</text>
+
+  <line x1="185" y1="310" x2="165" y2="345" class="edge"/>
+  <text x="180" y="330" class="weight" text-anchor="middle">5</text>
+
+  <line x1="165" y1="375" x2="235" y2="345" class="edge"/>
+  <text x="205" y="365" class="weight" text-anchor="middle">3</text>
+
+  <!-- Priority Queue -->
+  <rect x="50" y="400" width="200" height="40" class="priority-queue"/>
+  <text x="150" y="415" class="label" text-anchor="middle">Priority Queue: [D:5]</text>
+  <text x="150" y="430" class="label" text-anchor="middle">Visited: [A, C, B]</text>
+
+  <!-- Step 5: Visit D -->
+  <text x="450" y="280" class="step-title" text-anchor="middle">Step 5: Visit D (distance 5)</text>
+
+  <!-- Final graph -->
+  <circle cx="400" cy="310" r="15" class="visited"/>
+  <circle cx="500" cy="310" r="15" class="visited"/>
+  <circle cx="450" cy="360" r="15" class="visited"/>
+  <circle cx="550" cy="360" r="15" class="visited"/>
+
+  <text x="400" y="315" class="label" text-anchor="middle">A</text>
+  <text x="500" y="315" class="label" text-anchor="middle">B</text>
+  <text x="450" y="365" class="label" text-anchor="middle">C</text>
+  <text x="550" y="365" class="label" text-anchor="middle">D</text>
+
+  <text x="400" y="340" class="distance" text-anchor="middle">0</text>
+  <text x="500" y="340" class="distance" text-anchor="middle">4</text>
+  <text x="450" y="390" class="distance" text-anchor="middle">2</text>
+  <text x="550" y="390" class="distance" text-anchor="middle">5</text>
+
+  <line x1="415" y1="310" x2="485" y2="310" class="edge"/>
+  <text x="450" y="305" class="weight" text-anchor="middle">4</text>
+
+  <line x1="415" y1="310" x2="435" y2="345" class="edge"/>
+  <text x="420" y="330" class="weight" text-anchor="middle">2</text>
+
+  <line x1="485" y1="310" x2="465" y2="345" class="edge"/>
+  <text x="480" y="330" class="weight" text-anchor="middle">5</text>
+
+  <line x1="465" y1="375" x2="535" y2="345" class="edge"/>
+  <text x="505" y="365" class="weight" text-anchor="middle">3</text>
+
+  <!-- Final Priority Queue -->
+  <rect x="350" y="400" width="200" height="40" class="priority-queue"/>
+  <text x="450" y="415" class="label" text-anchor="middle">Priority Queue: []</text>
+  <text x="450" y="430" class="label" text-anchor="middle">Visited: [A, C, B, D]</text>
+
+  <!-- Final Result -->
+  <text x="750" y="280" class="step-title" text-anchor="middle">Final Result</text>
+  <rect x="650" y="290" width="220" height="150" class="step-box"/>
+  <text x="760" y="310" class="label" text-anchor="middle">Shortest Distances from A:</text>
+  <text x="760" y="330" class="label" text-anchor="middle">A: 0</text>
+  <text x="760" y="345" class="label" text-anchor="middle">B: 4 (via A→B)</text>
+  <text x="760" y="360" class="label" text-anchor="middle">C: 2 (via A→C)</text>
+  <text x="760" y="375" class="label" text-anchor="middle">D: 5 (via A→C→D)</text>
+  <text x="760" y="395" class="label" text-anchor="middle">Time Complexity: O((V+E) log V)</text>
+  <text x="760" y="410" class="label" text-anchor="middle">Space Complexity: O(V)</text>
+
+  <!-- Algorithm Summary -->
+  <text x="460" y="480" class="step-title" text-anchor="middle">Dijkstra's Algorithm Summary</text>
+  <text x="200" y="500" class="label">1. Initialize distances: source=0, others=∞</text>
+  <text x="200" y="515" class="label">2. Use priority queue to select closest unvisited vertex</text>
+  <text x="200" y="530" class="label">3. Update distances to neighbors if shorter path found</text>
+  <text x="200" y="545" class="label">4. Repeat until all vertices visited</text>
+
+  <text x="720" y="500" class="label">• Greedy algorithm with priority queue</text>
+  <text x="720" y="515" class="label">• Optimal for non-negative edge weights</text>
+  <text x="720" y="530" class="label">• Cannot handle negative cycles</text>
+  <text x="720" y="545" class="label">• Widely used in GPS and network routing</text>
+</svg>

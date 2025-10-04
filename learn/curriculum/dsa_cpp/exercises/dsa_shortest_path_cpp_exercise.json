@@ -1,0 +1,275 @@
+{
+  "mode": "quiz",
+  "questions": [
+    {
+      "id": "dijkstra_negative_edges",
+      "question": "Which of the following is true about Dijkstra's algorithm?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It can handle negative edge weights",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "It uses a priority queue to always select the closest vertex",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "It has O(V^2) time complexity",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "It can detect negative cycles",
+          "correct": false
+        }
+      ],
+      "explanation": "Dijkstra's algorithm uses a priority queue (min-heap) to greedily select the vertex with the smallest tentative distance. It cannot handle negative edge weights and will produce incorrect results if they exist."
+    },
+    {
+      "id": "bellman_ford_capability",
+      "question": "What makes Bellman-Ford algorithm different from Dijkstra's?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It uses a priority queue",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "It can handle negative edge weights",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "It has better time complexity",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "It cannot find shortest paths",
+          "correct": false
+        }
+      ],
+      "explanation": "Bellman-Ford can handle graphs with negative edge weights, unlike Dijkstra's algorithm. It relaxes all edges |V|-1 times and can detect negative cycles."
+    },
+    {
+      "id": "shortest_path_complexity",
+      "question": "What is the time complexity of Dijkstra's algorithm with a binary heap?",
+      "options": [
+        {
+          "id": "a",
+          "text": "O(V^2)",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "O((V + E) log V)",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "O(V × E)",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "O(E log V)",
+          "correct": false
+        }
+      ],
+      "explanation": "With a binary heap (priority queue), Dijkstra's algorithm runs in O((V + E) log V) time. Using a Fibonacci heap can improve this to O(E + V log V)."
+    },
+    {
+      "id": "negative_cycle_detection",
+      "question": "How does Bellman-Ford detect negative cycles?",
+      "options": [
+        {
+          "id": "a",
+          "text": "By checking if any distance becomes negative",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "By attempting one more relaxation after |V|-1 iterations",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "By using a priority queue",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "By checking edge weights during initialization",
+          "correct": false
+        }
+      ],
+      "explanation": "After |V|-1 relaxation iterations, Bellman-Ford performs one more iteration. If any distance can still be updated, a negative cycle exists."
+    },
+    {
+      "id": "algorithm_choice",
+      "question": "When should you choose Dijkstra's over Bellman-Ford?",
+      "options": [
+        {
+          "id": "a",
+          "text": "When the graph has negative cycles",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "When all edge weights are non-negative",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "When you need to detect negative cycles",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "When the graph is dense",
+          "correct": false
+        }
+      ],
+      "explanation": "Dijkstra's algorithm is preferred for graphs with non-negative edge weights because it runs faster (O((V+E) log V)) than Bellman-Ford (O(V×E))."
+    },
+    {
+      "id": "gps_application",
+      "question": "Which shortest path algorithm is most commonly used in GPS navigation systems?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Bellman-Ford",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "Dijkstra's with A* optimization",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Bellman-Ford with Fibonacci heap",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "Basic Dijkstra's without heap",
+          "correct": false
+        }
+      ],
+      "explanation": "GPS systems typically use Dijkstra's algorithm with A* heuristic optimization for faster pathfinding in road networks with non-negative distances."
+    },
+    {
+      "id": "arbitrage_detection",
+      "question": "In financial applications, negative cycles in currency exchange graphs indicate:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Market equilibrium",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "Arbitrage opportunities",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Currency devaluation",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "Trading losses",
+          "correct": false
+        }
+      ],
+      "explanation": "A negative cycle in currency exchange rates means you can start with some amount of currency, exchange it around the cycle, and end up with more than you started - an arbitrage opportunity."
+    },
+    {
+      "id": "space_complexity",
+      "question": "What is the space complexity of both Dijkstra's and Bellman-Ford algorithms?",
+      "options": [
+        {
+          "id": "a",
+          "text": "O(1)",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "O(V)",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "O(E)",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "O(V + E)",
+          "correct": false
+        }
+      ],
+      "explanation": "Both algorithms use O(V) space for storing distances, parents, and visited arrays. Dijkstra's also uses a priority queue, but this doesn't change the asymptotic complexity."
+    },
+    {
+      "id": "dense_graph_optimization",
+      "question": "For dense graphs (E ≈ V²), which Dijkstra implementation is most efficient?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Binary heap implementation",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "Adjacency matrix with simple array",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Fibonacci heap implementation",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "Bellman-Ford algorithm",
+          "correct": false
+        }
+      ],
+      "explanation": "For dense graphs, using an adjacency matrix with a simple array to find minimum distances (O(V²) total) can be more efficient than heap operations."
+    },
+    {
+      "id": "single_source_vs_all_pairs",
+      "question": "Both Dijkstra's and Bellman-Ford solve which type of shortest path problem?",
+      "options": [
+        {
+          "id": "a",
+          "text": "All-pairs shortest paths",
+          "correct": false
+        },
+        {
+          "id": "b",
+          "text": "Single-source shortest paths",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Single-pair shortest paths",
+          "correct": false
+        },
+        {
+          "id": "d",
+          "text": "Minimum spanning tree",
+          "correct": false
+        }
+      ],
+      "explanation": "Both algorithms find shortest paths from a single source vertex to all other vertices in the graph. All-pairs problems require different algorithms like Floyd-Warshall."
+    }
+  ]
+}

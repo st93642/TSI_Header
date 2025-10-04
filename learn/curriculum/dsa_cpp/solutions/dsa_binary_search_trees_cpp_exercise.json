@@ -1,0 +1,30 @@
+{
+  "id": "dsa_binary_search_trees_cpp_exercise",
+  "mode": "quiz",
+  "title": "Binary Search Trees and Balanced Trees - Solutions",
+  "description": "Complete solutions and detailed explanations for the BST and balanced trees quiz.",
+  "answerKey": {
+    "bst_property": "option_b",
+    "bst_search_complexity": "option_b",
+    "bst_deletion_cases": ["option_a", "option_b", "option_c"],
+    "inorder_successor": "option_b",
+    "bst_worst_case": "option_b",
+    "avl_tree_balance": "option_b",
+    "red_black_properties": ["option_a", "option_b", "option_c", "option_d"],
+    "tree_rotations": "option_b",
+    "bst_applications": ["option_a", "option_b", "option_c"],
+    "performance_comparison": "option_b"
+  },
+  "keyPoints": [
+    "Binary Search Trees maintain an ordering property where left subtree values < node value < right subtree values",
+    "Balanced BSTs guarantee O(log n) performance for search, insert, and delete operations",
+    "AVL trees maintain strict balance with height differences ≤ 1, using rotations to restore balance",
+    "Red-Black trees use color properties and relaxed balance constraints for efficient balancing",
+    "Tree rotations are fundamental operations that restructure trees while preserving BST ordering",
+    "Unbalanced BSTs can degenerate to O(n) performance when insertions follow sorted order",
+    "BST deletion requires different strategies for nodes with 0, 1, or 2 children",
+    "The inorder successor (minimum value in right subtree) is used when deleting nodes with two children",
+    "BSTs are fundamental to database indexing, symbol tables, and ordered data structures",
+    "Choosing between AVL and Red-Black trees involves trade-offs in balance strictness and operation complexity"
+  ]
+}

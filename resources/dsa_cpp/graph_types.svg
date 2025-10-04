@@ -1,0 +1,177 @@
+<svg width="920" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .subtitle { font-family: 'Segoe UI', sans-serif; font-size: 14px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .vertex { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .edge { stroke: #666; stroke-width: 2; fill: none; }
+      .directed-edge { stroke: #666; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .weighted-edge { stroke: #666; stroke-width: 2; fill: none; }
+      .weight-label { font-family: 'Segoe UI', sans-serif; font-size: 10px; fill: #666; font-weight: bold; }
+      .section-bg { fill: #F8F8F8; stroke: #666; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" class="title" text-anchor="middle">Graph Types: Understanding Different Graph Representations</text>
+
+  <!-- Undirected Unweighted -->
+  <rect x="20" y="50" width="420" height="220" class="section-bg" rx="10"/>
+  <text x="230" y="75" class="subtitle" text-anchor="middle">Undirected Unweighted Graph</text>
+  <text x="230" y="90" class="label" text-anchor="middle">Edges have no direction or weight</text>
+
+  <!-- Undirected vertices -->
+  <circle cx="100" cy="120" r="15" class="vertex"/>
+  <circle cx="200" cy="120" r="15" class="vertex"/>
+  <circle cx="150" cy="170" r="15" class="vertex"/>
+  <circle cx="300" cy="170" r="15" class="vertex"/>
+  <circle cx="200" cy="220" r="15" class="vertex"/>
+
+  <!-- Vertex labels -->
+  <text x="100" y="125" class="label" text-anchor="middle">A</text>
+  <text x="200" y="125" class="label" text-anchor="middle">B</text>
+  <text x="150" y="175" class="label" text-anchor="middle">C</text>
+  <text x="300" y="175" class="label" text-anchor="middle">D</text>
+  <text x="200" y="225" class="label" text-anchor="middle">E</text>
+
+  <!-- Undirected edges -->
+  <line x1="115" y1="120" x2="185" y2="120" class="edge"/>
+  <line x1="115" y1="120" x2="140" y2="155" class="edge"/>
+  <line x1="185" y1="120" x2="160" y2="155" class="edge"/>
+  <line x1="140" y1="185" x2="285" y2="170" class="edge"/>
+  <line x1="160" y1="185" x2="185" y2="205" class="edge"/>
+  <line x1="215" y1="120" x2="285" y2="155" class="edge"/>
+  <line x1="285" y1="185" x2="215" y2="205" class="edge"/>
+
+  <!-- Undirected properties -->
+  <text x="50" y="270" class="label">• Bidirectional connections</text>
+  <text x="50" y="285" class="label">• No edge weights</text>
+  <text x="50" y="300" class="label">• Social networks, friendships</text>
+
+  <!-- Directed Unweighted -->
+  <rect x="480" y="50" width="420" height="220" class="section-bg" rx="10"/>
+  <text x="690" y="75" class="subtitle" text-anchor="middle">Directed Unweighted Graph</text>
+  <text x="690" y="90" class="label" text-anchor="middle">Edges have direction but no weight</text>
+
+  <!-- Directed vertices -->
+  <circle cx="560" cy="120" r="15" class="vertex"/>
+  <circle cx="660" cy="120" r="15" class="vertex"/>
+  <circle cx="610" cy="170" r="15" class="vertex"/>
+  <circle cx="760" cy="170" r="15" class="vertex"/>
+  <circle cx="660" cy="220" r="15" class="vertex"/>
+
+  <!-- Vertex labels -->
+  <text x="560" y="125" class="label" text-anchor="middle">A</text>
+  <text x="660" y="125" class="label" text-anchor="middle">B</text>
+  <text x="610" y="175" class="label" text-anchor="middle">C</text>
+  <text x="760" y="175" class="label" text-anchor="middle">D</text>
+  <text x="660" y="225" class="label" text-anchor="middle">E</text>
+
+  <!-- Directed edges -->
+  <line x1="575" y1="120" x2="645" y2="120" class="directed-edge"/>
+  <line x1="575" y1="120" x2="600" y2="155" class="directed-edge"/>
+  <line x1="645" y1="120" x2="620" y2="155" class="directed-edge"/>
+  <line x1="600" y1="185" x2="745" y2="170" class="directed-edge"/>
+  <line x1="620" y1="185" x2="645" y2="205" class="directed-edge"/>
+  <line x1="675" y1="120" x2="745" y2="155" class="directed-edge"/>
+  <line x1="745" y1="185" x2="675" y2="205" class="directed-edge"/>
+  <line x1="620" y1="155" x2="575" y2="135" class="directed-edge"/>
+  <line x1="645" y1="205" x2="675" y2="135" class="directed-edge"/>
+
+  <!-- Directed properties -->
+  <text x="510" y="270" class="label">• One-way connections</text>
+  <text x="510" y="285" class="label">• No edge weights</text>
+  <text x="510" y="300" class="label">• Web page links, dependencies</text>
+
+  <!-- Undirected Weighted -->
+  <rect x="20" y="330" width="420" height="220" class="section-bg" rx="10"/>
+  <text x="230" y="355" class="subtitle" text-anchor="middle">Undirected Weighted Graph</text>
+  <text x="230" y="370" class="label" text-anchor="middle">Edges have weights but no direction</text>
+
+  <!-- Weighted undirected vertices -->
+  <circle cx="100" cy="400" r="15" class="vertex"/>
+  <circle cx="200" cy="400" r="15" class="vertex"/>
+  <circle cx="150" cy="450" r="15" class="vertex"/>
+  <circle cx="300" cy="450" r="15" class="vertex"/>
+  <circle cx="200" cy="500" r="15" class="vertex"/>
+
+  <!-- Vertex labels -->
+  <text x="100" y="405" class="label" text-anchor="middle">A</text>
+  <text x="200" y="405" class="label" text-anchor="middle">B</text>
+  <text x="150" y="455" class="label" text-anchor="middle">C</text>
+  <text x="300" y="455" class="label" text-anchor="middle">D</text>
+  <text x="200" y="505" class="label" text-anchor="middle">E</text>
+
+  <!-- Weighted undirected edges -->
+  <line x1="115" y1="400" x2="185" y2="400" class="weighted-edge"/>
+  <text x="150" y="395" class="weight-label" text-anchor="middle">5</text>
+  <line x1="115" y1="400" x2="140" y2="435" class="weighted-edge"/>
+  <text x="120" y="425" class="weight-label" text-anchor="middle">3</text>
+  <line x1="185" y1="400" x2="160" y2="435" class="weighted-edge"/>
+  <text x="180" y="425" class="weight-label" text-anchor="middle">2</text>
+  <line x1="140" y1="465" x2="285" y2="450" class="weighted-edge"/>
+  <text x="215" y="460" class="weight-label" text-anchor="middle">4</text>
+  <line x1="160" y1="465" x2="185" y2="485" class="weighted-edge"/>
+  <text x="175" y="480" class="weight-label" text-anchor="middle">6</text>
+  <line x1="215" y1="400" x2="285" y2="435" class="weighted-edge"/>
+  <text x="255" y="425" class="weight-label" text-anchor="middle">7</text>
+  <line x1="285" y1="465" x2="215" y2="485" class="weighted-edge"/>
+  <text x="245" y="485" class="weight-label" text-anchor="middle">1</text>
+
+  <!-- Weighted undirected properties -->
+  <text x="50" y="550" class="label">• Bidirectional with costs</text>
+  <text x="50" y="565" class="label">• Edge weights (distance, cost, time)</text>
+  <text x="50" y="580" class="label">• Road networks, communication costs</text>
+
+  <!-- Directed Weighted -->
+  <rect x="480" y="330" width="420" height="220" class="section-bg" rx="10"/>
+  <text x="690" y="355" class="subtitle" text-anchor="middle">Directed Weighted Graph</text>
+  <text x="690" y="370" class="label" text-anchor="middle">Edges have both direction and weights</text>
+
+  <!-- Weighted directed vertices -->
+  <circle cx="560" cy="400" r="15" class="vertex"/>
+  <circle cx="660" cy="400" r="15" class="vertex"/>
+  <circle cx="610" cy="450" r="15" class="vertex"/>
+  <circle cx="760" cy="450" r="15" class="vertex"/>
+  <circle cx="660" cy="500" r="15" class="vertex"/>
+
+  <!-- Vertex labels -->
+  <text x="560" y="405" class="label" text-anchor="middle">A</text>
+  <text x="660" y="405" class="label" text-anchor="middle">B</text>
+  <text x="610" y="455" class="label" text-anchor="middle">C</text>
+  <text x="760" y="455" class="label" text-anchor="middle">D</text>
+  <text x="660" y="505" class="label" text-anchor="middle">E</text>
+
+  <!-- Weighted directed edges -->
+  <line x1="575" y1="400" x2="645" y2="400" class="directed-edge"/>
+  <text x="610" y="395" class="weight-label" text-anchor="middle">5</text>
+  <line x1="575" y1="400" x2="600" y2="435" class="directed-edge"/>
+  <text x="580" y="425" class="weight-label" text-anchor="middle">3</text>
+  <line x1="645" y1="400" x2="620" y2="435" class="directed-edge"/>
+  <text x="640" y="425" class="weight-label" text-anchor="middle">2</text>
+  <line x1="600" y1="465" x2="745" y2="450" class="directed-edge"/>
+  <text x="675" y="460" class="weight-label" text-anchor="middle">4</text>
+  <line x1="620" y1="465" x2="645" y2="485" class="directed-edge"/>
+  <text x="635" y="480" class="weight-label" text-anchor="middle">6</text>
+  <line x1="675" y1="400" x2="745" y2="435" class="directed-edge"/>
+  <text x="715" y="425" class="weight-label" text-anchor="middle">7</text>
+  <line x1="745" y1="465" x2="675" y2="485" class="directed-edge"/>
+  <text x="705" y="485" class="weight-label" text-anchor="middle">1</text>
+  <line x1="620" y1="435" x2="575" y2="415" class="directed-edge"/>
+  <text x="595" y="430" class="weight-label" text-anchor="middle">8</text>
+  <line x1="645" y1="485" x2="675" y2="415" class="directed-edge"/>
+  <text x="665" y="455" class="weight-label" text-anchor="middle">9</text>
+
+  <!-- Weighted directed properties -->
+  <text x="510" y="550" class="label">• One-way with costs</text>
+  <text x="510" y="565" class="label">• Directed edge weights</text>
+  <text x="510" y="580" class="label">• Flight routes, traffic flow</text>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+</svg>

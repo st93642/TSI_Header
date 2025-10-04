@@ -1,0 +1,166 @@
+<svg width="920" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .algorithm-title { font-family: 'Segoe UI', sans-serif; font-size: 16px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .feature { font-family: 'Segoe UI', sans-serif; font-size: 11px; fill: #666; }
+      .vertex { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .dijkstra-color { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .bellman-color { fill: #F5A623; stroke: #666; stroke-width: 2; }
+      .edge { stroke: #666; stroke-width: 2; fill: none; }
+      .negative-edge { stroke: #E94B3C; stroke-width: 2; fill: none; }
+      .table-border { stroke: #666; stroke-width: 1; fill: none; }
+      .table-header { fill: #F8F8F8; stroke: #666; stroke-width: 1; }
+      .table-cell { fill: #FFFFFF; stroke: #666; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" class="title" text-anchor="middle">Dijkstra's Algorithm vs Bellman-Ford Algorithm</text>
+
+  <!-- Dijkstra Section -->
+  <text x="230" y="60" class="algorithm-title" text-anchor="middle">Dijkstra's Algorithm</text>
+  <text x="230" y="75" class="label" text-anchor="middle">Greedy approach for non-negative weights</text>
+
+  <!-- Dijkstra Graph -->
+  <circle cx="150" cy="100" r="12" class="dijkstra-color"/>
+  <circle cx="230" cy="100" r="12" class="dijkstra-color"/>
+  <circle cx="190" cy="140" r="12" class="dijkstra-color"/>
+  <circle cx="310" cy="140" r="12" class="dijkstra-color"/>
+
+  <text x="150" y="105" class="label" text-anchor="middle">A</text>
+  <text x="230" y="105" class="label" text-anchor="middle">B</text>
+  <text x="190" y="145" class="label" text-anchor="middle">C</text>
+  <text x="310" y="145" class="label" text-anchor="middle">D</text>
+
+  <line x1="162" y1="100" x2="218" y2="100" class="edge"/>
+  <text x="190" y="95" class="feature" text-anchor="middle">5</text>
+
+  <line x1="162" y1="100" x2="178" y2="128" class="edge"/>
+  <text x="165" y="120" class="feature" text-anchor="middle">3</text>
+
+  <line x1="218" y1="100" x2="202" y2="128" class="edge"/>
+  <text x="215" y="120" class="feature" text-anchor="middle">2</text>
+
+  <line x1="202" y1="152" x2="298" y2="128" class="edge"/>
+  <text x="255" y="145" class="feature" text-anchor="middle">4</text>
+
+  <!-- Dijkstra Features -->
+  <text x="230" y="180" class="feature">• Uses Priority Queue (Min-Heap)</text>
+  <text x="230" y="195" class="feature">• Greedy: Always picks closest vertex</text>
+  <text x="230" y="210" class="feature">• Time: O((V + E) log V)</text>
+  <text x="230" y="225" class="feature">• Cannot handle negative weights</text>
+  <text x="230" y="240" class="feature">• Optimal for GPS, networks</text>
+
+  <!-- Bellman-Ford Section -->
+  <text x="690" y="60" class="algorithm-title" text-anchor="middle">Bellman-Ford Algorithm</text>
+  <text x="690" y="75" class="label" text-anchor="middle">Dynamic programming for general graphs</text>
+
+  <!-- Bellman-Ford Graph -->
+  <circle cx="610" cy="100" r="12" class="bellman-color"/>
+  <circle cx="690" cy="100" r="12" class="bellman-color"/>
+  <circle cx="650" cy="140" r="12" class="bellman-color"/>
+  <circle cx="770" cy="140" r="12" class="bellman-color"/>
+
+  <text x="610" y="105" class="label" text-anchor="middle">A</text>
+  <text x="690" y="105" class="label" text-anchor="middle">B</text>
+  <text x="650" y="145" class="label" text-anchor="middle">C</text>
+  <text x="770" y="145" class="label" text-anchor="middle">D</text>
+
+  <line x1="622" y1="100" x2="678" y2="100" class="edge"/>
+  <text x="650" y="95" class="feature" text-anchor="middle">5</text>
+
+  <line x1="622" y1="100" x2="638" y2="128" class="edge"/>
+  <text x="625" y="120" class="feature" text-anchor="middle">3</text>
+
+  <line x1="678" y1="100" x2="662" y2="128" class="edge"/>
+  <text x="675" y="120" class="feature" text-anchor="middle">2</text>
+
+  <line x1="662" y1="152" x2="758" y2="128" class="negative-edge"/>
+  <text x="715" y="145" class="feature" text-anchor="middle">-1</text>
+
+  <!-- Bellman-Ford Features -->
+  <text x="690" y="180" class="feature">• Relaxes all edges |V|-1 times</text>
+  <text x="690" y="195" class="feature">• Dynamic Programming approach</text>
+  <text x="690" y="210" class="feature">• Time: O(V × E)</text>
+  <text x="690" y="225" class="feature">• Handles negative weights</text>
+  <text x="690" y="240" class="feature">• Detects negative cycles</text>
+
+  <!-- Comparison Table -->
+  <text x="460" y="280" class="algorithm-title" text-anchor="middle">Algorithm Comparison</text>
+
+  <!-- Table structure -->
+  <rect x="50" y="290" width="820" height="180" class="table-border"/>
+
+  <!-- Header row -->
+  <rect x="50" y="290" width="205" height="30" class="table-header"/>
+  <rect x="255" y="290" width="205" height="30" class="table-header"/>
+  <rect x="460" y="290" width="205" height="30" class="table-header"/>
+  <rect x="665" y="290" width="205" height="30" class="table-header"/>
+
+  <text x="152" y="310" class="label" text-anchor="middle">Aspect</text>
+  <text x="357" y="310" class="label" text-anchor="middle">Dijkstra</text>
+  <text x="562" y="310" class="label" text-anchor="middle">Bellman-Ford</text>
+  <text x="767" y="310" class="label" text-anchor="middle">Best Use Case</text>
+
+  <!-- Row 1: Negative Edges -->
+  <rect x="50" y="320" width="205" height="25" class="table-cell"/>
+  <rect x="255" y="320" width="205" height="25" class="table-cell"/>
+  <rect x="460" y="320" width="205" height="25" class="table-cell"/>
+  <rect x="665" y="320" width="205" height="25" class="table-cell"/>
+
+  <text x="152" y="337" class="feature" text-anchor="middle">Negative Edges</text>
+  <text x="357" y="337" class="feature" text-anchor="middle">Not Allowed</text>
+  <text x="562" y="337" class="feature" text-anchor="middle">Allowed</text>
+  <text x="767" y="337" class="feature" text-anchor="middle">Currency arbitrage</text>
+
+  <!-- Row 2: Negative Cycles -->
+  <rect x="50" y="345" width="205" height="25" class="table-cell"/>
+  <rect x="255" y="345" width="205" height="25" class="table-cell"/>
+  <rect x="460" y="345" width="205" height="25" class="table-cell"/>
+  <rect x="665" y="345" width="205" height="25" class="table-cell"/>
+
+  <text x="152" y="362" class="feature" text-anchor="middle">Negative Cycles</text>
+  <text x="357" y="362" class="feature" text-anchor="middle">Cannot Detect</text>
+  <text x="562" y="362" class="feature" text-anchor="middle">Can Detect</text>
+  <text x="767" y="362" class="feature" text-anchor="middle">Financial modeling</text>
+
+  <!-- Row 3: Time Complexity -->
+  <rect x="50" y="370" width="205" height="25" class="table-cell"/>
+  <rect x="255" y="370" width="205" height="25" class="table-cell"/>
+  <rect x="460" y="370" width="205" height="25" class="table-cell"/>
+  <rect x="665" y="370" width="205" height="25" class="table-cell"/>
+
+  <text x="152" y="387" class="feature" text-anchor="middle">Time Complexity</text>
+  <text x="357" y="387" class="feature" text-anchor="middle">O((V+E) log V)</text>
+  <text x="562" y="387" class="feature" text-anchor="middle">O(V × E)</text>
+  <text x="767" y="387" class="feature" text-anchor="middle">GPS navigation</text>
+
+  <!-- Row 4: Space Complexity -->
+  <rect x="50" y="395" width="205" height="25" class="table-cell"/>
+  <rect x="255" y="395" width="205" height="25" class="table-cell"/>
+  <rect x="460" y="395" width="205" height="25" class="table-cell"/>
+  <rect x="665" y="395" width="205" height="25" class="table-cell"/>
+
+  <text x="152" y="412" class="feature" text-anchor="middle">Space Complexity</text>
+  <text x="357" y="412" class="feature" text-anchor="middle">O(V)</text>
+  <text x="562" y="412" class="feature" text-anchor="middle">O(V)</text>
+  <text x="767" y="412" class="feature" text-anchor="middle">Network routing</text>
+
+  <!-- Row 5: Best For -->
+  <rect x="50" y="420" width="205" height="25" class="table-cell"/>
+  <rect x="255" y="420" width="205" height="25" class="table-cell"/>
+  <rect x="460" y="420" width="205" height="25" class="table-cell"/>
+  <rect x="665" y="420" width="205" height="25" class="table-cell"/>
+
+  <text x="152" y="437" class="feature" text-anchor="middle">Best For</text>
+  <text x="357" y="437" class="feature" text-anchor="middle">Non-negative weights</text>
+  <text x="562" y="437" class="feature" text-anchor="middle">General graphs</text>
+  <text x="767" y="437" class="feature" text-anchor="middle">Game pathfinding</text>
+
+  <!-- Decision Guide -->
+  <text x="460" y="470" class="algorithm-title" text-anchor="middle">Decision Guide</text>
+  <text x="230" y="490" class="feature">✓ Use Dijkstra for: GPS, network routing, positive weights</text>
+  <text x="690" y="490" class="feature">✓ Use Bellman-Ford for: financial data, negative weights, cycle detection</text>
+</svg>

@@ -1,0 +1,138 @@
+{
+  "id": "dsa_trees_cpp_exercise",
+  "mode": "quiz",
+  "title": "Trees, Binary Trees, and Tree Traversals - Solutions",
+  "description": "Complete solutions and detailed explanations for the trees quiz.",
+  "questions": [
+    {
+      "id": "tree_terminology",
+      "type": "single",
+      "prompt": "In a tree data structure, what is the term for a node that has no children?",
+      "options": [
+        { "id": "option_a", "text": "Root node" },
+        { "id": "option_b", "text": "Internal node" },
+        { "id": "option_c", "text": "Leaf node", "correct": true },
+        { "id": "option_d", "text": "Parent node" }
+      ],
+      "explanation": "A leaf node is a node that has no children in a tree structure."
+    },
+    {
+      "id": "binary_tree_property",
+      "type": "single",
+      "prompt": "What is the maximum number of children a node can have in a binary tree?",
+      "options": [
+        { "id": "option_a", "text": "1" },
+        { "id": "option_b", "text": "2", "correct": true },
+        { "id": "option_c", "text": "3" },
+        { "id": "option_d", "text": "Unlimited" }
+      ],
+      "explanation": "A binary tree is defined as a tree where each node has at most two children: left and right."
+    },
+    {
+      "id": "preorder_traversal",
+      "type": "single",
+      "prompt": "What is the order of node visitation in pre-order traversal?",
+      "options": [
+        { "id": "option_a", "text": "Left → Root → Right" },
+        { "id": "option_b", "text": "Root → Left → Right", "correct": true },
+        { "id": "option_c", "text": "Left → Right → Root" },
+        { "id": "option_d", "text": "Right → Root → Left" }
+      ],
+      "explanation": "Pre-order traversal visits the root first, then the left subtree, then the right subtree."
+    },
+    {
+      "id": "inorder_bst_property",
+      "type": "single",
+      "prompt": "For a binary search tree, what does in-order traversal produce?",
+      "options": [
+        { "id": "option_a", "text": "Pre-order sequence" },
+        { "id": "option_b", "text": "Post-order sequence" },
+        { "id": "option_c", "text": "Sorted sequence", "correct": true },
+        { "id": "option_d", "text": "Random sequence" }
+      ],
+      "explanation": "In-order traversal of a BST produces the nodes in sorted order due to the BST property."
+    },
+    {
+      "id": "level_order_traversal",
+      "type": "single",
+      "prompt": "Which data structure is typically used to implement level-order traversal of a tree?",
+      "options": [
+        { "id": "option_a", "text": "Stack" },
+        { "id": "option_b", "text": "Queue", "correct": true },
+        { "id": "option_c", "text": "Priority Queue" },
+        { "id": "option_d", "text": "Set" }
+      ],
+      "explanation": "Level-order traversal uses a queue to process nodes level by level, ensuring FIFO order."
+    },
+    {
+      "id": "bst_search_complexity",
+      "type": "single",
+      "prompt": "What is the average time complexity of search in a balanced binary search tree?",
+      "options": [
+        { "id": "option_a", "text": "O(1)" },
+        { "id": "option_b", "text": "O(log n)", "correct": true },
+        { "id": "option_c", "text": "O(n)" },
+        { "id": "option_d", "text": "O(n²)" }
+      ],
+      "explanation": "Balanced BSTs maintain O(log n) height, resulting in O(log n) search time."
+    },
+    {
+      "id": "tree_height_calculation",
+      "type": "single",
+      "prompt": "What is the height of a tree with a single node (just the root)?",
+      "options": [
+        { "id": "option_a", "text": "0", "correct": true },
+        { "id": "option_b", "text": "1" },
+        { "id": "option_c", "text": "2" },
+        { "id": "option_d", "text": "Undefined" }
+      ],
+      "explanation": "By convention, a single node has height 0. Height is the number of edges on the longest path."
+    },
+    {
+      "id": "bst_insertion_order",
+      "type": "multiple",
+      "prompt": "Which of the following sequences, when inserted into an empty BST, would result in a balanced tree? (Select all that apply)",
+      "options": [
+        { "id": "option_a", "text": "1, 2, 3, 4, 5" },
+        { "id": "option_b", "text": "3, 1, 5, 2, 4", "correct": true },
+        { "id": "option_c", "text": "1, 3, 2, 5, 4" },
+        { "id": "option_d", "text": "5, 3, 7, 1, 9", "correct": true }
+      ],
+      "explanation": "Sequences that build balanced trees typically insert the middle values first, creating a more balanced structure."
+    },
+    {
+      "id": "tree_vs_graph",
+      "type": "single",
+      "prompt": "What is the key difference between a tree and a general graph?",
+      "options": [
+        { "id": "option_a", "text": "Trees can have cycles, graphs cannot" },
+        { "id": "option_b", "text": "Trees have directed edges, graphs have undirected edges" },
+        { "id": "option_c", "text": "Trees have no cycles and are connected", "correct": true },
+        { "id": "option_d", "text": "Trees can have multiple roots, graphs have one" }
+      ],
+      "explanation": "Trees are acyclic connected graphs - they have no cycles and all nodes are connected."
+    },
+    {
+      "id": "postorder_use_case",
+      "type": "single",
+      "prompt": "Post-order traversal is particularly useful for which operation?",
+      "options": [
+        { "id": "option_a", "text": "Searching for a value" },
+        { "id": "option_b", "text": "Deleting the entire tree", "correct": true },
+        { "id": "option_c", "text": "Finding the minimum value" },
+        { "id": "option_d", "text": "Level-order printing" }
+      ],
+      "explanation": "Post-order traversal processes children before parents, making it ideal for tree deletion where you need to free children before parents."
+    }
+  ],
+  "keyPoints": [
+    "Trees are hierarchical data structures with a root node and child nodes forming a parent-child relationship",
+    "Binary trees restrict each node to at most two children (left and right), enabling efficient traversals and operations",
+    "Tree traversals include pre-order (root-left-right), in-order (left-root-right), post-order (left-right-root), and level-order (breadth-first)",
+    "Binary Search Trees (BSTs) maintain an ordering property where left subtree values < root < right subtree values",
+    "Balanced BSTs provide O(log n) performance for search, insert, and delete operations",
+    "Tree height and balance are crucial factors affecting performance - unbalanced trees can degrade to O(n) complexity",
+    "Trees have numerous applications including file systems, expression parsing, database indexing, and decision-making algorithms",
+    "Understanding tree traversals is essential for implementing tree algorithms and solving tree-related problems"
+  ]
+}

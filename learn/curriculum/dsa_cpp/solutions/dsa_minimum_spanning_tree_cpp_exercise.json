@@ -1,0 +1,28 @@
+{
+  "id": "dsa_minimum_spanning_tree_cpp",
+  "mode": "quiz",
+  "answerKey": {
+    "mst_definition": 1,
+    "prims_vs_kruskals": 1,
+    "union_find_purpose": 1,
+    "mst_properties": [0, 1, 2, 4],
+    "prims_priority_queue": true,
+    "kruskals_sorting": true,
+    "negative_weights": 2,
+    "mst_applications": [0, 2, 4, 5],
+    "cycle_detection": 1,
+    "mst_uniqueness": false
+  },
+  "keyPoints": [
+    "Minimum Spanning Tree connects all vertices with minimum total edge weight and no cycles",
+    "Prim's algorithm grows MST from a seed vertex using priority queue - best for dense graphs O((V+E)log V)",
+    "Kruskal's algorithm sorts edges and adds them if no cycle - best for sparse graphs O(E log E)",
+    "Union-Find data structure enables efficient cycle detection in Kruskal's algorithm",
+    "MST algorithms assume non-negative edge weights and connected graphs",
+    "Real-world applications include network design, clustering, transportation planning, and circuit design",
+    "MST is not always unique when multiple edges have equal weights",
+    "Both algorithms guarantee correct MST but differ in implementation and performance characteristics",
+    "Priority queue in Prim's manages minimum edge weights to unexplored vertices",
+    "Path compression and union by rank optimize Union-Find operations to nearly linear time"
+  ]
+}

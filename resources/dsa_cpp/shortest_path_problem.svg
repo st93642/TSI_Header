@@ -1,0 +1,89 @@
+<svg width="920" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .subtitle { font-family: 'Segoe UI', sans-serif; font-size: 14px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .vertex { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .source { fill: #F5A623; stroke: #666; stroke-width: 3; }
+      .target { fill: #E94B3C; stroke: #666; stroke-width: 3; }
+      .edge { stroke: #666; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .weight { font-family: 'Segoe UI', sans-serif; font-size: 10px; fill: #666; font-weight: bold; }
+      .path-highlight { stroke: #E94B3C; stroke-width: 4; fill: none; }
+      .problem-text { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #666; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" class="title" text-anchor="middle">The Shortest Path Problem</text>
+
+  <!-- Problem Statement -->
+  <text x="460" y="55" class="problem-text" text-anchor="middle">Find the path from source to target with minimum total edge weight</text>
+
+  <!-- Sample Graph -->
+  <text x="230" y="85" class="subtitle" text-anchor="middle">Example: Road Network</text>
+
+  <!-- Vertices (Cities) -->
+  <circle cx="150" cy="120" r="18" class="source"/>
+  <circle cx="350" cy="120" r="18" class="vertex"/>
+  <circle cx="250" cy="180" r="18" class="vertex"/>
+  <circle cx="450" cy="180" r="18" class="target"/>
+  <circle cx="350" cy="240" r="18" class="vertex"/>
+  <circle cx="550" cy="240" r="18" class="vertex"/>
+
+  <!-- Vertex labels -->
+  <text x="150" y="127" class="label" text-anchor="middle">A</text>
+  <text x="350" y="127" class="label" text-anchor="middle">B</text>
+  <text x="250" y="187" class="label" text-anchor="middle">C</text>
+  <text x="450" y="187" class="label" text-anchor="middle">D</text>
+  <text x="350" y="247" class="label" text-anchor="middle">E</text>
+  <text x="550" y="247" class="label" text-anchor="middle">F</text>
+
+  <!-- Edges with weights -->
+  <line x1="168" y1="120" x2="332" y2="120" class="edge"/>
+  <text x="250" y="115" class="weight" text-anchor="middle">5</text>
+
+  <line x1="168" y1="120" x2="232" y2="162" class="edge"/>
+  <text x="195" y="145" class="weight" text-anchor="middle">3</text>
+
+  <line x1="332" y1="120" x2="268" y2="162" class="edge"/>
+  <text x="305" y="145" class="weight" text-anchor="middle">2</text>
+
+  <line x1="268" y1="198" x2="432" y2="162" class="edge"/>
+  <text x="355" y="185" class="weight" text-anchor="middle">4</text>
+
+  <line x1="268" y1="198" x2="332" y2="222" class="edge"/>
+  <text x="305" y="215" class="weight" text-anchor="middle">1</text>
+
+  <line x1="432" y1="198" x2="368" y2="222" class="edge"/>
+  <text x="405" y="215" class="weight" text-anchor="middle">6</text>
+
+  <line x1="432" y1="198" x2="532" y2="222" class="edge"/>
+  <text x="485" y="215" class="weight" text-anchor="middle">8</text>
+
+  <line x1="368" y1="258" x2="532" y2="222" class="edge"/>
+  <text x="455" y="245" class="weight" text-anchor="middle">3</text>
+
+  <!-- Shortest path highlight -->
+  <path d="M 168 120 Q 200 120 232 162 Q 250 180 268 198 Q 295 210 332 222 Q 350 230 368 258" class="path-highlight"/>
+
+  <!-- Path description -->
+  <text x="230" y="320" class="label" text-anchor="middle">Shortest Path: A → C → E</text>
+  <text x="230" y="335" class="label" text-anchor="middle">Total Weight: 3 + 1 + 3 = 7</text>
+
+  <!-- Alternative path -->
+  <text x="690" y="320" class="label" text-anchor="middle">Alternative Path: A → B → D → F</text>
+  <text x="690" y="335" class="label" text-anchor="middle">Total Weight: 5 + 4 + 8 = 17</text>
+
+  <!-- Algorithm choices -->
+  <text x="460" y="370" class="subtitle" text-anchor="middle">Algorithm Selection</text>
+  <text x="200" y="390" class="label">• Non-negative weights → Dijkstra's Algorithm</text>
+  <text x="720" y="390" class="label">• Negative weights → Bellman-Ford Algorithm</text>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#666"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,84 @@
+<svg width="940" height="600" viewBox="0 0 940 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 24px; font-weight: bold; fill: #666; text-anchor: middle; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #666; text-anchor: middle; }
+      .node { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .edge { stroke: #666; stroke-width: 2; fill: none; }
+      .highlight { fill: #E94B3C; }
+      .annotation { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="470" y="30" class="title">Tree Data Structure - Hierarchical Organization</text>
+
+  <!-- Main Tree Structure -->
+  <g transform="translate(470, 80)">
+    <!-- Root Node -->
+    <circle cx="0" cy="0" r="25" class="node"/>
+    <text x="0" y="5" class="label">Root</text>
+
+    <!-- Level 1 -->
+    <circle cx="-80" cy="80" r="20" class="node"/>
+    <text x="-80" y="85" class="label">A</text>
+
+    <circle cx="80" cy="80" r="20" class="node"/>
+    <text x="80" y="85" class="label">B</text>
+
+    <!-- Level 2 -->
+    <circle cx="-120" cy="160" r="18" class="node"/>
+    <text x="-120" y="165" class="label">C</text>
+
+    <circle cx="-40" cy="160" r="18" class="node"/>
+    <text x="-40" y="165" class="label">D</text>
+
+    <circle cx="40" cy="160" r="18" class="node"/>
+    <text x="40" y="165" class="label">E</text>
+
+    <circle cx="120" cy="160" r="18" class="node"/>
+    <text x="120" y="165" class="label">F</text>
+
+    <!-- Level 3 -->
+    <circle cx="-140" cy="240" r="16" class="node"/>
+    <text x="-140" y="245" class="label">G</text>
+
+    <circle cx="-100" cy="240" r="16" class="node"/>
+    <text x="-100" y="245" class="label">H</text>
+
+    <!-- Edges -->
+    <line x1="0" y1="25" x2="-80" y2="60" class="edge"/>
+    <line x1="0" y1="25" x2="80" y2="60" class="edge"/>
+    <line x1="-80" y1="100" x2="-120" y2="142" class="edge"/>
+    <line x1="-80" y1="100" x2="-40" y2="142" class="edge"/>
+    <line x1="80" y1="100" x2="40" y2="142" class="edge"/>
+    <line x1="80" y1="100" x2="120" y2="142" class="edge"/>
+    <line x1="-120" y1="178" x2="-140" y2="224" class="edge"/>
+    <line x1="-120" y1="178" x2="-100" y2="224" class="edge"/>
+  </g>
+
+  <!-- Annotations -->
+  <g transform="translate(50, 150)">
+    <text x="0" y="0" class="annotation">• Root: Topmost node</text>
+    <text x="0" y="20" class="annotation">• Parent: Node with children</text>
+    <text x="0" y="40" class="annotation">• Child: Node with parent</text>
+    <text x="0" y="60" class="annotation">• Leaf: Node with no children</text>
+    <text x="0" y="80" class="annotation">• Internal: Node with children</text>
+  </g>
+
+  <g transform="translate(650, 150)">
+    <text x="0" y="0" class="annotation">• Height: 3 (edges to deepest leaf)</text>
+    <text x="0" y="20" class="annotation">• Depth: Distance from root</text>
+    <text x="0" y="40" class="annotation">• Level: Nodes at same depth</text>
+    <text x="0" y="60" class="annotation">• Degree: Number of children</text>
+  </g>
+
+  <!-- Tree Types -->
+  <g transform="translate(50, 400)">
+    <text x="0" y="0" class="title" style="font-size: 18px; text-anchor: start;">Tree Types:</text>
+    <text x="20" y="25" class="annotation">• General Tree: Any number of children</text>
+    <text x="20" y="45" class="annotation">• Binary Tree: ≤ 2 children per node</text>
+    <text x="20" y="65" class="annotation">• Binary Search Tree: Ordered binary tree</text>
+    <text x="20" y="85" class="annotation">• Balanced Tree: Height difference ≤ 1</text>
+  </g>
+</svg>

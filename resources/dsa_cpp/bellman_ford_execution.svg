@@ -1,0 +1,210 @@
+<svg width="920" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 18px; font-weight: bold; fill: #666; }
+      .step-title { font-family: 'Segoe UI', sans-serif; font-size: 14px; font-weight: bold; fill: #666; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .vertex { fill: #F5A623; stroke: #666; stroke-width: 2; }
+      .relaxing { fill: #E94B3C; stroke: #666; stroke-width: 3; }
+      .updated { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .edge { stroke: #666; stroke-width: 2; fill: none; }
+      .negative-edge { stroke: #E94B3C; stroke-width: 2; fill: none; }
+      .weight { font-family: 'Segoe UI', sans-serif; font-size: 10px; fill: #666; font-weight: bold; }
+      .distance { font-family: 'Segoe UI', sans-serif; font-size: 10px; fill: #666; }
+      .step-box { fill: #F8F8F8; stroke: #666; stroke-width: 1; }
+      .iteration-box { fill: #FFFFFF; stroke: #666; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="30" class="title" text-anchor="middle">Bellman-Ford Algorithm Execution</text>
+  <text x="460" y="50" class="label" text-anchor="middle">Handling negative edges and detecting negative cycles</text>
+
+  <!-- Initial Setup -->
+  <text x="150" y="80" class="step-title" text-anchor="middle">Initial Setup</text>
+
+  <!-- Initial graph -->
+  <circle cx="100" cy="110" r="15" class="vertex"/>
+  <circle cx="200" cy="110" r="15" class="vertex"/>
+  <circle cx="150" cy="160" r="15" class="vertex"/>
+  <circle cx="250" cy="160" r="15" class="vertex"/>
+
+  <text x="100" y="115" class="label" text-anchor="middle">A</text>
+  <text x="200" y="115" class="label" text-anchor="middle">B</text>
+  <text x="150" y="165" class="label" text-anchor="middle">C</text>
+  <text x="250" y="165" class="label" text-anchor="middle">D</text>
+
+  <text x="100" y="140" class="distance" text-anchor="middle">0</text>
+  <text x="200" y="140" class="distance" text-anchor="middle">∞</text>
+  <text x="150" y="190" class="distance" text-anchor="middle">∞</text>
+  <text x="250" y="190" class="distance" text-anchor="middle">∞</text>
+
+  <line x1="115" y1="110" x2="185" y2="110" class="edge"/>
+  <text x="150" y="105" class="weight" text-anchor="middle">4</text>
+
+  <line x1="115" y1="110" x2="135" y2="145" class="edge"/>
+  <text x="120" y="130" class="weight" text-anchor="middle">2</text>
+
+  <line x1="185" y1="110" x2="165" y2="145" class="edge"/>
+  <text x="180" y="130" class="weight" text-anchor="middle">5</text>
+
+  <line x1="165" y1="175" x2="235" y2="145" class="negative-edge"/>
+  <text x="205" y="165" class="weight" text-anchor="middle">-3</text>
+
+  <!-- Iteration 1 -->
+  <text x="450" y="80" class="step-title" text-anchor="middle">Iteration 1: Relax All Edges</text>
+
+  <!-- Graph after iteration 1 -->
+  <circle cx="400" cy="110" r="15" class="vertex"/>
+  <circle cx="500" cy="110" r="15" class="vertex"/>
+  <circle cx="450" cy="160" r="15" class="vertex"/>
+  <circle cx="550" cy="160" r="15" class="vertex"/>
+
+  <text x="400" y="115" class="label" text-anchor="middle">A</text>
+  <text x="500" y="115" class="label" text-anchor="middle">B</text>
+  <text x="450" y="165" class="label" text-anchor="middle">C</text>
+  <text x="550" y="165" class="label" text-anchor="middle">D</text>
+
+  <text x="400" y="140" class="distance" text-anchor="middle">0</text>
+  <text x="500" y="140" class="distance" text-anchor="middle">4</text>
+  <text x="450" y="190" class="distance" text-anchor="middle">2</text>
+  <text x="550" y="190" class="distance" text-anchor="middle">∞</text>
+
+  <line x1="415" y1="110" x2="485" y2="110" class="edge"/>
+  <text x="450" y="105" class="weight" text-anchor="middle">4</text>
+
+  <line x1="415" y1="110" x2="435" y2="145" class="edge"/>
+  <text x="420" y="130" class="weight" text-anchor="middle">2</text>
+
+  <line x1="485" y1="110" x2="465" y2="145" class="edge"/>
+  <text x="480" y="130" class="weight" text-anchor="middle">5</text>
+
+  <line x1="465" y1="175" x2="535" y2="145" class="negative-edge"/>
+  <text x="505" y="165" class="weight" text-anchor="middle">-3</text>
+
+  <!-- Relaxation steps -->
+  <rect x="350" y="200" width="250" height="80" class="iteration-box"/>
+  <text x="475" y="215" class="label" text-anchor="middle">Relaxation Steps:</text>
+  <text x="360" y="230" class="label">A→B: 0+4=4 (∞→4)</text>
+  <text x="360" y="245" class="label">A→C: 0+2=2 (∞→2)</text>
+  <text x="360" y="260" class="label">B→D: 4+5=9 (∞→9)</text>
+  <text x="360" y="275" class="label">C→D: 2+(-3)=-1 (9→-1)</text>
+
+  <!-- Iteration 2 -->
+  <text x="750" y="80" class="step-title" text-anchor="middle">Iteration 2: Relax All Edges</text>
+
+  <!-- Graph after iteration 2 -->
+  <circle cx="700" cy="110" r="15" class="vertex"/>
+  <circle cx="800" cy="110" r="15" class="vertex"/>
+  <circle cx="750" cy="160" r="15" class="vertex"/>
+  <circle cx="850" cy="160" r="15" class="vertex"/>
+
+  <text x="700" y="115" class="label" text-anchor="middle">A</text>
+  <text x="800" y="115" class="label" text-anchor="middle">B</text>
+  <text x="750" y="165" class="label" text-anchor="middle">C</text>
+  <text x="850" y="165" class="label" text-anchor="middle">D</text>
+
+  <text x="700" y="140" class="distance" text-anchor="middle">0</text>
+  <text x="800" y="140" class="distance" text-anchor="middle">4</text>
+  <text x="750" y="190" class="distance" text-anchor="middle">2</text>
+  <text x="850" y="190" class="distance" text-anchor="middle">-1</text>
+
+  <line x1="715" y1="110" x2="785" y2="110" class="edge"/>
+  <text x="750" y="105" class="weight" text-anchor="middle">4</text>
+
+  <line x1="715" y1="110" x2="735" y2="145" class="edge"/>
+  <text x="720" y="130" class="weight" text-anchor="middle">2</text>
+
+  <line x1="785" y1="110" x2="765" y2="145" class="edge"/>
+  <text x="780" y="130" class="weight" text-anchor="middle">5</text>
+
+  <line x1="765" y1="175" x2="835" y2="145" class="negative-edge"/>
+  <text x="805" y="165" class="weight" text-anchor="middle">-3</text>
+
+  <!-- Relaxation steps -->
+  <rect x="650" y="200" width="250" height="80" class="iteration-box"/>
+  <text x="775" y="215" class="label" text-anchor="middle">Relaxation Steps:</text>
+  <text x="660" y="230" class="label">A→B: 0+4=4 (=4, no change)</text>
+  <text x="660" y="245" class="label">A→C: 0+2=2 (=2, no change)</text>
+  <text x="660" y="260" class="label">B→D: 4+5=9 > -1, no change</text>
+  <text x="660" y="275" class="label">C→D: 2+(-3)=-1 (=-1, no change)</text>
+
+  <!-- Final Check -->
+  <text x="150" y="320" class="step-title" text-anchor="middle">Final Check: Negative Cycle Detection</text>
+
+  <!-- Graph for final check -->
+  <circle cx="100" cy="350" r="15" class="vertex"/>
+  <circle cx="200" cy="350" r="15" class="vertex"/>
+  <circle cx="150" cy="400" r="15" class="vertex"/>
+  <circle cx="250" cy="400" r="15" class="vertex"/>
+
+  <text x="100" y="355" class="label" text-anchor="middle">A</text>
+  <text x="200" y="355" class="label" text-anchor="middle">B</text>
+  <text x="150" y="405" class="label" text-anchor="middle">C</text>
+  <text x="250" y="405" class="label" text-anchor="middle">D</text>
+
+  <text x="100" y="380" class="distance" text-anchor="middle">0</text>
+  <text x="200" y="380" class="distance" text-anchor="middle">4</text>
+  <text x="150" y="430" class="distance" text-anchor="middle">2</text>
+  <text x="250" y="430" class="distance" text-anchor="middle">-1</text>
+
+  <line x1="115" y1="350" x2="185" y2="350" class="edge"/>
+  <text x="150" y="345" class="weight" text-anchor="middle">4</text>
+
+  <line x1="115" y1="350" x2="135" y2="385" class="edge"/>
+  <text x="120" y="370" class="weight" text-anchor="middle">2</text>
+
+  <line x1="185" y1="350" x2="165" y2="385" class="edge"/>
+  <text x="180" y="370" class="weight" text-anchor="middle">5</text>
+
+  <line x1="165" y1="415" x2="235" y2="385" class="negative-edge"/>
+  <text x="205" y="405" class="weight" text-anchor="middle">-3</text>
+
+  <!-- Final check result -->
+  <rect x="50" y="440" width="200" height="60" class="step-box"/>
+  <text x="150" y="455" class="label" text-anchor="middle">Final Relaxation (V=4):</text>
+  <text x="150" y="470" class="label" text-anchor="middle">No distance updates</text>
+  <text x="150" y="485" class="label" text-anchor="middle">✓ No negative cycle detected</text>
+
+  <!-- Negative Cycle Example -->
+  <text x="550" y="320" class="step-title" text-anchor="middle">Negative Cycle Example</text>
+
+  <!-- Graph with negative cycle -->
+  <circle cx="500" cy="350" r="12" class="vertex"/>
+  <circle cx="580" cy="350" r="12" class="vertex"/>
+  <circle cx="540" cy="400" r="12" class="vertex"/>
+
+  <text x="500" y="355" class="label" text-anchor="middle">X</text>
+  <text x="580" y="355" class="label" text-anchor="middle">Y</text>
+  <text x="540" y="405" class="label" text-anchor="middle">Z</text>
+
+  <text x="500" y="375" class="distance" text-anchor="middle">0</text>
+  <text x="580" y="375" class="distance" text-anchor="middle">∞</text>
+  <text x="540" y="425" class="distance" text-anchor="middle">∞</text>
+
+  <line x1="512" y1="350" x2="568" y2="350" class="negative-edge"/>
+  <text x="540" y="345" class="weight" text-anchor="middle">-2</text>
+
+  <line x1="568" y1="350" x2="552" y2="388" class="negative-edge"/>
+  <text x="565" y="375" class="weight" text-anchor="middle">-1</text>
+
+  <line x1="552" y1="412" x2="512" y2="362" class="negative-edge"/>
+  <text x="525" y="395" class="weight" text-anchor="middle">-3</text>
+
+  <!-- Negative cycle result -->
+  <rect x="450" y="440" width="250" height="60" class="step-box"/>
+  <text x="575" y="455" class="label" text-anchor="middle">After |V|-1 iterations:</text>
+  <text x="575" y="470" class="label" text-anchor="middle">Distances still updating</text>
+  <text x="575" y="485" class="label" text-anchor="middle">🚨 Negative cycle detected!</text>
+
+  <!-- Algorithm Summary -->
+  <text x="460" y="520" class="step-title" text-anchor="middle">Bellman-Ford Algorithm Summary</text>
+  <text x="200" y="540" class="label">1. Initialize distances: source=0, others=∞</text>
+  <text x="200" y="555" class="label">2. Relax all edges |V|-1 times</text>
+  <text x="200" y="570" class="label">3. Check for negative cycles with one more relaxation</text>
+
+  <text x="720" y="540" class="label">• Dynamic programming approach</text>
+  <text x="720" y="555" class="label">• Handles negative edge weights</text>
+  <text x="720" y="570" class="label">• Detects negative cycles</text>
+  <text x="720" y="585" class="label">• Time: O(V × E), Space: O(V)</text>
+</svg>

@@ -1,0 +1,135 @@
+<svg width="940" height="700" viewBox="0 0 940 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', sans-serif; font-size: 20px; font-weight: bold; fill: #666; text-anchor: middle; }
+      .subtitle { font-family: 'Segoe UI', sans-serif; font-size: 16px; font-weight: bold; fill: #666; text-anchor: middle; }
+      .label { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #666; text-anchor: middle; }
+      .node { fill: #4A90E2; stroke: #666; stroke-width: 2; }
+      .edge { stroke: #666; stroke-width: 2; fill: none; }
+      .highlight { fill: #E94B3C; }
+      .search-path { stroke: #E94B3C; stroke-width: 3; fill: none; }
+      .annotation { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #666; }
+      .operation { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #666; text-anchor: middle; font-weight: bold; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="470" y="30" class="title">Binary Search Tree Operations</text>
+
+  <!-- BST Structure -->
+  <g transform="translate(470, 80)">
+    <!-- Root -->
+    <circle cx="0" cy="0" r="25" class="node"/>
+    <text x="0" y="5" class="label">50</text>
+
+    <!-- Level 1 -->
+    <circle cx="-60" cy="80" r="22" class="node"/>
+    <text x="-60" y="85" class="label">30</text>
+
+    <circle cx="60" cy="80" r="22" class="node"/>
+    <text x="60" y="85" class="label">70</text>
+
+    <!-- Level 2 -->
+    <circle cx="-90" cy="160" r="20" class="node"/>
+    <text x="-90" y="165" class="label">20</text>
+
+    <circle cx="-30" cy="160" r="20" class="node"/>
+    <text x="-30" y="165" class="label">40</text>
+
+    <circle cx="30" cy="160" r="20" class="node"/>
+    <text x="30" y="165" class="label">60</text>
+
+    <circle cx="90" cy="160" r="20" class="node"/>
+    <text x="90" y="165" class="label">80</text>
+
+    <!-- Edges -->
+    <line x1="0" y1="25" x2="-60" y2="58" class="edge"/>
+    <line x1="0" y1="25" x2="60" y2="58" class="edge"/>
+    <line x1="-60" y1="102" x2="-90" y2="140" class="edge"/>
+    <line x1="-60" y1="102" x2="-30" y2="140" class="edge"/>
+    <line x1="60" y1="102" x2="30" y2="140" class="edge"/>
+    <line x1="60" y1="102" x2="90" y2="140" class="edge"/>
+  </g>
+
+  <!-- Operations Section -->
+  <g transform="translate(50, 300)">
+    <text x="200" y="0" class="subtitle">Search Operation: Find 40</text>
+
+    <!-- Search path visualization -->
+    <g transform="translate(0, 20)">
+      <circle cx="50" cy="0" r="15" class="node"/>
+      <text x="50" y="5" class="label">50</text>
+  <text x="50" y="35" class="annotation">50 &gt; 40 → go left</text>
+
+      <circle cx="120" cy="0" r="15" class="node"/>
+      <text x="120" y="5" class="label">30</text>
+  <text x="120" y="35" class="annotation">30 &lt; 40 → go right</text>
+
+      <circle cx="190" cy="0" r="15" class="highlight"/>
+      <text x="190" y="5" class="label">40</text>
+      <text x="190" y="35" class="annotation">Found!</text>
+
+      <line x1="65" y1="0" x2="105" y2="0" class="search-path"/>
+      <line x1="135" y1="0" x2="175" y2="0" class="search-path"/>
+    </g>
+  </g>
+
+  <g transform="translate(50, 400)">
+    <text x="200" y="0" class="subtitle">Insert Operation: Add 35</text>
+
+    <!-- Insert path -->
+    <g transform="translate(0, 20)">
+      <circle cx="50" cy="0" r="15" class="node"/>
+      <text x="50" y="5" class="label">50</text>
+  <text x="50" y="35" class="annotation">50 &gt; 35 → left</text>
+
+      <circle cx="120" cy="0" r="15" class="node"/>
+      <text x="120" y="5" class="label">30</text>
+  <text x="120" y="35" class="annotation">30 &lt; 35 → right</text>
+
+      <circle cx="190" cy="0" r="15" class="node"/>
+      <text x="190" y="5" class="label">40</text>
+  <text x="190" y="35" class="annotation">40 &gt; 35 → left</text>
+
+      <circle cx="260" cy="0" r="15" style="fill: #50C878; stroke: #666; stroke-width: 2;"/>
+      <text x="260" y="5" class="label">35</text>
+      <text x="260" y="35" class="annotation">Insert here</text>
+
+      <line x1="65" y1="0" x2="105" y2="0" class="search-path"/>
+      <line x1="135" y1="0" x2="175" y2="0" class="search-path"/>
+      <line x1="205" y1="0" x2="245" y2="0" class="search-path"/>
+    </g>
+  </g>
+
+  <!-- Properties -->
+  <g transform="translate(600, 300)">
+    <text x="0" y="0" class="subtitle">BST Properties:</text>
+  <text x="20" y="25" class="annotation">• Left subtree &lt; root &lt; right subtree</text>
+    <text x="20" y="45" class="annotation">• In-order traversal gives sorted order</text>
+    <text x="20" y="65" class="annotation">• No duplicate values (typically)</text>
+    <text x="20" y="85" class="annotation">• Search path is deterministic</text>
+  </g>
+
+  <g transform="translate(600, 420)">
+    <text x="0" y="0" class="subtitle">Complexity:</text>
+    <text x="20" y="25" class="annotation">• Balanced BST: O(log n)</text>
+    <text x="20" y="45" class="annotation">• Unbalanced BST: O(n) worst case</text>
+    <text x="20" y="65" class="annotation">• Average case: O(log n)</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(600, 550)">
+    <text x="0" y="0" class="subtitle">Legend:</text>
+    <circle cx="20" cy="25" r="8" class="node"/>
+    <text x="35" y="30" class="annotation">Existing node</text>
+
+    <circle cx="20" cy="50" r="8" style="fill: #E94B3C; stroke: #666; stroke-width: 2;"/>
+    <text x="35" y="55" class="annotation">Found/Search result</text>
+
+    <circle cx="20" cy="75" r="8" style="fill: #50C878; stroke: #666; stroke-width: 2;"/>
+    <text x="35" y="80" class="annotation">New node to insert</text>
+
+    <line x1="15" y1="100" x2="25" y2="100" class="search-path"/>
+    <text x="35" y="105" class="annotation">Search path</text>
+  </g>
+</svg>

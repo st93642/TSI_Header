@@ -7,6 +7,7 @@
  * @module learn
  */
 
+const path = require('path');
 const LearnManager = require('./lib/learn_manager');
 const ProgressTracker = require('./lib/progress_tracker');
 const ExerciseRunner = require('./lib/exercise_runner');
@@ -264,14 +265,26 @@ class Learn {
             );
             
             // Create a webview panel to display the solution
+            const resourceRoots = [];
+            if (this.vscode && this.vscode.Uri && typeof this.vscode.Uri.file === 'function') {
+                const resourcesRoot = path.join(__dirname, '..', 'resources');
+                resourceRoots.push(this.vscode.Uri.file(resourcesRoot));
+            }
+
+            const solutionPanelOptions = {
+                enableScripts: true,
+                retainContextWhenHidden: true
+            };
+
+            if (resourceRoots.length > 0) {
+                solutionPanelOptions.localResourceRoots = resourceRoots;
+            }
+
             const panel = this.vscode.window.createWebviewPanel(
                 'tsiSolution',
                 `Solution: ${exercise.title}`,
                 this.vscode.ViewColumn.One,
-                {
-                    enableScripts: true,
-                    retainContextWhenHidden: true
-                }
+                solutionPanelOptions
             );
             
             // Set HTML content with syntax highlighting
@@ -422,6 +435,9 @@ class Learn {
      */
     async browseLessons(language) {
         try {
+            // Clear curriculum cache to ensure fresh data
+            this.learnManager.clearCurriculumCache();
+            
             // Load curriculum
             const curriculum = await this.learnManager.loadCurriculum(language);
             const sections = this.learnManager.getCurriculumSections(curriculum);

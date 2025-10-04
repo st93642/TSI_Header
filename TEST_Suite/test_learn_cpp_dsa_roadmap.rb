@@ -27,6 +27,19 @@ expected_structure = {
   ],
   'dsa_hash_tables_cpp' => %w[
     dsa_hash_tables_cpp
+  ],
+  'dsa_trees_cpp' => %w[
+    dsa_trees_cpp
+    dsa_binary_search_trees_cpp
+  ],
+  'dsa_graphs_cpp' => %w[
+    dsa_graphs_cpp
+  ],
+  'dsa_shortest_path_cpp' => %w[
+    dsa_shortest_path_cpp
+  ],
+  'dsa_minimum_spanning_tree_cpp' => %w[
+    dsa_minimum_spanning_tree_cpp
   ]
 }
 
@@ -93,7 +106,16 @@ expected_structure.each do |module_id, lesson_ids|
     solution_mode = solution['mode'] || solution['type']
     raise "Solution for #{lesson_id} must declare quiz mode" unless solution_mode == 'quiz'
 
-    answer_key = solution['answerKey'] || []
+    answer_key = solution['answerKey']
+    if answer_key.nil? || answer_key.empty?
+      # Extract answer key from questions if not provided separately
+      solution_questions = solution['questions'] || []
+      answer_key = {}
+      solution_questions.each do |q|
+        correct_options = q['options'].select { |opt| opt['correct'] }.map { |opt| opt['id'] }
+        answer_key[q['id']] = correct_options.length == 1 ? correct_options.first : correct_options
+      end
+    end
     raise "Solution for #{lesson_id} must supply an answer key" if answer_key.empty?
     raise "Solution for #{lesson_id} must provide exactly 10 answer key entries" unless answer_key.length == 10
 

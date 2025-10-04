@@ -245,16 +245,30 @@ class LearnManager {
             // Load lesson content
             const lessonPath = path.join(__dirname, '..', 'curriculum', language, 'lessons', `${lesson.id}.md`);
             const lessonContent = await fs.readFile(lessonPath, 'utf8');
-            
+            const lessonDirectory = path.dirname(lessonPath);
+
+            const resourceRoots = [];
+            if (this.vscode && this.vscode.Uri && typeof this.vscode.Uri.file === 'function') {
+                const resourcesRoot = path.join(__dirname, '..', '..', 'resources');
+                resourceRoots.push(this.vscode.Uri.file(resourcesRoot));
+                resourceRoots.push(this.vscode.Uri.file(lessonDirectory));
+            }
+
+            const lessonPanelOptions = {
+                enableScripts: true,
+                retainContextWhenHidden: true
+            };
+
+            if (resourceRoots.length > 0) {
+                lessonPanelOptions.localResourceRoots = resourceRoots;
+            }
+
             // Create webview panel for lesson
             const panel = this.vscode.window.createWebviewPanel(
                 'tsiLearnLesson',
                 `Learn ${language}: ${lesson.title || lesson.id}`,
                 this.vscode.ViewColumn.One,
-                {
-                    enableScripts: true,
-                    retainContextWhenHidden: true
-                }
+                lessonPanelOptions
             );
             
             // Store reference to current panel
@@ -268,7 +282,6 @@ class LearnManager {
             }, null, this.context.subscriptions);
             
             // Set HTML content
-            const lessonDirectory = path.dirname(lessonPath);
             const resolveResourceUri = this.createResourceResolver(panel.webview, lessonDirectory);
             panel.webview.html = this.getLessonHtml(lessonContent, lesson, {
                 resolveResourceUri
@@ -658,14 +671,26 @@ class LearnManager {
                 this.currentQuizPanel = null;
             }
 
+            const resourceRoots = [];
+            if (this.vscode && this.vscode.Uri && typeof this.vscode.Uri.file === 'function') {
+                const resourcesRoot = path.join(__dirname, '..', '..', 'resources');
+                resourceRoots.push(this.vscode.Uri.file(resourcesRoot));
+            }
+
+            const quizPanelOptions = {
+                enableScripts: true,
+                retainContextWhenHidden: true
+            };
+
+            if (resourceRoots.length > 0) {
+                quizPanelOptions.localResourceRoots = resourceRoots;
+            }
+
             const panel = this.vscode.window.createWebviewPanel(
                 'tsiLearnQuiz',
                 `${exercise.title || lesson.title || 'Quiz'}`,
                 this.vscode.ViewColumn.One,
-                {
-                    enableScripts: true,
-                    retainContextWhenHidden: true
-                }
+                quizPanelOptions
             );
 
             this.currentQuizPanel = panel;
@@ -1248,8 +1273,8 @@ class LearnManager {
             this.currentExerciseEditor = exerciseFilePath;
             const exerciseMetadata = {
                 lessonId: lesson.id,
-                sectionId: lesson.sectionId || lesson.moduleId,
-                sectionTitle: lesson.sectionTitle || lesson.moduleTitle,
+                sectionId: lesson.moduleId,
+                sectionTitle: lesson.title,
                 // Legacy fields retained for backwards compatibility with existing data
                 moduleId: lesson.moduleId || lesson.sectionId,
                 moduleTitle: lesson.moduleTitle || lesson.sectionTitle,
@@ -1449,6 +1474,13 @@ class LearnManager {
         normalized = normalized.replace(/_variant$/, '');
 
         return normalized;
+    }
+
+    /**
+     * Clear the curriculum cache
+     */
+    clearCurriculumCache() {
+        this.curriculumCache.clear();
     }
 }
 
