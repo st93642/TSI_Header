@@ -4,11 +4,15 @@ Accessors connect object state to the outside world. In Ruby, instance variables
 
 ## Learning goals
 
-- Choose the most restrictive accessor (`attr_reader`, `attr_writer`, `attr_accessor`) for each attribute.
+- Choose the most restrictive accessor (`attr_reader`, `attr_writer`,
+  `attr_accessor`) for each attribute.
 - Add validation, coercion, and memoization inside accessor methods.
-- Build boolean, predicate-style readers and write-only setters for sensitive data.
-- Create class/module-level accessors with `class << self` or `mattr_accessor`-style patterns.
-- Generate accessors dynamically when working with repetitive structures, while keeping code maintainable.
+- Build boolean, predicate-style readers and write-only setters for sensitive
+  data.
+- Create class/module-level accessors with `class << self` or
+  `mattr_accessor`-style patterns.
+- Generate accessors dynamically when working with repetitive structures, while
+  keeping code maintainable.
 
 ## Built-in attribute macros
 
@@ -30,9 +34,11 @@ class Person
 end
 ```
 
-- `attr_reader` prevents outside mutation, great for identifiers or derived values.
+- `attr_reader` prevents outside mutation, great for identifiers or derived
+  values.
 - `attr_writer` hides sensitive fields while allowing updates (e.g., passwords).
-- `attr_accessor` is convenient but use it only when both directions truly belong in the public API.
+- `attr_accessor` is convenient but use it only when both directions truly
+  belong in the public API.
 
 ## Customizing accessors
 
@@ -94,7 +100,8 @@ class Report
 end
 ```
 
-Memoizing inside the reader keeps repeated calls fast while avoiding premature work.
+Memoizing inside the reader keeps repeated calls fast while avoiding premature
+work.
 
 ## Visibility modifiers for accessors
 
@@ -115,7 +122,8 @@ class ApiClient
 end
 ```
 
-Private readers/writers are useful when values should only be touched internally yet still benefit from accessor syntax.
+Private readers/writers are useful when values should only be touched internally
+yet still benefit from accessor syntax.
 
 ## Working with keyword accessors
 
@@ -134,7 +142,8 @@ end
 
 ## Write-only attributes
 
-Sometimes you only need to set a value (e.g., storing hashed passwords) without exposing it.
+Sometimes you only need to set a value (e.g., storing hashed passwords) without
+exposing it.
 
 ```ruby
 class User
@@ -181,7 +190,8 @@ end
 
 ## Dynamic accessor generation
 
-When dealing with repetitive attributes (e.g., JSON columns), you can define accessors programmatically.
+When dealing with repetitive attributes (e.g., JSON columns), you can define
+accessors programmatically.
 
 ```ruby
 class Preferences
@@ -200,7 +210,73 @@ end
 
 Document generated methods to keep your API discoverable.
 
-## Protecting invariants in setters
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+<!-- markdownlint-disable MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Attribute Methods — Patterns & Tests (Appendix — attr_methods-playbook) (Appendix)
+
+Quick patterns for safe accessors, predicate readers, and class-level attributes.
+
+<!-- markdownlint-disable MD033 MD013 -->
+<table>
+  <thead>
+    <tr><th>Problem</th><th>Pattern</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Expose state</td><td>Use `attr_reader`</td><td>Prefer immutability where possible</td></tr>
+    <tr><td>Sensitive setters</td><td>Custom writer</td><td>Hashing, coercion, and validations belong here</td></tr>
+    <tr><td>Class state</td><td>Singleton accessors</td><td>Use `class << self` or `mattr_accessor` patterns</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD013 -->
+
+<!-- markdownlint-disable MD013 -->
+### Exercises (Appendix)
+
+1. Implement a boolean predicate and a write-only setter for a `password` field;
+   write tests that assert the digest is stored and the raw value isn't exposed.
+2. Add a class-level setting with `cattr_accessor` and test isolation between
+   classes.
+
+<!-- markdownlint-enable MD013 -->
+### Self-check (Appendix)
+
+1. When should you prefer `attr_reader` over `attr_accessor`?
+2. How do you safely expose derived values without leaking mutable state?
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD013 -->
+## Practical Appendix: Accessors — Security & Patterns (Appendix — attr_methods-ruby-sec) (Appendix)
+
+Notes for secure attribute design and patterns to avoid leaking internal state.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Risk</th><th>Pattern</th><th>Mitigation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Exposing secrets</td><td>attr_accessor :api_key</td><td>Use write-only setter and store hashed/encrypted</td></tr>
+    <tr><td>Mutable defaults</td><td>attr_accessor :options</td><td>Use frozen defaults or dup in initializer</td></tr>
+    <tr><td>Class state leaks</td><td>class-level attrs</td><td>Prefer dependency injection for testability</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick patterns (Appendix)
+
+- Use `dup` for default arrays/hashes in constructors.
+- Make sensitive readers private and expose behavior via public methods.
+- Avoid class variables (`@@`) for per-subclass state; prefer class instance
+  variables.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-enable MD013 -->
+## Protecting invariants in setters (Appendix)
 
 When an attribute must obey rules, the setter enforces them.
 
@@ -221,9 +297,11 @@ end
 
 Setters are a natural place for validation, coercion, or callbacks.
 
-## Thread safety considerations
+<!-- markdownlint-disable MD013 -->
+## Thread safety considerations (Appendix)
 
-Attribute writers aren’t atomic. For multi-threaded code, guard mutations with mutexes or use thread-safe data structures.
+Attribute writers aren’t atomic. For multi-threaded code, guard mutations with
+mutexes or use thread-safe data structures.
 
 ```ruby
 class Counter
@@ -240,97 +318,142 @@ class Counter
 end
 ```
 
-## Guided practice
+<!-- markdownlint-enable MD013 -->
+## Guided practice (Appendix)
 
 1. **Immutable ID**
-   - Create a `User` class where `id` is read-only (`attr_reader`), `email` is read/write, and `password` is write-only with hashing.
+   - Create a `User` class where `id` is read-only (`attr_reader`), `email` is
+     read/write, and `password` is write-only with hashing.
 
 2. **Settings with defaults**
-   - Implement `AppSettings` that exposes `attr_reader` for defaults, `attr_writer` for overrides, and memoizes combined values.
+   - Implement `AppSettings` that exposes `attr_reader` for defaults,
+     `attr_writer` for overrides, and memoizes combined values.
 
 3. **Boolean helpers**
-   - Add predicate-style readers for `published?` and corresponding setters that coerce truthy/falsey values.
+   - Add predicate-style readers for `published?` and corresponding setters that
+     coerce truthy/falsey values.
 
 4. **Class-level configuration**
-   - Build a module with `class << self; attr_accessor :logger; end` to share a logger across service classes. Demonstrate usage from multiple classes.
+   - Build a module with `class << self; attr_accessor :logger; end` to share a
+     logger across service classes. Demonstrate usage from multiple classes.
 
 5. **Dynamic accessors**
-   - Generate accessors for a list of CSV column names using `define_method`. Ensure setters trim whitespace before storing values.
+   - Generate accessors for a list of CSV column names using `define_method`.
+     Ensure setters trim whitespace before storing values.
 
-## Self-check questions
+<!-- markdownlint-disable MD013 -->
+## Self-check questions (Appendix)
 
-1. Why is `attr_reader` often safer than `attr_accessor` when exposing internal state?
-2. How can you enforce validation or transformation logic inside a setter created with `attr_writer`?
-3. What’s the difference between instance-level accessors (`attr_accessor`) and class-level accessors defined inside `class << self`?
-4. How do predicate-style readers (`active?`) improve API readability, and how would you implement their setters?
-5. When does it make sense to generate accessors dynamically with `define_method`, and what documentation considerations come with that choice?
+1. Why is `attr_reader` often safer than `attr_accessor` when exposing internal
+   state?
+2. How can you enforce validation or transformation logic inside a setter
+   created with `attr_writer`?
+3. What’s the difference between instance-level accessors (`attr_accessor`) and
+   class-level accessors defined inside `class << self`?
+4. How do predicate-style readers (`active?`) improve API readability, and how
+   would you implement their setters?
+5. When does it make sense to generate accessors dynamically with
+`define_method`, and what documentation considerations come with that choice?
 
 Attribute methods help you maintain encapsulation while giving callers the data they need. Reach for the least-permissive accessor, inject validation where it matters, and prefer explicit, well-documented readers and writers over indiscriminate `attr_accessor` usage.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-## Practical Appendix: Attribute Methods — Readers, Writers & Testing (Appendix — attr_methods-ruby2)
+## Practical Appendix: Attribute Methods  Security, Testing & Threading (Appendix  attr_methods-hidden-20251005)
 
-Patterns for creating and testing attribute accessors, lazy initialization, and protecting internal state.
+Practical recommendations for using accessors safely in real projects.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Pattern</th><th>When</th><th>Notes</th></tr>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>attr_reader</td><td>Expose read-only</td><td>Prefer for encapsulation</td></tr>
-    <tr><td>attr_writer</td><td>Expose write-only</td><td>Rare, used for setters with side-effects</td></tr>
-    <tr><td>attr_accessor</td><td>Simple POJOs</td><td>Consider custom methods for invariants</td></tr>
+    <tr><td>Exposing secrets</td><td>Write-only setter</td><td>Store hashes/digests, keep readers private</td></tr>
+    <tr><td>Mutable defaults</td><td>dup or freeze in initializer</td><td>Prevents cross-instance leakage</td></tr>
+    <tr><td>Thread safety</td><td>Mutex around writers</td><td>Protect concurrent mutations</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Examples
+### Example: thread-safe writer
 
 ```ruby
-class Person
-  attr_reader :name
-  attr_accessor :age
+class Counter
+  attr_reader :value
+  def initialize
+    @value = 0
+    @mutex = Mutex.new
+  end
 
-  def initialize(name, age)
-    @name = name.freeze
+  def increment
+    @mutex.synchronize { @value += 1 }
+  end
+end
+```
+
+### Exercises
+
+1. Convert a class with `attr_accessor :options` so that the initializer
+   duplicates the default hash to avoid shared mutation; add tests to prove
+   instances are isolated.
+2. Implement a write-only `password=` setter that stores a bcrypt digest and
+   write a test that ensures the raw password is not exposed.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-enable MD013 -->
+## Practical Appendix: Advanced Attribute Methods Techniques (Appendix — attr_methods-advanced-20251005)
+
+Explore lesser-known aspects of attr methods, including deprecations, multiple
+arguments, and performance considerations.
+
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Method</th><th>Purpose</th><th>Insider Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>attr_reader</code></td><td>Getter methods</td><td>Use for immutable attributes</td></tr>
+    <tr><td><code>attr_writer</code></td><td>Setter methods</td><td>For sensitive data</td></tr>
+    <tr><td><code>attr_accessor</code></td><td>Getter + setter</td><td>Convenient but selective</td></tr>
+    <tr><td><code>attr</code></td><td>Deprecated alias</td><td>Avoid; use <code>attr_reader</code></td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Advanced Examples
+
+```ruby
+class Example
+  # Multiple attributes in one call
+  attr_reader :name, :age
+  attr_accessor :email
+
+  # Old deprecated form (warns)
+  # attr :deprecated_attr, true  # equivalent to attr_accessor
+
+  def initialize(name, age, email)
+    @name = name
     @age = age
-  end
-
-  def increase_age
-    @age += 1
+    @email = email
   end
 end
+
+# Usage
+ex = Example.new("Alice", 30, "alice@example.com")
+ex.name  # => "Alice"
+ex.age   # => 30
+ex.email = "new@example.com"
 ```
 
-### Lazy initialization
+### Exercises — Advanced Techniques
 
-```ruby
-def config
-  @config ||= load_config
-end
-```
-
-### Testing attribute behavior
-
-- Test public behavior, not internal ivars directly, unless necessary.
-
-```ruby
-require 'minitest/autorun'
-
-class TestAttrMethods < Minitest::Test
-  def test_read_only
-    p = Person.new('Ada', 30)
-    assert_equal 'Ada', p.name
-    assert_raises(NoMethodError) { p.name = 'Eve' }
-  end
-end
-```
-
-### Exercises (Appendix — attr_methods-ruby2)
-
-1. Implement an `immutable_point(x,y)` class where coordinate attributes are present but cannot be reassigned; write tests asserting immutability.
-2. Replace `attr_accessor` with explicit setter methods that validate input (e.g., age must be non-negative) and add tests for invalid input.
+1. Define a class using `attr_reader` for multiple attributes and verify they
+   are read-only.
+2. Implement a custom setter alongside `attr_writer` for validation.
+3. Compare `attr_accessor` vs manual getter/setter for performance in a
+   benchmark.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

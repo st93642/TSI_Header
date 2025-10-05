@@ -6,13 +6,15 @@ Modules let you bundle behavior and share it across classes without inheriting. 
 
 - Understand how `include`, `extend`, and `prepend` alter method lookup.
 - Encapsulate shared behavior in modules and mix it into classes cleanly.
-- Use module callbacks (`included`, `extended`, `prepended`) to configure consumers.
+- Use module callbacks (`included`, `extended`, `prepended`) to configure
+  consumers.
 - Combine modules with namespacing and constants.
 - Recognize when to use mixins versus inheritance or composition.
 
 ## Defining a module
 
-Modules are collections of methods, constants, and classes. They can’t be instantiated.
+Modules are collections of methods, constants, and classes. They can’t be
+instantiated.
 
 ```ruby
 module Skill
@@ -46,7 +48,8 @@ Method lookup order after inclusion: the module sits between the class and its s
 
 ## Multiple mixins
 
-You can compose behavior from several modules. The most recently included module has higher precedence.
+You can compose behavior from several modules. The most recently included module
+has higher precedence.
 
 ```ruby
 module Swimming
@@ -90,7 +93,8 @@ end
 User.next_id # => 1
 ```
 
-Each class that extends the module gets its own copy of module instance variables.
+Each class that extends the module gets its own copy of module instance
+variables.
 
 ## `prepend`: put module ahead of the class
 
@@ -179,7 +183,8 @@ Concerns manage dependency ordering and provide the `included` block without man
 
 ## Sharing state across mixins
 
-Because modules can’t store instance variables directly accessible to each consumer, use accessor methods or initialize state in a hook.
+Because modules can’t store instance variables directly accessible to each
+consumer, use accessor methods or initialize state in a hook.
 
 ```ruby
 module Trackable
@@ -203,7 +208,8 @@ Each class gets its own `@tracked_events`; subclasses inherit it unless redefine
 
 ## Namespacing with modules
 
-Modules also group related classes, preventing constant name conflicts and signaling ownership.
+Modules also group related classes, preventing constant name conflicts and
+signaling ownership.
 
 ```ruby
 module Messaging
@@ -218,7 +224,8 @@ You can mix namespacing and mixins in the same module tree.
 
 ## Refinements (advanced)
 
-Refinements provide scoped monkey-patching by wrapping modifications in a module.
+Refinements provide scoped monkey-patching by wrapping modifications in a
+module.
 
 ```ruby
 module StringExtensions
@@ -258,36 +265,49 @@ end
 
 - Module becomes a grab bag of unrelated methods.
 - Mixins require too much shared state, leading to fragile coupling.
-- Overriding behavior via multiple modules makes method resolution hard to reason about.
+- Overriding behavior via multiple modules makes method resolution hard to
+  reason about.
 
-Consider composition (objects containing other objects) or service objects when mixins become unwieldy.
+Consider composition (objects containing other objects) or service objects when
+mixins become unwieldy.
 
 ## Guided practice
 
 1. **Auditable concern**
-   - Build a `Auditable` module that adds `created_at`/`updated_at` timestamps and a class-level `before_save` hook via `included`.
+   - Build a `Auditable` module that adds `created_at`/`updated_at` timestamps
+     and a class-level `before_save` hook via `included`.
 
 2. **Instrumented jobs**
-   - Implement `Instrumentation` module using `prepend` to time job execution. Ensure it calls `super` and logs duration.
+   - Implement `Instrumentation` module using `prepend` to time job execution.
+     Ensure it calls `super` and logs duration.
 
 3. **Dual interface module**
-   - Write a module that, when included, adds instance methods and when extended, adds class methods (`self.included` and `self.extended`). Demonstrate both behaviors.
+   - Write a module that, when included, adds instance methods and when
+     extended, adds class methods (`self.included` and `self.extended`).
+     Demonstrate both behaviors.
 
 4. **Refinement sandbox**
-   - Create a refinement that adds `String#camelize`. Use it inside a specific class without affecting global `String` behavior.
+   - Create a refinement that adds `String#camelize`. Use it inside a specific
+     class without affecting global `String` behavior.
 
 5. **Mixin order exploration**
-   - Include multiple modules defining the same method. Use `ancestors` to inspect resolution order and adjust inclusion order to change behavior.
+   - Include multiple modules defining the same method. Use `ancestors` to
+     inspect resolution order and adjust inclusion order to change behavior.
 
 ## Self-check questions
 
 1. How does `include` change a class’s ancestor chain compared to `prepend`?
 2. When would you prefer a mixin over subclassing?
-3. What role do module callbacks like `included` and `extended` play when building reusable concerns?
-4. How does `extend` differ when called on an object versus within `class << self`?
-5. What problems can arise from mixing in too many modules, and how can you mitigate them?
+3. What role do module callbacks like `included` and `extended` play when
+   building reusable concerns?
+4. How does `extend` differ when called on an object versus within `class <<
+   self`?
+5. What problems can arise from mixing in too many modules, and how can you
+   mitigate them?
 
-Mixins provide Ruby’s version of multiple inheritance. Use them to compose behavior across unrelated classes, but keep modules focused, explicit, and well-documented so your ancestor chains remain understandable.
+Mixins provide Ruby’s version of multiple inheritance. Use them to compose
+behavior across unrelated classes, but keep modules focused, explicit, and
+well-documented so your ancestor chains remain understandable.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -320,10 +340,13 @@ class Service
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — mixins-ruby2)
 
-1. Create a module that provides logging and include it into a class; test that instances respond to `log`.
-2. Demonstrate method conflicts when including multiple modules and resolve using `Module#prepend` or aliasing; add tests.
+1. Create a module that provides logging and include it into a class; test that
+   instances respond to `log`.
+2. Demonstrate method conflicts when including multiple modules and resolve
+   using `Module#prepend` or aliasing; add tests.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -344,9 +367,53 @@ Advanced mixin patterns: use `prepend` to change method lookup, consider refinem
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Exercises (Appendix — mixins-ruby3)
 
-1. Demonstrate `prepend` to add logging around an existing instance method and test that the original method is still called.
-2. Use a refinement to add a helper method only in a test file and assert it doesn't leak globally.
+1. Demonstrate `prepend` to add logging around an existing instance method and
+   test that the original method is still called.
+2. Use a refinement to add a helper method only in a test file and assert it
+   doesn't leak globally.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Mixins — Design Patterns & Pitfalls (Appendix — mixins-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>ActiveSupport::Concern</td><td>Complex mixins</td><td>Use for cleaner `included` blocks and dependency management</td></tr>
+    <tr><td>Module state</td><td>Do not rely on module-level mutable state</td><td>Use `base.instance_variable_set` in hooks or class-level accessors</td></tr>
+    <tr><td>Testing</td><td>Mixins behavior</td><td>Test via a simple dummy class including the module</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Examples
+
+```ruby
+# Test a module via a dummy class
+class Dummy
+  include Cacheable
+  def cache_store; @store ||= {}; end
+end
+
+d = Dummy.new
+# exercise module methods on d
+```
+
+<!-- markdownlint-enable MD013 -->
+### Appendix — Exercises
+
+1. Convert a module that uses global `@foo` into one that uses `self.included`
+   hook to initialize per-class state.
+2. Create a minimal spec that includes a module into a dummy class and asserts
+   expected behavior.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

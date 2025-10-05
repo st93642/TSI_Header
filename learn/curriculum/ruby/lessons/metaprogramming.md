@@ -1,6 +1,8 @@
 # Metaprogramming Basics
 
-Metaprogramming is writing code that writes code. Ruby provides powerful metaprogramming features that allow dynamic method definition and class modification at runtime.
+Metaprogramming is writing code that writes code. Ruby provides powerful
+metaprogramming features that allow dynamic method definition and class
+modification at runtime.
 
 ## Dynamic Method Definition
 
@@ -56,8 +58,6 @@ class Calculator
     a + b
   end
 
-  def multiply(a, b)
-    a * b
   end
 end
 
@@ -111,51 +111,32 @@ class MyClass
     @name = value
   end
 end
-```
 
 ## Practical Example: DSL
 
 Creating a simple Domain-Specific Language:
 
 ```ruby
-class Task
-  attr_accessor :name, :priority
+class Task attr_accessor :name, :priority
 
-  def initialize(name)
-    @name = name
-  end
+def initialize(name) @name = name end
 
-  def high_priority
-    @priority = :high
-  end
-end
+def high_priority @priority = :high end end
 
-class TodoList
-  def initialize
-    @tasks = []
-  end
+class TodoList def initialize @tasks = [] end
 
-  def task(name, &block)
-    task = Task.new(name)
-    task.instance_eval(&block)
-    @tasks << task
-  end
+def task(name, &block) task = Task.new(name) task.instance_eval(&block) @tasks
+<< task end
 
-  def show
-    @tasks.each do |task|
-      puts "#{task.name} [#{task.priority}]"
-    end
-  end
+def show @tasks.each do |task| puts "#{task.name} [#{task.priority}]" end end
 end
 
 # Usage - looks like a DSL
 list = TodoList.new
 
-list.task "Buy groceries" do
-  high_priority
-end
+list.task "Buy groceries" do high_priority end
 
-list.show  # => Buy groceries [high]
+list.show # => Buy groceries [high]
 ```
 
 ## Key Takeaways
@@ -285,13 +266,8 @@ Compact recipes for using `define_method`, `method_missing`, and reflection safe
 ### Example: define_method
 
 ```ruby
-class MyBuilder
-  %i[one two three].each do |name|
-    define_method("do_#{name}") do |arg|
-      "#{name}-#{arg}"
-    end
-  end
-end
+class MyBuilder %i[one two three].each do |name| define_method("do_#{name}") do
+|arg| "#{name}-#{arg}" end end end
 ```
 
 ### Testing dynamic methods
@@ -301,13 +277,8 @@ end
 ```ruby
 require 'minitest/autorun'
 
-class TestMeta < Minitest::Test
-  def test_dynamic
-    b = MyBuilder.new
-    assert_respond_to b, :do_one
-    assert_equal 'one-42', b.do_one(42)
-  end
-end
+class TestMeta < Minitest::Test def test_dynamic b = MyBuilder.new
+assert_respond_to b, :do_one assert_equal 'one-42', b.do_one(42) end end
 ```
 
 ### Exercises (Appendix — metaprogramming-ruby2)
@@ -339,11 +310,8 @@ Guidance on using `define_method`, `method_missing`, and avoiding maintainabilit
 ### Example: safe dynamic method
 
 ```ruby
-class AttrList
-  def initialize(names)
-    names.each { |n| define_singleton_method(n) { instance_variable_get("@#{n}") } }
-  end
-end
+class AttrList def initialize(names) names.each { |n| define_singleton_method(n)
+{ instance_variable_get("@#{n}") } } end end
 ```
 
 ### Exercises (Appendix — metaprogramming-ruby-appendix-20251005)
@@ -352,3 +320,112 @@ end
 2. Document when metaprogramming improves vs harms clarity in a short note.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Metaprogramming — Safety & Introspection (Appendix — metaprogramming-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Danger</th><th>Safe alternative</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Unscoped class_eval</td><td>Use Module.new + refine or prepend</td><td>Avoid changing core classes globally</td></tr>
+    <tr><td>Dynamic method names</td><td>Validate inputs + explicit interface</td><td>Raise early if name not allowed</td></tr>
+    <tr><td>Method_missing abuse</td><td>Prefer defined? or explicit delegation</td><td>Provides clearer errors and tooling support</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Patterns
+
+```ruby
+# defensive dynamic method
+ALLOWED = %i[foo bar baz] ALLOWED.each { |name| define_method(name) { |*a|
+handle(name, *a) } }
+```
+
+```ruby
+# prefer delegation over method_missing
+delegate :perform, to: :worker
+```
+
+### Exercises
+
+1. Replace a `method_missing` in the codebase (if any) with explicit delegation.
+2. Write a small `safe_define` helper that only defines whitelisted methods and tests its behavior.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Metaprogramming — Safety Checklist & Alternatives (Appendix — metaprogramming-appendix-3)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Check</th><th>Alternative</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Readability</td><td>Is generated code documented?</td><td>Prefer explicit methods when clarity matters</td></tr>
+    <tr><td>Security</td><td>Does input influence `eval`/`class_eval`?</td><td>Use `define_method` with blocks, avoid string `eval`</td></tr>
+    <tr><td>Testability</td><td>Can you test generated methods individually?</td><td>Generate methods at build-time or provide explicit wrappers</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Appendix — Examples
+
+```ruby
+# Prefer define_method over class_eval string
+self.class.define_method(:greet) do |name| "Hello, #{name}" end
+
+# Document generated methods for tooling
+# :nodoc: generated by Settings.define_boolean
+```
+
+### Appendix — Exercises
+
+1. Find a `class_eval` usage and rewrite to `define_method` with a block; run tests to ensure parity.
+2. Add a short YARD comment to a dynamically created method so it appears in generated docs.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Metaprogramming — Hidden Tips & Safe Patterns (Appendix — metaprogramming-hidden-20251005)
+
+A few short, practical tips drawn from community best-practices and the Ruby Style Guide.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tip</th><th>Why</th><th>Quick fix</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Prefer define_method with blocks</td><td>Avoid string eval and keep scope</td><td>use `define_method(:name) { |*a| ... }`</td></tr>
+    <tr><td>Implement respond_to_missing?</td><td>Tooling & introspection expect it</td><td>return true for handled methods</td></tr>
+    <tr><td>Avoid global class_eval</td><td>Prevents surprising global changes</td><td>define on a module/class or use prepend</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Tiny example — safe dynamic methods
+
+```ruby
+# define a whitelisted dynamic API safely
+class SafeBuilder ALLOWED = %i[one two]
+
+ALLOWED.each do |n| define_method("do_#{n}") { |arg| "#{n}-#{arg}" } end
+
+def respond_to_missing?(name, include_private = false)
+name.to_s.start_with?("do_") || super end end
+```
+
+### Exercises
+
+1. Add a test that ensures only methods in ALLOWED are defined and others raise NoMethodError.
+2. Replace a small string-eval `class_eval` usage in the repo (if present) with `define_method` and verify behaviour.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

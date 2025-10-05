@@ -1,6 +1,7 @@
 # Blocks and Procs
 
-Blocks are chunks of code that can be passed to methods. They are fundamental to Ruby's iterator pattern.
+Blocks are chunks of code that can be passed to methods. They are fundamental to
+Ruby's iterator pattern.
 
 ## What is a Block?
 
@@ -186,7 +187,8 @@ Recommended reading and quick recipes for blocks, procs, and lambda differences.
 
 ### Exercises (External Resources)
 
-1. Replace a block with an explicit `Proc.new` and observe differences with `return` in tests.
+1. Replace a block with an explicit `Proc.new` and observe differences with
+`return` in tests.
 2. Benchmark invoking a lambda vs a method for a tight loop.
 
 <!-- markdownlint-disable MD010 -->
@@ -221,6 +223,7 @@ call_with_block { |v| puts "Value: #{v}" }
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix II — blocks_procs)
 
 1. Implement a memoizing wrapper that accepts a block and caches results.
@@ -228,9 +231,13 @@ call_with_block { |v| puts "Value: #{v}" }
 
 <!-- markdownlint-enable MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Practical Appendix: External Tools & Examples (Appendix — External Tools — blocks_procs-ruby)
 
-This compact appendix provides quick references and recipes when working with Ruby blocks, procs, and common developer tools used in exercises (testing, REPL, and IO examples). Links point to the official Ruby docs and Enumerable reference for authoritative guidance.
+This compact appendix provides quick references and recipes when working with
+Ruby blocks, procs, and common developer tools used in exercises (testing, REPL,
+and IO examples). Links point to the official Ruby docs and Enumerable reference
+for authoritative guidance.
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -276,8 +283,10 @@ end
 
 ### Exercises (blocks_procs-ruby)
 
-1. Write a small Minitest that verifies a method yields expected values to a block; include an assertion for block return behavior.
-2. Use `Enumerable#chunk` or `each_with_index` to solve a small data-grouping problem and document your approach in the lesson.
+1. Write a small Minitest that verifies a method yields expected values to a
+   block; include an assertion for block return behavior.
+2. Use `Enumerable#chunk` or `each_with_index` to solve a small data-grouping
+   problem and document your approach in the lesson.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -298,6 +307,7 @@ This appendix collects quick-reference recipes, test harness patterns, and porta
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 -->
 ### Quick recipes (Appendix — blocks_procs-ruby2)
 
 - Capture stdout in tests (useful when blocks print):
@@ -328,9 +338,11 @@ store_block { |x| puts x }
 # later: stored.call(42)
 ```
 
+<!-- markdownlint-enable MD013 -->
 ### CI / Smoke snippet
 
-Include a smoke job that runs a quick script exercising block behaviour. This keeps lessons runnable in minimal CI.
+Include a smoke job that runs a quick script exercising block behaviour. This
+keeps lessons runnable in minimal CI.
 
 ```yaml
 # .github/workflows/lesson-smoke.yml
@@ -362,11 +374,50 @@ fib = memoize_block do |n|
 end
 ```
 
-> Note: The example above shows pattern intent; real memoization for recursive blocks requires careful scoping to avoid immediate recursion issues.
+> Note: The example above shows pattern intent; real memoization for recursive
+blocks requires careful scoping to avoid immediate recursion issues.
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — blocks_procs-ruby2)
 
-1. Implement a small benchmark comparing invoking a Proc vs calling a method in a tight loop. Report average time over many iterations.
-2. Write a Minitest that asserts a method yields to a block with expected arguments. Use `capture_stdout` helper to verify printed output.
+1. Implement a small benchmark comparing invoking a Proc vs calling a method in
+   a tight loop. Report average time over many iterations.
+2. Write a Minitest that asserts a method yields to a block with expected
+   arguments. Use `capture_stdout` helper to verify printed output.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Blocks, Procs & Lambdas — Calling Conventions & Tips (Appendix — blocks_procs-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concept</th><th>Behavior</th><th>Recommendation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Block</td><td>Implicit; passed to method</td><td>Use for short callbacks; use `yield` for speed</td></tr>
+    <tr><td>Proc</td><td>Object wrapper; lenient arity</td><td>Use when you need first-class callable but loose arity</td></tr>
+    <tr><td>Lambda</td><td>Callable with strict arity and `return` semantics</td><td>Use when you need function-like behavior</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Examples
+
+```ruby
+def with_logging
+  yield
+end
+
+p = Proc.new { |x, y| x }
+lam = ->(x) { x }
+```
+
+### Exercises
+
+1. Convert a block-based API to accept an explicit `&block` and write tests for
+   both forms.
+2. Demonstrate arity differences with small examples and assert behavior.

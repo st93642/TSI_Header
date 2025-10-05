@@ -1,14 +1,20 @@
 # Defining Methods in Ruby
 
-Methods encapsulate behavior behind a name. They reduce duplication, clarify intent, and form the public interface of classes and modules. Ruby makes method definitions flexible: you can accept positional, keyword, and block arguments, return multiple values, and even define methods dynamically.
+Methods encapsulate behavior behind a name. They reduce duplication, clarify
+intent, and form the public interface of classes and modules. Ruby makes method
+definitions flexible: you can accept positional, keyword, and block arguments,
+return multiple values, and even define methods dynamically.
 
 ## Learning goals
 
-- Define methods with different argument styles (positional, keyword, optional, splat, double splat, block).
+- Define methods with different argument styles (positional, keyword, optional,
+  splat, double splat, block).
 - Control return values, guard clauses, and early exits.
 - Follow Ruby naming conventions (`snake_case`, `?`, `!`).
-- Pass and yield blocks, convert between blocks and `Proc` objects, and forward arguments.
-- Use visibility modifiers (`public`, `private`, `protected`) and dynamically define methods at runtime when needed.
+- Pass and yield blocks, convert between blocks and `Proc` objects, and forward
+  arguments.
+- Use visibility modifiers (`public`, `private`, `protected`) and dynamically
+  define methods at runtime when needed.
 
 ## Method definition basics
 
@@ -19,6 +25,10 @@ def greet
   "Hello, world!"
 end
 
+greet # => "Hello, world!"
+## Practical Appendix: Defining Methods — Visibility, Introspection & Patterns (Appendix — defining_methods-appendix)
+
+### Exercises
 greet # => "Hello, world!"
 ```
 
@@ -125,7 +135,8 @@ Returning hashes makes more explicit contracts when many values are involved.
 
 - Use `snake_case` for method names.
 - Methods ending in `?` return boolean-like values (`empty?`).
-- Methods ending in `!` perform dangerous operations (mutate or raise). Remember: this is a convention, not enforced by Ruby.
+- Methods ending in `!` perform dangerous operations (mutate or raise).
+  Remember: this is a convention, not enforced by Ruby.
 
 ```ruby
 def valid?(input)
@@ -244,34 +255,45 @@ def publish(post)
 end
 ```
 
-Prefer small, focused methods that do one thing well. Decompose complex logic into private helper methods when needed.
+Prefer small, focused methods that do one thing well. Decompose complex logic
+into private helper methods when needed.
 
 ## Guided practice
 
 1. **Argument forwarding helper**
-   - Implement `instrument(name, ...)` that logs method start/finish, forwards arguments using `...`, and returns the original result.
+   - Implement `instrument(name, ...)` that logs method start/finish, forwards
+     arguments using `...`, and returns the original result.
 
 2. **Config builder**
-   - Write `build_config(defaults = {}, **overrides)` that merges defaults and overrides while keeping unexpected keys in a `:extras` hash.
+   - Write `build_config(defaults = {}, **overrides)` that merges defaults and
+     overrides while keeping unexpected keys in a `:extras` hash.
 
 3. **Block-required method**
-   - Implement `retry_on_error(max_attempts: 3)` that demands a block, retries failures, and returns the block result or raises after the last attempt.
+   - Implement `retry_on_error(max_attempts: 3)` that demands a block, retries
+     failures, and returns the block result or raises after the last attempt.
 
 4. **Dynamic boolean methods**
-   - Create a module `Flags` exposing `.flag(name)` which defines both setter and `?` reader via `define_method`.
+   - Create a module `Flags` exposing `.flag(name)` which defines both setter
+     and `?` reader via `define_method`.
 
 5. **Visibility exercise**
-   - Build `Authenticator#login(user)` that calls private methods for password verification and protected methods for token issuance shared across subclasses.
+   - Build `Authenticator#login(user)` that calls private methods for password
+     verification and protected methods for token issuance shared across
+     subclasses.
 
 ## Self-check questions
 
 1. How do `*args`, `**kwargs`, and `...` differ when defining methods?
 2. When should you use `return` explicitly inside Ruby methods?
 3. Why is `block_given?` important before calling `yield`?
-4. What’s the difference between `respond_to?` and `method_defined?` when reflecting on methods?
-5. When does defining methods dynamically with `define_method` make sense, and what trade-offs come with meta-programming?
+4. What’s the difference between `respond_to?` and `method_defined?` when
+   reflecting on methods?
+5. When does defining methods dynamically with `define_method` make sense, and
+   what trade-offs come with meta-programming?
 
-Mastering Ruby method definitions empowers you to build expressive APIs. Keep your methods small, choose argument styles that make intent clear, and use blocks and keyword arguments to craft elegant, flexible interfaces.
+Mastering Ruby method definitions empowers you to build expressive APIs. Keep
+your methods small, choose argument styles that make intent clear, and use
+blocks and keyword arguments to craft elegant, flexible interfaces.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -322,9 +344,124 @@ class TestMethods < Minitest::Test
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — defining_methods-ruby2)
 
-1. Implement a method that accepts either a hash or keyword args and normalize inputs inside the method; add tests to cover both call styles.
-2. Create a class with public and private methods and write tests ensuring private methods are not part of the public interface.
+1. Implement a method that accepts either a hash or keyword args and normalize
+   inputs inside the method; add tests to cover both call styles.
+2. Create a class with public and private methods and write tests ensuring
+   private methods are not part of the public interface.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Defining Methods — Performance & Edge Cases (Appendix — defining_methods-ruby-edges)
+
+Notes and micro-patterns for robust method design: consider method object size, argument validation, and dealing with large inputs.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Recommendation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Argument validation</td><td>Raise early</td><td>Use `raise ArgumentError` for invalid inputs</td></tr>
+    <tr><td>Large inputs</td><td>Stream if possible</td><td>Accept enumerators or use `lazy` chains</td></tr>
+    <tr><td>Side effects</td><td>Document mutations</td><td>Prefer returning new objects when possible</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Short checklist
+
+- Keep public methods small (one responsibility).
+- Validate inputs and fail fast.
+- Prefer keyword args for clarity when many options exist.
+- Document mutation behavior in method comments.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Defining Methods — Visibility, Introspection & Patterns (Appendix — defining_methods-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Technique</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>define_method</td><td>Dynamic behavior</td><td>When method body is mechanical and safe</td></tr>
+    <tr><td>private/protected</td><td>Visibility control</td><td>Protect internal API from consumers</td></tr>
+    <tr><td>method(:name)</td><td>Introspection</td><td>Testing and delegation helpers</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+class Foo
+  private
+  def secret; 'x'; end
+end
+
+p Foo.new.send(:secret) # reflection to call private
+```
+
+### Exercises
+
+1. Add a test that verifies a helper method is private; ensure external calls
+   raise NoMethodError.
+2. Implement a small `safe_define` that refuses to overwrite existing public
+   methods unless explicitly allowed.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Defining Methods — Forwarding & Defensive Patterns (Appendix — defining_methods-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Argument forwarding (`...`)</td><td>Wrapper methods</td><td>Use `...` to forward all args/keywords/blocks safely</td></tr>
+    <tr><td>Guard clauses</td><td>Input validation</td><td>Keep happy path unindented by returning early</td></tr>
+    <tr><td>Keyword handling</td><td>API clarity</td><td>Prefer explicit keywords; use `**options` for pass-throughs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Examples
+
+```ruby
+def wrapper(...)
+  start = Time.now
+  send(:heavy_work, ...)
+ensure
+  logger.info("duration: #{Time.now - start}")
+end
+
+# Guard clause example
+def publish(post)
+  return false unless post.valid?
+  return false if post.published?
+  # publish path
+end
+```
+
+<!-- markdownlint-enable MD013 -->
+### Appendix — Exercises
+
+1. Replace a method with many keyword args with a clearer signature using
+   keyword arguments and update call sites.
+2. Add an argument-forwarding wrapper around a slow method that logs duration
+   using `...` and test it.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

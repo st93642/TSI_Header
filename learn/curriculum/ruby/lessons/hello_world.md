@@ -1,18 +1,30 @@
 # Hello World and Output
 
-Ruby is famous for rewarding curiosity—your very first script can be useful, expressive, and fun. This lesson goes far beyond a one-line "Hello, World!" by exploring how Ruby talks to the outside world, how the runtime executes scripts, and how to build confidence with your development tools.
+Ruby is famous for rewarding curiosity—your very first script can be useful,
+expressive, and fun. This lesson goes far beyond a one-line "Hello, World!" by
+exploring how Ruby talks to the outside world, how the runtime executes scripts,
+and how to build confidence with your development tools.
 
 ## Learning goals
 
-- Understand how Ruby programs execute from the command line and within interactive consoles.
-- Master the nuanced differences between `puts`, `print`, `p`, `warn`, `printf`, and `format`.
-- Control newlines, whitespace, and encodings in output so your programs behave consistently on every platform.
-- Use comments, documentation, and debugging helpers to communicate intent and trace issues.
-- Practice with guided exercises that simulate real-world workflows, from quick prototypes to logging.
+- Understand how Ruby programs execute from the command line and within
+  interactive consoles.
+- Master the nuanced differences between `puts`, `print`, `p`, `warn`, `printf`,
+  and `format`.
+- Control newlines, whitespace, and encodings in output so your programs behave
+  consistently on every platform.
+- Use comments, documentation, and debugging helpers to communicate intent and
+  trace issues.
+- Practice with guided exercises that simulate real-world workflows, from quick
+  prototypes to logging.
 
 ## A quick tour of Ruby
 
-Ruby, created by Yukihiro "Matz" Matsumoto in the mid-1990s, combines ideas from Perl, Smalltalk, Lisp, and Python. Its guiding principle is “optimized for programmer happiness.” That means the language syntax is designed to read like English, the standard library favors clarity over ceremony, and Rubyists lean on expressive code rather than verbose boilerplate.
+Ruby, created by Yukihiro "Matz" Matsumoto in the mid-1990s, combines ideas from
+Perl, Smalltalk, Lisp, and Python. Its guiding principle is “optimized for
+programmer happiness.” That means the language syntax is designed to read like
+English, the standard library favors clarity over ceremony, and Rubyists lean on
+expressive code rather than verbose boilerplate.
 
 ### Installation check
 
@@ -120,10 +132,12 @@ puts message
 
 ## Strings and encodings
 
-Ruby strings are mutable sequences of bytes associated with an encoding (UTF-8 by default). Understanding strings early helps you avoid subtle bugs.
+Ruby strings are mutable sequences of bytes associated with an encoding (UTF-8
+by default). Understanding strings early helps you avoid subtle bugs.
 
 - **Single quotes (`'`)**: treat contents literally, except for `\'` and `\\`.
-- **Double quotes (`"`)**: support interpolation (`"Hello, #{name}"`) and escape sequences (`\n`, `\t`).
+- **Double quotes (`"`)**: support interpolation (`"Hello, #{name}"`) and escape
+  sequences (`\n`, `\t`).
 - **Heredocs**: excellent for multi-line text.
 
 ```ruby
@@ -199,9 +213,42 @@ end
 
 Restoring `$stdout` in an `ensure` block guarantees your program keeps working even if an exception occurs.
 
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Hello World — CLI Packaging & Gems (Appendix — hello_world-ruby-pack)
+
+Short notes on turning small scripts into reusable CLIs and tiny gems.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+   <thead>
+      <tr><th>Goal</th><th>Tool</th><th>Notes</th></tr>
+   </thead>
+   <tbody>
+      <tr><td>CLI flags</td><td>OptionParser</td><td>Keep `bin/` scripts thin</td></tr>
+      <tr><td>Executable gem</td><td>gemspec + bin/</td><td>Move logic into `lib/` to aid testing</td></tr>
+      <tr><td>Versioning</td><td>gemspec</td><td>Pin dependencies for CI stability</td></tr>
+   </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Mini example
+
+```ruby
+require 'optparse'
+options = {}
+OptionParser.new do |opts|
+   opts.on('-nNAME', '--name=NAME', 'Name to greet') { |v| options[:name] = v }
+end.parse!
+puts "Hello, #{options[:name] || 'world'}!"
+```
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
 ## Internationalisation (I18n) considerations
 
-Ruby handles UTF-8 seamlessly, but console fonts and encodings can trip you up. Test with non-Latin characters:
+Ruby handles UTF-8 seamlessly, but console fonts and encodings can trip you up.
+Test with non-Latin characters:
 
 ```ruby
 puts "こんにちは世界"   # Japanese
@@ -213,48 +260,68 @@ If you see garbled output, ensure your terminal uses UTF-8 and your source files
 
 ## Common pitfalls and their fixes
 
-- **Accidentally omitting newlines**: `print` without `\n` can cause prompts and inputs to jumble together—explicitly add `"\n"` or use `puts`.
-- **Mixing `puts` with `p`**: remember `p` shows inspected strings, including quotes; this is handy for debugging but confusing for user-facing text.
-- **Forgetting to flush output**: when running scripts that prompt users, call `STDOUT.flush` after `print`.
-- **Encoding mismatches**: specify the encoding in file headers or use `force_encoding` cautiously when interacting with external systems.
+- **Accidentally omitting newlines**: `print` without `\n` can cause prompts and
+  inputs to jumble together—explicitly add `"\n"` or use `puts`.
+- **Mixing `puts` with `p`**: remember `p` shows inspected strings, including
+  quotes; this is handy for debugging but confusing for user-facing text.
+- **Forgetting to flush output**: when running scripts that prompt users, call
+  `STDOUT.flush` after `print`.
+- **Encoding mismatches**: specify the encoding in file headers or use
+  `force_encoding` cautiously when interacting with external systems.
 
 ## Guided practice
 
 1. **Hello, Universe!**
    - Create `hello_universe.rb`.
-   - Print the phrases “Hello, Solar System!” and “Hello, Milky Way!” on separate lines.
-   - Use `warn` to send “Launching greeting sequence…” to STDERR before printing anything else.
+   - Print the phrases “Hello, Solar System!” and “Hello, Milky Way!” on
+     separate lines.
+   - Use `warn` to send “Launching greeting sequence…” to STDERR before printing
+     anything else.
 
 2. **Prompting user input**
-   - Write a script that prints “What is your favorite language? ” without a newline (use `print`).
-   - Flush STDOUT, capture the response with `gets.chomp`, and then output friendly messages with both `puts` and `p` to highlight the difference.
+   - Write a script that prints “What is your favorite language? ” without a
+     newline (use `print`).
+   - Flush STDOUT, capture the response with `gets.chomp`, and then output
+     friendly messages with both `puts` and `p` to highlight the difference.
 
 3. **Formatted receipts**
    - Ask for an item name, quantity, and unit price.
-   - Use `format` to build a receipt line like `"Widget      x  3  @  19.99  ->  59.97"`.
-   - Send the receipt to STDOUT and log a detailed line to STDERR with timestamp.
+   - Use `format` to build a receipt line like `"Widget x 3 @ 19.99 -> 59.97"`.
+   - Send the receipt to STDOUT and log a detailed line to STDERR with
+     timestamp.
 
 4. **Localization check**
    - Print the same greeting translated into at least three languages.
-   - Verify the script runs correctly when the terminal locale changes (e.g., `LANG=ja_JP.UTF-8 ruby greetings.rb`).
+   - Verify the script runs correctly when the terminal locale changes (e.g.,
+     `LANG=ja_JP.UTF-8 ruby greetings.rb`).
 
 5. **Mini logger**
-   - Implement a helper method `log(level, message)` that prints `"[LEVEL] message"` to STDERR with `warn`.
-   - Call it with levels `INFO`, `WARN`, and `ERROR` to see how output interleaves when piping your script.
+   - Implement a helper method `log(level, message)` that prints `"[LEVEL]
+     message"` to STDERR with `warn`.
+   - Call it with levels `INFO`, `WARN`, and `ERROR` to see how output
+     interleaves when piping your script.
 
 ## Self-check quiz
 
-1. What are the functional differences between `puts`, `print`, and `p`? When would you choose one over the others?
+1. What are the functional differences between `puts`, `print`, and `p`? When
+   would you choose one over the others?
 2. Why is `STDOUT.flush` sometimes necessary immediately after `print`?
-3. How do `printf` and `format` differ, and when is it beneficial to use them instead of string interpolation?
-4. What steps would you take if your script prints unreadable characters when handling emojis or accented letters?
-5. Why might you prefer `warn` over `puts` for logging warnings in a command-line tool?
+3. How do `printf` and `format` differ, and when is it beneficial to use them
+   instead of string interpolation?
+4. What steps would you take if your script prints unreadable characters when
+   handling emojis or accented letters?
+5. Why might you prefer `warn` over `puts` for logging warnings in a
+   command-line tool?
 
 ## Where to go next
 
-Take your time with the practice prompts to build muscle memory around output methods and debugging. When ready, jump to the next lesson to explore variables and data types. You'll start storing values, combining them with output, and crafting scripts that feel interactive and alive.
+Take your time with the practice prompts to build muscle memory around output
+methods and debugging. When ready, jump to the next lesson to explore variables
+and data types. You'll start storing values, combining them with output, and
+crafting scripts that feel interactive and alive.
 
-Happy coding—and remember, every experiment you try in Ruby brings you one step closer to fluency! 🚀
+Happy coding—and remember, every experiment you try in Ruby brings you one step
+closer to fluency! 🚀
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -287,13 +354,18 @@ puts "Hello, #{name}!"
 
 ### Testing scripts
 
-- Extract core logic into a method so unit tests can call it without forking a process.
-- For integration tests, use `Open3.capture3` to run the script and assert stdout/stderr and exit codes.
+- Extract core logic into a method so unit tests can call it without forking a
+  process.
+- For integration tests, use `Open3.capture3` to run the script and assert
+  stdout/stderr and exit codes.
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — hello_world-ruby2)
 
-1. Convert a simple script into a testable library by moving logic into a method and adding unit tests.
-2. Write an integration test that runs the script with different arguments and verifies output and exit status.
+1. Convert a simple script into a testable library by moving logic into a method
+   and adding unit tests.
+2. Write an integration test that runs the script with different arguments and
+   verifies output and exit status.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -314,6 +386,7 @@ Short guidance for turning small scripts into gems or CLI executables and handli
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Example: OptionParser
 
 ```ruby
@@ -330,9 +403,80 @@ puts "Hello, #{options[:name] || 'world'}!"
 - Move reusable code into `lib/` and keep `bin/` scripts thin.
 - Provide `executables` in the gemspec and use `bundle gem` to scaffold.
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — hello_world-ruby3)
 
-1. Convert the Hello World script into a tiny gem with a CLI entrypoint and add a test that runs the executable using `Open3.capture3`.
-2. Add OptionParser flags for `--shout` and `--repeat` and test the behavior for several combinations.
+1. Convert the Hello World script into a tiny gem with a CLI entrypoint and add
+   a test that runs the executable using `Open3.capture3`.
+2. Add OptionParser flags for `--shout` and `--repeat` and test the behavior for
+   several combinations.
 
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Hello World — Scripts, Shebangs & Args (Appendix — hello_world-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Pattern</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Shebang</td><td>`#!/usr/bin/env ruby`</td><td>Makes script portable</td></tr>
+    <tr><td>Encoding</td><td>`# frozen_string_literal: true`</td><td>Safer defaults for literals</td></tr>
+    <tr><td>Args</td><td>`ARGV`</td><td>Parse with `OptionParser` for complex scripts</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Example
+
+```ruby
+#!/usr/bin/env ruby
+puts ARGV.join(' ')
+```
+
+### Exercises
+
+1. Create a small script that accepts an argument and prints a greeting; add a
+   shebang and make it executable.
+2. Replace manual ARGV parsing with `OptionParser` for a multi-flag script.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD013 -->
+## Practical Appendix: Output & Tooling Quick Wins (Appendix — hello_world-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Area</th><th>Pattern</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Output</td><td>`puts` vs `print` vs `p`</td><td>Use `puts` for user text, `p` for debugging, `print` for inline prompts</td></tr>
+    <tr><td>Encodings</td><td>UTF-8 default</td><td>Be explicit when dealing with external data: `File.read('f', encoding: 'bom|utf-8')`</td></tr>
+    <tr><td>REPL tools</td><td>IRB, Pry</td><td>Use Pry for advanced introspection (step into objects, syntax highlighting)</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+# Prompt and flush
+print "Enter name: "
+STDOUT.flush
+name = gets&.chomp
+puts "Hello, #{name}"
+```
+
+### Appendix — Exercises
+
+1. Build a small CLI `greet` that accepts a name via `ARGV` and falls back to
+   prompting the user.
+2. Start `irb` and experiment with `binding.irb` inside a script to drop into
+   runtime.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

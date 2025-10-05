@@ -2,15 +2,21 @@
 
 ## Overview
 
-This lesson demonstrates the enhanced testing capabilities of the TSI Header extension. The testing system now supports multiple types of tests to validate different aspects of your code behavior.
+This lesson demonstrates the enhanced testing capabilities of the TSI Header
+extension. The testing system now supports multiple types of tests to validate
+different aspects of your code behavior.
 
 ## Learning Goals
 
-- Distinguish between the four supported test types: output, exception, side effect, and return value.
-- Understand how the harness captures STDOUT/STDERR without interfering with your code.
-- Structure code so it’s testable—clear separation of computation, IO, and error handling.
+- Distinguish between the four supported test types: output, exception, side
+  effect, and return value.
+- Understand how the harness captures STDOUT/STDERR without interfering with
+  your code.
+- Structure code so it’s testable—clear separation of computation, IO, and error
+  handling.
 - Apply cleanup strategies so side-effect tests remain deterministic.
-- Anticipate cross-language portability when exercises span Ruby, Python, and JavaScript.
+- Anticipate cross-language portability when exercises span Ruby, Python, and
+  JavaScript.
 
 ## Test Types
 
@@ -34,12 +40,15 @@ raise "Unexpected" unless buffer.string == "Hello, Alice!\n"
 
 ### Tips
 
-- `puts` appends newlines—match them exactly. Use `strip` or `chomp` only if the spec allows.
-- Keep formatting deterministic (no timestamps unless asked). For dynamic values, tests may use regex on the captured string.
+- `puts` appends newlines—match them exactly. Use `strip` or `chomp` only if the
+  spec allows.
+- Keep formatting deterministic (no timestamps unless asked). For dynamic
+  values, tests may use regex on the captured string.
 
 ### 2. Exception Tests
 
-Exception tests verify that your code properly raises errors when given invalid input. This ensures robust error handling.
+Exception tests verify that your code properly raises errors when given invalid
+input. This ensures robust error handling.
 
 ```ruby
 def validate_age(age)
@@ -52,12 +61,14 @@ assert_raises(ArgumentError) { validate_age(-5) }
 
 Guidance:
 
-- Raise specific exception classes—`ArgumentError`, `RuntimeError`, custom types.
+- Raise specific exception classes—`ArgumentError`, `RuntimeError`, custom
+  types.
 - Include meaningful error messages; tests can assert on `exception.message`.
 
 ### 3. Side Effect Tests
 
-Side effect tests validate operations that modify external state, such as file creation, database updates, or other persistent changes.
+Side effect tests validate operations that modify external state, such as file
+creation, database updates, or other persistent changes.
 
 ```ruby
 def create_log_file(message)
@@ -74,8 +85,10 @@ assert_includes File.read("test.log"), "Test message"
 
 Best practices:
 
-- Keep side effects isolated in helper methods; they’re easier to set up and tear down.
-- Use temporary directories or test-specific filenames to avoid clobbering real data.
+- Keep side effects isolated in helper methods; they’re easier to set up and
+  tear down.
+- Use temporary directories or test-specific filenames to avoid clobbering real
+  data.
 - Clean up in ensure/teardown blocks so one failure doesn’t cascade.
 
 ### 4. Regular Return Value Tests
@@ -90,47 +103,67 @@ end
 assert_equal 10, calculate_total([1, 2, 3, 4])
 ```
 
-Return tests encourage pure functions—no printing, no global state. Favor this style whenever possible; output and side-effect tests layer on top when necessary.
+Return tests encourage pure functions—no printing, no global state. Favor this
+style whenever possible; output and side-effect tests layer on top when
+necessary.
 
 ## Implementation Details
 
-- **Ruby**: Minitest with `StringIO` for STDOUT, `capture_io` for dual stream capture, temporary directories for side effects.
-- **Python**: Pytest’s `capsys` fixture, `pytest.raises`, and tmp-path fixtures provide analogous behaviors.
-- **JavaScript**: Custom harness wraps console methods, uses Node’s `fs` module with temporary directories.
+- **Ruby**: Minitest with `StringIO` for STDOUT, `capture_io` for dual stream
+  capture, temporary directories for side effects.
+- **Python**: Pytest’s `capsys` fixture, `pytest.raises`, and tmp-path fixtures
+  provide analogous behaviors.
+- **JavaScript**: Custom harness wraps console methods, uses Node’s `fs` module
+  with temporary directories.
 
-Understanding these internals helps you diagnose failing tests (e.g., missing newline, wrong exception type).
+Understanding these internals helps you diagnose failing tests (e.g., missing
+newline, wrong exception type).
 
 ## Practice Prompts
 
 1. **Output + return combo**
-   - Write a method `report_sum(a, b)` that prints `"Sum: X"` but returns the numeric sum.
+   - Write a method `report_sum(a, b)` that prints `"Sum: X"` but returns the
+     numeric sum.
    - Ensure tests could capture and assert both aspects separately.
 
 2. **Exception edge cases**
-   - Implement `parse_age(string)` that converts strings to integers, raising `ArgumentError` for non-numeric or negative input.
+   - Implement `parse_age(string)` that converts strings to integers, raising
+     `ArgumentError` for non-numeric or negative input.
    - Craft tests covering whitespace, `nil`, and large numbers.
 
 3. **Side-effect cleanup**
-   - Create `append_audit(entry, path:)` that writes to a file and ensures a trailing newline.
-   - In tests, delete the file before each run, call the method twice, and assert the file contains two lines.
+   - Create `append_audit(entry, path:)` that writes to a file and ensures a
+     trailing newline.
+   - In tests, delete the file before each run, call the method twice, and
+     assert the file contains two lines.
 
 4. **Cross-language mindset**
-   - Imagine porting `parse_age` to Python. List the equivalent assertion helpers and exception types.
-   - Evaluate how string-to-int conversion differs (`int(value)` vs `Integer(value, exception: false)`).
+   - Imagine porting `parse_age` to Python. List the equivalent assertion
+     helpers and exception types.
+   - Evaluate how string-to-int conversion differs (`int(value)` vs
+     `Integer(value, exception: false)`).
 
 5. **Harness extension**
-   - Design a new test type (e.g., HTTP call recording) and outline how you’d capture behavior in Ruby, Python, and JavaScript.
+   - Design a new test type (e.g., HTTP call recording) and outline how you’d
+     capture behavior in Ruby, Python, and JavaScript.
    - Consider how to stub external services while keeping tests deterministic.
 
 ## Self-Check Questions
 
-1. Why can relying solely on printed output make code harder to reuse, and how do return-value tests promote better design?
-2. What steps ensure side-effect tests remain deterministic, even when run in parallel or repeatedly?
-3. How does the harness capture STDOUT without losing the original stream, and what pitfalls occur if you forget to restore it?
-4. When testing exceptions, why is it important to assert on both the class and the message?
-5. How would you adapt these patterns when writing tests in another language—what stays the same, and what changes?
+1. Why can relying solely on printed output make code harder to reuse, and how
+   do return-value tests promote better design?
+2. What steps ensure side-effect tests remain deterministic, even when run in
+   parallel or repeatedly?
+3. How does the harness capture STDOUT without losing the original stream, and
+   what pitfalls occur if you forget to restore it?
+4. When testing exceptions, why is it important to assert on both the class and
+   the message?
+5. How would you adapt these patterns when writing tests in another
+   language—what stays the same, and what changes?
 
-Lean on this testing toolbox every time you practice: keep logic pure when possible, isolate IO, and let the harness confirm your code behaves exactly as intended.
+Lean on this testing toolbox every time you practice: keep logic pure when
+possible, isolate IO, and let the harness confirm your code behaves exactly as
+intended.
 
 <!-- markdownlint-disable MD033 MD010 -->
 
@@ -238,16 +271,20 @@ ruby -Ilib:test test/test_foo.rb --name /test_method_name/
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix)
 
-1. Add a `test_helper.rb` that configures temporary dirs and reporter formatting.
+1. Add a `test_helper.rb` that configures temporary dirs and reporter
+   formatting.
 2. Document how to run a single test locally and in CI.
 
 <!-- markdownlint-enable MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Practical Appendix: External Tools & Examples (Appendix — External Tools — testing_demo-ruby)
 
-Quick recipes for testing in Ruby: Minitest skeletons, RSpec pointers, and CI tips for running tests in GitHub Actions.
+Quick recipes for testing in Ruby: Minitest skeletons, RSpec pointers, and CI
+tips for running tests in GitHub Actions.
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -278,8 +315,10 @@ end
 
 ### Exercises (testing_demo-ruby)
 
-1. Convert one of the lesson's examples into a Minitest and ensure it runs under `ruby -r minitest/autorun`.
-2. Add a simple GitHub Actions workflow that runs `bundle exec rake test` or `ruby -r minitest/autorun` on push.
+1. Convert one of the lesson's examples into a Minitest and ensure it runs under
+`ruby -r minitest/autorun`.
+2. Add a simple GitHub Actions workflow that runs `bundle exec rake test` or
+`ruby -r minitest/autorun` on push.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -308,10 +347,13 @@ def user_factory(attrs = {})
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — testing_demo-ruby2)
 
-1. Create a small test fixture file and write tests that load it for multiple test cases.
-2. Implement a tiny factory helper and replace repeated fixture creation in tests; verify reduced duplication.
+1. Create a small test fixture file and write tests that load it for multiple
+   test cases.
+2. Implement a tiny factory helper and replace repeated fixture creation in
+   tests; verify reduced duplication.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -332,6 +374,7 @@ Real-world tips for mocking external services, using fixtures, and wiring tests 
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Example: WebMock
 
 ```ruby
@@ -339,7 +382,134 @@ require 'webmock/minitest'
 stub_request(:get, "https://api.example.com/ok").to_return(status: 200, body: "ok")
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — testing_demo-ruby-appendix-20251005)
 
 1. Add a CI workflow that runs the test suite on push and PR.
 2. Add a test that stubs an external API and asserts retry behaviour.
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Testing — Mocks, Fast Feedback & Conventions (Appendix — testing_demo-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Area</th><th>Practice</th><th>Why</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Mocks/Stubs</td><td>Isolate external deps</td><td>Keep unit tests deterministic; prefer verifying behavior via public API</td></tr>
+    <tr><td>Test Speed</td><td>Run fast tests locally</td><td>Tag slow tests and run them in CI</td></tr>
+    <tr><td>Assertions</td><td>One expectation per test</td><td>Makes failures easier to diagnose</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Quick tips
+
+- Use `let` in RSpec for lazy fixtures but avoid excessive nesting.
+- Prefer `expect(...).to eq` over older `should` syntax.
+- Use `Timecop` or `ActiveSupport::Testing::TimeHelpers` for time-sensitive
+  tests.
+
+<!-- markdownlint-disable MD013 -->
+### Appendix exercises
+
+1. Add a fast unit test that uses a stubbed external service and demonstrate it
+   runs quickly.
+2. Tag an integration test and show how you run only the fast suite locally.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Testing Tips & Helpers (Appendix — testing_demo-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Area</th><th>Tool</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Capture stdout</td><td>`StringIO`</td><td>Use `ensure` to restore `$stdout`</td></tr>
+    <tr><td>Temp files</td><td>`Tempfile`</td><td>Use `Tempfile.create` in tests to avoid collisions</td></tr>
+    <tr><td>Assertions</td><td>minitest / rspec</td><td>Prefer `assert_equal expected, actual` order in minitest</td></tr>
+    <tr><td>Fixtures</td><td>Factory or fixtures</td><td>Keep fixtures small and focused</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Examples
+
+```ruby
+require 'stringio'
+
+def capture_stdout
+  old = $stdout
+  $stdout = StringIO.new
+  yield
+  $stdout.string
+ensure
+  $stdout = old
+end
+
+# Usage in minitest
+def test_prints_greeting
+  output = capture_stdout { Greeter.run }
+  assert_includes output, 'Hello'
+end
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
+
+1. Write a test that asserts a method writes expected content to a tempfile and
+   cleans it up.
+2. Add a helper to stub ENV values during a test and ensure restore after.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Testing — Fast Feedback & Helpers (Appendix  testing-hidden-20251005)
+
+Short helpers and tips for deterministic tests and fast local feedback.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tip</th><th>Why</th><th>Quick helper</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Capture stdout safely</td><td>Keep tests deterministic</td><td>`capture_stdout` helper</td></tr>
+    <tr><td>Use Tempfile</td><td>Avoid clobbering files</td><td>`Tempfile.create`</td></tr>
+    <tr><td>Stub external calls</td><td>Isolate unit tests</td><td>WebMock or custom stubs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Tiny helper — capture_stdout
+
+```ruby
+require 'stringio'
+
+def capture_stdout
+  old = $stdout
+  $stdout = StringIO.new
+  yield
+  $stdout.string
+ensure
+  $stdout = old
+end
+```
+
+### Exercises
+
+1. Convert an output-based spec to a return-value test and explain benefits in a
+   short comment.
+2. Write a test that uses `Tempfile` and ensures cleanup in an `ensure` block.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

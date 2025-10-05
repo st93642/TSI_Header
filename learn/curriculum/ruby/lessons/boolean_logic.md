@@ -5,10 +5,13 @@ Boolean logic is the decision-making engine of every Ruby program. Mastering tru
 ## Learning goals
 
 - Understand how Ruby represents booleans and truthy/falsy values.
-- Build predictable conditionals using comparison operators and logical composition.
-- Apply guard clauses, safe navigation, and pattern matching to simplify branching.
+- Build predictable conditionals using comparison operators and logical
+  composition.
+- Apply guard clauses, safe navigation, and pattern matching to simplify
+  branching.
 - Distinguish between `&&/||` and `and/or`, recognizing precedence differences.
-- Practice real-world boolean patterns used in authentication, validation, and configuration.
+- Practice real-world boolean patterns used in authentication, validation, and
+  configuration.
 
 ## Boolean values and truthiness
 
@@ -46,7 +49,9 @@ Comparisons return booleans and form the backbone of branching logic.
 
 ### `&&` (logical AND)
 
-Evaluates the left operand first. If it’s falsy, Ruby skips the right operand entirely (short-circuiting) and returns the falsy value. Otherwise it returns the right operand.
+Evaluates the left operand first. If it’s falsy, Ruby skips the right operand
+entirely (short-circuiting) and returns the falsy value. Otherwise it returns
+the right operand.
 
 ```ruby
 user = find_user(id)
@@ -97,11 +102,13 @@ Use parentheses to clarify complex expressions.
 eligible = (age >= 18 && country == "LV") || guardian_signed?
 ```
 
-Breaking logic across lines with descriptive helper methods often beats writing giant expressions.
+Breaking logic across lines with descriptive helper methods often beats writing
+giant expressions.
 
 ## Guard clauses and early returns
 
-Guard clauses validate assumptions up front and return early when conditions fail, keeping the happy path clear.
+Guard clauses validate assumptions up front and return early when conditions
+fail, keeping the happy path clear.
 
 ```ruby
 def ship_order(order)
@@ -218,166 +225,258 @@ end
 
 ## Common pitfalls
 
-- **Assignment vs equality**: `=` assigns; `==` compares. Write conditionals as `if (value = compute)` intentionally, with parentheses to signal assignment.
-- **Truthy strings**: `"false"` is truthy because it’s a non-empty string—coerce user input explicitly when parsing booleans.
-- **Precedence surprises**: `a && b || c` groups as `(a && b) || c`. Add parentheses for clarity.
-- **Skipping explicit nil checks**: Methods like `empty?` will raise on `nil`. Use safe navigation or guard against `nil` first.
+- **Assignment vs equality**: `=` assigns; `==` compares. Write conditionals as
+  `if (value = compute)` intentionally, with parentheses to signal assignment.
+- **Truthy strings**: `"false"` is truthy because it’s a non-empty string—coerce
+  user input explicitly when parsing booleans.
+- **Precedence surprises**: `a && b || c` groups as `(a && b) || c`. Add
+  parentheses for clarity.
+- **Skipping explicit nil checks**: Methods like `empty?` will raise on `nil`.
+  Use safe navigation or guard against `nil` first.
 
 ## Guided practice
 
 1. **Eligibility rules**
-   - Write a method `eligible_for_discount?(user)` that returns true when the user has at least one of these: loyalty tier "gold" or "platinum", or an active coupon that hasn’t expired.
+   - Write a method `eligible_for_discount?(user)` that returns true when the
+     user has at least one of these: loyalty tier "gold" or "platinum", or an
+     active coupon that hasn’t expired.
    - Use guard clauses for nil checks (`user.coupon&.expired?`).
 
 2. **Feature rollout**
-   - Combine environment variables and runtime checks to compute a boolean flag `feature_enabled`.
-   - Enable when `ENV["FEATURE"] == "on"` or the current user is in a beta testers list.
+   - Combine environment variables and runtime checks to compute a boolean flag
+     `feature_enabled`.
+   - Enable when `ENV["FEATURE"] == "on"` or the current user is in a beta
+     testers list.
 
 3. **Safe dig**
-   - Given a nested hash `settings`, write `timezone_for(settings)` returning the timezone or "UTC" if any intermediate key is missing.
+   - Given a nested hash `settings`, write `timezone_for(settings)` returning
+     the timezone or "UTC" if any intermediate key is missing.
    - Use safe navigation (`&.`) or `dig` with boolean fallbacks.
 
 4. **Input sanitization**
-   - Parse user input strings like "yes", "no", "true", "0" into booleans using a method `truthy?(value)`.
+   - Parse user input strings like "yes", "no", "true", "0" into booleans using
+     a method `truthy?(value)`.
    - Treat unknown inputs as `false` and document the conversion table.
 
 5. **Alarm system**
-   - Implement logic that triggers an alarm when either a door sensor or window sensor is open and the system is armed.
-   - Add a bypass flag that, when true, suppresses the alarm even if sensors are tripped.
+   - Implement logic that triggers an alarm when either a door sensor or window
+     sensor is open and the system is armed.
+   - Add a bypass flag that, when true, suppresses the alarm even if sensors are
+     tripped.
 
 ## Self-check questions
 
-1. Why do `&&`/`||` return the original operands instead of strict booleans, and how can that behavior be useful?
-2. How does short-circuit evaluation prevent runtime errors when chaining method calls?
+1. Why do `&&`/`||` return the original operands instead of strict booleans, and
+   how can that behavior be useful?
+2. How does short-circuit evaluation prevent runtime errors when chaining method
+   calls?
 3. When should you use `and`/`or` instead of `&&/||`?
 4. How do you treat empty collections as falsy without breaking on `nil` values?
 5. What naming conventions help signal that a method returns a boolean?
 
-Strong boolean logic unlocks robust conditionals, readable code, and fewer surprises. Keep experimenting with combinations, guard clauses, and expressive predicate methods—you’ll quickly find your Ruby code becoming clearer and more reliable.
+Strong boolean logic unlocks robust conditionals, readable code, and fewer
+surprises. Keep experimenting with combinations, guard clauses, and expressive
+predicate methods—you’ll quickly find your Ruby code becoming clearer and more
+reliable.
 
-<!-- markdownlint-disable MD033 MD010 -->
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
 
-## Practical Appendix: Boolean Logic — Short-circuit & Test Patterns (Appendix — boolean_logic-ruby2)
-
-Tips for writing clear boolean expressions, using short-circuiting, and testing complex conditions.
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <thead>
-    <tr><th>Concept</th><th>When</th><th>Notes</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Short-circuit</td><td>Use &&/||</td><td>Order operands to avoid nil errors</td></tr>
-    <tr><td>De Morgan</td><td>Negation simplification</td><td>Rewrite `!(a && b)` as `!a || !b` for clarity</td></tr>
-    <tr><td>Predicate methods</td><td>Method naming</td><td>End boolean methods with `?` for readability</td></tr>
-  </tbody>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-### Examples (Appendix — boolean_logic-ruby2-examples-20251005-01-A-1)
-
-```ruby
-if user && user.admin?
-  # safe access
-end
-
-# predicate
-def adult?(age)
-  age >= 18
-end
-```
-
-### Exercises (Appendix — boolean_logic-ruby2-unique-20251005-01-A-1)
-
-- Write tests for true and false cases, including nil and edge inputs.
-
-```ruby
-require 'minitest/autorun'
-
-class TestBool < Minitest::Test
-  def test_adult
-    assert adult?(18)
-    refute adult?(17)
-  end
-end
-```
-
-### Examples (Appendix — boolean_logic-ruby2-examples-20251005-01-B-1)
-
-```ruby
-if user && user.admin?
-  # safe access
-end
-
-# predicate
-def adult?(age)
-  age >= 18
-end
-```
-
-### Exercises (Appendix — boolean_logic-ruby2-unique-20251005-01-B-1)
-
-- Write tests for true and false cases, including nil and edge inputs.
-
-```ruby
-require 'minitest/autorun'
-
-class TestBool < Minitest::Test
-  def test_adult
-    assert adult?(18)
-    refute adult?(17)
-  end
-end
-```
-
-### Exercises (Appendix — boolean_logic-ruby2-EXTRA-20251005-01)
-
-1. Refactor a complex boolean expression using De Morgan's laws and add tests showing equivalence.
-2. Implement a set of predicate helpers and write tests for boundary values and nil-handling.
-
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
-
-## Practical Appendix: Boolean Logic — Truthiness & Guard Clauses (Appendix — boolean_logic-ruby2)
-
-Practical notes about truthy/falsey values in Ruby, operator precedence, and idiomatic guard clauses.
+## Practical Appendix: Boolean Logic & Truthiness (Appendix — boolean_logic-appendix)
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Concept</th><th>Ruby specifics</th><th>Notes</th></tr>
+    <tr><th>Concept</th><th>What</th><th>Tip</th></tr>
   </thead>
   <tbody>
-    <tr><td>Truthiness</td><td>Only `false` and `nil` are falsey</td><td>Be careful when using `||` for defaults with false values</td></tr>
-    <tr><td>Guard clauses</td><td>Early returns</td><td>Improve readability</td></tr>
-    <tr><td>Operator precedence</td><td>Use parentheses</td><td>Avoid subtle bugs with `and`/`or`</td></tr>
+    <tr><td>Truthiness</td><td>Only `false` and `nil` are falsy</td><td>Prefer explicit checks when `nil` and `false` have different meanings</td></tr>
+    <tr><td>Short-circuit</td><td>`&&` / `||`</td><td>Use to guard dangerous calls: `obj && obj.method`</td></tr>
+    <tr><td>Safe navigation</td><td>`&.`</td><td>Use `&.` to avoid `nil` checks but avoid overuse in core logic</td></tr>
+    <tr><td>Double-negation</td><td>`!!`</td><td>Coerce to boolean when returning predicates from methods</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Examples (Appendix — boolean_logic-ruby2-examples-20251005-01-A-2)
+### Examples
 
 ```ruby
-# guard clause
-return unless user
-# careful with defaults
-value = option || 'default' # but if option can be false this may be wrong
+# Only nil and false are falsy
+puts !!0    # => true
+puts !!""  # => true
+
+# Guarding
+user && user.profile&.email
+
+# Predicate methods should return true/false
+def admin?
+  !!@role && @role == :admin
+end
 ```
 
-### Exercises (Appendix — boolean_logic-ruby2-unique-20251005-01-A-2)
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
 
-1. Write tests that demonstrate that only `nil` and `false` are falsey by plotting expressions that might look false but are truthy.
-2. Refactor a function with nested conditionals into clear guard clauses and add tests.
+1. Write a predicate `present?` for a small wrapper that distinguishes `nil` vs
+   empty strings and returns strict booleans.
+2. Replace a chain of `if` nil-guards with safe navigation in a small snippet
+   and write tests ensuring behavior unchanged.
 
-### Examples (Appendix — boolean_logic-ruby2-examples-20251005-01-B-2)
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Boolean Algebra Laws — Apply to Ruby Conditionals (Appendix — boolean_logic-laws-20251005)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Law</th><th>Rule</th><th>Applied Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Double negation</td><td>!!A == A</td><td>Use `!!` to normalize truthy values when implementing predicates</td></tr>
+    <tr><td>De Morgan</td><td>!(A && B) == (!A || !B)</td><td>Use to rewrite negative conditions into positive checks or simplify `unless` chains</td></tr>
+    <tr><td>Commutative</td><td>A && B == B && A</td><td>Order can be changed for readability when safe (watch side effects)</td></tr>
+    <tr><td>Associative</td><td>(A && B) && C == A && (B && C)</td><td>Parentheses optional for same-operator groups; use them for mixed operators</td></tr>
+    <tr><td>Distributive</td><td>A && (B || C) == (A && B) || (A && C)</td><td>Use to push guards inside or factor them out for early returns</td></tr>
+    <tr><td>Idempotent</td><td>A || A == A</td><td>Avoid duplicating checks that add noise; factor predicates into helpers</td></tr>
+    <tr><td>Absorption</td><td>A || (A && B) == A</td><td>Recognize redundant guards and remove them</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Ruby examples (equivalence assertions)
 
 ```ruby
-# guard clause
-return unless user
-# careful with defaults
-value = option || 'default' # but if option can be false this may be wrong
+require 'minitest/assertions'
+include Minitest::Assertions
+self.assertions = 0
+
+# Double negation
+x = nil
+assert_equal(!!x, x)
+
+# De Morgan
+a = true
+b = false
+assert_equal(!(a && b), (!a || !b))
+
+# Distributive law
+a = true
+b = false
+c = true
+left = a && (b || c)
+right = (a && b) || (a && c)
+assert_equal(left, right)
+
+# Absorption (example: redundant guard)
+flag = true
+cond = flag || (flag && expensive_check())
+# simplified:
+cond_simple = flag
+assert_equal(cond, cond_simple)
 ```
 
-### Exercises (Appendix — boolean_logic-ruby2-unique-20251005-01-B-2)
+> Note: In Ruby `&&`/`||` return operands (not strict booleans). The `assert_equal` checks above rely on truthy/falsey equivalence; wrap with `!!` if you require strict boolean equality.
 
-1. Write tests that demonstrate that only `nil` and `false` are falsey by plotting expressions that might look false but are truthy.
-2. Refactor a function with nested conditionals into clear guard clauses and add tests.
+### Practical refactor tips
+
+- Use De Morgan to replace `unless (a && b)` with `if !a || !b` or to rewrite
+  `unless` forms into clearer `if` forms.
+- Factor repeated predicates into named predicate methods (e.g., `eligible?`) to
+  make idempotent and absorption simplifications obvious.
+- When reordering operands (commutative law), avoid moving expressions with side
+  effects (method calls that mutate or rely on state).
+- For performance, push cheap guards first (short-circuit) so expensive checks
+  are skipped early.
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
+
+1. Rewrite this method using De Morgan and guard clauses to make the happy path
+   more obvious:
+
+```ruby
+def allow_access?(user)
+  return false unless user
+  return false unless user.active?
+  return false if user.banned? || user.suspended?
+  true
+end
+```
+
+1. Given `a && (b || c)`, produce two refactorings: one that distributes `a`
+   (explicit `||`) and one that factors out a guard with an early return; write
+   tests that assert behavior equality.
+1. Find an example in the codebase (or write a small snippet) where `A || (A &&
+   B)` appears; simplify it using absorption and add a unit test demonstrating
+   equivalence.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-enable MD013 -->
+## Practical Appendix: Boolean Operators & Nil Conversions (Appendix — boolean_logic-ops-20251005)
+
+Leverage non-short-circuit operators and nil's conversion methods for concise
+defaults.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Use Case</th><th>Insider Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`&` / `|` / `^`</td>
+      <td>Always evaluate both sides</td>
+      <td>Use when side effects are needed regardless of first operand</td>
+    </tr>
+    <tr>
+      <td>`nil.to_a`</td>
+      <td>Default to empty array</td>
+      <td>`(data || []).map` vs `data&.map || []`</td>
+    </tr>
+    <tr>
+      <td>`nil.to_h`</td>
+      <td>Default to empty hash</td>
+      <td>Perfect for merging configs: `opts.to_h.merge(defaults)`</td>
+    </tr>
+    <tr>
+      <td>`nil.to_s`</td>
+      <td>Default to empty string</td>
+      <td>Use in interpolations to avoid "nil" strings</td>
+    </tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples — Operators & Conversions
+
+```ruby
+# & evaluates both, useful for logging
+def log_and_check(user)
+  log_access(user) & user.active?
+end
+
+# Nil conversions for defaults
+def process_items(items)
+  (items || []).each { |item| puts item }
+end
+
+# Or with to_h
+def merge_opts(opts)
+  opts.to_h.merge(theme: 'dark')
+end
+
+# String interpolation
+name = nil
+puts "Hello #{name.to_s}!"  # => "Hello !"
+```
+
+### Exercises — Operators & Conversions
+
+1. Write a method that uses `&` to log an operation and return a boolean result.
+2. Refactor a method that checks `if data.nil? then [] else data end` using
+`to_a`.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

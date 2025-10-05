@@ -1,13 +1,18 @@
 # Lesson 8.5: Module Namespacing
 
-Modules are the primary tool for namespacing in Ruby. By grouping related constants, classes, and methods under a module, you avoid collisions, communicate ownership, and make large codebases navigable. This lesson focuses on structuring namespaces effectively, loading namespaced code, and balancing nesting depth with clarity.
+Modules are the primary tool for namespacing in Ruby. By grouping related
+constants, classes, and methods under a module, you avoid collisions,
+communicate ownership, and make large codebases navigable. This lesson focuses
+on structuring namespaces effectively, loading namespaced code, and balancing
+nesting depth with clarity.
 
 ## Learning goals
 
 - Define modules to group related code and prevent constant collisions.
 - Understand how constant lookup works inside nested modules.
 - Organize directory structures that align with namespace hierarchies.
-- Leverage autoloading (`require`, `require_relative`, `autoload`) alongside namespaced modules.
+- Leverage autoloading (`require`, `require_relative`, `autoload`) alongside
+  namespaced modules.
 - Adopt naming conventions and patterns that scale in large applications.
 
 ## Core namespacing pattern
@@ -57,7 +62,8 @@ Access nested constants with `::`: `Math::Trig` or `Math::PI`. Use `::PI` for to
 
 ## Deep namespaces and directory structure
 
-Mirroring namespaces in the filesystem keeps autoloaders and future maintainers happy.
+Mirroring namespaces in the filesystem keeps autoloaders and future maintainers
+happy.
 
 ```text
 app/
@@ -103,7 +109,8 @@ Each `Post` is distinct because it lives under a different module.
 
 ## Module functions and singleton methods
 
-Modules can expose functionality via module (singleton) methods without becoming mixins.
+Modules can expose functionality via module (singleton) methods without becoming
+mixins.
 
 ```ruby
 module StringUtils
@@ -185,7 +192,8 @@ module API
 end
 ```
 
-Controllers remain independent yet share a logical grouping. This approach simplifies gradual upgrades.
+Controllers remain independent yet share a logical grouping. This approach
+simplifies gradual upgrades.
 
 ## Namespacing and gems
 
@@ -223,141 +231,251 @@ This keeps your external API intentional and malleable.
 ## Guidelines for healthy namespaces
 
 - **Choose descriptive module names.** Favor `Billing::Invoices` over `BI`.
-- **Keep nesting shallow.** Two to three levels is usually enough; deeper trees impede discovery.
-- **Align directories with namespaces.** Autoloaders and human readers expect this convention.
-- **Avoid polluting the global namespace.** Wrap top-level behavior in a root module (`MyApp`).
-- **Document module responsibilities.** A short YARD docstring or comment prevents guesswork.
+- **Keep nesting shallow.** Two to three levels is usually enough; deeper trees
+  impede discovery.
+- **Align directories with namespaces.** Autoloaders and human readers expect
+  this convention.
+- **Avoid polluting the global namespace.** Wrap top-level behavior in a root
+  module (`MyApp`).
+- **Document module responsibilities.** A short YARD docstring or comment
+  prevents guesswork.
 
 ## Guided practice
 
 1. **Service grouping**
-   - Create `Ecommerce::Services::PaymentProcessor` and `Ecommerce::Services::ShippingCalculator` in separate files.
-   - Ensure `require_relative` or autoload wires them correctly from a small runner script.
+   - Create `Ecommerce::Services::PaymentProcessor` and
+     `Ecommerce::Services::ShippingCalculator` in separate files.
+   - Ensure `require_relative` or autoload wires them correctly from a small
+     runner script.
 
 2. **Versioned API**
-   - Implement `API::V1::OrdersController` and `API::V2::OrdersController` with different response shapes.
-   - Build a router that dispatches based on version parameter using `const_get`.
+   - Implement `API::V1::OrdersController` and `API::V2::OrdersController` with
+     different response shapes.
+   - Build a router that dispatches based on version parameter using
+     `const_get`.
 
 3. **Feature isolation**
-   - Create `Features::Checkout` and `Features::Profile` modules. Each should expose a `.enabled?` method reading from environment variables.
+   - Create `Features::Checkout` and `Features::Profile` modules. Each should
+     expose a `.enabled?` method reading from environment variables.
    - Hide helper constants behind `private_constant`.
 
 4. **Autoload experiment**
-   - Define a namespace `Analytics` with `autoload :Reporter, "analytics/reporter"`.
+   - Define a namespace `Analytics` with `autoload :Reporter,
+     "analytics/reporter"`.
    - Verify the file is only loaded when `Analytics::Reporter` is referenced.
 
 5. **Constant lookup exploration**
-   - Inside a nested namespace, define constants with duplicate names (`Status`) at different levels.
-   - Use `Module.nesting` and `ancestors` prints to show which `Status` Ruby resolves.
+   - Inside a nested namespace, define constants with duplicate names (`Status`)
+     at different levels.
+   - Use `Module.nesting` and `ancestors` prints to show which `Status` Ruby
+     resolves.
 
 ## Self-check questions
 
-1. How does Ruby determine which constant to use when names are duplicated across modules?
-2. Why should directory structure mirror namespace structure, especially in autoloaded projects?
-3. When might you favor modules with singleton methods (`module_function`) over classes?
-4. How can `private_constant` help maintain a clean public API inside a namespace?
-5. What are the pros and cons of deep namespace hierarchies, and how do you keep them manageable?
+1. How does Ruby determine which constant to use when names are duplicated
+   across modules?
+2. Why should directory structure mirror namespace structure, especially in
+   autoloaded projects?
+3. When might you favor modules with singleton methods (`module_function`) over
+   classes?
+4. How can `private_constant` help maintain a clean public API inside a
+   namespace?
+5. What are the pros and cons of deep namespace hierarchies, and how do you keep
+   them manageable?
 
-Thoughtful namespacing keeps Ruby codebases intuitive as they grow. Group related components, expose clear APIs, and lean on modules to prevent naming conflicts while maintaining a discoverable structure.
+Thoughtful namespacing keeps Ruby codebases intuitive as they grow. Group
+related components, expose clear APIs, and lean on modules to prevent naming
+conflicts while maintaining a discoverable structure.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-## Practical Appendix: Module Namespacing — Autoload, Constants & Testing (Appendix — module_namespacing-ruby2)
+## Practical Appendix: Module Namespacing — Autoload, private_constant & Layout (Appendix  module_namespacing-hidden-20251005)
 
-Guidance for organizing code with modules, using `autoload`, managing constants, and testing module boundaries.
+Practical rules-of-thumb for keeping namespaces clean and autoload-friendly.
 
-<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD033 MD013 -->
 <table>
   <thead>
-    <tr><th>Topic</th><th>Pattern</th><th>Notes</th></tr>
+    <tr><th>Rule</th><th>Why</th><th>Quick action</th></tr>
   </thead>
   <tbody>
-    <tr><td>Namespace modules</td><td>module MyApp; end</td><td>Group related classes and avoid top-level leakage</td></tr>
-    <tr><td>autoload</td><td>autoload :Lib, 'my_app/lib'</td><td>Lazy-load constants to reduce startup time</td></tr>
-    <tr><td>Constants</td><td>Freeze values</td><td>Signal immutability and avoid accidental mutation</td></tr>
+    <tr>
+      <td>Mirror filesystem to namespaces</td>
+      <td>Autoloaders rely on it</td>
+      <td>services/payments/charge.rb -> Services::Payments::Charge</td>
+    </tr>
+    <tr>
+      <td>Use private_constant</td>
+      <td>Hide internals from public API</td>
+      <td>`private_constant :HelperClass`</td>
+    </tr>
+    <tr>
+      <td>Avoid deep nesting</td>
+      <td>Too many levels impede discovery</td>
+      <td>Prefer submodules of depth 2-3</td>
+    </tr>
   </tbody>
 </table>
-<!-- markdownlint-enable MD033 -->
+<!-- markdownlint-enable MD033 MD013 -->
 
-### Example
+### Tiny example — autoload and private
 
 ```ruby
 module MyApp
-  autoload :Utils, 'my_app/utils'
+  autoload :Reporter, 'my_app/reporter'
+
+  class Internal
+  end
+
+  private_constant :Internal
 end
 ```
 
-### Tests
+### Exercises
 
-- Assert that constants are present and that autoload triggers load when referenced.
+1. Create a small namespaced class `Tools::Formatter` in
+`lib/tools/formatter.rb` and require it from a runner script; ensure constant lookup works.
+2. Add a test asserting that `MyApp::Internal` is not accessible (raises
+   NameError).
 
-### Exercises (Appendix — module_namespacing-ruby2)
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
 
-1. Convert a flat set of classes into a namespaced module and adjust requires; add tests to ensure constant lookup works.
-2. Use `autoload` for a large helper and write a test asserting it loads on first use.
+<!-- markdownlint-disable MD013 -->
+## Practical Appendix: Module Introspection & Refinements (Appendix — module_namespacing-refinements-20251005b)
 
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
-
-<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
-
-## Practical Appendix: Module Namespacing — Gem Layout & Require Order (Appendix — module_namespacing-ruby3)
-
-Practical notes for project layout: `lib/` structure, require order, and avoiding circular requires in namespaced projects.
+Use ancestors, const_source_location, and refinements for advanced module
+management.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+    <tr><th>Feature</th><th>Purpose</th><th>Hidden Benefit</th></tr>
   </thead>
   <tbody>
-    <tr><td>lib layout</td><td>lib/mygem.rb + lib/mygem/**</td><td>Keep top-level file small and require internals lazily</td></tr>
-    <tr><td>require order</td><td>Explicit requires</td><td>Avoid circular requires by deferring requires inside methods when needed</td></tr>
-    <tr><td>autoload pitfalls</td><td>Be careful with constants</td><td>Autoload can surprise during test setup</td></tr>
+    <tr>
+      <td>`ancestors`</td>
+      <td>Inspect inheritance chain</td>
+      <td>Debug mixin order and resolution</td>
+    </tr>
+    <tr>
+      <td>`const_source_location`</td>
+      <td>Find constant definitions</td>
+      <td>Locate source files for debugging</td>
+    </tr>
+    <tr>
+      <td>`refinements`</td>
+      <td>Scoped monkey-patching</td>
+      <td>Avoid global pollution with `using`</td>
+    </tr>
+    <tr>
+      <td>`set_temporary_name`</td>
+      <td>Anonymous module naming</td>
+      <td>Distinguish dynamic modules without constants</td>
+    </tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises (Appendix — module_namespacing-ruby3)
-
-1. Scaffold a minimal gem layout with namespaced modules and verify require order by running tests.
-2. Introduce a circular require and then refactor to defer loading to break the cycle; add tests confirming load completes.
-
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
-
-<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
-
-## Practical Appendix: Modules & Namespacing — Mixins, Names, Autoload (Appendix — module_namespacing-ruby-appendix-20251005)
-
-Practical guidance on using modules for namespacing, mixins, and `autoload` patterns to keep code organized.
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <thead>
-    <tr><th>Use</th><th>Pattern</th><th>Notes</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Namespacing</td><td>module Foo; end</td><td>Avoid global constants</td></tr>
-    <tr><td>Mixins</td><td>include/extend</td><td>Prefer composition when possible</td></tr>
-    <tr><td>Autoload</td><td>autoload :Thing, 'thing'</td><td>Lazy-loading constants</td></tr>
-  </tbody>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-### Example (Appendix — module_namespacing-ruby-appendix-20251005-01
+### Examples — Refinements
 
 ```ruby
-module Utils
-  def self.format(x) x.to_s end
+module MyMod
+  refine String do
+    def shout
+      upcase + "!"
+    end
+  end
 end
 
-class C
-  include Utils
+class Test
+  using MyMod
+  def speak
+    "hello".shout  # => "HELLO!"
+  end
 end
+
+# Introspection
+MyMod.ancestors  # => [MyMod]
+String.const_source_location('upcase')  # => ["(eval)", 1] or file path
 ```
 
-### Exercises (Appendix — module_namespacing-ruby-appendix-20251005-01)
+### Exercises — Module Introspection
 
-1. Refactor a small set of classes into a module namespace and add tests referencing the new names.
-2. Replace a mixin with explicit delegation and benchmark clarity/maintainability.
+1. Define a refinement for Array that adds a `sum_squares` method, and use it in
+   a class with `using`.
+2. Use `const_source_location` to find where a standard library constant is
+   defined.
 
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-enable MD013 -->
+## Practical Appendix: Advanced Module Namespacing Techniques (Appendix — module-namespacing-advanced-20251005)
+
+Explore lesser-known features for dynamic constants, lazy loading, and module
+introspection to enhance namespacing.
+
+<!-- markdownlint-disable MD033 MD013 -->
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Description</th><th>Insider Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>const_missing</code></td><td>Hook for undefined constants</td><td>Dynamic loading hook</td></tr>
+    <tr><td><code>autoload</code></td><td>Lazy-load files on first access</td><td>Reduce startup time</td></tr>
+    <tr><td><code>private_constant</code></td><td>Hide constants from external access</td><td>Encapsulate internals</td></tr>
+    <tr><td><code>const_source_location</code></td><td>Find where a constant is defined</td><td>Debug resolution</td></tr>
+    <tr><td><code>ancestors</code></td><td>List module hierarchy</td><td>Understand precedence</td></tr>
+    <tr><td><code>refinements</code></td><td>Scoped monkey-patching</td><td>Avoid global effects</td></tr>
+    <tr><td><code>set_temporary_name</code></td><td>Name anonymous modules</td><td>Improve debugging</td></tr>
+    <tr><td><code>module_function</code></td><td>Expose methods as utilities</td><td>Clean APIs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+<!-- markdownlint-enable MD033 MD013 -->
+
+### Advanced Examples
+
+```ruby
+module MyLib
+  def self.const_missing(name)
+    # Dynamic constant creation
+    const_set(name, "Generated: #{name}")
+  end
+
+  autoload :Helper, 'my_lib/helper'
+
+  class Internal; end
+  private_constant :Internal
+
+  refine Array do
+    def custom_sum
+      inject(0, :+)
+    end
+  end
+end
+
+# const_missing in action
+MyLib::DynamicConstant  # => "Generated: DynamicConstant"
+
+# Refinement usage
+class Processor
+  using MyLib
+  def process(arr)
+    arr.custom_sum
+  end
+end
+
+# Introspection
+MyLib.ancestors  # => [MyLib]
+Array.const_source_location('size')  # => file path or nil
+```
+
+### Exercises — Advanced Techniques
+
+1. Implement `const_missing` in a module to autoload constants from a hash.
+2. Use `set_temporary_name` on an anonymous module and verify with `name`.
+3. Create a refinement for String and test it in a scoped
+`using` block.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

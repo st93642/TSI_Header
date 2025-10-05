@@ -1,14 +1,21 @@
 # Regular expressions
 
-Regular expressions (regex) describe patterns in text. Ruby ships with the Onigmo engine, supporting advanced features like named captures, lookarounds, Unicode properties, and extended mode formatting. Mastering regex lets you validate input, parse logs, and transform strings concisely—all while keeping code maintainable.
+Regular expressions (regex) describe patterns in text. Ruby ships with the
+Onigmo engine, supporting advanced features like named captures, lookarounds,
+Unicode properties, and extended mode formatting. Mastering regex lets you
+validate input, parse logs, and transform strings concisely—all while keeping
+code maintainable.
 
 ## Learning goals
 
-- Construct regex literals and understand `Regexp`, `String`, and `MatchData` interactions.
+- Construct regex literals and understand `Regexp`, `String`, and `MatchData`
+  interactions.
 - Apply anchors, character classes, quantifiers, alternation, and grouping.
 - Use named captures, lookarounds, and Unicode properties for precise matching.
-- Combine regex with `scan`, `match?`, `sub`/`gsub`, and `split` to query and refactor text.
-- Structure complex patterns with extended mode, reuse via `Regexp.union`, and avoid catastrophic backtracking.
+- Combine regex with `scan`, `match?`, `sub`/`gsub`, and `split` to query and
+  refactor text.
+- Structure complex patterns with extended mode, reuse via `Regexp.union`, and
+  avoid catastrophic backtracking.
 
 ## Creating patterns
 
@@ -89,7 +96,8 @@ Named captures and `MatchData` helpers (`pre_match`, `post_match`) make extracti
 /ok(?!ay)/        # negative lookahead
 ```
 
-Lookarounds validate context without consuming characters—ideal for selective replacements.
+Lookarounds validate context without consuming characters—ideal for selective
+replacements.
 
 ## Working with `MatchData`
 
@@ -156,15 +164,18 @@ pattern # => /ruby|rails|rack/
 
 ## Avoiding pitfalls
 
-- Watch for catastrophic backtracking in nested quantifiers (e.g., `(.*a){10}`); tighten patterns or use possessive quantifiers (`*+`, `++`) when available.
+- Watch for catastrophic backtracking in nested quantifiers (e.g., `(.*a){10}`);
+  tighten patterns or use possessive quantifiers (`*+`, `++`) when available.
 - Prefer `match?` over `match` when you don’t need submatches; it’s GC-friendly.
 - Anchor patterns for validation (`\A...\z`) to avoid partial matches.
-- Test patterns with representative data, including edge cases and Unicode input.
+- Test patterns with representative data, including edge cases and Unicode
+  input.
 
 ## Guided practice
 
 1. **Log parser**
-   - Extract timestamp, log level, and message from lines like `2025-10-03T12:00:00Z [WARN] Disk nearly full`.
+   - Extract timestamp, log level, and message from lines like
+     `2025-10-03T12:00:00Z [WARN] Disk nearly full`.
    - Use named captures and convert matches into hashes.
 
 2. **Markdown link replacer**
@@ -176,11 +187,13 @@ pattern # => /ruby|rails|rack/
    - Normalize keys to symbols and values to booleans.
 
 4. **Password validator**
-   - Implement `valid_password?(string)` ensuring: ≥12 chars, at least one upper/lower/digit/symbol, and no whitespace.
+   - Implement `valid_password?(string)` ensuring: ≥12 chars, at least one
+     upper/lower/digit/symbol, and no whitespace.
    - Combine regex tests with `match?` and lookaheads.
 
 5. **CSV sanitization**
-   - Detect fields containing unescaped quotes or unexpected control characters using Unicode properties (`\p{Cntrl}`).
+   - Detect fields containing unescaped quotes or unexpected control characters
+     using Unicode properties (`\p{Cntrl}`).
    - Replace invalid bytes with placeholders and report positions.
 
 <!-- markdownlint-disable MD033 MD010 -->
@@ -201,9 +214,11 @@ Notes and quick recipes for using Ruby regular expressions, common flags, and te
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (regex-ruby-appendix)
 
-1. Write a small parser that extracts email addresses from a text sample and add tests verifying edge cases.
+1. Write a small parser that extracts email addresses from a text sample and add
+   tests verifying edge cases.
 2. Demonstrate named captures and show how to use them in a transform pipeline.
 
 <!-- markdownlint-disable MD010 -->
@@ -227,10 +242,13 @@ Authoritative docs and safe usage patterns for regex in Ruby.
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Exercises (External Resources)
 
-1. Replace a fragile parsing script with a dedicated regex using named captures and tests.
-2. Add a performance checklist for regex-heavy paths (precompile, avoid catastrophic backtracking).
+1. Replace a fragile parsing script with a dedicated regex using named captures
+   and tests.
+2. Add a performance checklist for regex-heavy paths (precompile, avoid
+   catastrophic backtracking).
 
 <!-- markdownlint-disable MD010 -->
 
@@ -268,10 +286,12 @@ puts m[:year] if m
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix II — regex)
 
 1. Replace ad-hoc parsing with a named-capture regex and add tests.
-2. Add a short performance note about avoiding catastrophic backtracking and provide an example.
+2. Add a short performance note about avoiding catastrophic backtracking and
+   provide an example.
 
 <!-- markdownlint-disable MD010 -->
 
@@ -293,6 +313,7 @@ Named-capture examples, safe interpolation, and quick performance notes to avoid
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Named-capture example
 
 ```ruby
@@ -305,10 +326,13 @@ puts m[:year] if m
 - Prefer explicit bounded quantifiers over `.*` when possible.
 - Use `\A` and `\z` to anchor whole-string validations.
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — regex-ruby-appendix2)
 
-1. Build a named-capture regex that extracts timestamp, level, and message from a log line and add tests for edge cases.
-2. Replace a fragile parser with `Regexp.union` and ensure user input is escaped before interpolation.
+1. Build a named-capture regex that extracts timestamp, level, and message from
+   a log line and add tests for edge cases.
+2. Replace a fragile parser with `Regexp.union` and ensure user input is escaped
+   before interpolation.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
@@ -331,6 +355,7 @@ Practical recipes for writing efficient Ruby regexes, using named captures, and 
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Example
 
 ```ruby
@@ -340,10 +365,13 @@ if m = re.match('2025-10-05')
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — regex-ruby2)
 
-1. Write a regex that extracts key parts of an ISO8601 date and test with valid/invalid inputs.
-2. Measure matching speed on large inputs and demonstrate precompiling the regex yields fewer allocations.
+1. Write a regex that extracts key parts of an ISO8601 date and test with
+   valid/invalid inputs.
+2. Measure matching speed on large inputs and demonstrate precompiling the regex
+   yields fewer allocations.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
@@ -366,15 +394,64 @@ How to debug complex regular expressions, build test suites for regex correctnes
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Example: atomic grouping
 
 ```ruby
 # use (?>...) in PCRE; in Ruby use careful patterns to avoid nested wildcards
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — regex-ruby3)
 
-1. Create a test suite for a date-extraction regex that includes valid and invalid examples and measure matching performance.
-2. Demonstrate catastrophic backtracking with a pathological input and refactor the regex to avoid it.
+1. Create a test suite for a date-extraction regex that includes valid and
+   invalid examples and measure matching performance.
+2. Demonstrate catastrophic backtracking with a pathological input and refactor
+   the regex to avoid it.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Regular Expressions — Readability & Performance (Appendix — regex-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>Why</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Named captures</td><td>Clarity</td><td>Use `(?<name>...)` and `match[:name]`</td></tr>
+    <tr><td>`%r{}`</td><td>Slashes in pattern</td><td>Use `%r{http://...}` to avoid escaping `/`</td></tr>
+    <tr><td>Anchors</td><td>Performance</td><td>Anchor with `^` / `$` when appropriate</td></tr>
+    <tr><td>Precompile</td><td>Repeated use</td><td>Reuse `Regexp.new` objects to avoid recompiling in tight loops</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Examples
+
+```ruby
+re = /(?<user>\w+)@(?<host>[\w.]+)/
+m = re.match('alice@example.com')
+puts m[:user]   # => "alice"
+
+url_re = %r{https?://[\w.-]+/}
+
+# Precompile for reuse
+EMAIL = /\A[^@]+@[^@]+\z/
+if EMAIL.match?(candidate)
+  # fast path
+end
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
+
+1. Convert a series of ad-hoc `gsub` calls into a single well-documented regex
+   with named captures and test it.
+2. Benchmark naive vs anchored regex on large input to observe performance
+   differences.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

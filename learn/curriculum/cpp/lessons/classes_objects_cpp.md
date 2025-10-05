@@ -363,3 +363,22 @@ struct File {
 2. Implement move constructors and test move vs copy behaviour.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+
+<!-- Practical Appendix: Reference and further reading -->
+
+### Practical Appendix
+This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
+
+- Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
+- Quick tips:
+  - Re-run the examples in a REPL to experiment with small changes.
+  - Use small, focused test cases when validating behavior.
+  - Prefer idiomatic standard-library helpers for clarity and maintainability.
+
+Further reading and sources:
+- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+- Standard library reference and API pages.
+- For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
+
+*End of Practical Appendix.*

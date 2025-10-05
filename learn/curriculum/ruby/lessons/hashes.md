@@ -6,9 +6,11 @@ Hashes map keys to values. They power configuration objects, JSON parsing, HTTP 
 
 - Create hashes using literal syntax, keyword arguments, and default procs.
 - Fetch, update, and delete entries while guarding against missing keys.
-- Transform and filter hashes with `map`, `each_with_object`, `transform_keys`, and friends.
+- Transform and filter hashes with `map`, `each_with_object`, `transform_keys`,
+  and friends.
 - Merge deep structures predictably and reason about symbol vs string keys.
-- Navigate nested hashes safely with `dig`, pattern matching, and default values.
+- Navigate nested hashes safely with `dig`, pattern matching, and default
+  values.
 
 ## Building hashes
 
@@ -110,7 +112,8 @@ require "active_support/core_ext/hash/deep_merge"
 app_config = defaults.deep_merge(overrides) # if ActiveSupport is available
 ```
 
-Without ActiveSupport, write a recursive helper to merge nested hashes carefully.
+Without ActiveSupport, write a recursive helper to merge nested hashes
+carefully.
 
 ## Default values and procs
 
@@ -126,11 +129,13 @@ list_hash[:errors] << "Missing email"
 list_hash[:errors] << "Password too short"
 ```
 
-Default procs can initialize nested structures on demand—perfect for grouping or counting operations.
+Default procs can initialize nested structures on demand—perfect for grouping or
+counting operations.
 
 ## Symbol vs string keys
 
-Symbols are immutable and reused, making them a natural default. Use strings when:
+Symbols are immutable and reused, making them a natural default. Use strings
+when:
 
 - You interact with JSON or external APIs that specify string keys.
 - Keys contain spaces or dynamic content.
@@ -199,7 +204,34 @@ params.to_h          #=> {:name=>"Ada", :language=>"Ruby"}
 require "json"
 json = params.to_json
 Hash[JSON.parse(json)] #=> {"name"=>"Ada", "language"=>"Ruby"}
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Hashes — Merging, Defaults & Deep Merge (Appendix — hashes-ruby-merge)
+
+Practical merge idioms and safe defaults for nested hash structures.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Default proc</td><td>Grouping/counting</td><td>`Hash.new { |h,k| h[k] = [] }`</td></tr>
+    <tr><td>Deep merge</td><td>Nested config</td><td>Use `deep_merge` or implement recursion</td></tr>
+    <tr><td>Normalized keys</td><td>External input</td><td>Use `transform_keys(&:to_sym)` carefully</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: safe deep merge
+
+```ruby
+def deep_merge(a, b) a.merge(b) do |_k, av, bv| av.is_a?(Hash) && bv.is_a?(Hash)
+? deep_merge(av, bv) : bv end end
 ```
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
 Use `to_h` on enumerables of pairs to create hashes, and `hash1 <= hash2` to check subset relationships.
 
@@ -244,19 +276,47 @@ Hashes are Ruby’s flexible dictionaries—lean on them to organize structured 
 
 <!-- markdownlint-disable MD033 MD010 -->
 
-## Practical Appendix: Hashes — Defaults, Merging & Key Normalization (Appendix — hashes-ruby2)
-
-Practical recipes for common Hash operations: default procs, deep merging, normalizing keys, and test strategies.
+## Practical Appendix: Hashes — Defaults, Merge & Safe Access (Appendix — hashes-appendix)
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Operation</th><th>Pattern</th><th>Notes</th></tr>
+    <tr><th>Topic</th><th>Technique</th><th>Why</th></tr>
   </thead>
   <tbody>
-    <tr><td>Default values</td><td>Hash.new(0) or default_proc</td><td>Beware mutable defaults</td></tr>
-    <tr><td>Symbol vs String</td><td>normalize keys</td><td>Consistent access reduces bugs</td></tr>
-    <tr><td>Merging</td><td>merge / merge!</td><td>Use custom merge block for deep merge</td></tr>
+    <tr><td>Defaults</td><td>`Hash.new(0)` or `default_proc`</td><td>Avoids `nil` surprises for counters</td></tr>
+    <tr><td>Merge</td><td>`h1.merge(h2)`</td><td>Non-destructive; use `merge!` to mutate</td></tr>
+    <tr><td>Safe fetch</td><td>`h.fetch(:k, default)`</td><td>Explicit behavior on missing keys</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Appendix — Examples
+
+```ruby
+counts = Hash.new(0) arr.each { |x| counts[x] += 1 }
+
+config = default_config.merge(user_config) value = config.fetch(:timeout, 30)
+```
+
+### Exercises
+
+1. Replace `||=`-style counters with `Hash.new(0)` and show tests before/after.
+2. Create a helper that deep_symbolizes_keys for nested hashes and add unit tests.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Hashes — Useful Methods & Pitfalls (Appendix — hashes-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Behavior</th><th>Insider tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>`Hash#fetch`</td><td>Raises when key missing</td><td>Use for required keys to fail fast in tests</td></tr>
+    <tr><td>Default proc</td><td>`Hash.new { |h,k| h[k] = [] }`</td><td>Preferred to mutable default values to avoid shared state</td></tr>
+    <tr><td>`transform_keys/transform_values`</td><td>Return new hash</td><td>Chain with `transform_values(&:to_s)` for tidy conversions</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
@@ -264,76 +324,73 @@ Practical recipes for common Hash operations: default procs, deep merging, norma
 ### Examples
 
 ```ruby
-h = Hash.new { |hash, key| hash[key] = [] }
-h[:a] << 1
+# fail fast on missing key
+config.fetch(:api_key)
+
+# safe default for collection values
+h = Hash.new { |hs, k| hs[k] = [] } h[:tags] << 'ruby'
 
 # normalize keys
-h = h.transform_keys(&:to_sym)
-
-# deep merge
-merged = a.merge(b) { |key, oldv, newv| oldv.is_a?(Hash) && newv.is_a?(Hash) ? oldv.merge(newv) : newv }
+normalized = raw.transform_keys(&:to_sym)
 ```
 
-### Testing hash behaviour
+### Appendix — Exercises
 
-- Test for presence/absence of keys and that default procs behave as expected.
+1. Replace a `Hash.new([])` pattern in a small snippet with a `default_proc` and write a test that would have failed before the change.
+2. Find a place that uses `h[k] ||=` to initialize arrays and refactor to `Hash.new { |h,k| h[k] = [] }`.
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
 
-```ruby
-require 'minitest/autorun'
-
-class TestHashes < Minitest::Test
-  def test_default_proc
-    h = Hash.new { |hh,k| hh[k] = [] }
-    h[:x] << 1
-    assert_equal [1], h[:x]
-  end
-end
-```
-
-### Exercises (Appendix — hashes-ruby2)
-
-1. Implement a `deep_merge(a,b)` helper that merges nested hashes and write tests for conflicting and nested keys.
-2. Build a normalizer that accepts mixed string/symbol keys and returns a hash with symbol keys only; add tests.
-
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
-
-<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
-
-## Practical Appendix: Hashes — Performance, Frozen Defaults & Deep Symbolization (Appendix — hashes-ruby2-appendix2)
-
-Advanced recipes for performant hash usage, safe default procs, and converting deeply nested keys to symbols without mutating inputs.
+## Practical Appendix: Hashes — Safe Access & Transformations (Appendix — hashes-appendix)
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Topic</th><th>Pattern</th><th>Notes</th></tr>
+    <tr><th>Operation</th><th>Use when</th><th>Tip</th></tr>
   </thead>
   <tbody>
-    <tr><td>Frozen defaults</td><td>use frozen constants</td><td>Avoids accidental mutation across callers</td></tr>
-    <tr><td>Deep symbolization</td><td>recursive transform_keys</td><td>Copy structures to avoid side effects</td></tr>
-    <tr><td>Performance</td><td>use symbols for fixed keys</td><td>Profile large maps and prefer native methods</td></tr>
+    <tr><td>`fetch`</td><td>You want explicit missing-key behavior</td><td>`h.fetch(:k, default)` or raise to fail fast</td></tr>
+    <tr><td>Default procs</td><td>Mutable default values</td><td>Use `Hash.new { |h,k| h[k] = [] }` to avoid shared objects</td></tr>
+    <tr><td>`transform_values`</td><td>Map values without touching keys</td><td>Use to compute aggregates cleanly</td></tr>
+    <tr><td>`dig`</td><td>Nested structures</td><td>Use `dig` to avoid nested nil checks</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Example: deep symbolize
+### Examples
 
 ```ruby
-def deep_symbolize(obj)
-  case obj
-  when Hash
-    obj.each_with_object({}) { |(k,v), h| h[k.to_sym] = deep_symbolize(v) }
-  when Array
-    obj.map { |e| deep_symbolize(e) }
-  else
-    obj
-  end
-end
+h = Hash.new { |acc,k| acc[k] = [] } h[:a] << 1
+
+# fetch with default
+count = meta.fetch(:count, 0)
+
+# transform values
+scores = players.group_by(&:team).transform_values { |ps| ps.sum(&:score) }
+
+# nested access
+value = params.dig(:user, :profile, :email)
 ```
 
-### Exercises (Appendix — hashes-ruby2-appendix2)
+### Appendix — Exercises
 
-1. Implement `deep_symbolize` and ensure it does not mutate the original object (write tests that freeze the input and verify immutability).
-2. Benchmark hash access patterns for string vs symbol keys on large datasets and report the memory/throughput differences.
+1. Convert an array of pairs into a hash using `each_with_object` and then compute totals per key using `transform_values`.
+2. Demonstrate the shared-object bug with `Hash.new([])` and fix it using a default block.
 
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- Practical Appendix: Reference and further reading -->
+
+### Practical Appendix
+This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
+
+- Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
+- Quick tips:
+  - Re-run the examples in a REPL to experiment with small changes.
+  - Use small, focused test cases when validating behavior.
+  - Prefer idiomatic standard-library helpers for clarity and maintainability.
+
+Further reading and sources:
+- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+- Standard library reference and API pages.
+- For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
+
+*End of Practical Appendix.*

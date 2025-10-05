@@ -1,14 +1,20 @@
 # Ranges
 
-Ranges model intervals—continuous sequences with a beginning and an optional end. Ruby uses them for iteration, slicing, validation, pattern matching, and even domain-specific features like endless pagination. Understanding ranges unlocks expressive, performant code for everything from numeric loops to date filters.
+Ranges model intervals—continuous sequences with a beginning and an optional
+end. Ruby uses them for iteration, slicing, validation, pattern matching, and
+even domain-specific features like endless pagination. Understanding ranges
+unlocks expressive, performant code for everything from numeric loops to date
+filters.
 
 ## Learning goals
 
-- Distinguish inclusive (`..`) and exclusive (`...`) ranges, plus endless/beginless variants.
+- Distinguish inclusive (`..`) and exclusive (`...`) ranges, plus
+  endless/beginless variants.
 - Iterate, slice, and transform ranges without unnecessary array allocations.
 - Choose between `include?` and `cover?` based on precision and performance.
 - Combine ranges with dates, strings, and `case` expressions for clear intent.
-- Apply advanced methods (`step`, `clamp`, pattern matching) to real-world problems.
+- Apply advanced methods (`step`, `clamp`, pattern matching) to real-world
+  problems.
 
 ## Creating ranges
 
@@ -36,7 +42,8 @@ Endless/beginless ranges shine in slicing (`array[3..]`) and guards (`if amount.
 (1...4).to_a  # => [1, 2, 3]
 ```
 
-Use exclusive ranges when your upper bound should not be included—e.g., zero-indexed slicing or time windows that end right before a cutoff.
+Use exclusive ranges when your upper bound should not be included—e.g.,
+zero-indexed slicing or time windows that end right before a cutoff.
 
 ## Inspecting endpoints
 
@@ -74,7 +81,8 @@ range.include?(5.5)  # => false (5.5 isn’t enumerated)
 ```
 
 - Use `include?` when you need exact membership in discrete ranges.
-- Use `cover?` for numeric checks where partial values between integers count, or to avoid expensive enumeration over large ranges.
+- Use `cover?` for numeric checks where partial values between integers count,
+  or to avoid expensive enumeration over large ranges.
 
 ## Slicing arrays and strings
 
@@ -149,25 +157,31 @@ Great for sanitizing user input or normalizing metrics.
 (1..).to_a            # => raises (endless ranges can’t become arrays)
 ```
 
-Only convert when you truly need a materialized sequence; otherwise iterate lazily to save memory.
+Only convert when you truly need a materialized sequence; otherwise iterate
+lazily to save memory.
 
 ## Performance considerations
 
-- Ranges store just two endpoints. `(1..1_000_000)` is cheap; `(1..1_000_000).to_a` allocates a huge array.
+- Ranges store just two endpoints. `(1..1_000_000)` is cheap;
+  `(1..1_000_000).to_a` allocates a huge array.
 - `cover?` avoids enumeration, making it ideal for big intervals or floats.
-- Avoid `include?` on large non-integer ranges (e.g., dates) unless you really need discrete membership.
+- Avoid `include?` on large non-integer ranges (e.g., dates) unless you really
+  need discrete membership.
 
 ## Common patterns
 
 - **Pagination**: `(page_start..page_end)` to slice records.
 - **Validation**: `raise unless (1..5).cover?(input)`.
-- **Chunking**: `range.each_slice(size)` after converting (or use numeric stepping).
-- **Guards**: `case value when ..0 then :negative when 1...10 then :small else :large end`.
+- **Chunking**: `range.each_slice(size)` after converting (or use numeric
+  stepping).
+- **Guards**: `case value when ..0 then :negative when 1...10 then :small else
+  :large end`.
 
 ## Guided practice
 
 1. **Score buckets**
-   - Given a list of exam scores, build a hash grouping them into ranges (`0..59`, `60..69`, etc.).
+   - Given a list of exam scores, build a hash grouping them into ranges
+     (`0..59`, `60..69`, etc.).
    - Use `Range#cover?` inside `group_by` for clarity.
 
 2. **Sliding windows**
@@ -175,14 +189,19 @@ Only convert when you truly need a materialized sequence; otherwise iterate lazi
    - Compare performance against `each_cons`.
 
 3. **Date filter**
-   - Create a `events_in_period(events, range)` helper that accepts a `Date` range.
-   - Use `cover?` to include events on the boundaries and test beginless/endless inputs.
+   - Create a `events_in_period(events, range)` helper that accepts a `Date`
+     range.
+   - Use `cover?` to include events on the boundaries and test beginless/endless
+     inputs.
 
 4. **Normalization**
-   - Write `normalize(value, source_range, target_range)` that maps numbers from one range into another (e.g., scale 0..1023 sensor readings into 0.0..1.0 floats).
+   - Write `normalize(value, source_range, target_range)` that maps numbers from
+     one range into another (e.g., scale 0..1023 sensor readings into 0.0..1.0
+     floats).
 
 5. **Pattern matching audit**
-   - Implement a log parser that uses case/`in` with ranges to classify response times (fast/acceptable/slow).
+   - Implement a log parser that uses case/`in` with ranges to classify response
+     times (fast/acceptable/slow).
    - Ensure a fallback branch captures unexpected values.
 
 <!-- markdownlint-disable MD033 MD010 -->
@@ -203,9 +222,11 @@ This appendix shows how to use `cover?` for dates, `step` for numeric sequences,
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 -->
 ### Practical Appendix: Further Reading & Resources (Appendix — External Links)
 
-Recommended authoritative references and short actionable snippets to deepen your understanding of ranges and their uses.
+Recommended authoritative references and short actionable snippets to deepen
+your understanding of ranges and their uses.
 
 - Ruby docs: [Ruby Range docs](https://ruby-doc.org/core/Range.html)
 - Practical guide: [DevDocs: Ruby Range](https://devdocs.io/ruby~3.2/Range)
@@ -222,6 +243,7 @@ Recommended authoritative references and short actionable snippets to deepen you
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Exercises (External Resources)
 
 1. Use a range to generate a sequence of dates and map them to weekday names.
@@ -265,10 +287,12 @@ finish = Date.new(2025,10,5)
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix II — ranges)
 
 1. Create a date-range generator that yields only weekdays and test it.
-2. Replace an eager mapping with lazy enumerables for large ranges and benchmark memory.
+2. Replace an eager mapping with lazy enumerables for large ranges and benchmark
+   memory.
 
 <!-- markdownlint-disable MD010 -->
 
@@ -291,6 +315,7 @@ Practical notes for using `Range` objects for iteration, membership checks, and 
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Examples
 
 ```ruby
@@ -310,12 +335,43 @@ range = (1..Float::INFINITY).lazy.map { |n| n * 2 }
 range.first(10)
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — ranges-ruby2)
 
-1. Implement a `range_overlap?(r1, r2)` that returns true if two numeric ranges overlap, with tests covering edge cases (touching endpoints, reversed ranges).
-2. Use a lazy enumerator to generate the first 100 primes and test properties (e.g., that each is prime).
+1. Implement a `range_overlap?(r1, r2)` that returns true if two numeric ranges
+   overlap, with tests covering edge cases (touching endpoints, reversed
+   ranges).
+2. Use a lazy enumerator to generate the first 100 primes and test properties
+   (e.g., that each is prime).
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 MD022 MD032 MD024 -->
+
+## Practical Appendix: Ranges — Quick Patterns & Tests (Appendix — ranges-quick)
+
+Small patterns for `cover?` vs `include?`, `step`, and date handling.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Use</th><th>Why</th><th>Test tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>cover?</td><td>Bounds-only checks</td><td>Verify with floats/dates</td></tr>
+    <tr><td>step</td><td>Efficient strides</td><td>Assert expected sequence values</td></tr>
+    <tr><td>endless ranges</td><td>Slicing convenience</td><td>Test behavior on `to_a` errors</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+Exercises:
+
+1. Implement `range_overlap?(r1, r2)` with tests for touching and reversed
+   ranges.
+2. Use `cover?` for date inclusion tests to avoid enumerating all dates.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 MD022 MD032 MD024 -->
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -336,15 +392,109 @@ Practical notes for using ranges to generate sequences, slice arrays, and patter
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Example: stepped ranges
 
 ```ruby
 (0..10).step(2) { |n| puts n }
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — ranges-ruby-appendix-20251005)
 
-1. Create a function that returns ranges of equal-sized chunks for a given array and test it.
+1. Create a function that returns ranges of equal-sized chunks for a given array
+   and test it.
 2. Use ranges in a `case` statement to assign letter grades from numeric scores.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Ranges — Tips, Tricks & Hidden Features (Appendix — ranges-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Use</th><th>Insider tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Exclusive ranges</td><td>`(1...5)`</td><td>Useful for zero-based slices and off-by-one clarity</td></tr>
+    <tr><td>`Range#cover?`</td><td>Check membership efficiently</td><td>Faster for numeric/time ranges than `include?`</td></tr>
+    <tr><td>`to_a` caution</td><td>Converting large ranges</td><td>Avoid `to_a` on huge ranges; use enumerators/lazy</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Hidden features
+
+- `('a'..'z').to_a` — quick alphabet generation.
+- Ranges work with Time objects: `(Time.now..Time.now + 3600)`.
+- `Range#cover?` uses comparison operators and is usually more efficient than
+  `include?` for numeric ranges.
+
+### Example
+
+```ruby
+letters = ('a'..'z').to_a
+letters[0,3] # => ["a", "b", "c"]
+
+range = (1..10)
+range.cover?(5) # => true
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix exercises
+
+1. Replace a `to_a` on a large range with a lazy enumerator and measure memory.
+2. Use `cover?` vs `include?` in a numeric/time check and write tests asserting
+   behavior.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Ranges — Inclusive vs Exclusive & Useful Patterns (Appendix — ranges-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>`..` (inclusive)</td><td>Inclusive ranges</td><td>Good for `1..5` loops</td></tr>
+    <tr><td>`...` (exclusive)</td><td>Exclude end</td><td>Use for indices: `0...n`</td></tr>
+    <tr><td>Range#cover?</td><td>Membership test</td><td>`cover?` is faster than `include?` for numeric ranges</td></tr>
+    <tr><td>Case equality</td><td>`case` statements</td><td>Ranges implement `===` so `when 1..3` works</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Examples
+
+```ruby
+(1..5).to_a        # => [1,2,3,4,5]
+(1...5).to_a       # => [1,2,3,4]
+(0...n).each { |i| ... }
+
+case score
+when 90..100 then 'A'
+when 80...90 then 'B'
+else 'F'
+end
+
+# cover? vs include?
+(1..1000000).cover?(500000)   # fast
+(1..1000000).include?(500000) # may iterate
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
+
+1. Implement a helper that maps numeric grades into letters using ranges and
+   test boundary cases.
+2. Show the difference between `include?` and `cover?` for strings vs numeric
+   ranges.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

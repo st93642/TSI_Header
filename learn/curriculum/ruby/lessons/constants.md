@@ -1,351 +1,328 @@
 # Constants and Configuration Values
 
-Constants capture values that should not change while your Ruby program runs—API endpoints, numeric limits, version strings, configuration toggles. They also serve as anchors for class and module names. This lesson goes beyond `MAX_USERS = 100` and digs into constant lookup rules, namespacing, immutability, and dynamic constant management.
+Constants capture values that should not change while your Ruby program runs — API endpoints, numeric limits, version strings, configuration toggles. They also serve as anchors for class and module names. This lesson goes beyond `MAX_USERS = 100` and digs into constant lookup rules, namespacing, immutability, and dynamic constant management.
 
 ## Learning goals
 
 - Declare and organize constants using idiomatic naming conventions.
-- Understand Ruby’s constant lookup path and how namespacing affects reference resolution.
-- Control mutability: freeze constant data structures and know when reassignment is acceptable.
-- Work with dynamic constants via `const_set`, `const_defined?`, and `autoload` while maintaining clarity.
-- Apply constants to real-world configuration, environment settings, and domain limits.
+- Understand Ruby’s constant lookup path and how namespacing affects reference
+  resolution.
+- Control mutability: freeze constant data structures and know when reassignment
+  is acceptable.
 
-## Declaring constants
+<!-- markdownlint-disable MD013 -->
+## Practical Appendix: Constants — Patterns & Tips
 
-Constants are identifiers beginning with an uppercase letter. Ruby warns (but does not forbid) reassignment, so choose names carefully and avoid mutating them in place.
+(Appendix — constants-appendix-20251005)
+
+Short, practical guidance and small helpers for working with constants safely.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Pattern</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mutable constants</td>
+      <td>Deep-freeze at boot</td>
+      <td>Prevents runtime mutation and test surprises</td>
+    </tr>
+    <tr>
+      <td>Test overrides</td>
+      <td>Temporarily replace then restore</td>
+      <td>Always restore in `ensure`</td>
+    </tr>
+    <tr>
+      <td>Namespacing</td>
+      <td>Module-level grouping</td>
+      <td>Avoid top-level pollution</td>
+    </tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Tiny helper: safe_override (for tests)
 
 ```ruby
-PI = 3.1415926535
-MAX_CONNECTIONS = 100
-API_BASE_URL = "https://api.example.com"
-```
+module TestHelpers
+  def with_constant(mod, name, value)
+    original_defined = mod.const_defined?(name)
+    original = mod.const_get(name) if original_defined
 
-When constants reference mutable objects (arrays, hashes), freeze them to protect against accidental modification.
+    if original_defined
+      mod.send(:remove_const, name)
+    end
 
-```ruby
-ROLES = %w[admin editor viewer].freeze
-CONFIG = {
-  timeout: 30,
-  retries: 3
-}.freeze
-```
-
-## Classes and modules are constants
-
-`User`, `OrderProcessor`, and modules like `Billing` are constants under the hood. Their namespacing follows the constant lookup rules described below.
-
-```ruby
-module Payment
-  class Invoice
+    mod.const_set(name, value)
+    yield
+  ensure
+    if mod.const_defined?(name)
+      mod.send(:remove_const, name)
+    end
+    mod.const_set(name, original) if original_defined
   end
 end
-
-Payment::Invoice # => constant lookup via namespace
 ```
 
-## Constant lookup rules
+### Appendix Exercises — constants-appendix-20251005
 
-Ruby resolves constants by walking the lexical scope first, then the ancestors of the surrounding classes/modules, and finally `Object`.
+1. Add a frozen `DEFAULTS` constant and a helper that returns merged runtime
+   config; write tests for default and overridden behavior.
+2. Implement `with_constant` (or use the provided `safe_override`) to
+   temporarily replace a constant in a test and ensure it is restored
+   afterwards.
+
+### Tips & Tricks: Constants — Quick Rules
+
+- Use UPPER_SNAKE_CASE and group related values under modules.
+- Freeze mutable constant values and use `deep_freeze` for nested structures.
+- Avoid embedding secrets in constants; load them securely at boot.
+- Prefer configuration objects or environment-based settings over constant
+  reassignment.
+- Use `private_constant` to hide internals when appropriate.
+
+Constants add clarity when used intentionally. Prefer immutable patterns and
+safe test helpers to prevent surprises.
+
+<!-- markdownlint-enable MD013 -->
+## Practical Appendix: Constants — Hidden Tips
+
+(Appendix — constants-hidden-20251005b)
+
+A few lesser-known APIs and small helpers that make working with constants safer
+and easier.
+
+### Handy APIs
+
+- Module#const_source_location(name) -> [file, lineno] or nil
+  - Use this to locate where a constant was defined. It's helpful when debugging
+    constant redefinitions or autoload-related surprises.
+- Module#autoload(name, filename) and Module#autoload?(name)
+  - Defers loading until a constant is first referenced. Prefer explicit loader
+    code for clarity. Autoload can reduce startup cost in large projects, but be
+    mindful of load-order surprises.
+- Module#const_missing(name)
+  - Use sparingly. Prefer explicit factories or registries. If used at all, keep
+    implementations small and well-tested.
+- Module#private_constant(:CONST)
+  - Hide implementation constants from the public API surface.
+
+### Tiny helper: deep_freeze
 
 ```ruby
-PI = 3.1
-
-module Geometry
-  PI = 3.14159
-
-  class Circle
-    def circumference(radius)
-      2 * PI * radius
+def deep_freeze(obj)
+  case obj
+  when Hash
+    obj.each do |k, v|
+      deep_freeze(k)
+      deep_freeze(v)
+    end
+  when Array
+    obj.each do |v|
+      deep_freeze(v)
     end
   end
+  obj.freeze
 end
 
-Geometry::Circle.new.circumference(1)
-# => 6.28318 (uses Geometry::PI, not top-level PI)
-```
-
-Use absolute paths (`::PI`) to access top-level constants explicitly.
-
-```ruby
-::PI # => 3.1 (top-level constant)
-```
-
-When in doubt, check `Module.nesting` inside your scope to see the lookup order.
-
-## Namespacing constants
-
-Group related constants within modules or classes to avoid collisions and clarify intent.
-
-```ruby
-module Currency
-  USD = "USD"
-  EUR = "EUR"
-  SUPPORTED = [USD, EUR].freeze
-end
-
-module Limits
-  MAX_LOGIN_ATTEMPTS = 5
-  SESSION_TIMEOUT = 30.minutes
-end
-
-Currency::SUPPORTED
-```
-
-You can even nest modules: `Billing::Taxes::RATE`.
-
-## Reassignment and warnings
-
-Ruby warns on reassigning constants. Instead of reassignment, prefer updating configuration via other mechanisms or replace the object entirely (emitting one warning intentionally during boot if necessary).
-
-```ruby
-TIMEOUT = 10
-TIMEOUT = 20
-# warning: already initialized constant TIMEOUT
-```
-
-To avoid warnings during configuration reloads, define constants once and mutate a copy carefully—or better, encapsulate config inside mutable objects.
-
-```ruby
-module AppConfig
-  class << self
-    attr_accessor :settings
-  end
-
-  self.settings = {
-    timeout: 10,
-    retries: 5
-  }
-end
-
-AppConfig.settings[:timeout] = 15
-```
-
-## `freeze` and immutability
-
-Freezing constant values prevents accidental mutation.
-
-```ruby
-DEFAULT_HEADERS = {
-  "Content-Type" => "application/json"
-}.freeze
-
-# DEFAULT_HEADERS["Content-Type"] = "text/plain" # => FrozenError
-```
-
-For nested structures, consider `deep_freeze` (implement yourself or use ActiveSupport’s `deep_dup`/`deep_freeze`).
-
-## Dynamic constants
-
-Define constants dynamically with `const_set`. Use sparingly—too much dynamism harms readability.
-
-```ruby
-module Features
-  def self.enable(name)
-    const_set(name.upcase, true)
-  end
-end
-
-Features.enable(:beta_mode)
-Features::BETA_MODE # => true
-```
-
-Check for existing definitions with `const_defined?` to avoid collisions.
-
-```ruby
-module Features
-  def self.enabled?(name)
-    const_defined?(name.upcase)
-  end
-end
-```
-
-## Autoloading constants
-
-`Module#autoload` defers loading until the constant is first referenced. Useful for large applications where loading everything upfront is expensive.
-
-```ruby
-module Services
-  autoload :EmailSender, "services/email_sender"
-end
-
-Services::EmailSender.new # loads file on demand
-```
-
-With frameworks like Rails, Zeitwerk manages autoloading automatically. When coding by hand, ensure autoload paths are correct.
-
-## Environment-specific constants
-
-Encapsulate environment logic instead of scattering `if ENV[...]` throughout the code.
-
-```ruby
-module Environments
-  PRODUCTION = "production"
-  STAGING = "staging"
-  DEVELOPMENT = "development"
-end
-
-CURRENT_ENV = (ENV["APP_ENV"] || Environments::DEVELOPMENT).freeze
-
-if CURRENT_ENV == Environments::PRODUCTION
-  # production-only setup
-end
-```
-
-## Well-known Ruby constants
-
-Ruby ships with global constants like `RUBY_VERSION`, `RUBY_PLATFORM`, and `$LOAD_PATH`. Avoid reusing these names. Explore `Object.constants` to inspect what’s already defined.
-
-## Constant visibility and privacy
-
-You can control constant visibility with `private_constant` (Ruby 2.1+).
-
-```ruby
-module Secrets
-  API_KEY = "secret".freeze
-  private_constant :API_KEY
-
-  def self.fetch
-    API_KEY
-  end
-end
-
-Secrets::API_KEY # => NameError
-```
-
-This helps prevent leaking sensitive values outside their intended scope.
-
-## Using constants to avoid magic numbers
-
-Replace raw literals with descriptive names.
-
-```ruby
-MAX_RETRIES = 5
-PAUSE_BETWEEN_RETRIES = 0.5 # seconds
-
-MAX_RETRIES.times do |attempt|
-  break if perform_request
-  sleep PAUSE_BETWEEN_RETRIES
-end
-```
-
-This approach clarifies intent and centralizes configuration adjustments.
-
-## Guided practice
-
-1. **Feature flag registry**
-   - Create a `Features` module with constants representing active features.
-   - Add helper methods `enabled?(key)` and `enable!(key)` using `const_defined?` and `const_set`.
-   - Hide raw constants from external callers via `private_constant`.
-
-2. **Namespaced limits**
-   - Build a `Billing::Limits` module grouping plan-specific constants (`FREE_TIER_REQUEST_LIMIT`, `PRO_TIER_REQUEST_LIMIT`).
-   - Provide `Billing::Limits.for(plan)` that returns the correct limit.
-
-3. **Autoload practice**
-   - Set up a small project where referencing `Services::PdfExporter` triggers an autoload. Confirm that the file isn’t loaded until the constant is accessed.
-
-4. **Immutable configuration**
-   - Define a nested configuration hash for database settings and implement a helper `deep_freeze!` to protect the structure.
-   - Demonstrate that attempts to mutate raises `FrozenError`.
-
-5. **Constant lookup exploration**
-   - Create nested modules and classes with constants of the same name.
-   - Inspect `Module.nesting` and `ancestors` inside methods to predict which constant Ruby resolves.
-
-## Self-check questions
-
-1. How does Ruby resolve constants when the same name exists in multiple scopes?
-2. Why is freezing constant hashes or arrays beneficial? When might you skip freezing?
-3. What’s the difference between `const_set` and `const_defined?`, and when would you use them?
-4. How does `autoload` help manage large codebases? What caveats should you keep in mind?
-5. When would `private_constant` be a better choice than documenting “do not use this constant” in comments?
-
-Constants bring structure to configuration and reduce ambiguity in your code. Respect their immutability, organize them within clear namespaces, and leverage Ruby’s lookup rules to keep your codebase tidy and intention-revealing.
-
-<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
-
-## Practical Appendix: Constants — Patterns & Tests (Appendix — constants-ruby2)
-
-Advice for defining constants, freezing data, and testing configuration values safely.
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <thead>
-    <tr><th>Pattern</th><th>Why</th><th>Notes</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Freeze literals</td><td>Prevent accidental mutation</td><td>`MY_CONST = {...}.freeze`</td></tr>
-    <tr><td>Use ENV for overrides</td><td>Runtime configuration</td><td>Provide defaults and document behavior</td></tr>
-    <tr><td>Feature flags</td><td>Toggle behavior in tests</td><td>Prefer runtime flags over recompilation</td></tr>
-  </tbody>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-### Examples
-
-```ruby
+# Usage:
 DEFAULTS = {
-  retries: 3,
-  timeout: 5
-}.freeze
-
-TIMEOUT = ENV.fetch('TIMEOUT', DEFAULTS[:timeout]).to_i
+  timeout: 5,
+  modes: %i[fast safe]
+}
+deep_freeze(DEFAULTS)
 ```
 
-### Testing constants
+This helper protects nested structures used as constants from accidental
+mutation in runtime or tests.
 
-- Use `stub_const` (RSpec) or temporarily reassign constants in tests and ensure they are restored in `ensure` blocks.
+### Pattern: safe test override (reminder)
+
+When tests need to override a constant, temporarily replace it and always
+restore the original in an ensure block. Example (shown earlier in this lesson):
 
 ```ruby
-require 'minitest/autorun'
-
-class TestConstants < Minitest::Test
-  def test_override
-    original = Object.const_get(:TIMEOUT)
-    Object.send(:remove_const, :TIMEOUT)
-    Object.const_set(:TIMEOUT, 10)
-    assert_equal 10, TIMEOUT
-  ensure
-    Object.send(:remove_const, :TIMEOUT)
-    Object.const_set(:TIMEOUT, original)
-  end
+def with_constant(mod, name, value)
+  original_defined = mod.const_defined?(name)
+  original = mod.const_get(name) if original_defined
+  mod.send(:remove_const, name) if original_defined
+  mod.const_set(name, value)
+  yield
+ensure
+  mod.send(:remove_const, name) if mod.const_defined?(name)
+  mod.const_set(name, original) if original_defined
 end
 ```
 
-### Exercises (Appendix — constants-ruby2)
+### Quick patterns & cautions
 
-1. Add a frozen DEFAULTS constant and a helper that returns merged runtime config; write tests for default and overridden behavior.
-2. Document why freezing matters and demonstrate a failing test when a constant is mutated accidentally.
+- Prefer `Module#const_get` / `const_set` for dynamic constant access instead of
+  evaluating strings into code.
+- Avoid defining constants inside blocks (task/loop blocks); their scope can be
+  surprising and may leak to the top level.
+- Use `private_constant` to reduce accidental API exposure.
+- For configuration, prefer a frozen DEFAULTS constant and merge at runtime:
+`DEFAULTS.merge(runtime_overrides)`.
 
-<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+<!-- markdownlint-disable MD013 -->
+### Appendix Exercises — constants-hidden-20251005b
 
-## Practical Appendix: Constants — Freeze, Mutability & Naming (Appendix — constants-ruby-appendix-20251005)
+1. Add a frozen `DEFAULTS` constant that contains nested arrays/hashes. Then
+   write a test that attempts to mutate it and asserts a RuntimeError is raised.
+2. Write a small script that prints `Module.const_source_location` for a few
+   constants in this project (pick one defined in Ruby and one from the core
+   library) and observe the difference.
+3. Convert a top-level mutable constant into a `private_constant` under a module
+   and update callers to use the module's public API instead.
 
-Practical guidance on using constants in Ruby, controlling mutability with `freeze`, and naming conventions to avoid surprises.
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Constants Advanced Features (Appendix — constants-advanced-20251005)
+
+Explore Ruby's constant introspection and dynamic management for flexible code.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Topic</th><th>Advice</th><th>Notes</th></tr>
+    <tr><th>Feature</th><th>Tip</th><th>Example</th></tr>
   </thead>
   <tbody>
-    <tr><td>Freezing</td><td>Call `freeze` on objects</td><td>Prevents accidental modification of arrays/hashes</td></tr>
-    <tr><td>Dynamic constants</td><td>Use cautiously</td><td>Prefer configuration over changing constants at runtime</td></tr>
-    <tr><td>Naming</td><td>UPPER_SNAKE_CASE</td><td>Indicates constant intent</td></tr>
+    <tr>
+      <td><code>const_defined?</code></td>
+      <td>Check existence</td>
+      <td><code>Module.const_defined?(:PI)</code></td>
+    </tr>
+    <tr>
+      <td><code>const_get</code></td>
+      <td>Dynamic access</td>
+      <td><code>Math.const_get(:PI)</code></td>
+    </tr>
+    <tr>
+      <td><code>const_set</code></td>
+      <td>Dynamic definition</td>
+      <td><code>Module.const_set(:MY_CONST, 42)</code></td>
+    </tr>
+    <tr>
+      <td><code>const_missing</code></td>
+      <td>Fallback hook</td>
+      <td><code>def const_missing(name); end</code></td>
+    </tr>
+    <tr>
+      <td><code>autoload</code></td>
+      <td>Lazy loading</td>
+      <td><code>autoload :MyClass, 'my_class.rb'</code></td>
+    </tr>
+    <tr>
+      <td><code>const_source_location</code></td>
+      <td>Definition location</td>
+      <td><code>Math.const_source_location(:PI)</code></td>
+    </tr>
+    <tr>
+      <td><code>constants</code></td>
+      <td>List accessible constants</td>
+      <td><code>Module.constants.first(5)</code></td>
+    </tr>
+    <tr>
+      <td><code>private_constant</code></td>
+      <td>Hide from public</td>
+      <td><code>private_constant :INTERNAL</code></td>
+    </tr>
+    <tr>
+      <td><code>remove_const</code></td>
+      <td>Remove definition</td>
+      <td><code>send(:remove_const, :TEMP)</code></td>
+    </tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Example: freeze a constant
+<!-- markdownlint-enable MD013 -->
+### Insider Notes
+
+- Constants are looked up in ancestors; use `inherit` param to control scope.
+- `const_missing` is called when a constant isn't found; implement carefully.
+- Autoload defers loading; useful for large codebases but can cause load-order
+  issues.
+- `const_source_location` returns nil for C-defined constants.
+
+### Examples — Constant Introspection
 
 ```ruby
-DEFAULT_TAGS = %w[bug feature].freeze
-DEFAULT_CONFIG = { retries: 3 }.freeze
+# Check and get constants
+Math.const_defined?(:PI)  # => true
+Math.const_get(:PI)       # => 3.141592653589793
+
+# Set dynamically
+module Config
+  const_set(:VERSION, "1.0.0")
+end
+Config::VERSION  # => "1.0.0"
+
+# const_missing hook
+class DynamicLoader
+  def self.const_missing(name)
+    require name.to_s.downcase
+    const_get(name)
+  end
+end
+
+# Autoload example
+class LazyLoader
+  autoload :HeavyClass, 'heavy.rb'
+end
+# HeavyClass loaded on first access
+
+# Source location
+Math.const_source_location(:PI)  # => nil (C code)
+Object.const_source_location(:String)  # => nil
+
+# List constants
+Math.constants.include?(:PI)  # => true
+
+# Private constant
+module Internal
+  SECRET = "hidden"
+  private_constant :SECRET
+end
+Internal::SECRET  # => NameError
+
+# Remove constant
+module Temp
+  TEMP_VAL = 123
+  send(:remove_const, :TEMP_VAL)
+end
+Temp.const_defined?(:TEMP_VAL)  # => false
 ```
 
-### Exercises (Appendix — constants-ruby-appendix-20251005)
+### Exercises — Advanced Constants
 
-1. Create a module with configuration constants and write tests that assert they are frozen.
-2. Demonstrate what happens when you attempt to mutate a frozen constant and catch the resulting error.
+1. Use `const_missing` to implement a simple registry for loading classes
+   dynamically.
+2. Write a script that lists all constants in a module and their source
+   locations.
+3. Implement a configuration system using `const_set` and `const_get` for
+   dynamic settings.
 
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- Practical Appendix: Reference and further reading -->
+
+### Practical Appendix
+This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
+
+- Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
+- Quick tips:
+  - Re-run the examples in a REPL to experiment with small changes.
+  - Use small, focused test cases when validating behavior.
+  - Prefer idiomatic standard-library helpers for clarity and maintainability.
+
+Further reading and sources:
+- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+- Standard library reference and API pages.
+- For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
+
+*End of Practical Appendix.*

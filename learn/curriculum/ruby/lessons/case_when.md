@@ -4,11 +4,15 @@
 
 ## Learning goals
 
-- Understand how `case` uses the `===` (case equality) operator to evaluate `when` clauses.
-- Choose between `case <value>` and `case` with no target for custom boolean logic.
+- Understand how `case` uses the `===` (case equality) operator to evaluate
+  `when` clauses.
+- Choose between `case <value>` and `case` with no target for custom boolean
+  logic.
 - Combine literals, ranges, regular expressions, and classes in `when` branches.
-- Leverage Ruby 2.7+ pattern matching (`in`, guards, destructuring) for nested hashes and arrays.
-- Apply best practices to keep `case` expressions readable, exhaustive, and side-effect free.
+- Leverage Ruby 2.7+ pattern matching (`in`, guards, destructuring) for nested
+  hashes and arrays.
+- Apply best practices to keep `case` expressions readable, exhaustive, and
+  side-effect free.
 
 ## Case equality basics
 
@@ -82,7 +86,8 @@ def render(value)
 end
 ```
 
-This is a lightweight alternative to polymorphism when you can’t modify source classes.
+This is a lightweight alternative to polymorphism when you can’t modify source
+classes.
 
 ## Case without an argument
 
@@ -150,8 +155,10 @@ else
 end
 ```
 
-- Hash keys in the pattern must exist; missing keys skip the branch unless you use a double splat (`**rest`).
-- Variables on the right-hand side (like `body`) capture values from the payload.
+- Hash keys in the pattern must exist; missing keys skip the branch unless you
+  use a double splat (`**rest`).
+- Variables on the right-hand side (like `body`) capture values from the
+  payload.
 
 ### Array destructuring
 
@@ -199,57 +206,110 @@ when /^#(?<hex>[0-9a-f]{6})$/i
 when /^@(?<handle>[a-z0-9_]{1,15})$/i
   "Twitter handle: #{Regexp.last_match[:handle]}"
 else
-  "Plain text"
+  "fallback"
 end
+
 ```
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Case/Pattern — Common Patterns & Gotchas (Appendix — case_when-ruby2)
+
+Tips to make case expressions robust, maintainable, and safe when pattern matching.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Issue</th><th>Pattern</th><th>Advice</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Missing else</td><td>No fallback</td><td>Always include an `else` for exhaustiveness</td></tr>
+    <tr><td>Complex guards</td><td>Complex `if` in `in`</td><td>Extract predicate methods for clarity</td></tr>
+    <tr><td>Untrusted shapes</td><td>Destructuring user input</td><td>Validate keys before pattern matching</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick checklist
+
+- Prefer explicit `else` branches and clear error messages.
+- Avoid excessive inline guards; name them instead.
+- Test pattern matching against unexpected shapes to avoid silent misses.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
 Pattern matching also supports regex: `in /@(?<handle>\w+)/` assigns captures automatically.
 
 ## Best practices
 
-- **Keep branches symmetric.** Use similar formatting and return types to aid readability.
-- **Avoid deeply nested case expressions.** Extract helper methods or objects when branches grow large.
-- **Prefer immutable return values.** Avoid mutating shared state inside branches unless necessary.
-- **Handle else explicitly.** Even if you think you’ve covered every case, add `else` to catch future changes.
-- **Document fallbacks.** If an `else` raises, mention why in the exception message.
+- **Keep branches symmetric.** Use similar formatting and return types to aid
+  readability.
+- **Avoid deeply nested case expressions.** Extract helper methods or objects
+  when branches grow large.
+- **Prefer immutable return values.** Avoid mutating shared state inside
+  branches unless necessary.
+- **Handle else explicitly.** Even if you think you’ve covered every case, add
+  `else` to catch future changes.
+- **Document fallbacks.** If an `else` raises, mention why in the exception
+  message.
 
 ## Common pitfalls
 
-- **Forgetting `break`.** Ruby’s `case` doesn’t fall through, so you don’t need `break`. If you expect fallthrough, restructure with arrays or successive conditions.
-- **Misusing `and` / `or`.** Because of precedence, stick to `&&`/`||` inside `when` clauses unless you intentionally want low-precedence control flow.
-- **Side effects in `when`.** Comparing the target should be pure; avoid assignments that change program state.
-- **Ambiguous patterns.** When a value matches multiple branches (e.g., regex and string), order matters—higher priority patterns go first.
+- **Forgetting `break`.** Ruby’s `case` doesn’t fall through, so you don’t need
+  `break`. If you expect fallthrough, restructure with arrays or successive
+  conditions.
+- **Misusing `and` / `or`.** Because of precedence, stick to `&&`/`||` inside
+  `when` clauses unless you intentionally want low-precedence control flow.
+- **Side effects in `when`.** Comparing the target should be pure; avoid
+  assignments that change program state.
+- **Ambiguous patterns.** When a value matches multiple branches (e.g., regex
+  and string), order matters—higher priority patterns go first.
 
 ## Guided practice
 
 1. **HTTP response router**
    - Accept a hash `{ status:, body:, headers: }`.
-   - Use structural pattern matching to return symbols like `:ok`, `:redirect`, `:client_error`, `:server_error`.
-   - Add a guard to detect JSON responses only when `headers[:content_type]` includes `"json"`.
+   - Use structural pattern matching to return symbols like `:ok`, `:redirect`,
+     `:client_error`, `:server_error`.
+   - Add a guard to detect JSON responses only when `headers[:content_type]`
+     includes `"json"`.
 
 2. **Command parser**
-   - Parse user input strings like `"deploy staging"` or `"rollback production --force"`.
-   - Use regular-expression `when` clauses to capture environment names and flags.
+   - Parse user input strings like `"deploy staging"` or `"rollback production
+     --force"`.
+   - Use regular-expression `when` clauses to capture environment names and
+     flags.
    - Return structured hashes describing the command.
 
 3. **Type-based renderer**
-   - Write `render_value(value)` that uses `case value` with classes to format strings, numbers, arrays, and hashes differently.
-   - Include a branch for objects responding to `to_h`, converting them before rendering.
+   - Write `render_value(value)` that uses `case value` with classes to format
+     strings, numbers, arrays, and hashes differently.
+   - Include a branch for objects responding to `to_h`, converting them before
+     rendering.
 
 4. **Event matcher**
-   - Given arrays shaped like `[:create, { model: "User", attrs: {...} }]` or `[:destroy, { model: "Order", id: 42 }]`, use pattern matching to dispatch to handler methods.
+   - Given arrays shaped like `[:create, { model: "User", attrs: {...} }]` or
+     `[:destroy, { model: "Order", id: 42 }]`, use pattern matching to dispatch
+     to handler methods.
    - Capture nested hash values using keyword-style matches.
 
 5. **Fallback auditing**
-   - Add logging to the `else` branch of an existing `case` expression to capture unexpected inputs, and write a test verifying the log triggers when an unknown value arrives.
+   - Add logging to the `else` branch of an existing `case` expression to
+     capture unexpected inputs, and write a test verifying the log triggers when
+     an unknown value arrives.
 
 ## Self-check questions
 
-1. How does the `===` operator differ across `String`, `Range`, `Regexp`, and `Class`, and how does that impact case matching?
-2. When would you choose `case` without an argument instead of a `case target` expression?
-3. How do pattern matching guards (`if`/`unless`) change the behavior of a branch?
-4. What strategies can you use to ensure a `case` expression remains maintainable as the number of branches grows?
-5. Why is it important to include an `else` branch, and what should it typically do in production code?
+1. How does the `===` operator differ across `String`, `Range`, `Regexp`, and
+`Class`, and how does that impact case matching?
+2. When would you choose `case` without an argument instead of a `case target`
+   expression?
+3. How do pattern matching guards (`if`/`unless`) change the behavior of a
+   branch?
+4. What strategies can you use to ensure a `case` expression remains
+   maintainable as the number of branches grows?
+5. Why is it important to include an `else` branch, and what should it typically
+   do in production code?
 
 Well-structured `case` expressions keep control flow readable and adaptable. As your data models evolve, revisit your branches, tighten guards, and lean on pattern matching to express intent with less code.
 
@@ -274,8 +334,10 @@ This appendix shows common patterns for matching API responses, arrays, and nest
 
 ### Exercises
 
-1. Build a response router using `case/in` that handles success, redirect, and error cases.
-2. Add guards to match only JSON responses when `headers[:content_type]` includes `json`.
+1. Build a response router using `case/in` that handles success, redirect, and
+   error cases.
+2. Add guards to match only JSON responses when `headers[:content_type]`
+   includes `json`.
 
 <!-- markdownlint-enable MD010 -->
 
@@ -329,9 +391,53 @@ class TestCaseWhen < Minitest::Test
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — case_when-ruby2)
 
-1. Rewrite a series of if/elsif statements into a `case` expression and add tests covering every branch.
-2. Use pattern matching to destructure a nested hash and write tests for valid and invalid shapes.
+1. Rewrite a series of if/elsif statements into a `case` expression and add
+   tests covering every branch.
+2. Use pattern matching to destructure a nested hash and write tests for valid
+   and invalid shapes.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: `case` / `when` — Pattern Matching & Guarding (Appendix — case_when-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When to use</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Simple value match</td><td>Dispatch on enums/symbols</td><td>Readable and fast</td></tr>
+    <tr><td>Class matching</td><td>Type-based dispatch</td><td>Remember `when` uses `===`</td></tr>
+    <tr><td>Guard clauses</td><td>Complex conditions</td><td>Prefer `if` for very complex checks</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Examples
+
+```ruby
+case obj
+when String then handle_string(obj)
+when Array  then handle_array(obj)
+else handle_default
+end
+```
+
+### Pitfalls
+
+- `when` uses `===`; `Integer === 5` is `true` because Integer implements `===`.
+- Falling through doesn't happen — the first matching `when` executes.
+
+### Exercises
+
+1. Replace a long `if/elsif` chain with a `case` and add tests for each branch.
+2. Create a case branch that matches classes and document why `===` matters for
+   that branch.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

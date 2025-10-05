@@ -333,6 +333,16 @@ class LearnManager {
         if (resolveResourceUri) {
             htmlContent = this.rewriteImageSources(htmlContent, resolveResourceUri);
         }
+
+        // Ensure HTML tables have leading non-breaking spaces so inline HTML tables match lesson styling requirements.
+        // Prefix each <td> or <th> cell's inner text with a single &nbsp; unless it already starts with whitespace or an entity.
+        htmlContent = htmlContent.replace(/<(td|th)([^>]*)>([\s\S]*?)<\/\1>/g, (match, tag, attrs, inner) => {
+            // If inner already starts with whitespace or an HTML entity, leave it
+            if (/^(&nbsp;|\s|<)/i.test(inner)) {
+                return `<${tag}${attrs}>${inner}</${tag}>`;
+            }
+            return `<${tag}${attrs}>&nbsp;${inner}</${tag}>`;
+        });
         
         const exerciseVariants = Array.isArray(lesson.exerciseVariants) ? lesson.exerciseVariants : [];
         const exercisesDisabled = lesson && lesson.exerciseAvailable === false;
@@ -452,6 +462,19 @@ class LearnManager {
             color: var(--vscode-textPreformat-foreground);
             white-space: pre;
             font-family: inherit;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        table, table th, table td {
+            border: 1px solid var(--vscode-editorHoverWidget-border);
+        }
+        table th, table td {
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
         }
         pre code * {
             font-size: 13px !important;

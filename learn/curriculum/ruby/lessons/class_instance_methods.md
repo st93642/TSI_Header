@@ -1,18 +1,28 @@
 # Lesson 8.3: Class vs Instance Methods
 
-Classes in Ruby can expose behavior at two levels: per-instance and per-class. Choosing the right level keeps your APIs intuitive and your encapsulation tight. Let’s explore how the object model handles both, when to prefer each, and how to design patterns around them.
+Classes in Ruby can expose behavior at two levels: per-instance and per-class.
+Choosing the right level keeps your APIs intuitive and your encapsulation tight.
+Let’s explore how the object model handles both, when to prefer each, and how to
+design patterns around them.
 
 ## Learning goals
 
-- Distinguish between method definitions on instances, classes, and singleton objects.
-- Implement class methods using the `self.` prefix, the eigenclass (`class << self`), and module helpers.
-- Manage shared state safely using class instance variables (and avoid `@@` pitfalls).
-- Decide when to use class methods vs. instance methods for factories, configuration, caching, and utilities.
-- Control visibility (`public`, `private`, `protected`, `private_class_method`) across both levels.
+- Distinguish between method definitions on instances, classes, and singleton
+  objects.
+- Implement class methods using the `self.` prefix, the eigenclass (`class <<
+  self`), and module helpers.
+- Manage shared state safely using class instance variables (and avoid `@@`
+  pitfalls).
+- Decide when to use class methods vs. instance methods for factories,
+  configuration, caching, and utilities.
+- Control visibility (`public`, `private`, `protected`, `private_class_method`)
+  across both levels.
 
 ## Instance methods recap
 
-Instance methods operate on a specific object and have access to that object’s instance variables. They’re defined inside the class body without any receiver prefix.
+Instance methods operate on a specific object and have access to that object’s
+instance variables. They’re defined inside the class body without any receiver
+prefix.
 
 ```ruby
 class Car
@@ -72,8 +82,11 @@ end
 
 ### Class instance variables vs class variables
 
-- **Class instance variables** (`@fleet`) belong to the class object. Each subclass gets its own copy.
-- **Class variables** (`@@fleet`) are shared across the inheritance chain and can create subtle coupling. Prefer class instance variables unless you explicitly want global sharing.
+- **Class instance variables** (`@fleet`) belong to the class object. Each
+  subclass gets its own copy.
+- **Class variables** (`@@fleet`) are shared across the inheritance chain and
+  can create subtle coupling. Prefer class instance variables unless you
+  explicitly want global sharing.
 
 ```ruby
 class Vehicle
@@ -88,11 +101,13 @@ Vehicle.registry = []
 Car.registry # => nil, because class instance variables are not inherited automatically
 ```
 
-To share defaults safely, override in subclasses or use class macros that copy values.
+To share defaults safely, override in subclasses or use class macros that copy
+values.
 
 ## Factories, configuration, and singletons
 
-Class methods often serve as entry points when object construction needs extra logic.
+Class methods often serve as entry points when object construction needs extra
+logic.
 
 ```ruby
 class User
@@ -116,7 +131,8 @@ end
 User.admin("Ava").role # => :admin
 ```
 
-For singletons, memoize an instance in a class method using a class instance variable.
+For singletons, memoize an instance in a class method using a class instance
+variable.
 
 ```ruby
 class AppConfig
@@ -136,7 +152,8 @@ Making `.new` private ensures callers go through `.instance`.
 
 ## Utility modules and `extend self`
 
-If you only need stateless helpers, modules offer a cleaner pattern than classes with only class methods.
+If you only need stateless helpers, modules offer a cleaner pattern than classes
+with only class methods.
 
 ```ruby
 module MathUtils
@@ -229,11 +246,14 @@ end
 user.singleton_methods # => [:admin?]
 ```
 
-Internally, Ruby creates an eigenclass for that object. Use this for quick test doubles or DSLs, but avoid in core domain objects unless you have a compelling reason—it can confuse other developers.
+Internally, Ruby creates an eigenclass for that object. Use this for quick test
+doubles or DSLs, but avoid in core domain objects unless you have a compelling
+reason—it can confuse other developers.
 
 ## Inheritance of class methods
 
-Class methods are inherited, but remember that class instance variables aren’t shared by default.
+Class methods are inherited, but remember that class instance variables aren’t
+shared by default.
 
 ```ruby
 class Vehicle
@@ -276,7 +296,10 @@ Boat.category # => :land (maybe override to :water)
 
 ## Avoiding global state with class methods
 
-While class methods are convenient, overusing them can lead to hidden dependencies and hard-to-test code. Prefer instance methods when behavior depends on instance-specific state or when you might need multiple instances (e.g., different configurations) simultaneously.
+While class methods are convenient, overusing them can lead to hidden
+dependencies and hard-to-test code. Prefer instance methods when behavior
+depends on instance-specific state or when you might need multiple instances
+(e.g., different configurations) simultaneously.
 
 ### Refactoring hint
 
@@ -284,86 +307,205 @@ If a class method starts accumulating lots of conditional logic or state, consid
 
 ## Practical comparisons
 
-| Scenario | Prefer Instance Method | Prefer Class Method |
-|----------|-----------------------|---------------------|
-| Operating on object state | ✅ | |
-| Calculating shared configuration | | ✅ |
-| Creating specialized instances (factories) | | ✅ |
-| Running a one-off utility | | ✅ (or module function) |
-| Needs polymorphism with different subclasses | ✅ (override per subclass) | ✅ (if class-level behavior differs) |
+<!-- markdownlint-disable MD033 MD013 -->
+<table>
+  <thead>
+    <tr><th>Scenario</th><th>Prefer Instance Method</th><th>Prefer Class Method</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Operating on object state</td><td>✅</td><td></td></tr>
+    <tr><td>Calculating shared configuration</td><td></td><td>✅</td></tr>
+    <tr><td>Creating specialized instances (factories)</td><td></td><td>✅</td></tr>
+    <tr><td>Running a one-off utility</td><td></td><td>✅ (or module function)</td></tr>
+    <tr><td>Needs polymorphism with different subclasses</td><td>✅ (override per subclass)</td><td>✅ (if class-level behavior differs)</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD013 -->
 
 ## Guided practice
 
 1. **Webhook registry**
-   - Build a `Webhook` class with class methods `register(event, klass)` and `handlers_for(event)`.
-   - Ensure class instance variables are per-subclass so services can isolate handlers.
+   - Build a `Webhook` class with class methods `register(event, klass)` and
+     `handlers_for(event)`.
+   - Ensure class instance variables are per-subclass so services can isolate
+     handlers.
 
 2. **Multi-tenant clients**
-   - Refactor a class method `.client` that returns a global HTTP client into an instance-based approach so each tenant gets a distinct configuration.
+   - Refactor a class method `.client` that returns a global HTTP client into an
+     instance-based approach so each tenant gets a distinct configuration.
 
 3. **Metrics aggregator**
-   - Implement `Metrics.record(name, value)` as a class method storing totals in a class instance variable.
-   - Expose `Metrics.reset!` as a `private_class_method` so only tests can invoke it.
+   - Implement `Metrics.record(name, value)` as a class method storing totals in
+     a class instance variable.
+   - Expose `Metrics.reset!` as a `private_class_method` so only tests can
+     invoke it.
 
 4. **Custom constructors**
-   - Add `self.from_env` and `self.from_yaml(path)` class methods to build `AppConfig` instances.
-   - Ensure `.new` remains available but mark it private if you want factory-only instantiation.
+   - Add `self.from_env` and `self.from_yaml(path)` class methods to build
+     `AppConfig` instances.
+   - Ensure `.new` remains available but mark it private if you want
+     factory-only instantiation.
 
 5. **Per-instance overrides**
-   - Create a `FeatureFlag` object whose individual instances can have singleton methods toggled at runtime (e.g., `def flag.enabled?; false; end`).
+   - Create a `FeatureFlag` object whose individual instances can have singleton
+     methods toggled at runtime (e.g., `def flag.enabled?; false; end`).
    - Inspect the singleton class to confirm where the method lives.
 
 ## Self-check questions
 
-1. What are the trade-offs between using class variables (`@@`) and class instance variables when sharing state?
-2. How does defining a method with `def self.method` differ from `class << self; def method; end; end`?
+1. What are the trade-offs between using class variables (`@@`) and class
+   instance variables when sharing state?
+2. How does defining a method with `def self.method` differ from `class << self;
+   def method; end; end`?
 3. When might you choose to replace a class method with a module function?
-4. Why is memoizing data (`@cache ||= ...`) inside a class method safer than using a global constant?
+4. Why is memoizing data (`@cache ||= ...`) inside a class method safer than
+   using a global constant?
 5. How does `private_class_method` improve encapsulation for factory patterns?
 
-Mastering the distinction between class and instance methods helps you keep responsibilities clear. Reach for class methods when the behavior belongs to the class as a whole—configuration, caching, factories—and lean on instance methods when the logic depends on an object’s unique state.
+Mastering the distinction between class and instance methods helps you keep
+responsibilities clear. Reach for class methods when the behavior belongs to the
+class as a whole—configuration, caching, factories—and lean on instance methods
+when the logic depends on an object’s unique state.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-## Practical Appendix: Class vs Instance Methods & Visibility (Appendix — class_instance_methods-ruby-appendix-20251005)
-
-Notes about when to use class methods, instance methods, `self.` vs `class << self`, and `private`/`protected` visibility.
+## Practical Appendix: Class vs Instance Methods — Responsibilities & Testability (Appendix — class_instance_methods-appendix)
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Concept</th><th>Use</th><th>Notes</th></tr>
+    <tr><th>Method Type</th><th>Common Use</th><th>Testing tip</th></tr>
   </thead>
   <tbody>
-    <tr><td>Class method</td><td>Factory or utility</td><td>Use `self.method` or `def self.method`</td></tr>
-    <tr><td>Instance method</td><td>Per-object behaviour</td><td>Prefer instance state for mutable data</td></tr>
-    <tr><td>Visibility</td><td>private/protected</td><td>Document intended access</td></tr>
+    <tr><td>Instance method</td><td>Behavior operating on instance state</td><td>Test by instantiating object with fixture state</td></tr>
+    <tr><td>Class method</td><td>Factory or utility functions</td><td>Consider extracting to a service object if complex</td></tr>
+    <tr><td>Singleton method</td><td>Per-class configuration</td><td>Be cautious — can be hard to mock</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Example
+<!-- markdownlint-disable MD013 -->
+### Appendix — Examples
 
 ```ruby
-class User
-  def self.find(id)
-    # class-level finder
-  end
-
-  def name
-    @name
-  end
-
-  private
-  def secret
-    'shh'
+class Thing
+  def self.create(attrs)
+    new(attrs).tap(&:save)
   end
 end
 ```
 
-### Exercises (Appendix — class_instance_methods-ruby-appendix-20251005)
+<!-- markdownlint-enable MD013 -->
+### Exercises
 
-1. Convert several helper methods into class methods where appropriate and add tests.
-2. Demonstrate visibility by attempting to call a private method from outside and assert the error.
+1. Identify a class method that has complex logic; refactor into an instance
+   collaborator and add tests.
+2. Add tests showing instance behavior is independent across instances (no
+   leaked state).
 
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD013 -->
+## Practical Appendix: Class & Instance Methods — Design & Testing (Appendix — class_instance_methods-appendix-2)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Method Type</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Class methods</td><td>Factory or stateless helpers</td><td>Use for constructors or registry APIs</td></tr>
+    <tr><td>Instance methods</td><td>Behavior tied to state</td><td>Prefer instance methods for behavior that depends on attributes</td></tr>
+    <tr><td>Visibility</td><td>`private`/`protected`</td><td>Keep API surface small; test via public behavior</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+class User
+  def self.from_json(json)
+    new(JSON.parse(json))
+  end
+
+  def initialize(attrs)
+    @attrs = attrs
+  end
+
+  def name
+    @attrs['name']
+  end
+end
+```
+
+### Appendix exercises
+
+1. Convert a public helper into a private instance method and update tests to
+   verify via public APIs only.
+2. Add a `self.create` factory wrapper and add tests that exercise both `create`
+   and `new` paths.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-enable MD013 -->
+## Practical Appendix: Method Introspection & Dynamic Dispatch (Appendix — class_instance_methods-introspection-20251005)
+
+Use Ruby's introspection methods for flexible method handling and testing.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Use Case</th><th>Insider Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`method`</td>
+      <td>Get method object</td>
+      <td>Use for currying or delegation</td>
+    </tr>
+    <tr>
+      <td>`public_send`</td>
+      <td>Safe dynamic calls</td>
+      <td>Prevents calling private methods</td>
+    </tr>
+    <tr>
+      <td>`respond_to?`</td>
+      <td>Check method availability</td>
+      <td>Pair with `method_missing` for DSLs</td>
+    </tr>
+    <tr>
+      <td>`methods`</td>
+      <td>List available methods</td>
+      <td>Filter with `grep` for debugging</td>
+    </tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples — Dynamic Methods
+
+```ruby
+class Calculator
+  def add(a, b) = a + b
+
+  def compute(op, *args)
+    public_send(op, *args) if respond_to?(op)
+  end
+end
+
+calc = Calculator.new
+calc.compute(:add, 2, 3)  # => 5
+
+# Method object
+adder = calc.method(:add)
+adder.call(4, 5)  # => 9
+```
+
+### Exercises — Introspection
+
+1. Implement a method dispatcher that uses `public_send` to call methods based
+   on a string.
+2. Use `methods` to list and test all public methods of a class.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

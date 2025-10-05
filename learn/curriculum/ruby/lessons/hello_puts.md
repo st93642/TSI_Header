@@ -4,11 +4,14 @@ Every Ruby journey begins with `puts`. Understanding how it behaves—what it pr
 
 ## Learning goals
 
-- Use `puts` to write strings (and other objects) to standard output with automatic newlines.
+- Use `puts` to write strings (and other objects) to standard output with
+  automatic newlines.
 - Distinguish between printing a value and returning a value from a method.
-- Compare `puts` with `print`, `p`, and string interpolation to choose the right tool.
+- Compare `puts` with `print`, `p`, and string interpolation to choose the right
+  tool.
 - Manage whitespace, newlines, and prompts for user input.
-- Practice small scripts that greet users and log work while keeping business logic separate from presentation.
+- Practice small scripts that greet users and log work while keeping business
+  logic separate from presentation.
 
 ## Meet `puts`
 
@@ -51,7 +54,8 @@ print_result.nil?   # => true
 return_result       # => "Hello, Ada!"
 ```
 
-Methods that compute results should return values and let callers decide whether to print.
+Methods that compute results should return values and let callers decide whether
+to print.
 
 ## `puts` vs. `print` vs. `p`
 
@@ -65,7 +69,8 @@ p "Answer"                  # inspection output with quotes
 
 - `print` leaves the cursor on the same line—perfect for prompts.
 - `puts` appends a newline and calls `to_s`.
-- `p` uses `inspect`, showing quotes and escaping characters (great for debugging).
+- `p` uses `inspect`, showing quotes and escaping characters (great for
+  debugging).
 
 ## Interpolation beats concatenation
 
@@ -112,7 +117,8 @@ puts "Nice to meet you, #{name}."
 
 ## Separation of concerns
 
-Keep logic and presentation separate by returning strings from helpers and printing at the edges of your program.
+Keep logic and presentation separate by returning strings from helpers and
+printing at the edges of your program.
 
 ```ruby
 def greeting(name)
@@ -138,20 +144,24 @@ This pattern makes `greeting` easy to test.
 2. **Checklist logger**
    - Write a method `log_step(step)` that returns `"✔ #{step}"`.
    - Iterate through an array of steps, printing each with `puts`.
-   - Confirm the method returns the string so you could reuse it (e.g., in logs).
+   - Confirm the method returns the string so you could reuse it (e.g., in
+     logs).
 
 3. **Newline explorer**
    - Compare `puts "Hello"` versus `puts "Hello\n"` versus `print "Hello"`.
-   - Use `p` to inspect the strings you’re printing to see embedded `\n` characters.
+   - Use `p` to inspect the strings you’re printing to see embedded `\n`
+     characters.
 
 4. **Prompt helper**
-   - Build `prompt(label)` that prints `"#{label}: "`, flushes STDOUT, and returns the user’s input without the newline.
+   - Build `prompt(label)` that prints `"#{label}: "`, flushes STDOUT, and
+     returns the user’s input without the newline.
    - Demonstrate it by asking for favorite language and framework.
 
 5. **Return-only function**
    - Create `build_banner(message, width:)` returning an ASCII banner string.
    - Write a small driver script that calls `puts build_banner(...)`.
-   - Verify the banner builds correctly without the helper itself printing anything.
+   - Verify the banner builds correctly without the helper itself printing
+     anything.
 
 <!-- markdownlint-disable MD033 MD010 -->
 
@@ -195,17 +205,49 @@ end
 ### Exercises
 
 1. Implement `prompt` and test it by simulating STDIN and capturing STDOUT.
-2. Build a banner generator function that returns a string to be printed externally.
+2. Build a banner generator function that returns a string to be printed
+   externally.
 
 <!-- markdownlint-enable MD010 -->
 
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Hello puts — Advanced IO Patterns (Appendix — hello_puts-ruby-adv)
+
+Advanced tips for building interactive CLIs and test-friendly IO helpers.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>Goal</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Prompt + validation</td><td>Robust input</td><td>Loop until valid input and show helpful messages</td></tr>
+    <tr><td>Testable IO</td><td>Capture streams</td><td>Use `StringIO` or `Open3.capture3` for integration tests</td></tr>
+    <tr><td>Colored output</td><td>CLI UX</td><td>Use ANSI codes or gems like `pastel` for readability</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Mini patterns
+
+- Prefer returning values from helpers and printing at the top-level runner.
+- Use `STDOUT.flush` after `print` when expecting immediate input.
+- Simulate `gets` in tests by replacing `$stdin` with a `StringIO`.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
 ## Self-check questions
 
-1. Why is returning a string from a method more flexible than printing inside the method?
-2. How does `puts` handle arrays differently from `p`, and when would each be preferable?
-3. What happens if you rely on `puts` inside library code? How might that affect users embedding your library in a larger app?
+1. Why is returning a string from a method more flexible than printing inside
+   the method?
+2. How does `puts` handle arrays differently from `p`, and when would each be
+   preferable?
+3. What happens if you rely on `puts` inside library code? How might that affect
+   users embedding your library in a larger app?
 4. How can you ensure a prompt is visible before `gets` waits for input?
-5. When combining output and business logic, what strategies keep your code testable and maintainable?
+5. When combining output and business logic, what strategies keep your code
+   testable and maintainable?
 
 A solid grasp of `puts` and its relatives keeps your scripts tidy from day one. Print at the boundaries, return values elsewhere, and you’ll build Ruby programs that are both friendly to users and friendly to tests.
 
@@ -239,6 +281,7 @@ jobs:
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix)
 
 1. Add a smoke test that runs `ruby bin/hello.rb` in CI.
@@ -246,6 +289,7 @@ jobs:
 
 <!-- markdownlint-enable MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Practical Appendix: External Tools & Examples (Appendix — External Tools — hello_puts-ruby)
 
 A short appendix with I/O examples, ruby-doc references, and tiny exercises focused on `puts`/`print` and output formatting.
@@ -272,8 +316,11 @@ printf("%04d", 5)    # formatted output
 
 ### Exercises (hello_puts-ruby)
 
-1. Create a short script demonstrating the difference between `puts`, `print`, and `printf`, and add tests that assert expected output using `StringIO` to capture stdout.
-2. Document how `$stdout.sync = true` affects realtime output behavior in scripts.
+1. Create a short script demonstrating the difference between `puts`, `print`,
+   and `printf`, and add tests that assert expected output using `StringIO` to
+   capture stdout.
+2. Document how `$stdout.sync = true` affects realtime output behavior in
+   scripts.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -323,9 +370,48 @@ jobs:
         run: ruby learn/curriculum/ruby/lessons/hello_puts_sample.rb || true
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — hello_puts-ruby2)
 
-1. Implement `prompt(label)` that flushes stdout and returns chomped input; unit-test it by stubbing `$stdin` and capturing `$stdout`.
+1. Implement `prompt(label)` that flushes stdout and returns chomped input;
+   unit-test it by stubbing `$stdin` and capturing `$stdout`.
 2. Add a smoke script that prints a greeting and ensure CI runs it on push.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Output & IO — `puts`, formatting & testing (Appendix — hello_puts-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Scenario</th><th>Tip</th><th>Why</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Human-readable logs</td><td>Use `puts`/`warn`</td><td>Simple and clear for CLI apps</td></tr>
+    <tr><td>Machine-readable output</td><td>Prefer JSON via `puts JSON.generate(obj)`</td><td>Easier parsing in pipelines</td></tr>
+    <tr><td>Testing output</td><td>Capture STDOUT in tests</td><td>Avoid coupling implementation to `puts` directly</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Example
+
+```ruby
+require 'stringio'
+out = StringIO.new
+$stdout = out
+puts 'hello'
+$stdout = STDOUT
+out.string # => "hello\n"
+```
+
+### Exercises
+
+1. Write a test that captures `STDOUT` and asserts on formatted output.
+2. Replace one `puts` in an example script with `Logger` and measure differences
+   in configurability.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

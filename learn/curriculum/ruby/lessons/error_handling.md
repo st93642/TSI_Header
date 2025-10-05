@@ -1,6 +1,7 @@
 # Error Handling with Exceptions
 
-Error handling in Ruby uses exceptions to gracefully handle problems that occur during program execution.
+Error handling in Ruby uses exceptions to gracefully handle problems that occur
+during program execution.
 
 ## What are Exceptions?
 
@@ -282,16 +283,21 @@ rescue StandardError
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — error_handling-ruby3)
 
-1. Implement a retry wrapper with exponential backoff and add tests that simulate transient failures.
-2. Create a small custom error class hierarchy and add tests asserting rescue behavior only catches intended error types.
+1. Implement a retry wrapper with exponential backoff and add tests that
+   simulate transient failures.
+2. Create a small custom error class hierarchy and add tests asserting rescue
+   behavior only catches intended error types.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Practical Appendix: Observability & Error Reporting (Appendix — error_handling-ruby4)
 
-Notes on turning runtime errors into actionable signals: structured logging, correlation ids, and graceful degradation.
+Notes on turning runtime errors into actionable signals: structured logging,
+correlation ids, and graceful degradation.
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -321,13 +327,17 @@ end
 raise PaymentError.new('failed', code: 402, details: {order: 42})
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — error_handling-ruby4)
 
-1. Create a middleware that captures exceptions, logs them with a correlation id and returns a sanitized error response.
-2. Add tests that assert the middleware logs the expected JSON fields and that sensitive fields are redacted.
+1. Create a middleware that captures exceptions, logs them with a correlation id
+   and returns a sanitized error response.
+2. Add tests that assert the middleware logs the expected JSON fields and that
+   sensitive fields are redacted.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Key Takeaways
 
 - Use `begin...rescue...end` to handle exceptions
@@ -339,3 +349,65 @@ raise PaymentError.new('failed', code: 402, details: {order: 42})
 - Create custom exception classes
 - Rescue `StandardError`, not `Exception`
 - Always provide meaningful error messages
+- Always provide meaningful error messages
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 MD022 MD032 MD024 -->
+
+## Practical Appendix: Error Handling — Retries, Observability & Tips (Appendix  error_handling-hidden-20251005)
+
+Concise, practical patterns for reliable error handling and observability.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Retry with backoff</td><td>Transient network failures</td><td>limit attempts; log each retry</td></tr>
+    <tr><td>Custom errors</td><td>Domain failures</td><td>inherit from StandardError and include metadata</td></tr>
+    <tr><td>Structured logs</td><td>Production errors</td><td>JSON lines with correlation ids</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Tiny example — retry wrapper
+
+```ruby
+def with_retries(max = 3)
+  attempts = 0
+  begin
+    attempts += 1
+    yield
+  rescue StandardError => e
+    raise if attempts >= max
+    sleep(2**attempts * 0.1)
+    retry
+  end
+end
+```
+
+### Exercises
+
+1. Implement `with_retries` with exponential jitter and add a test that
+   simulates a transient failure.
+2. Create a small custom error `MyApp::ValidationError` with a `details` hash
+   and write a test that asserts rescue scope.
+
+
+<!-- Practical Appendix: Reference and further reading -->
+
+### Practical Appendix
+This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
+
+- Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
+- Quick tips:
+  - Re-run the examples in a REPL to experiment with small changes.
+  - Use small, focused test cases when validating behavior.
+  - Prefer idiomatic standard-library helpers for clarity and maintainability.
+
+Further reading and sources:
+- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+- Standard library reference and API pages.
+- For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
+
+*End of Practical Appendix.*

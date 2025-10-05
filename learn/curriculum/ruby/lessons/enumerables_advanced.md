@@ -4,18 +4,24 @@ The `Enumerable` mixin is Ruby’s Swiss Army knife for working with collections
 
 ## Learning goals
 
-- Combine advanced `Enumerable` helpers to perform complex transformations in a single readable chain.
-- Use grouping, chunking, windowing, and statistical helpers (`group_by`, `tally`, `slice_when`, `filter_map`, `minmax`) to analyze datasets.
-- Apply lazy enumerables to process large or infinite sequences without materializing everything in memory.
+- Combine advanced `Enumerable` helpers to perform complex transformations in a
+  single readable chain.
+- Use grouping, chunking, windowing, and statistical helpers (`group_by`,
+  `tally`, `slice_when`, `filter_map`, `minmax`) to analyze datasets.
+- Apply lazy enumerables to process large or infinite sequences without
+  materializing everything in memory.
 - Customize your own enumerables that cooperate with the full suite of methods.
-- Recognize opportunities to replace imperative loops with higher-level operations that better match the problem domain.
+- Recognize opportunities to replace imperative loops with higher-level
+  operations that better match the problem domain.
 
 ## The power core: `Enumerable`
 
 `Enumerable` assumes the including class defines an `each` method. From there, methods like `map`, `select`, `reduce`, `grep`, `sum`, and more become available. Keep in mind:
 
-- Most methods return an `Enumerator` when called without a block—handy for deferring execution or reusing logic later.
-- The methods are optimized in C, so let them do the heavy lifting instead of rewriting loops yourself.
+- Most methods return an `Enumerator` when called without a block—handy for
+  deferring execution or reusing logic later.
+- The methods are optimized in C, so let them do the heavy lifting instead of
+  rewriting loops yourself.
 
 ## Transformation and mapping patterns
 
@@ -24,7 +30,8 @@ The `Enumerable` mixin is Ruby’s Swiss Army knife for working with collections
 - `map` transforms each element (non-destructive).
 - `map!` mutates the receiver—use sparingly.
 - `flat_map` maps and flattens one level, eliminating nested arrays.
-- `filter_map` (Ruby 2.7+) combines filtering and mapping in one pass, returning non-`nil` results.
+- `filter_map` (Ruby 2.7+) combines filtering and mapping in one pass, returning
+  non-`nil` results.
 
 ```ruby
 products = [
@@ -44,7 +51,8 @@ end
 
 ### `each_with_object`
 
-Ideal when you need to build hashes or arrays without remembering to return the accumulator.
+Ideal when you need to build hashes or arrays without remembering to return the
+accumulator.
 
 ```ruby
 roles = %w[admin editor viewer]
@@ -199,10 +207,44 @@ high_cpu = large_csv
   .lazy
   .select { |row| row["cpu"].to_f > 80 }
   .map { |row| row["service"] }
-  .uniq
 
-puts high_cpu.take(5).force
+```ruby
+puts high_cpu.uniq.take(5).force
 ```
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Enumerables  Performance, Lazy Patterns & Recipes (Appendix  enumerables-hidden-20251005)
+
+Focused tips for making enumerable pipelines memory- and CPU-friendly.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Lazy chains</td><td>Large files / streams</td><td>Call `take`, `first`, or `force` to realize results</td></tr>
+    <tr><td>filter_map</td><td>Filter+map in one pass</td><td>Reduces intermediate allocations</td></tr>
+    <tr><td>each_with_object</td><td>Build accumulators</td><td>Avoid extra `map` + `to_h` allocations</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: lazy pipeline
+
+```ruby
+# Process a large CSV lazily and collect 10 matching rows
+matches = CSV.foreach('big.csv', headers: true) .lazy .select { |r| r['status']
+== 'error' } .map { |r| r['id'] } .first(10)
+```
+
+### Exercises
+
+1. Rewrite an eager pipeline that uses `map` + `compact` into a single `filter_map` call and benchmark both versions on a large array.
+2. Build a memory-safe aggregator that consumes a stream with `each_slice(1000)` and updates a running tally without storing all items.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
 Combine `lazy` with `chunk_while` to process log windows without slurping entire files.
 
@@ -247,24 +289,17 @@ Custom collections should:
 3. Include `Enumerable` to gain advanced methods.
 
 ```ruby
-class SensorStream
-  include Enumerable
+class SensorStream include Enumerable
 
-  def initialize(client)
-    @client = client
-  end
+def initialize(client) @client = client end
 
-  def each
-    return enum_for(:each) unless block_given?
+def each return enum_for(:each) unless block_given?
 
-    @client.readings do |reading|
-      yield JSON.parse(reading, symbolize_names: true)
-    end
-  end
-end
+@client.readings do |reading| yield JSON.parse(reading, symbolize_names: true)
+end end end
 
-stream = SensorStream.new(RemoteClient.new)
-alerts = stream.select { |r| r[:temperature] > 40 }
+stream = SensorStream.new(RemoteClient.new) alerts = stream.select { |r|
+r[:temperature] > 40 }
 ```
 
 By exposing `each`, the entire enumerable toolbox becomes available to consumers.
@@ -276,26 +311,15 @@ By exposing `each`, the entire enumerable toolbox becomes available to consumers
 ```ruby
 orders = DataWarehouse.fetch_recent_orders
 
-top_customers = orders
-  .reject { |order| order.refunded? }
-  .group_by(&:customer_id)
-  .transform_values { |orders| orders.sum(&:total_cents) }
-  .sort_by { |_customer_id, total| -total }
-  .take(10)
+top_customers = orders .reject { |order| order.refunded? }
+.group_by(&:customer_id) .transform_values { |orders| orders.sum(&:total_cents)
+} .sort_by { |_customer_id, total| -total } .take(10)
 ```
 
 ### Example: detecting anomalies in telemetry
 
 ```ruby
-anomalies = telemetry
-  .lazy
-  .chunk_while { |prev, curr| (curr[:timestamp] - prev[:timestamp]) <= 5 }
-  .map do |chunk|
-    avg = chunk.sum { |sample| sample[:value] } / chunk.size.to_f
-    { range: chunk.first[:timestamp]..chunk.last[:timestamp], average: avg }
-  end
-  .select { |window| window[:average] > threshold }
-  .force
+anomalies = telemetry .lazy .chunk_while { |prev, curr| (curr[:timestamp] - prev[:timestamp]) <= 5 } .map do |chunk| avg = chunk.sum { |sample| sample[:value] } / chunk.size.to_f { range: chunk.first[:timestamp]..chunk.last[:timestamp], average: avg } end .select { |window| window[:average] > threshold } .force
 ```
 
 ## Performance considerations
@@ -339,3 +363,38 @@ anomalies = telemetry
 5. How does lazy evaluation help when chaining `select`, `map`, and `take` on a large file stream?
 
 Mastery of advanced enumerables is less about memorizing every method and more about recognizing the pattern: describe the transformation, let `Enumerable` orchestrate it, and keep your code declarative. As you practice, challenge yourself to simplify imperative loops into fluent method chains that clearly express intent.
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Advanced Enumerable Recipes (Appendix — enumerables_advanced-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Recipe</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>group_by + transform_values</td><td>Summaries per key</td><td>Use `transform_values` to compute aggregates without extra allocations</td></tr>
+    <tr><td>flat_map vs map+flatten</td><td>Flattening one level</td><td>`flat_map` is clearer and avoids creating intermediate arrays</td></tr>
+    <tr><td>lazy pipelines</td><td>Large files/streams</td><td>Chain `lazy` before expensive transforms then `first`, `take`, or `force`</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+# Summarize durations per user
+totals = sessions.group_by { |s| s[:user] } .transform_values { |ss| ss.sum {
+|s| s[:duration] } }
+
+# Lazy processing example
+items.lazy.map { |i| expensive(i) }.select(&:valid?).first(10)
+```
+
+### Appendix — Exercises
+
+1. Take a large CSV (or mock large dataset) and write a lazy pipeline that extracts 20 matching rows without loading the whole file.
+2. Implement a `tally`-based histogram and write tests for common edge cases.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

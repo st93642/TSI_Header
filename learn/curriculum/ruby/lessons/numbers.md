@@ -1,11 +1,17 @@
 # Numbers and Math in Ruby
 
-Ruby treats numbers as full-fledged objects with powerful behavior built in. Whether you’re summing invoices, running physics simulations, or manipulating bit fields, Ruby’s numeric toolkit balances expressiveness with precision. This lesson dives into the major number classes, arithmetic operations, conversion APIs, and performance tips.
+Ruby treats numbers as full-fledged objects with powerful behavior built in.
+Whether you’re summing invoices, running physics simulations, or manipulating
+bit fields, Ruby’s numeric toolkit balances expressiveness with precision. This
+lesson dives into the major number classes, arithmetic operations, conversion
+APIs, and performance tips.
 
 ## Learning goals
 
-- Distinguish between integers, floats, rationals, complex numbers, and BigDecimal.
-- Perform arithmetic safely, accounting for integer division, operator precedence, and precision pitfalls.
+- Distinguish between integers, floats, rationals, complex numbers, and
+  BigDecimal.
+- Perform arithmetic safely, accounting for integer division, operator
+  precedence, and precision pitfalls.
 - Format, parse, and convert numeric values in idiomatic Ruby.
 - Harness the `Math` and `BigDecimal` libraries for advanced calculations.
 - Generate random numbers, work with ranges, and leverage enumerable helpers.
@@ -23,7 +29,8 @@ factorial = (1..50).inject(:*)   # enormous but accurate
 Helper methods:
 
 - `even?`, `odd?` to test parity.
-- `digits` returns an array of base-10 digits (or digits in another base if you pass `base`).
+- `digits` returns an array of base-10 digits (or digits in another base if you
+  pass `base`).
 - `bit_length` reveals how many bits are required to represent the integer.
 
 ```ruby
@@ -107,7 +114,9 @@ quotient, remainder = 10.divmod(3)
 
 ## Operator precedence and parentheses
 
-Ruby follows standard precedence: exponentiation > unary +/- > multiplication/division > addition/subtraction. Use parentheses to make intentions obvious.
+Ruby follows standard precedence: exponentiation > unary +/- >
+multiplication/division > addition/subtraction. Use parentheses to make
+intentions obvious.
 
 ```ruby
 result = 10 + 5 * 2       # => 20
@@ -206,7 +215,8 @@ Numeric ranges (`start..finish` or `start...finish`) integrate with loops and en
 - Integers are immediate values; Ruby stores them inside the variable reference.
 - Floats allocate objects; reuse them when possible in tight loops.
 - `BigDecimal` trades speed for precision—cache results if used frequently.
-- Profile long-running math heavy tasks; consider using gems like `Numo::NArray` or bindings to C libraries when necessary.
+- Profile long-running math heavy tasks; consider using gems like `Numo::NArray`
+  or bindings to C libraries when necessary.
 
 ## Error handling and overflow
 
@@ -232,7 +242,8 @@ puts value.infinite?   # => 1
 1. **Mortgage calculator**
    - Ask for principal, annual interest rate, and years.
    - Convert the interest to a monthly rate (`rate / 12.0 / 100`).
-   - Compute the monthly payment using the amortization formula with `BigDecimal` to avoid rounding issues.
+   - Compute the monthly payment using the amortization formula with
+     `BigDecimal` to avoid rounding issues.
 
 2. **Prime inspector**
    - Write a method `prime?(n)` using trial division up to `Math.sqrt(n)`.
@@ -240,25 +251,35 @@ puts value.infinite?   # => 1
 
 3. **Precise currency totals**
    - Parse a CSV line like `"coffee,3,4.75"`.
-   - Multiply quantity and price using `BigDecimal`, then accumulate totals for multiple rows.
+   - Multiply quantity and price using `BigDecimal`, then accumulate totals for
+     multiple rows.
 
 4. **Bitmask flags**
    - Model permissions (e.g., read = 0b001, write = 0b010, execute = 0b100).
-   - Write helpers `grant(mask, flag)` and `granted?(mask, flag)` using bitwise operators.
+   - Write helpers `grant(mask, flag)` and `granted?(mask, flag)` using bitwise
+     operators.
 
 5. **Random sampler**
    - Seed `Random.new(123)` and generate 5 random floats between -1.0 and 1.0.
-   - Map them to angles, compute their sine using `Math.sin`, and print the results formatted to three decimals.
+   - Map them to angles, compute their sine using `Math.sin`, and print the
+     results formatted to three decimals.
 
 ## Self-check questions
 
-1. Why does Ruby no longer distinguish between `Fixnum` and `Bignum`, and how does that help your programs?
-2. When comparing floats, why might you use `Float#round` or `BigDecimal` instead of direct equality?
-3. How do `divmod`, `remainder`, and `%` differ when working with negative numbers?
-4. What are practical scenarios for using `Rational` or `Complex` classes in day-to-day development?
-5. How can you generate reproducible random sequences, and why is that valuable in testing?
+1. Why does Ruby no longer distinguish between `Fixnum` and `Bignum`, and how
+   does that help your programs?
+2. When comparing floats, why might you use `Float#round` or `BigDecimal`
+   instead of direct equality?
+3. How do `divmod`, `remainder`, and `%` differ when working with negative
+   numbers?
+4. What are practical scenarios for using `Rational` or `Complex` classes in
+   day-to-day development?
+5. How can you generate reproducible random sequences, and why is that valuable
+   in testing?
 
-Math is more than memorizing operators—it’s about choosing precise types, writing clear formulas, and guarding against edge cases. Keep experimenting with Ruby’s numeric classes to make your calculations both elegant and reliable.
+Math is more than memorizing operators—it’s about choosing precise types,
+writing clear formulas, and guarding against edge cases. Keep experimenting with
+Ruby’s numeric classes to make your calculations both elegant and reliable.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -295,10 +316,13 @@ end
 (2.3456).round(2) # => 2.35
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — numbers-ruby3)
 
-1. Implement `safe_int(str)` that returns nil for invalid inputs and write tests.
-2. Benchmark `BigDecimal` vs `Float` for a summation of 1_000_000 terms and report allocations/time.
+1. Implement `safe_int(str)` that returns nil for invalid inputs and write
+   tests.
+2. Benchmark `BigDecimal` vs `Float` for a summation of 1_000_000 terms and
+   report allocations/time.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -319,6 +343,7 @@ Handling numeric values when serializing to/from JSON, preserving precision for 
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Examples
 
 ```ruby
@@ -329,16 +354,21 @@ obj = JSON.parse('{"n": 9007199254740993}') # may lose precision in JS
 obj2 = JSON.parse('{"n": "9007199254740993"}')
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — numbers-ruby4)
 
-1. Serialize large integers as strings to preserve precision and write tests that parse them back correctly.
-2. Demonstrate precision loss when passing large integers through JavaScript clients and propose mitigations.
+1. Serialize large integers as strings to preserve precision and write tests
+   that parse them back correctly.
+2. Demonstrate precision loss when passing large integers through JavaScript
+   clients and propose mitigations.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Practical Appendix: Numbers — BigDecimal, Precision & Currency (Appendix — numbers-ruby3)
 
-Practical tips for handling numeric precision, money, and avoiding float pitfalls in Ruby.
+Practical tips for handling numeric precision, money, and avoiding float
+pitfalls in Ruby.
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -364,9 +394,86 @@ tax = price * '0.075'.to_d
 puts (price + tax).to_s('F')
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — numbers-ruby3-unique)
 
-1. Implement currency addition using `BigDecimal` and format output for two decimal places.
+1. Implement currency addition using `BigDecimal` and format output for two
+   decimal places.
 2. Add tests that verify behaviour with very small and very large magnitudes.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Numbers — Precision, BigDecimal & Performance (Appendix — numbers-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>When</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Floats</td><td>General arithmetic</td><td>Beware of rounding errors</td></tr>
+    <tr><td>BigDecimal</td><td>Financial calculations</td><td>Use for precise decimal math</td></tr>
+    <tr><td>Integer ops</td><td>Counting/indexing</td><td>Prefer integer math for counters</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Examples
+
+```ruby
+require 'bigdecimal'
+a = BigDecimal('0.1')
+b = BigDecimal('0.2')
+a + b # exact 0.3
+```
+
+### Exercises
+
+1. Replace a floating-point calculation in a sample with `BigDecimal` and
+   compare test assertions.
+2. Benchmark integer vs float operations in a tight loop and report differences.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Numbers & Numeric Gotchas (Appendix — numbers-appendix-20251005)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Why</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Underscores in literals</td><td>Readability</td><td>Use `1_000_000` for large numbers</td></tr>
+    <tr><td>Float precision</td><td>Binary fp limits</td><td>Use `BigDecimal` for exact decimal math (money)</td></tr>
+    <tr><td>Integer vs Float ops</td><td>Division semantics</td><td>`/` yields float; use `div` for integer division</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+# Underscore separators
+million = 1_000_000
+
+# BigDecimal for money
+require 'bigdecimal'
+price = BigDecimal("19.95")
+total = price * 3
+
+# Division
+7 / 2    # => 3 (integer division if both ints in older Rubies); prefer float: 7.fdiv(2) => 3.5
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
+
+1. Convert a price-calculation routine to use `BigDecimal` and write tests that
+   assert exact cents.
+2. Demonstrate rounding pitfalls with Float and fix them with `round(2)` or
+`BigDecimal`.

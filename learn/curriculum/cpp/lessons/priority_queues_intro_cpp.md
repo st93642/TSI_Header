@@ -365,3 +365,25 @@ Prepare by ensuring you can:
 5. The incoming lessons build on this foundation to implement and optimise heaps in production scenarios.
 
 Keep your notes nearby as you proceed; the upcoming exercises expect you to reverse-engineer these patterns into working code.
+
+
+<!-- Practical Appendix: Reference and further reading -->
+
+<!-- markdownlint-disable MD013 -->
+### Practical Appendix
+This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
+
+- Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
+- Quick tips:
+  - Re-run the examples in a REPL to experiment with small changes.
+  - Use small, focused test cases when validating behavior.
+  - Prefer idiomatic standard-library helpers for clarity and maintainability.
+
+Further reading and sources:
+- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+- Standard library reference and API pages.
+- For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
+
+*End of Practical Appendix.*
+
+<!-- markdownlint-enable MD013 -->

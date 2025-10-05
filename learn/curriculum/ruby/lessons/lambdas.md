@@ -1,14 +1,22 @@
 # Lambdas in Ruby
 
-Lambdas are anonymous functions you can store in variables, pass around, and evaluate on demand. They power callbacks, functional pipelines, and customizable behavior without creating full classes. While lambdas share DNA with `Proc` objects, they enforce stricter argument rules and respect method-return semantics—making them a great fit for predictable functional code.
+Lambdas are anonymous functions you can store in variables, pass around, and evaluate on demand. They power callbacks and functional pipelines, and let you inject customizable behavior without creating full classes. While lambdas share DNA with `Proc` objects, they enforce stricter argument rules and respect method-return semantics. This makes them a good fit for predictable, function-like code.
 
 ## Learning goals
 
-- Create lambdas using both `lambda` and stabby (`->`) syntaxes, with positional, optional, and keyword parameters.
-- Compare lambdas with procs, especially around arity checking and return semantics.
-- Compose lambdas with enumerables, higher-order functions, and partial application techniques.
+- Create lambdas using both `lambda` and stabby (`->`) syntaxes. Support
+  positional, optional, and keyword parameters.
+
+- Compare lambdas with procs, especially around arity checking and
+`return` semantics.
+
+- Compose lambdas with enumerables, higher-order functions, and partial
+  application techniques.
+
 - Capture state safely via closures, memoization, and currying.
-- Integrate lambdas into object-oriented designs for strategies, policies, and event hooks.
+
+- Integrate lambdas into object-oriented designs for strategies, policies, and
+  event hooks.
 
 ## Creating lambdas
 
@@ -24,15 +32,12 @@ logger.("Finish")     # shorthand call
 logger["Queued"]       # behaves like proc (index syntax)
 ```
 
-### Multi-line blocks
-
 ```ruby
-pretty_print = ->(items) do
-  items.each_with_index do |item, index|
-    puts format("%2d. %s", index + 1, item)
-  end
-  items
+items.each_with_index do |item, index|
+  puts format("%2d. %s", index + 1, item)
 end
+
+items
 
 pretty_print.call(%w[ruby rails rack])
 ```
@@ -49,7 +54,8 @@ handler.call("login")
 handler["error", { code: 500 }, verbose: true]
 ```
 
-- Lambdas enforce arity: calling without the required arguments raises `ArgumentError`.
+- Lambdas enforce arity: calling without the required arguments raises
+`ArgumentError`.
 - Use defaults and keyword arguments to provide flexible interfaces.
 - Destructure parameters with pattern matching:
 
@@ -60,12 +66,19 @@ process.call(["ok", { id: 1 }])
 
 ## Lambdas vs. Procs
 
-| Feature              | Lambda                              | Proc                                      |
-|----------------------|-------------------------------------|-------------------------------------------|
-| Arity enforcement    | Strict (`ArgumentError` on mismatch)| Lenient (missing args become `nil`)       |
-| Return semantics     | `return` exits lambda only          | `return` exits enclosing method           |
-| `next`/`break`       | Behave like in blocks (exit lambda) | Exit enclosing method                     |
-| Typical use          | Functional helpers, callbacks       | Flexible, legacy APIs, DSLs               |
+<!-- markdownlint-disable MD033 MD013 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Lambda</th><th>Proc</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Arity enforcement</td><td>Strict (<code>ArgumentError</code> on mismatch)</td><td>Lenient (missing args become <code>nil</code>)</td></tr>
+    <tr><td>Return semantics</td><td><code>return</code> exits lambda only</td><td><code>return</code> exits enclosing method</td></tr>
+    <tr><td><code>next`/`break</code></td><td>Behave like in blocks (exit lambda)</td><td>Exit enclosing method</td></tr>
+    <tr><td>Typical use</td><td>Functional helpers, callbacks</td><td>Flexible, legacy APIs, DSLs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD013 -->
 
 ```ruby
 strict = ->(x, y) { x + y }
@@ -96,7 +109,8 @@ end
 proc_return   # => "proc"
 ```
 
-Choose lambdas when you want self-contained control flow that won’t unexpectedly exit callers.
+Choose lambdas when you want self-contained control flow that won’t unexpectedly
+exit callers.
 
 ## Higher-order functions
 
@@ -112,7 +126,8 @@ execute(3, 4, add)       # => 7
 result = execute(10, 3, ->(x, y) { x - y })
 ```
 
-Lambdas allow behavior injection into methods—great for strategy patterns and configurable pipelines.
+Lambdas allow behavior injection into methods — great for strategy patterns and
+configurable pipelines.
 
 ## Lambdas with enumerables
 
@@ -120,10 +135,10 @@ Lambdas allow behavior injection into methods—great for strategy patterns and 
 numbers = [1, 2, 3, 4, 5]
 
 square  = ->(n) { n * n }
-odd?    = ->(n) { n.odd? }
+is_odd  = ->(n) { n.odd? }
 display = ->(n) { puts "n = #{n}" }
 
-numbers.map(&square).select(&odd?).each(&display)
+numbers.map(&square).select(&is_odd).each(&display)
 ```
 
 Use the `&` operator to convert lambdas to blocks. The reverse (`to_proc`) works too, enabling method references: `["ruby", "rails"].map(&:upcase)`.
@@ -144,21 +159,17 @@ another = counter
 another.call # => 1
 ```
 
-Each lambda retains its own enclosed state—useful for memoization, rate limiting, or incremental IDs.
+Each lambda retains its own enclosed state — useful for memoization, rate
+limiting, or incremental IDs.
 
 ## Currying and partial application
-
-Currying transforms a lambda with multiple parameters into a series of single-argument lambdas.
 
 ```ruby
 adder = ->(a, b, c) { a + b + c }
 curried = adder.curry
 
 add_five = curried.call(2, 3)
-add_five.call(10) # => 15
 ```
-
-For partial application without currying, wrap inside another lambda:
 
 ```ruby
 def multiplier(factor)
@@ -184,7 +195,8 @@ processor = compose(trim, upcase, shout)
 processor.call("  hello  ") # => "HELLO!"
 ```
 
-Composition keeps transformations modular. Combine with enumerables for powerful data processing pipelines.
+Composition keeps transformations modular. Combine with enumerables for powerful
+data processing pipelines.
 
 ## Memoization pattern
 
@@ -195,14 +207,45 @@ def memoize(fn)
     cache.fetch(args) { cache[args] = fn.call(*args) }
   end
 end
+```
 
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 MD013 -->
+
+## Practical Appendix: Lambdas — Debugging & Composition Tips (Appendix — lambdas-ruby2)
+
+Best practices for composing lambdas, debugging closures, and avoiding
+surprising `return` semantics.
+
+<!-- markdownlint-disable MD033 MD013 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Unexpected return</td><td>Use lambda not proc</td><td>Lambdas isolate returns from surrounding methods</td></tr>
+    <tr><td>State leaks</td><td>Avoid mutable closures</td><td>Prefer immutable captured values or dup copies</td></tr>
+    <tr><td>Composition</td><td>Use `compose` helper</td><td>Keep small focused transformations</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Debug tip
+
+Wrap lambda calls with logging during development to inspect captured state:
+
+```ruby
+debugger = ->(name, fn) { ->(*args) { puts "#{name} => #{args.inspect}"; fn.call(*args) } }
+```
+
+```ruby
 slow_fib = ->(n) { n < 2 ? n : slow_fib.call(n - 1) + slow_fib.call(n - 2) }
 fast_fib = memoize(slow_fib)
 
 fast_fib.call(35) # much faster than raw recursion
 ```
 
-Memoization caches results per argument tuple, demonstrating lambdas’ ability to capture state and wrap behavior.
+Memoization caches results per argument tuple, demonstrating lambdas’ ability to
+capture state and wrap behavior.
 
 ## Lambdas in object-oriented design
 
@@ -224,7 +267,8 @@ PaymentProcessor.new(strategy: credit_card).charge(25)
 PaymentProcessor.new(strategy: crypto).charge(0.001)
 ```
 
-Lambdas inject policies without subclassing—ideal for strategies, guards, or feature toggles.
+Lambdas inject policies without subclassing — ideal for strategies, guards, or
+feature toggles.
 
 ## Error handling & arity awareness
 
@@ -250,9 +294,12 @@ The `arity` method reports parameter counts (positive numbers for fixed arity, n
 
 ## Performance considerations
 
-- Lambdas are lightweight but not free; avoid creating new ones inside tight loops if you can reuse an existing instance.
-- Prefer lambdas over methods when behavior truly needs to be dynamic or passed around—otherwise define a private method.
-- Instrument with `Benchmark.measure` if performance is critical; compare lambdas, methods, and direct blocks to choose the best fit.
+- Lambdas are lightweight but not free; avoid creating new ones inside tight
+  loops if you can reuse an existing instance.
+- Prefer lambdas over methods when behavior truly needs to be dynamic or passed
+  around — otherwise define a private method.
+- Instrument with `Benchmark.measure` if performance is critical; compare
+  lambdas, methods, and direct blocks to choose the best fit.
 
 ## When to choose lambdas
 
@@ -264,57 +311,72 @@ Use lambdas when you need:
 - Strategy objects without extra classes.
 - Composition pipelines where each step is a reusable function.
 
-Reach for procs or blocks when you require lenient arity or DSL-style behavior that manipulates the surrounding scope.
+Reach for procs or blocks when you require lenient arity or DSL-style behavior
+that manipulates the surrounding scope.
 
 ## Guided practice
 
 1. **Pipeline builder**
-   - Implement `pipeline(*steps)` returning a lambda that threads a value through each step.
-   - Provide lambdas for trimming strings, squashing whitespace, and adding suffixes.
+   - Implement `pipeline(*steps)` returning a lambda that threads a value
+     through each step.
+   - Provide lambdas for trimming strings, squashing whitespace, and adding
+     suffixes.
    - Verify the pipeline handles both strings and arrays of strings.
 
-2. **Retry wrapper**
-   - Write `with_retries(retries:, delay:)` that accepts a lambda and retries it when it raises a transient error.
-   - Capture exceptions, sleep between attempts, and re-raise after exhausting retries.
+1. **Retry wrapper**
+   - Write `with_retries(retries:, delay:)` that accepts a lambda and retries it
+     when it raises a transient error.
+   - Capture exceptions, sleep between attempts, and re-raise after exhausting
+     retries.
 
-3. **Currying calculator**
-   - Create a curried lambda `weighted_average` that first accepts weights, then values.
-   - Ensure partial application works (e.g., `grades_average = weighted_average.call([0.4, 0.6])`).
+1. **Currying calculator**
+   - Create a curried lambda `weighted_average` that first accepts weights, then
+     values.
+   - Ensure partial application works (e.g., `grades_average =
+     weighted_average.call([0.4, 0.6])`).
 
-4. **Strategy registry**
-   - Build a hash mapping symbols to lambdas (e.g., `:json`, `:yaml`, `:csv`).
-   - Write `serializer_for(format)` that returns the lambda and raises on unsupported formats.
+1. **Strategy registry**
+   - Build a hash mapping symbols to lambdas (e.g., `:json`, `:yaml`,
+`:csv`).
+   - Write `serializer_for(format)` that returns the lambda and raises on
+     unsupported formats.
    - Demonstrate with sample payloads.
 
-5. **Closure-based rate limiter**
-   - Implement `rate_limiter(limit:, interval:)` returning a lambda that yields `true` when allowed and `false` when throttled.
+1. **Closure-based rate limiter**
+   - Implement `rate_limiter(limit:, interval:)` returning a lambda that yields
+     `true` when allowed and `false` when throttled.
    - Keep timestamps in the closure and prune stale entries.
 
 ## Self-check questions
 
-1. How do lambdas differ from procs with respect to argument checking and `return` statements?
-2. What advantages do closures provide when capturing external variables inside lambdas, and how can this lead to stateful behavior?
-3. How does currying change the way you call a lambda, and when is partial application more appropriate than currying?
-4. Why might you pass lambdas into object constructors instead of subclassing or using conditionals?
-5. What patterns help avoid performance or readability issues when you introduce lambdas into a codebase?
+1. How do lambdas differ from procs with respect to argument checking and
+`return` statements?
+2. What advantages do closures provide when capturing external variables inside
+   lambdas, and how can this lead to stateful behavior?
+3. How does currying change the way you call a lambda, and when is partial
+   application more appropriate than currying?
+4. Why might you pass lambdas into object constructors instead of subclassing or
+   using conditionals?
+5. What patterns help avoid performance or readability issues when you introduce
+   lambdas into a codebase?
 
-Lambdas give you a middle ground between single-use blocks and full classes—embrace them for clean, composable, expressive Ruby code.
+Lambdas give you a middle ground between single-use blocks and full classes —
+embrace them for clean, composable, expressive Ruby code.
 
-<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 MD013 -->
 
-## Practical Appendix: Lambdas & Procs — Arity, Currying & Use Cases (Appendix — lambdas-ruby2)
+## Practical Appendix: Lambdas vs Procs — Gotchas & Best Practices (Appendix — lambdas-appendix)
 
-Practical guide to when to use `Proc`, `lambda`, and `->` syntax; arity differences and leveraging `#curry` for composable functions.
-
-<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD033 MD013 -->
 <table>
   <thead>
-    <tr><th>Feature</th><th>Behavior</th><th>Notes</th></tr>
+    <tr><th>Feature</th><th>Lambda</th><th>Proc</th></tr>
   </thead>
   <tbody>
-    <tr><td>lambda</td><td>Strict arity</td><td>Raises ArgumentError on mismatch</td></tr>
-    <tr><td>proc</td><td>Lenient arity</td><td>Useful for varargs adapters</td></tr>
-    <tr><td>curry</td><td>Partial application</td><td>Useful in functional pipelines</td></tr>
+    <tr><td>Arity</td><td>Checks arity (raises if mismatch)</td><td>Lenient arity</td></tr>
+    <tr><td>Return</td><td>Returns from lambda only</td><td>`return` in a proc returns from enclosing method</td></tr>
+    <tr><td>Definition</td><td>`->(x) {}` or `lambda {}`</td><td>`proc {}` or `Proc.new`</td></tr>
+    <tr><td>Style</td><td>Prefer lambdas for function-like blocks</td><td>Use procs for callbacks where leniency is helpful</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
@@ -322,16 +384,88 @@ Practical guide to when to use `Proc`, `lambda`, and `->` syntax; arity differen
 ### Examples
 
 ```ruby
-adder = ->(a, b) { a + b }
-add1 = adder.curry[1]
-add1[2] # => 3
+l = ->(x) { return x * 2 }
+p = proc { return :from_proc }
 
-p = proc { |x, y| puts x }
+def wrapper
+  l.call(2)   # returns to caller of l, not from wrapper
+  p.call       # would return from wrapper if executed here
+  :after
+end
+
+puts wrapper.inspect
 ```
 
-### Exercises (Appendix — lambdas-ruby2)
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
 
-1. Convert a chain of small functions into curried lambdas and test composition.
-2. Demonstrate arity differences between `lambda` and `proc` with tests that assert behavior on wrong argument counts.
+1. Create two higher-order functions that accept a lambda and a proc and observe
+   arity/return differences.
+2. Rewrite a `method_missing` handler using `define_method` and `public_send` to
+   avoid fragile `method_missing` metaprogramming.
 
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- Additional Practical Appendix: Lambdas — Hidden Tips (Appendix — lambdas-hidden-20251005b) -->
+
+<!-- markdownlint-disable MD033 MD013 -->
+<table>
+  <thead>
+    <tr><th>Tip</th><th>Why</th><th>Quick code</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Reuse lambdas in hot loops</td><td>Avoid allocation costs</td><td>`sq = ->(n) { n*n }; arr.map(&sq)`</td></tr>
+    <tr><td>Avoid `return` in procs</td><td>Procs can unexpectedly exit callers</td><td>Prefer lambdas for local returns</td></tr>
+    <tr><td>Check `arity` when integrating</td><td>Detect mismatched collaborators early</td><td>`raise unless fn.arity.abs <= expected`</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Tiny helper: compose (appendix)
+
+```ruby
+def compose(*fns)
+  ->(arg) { fns.reverse.reduce(arg) { |acc, f| f.call(acc) } }
+end
+```
+
+### Exercises — lambdas-hidden-20251005b
+
+1. Refactor an example to hoist lambda definitions out of loops and benchmark
+   the memory change.
+2. Add an `arity` check helper and write tests demonstrating it rejects
+   incompatible lambdas.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 MD013 -->
+
+## Practical Appendix: Lambda Conventions (Appendix — lambdas-calling-20251005)
+
+Insider insights into lambda invocation styles, currying pitfalls, and composition tricks from Ruby's functional toolkit.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Tip</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Calling styles</td><td>Multiple call styles: .call, [], (), yield</td><td>`fn.call(1) == fn[1] == fn.(1)`</td></tr>
+    <tr><td>Currying</td><td>Partial application with .curry; specify arity for var args</td><td>`add.curry.call(1).call(2) == 3`</td></tr>
+    <tr><td>Composition</td><td><< and >> for chaining; f << g means g then f</td><td>`(double << inc).call(3) == 8`</td></tr>
+    <tr><td>Anonymous params</td><td>_1, _2 for short blocks; can't mix with it or explicit params</td><td>`[1,2,3].map { _1**2 }`</td></tr>
+    <tr><td>Arity gotcha</td><td>Lambdas raise ArgumentError on mismatch; check .arity first</td><td>`lambda{}.arity == 0`</td></tr>
+    <tr><td>Return semantics</td><td>return exits lambda, not method; lambdas can't be orphaned</td><td>`-> { return 42 }.call == 42`</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises
+
+1. Implement a curried lambda for string formatting that first takes a template,
+   then values, and handles variable args.
+2. Chain two lambdas using `<<` and `>>` to process an array: filter evens, then
+   square them.
+3. Write a helper that checks lambda arity and raises a custom error if
+   incompatible with expected args.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

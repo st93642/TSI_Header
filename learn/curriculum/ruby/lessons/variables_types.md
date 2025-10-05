@@ -1,14 +1,21 @@
 # Variables and Data Types
 
-Output is exciting, but programs become powerful when they remember information. This lesson unpacks how Ruby handles values, how dynamic typing works, and how to pick the right representation for the job. By the time you finish, variables, constants, and core data types will feel like second nature.
+Output is exciting, but programs become powerful when they remember information.
+This lesson unpacks how Ruby handles values, how dynamic typing works, and how
+to pick the right representation for the job. By the time you finish, variables,
+constants, and core data types will feel like second nature.
 
 ## Learning goals
 
-- Understand how Ruby binds names to objects using assignment, and how scope affects visibility.
-- Explore the main Ruby value classes—strings, numbers, symbols, booleans, arrays, hashes, ranges, and `nil`.
-- Convert between types safely, watching for edge cases with user input or external data.
+- Understand how Ruby binds names to objects using assignment, and how scope
+  affects visibility.
+- Explore the main Ruby value classes—strings, numbers, symbols, booleans,
+  arrays, hashes, ranges, and `nil`.
+- Convert between types safely, watching for edge cases with user input or
+  external data.
 - Apply naming conventions that make code self-documenting and maintainable.
-- Guard against mutation surprises when multiple variables reference the same object.
+- Guard against mutation surprises when multiple variables reference the same
+  object.
 
 ## Variables in Ruby: labels pointing to objects
 
@@ -22,13 +29,18 @@ name = "Bob"
 puts name.object_id # different object; reassignment doesn't mutate the original
 ```
 
-Ruby's dynamic typing means variables do not have fixed types. Each object carries its own class information, so the same variable can hold integers, strings, or arrays throughout a program. While flexibility is great, descriptive naming and predictable transformations keep code understandable.
+Ruby's dynamic typing means variables do not have fixed types. Each object
+carries its own class information, so the same variable can hold integers,
+strings, or arrays throughout a program. While flexibility is great, descriptive
+naming and predictable transformations keep code understandable.
 
 ## Naming conventions and style
 
 - Use snake_case for local variables and methods: `total_points`, `user_name`.
-- Avoid single-letter names unless inside a tight loop (e.g., `i` in `each_with_index`).
-- Leading underscores signal "intentionally unused" variables (`_unused`), often in pattern matching or destructuring assignments.
+- Avoid single-letter names unless inside a tight loop (e.g., `i` in
+  `each_with_index`).
+- Leading underscores signal "intentionally unused" variables (`_unused`), often
+  in pattern matching or destructuring assignments.
 - Ruby is case-sensitive, so `count` and `Count` refer to different identifiers.
 
 ```ruby
@@ -39,7 +51,9 @@ _unused_placeholder = "ignored"
 
 ## Local scope essentials
 
-Variables defined inside a method or block are local to that scope. If you assign to a variable inside a block without prior assignment outside, Ruby treats it as a new, block-local variable.
+Variables defined inside a method or block are local to that scope. If you
+assign to a variable inside a block without prior assignment outside, Ruby
+treats it as a new, block-local variable.
 
 ```ruby
 value = "outside"
@@ -57,9 +71,12 @@ Inside methods, local variables vanish once the method returns. Use instance var
 
 ### Strings
 
-- Created with single or double quotes; double quotes enable interpolation and escape sequences.
-- Use `%Q{...}` for double-quoted strings without escaping quotes, `%q{...}` for single-quoted behavior.
-- Immutable by default when `# frozen_string_literal: true` is used, otherwise mutable.
+- Created with single or double quotes; double quotes enable interpolation and
+  escape sequences.
+- Use `%Q{...}` for double-quoted strings without escaping quotes, `%q{...}` for
+  single-quoted behavior.
+- Immutable by default when `# frozen_string_literal: true` is used, otherwise
+  mutable.
 
 ```ruby
 title = "Ruby 101"
@@ -78,10 +95,13 @@ action = :save!
 
 ### Numbers: Integers, Floats, Rational, Complex, BigDecimal
 
-- Integers (`Integer`) scale automatically to arbitrary precision—no overflow surprises.
+- Integers (`Integer`) scale automatically to arbitrary precision—no overflow
+  surprises.
 - Floats (`Float`) follow IEEE 754 double-precision; expect rounding errors.
-- Use `Rational(1, 3)` for exact fractions and `Complex(1, 2)` for complex numbers.
-- `BigDecimal` (from the standard library) helps with precise financial calculations.
+- Use `Rational(1, 3)` for exact fractions and `Complex(1, 2)` for complex
+  numbers.
+- `BigDecimal` (from the standard library) helps with precise financial
+  calculations.
 
 ```ruby
 count = 42
@@ -115,7 +135,8 @@ puts person&.name               # safe navigation prevents NoMethodError
 
 ### Arrays and hashes (quick preview)
 
-Even though dedicated lessons cover collections, they're worth mentioning here because variables frequently hold them.
+Even though dedicated lessons cover collections, they're worth mentioning here
+because variables frequently hold them.
 
 ```ruby
 numbers = [1, 2, 3]
@@ -166,7 +187,8 @@ Integer("not-a-number", exception: false) # nil
 
 ## Mutation vs. reassignment
 
-Reassignment points a variable to a new object. Mutation changes the object in place. Two variables referencing the same object will both observe mutations.
+Reassignment points a variable to a new object. Mutation changes the object in
+place. Two variables referencing the same object will both observe mutations.
 
 ```ruby
 greeting = "Hello"
@@ -183,7 +205,8 @@ Freeze an object with `freeze` (or use the magic comment `# frozen_string_litera
 
 ## Multiple assignment and parallel destructuring
 
-Ruby destructures arrays on the left-hand side, enabling concise swaps and unpacking.
+Ruby destructures arrays on the left-hand side, enabling concise swaps and
+unpacking.
 
 ```ruby
 first, second = ["Ada", "Grace"]
@@ -208,7 +231,9 @@ user = { name: "Ada", country: "LV", verified: true }
 
 ## Constants and the object model
 
-Constants start with an uppercase letter. Ruby allows reassignment but prints a warning. Keeping constants immutable (freeze them or use immutable data structures) prevents bugs.
+Constants start with an uppercase letter. Ruby allows reassignment but prints a
+warning. Keeping constants immutable (freeze them or use immutable data
+structures) prevents bugs.
 
 ```ruby
 APP_NAME = "TSI Toolkit".freeze
@@ -225,7 +250,8 @@ Constants live within modules/classes. Access nested constants with `::`, e.g., 
 
 - Global variables start with `$` (`$stdout`)—use sparingly.
 - Instance variables belong to objects (`@balance`).
-- Class variables (`@@count`) are shared across a class hierarchy. Later lessons explore them fully.
+- Class variables (`@@count`) are shared across a class hierarchy. Later lessons
+  explore them fully.
 
 ## String interpolation power tips
 
@@ -246,12 +272,14 @@ puts "#{name} will be #{age + 5} in five years."
 - Initialize variables close to first use to clarify intent.
 - Avoid implicit `nil` by providing defaults (`count ||= 0`).
 - Use `fetch` with hashes to supply fallback values or raise helpful errors.
-- Lean on symbols for identifiers, but use strings when data needs user-friendly formatting.
+- Lean on symbols for identifiers, but use strings when data needs user-friendly
+  formatting.
 
 ## Guided practice
 
 1. **Profile builder**
-   - Create variables for name, age, city, languages (array), and primary_skill (symbol).
+   - Create variables for name, age, city, languages (array), and primary_skill
+     (symbol).
    - Interpolate them into a multi-line introduction using a heredoc.
    - Print the `.class` of each variable afterward.
 
@@ -263,26 +291,39 @@ puts "#{name} will be #{age + 5} in five years."
 3. **Mutation detective**
    - Assign the same array to two variables.
    - Mutate through one reference (`<<`, `push`, or `map!`).
-   - Print both variables to observe shared state, then repeat using `dup` to create a copy before mutating.
+   - Print both variables to observe shared state, then repeat using `dup` to
+     create a copy before mutating.
 
 4. **Constant catalog**
-   - Define a module `Limits` with constants representing rate caps, bonus multipliers, and timeouts.
-   - Freeze any arrays or hashes stored in constants to prevent accidental changes.
+   - Define a module `Limits` with constants representing rate caps, bonus
+     multipliers, and timeouts.
+   - Freeze any arrays or hashes stored in constants to prevent accidental
+     changes.
 
 5. **Destructuring challenge**
-   - Given `response = { status: 200, body: "ok", headers: { content_type: "text/plain" } }`, extract `status` and `content_type` into local variables via destructuring.
+   - Given `response = { status: 200, body: "ok", headers: { content_type:
+     "text/plain" } }`, extract `status` and `content_type` into local variables
+     via destructuring.
 
 ## Self-check questions
 
-1. How does Ruby's object model handle assignment, and why does that matter for mutable objects?
-2. Which values evaluate to false in conditionals, and how does that differ from other languages you may know?
+1. How does Ruby's object model handle assignment, and why does that matter for
+   mutable objects?
+2. Which values evaluate to false in conditionals, and how does that differ from
+   other languages you may know?
 3. When should you reach for `BigDecimal` or `Rational` instead of floats?
-4. What dangers arise from using `to_i` on user input, and how can `Integer(input, exception: false)` help?
-5. How can you prevent constants that reference collections from being modified elsewhere in your code?
+4. What dangers arise from using `to_i` on user input, and how can
+`Integer(input, exception: false)` help?
+5. How can you prevent constants that reference collections from being modified
+   elsewhere in your code?
 
 ## Next steps
 
-Experiment liberally—create variables, mutate them, inspect object IDs, and practice destructuring. Mastery of variables and types makes the rest of Ruby's features click, whether you are parsing API payloads or modeling business logic. Next up, we zoom in on strings and text manipulation, expanding your toolkit for working with human-readable data.
+Experiment liberally—create variables, mutate them, inspect object IDs, and
+practice destructuring. Mastery of variables and types makes the rest of Ruby's
+features click, whether you are parsing API payloads or modeling business logic.
+Next up, we zoom in on strings and text manipulation, expanding your toolkit for
+working with human-readable data.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -315,10 +356,40 @@ def configure(opts = {})
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — variables_types-ruby2)
 
 1. Demonstrate integer division vs float division and write tests covering both.
-2. Implement a config loader that uses frozen default objects and write tests ensuring defaults are not mutated.
+2. Implement a config loader that uses frozen default objects and write tests
+   ensuring defaults are not mutated.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Variables & Types — Memory & Mutation Patterns (Appendix — variables_types-ruby-memory)
+
+Small patterns to avoid bugs related to shared mutation, unexpected freezing, and memory growth.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Issue</th><th>Pattern</th><th>Mitigation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Shared mutation</td><td>dup/clone</td><td>Duplicate before mutating if other references exist</td></tr>
+    <tr><td>Growing caches</td><td>LRU or size limits</td><td>Evict stale entries to avoid OOM</td></tr>
+    <tr><td>Frozen constants</td><td>freeze</td><td>Freeze deeply or use immutable structures</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Quick tips
+
+- Use `dup` when you need an independent mutable copy.
+- Prefer `Hash#fetch` with default to make missing keys explicit.
+- Monitor memory when building large arrays; stream where possible.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
@@ -349,9 +420,44 @@ def process(collection)
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — variables_types-ruby-appendix-20251005)
 
-1. Convert a class using class variables to one using class instance variables and add tests.
+1. Convert a class using class variables to one using class instance variables
+   and add tests.
 2. Document expected types for public methods and add simple runtime assertions.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Variables & Types — Naming, Mutability & Conventions (Appendix — variables_types-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Identifier</th><th>Meaning</th><th>Conventions</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Local</td><td>`name`</td><td>Use snake_case for locals</td></tr>
+    <tr><td>Instance</td><td>`@name`</td><td>Per-instance state</td></tr>
+    <tr><td>Constants</td><td>`NAME`</td><td>Uppercase; freeze if needed</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Tips & Tricks
+
+- Prefer descriptive names over short ones; tests and callers benefit.
+- Use `frozen_string_literal: true` to reduce string allocations if compatible.
+- Avoid polluting global scope; prefer dependency injection for testability.
+
+<!-- markdownlint-disable MD013 -->
+### Appendix exercises
+
+1. Add `# frozen_string_literal: true` to a small script and run it to ensure no
+   regressions.
+2. Replace a global variable with a better-scoped collaborator and add tests.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

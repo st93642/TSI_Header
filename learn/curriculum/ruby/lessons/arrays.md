@@ -1,14 +1,19 @@
 # Arrays
 
-Arrays are Ruby’s workhorse collection. They preserve order, accept any object type, and power everything from command-line argument parsing to JSON payload handling. Mastering arrays means knowing how to build them, reshape them, combine them, and apply enumerable transformations efficiently.
+Arrays are Ruby’s workhorse collection. They preserve order, accept any object
+type, and power everything from command-line argument parsing to JSON payload
+handling. Mastering arrays means knowing how to build them, reshape them,
+combine them, and apply enumerable transformations efficiently.
 
 ## Learning goals
 
 - Create, transform, and access arrays using idiomatic Ruby.
 - Understand how array indexing, slicing, and destructuring work.
 - Apply enumerable methods for searching, mapping, grouping, and reducing data.
-- Manage performance trade-offs with array mutation, freezing, and lazy enumeration.
-- Combine arrays with other core classes (hashes, ranges, strings) for richer data pipelines.
+- Manage performance trade-offs with array mutation, freezing, and lazy
+  enumeration.
+- Combine arrays with other core classes (hashes, ranges, strings) for richer
+  data pipelines.
 
 ## Building arrays
 
@@ -160,9 +165,12 @@ a.zip(%w[one two three])
 
 ## Performance notes
 
-- `Array#push`, `#pop` are O(1); `#shift` and `#unshift` are O(n) because items reindex.
-- `Array#map`, `#select`, and friends copy the entire array; prefer lazy enumerators for large or infinite streams.
-- `freeze` reduces accidental mutation and enables sharing between threads without locks.
+- `Array#push`, `#pop` are O(1); `#shift` and `#unshift` are O(n) because items
+  reindex.
+- `Array#map`, `#select`, and friends copy the entire array; prefer lazy
+  enumerators for large or infinite streams.
+- `freeze` reduces accidental mutation and enables sharing between threads
+  without locks.
 - When order doesn’t matter, consider `Set` for faster membership checks.
 
 <!-- markdownlint-disable MD033 MD010 -->
@@ -183,13 +191,17 @@ Short notes about array manipulation, Enumerable helpers, and testing patterns f
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (arrays-ruby-appendix)
 
-1. Implement a small data transformation using `map` and `select` and add tests verifying correctness.
-2. Demonstrate `each_slice` and `each_cons` for grouping data and document use-cases.
+1. Implement a small data transformation using `map` and `select` and add tests
+   verifying correctness.
+2. Demonstrate `each_slice` and `each_cons` for grouping data and document
+   use-cases.
 
 <!-- markdownlint-enable MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Guided practice
 
 1. **CSV rows to objects**
@@ -203,7 +215,9 @@ Short notes about array manipulation, Enumerable helpers, and testing patterns f
    - Return a new array of averages up to two decimal places.
 
 3. **Tag normalizer**
-   - Given user-provided tags with spaces, uppercase letters, and duplicates, normalize by trimming, downcasing, replacing spaces with hyphens, and deduplicating while keeping original order.
+   - Given user-provided tags with spaces, uppercase letters, and duplicates,
+     normalize by trimming, downcasing, replacing spaces with hyphens, and
+     deduplicating while keeping original order.
 
 4. **Inventory reconciliation**
    - You have arrays of SKUs from warehouse scans and shipping manifests.
@@ -211,17 +225,24 @@ Short notes about array manipulation, Enumerable helpers, and testing patterns f
 
 5. **Lazy log analyzer**
    - Stream a large log file lazily.
-   - Filter only lines matching a pattern, take the first 50, and write them to an array without loading the whole file.
+   - Filter only lines matching a pattern, take the first 50, and write them to
+     an array without loading the whole file.
 
 ## Self-check questions
 
-1. How does destructuring assignment work with arrays, and how can you capture the “rest” of the elements?
-2. What is the difference between `Array#map` and `Array#map!`, and when would you choose one over the other?
-3. How does Ruby’s method lookup handle `Array#method(:sample)` compared to iterating with `Enumerator::Lazy`?
-4. Why might you freeze an array, and how does that impact attempts to mutate it?
-5. What performance implications arise from frequent use of `Array#shift`, and what alternatives could you use for queue-like workloads?
+1. How does destructuring assignment work with arrays, and how can you capture
+   the “rest” of the elements?
+2. What is the difference between `Array#map` and `Array#map!`, and when would
+   you choose one over the other?
+3. How does Ruby’s method lookup handle `Array#method(:sample)` compared to
+   iterating with `Enumerator::Lazy`?
+4. Why might you freeze an array, and how does that impact attempts to mutate
+   it?
+5. What performance implications arise from frequent use of `Array#shift`, and
+   what alternatives could you use for queue-like workloads?
 
-Arrays are ubiquitous in Ruby. Keep them clean, avoid unnecessary mutation, and lean on Enumerable to express data transformations succinctly.
+Arrays are ubiquitous in Ruby. Keep them clean, avoid unnecessary mutation, and
+lean on Enumerable to express data transformations succinctly.
 
 <!-- markdownlint-disable MD033 MD010 -->
 
@@ -246,7 +267,8 @@ Recommended references and quick recipes for common array operations.
 
 ### Exercises (External Resources)
 
-1. Replace manual index-based array transformations with `map` and add unit tests.
+1. Replace manual index-based array transformations with `map` and add unit
+   tests.
 2. Benchmark `Array#map` vs manual loops for a large dataset and report results.
 
 <!-- markdownlint-enable MD010 -->
@@ -294,9 +316,11 @@ Benchmark.realtime do
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — arrays-ruby-appendix2)
 
-1. Implement a lazy pipeline that reads a large CSV and returns the first 50 distinct users.
+1. Implement a lazy pipeline that reads a large CSV and returns the first 50
+   distinct users.
 2. Compare `+=` vs `StringIO` for building a large string and report timings.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
@@ -320,6 +344,7 @@ Practical techniques for working with arrays efficiently: slicing, avoiding exce
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Examples
 
 ```ruby
@@ -333,10 +358,13 @@ out = Array.new(100_000)
 res = arr.select(&:odd?).map { |n| n * 2 }
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — arrays-ruby2)
 
-1. Implement a `chunk_by` helper that groups consecutive elements by a predicate and test with edge cases.
-2. Write a memory benchmark comparing building arrays with repeated `<<` vs preallocated indices.
+1. Implement a `chunk_by` helper that groups consecutive elements by a predicate
+   and test with edge cases.
+2. Write a memory benchmark comparing building arrays with repeated `<<` vs
+   preallocated indices.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
@@ -359,6 +387,7 @@ Advanced techniques for extracting windows, creating views, and generating array
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Examples (Appendix — arrays-ruby3-examples)
 
 ```ruby
@@ -372,9 +401,94 @@ end
 5.times { puts gen.next }
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — arrays-ruby3)
 
 1. Implement `window_sums(arr, k)` using `each_cons` and test with edge cases.
-2. Create an Enumerator that yields an infinite arithmetic progression and test the first N values.
+2. Create an Enumerator that yields an infinite arithmetic progression and test
+   the first N values.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Arrays — Mutability, Slicing & Performance (Appendix — arrays-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Method</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Slicing</td><td>`slice`, `[]`</td><td>Use ranges for concise extraction</td></tr>
+    <tr><td>Mutating methods</td><td>`push`, `<<`, `map!`</td><td>Prefer non-mutating methods when sharing arrays</td></tr>
+    <tr><td>Performance</td><td>`select` vs `reject`</td><td>Use `each` when side-effects are intended; use `lazy` for big collections</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Hidden tips
+
+- `array - other_array` performs set-like subtraction (O(n)).
+- Pre-allocating with `Array.new(size)` can help in tight loops where many
+  pushes occur.
+
+### Example
+
+```ruby
+arr = [1,2,3,4]
+arr[1..2] # => [2,3]
+arr2 = arr.reject(&:odd?) # => [2,4]
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix exercises
+
+1. Refactor a snippet that uses `map` + `flatten` into `flat_map` and add tests.
+2. Benchmark `Array#push` vs pre-allocated assignment in a tight loop and report
+   findings.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Arrays — Efficiency & Common Patterns (Appendix — arrays-appendix-20251005)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>`map` vs `map!`</td><td>Copy vs mutate</td><td>Prefer non-mutating `map` for safer code; use `map!` when you truly need in-place changes</td></tr>
+    <tr><td>Slicing</td><td>Subarrays</td><td>Use `arr[start, len]` or `arr[start..end]` for slices</td></tr>
+    <tr><td>`freeze`</td><td>Immutable arrays</td><td>Freeze constants to avoid accidental mutation of shared arrays</td></tr>
+    <tr><td>Memory</td><td>Large arrays</td><td>Consider streaming/enumerators to avoid loading everything at once</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Examples
+
+```ruby
+names = %w[alice bob carol]
+upper = names.map(&:upcase)
+names.map!(&:upcase) # destructive
+
+slice = names[0,2]   # first two elements
+range_slice = names[0..1]
+
+CONSTS = [1,2,3].freeze
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
+
+1. Rewrite a function that creates filtered arrays to use `each_with_object` to
+   avoid intermediate arrays.
+2. Demonstrate the difference between `map` and `map!` in a small test and
+   explain when mutation is acceptable.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

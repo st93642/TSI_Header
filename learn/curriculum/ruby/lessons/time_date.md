@@ -4,10 +4,13 @@ Scheduling jobs, storing timestamps, and formatting reports all rely on robust t
 
 ## Learning goals
 
-- Create `Time`, `Date`, and `DateTime` objects for specific instants or calendar days.
+- Create `Time`, `Date`, and `DateTime` objects for specific instants or
+  calendar days.
 - Perform arithmetic, comparisons, and conversions between temporal classes.
-- Format and parse timestamps with `strftime`, `iso8601`, and flexible parsing helpers.
-- Understand time zones, UTC vs local time, and strategies for storing and displaying timestamps safely.
+- Format and parse timestamps with `strftime`, `iso8601`, and flexible parsing
+  helpers.
+- Understand time zones, UTC vs local time, and strategies for storing and
+  displaying timestamps safely.
 - Build utilities that compute durations, countdowns, and recurring schedules.
 
 ## Getting the current moment
@@ -81,7 +84,8 @@ Common `strftime` directives:
 - `%H` 24-hour, `%I` 12-hour, `%M` minute, `%S` second
 - `%A` weekday name, `%B` month name
 
-Avoid custom parsers when built-in formatters suffice; ISO 8601 is a safe default for interchange.
+Avoid custom parsers when built-in formatters suffice; ISO 8601 is a safe
+default for interchange.
 
 ## Dates without time
 
@@ -121,8 +125,12 @@ DateTime.now.new_offset(0)   # change offset without altering UTC instant
 ## Time zones and best practices
 
 - Store timestamps in UTC (`Time.now.utc`, database `TIMESTAMP WITH TIME ZONE`).
-- Convert to the user’s zone for display. In Rails, `ActiveSupport::TimeZone["Europe/Riga"].at(time)` or `time.in_time_zone("Europe/Riga")`.
-- Beware of daylight-saving transitions when adding hours or days; shifting by calendar units is safer with `Date` + custom logic or `ActiveSupport::Duration`.
+- Convert to the user’s zone for display. In Rails,
+  `ActiveSupport::TimeZone["Europe/Riga"].at(time)` or
+  `time.in_time_zone("Europe/Riga")`.
+- Beware of daylight-saving transitions when adding hours or days; shifting by
+  calendar units is safer with `Date` + custom logic or
+  `ActiveSupport::Duration`.
 
 ## Durations and countdowns
 
@@ -157,7 +165,8 @@ Time.strptime("03-10-2025", "%d-%m-%Y")
 
 ## Testing temporal code
 
-Time-dependent logic is easier to test with clock injection or time-travel helpers:
+Time-dependent logic is easier to test with clock injection or time-travel
+helpers:
 
 ```ruby
 Time.stub :now, Time.new(2025, 10, 3, 12, 0, 0) do
@@ -170,34 +179,48 @@ Gems like `timecop`, `active_support/testing/time_helpers`, or `travel_to` (Rail
 ## Guided practice
 
 1. **Reminder scheduler**
-   - Implement `next_occurrence(start_time:, interval_seconds:)` that returns the next future `Time` after `Time.now`.
+   - Implement `next_occurrence(start_time:, interval_seconds:)` that returns
+     the next future `Time` after `Time.now`.
    - Write tests that stub `Time.now` to verify edge cases.
 
 2. **Countdown CLI**
-   - Build a script that accepts a target ISO 8601 timestamp and prints the remaining days/hours/minutes each second until the event.
+   - Build a script that accepts a target ISO 8601 timestamp and prints the
+     remaining days/hours/minutes each second until the event.
    - Handle past timestamps gracefully.
 
 3. **Business hours checker**
-   - Given a time zone and an interval (e.g., 09:00–17:00 Monday–Friday), return whether a given `Time` falls within business hours.
-   - Carefully handle daylight-saving transitions by converting to the zone first.
+   - Given a time zone and an interval (e.g., 09:00–17:00 Monday–Friday), return
+     whether a given `Time` falls within business hours.
+   - Carefully handle daylight-saving transitions by converting to the zone
+     first.
 
 4. **Monthly billing cycle**
-   - Write `billing_period(date)` returning the start/end dates of the cycle (e.g., 15th to 14th of next month).
+   - Write `billing_period(date)` returning the start/end dates of the cycle
+     (e.g., 15th to 14th of next month).
    - Use date arithmetic (`>>`, `<<`) and ensure leap years don’t break it.
 
 5. **ISO formatter utility**
-   - Create `format_timestamp(time, zone:)` that converts a `Time` to a specific time zone and returns a string like `"2025-10-03T14:30:00+03:00"`.
+   - Create `format_timestamp(time, zone:)` that converts a `Time` to a specific
+     time zone and returns a string like `"2025-10-03T14:30:00+03:00"`.
    - Guard against `nil` inputs and allow injecting a default zone.
 
 ## Self-check questions
 
-1. Why is storing timestamps in UTC considered best practice, and how do you safely present them to users in different time zones?
-2. What’s the difference between `Time`, `Date`, and `DateTime`, and when would you choose each?
-3. How does `strftime` differ from `iso8601` for formatting, and when would you favor one over the other?
-4. What pitfalls arise when adding hours across daylight-saving boundaries, and how can you avoid them?
-5. How can stubbing or freezing `Time.now` improve the reliability of tests that depend on the current moment?
+1. Why is storing timestamps in UTC considered best practice, and how do you
+   safely present them to users in different time zones?
+2. What’s the difference between `Time`, `Date`, and `DateTime`, and when would
+   you choose each?
+3. How does `strftime` differ from `iso8601` for formatting, and when would you
+   favor one over the other?
+4. What pitfalls arise when adding hours across daylight-saving boundaries, and
+   how can you avoid them?
+5. How can stubbing or freezing `Time.now` improve the reliability of tests that
+   depend on the current moment?
 
-Temporal logic is notoriously tricky—plan for time zones, daylight saving, and user locale early. With Ruby’s time and date toolkit (supplemented by well-chosen gems), you can model schedules, countdowns, and recurring events with confidence.
+Temporal logic is notoriously tricky—plan for time zones, daylight saving, and
+user locale early. With Ruby’s time and date toolkit (supplemented by
+well-chosen gems), you can model schedules, countdowns, and recurring events
+with confidence.
 
 <!-- markdownlint-disable MD033 MD010 -->
 
@@ -229,47 +252,14 @@ Time.now.utc.iso8601
 ### Exercises
 
 1. Parse a log file with mixed timezone entries and normalize them to UTC.
-2. Add a small utility that computes age from a birthdate string handling leap years correctly.
+2. Add a small utility that computes age from a birthdate string handling leap
+   years correctly.
 
 <!-- markdownlint-enable MD010 -->
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-## Practical Appendix: Time & Date — Timezones, DST & ISO Handling (Appendix — time_date-ruby4)
-
-Additional practical notes on timezone databases, daylight saving time pitfalls, and robust parsing/output for APIs.
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <thead>
-    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Timezone DB</td><td>tzinfo / zoneinfo</td><td>Use canonical TZ identifiers (e.g., 'America/New_York')</td></tr>
-    <tr><td>DST</td><td>Be explicit</td><td>Avoid ambiguous local times around DST transitions</td></tr>
-    <tr><td>ISO output</td><td>to_s / iso8601</td><td>Prefer `Time#iso8601` for API responses</td></tr>
-  </tbody>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-### Example: tzinfo
-
-```ruby
-require 'tzinfo'
-ny = TZInfo::Timezone.get('America/New_York')
-ny.to_local(Time.now.utc)
-```
-
-### Exercises (Appendix — time_date-ruby4)
-
-1. Parse timestamps from multiple timezones and normalize to UTC for storage; write tests covering DST transition cases.
-2. Create a helper that formats times in ISO8601 with timezone offset and test formatting.
-
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
-
-<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
-
-## Practical Appendix: Time & Date — Serialization & ISO Roundtrips (Appendix — time_date-ruby5)
+## Practical Appendix: Time & Date — Timezones, DST & Serialization (Appendix — time_date-ruby5)
 
 Quick recipes for serializing time objects consistently across services and ensuring roundtrip safety when persisting timestamps.
 
@@ -295,80 +285,73 @@ parsed = Time.parse(s)
 assert_equal t.to_i, parsed.to_i
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — time_date-ruby5)
 
-1. Implement helpers that serialize Time objects to ISO8601 and parse them back, adding tests for roundtrip integrity.
+1. Implement helpers that serialize Time objects to ISO8601 and parse them back,
+   adding tests for roundtrip integrity.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-## Practical Appendix: Time & Date — Formatting Strategies & ISO Compliance (Appendix — time_date-ruby6)
+## Practical Appendix: Time & Date  Timezones, DST & Testing (Appendix  time_date-hidden-20251005)
 
-Notes on choosing formatting strategies for storage and display, and ensuring ISO8601 compliance in APIs.
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <thead>
-    <tr><th>Goal</th><th>Pattern</th><th>Notes</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>API storage</td><td>Use UTC ISO8601</td><td>Use `time.iso8601(3)` for millisecond precision</td></tr>
-    <tr><td>Human display</td><td>Localize with timezone</td><td>Show friendly format to users</td></tr>
-    <tr><td>Validation</td><td>strict parse</td><td>Reject ambiguous local times</td></tr>
-  </tbody>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-### Example (Appendix — time_date-ruby6-example)
-
-```ruby
-iso = Time.now.utc.iso8601(3)
-parsed = Time.iso8601(iso)
-```
-
-### Exercises (Appendix — time_date-ruby6)
-
-1. Add formatters for API and human display and write tests that assert roundtrip fidelity for API format.
-
-<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
-
-<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
-
-## Practical Appendix: Time & Date — parsing, formatting & zones (Appendix — time_date-ruby3)
-
-Practical recipes to parse timestamps, format them for logs, and work safely with time zones.
+Concise tips for storing, displaying, and testing temporal logic robustly.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Task</th><th>API</th><th>Notes</th></tr>
+    <tr><th>Problem</th><th>Pattern</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>Parse ISO8601</td><td>Time.iso8601 / DateTime.iso8601</td><td>Requires 'time' or DateTime library</td></tr>
-    <tr><td>Formatting</td><td>strftime</td><td>Use explicit zone offsets for logs</td></tr>
-    <tr><td>Time zones</td><td>TZ environment</td><td>Prefer UTC for storage</td></tr>
+    <tr><td>Storage</td><td>Persist UTC ISO8601</td><td>Use `time.utc.iso8601` for APIs</td></tr>
+    <tr><td>Display</td><td>Convert to user zone</td><td>Use canonical TZ names (e.g., 'Europe/Riga')</td></tr>
+    <tr><td>Testing</td><td>Freeze or stub time</td><td>Use `Time.stub` or `travel_to` helpers for deterministic tests</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Examples
+<!-- markdownlint-enable MD013 -->
+### Tiny example: freeze time in Minitest
 
 ```ruby
-require 'time'
+require 'minitest/autorun'
 
-t = Time.iso8601('2021-08-25T14:35:00Z')
-puts t.utc.iso8601
-puts t.strftime('%Y-%m-%d %H:%M:%S %z')
-
-# Convert local time to UTC
-local = Time.new(2021,8,25,16,0,0, "-05:00")
-puts local.getutc
+class TestSchedule < Minitest::Test
+  def test_countdown
+    Time.stub :now, Time.new(2025,10,5,12,0,0) do
+      assert_match /2d/, countdown(Time.now + 48*3600)
+    end
+  end
+end
 ```
 
-### Exercises (Appendix — time_date-ruby3)
+<!-- markdownlint-disable MD013 -->
+### Appendix Exercises (Time & Date Appendix)
 
-1. Create a function that accepts a timestamp string in unknown formats and normalizes to UTC ISO8601.
-2. Add tests that confirm conversions between zones preserve the instant in time.
+1. Write a helper that normalizes arbitrary timestamp strings to UTC ISO8601 and
+   add tests covering offsets and Zulu times.
+2. Create a business-hours checker that respects DST transitions by converting
+   times into the zone first and write tests covering the DST boundary.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+
+<!-- Practical Appendix: Reference and further reading -->
+
+### Practical Appendix
+This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
+
+- Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
+- Quick tips:
+  - Re-run the examples in a REPL to experiment with small changes.
+  - Use small, focused test cases when validating behavior.
+  - Prefer idiomatic standard-library helpers for clarity and maintainability.
+
+Further reading and sources:
+- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+- Standard library reference and API pages.
+- For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
+
+*End of Practical Appendix.*

@@ -2,7 +2,9 @@
 
 ## Overview
 
-Input/Output (I/O) operations allow your Ruby programs to interact with the outside world. This includes reading from and writing to files, handling command-line arguments, and working with standard input/output streams.
+Input/Output (I/O) operations allow your Ruby programs to interact with the
+outside world. This includes reading from and writing to files, handling
+command-line arguments, and working with standard input/output streams.
 
 ## File Operations
 
@@ -200,9 +202,50 @@ end
 
 <!-- markdownlint-disable MD033 MD010 -->
 
+## Practical Appendix: Input/Output — Streaming & Encoding Notes (Appendix — input_output-ruby-io)
+
+Small operational notes for safe streaming and handling encodings when reading/writing files.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Large files</td><td>stream line-by-line</td><td>Use `File.foreach` or `IO.copy_stream`</td></tr>
+    <tr><td>Encoding</td><td>open(..., encoding: 'UTF-8')</td><td>Specify encoding when reading external text</td></tr>
+    <tr><td>Atomic writes</td><td>tempfile + rename</td><td>Write to tmp and rename for safe updates</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick examples
+
+```ruby
+# open with explicit encoding
+File.open('data.csv', 'r:bom|utf-8') do |f|
+  f.each_line { |l| process(l.chomp) }
+end
+
+# atomic write
+require 'tempfile'
+temp = Tempfile.new('out')
+begin
+  temp.write(rendered)
+  temp.close
+  File.rename(temp.path, 'output.txt')
+ensure
+  temp.unlink if temp
+end
+```
+
+<!-- markdownlint-enable MD033 MD010 -->
+
+<!-- markdownlint-disable MD013 -->
 ### Practical Appendix: CLI & Input Patterns
 
-This appendix shows OptionParser usage, safe STDIN handling, and an HTML table summarizing common helpers.
+This appendix shows OptionParser usage, safe STDIN handling, and an HTML table
+summarizing common helpers.
 
 ```ruby
 require 'optparse'
@@ -225,6 +268,7 @@ end.parse!
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Exercises (Practical Appendix)
 
 1. Write a CLI that accepts input files or stdin and normalizes line endings.
@@ -287,10 +331,13 @@ File.write(temp, data)
 File.rename(temp, path)
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — input_output-ruby2)
 
-1. Implement a helper that reads CSV lines lazily and test with a large generated string using `StringIO`.
-2. Add a test that simulates `$stdin` input for an interactive prompt and asserts returned result.
+1. Implement a helper that reads CSV lines lazily and test with a large
+   generated string using `StringIO`.
+2. Add a test that simulates `$stdin` input for an interactive prompt and
+   asserts returned result.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
@@ -313,6 +360,7 @@ Quick patterns for working with binary files, basic socket usage, and streaming 
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Example: read in chunks
 
 ```ruby
@@ -323,9 +371,93 @@ File.open('big.bin', 'rb') do |f|
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — input_output-ruby2-unique)
 
-1. Implement a streaming file checksum that reads in fixed-size chunks and write tests using Tempfile.
-2. Create a simple TCP echo client and server for local testing and write integration tests.
+1. Implement a streaming file checksum that reads in fixed-size chunks and write
+   tests using Tempfile.
+2. Create a simple TCP echo client and server for local testing and write
+   integration tests.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: IO & Files — Safe Open, Encoding & Binaries (Appendix — input_output-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Use</th><th>Pattern</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Safe open</td><td>`File.open(path, 'w') do |f| ... end`</td><td>Ensures file is closed</td></tr>
+    <tr><td>Binary</td><td>`File.binmode` or `'rb'`</td><td>Use for non-text files</td></tr>
+    <tr><td>Encoding</td><td>`external_encoding`</td><td>Be explicit when reading external data</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Examples
+
+```ruby
+File.open('out.txt', 'w:utf-8') { |f| f.puts 'hello' }
+File.open('image.png', 'rb') { |f| process_binary(f.read) }
+```
+
+### Exercises
+
+1. Write a helper that safely writes a temp file and atomically renames into
+   place.
+2. Add a test that reads a fixture binary and asserts non-empty content.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Robust I/O Patterns & Testing (Appendix — input_output-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Block file ops</td><td>Always</td><td>Use `File.open(... ) do |f| ... end` to auto-close handles</td></tr>
+    <tr><td>Tempfile</td><td>Testing/temporary writes</td><td>Use `Tempfile` to avoid collisions and ensure cleanup</td></tr>
+    <tr><td>Capture IO in tests</td><td>Test helpers</td><td>Use `StringIO` and restore `$stdout`/`$stdin` in `ensure` blocks</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+require 'tempfile'
+Tempfile.create('sample') do |tf|
+  tf.write("hello")
+  tf.rewind
+  puts tf.read
+end
+
+# Test capture helper
+def capture_stdout
+  old = $stdout
+  $stdout = StringIO.new
+  yield
+  $stdout.string
+ensure
+  $stdout = old
+end
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
+
+1. Write a test that uses `Tempfile` to assert a function writes the expected
+   content.
+2. Add CI notes that assert your project runs on the target Ruby versions listed
+   in the lesson table.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

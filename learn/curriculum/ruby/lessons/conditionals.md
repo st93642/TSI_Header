@@ -5,7 +5,8 @@ Conditionals give your Ruby code the power to react, branch, and adapt at runtim
 ## Learning goals
 
 - Compose conditionals using `if`, `elsif`, `else`, and statement modifiers.
-- Decide when to use `unless`, `case`, or pattern matching for more readable logic.
+- Decide when to use `unless`, `case`, or pattern matching for more readable
+  logic.
 - Apply guard clauses and early returns to keep happy paths clear.
 - Understand truthiness, short-circuit evaluation, and ternary expressions.
 - Practice structuring nested logic into well-named helper methods.
@@ -56,7 +57,8 @@ Order matters: Ruby evaluates conditions top to bottom and stops at the first tr
 
 ## Guard clauses and early returns
 
-Guard clauses exit a method early if prerequisites fail. They keep the main logic close to the left margin and reduce nested indentation.
+Guard clauses exit a method early if prerequisites fail. They keep the main
+logic close to the left margin and reduce nested indentation.
 
 ```ruby
 def process_order(order)
@@ -199,6 +201,33 @@ Deeply nested `if` statements hinder readability. Strategies to flatten them inc
 HANDLERS = {
   "paid" => ->(order) { ship(order) },
   "pending" => ->(order) { enqueue_verification(order) }
+}
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 MD022 MD032 MD024 -->
+
+## Practical Appendix: Conditionals — Guard Clauses & Tests (Appendix — conditionals-quick)
+
+Short patterns for keeping conditionals clear and testable.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Test tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Guard clauses</td><td>Early exits</td><td>Test each guard path separately</td></tr>
+    <tr><td>Predicate methods</td><td>Readable conditions</td><td>Unit-test predicate logic</td></tr>
+    <tr><td>Dispatch tables</td><td>Replace long if/elsif chains</td><td>Test mapping completeness and default case</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+Exercises:
+
+1. Refactor a nested conditional into guard clauses with small predicate methods and add tests.
+2. Replace an `if/elsif` cascade with a dispatch hash and test default handling.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 }.freeze
 
 handler = HANDLERS[order.status] || ->(_) { warn "Unknown status" }
@@ -216,30 +245,63 @@ puts "Inventory empty" unless items&.any?
 ## Guided practice
 
 1. **Shipping router**
-   - Write `shipping_method(order)` that returns "express" when the destination is domestic and the order total exceeds 100, "standard" for domestic orders otherwise, and "international" for everything else.
+   - Write `shipping_method(order)` that returns "express" when the destination
+     is domestic and the order total exceeds 100, "standard" for domestic orders
+     otherwise, and "international" for everything else.
    - Use guard clauses for missing address information.
 
 2. **On-call schedule**
-   - Implement logic that prints who is on call based on day of week and whether the person is already covering another shift.
+   - Implement logic that prints who is on call based on day of week and whether
+     the person is already covering another shift.
    - Use `case` with `Date.today.wday` and a fallback branch.
 
 3. **Feature toggle evaluator**
-   - Combine environment variables, user roles, and percentage rollouts (`rollout_percentage > rand(100)`) into a single predicate `feature_enabled?(user)`.
+   - Combine environment variables, user roles, and percentage rollouts
+     (`rollout_percentage > rand(100)`) into a single predicate
+     `feature_enabled?(user)`.
    - Keep the expression readable with intermediate variables or helper methods.
 
 4. **Pattern match API responses**
-   - Given hashes with keys `:status`, `:body`, and optional `:error`, use pattern matching to log success, retry, or escalate.
+   - Given hashes with keys `:status`, `:body`, and optional `:error`, use
+     pattern matching to log success, retry, or escalate.
    - Add guards to check `error[:code]` when present.
 
 5. **Input validator**
-   - Prompt for a username and classify it as "valid", "missing", or "invalid" using an `if`/`elsif` chain.
-   - Requirements: present, 3–16 characters, only lowercase letters or underscores.
+   - Prompt for a username and classify it as "valid", "missing", or "invalid"
+     using an `if`/`elsif` chain.
+   - Requirements: present, 3–16 characters, only lowercase letters or
+     underscores.
 
 <!-- markdownlint-disable MD033 MD010 -->
 
 ## Practical Appendix: Conditionals — Guard Clauses & Idioms (Appendix — conditionals-ruby2)
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-Guidance for choosing conditional styles, guard clauses for early returns, and test patterns for branching logic.
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Guard clauses</td><td>Preconditions</td><td>`return unless valid?`</td></tr>
+    <tr><td>Ternary</td><td>Simple branches</td><td>`a > b ? a : b`</td></tr>
+    <tr><td>Dispatch table</td><td>Many cases</td><td>Hash of lambdas</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick pattern
+
+```ruby
+def safe_process(data)
+  return unless data && data[:enabled]
+  process(data)
+end
+```
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+Guidance for choosing conditional styles, guard clauses for early returns, and
+test patterns for branching logic.
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -274,7 +336,8 @@ end
 
 ### Testing branches
 
-- Write separate tests for each branch, include edge cases (nil, boundary values).
+- Write separate tests for each branch, include edge cases (nil, boundary
+  values).
 
 ```ruby
 require 'minitest/autorun'
@@ -286,16 +349,21 @@ class TestConditionals < Minitest::Test
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — conditionals-ruby2)
 
-1. Refactor a method that has nested `if` statements into guard clauses and case statements where appropriate; add tests proving behaviour unchanged.
-2. Implement a parser that returns different symbols for numeric ranges and thoroughly test boundaries (e.g., 9, 10, 99, 100).
+1. Refactor a method that has nested `if` statements into guard clauses and case
+   statements where appropriate; add tests proving behaviour unchanged.
+2. Implement a parser that returns different symbols for numeric ranges and
+   thoroughly test boundaries (e.g., 9, 10, 99, 100).
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Practical Appendix: Conditionals — Refactoring & Property Tests (Appendix — conditionals-ruby3)
 
-Refactor patterns for complex branching, guard-clause idioms, and an introduction to property-based testing approaches for conditional logic.
+Refactor patterns for complex branching, guard-clause idioms, and an
+introduction to property-based testing approaches for conditional logic.
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -322,21 +390,68 @@ end
 
 ### Property-like checks
 
-- Use small randomized inputs to assert invariants, e.g., that a function preserves length or ordering.
+- Use small randomized inputs to assert invariants, e.g., that a function
+  preserves length or ordering.
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — conditionals-ruby3)
 
-1. Refactor a nested-if example into guard clauses and provide tests demonstrating behavior preserved.
-2. Write a property-style test that checks a conditional transformation keeps ordering for random inputs.
+1. Refactor a nested-if example into guard clauses and provide tests
+   demonstrating behavior preserved.
+2. Write a property-style test that checks a conditional transformation keeps
+   ordering for random inputs.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Self-check questions
 
 1. When would you prefer `case` over multiple `elsif` branches?
-2. How does the ternary operator differ from `if` in terms of return value and readability?
+2. How does the ternary operator differ from `if` in terms of return value and
+   readability?
 3. Why should you avoid `unless` with `else` clauses?
-4. How do guard clauses improve the structure of methods with multiple failure conditions?
-5. What advantages does pattern matching provide for handling structured data compared to nested conditionals?
+4. How do guard clauses improve the structure of methods with multiple failure
+   conditions?
+5. What advantages does pattern matching provide for handling structured data
+   compared to nested conditionals?
 
-Dependable control flow stems from clear boolean logic and a toolbox of conditional constructs. Experiment with each technique, refactor nested branches into descriptive helper methods, and you’ll write Ruby code that communicates its intent with confidence.
+Dependable control flow stems from clear boolean logic and a toolbox of
+conditional constructs. Experiment with each technique, refactor nested branches
+into descriptive helper methods, and you’ll write Ruby code that communicates
+its intent with confidence.
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Conditionals — Guard Clauses & Readability (Appendix — conditionals-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Guard clause</td><td>Early return on invalid input</td><td>Keeps happy path unindented</td></tr>
+    <tr><td>Case/when</td><td>Dispatch on values</td><td>Prefer `case` over long `if/elsif` chains when possible</td></tr>
+    <tr><td>Predicate methods</td><td>`valid?` / `present?`</td><td>Encapsulate checks to improve readability</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+def process(obj)
+  return unless obj.valid?
+  # happy path here
+end
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix exercises
+
+1. Refactor a nested conditional to use guard clauses and add tests that cover
+   the early returns.
+2. Convert a long `if/elsif` chain to `case` and verify behavior remains
+   identical.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

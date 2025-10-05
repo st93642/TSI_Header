@@ -5,9 +5,11 @@ Inheritance lets a class reuse and refine the behavior of another class. Ruby ke
 ## Learning goals
 
 - Define subclasses using the `<` operator and trace ancestry with `ancestors`.
-- Override methods responsibly, call `super` with/without arguments, and understand default argument forwarding.
+- Override methods responsibly, call `super` with/without arguments, and
+  understand default argument forwarding.
 - Explore Ruby’s method lookup order, including modules and `prepend`.
-- Use hooks (`inherited`, `superclass`, `method_added`) to customize class hierarchies.
+- Use hooks (`inherited`, `superclass`, `method_added`) to customize class
+  hierarchies.
 - Compare inheritance with composition and know when to favor each.
 
 ## Creating subclasses
@@ -38,7 +40,8 @@ Use `SuperClass` to check the direct parent (`ElectricCar.superclass # => Vehicl
 
 ## Method overriding and polymorphism
 
-Override by redefining a method in the child class. Ruby uses dynamic dispatch: the method invoked depends on the object’s actual class at runtime.
+Override by redefining a method in the child class. Ruby uses dynamic dispatch:
+the method invoked depends on the object’s actual class at runtime.
 
 ```ruby
 class Vehicle
@@ -129,7 +132,6 @@ class Vehicle
   end
 end
 
-class Tank < Vehicle
   prepend Trackable
 end
 
@@ -143,7 +145,8 @@ Tank.new.move # => "Tracked"
 
 ## Abstract behavior and template methods
 
-Ruby doesn’t enforce abstract classes, but you can raise errors in base methods to require overrides.
+Ruby doesn’t enforce abstract classes, but you can raise errors in base methods
+to require overrides.
 
 ```ruby
 class Report
@@ -159,7 +162,8 @@ class DailyReport < Report
 end
 ```
 
-Template methods define skeleton workflow in the base class and delegate steps to overrides in children.
+Template methods define skeleton workflow in the base class and delegate steps
+to overrides in children.
 
 ```ruby
 class Exporter
@@ -227,11 +231,15 @@ Remember to mix in `Kernel` manually if you need helpers like `puts`.
 
 ## Composition vs inheritance
 
-While inheritance is powerful, prefer composition when the relationship isn’t a strict “is-a”. Ask these questions:
+While inheritance is powerful, prefer composition when the relationship isn’t a
+strict “is-a”. Ask these questions:
 
-1. Do subclasses truly share identity, or just behavior? If it’s only behavior, extract a module.
-2. Will the base class need to know about many subclasses? If yes, the hierarchy may be unstable—composition might offer better flexibility.
-3. Does the subclass override most methods from the parent? If so, inheritance might not be the right abstraction.
+1. Do subclasses truly share identity, or just behavior? If it’s only behavior,
+   extract a module.
+2. Will the base class need to know about many subclasses? If yes, the hierarchy
+   may be unstable—composition might offer better flexibility.
+3. Does the subclass override most methods from the parent? If so, inheritance
+   might not be the right abstraction.
 
 Example using composition:
 
@@ -247,7 +255,8 @@ class PdfExporter
 end
 ```
 
-Decoupling via composition allows swapping dependencies without altering class hierarchies.
+Decoupling via composition allows swapping dependencies without altering class
+hierarchies.
 
 ## Checking relationships
 
@@ -265,20 +274,29 @@ Use `respond_to?` to check for capability instead of class when possible—duck 
 
 1. **Transportation hierarchy**
    - Create `Vehicle`, `Car`, `Boat`, `AmphibiousVehicle` classes.
-   - Use modules `Floatable` and `Driveable` with `include`/`prepend` to share behavior. Ensure `AmphibiousVehicle.move` calls both behaviors via `super`.
+   - Use modules `Floatable` and `Driveable` with `include`/`prepend` to share
+     behavior. Ensure `AmphibiousVehicle.move` calls both behaviors via `super`.
 
 2. **Template method pattern**
-   - Build a `ReportGenerator` base class with steps `prepare`, `generate`, `deliver`.
-   - Implement `PdfReport` and `CsvReport` subclasses overriding specific steps. Use `super` to chain base validations.
+   - Build a `ReportGenerator` base class with steps `prepare`, `generate`,
+     `deliver`.
+   - Implement `PdfReport` and `CsvReport` subclasses overriding specific steps.
+     Use `super` to chain base validations.
 
 3. **Hook tracking**
-   - Implement a base class that records all subclasses in a registry using `inherited`. Add a `descendants` class method that lists all registered subclasses.
+   - Implement a base class that records all subclasses in a registry using
+     `inherited`. Add a `descendants` class method that lists all registered
+     subclasses.
 
 4. **Keyword forwarding**
-   - Create a class hierarchy with `BaseJob#initialize(retries:, queue:)`. Override in `EmailJob`, adding `smtp_settings:` while forwarding other keyword arguments properly, including defaults.
+   - Create a class hierarchy with `BaseJob#initialize(retries:, queue:)`.
+     Override in `EmailJob`, adding `smtp_settings:` while forwarding other
+     keyword arguments properly, including defaults.
 
 5. **Composition refactor**
-   - Start with a class method `Report.export_json(data)` that switches on `type` to handle PDF, CSV, etc. Refactor into subclasses + composition (renderers) and compare readability.
+   - Start with a class method `Report.export_json(data)` that switches on
+     `type` to handle PDF, CSV, etc. Refactor into subclasses + composition
+     (renderers) and compare readability.
 
 ## Self-check questions
 
@@ -286,7 +304,8 @@ Use `respond_to?` to check for capability instead of class when possible—duck 
 2. How does `prepend` change the method lookup chain compared to `include`?
 3. When would you opt for a module mixin instead of subclassing?
 4. Why are class variables (`@@var`) risky in inheritance hierarchies?
-5. How can `inherited` hooks help maintain global registries of subclasses, and what are potential pitfalls?
+5. How can `inherited` hooks help maintain global registries of subclasses, and
+   what are potential pitfalls?
 
 Inheritance should model “is-a” relationships. Use it to share contracts and behavior across related classes, but don’t hesitate to reach for composition or module mixins when the relationship isn’t a clean hierarchy. Understanding Ruby’s lookup chain and `super` semantics ensures subclasses remain predictable and maintainable.
 
@@ -325,11 +344,86 @@ end
 
 ### Tests
 
-- Test behaviour through public interfaces; use mocks to assert interactions when needed.
+- Test behaviour through public interfaces; use mocks to assert interactions
+  when needed.
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — inheritance-ruby2)
 
-1. Replace inheritance-based code with composition and add tests proving behaviour preserved.
-2. Create a subclass that violates LSP and write a test showing why it's incorrect; then fix and re-test.
+1. Replace inheritance-based code with composition and add tests proving
+   behaviour preserved.
+2. Create a subclass that violates LSP and write a test showing why it's
+   incorrect; then fix and re-test.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Inheritance — Testing & Substitutability (Appendix — inheritance-ruby3)
+
+Short patterns to test substitutability and avoid brittle hierarchies.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Check</th><th>When</th><th>How</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Substitutability</td><td>New subclass</td><td>Run base class behaviour tests against subclass instances</td></tr>
+    <tr><td>Super call safety</td><td>Override with additional args</td><td>Use `super(**kwargs)` to forward keywords</td></tr>
+    <tr><td>Hook side-effects</td><td>inherited hook</td><td>Minimize side-effects; register instead of mutate</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Inheritance — When to Inherit vs Compose (Appendix — inheritance-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Approach</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Inheritance</td><td>Is-a relationship, shared behavior</td><td>Keep hierarchies shallow; prefer small focused base classes</td></tr>
+    <tr><td>Composition</td><td>Has-a or uses-a relationships</td><td>Favor composition for flexibility and testability</td></tr>
+    <tr><td>Hooks</td><td>Register subclasses or track additions</td><td>Use `inherited` sparingly to auto-register; document side effects</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Examples
+
+```ruby
+# Composition example
+class Car
+  def initialize(engine)
+    @engine = engine
+  end
+
+  def start
+    @engine.start
+  end
+end
+
+# inherited hook
+class BaseCommand
+  def self.inherited(subclass)
+    Registry.register(subclass)
+  end
+end
+```
+
+<!-- markdownlint-disable MD013 -->
+### Appendix — Exercises
+
+1. Refactor a small class hierarchy into composition and verify behavior via
+   unit tests.
+2. Add an `inherited` hook to auto-register subclasses and write a test that
+   asserts registration.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

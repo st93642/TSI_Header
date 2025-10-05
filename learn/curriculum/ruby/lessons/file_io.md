@@ -1,14 +1,20 @@
 # File input and output
 
-Persistent data lives in files—configuration, logs, exports, and more. Ruby’s IO classes make reading and writing straightforward, whether you’re streaming gigabytes or editing a tiny JSON snippet. Mastering these tools helps you process data efficiently and safely.
+Persistent data lives in files—configuration, logs, exports, and more. Ruby’s IO
+classes make reading and writing straightforward, whether you’re streaming
+gigabytes or editing a tiny JSON snippet. Mastering these tools helps you
+process data efficiently and safely.
 
 ## Learning goals
 
 - Read and write text and binary files using the `File` API and IO enumerators.
-- Choose appropriate modes (`"r"`, `"w"`, `"a"`, binary flags) and manage encoding explicitly.
+- Choose appropriate modes (`"r"`, `"w"`, `"a"`, binary flags) and manage
+  encoding explicitly.
 - Work with structured formats (CSV, JSON, YAML) via the standard library.
-- Use helpers like `Pathname`, `Dir`, `Tempfile`, and file locking to build robust scripts.
-- Avoid resource leaks and race conditions by embracing block form and defensive coding.
+- Use helpers like `Pathname`, `Dir`, `Tempfile`, and file locking to build
+  robust scripts.
+- Avoid resource leaks and race conditions by embracing block form and defensive
+  coding.
 
 ## Reading files
 
@@ -48,13 +54,15 @@ File.open("data.bin", "wb") do |file|                 # binary write
 end
 ```
 
-Opening files with a block ensures they close automatically—even if an exception occurs. Modes:
+Opening files with a block ensures they close automatically—even if an exception
+occurs. Modes:
 
 - `"r"`: read-only (default)
 - `"w"`: write-only, truncates existing file
 - `"a"`: append write
 - `"r+"`: read/write without truncation
-- Add `b` for binary (`"rb"`, `"wb"`) and `:encoding` option for text: `File.open("notes.txt", "r", encoding: "UTF-8")`.
+- Add `b` for binary (`"rb"`, `"wb"`) and `:encoding` option for text:
+  `File.open("notes.txt", "r", encoding: "UTF-8")`.
 
 ## File metadata and existence checks
 
@@ -185,7 +193,8 @@ end
 
 ## Error handling
 
-Wrap file operations in begin/rescue blocks to handle missing files, permission issues, or encoding errors.
+Wrap file operations in begin/rescue blocks to handle missing files, permission
+issues, or encoding errors.
 
 ```ruby
 begin
@@ -197,35 +206,72 @@ rescue Errno::EACCES
 end
 ```
 
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 MD022 MD032 MD024 -->
+
+## Practical Appendix: File I/O — Quick Patterns & Tests (Appendix  file_io-quick)
+
+Short checklist for safe file handling and testable IO helpers.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Scenario</th><th>Pattern</th><th>Test tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Temporary files</td><td>Use `Tempfile` or `Dir.mktmpdir`</td><td>Assert file exists during block and is removed after</td></tr>
+    <tr><td>Encoding errors</td><td>Specify encoding and use `scrub`</td><td>Test with non-UTF8 bytes</td></tr>
+    <tr><td>Concurrent writes</td><td>Use `flock`</td><td>Simulate multiple writer threads and assert integrity</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+Exercises:
+
+1. Write a helper that writes atomic updates to a file (write to temp + move)
+   and test crash-safety.
+2. Use `Tempfile` in a test and assert it is cleaned up automatically.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 MD022 MD032 MD024 -->
 `Errno::EINVAL`, `IOError`, and `EOFError` cover other edge cases.
 
 ## Guided practice
 
 1. **Log rotator**
-   - Write a script that checks `app.log` size and moves it to `app-YYYYMMDD.log` when it exceeds 5 MB.
+   - Write a script that checks `app.log` size and moves it to
+     `app-YYYYMMDD.log` when it exceeds 5 MB.
    - Use `FileUtils.mv` and ensure the new log file is created atomically.
 
 2. **CSV aggregator**
    - Merge multiple CSV files in a directory into a single normalized file.
-   - Preserve headers, skip duplicates, and stream line by line to avoid memory blow-ups.
+   - Preserve headers, skip duplicates, and stream line by line to avoid memory
+     blow-ups.
 
 3. **Binary inspector**
-   - Read a binary file in chunks (`readpartial(1024)`) and print hex dumps using `String#bytes`.
+   - Read a binary file in chunks (`readpartial(1024)`) and print hex dumps
+     using `String#bytes`.
    - Detect unexpected null bytes or control characters.
 
 4. **Config loader**
-   - Load settings from YAML with defaults. Provide `settings.fetch(:timeout, 5)` style access and raise friendly errors for missing required keys.
+   - Load settings from YAML with defaults. Provide `settings.fetch(:timeout,
+     5)` style access and raise friendly errors for missing required keys.
 
 5. **Concurrent logger**
-   - Implement a logging helper that acquires a lock, appends a timestamped message, and safely truncates the file when it exceeds a configurable limit.
+   - Implement a logging helper that acquires a lock, appends a timestamped
+     message, and safely truncates the file when it exceeds a configurable
+     limit.
 
 ## Self-check questions
 
-1. When should you use `File.foreach` instead of `File.read`, and what trade-offs does each entail?
-2. How do file modes (`"w"`, `"a"`, `"r+"`) differ, and what happens if you open a file in the wrong mode?
-3. Why is it important to specify encodings when reading and writing text files, and how can you handle invalid byte sequences?
-4. Which standard-library helpers (`Tempfile`, `FileUtils`, `Pathname`) simplify working with files and directories in larger scripts?
-5. How does file locking prevent race conditions, and what are the differences between shared and exclusive locks?
+1. When should you use `File.foreach` instead of `File.read`, and what
+   trade-offs does each entail?
+2. How do file modes (`"w"`, `"a"`, `"r+"`) differ, and what happens if you open
+   a file in the wrong mode?
+3. Why is it important to specify encodings when reading and writing text files,
+   and how can you handle invalid byte sequences?
+4. Which standard-library helpers (`Tempfile`, `FileUtils`, `Pathname`) simplify
+   working with files and directories in larger scripts?
+5. How does file locking prevent race conditions, and what are the differences
+   between shared and exclusive locks?
 
 <!-- markdownlint-disable MD033 MD010 -->
 
@@ -262,14 +308,19 @@ File.foreach('large.csv') do |line|
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — file_io-ruby2)
 
-1. Implement an atomic writer helper and test that it replaces the target file only after a successful write (use `StringIO` and temp dirs in tests).
-2. Build a streaming CSV reader that yields rows lazily and test it with a generated large string.
+1. Implement an atomic writer helper and test that it replaces the target file
+   only after a successful write (use `StringIO` and temp dirs in tests).
+2. Build a streaming CSV reader that yields rows lazily and test it with a
+   generated large string.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
-With these tools, your Ruby scripts can ingest logs, export reports, and manage configuration safely. Combine streaming IO with structured data helpers, and you’ll be ready to automate real-world workflows with confidence.
+With these tools, your Ruby scripts can ingest logs, export reports, and manage
+configuration safely. Combine streaming IO with structured data helpers, and
+you’ll be ready to automate real-world workflows with confidence.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
@@ -290,6 +341,7 @@ Advanced patterns for file operations: advisory locking, correct permission hand
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Example: advisory lock
 
 ```ruby
@@ -315,19 +367,25 @@ end
 
 ### Robust streaming
 
-- For large files, stream and process line-by-line with `File.foreach` or `IO#readpartial` for sockets.
+- For large files, stream and process line-by-line with `File.foreach` or
+  `IO#readpartial` for sockets.
 - Use `Tempfile` for atomic constructs and ensure cleanup in `ensure`.
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — file_io-ruby3)
 
-1. Implement a small file-backed counter that uses `flock` to coordinate increments across processes; add tests using parallel processes or threads.
-2. Write a helper that creates files with secure permissions (0600) and test that the created file has the expected mode.
+1. Implement a small file-backed counter that uses `flock` to coordinate
+   increments across processes; add tests using parallel processes or threads.
+2. Write a helper that creates files with secure permissions (0600) and test
+   that the created file has the expected mode.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
+<!-- markdownlint-enable MD013 -->
 ## Practical Appendix: File I/O — Streaming, Encoding & Atomic Writes (Appendix — file_io-ruby-appendix-20251005)
 
-Practical guidance for safe file writes, streaming large files, and handling encodings in Ruby applications.
+Practical guidance for safe file writes, streaming large files, and handling
+encodings in Ruby applications.
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -351,7 +409,9 @@ end
 File.rename('out.tmp', 'out.txt')
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — file_io-ruby-appendix-20251005)
 
-1. Implement atomic file writes and add tests that simulate partial-failure by raising during write.
+1. Implement atomic file writes and add tests that simulate partial-failure by
+   raising during write.
 2. Read a UTF-16 file safely and convert it to UTF-8.

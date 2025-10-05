@@ -2,11 +2,14 @@
 
 ## Overview
 
-Ruby's standard library includes powerful tools for working with common data formats. The JSON and CSV libraries allow you to easily parse, generate, and manipulate structured data.
+Ruby's standard library includes powerful tools for working with common data
+formats. The JSON and CSV libraries allow you to easily parse, generate, and
+manipulate structured data.
 
 ## JSON (JavaScript Object Notation)
 
-JSON is a lightweight data interchange format that's easy for humans to read and write, and easy for machines to parse and generate.
+JSON is a lightweight data interchange format that's easy for humans to read and
+write, and easy for machines to parse and generate.
 
 ### Parsing JSON
 
@@ -63,7 +66,8 @@ data = JSON.parse(json_string, object_class: OpenStruct)
 
 ## CSV (Comma-Separated Values)
 
-CSV is a common format for tabular data. Ruby's CSV library handles various CSV dialects and edge cases.
+CSV is a common format for tabular data. Ruby's CSV library handles various CSV
+dialects and edge cases.
 
 ### Reading CSV Data
 
@@ -187,6 +191,34 @@ parsed_time.class # => Time
 
 ### CSV Tables
 
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 MD022 MD032 MD024 -->
+
+## Practical Appendix: Standard Library — JSON & CSV Quick Tips (Appendix — stdlib-quick)
+
+Small patterns for parsing, pretty-printing, and testing JSON/CSV flows.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Operation</th><th>Pattern</th><th>Test tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>JSON parse</td><td>Use `symbolize_names: true` when helpful</td><td>Assert symbol keys in parsed hash</td></tr>
+    <tr><td>CSV headers</td><td>Use `headers: true` for row hashes</td><td>Assert header presence and row counts</td></tr>
+    <tr><td>Files</td><td>Use `JSON.load_file` and `CSV.foreach`</td><td>Use tmp files in tests</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+Exercises:
+
+1. Read a JSON file with `JSON.parse(..., symbolize_names: true)` and assert a
+   nested key exists.
+2. Write and read a CSV in a temp file inside a test and assert content
+   integrity.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 MD022 MD032 MD024 -->
+
 ```ruby
 require 'csv'
 
@@ -225,12 +257,16 @@ end
 
 ## Best Practices
 
-1. **Use headers**: When working with CSV data that has column names, use `headers: true`
-2. **Handle encodings**: Specify encoding when reading files with special characters
+1. **Use headers**: When working with CSV data that has column names, use
+`headers: true`
+2. **Handle encodings**: Specify encoding when reading files with special
+   characters
 3. **Validate data**: Always check data types after parsing
 4. **Use blocks for files**: Automatically close files when done
-5. **Pretty-print for debugging**: Use `JSON.pretty_generate` when inspecting data
-6. **Consider performance**: For large files, process line-by-line rather than loading everything into memory
+5. **Pretty-print for debugging**: Use `JSON.pretty_generate` when inspecting
+   data
+6. **Consider performance**: For large files, process line-by-line rather than
+   loading everything into memory
 
 <!-- markdownlint-disable MD033 MD010 -->
 
@@ -262,7 +298,8 @@ end
 
 ### Exercises
 
-1. Write a streaming CSV aggregator that merges multiple CSV files into one normalized file.
+1. Write a streaming CSV aggregator that merges multiple CSV files into one
+   normalized file.
 2. Add a `--pretty` flag to pretty-print JSON output for debugging.
 
 <!-- markdownlint-enable MD010 -->
@@ -300,7 +337,8 @@ end
 
 ### Testing stdlib interactions
 
-- Stub network calls with libraries (e.g., `WebMock` or `VCR`) to keep tests deterministic.
+- Stub network calls with libraries (e.g., `WebMock` or `VCR`) to keep tests
+  deterministic.
 - Use temporary files or `Tempfile` for files in tests.
 
 ```ruby
@@ -319,10 +357,13 @@ class TestStdlib < Minitest::Test
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — standard_library-ruby2)
 
-1. Read a CSV file with headers and convert it into an array of hashes; test with a small fixture.
-2. Implement a wrapper over `Net::HTTP` that retries on transient failures and write tests using a stubbed server.
+1. Read a CSV file with headers and convert it into an array of hashes; test
+   with a small fixture.
+2. Implement a wrapper over `Net::HTTP` that retries on transient failures and
+   write tests using a stubbed server.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
@@ -345,6 +386,7 @@ Small recipes showing common standard library usages and safe patterns for netwo
 </table>
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-enable MD013 -->
 ### Example: safe JSON parse
 
 ```ruby
@@ -356,9 +398,45 @@ rescue JSON::ParserError
 end
 ```
 
+<!-- markdownlint-disable MD013 -->
 ### Exercises (Appendix — standard_library-ruby-appendix-20251005)
 
-1. Fetch JSON from a URL with a timeout and parse it safely, adding tests for timeouts.
+1. Fetch JSON from a URL with a timeout and parse it safely, adding tests for
+   timeouts.
 2. Use `open-uri` with caution and write a wrapper that validates the URL first.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Standard Library — Useful Modules & Hidden Gems (Appendix — standard_library-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Module</th><th>Use</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>`Set`</td><td>Unique collections</td><td>Require 'set' before use; faster membership checks than arrays for large sets</td></tr>
+    <tr><td>`Open3`</td><td>Spawn subprocesses</td><td>Provides stdout/stderr capture safely</td></tr>
+    <tr><td>`JSON`</td><td>Serialization</td><td>Use `JSON.parse`/`JSON.generate` instead of `eval` on data</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-enable MD013 -->
+### Hidden features
+
+- `URI` helpers for parsing and composing URLs.
+- `Tempfile` for safe temp file handling that auto-cleans on GC/exit.
+- `Open3.capture3` gives exit status, stdout, stderr together.
+
+<!-- markdownlint-disable MD013 -->
+### Appendix exercises
+
+1. Replace a manual `system` call with `Open3.capture3` and assert on outputs in
+   a test.
+2. Use `Set` to deduplicate a large list and write a small benchmark comparing
+   to `Array#uniq`.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->

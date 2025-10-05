@@ -5,20 +5,28 @@ Iteration is the heartbeat of automation: we repeat operations to transform data
 ## Learning goals
 
 - Choose the most expressive looping construct for a task.
-- Control repetition with `while`, `until`, `loop`, numeric iterators, and collection methods.
-- Use `break`, `next`, `redo`, and `throw`/`catch` to steer control flow precisely.
-- Leverage enumerators (`each`, `each_with_index`, `Enumerator::Lazy`) for composable pipelines.
+- Control repetition with `while`, `until`, `loop`, numeric iterators, and
+  collection methods.
+- Use `break`, `next`, `redo`, and `throw`/`catch` to steer control flow
+  precisely.
+- Leverage enumerators (`each`, `each_with_index`, `Enumerator::Lazy`) for
+  composable pipelines.
 - Refactor nested or long-running loops to remain maintainable and performant.
 
 ## Choosing the right loop
 
 Ask these questions before writing a loop:
 
-1. **Is the number of repetitions known?** Prefer numeric iterators (`Integer#times`, `upto`, `downto`, `step`).
-2. **Am I traversing a collection?** Reach for `Enumerable` methods (`each`, `map`, `each_with_index`).
-3. **Do I need a manual condition?** Use `while`/`until` with clear exit criteria.
-4. **Do I need an infinite loop with manual exits?** Use `Kernel#loop` with `break`.
-5. **Am I building a chain of transformations?** Create an `Enumerator` or use lazy evaluation.
+1. **Is the number of repetitions known?** Prefer numeric iterators
+   (`Integer#times`, `upto`, `downto`, `step`).
+2. **Am I traversing a collection?** Reach for `Enumerable` methods (`each`,
+`map`, `each_with_index`).
+3. **Do I need a manual condition?** Use `while`/`until` with clear exit
+   criteria.
+4. **Do I need an infinite loop with manual exits?** Use `Kernel#loop` with
+`break`.
+5. **Am I building a chain of transformations?** Create an `Enumerator` or use
+   lazy evaluation.
 
 ## Foundational loops: `while` and `until`
 
@@ -103,7 +111,8 @@ end
 (0..10).step(2) { |even| puts even }
 ```
 
-These methods return the starting integer, allowing method chaining with caution:
+These methods return the starting integer, allowing method chaining with
+caution:
 
 ```ruby
 total = 0
@@ -144,7 +153,8 @@ rescue StopIteration
 end
 ```
 
-External iteration is handy when coordinating multiple collections or pausing/resuming work.
+External iteration is handy when coordinating multiple collections or
+pausing/resuming work.
 
 ### Lazy enumeration
 
@@ -156,13 +166,15 @@ primes = (2..).lazy.select { |n| prime?(n) }
 puts primes.take(10).force.inspect
 ```
 
-Use lazy enumerators to stream files, paginate APIs, or process big datasets without loading everything into memory.
+Use lazy enumerators to stream files, paginate APIs, or process big datasets
+without loading everything into memory.
 
 ## Loop control keywords
 
 - `break` exits the loop immediately and can return a value.
 - `next` skips to the next iteration without exiting the loop.
-- `redo` restarts the current iteration without reevaluating the condition (use sparingly).
+- `redo` restarts the current iteration without reevaluating the condition (use
+  sparingly).
 - `throw`/`catch` provide labeled exits for nested loops.
 
 ```ruby
@@ -187,7 +199,8 @@ puts count += 1 while count < 5
 puts count -= 1 until count.zero?
 ```
 
-Reserve one-liners for truly simple expressions. Multiline loops with clear indentation remain easier to debug.
+Reserve one-liners for truly simple expressions. Multiline loops with clear
+indentation remain easier to debug.
 
 ## Nested loops and refactoring strategies
 
@@ -207,9 +220,12 @@ Break apart deeply nested loops by delegating work to smaller methods or using e
 ## Performance and memory considerations
 
 - Prefer lazy enumeration for huge datasets or IO streams.
-- Avoid building large intermediate arrays when chaining; use `each` plus immediate work, or `lazy`.
-- For CPU-bound loops, benchmark (`Benchmark.measure`) to compare `times` vs `each` vs `while`.
-- Extract pure computations (like regex, math) outside the loop to avoid repeated allocation.
+- Avoid building large intermediate arrays when chaining; use `each` plus
+  immediate work, or `lazy`.
+- For CPU-bound loops, benchmark (`Benchmark.measure`) to compare `times` vs
+  `each` vs `while`.
+- Extract pure computations (like regex, math) outside the loop to avoid
+  repeated allocation.
 
 ```ruby
 require "benchmark"
@@ -268,22 +284,27 @@ File.foreach("logs/access.log")
 ## Guided practice
 
 1. **Inventory reconciliation**
-   - Iterate through a `products` array, each with `:expected` and `:actual` counts.
+   - Iterate through a `products` array, each with `:expected` and `:actual`
+     counts.
    - Print discrepancies and accumulate the total difference.
    - Exit early if a product is missing (`:actual` is `nil`) and log a warning.
 
 2. **Retry with exponential backoff**
    - Write `attempt_with_retry(max_attempts: 5)` that yields to a block.
    - Retry until the block returns truthy or attempts are exhausted.
-   - Use `sleep(2**attempt)` between tries and return the successful value via `break`.
+   - Use `sleep(2**attempt)` between tries and return the successful value via
+     `break`.
 
 3. **Chunked processing**
    - Given an array of 10,000 integers, process them in slices of 250.
-   - Use `each_slice` to handle a chunk, compute its sum, and append to `chunk_sums`.
-   - Verify that the total of `chunk_sums` matches the sum of the original array.
+   - Use `each_slice` to handle a chunk, compute its sum, and append to
+     `chunk_sums`.
+   - Verify that the total of `chunk_sums` matches the sum of the original
+     array.
 
 4. **Lazy Fibonacci generator**
-   - Implement `fibonacci = Enumerator.new { |y| ... }` to generate the sequence.
+   - Implement `fibonacci = Enumerator.new { |y| ... }` to generate the
+     sequence.
    - Use `lazy` to stream the first 15 numbers greater than 1,000.
 
 5. **Matrix transposition**
@@ -298,10 +319,40 @@ File.foreach("logs/access.log")
 4. How can you exit two nested loops without using a flag variable?
 5. What are the trade-offs between inline loop modifiers and multiline loops?
 
-Loops are everywhere in Ruby—data pipelines, background jobs, command-line tools, even inside framework internals. Mastery comes from choosing the right construct, naming intent clearly, and building guardrails against infinite runs or runaway memory. Practice the scenarios above, experiment with enumerators, and profile long-running code to keep your iterations lean and expressive.
+Loops are everywhere in Ruby—data pipelines, background jobs, command-line
+tools, even inside framework internals. Mastery comes from choosing the right
+construct, naming intent clearly, and building guardrails against infinite runs
+or runaway memory. Practice the scenarios above, experiment with enumerators,
+and profile long-running code to keep your iterations lean and expressive.
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
+## Practical Appendix: Loops — Safety & Backoff Strategies (Appendix — loops-ruby-safety)
+
+Guidance for safe loops in production: limit retries, add timeouts, and avoid busy-waiting.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Exponential backoff</td><td>Retrying flaky IO</td><td>`sleep(2**attempt)`</td></tr>
+    <tr><td>Timeouting loops</td><td>Waiting for resource</td><td>Use `Timeout.timeout(seconds) { ... }`</td></tr>
+    <tr><td>Throttling</td><td>Rate-limited APIs</td><td>Sleep between batches or use token buckets</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Safety checklist
+
+- Always bound retries and add circuit-breaker logic.
+- Prefer `sleep` with jitter to avoid thundering herds.
+- Use `Enumerator::Lazy` for large streams to reduce memory.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD013 -->
 ## Practical Appendix: Loops — Enumerator Performance & Parallelization (Appendix — loops-ruby2)
 
 Performance-minded loop patterns: using `each`, `map`, `reduce`, `Enumerator::Lazy`, and basic parallelization hints with threads/fibers.
@@ -334,7 +385,81 @@ threads.each(&:join)
 
 ### Exercises (Appendix — loops-ruby2)
 
-1. Benchmark `map` vs manual `each <<` for building arrays and report allocations.
-2. Implement a simple thread pool to perform IO-bound fetches and test concurrency correctness.
+1. Benchmark `map` vs manual `each <<` for building arrays and report
+   allocations.
+2. Implement a simple thread pool to perform IO-bound fetches and test
+   concurrency correctness.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Loops — Choosing Iterators & Performance (Appendix — loops-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Iterator</th><th>When</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>`each`</td><td>Default enumerable iteration</td><td>Readable and idiomatic</td></tr>
+    <tr><td>`map`</td><td>Transform to new array</td><td>Prefer over `each` + `<<` when creating collection</td></tr>
+    <tr><td>`while`/`until`</td><td>Stateful loops</td><td>Use carefully; prefer enumerables when possible</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Tips
+
+- Use `lazy` enumerators for large streams to avoid memory spikes.
+- Use `times` for fixed-count loops; it communicates intent.
+
+### Exercises
+
+1. Convert a loop that mutates an array into a `map` and compare readability and
+   performance.
+2. Implement a lazy pipeline over a large generator and compare memory usage.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
+
+<!-- markdownlint-disable MD033 MD022 MD032 MD024 -->
+
+## Practical Appendix: Loops — Lazy Pipelines & Control Flow Patterns (Appendix — loops-appendix)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Tip</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Lazy enumerators</td><td>Large/streaming data</td><td>Use `lazy` to avoid building intermediates</td></tr>
+    <tr><td>`each_with_object`</td><td>Build hashes/arrays</td><td>Prefer over `inject` for mutable accumulators</td></tr>
+    <tr><td>`break` value</td><td>Return from loop</td><td>Use `break value` to make loops return meaningful results</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Appendix — Examples
+
+```ruby
+# Lazy example
+result = File.foreach("big.log").lazy.map { |l| parse(l) }.select(&:valid?).first(10)
+
+# each_with_object
+pairs.each_with_object({}) { |(k, v), h| h[k] ||= []; h[k] << v }
+
+# break with value
+value = loop do
+  item = queue.pop
+  break item if item.ready?
+end
+```
+
+### Appendix — Exercises
+
+1. Replace a `map.flatten.uniq` pipeline with a `flat_map` or `lazy` pipeline
+   and add a micro-benchmark.
+2. Refactor a nested loop into `product` or `zip` usage and add a test that
+   asserts equivalence.
+
+<!-- markdownlint-enable MD033 MD022 MD032 MD024 -->
