@@ -451,7 +451,7 @@ class LearnManager {
             overflow-x: auto;
             margin: 15px 0;
             line-height: 1.5;
-            white-space: pre;
+            white-space: pre-wrap;
             font-family: var(--vscode-editor-font-family);
         }
         pre code {
@@ -460,7 +460,7 @@ class LearnManager {
             font-size: 13px;
             line-height: 1.5;
             color: var(--vscode-textPreformat-foreground);
-            white-space: pre;
+            white-space: pre-wrap;
             font-family: inherit;
         }
         table {
@@ -612,6 +612,18 @@ class LearnManager {
             return `<img src="${safeSource}" alt="${safeAlt}" data-tsi-src="${safeSource}">`;
         });
         
+        // --- Protect fenced code blocks from downstream replacements ---
+        // Extract any generated <pre><code>...</code></pre> blocks and replace
+        // them with stable placeholders so subsequent regexes don't alter
+        // their inner content (this prevents paragraph-wrapping from
+        // collapsing or concatenating code lines).
+        const codeBlockPlaceholders = [];
+        html = html.replace(/<pre><code[\s\S]*?<\/code><\/pre>/g, (match) => {
+            const idx = codeBlockPlaceholders.length;
+            codeBlockPlaceholders.push(match);
+            return `@@CODEBLOCK_${idx}@@`;
+        });
+
         // Convert headers
         html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
         html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
@@ -641,7 +653,13 @@ class LearnManager {
         
         // Remove empty paragraphs
         html = html.replace(/<p>\s*<\/p>/g, '');
-        
+
+        // Restore protected code blocks
+        html = html.replace(/@@CODEBLOCK_(\d+)@@/g, (m, id) => {
+            const i = parseInt(id, 10);
+            return codeBlockPlaceholders[i] || '';
+        });
+
         return html;
     }
     
