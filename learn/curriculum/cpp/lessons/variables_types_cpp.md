@@ -42,13 +42,21 @@ Prefer automatic storage unless you have a compelling reason otherwise.
 
 ## Fundamental type families
 
-| Category | Typical types | Use when |
-| --- | --- | --- |
-| Integers | `int`, `short`, `long`, `long long`, `std::size_t` | Counting, indexing, discrete values |
-| Floating point | `float`, `double`, `long double` | Measurements requiring fractions |
-| Boolean | `bool` | Flags, logical decisions |
-| Character | `char`, `wchar_t`, `char16_t`, `char32_t` | Single code units (ASCII/Unicode) |
-| Text | `std::string`, `std::u16string` | Human-readable text |
+
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Category</th><th>Typical types</th><th>Use when</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Integers</td><td><code>int</code>, <code>short</code>, <code>long</code>, <code>long long</code>, <code>std::size_t</code></td><td>Counting, indexing, discrete values</td></tr>
+    <tr><td>Floating point</td><td><code>float</code>, <code>double</code>, <code>long double</code></td><td>Measurements requiring fractions</td></tr>
+    <tr><td>Boolean</td><td><code>bool</code></td><td>Flags, logical decisions</td></tr>
+    <tr><td>Character</td><td><code>char</code>, <code>wchar_t</code>, <code>char16_t</code>, <code>char32_t</code></td><td>Single code units (ASCII/Unicode)</td></tr>
+    <tr><td>Text</td><td><code>std::string</code>, <code>std::u16string</code></td><td>Human-readable text</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
 
 Key guidelines:
 
@@ -351,6 +359,7 @@ Vec v2 = v;
 <!-- Practical Appendix: Reference and further reading -->
 
 ### Practical Appendix
+
 This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
 
 - Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
@@ -360,7 +369,8 @@ This appendix contains brief practical notes and quick references to complement 
   - Prefer idiomatic standard-library helpers for clarity and maintainability.
 
 Further reading and sources:
-- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+
+- Official language documentation (search for `official <LANG> docs` where `<LANG>` is the lesson's language).
 - Standard library reference and API pages.
 - For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
 

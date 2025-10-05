@@ -610,15 +610,21 @@ Figure 7: Negative cycle detection and reconstruction. Bellman-Ford identifies p
 
 **Algorithm Comparison Summary:**
 
-| Feature | Dijkstra | Bellman-Ford |
-|---------|----------|---------------|
-| Edge Weights | ≥ 0 only | Any weights |
-| Negative Cycles | Cannot detect | Detects and reports |
-| Time Complexity | O((V+E) log V) | O(V × E) |
-| Space Complexity | O(V) | O(V) |
-| Best For | Dense graphs, non-negative weights | Sparse graphs, negative weights possible |
-| Applications | GPS, network routing, games | Currency arbitrage, constraint systems |
-
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+    <thead>
+        <tr><th>Feature</th><th>Dijkstra</th><th>Bellman-Ford</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>Edge Weights</td><td>≥ 0 only</td><td>Any weights</td></tr>
+        <tr><td>Negative Cycles</td><td>Cannot detect</td><td>Detects and reports</td></tr>
+        <tr><td>Time Complexity</td><td>O((V+E) log V)</td><td>O(V × E)</td></tr>
+        <tr><td>Space Complexity</td><td>O(V)</td><td>O(V)</td></tr>
+        <tr><td>Best For</td><td>Dense graphs, non-negative weights</td><td>Sparse graphs, negative weights possible</td></tr>
+        <tr><td>Applications</td><td>GPS, network routing, games</td><td>Currency arbitrage, constraint systems</td></tr>
+    </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
 Figure 8: Comprehensive algorithm comparison table. Choose based on graph properties and requirements. Source: Combined from multiple algorithm references.
 
 ## Self-Check Questions

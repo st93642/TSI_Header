@@ -361,7 +361,7 @@ This appendix contains brief practical notes and quick references to complement 
   - Prefer idiomatic standard-library helpers for clarity and maintainability.
 
 Further reading and sources:
-- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+- Official language documentation (search for `official <LANG> docs` where `<LANG>` is the lesson's language).
 - Standard library reference and API pages.
 - For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
 

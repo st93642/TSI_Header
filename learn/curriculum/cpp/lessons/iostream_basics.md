@@ -14,12 +14,20 @@ After studying this lesson you will be able to:
 
 ## A tour of standard streams
 
-| Stream | Purpose | Typical usage |
-| --- | --- | --- |
-| `std::cout` | Primary output channel | User prompts, results |
-| `std::cin` | Primary input channel | Reading numbers, words |
-| `std::cerr` | Unbuffered error output | Immediate diagnostics |
-| `std::clog` | Buffered logging | Status messages, debug info |
+
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Stream</th><th>Purpose</th><th>Typical usage</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>std::cout</code></td><td>Primary output channel</td><td>User prompts, results</td></tr>
+    <tr><td><code>std::cin</code></td><td>Primary input channel</td><td>Reading numbers, words</td></tr>
+    <tr><td><code>std::cerr</code></td><td>Unbuffered error output</td><td>Immediate diagnostics</td></tr>
+    <tr><td><code>std::clog</code></td><td>Buffered logging</td><td>Status messages, debug info</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
 
 All four share the same formatting rules and state flags. Choosing between them is mostly about audience (user vs developer) and buffering needs.
 
@@ -351,6 +359,7 @@ if (!(std::cin >> x)) {
 <!-- Practical Appendix: Reference and further reading -->
 
 ### Practical Appendix
+
 This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
 
 - Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
@@ -360,7 +369,8 @@ This appendix contains brief practical notes and quick references to complement 
   - Prefer idiomatic standard-library helpers for clarity and maintainability.
 
 Further reading and sources:
-- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+
+- Official language documentation (search for `official <LANG> docs` where `<LANG>` is the lesson's language).
 - Standard library reference and API pages.
 - For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
 

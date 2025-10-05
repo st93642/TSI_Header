@@ -88,14 +88,22 @@ Watch the terminal output each time you compile. For beginners, the difference b
 - `-Wall -Wextra -Werror` (optional but recommended) promote common mistakes to warnings or errors.
 - `-g` embeds debug symbols, enabling IDEs and command-line debuggers to step through code.
 
+
 ## Troubleshooting the first build
 
-| Symptom | Likely cause | How to fix |
-| --- | --- | --- |
-| `g++: command not found` | Compiler not installed or PATH misconfigured | Install a compiler (`sudo apt install build-essential`, Xcode Command Line Tools, or MinGW) and reopen your shell. |
-| `hello.cpp: No such file or directory` | Terminal path differs from file location | Run `pwd`/`cd` into the directory containing `hello.cpp`. |
-| `undefined reference to WinMain` | Using MSVC without `main` defined properly | Ensure the file uses `int main()` rather than `void main()` and that the function is not nested in a namespace. |
-| Program prints nothing | Forgot to run the executable or output buffered | Confirm you executed `./hello` and do not exit immediately without printing. |
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Symptom</th><th>Likely cause</th><th>How to fix</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>g++: command not found</code></td><td>Compiler not installed or PATH misconfigured</td><td>Install a compiler (<code>sudo apt install build-essential</code>, Xcode Command Line Tools, or MinGW) and reopen your shell.</td></tr>
+    <tr><td><code>hello.cpp: No such file or directory</code></td><td>Terminal path differs from file location</td><td>Run <code>pwd</code>/<code>cd</code> into the directory containing <code>hello.cpp</code>.</td></tr>
+    <tr><td><code>undefined reference to WinMain</code></td><td>Using MSVC without <code>main</code> defined properly</td><td>Ensure the file uses <code>int main()</code> rather than <code>void main()</code> and that the function is not nested in a namespace.</td></tr>
+    <tr><td>Program prints nothing</td><td>Forgot to run the executable or output buffered</td><td>Confirm you executed <code>./hello</code> and do not exit immediately without printing.</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
 
 Keep notes on the fixes you apply—later modules build on the same toolchain.
 
@@ -336,6 +344,7 @@ End of Hello World practical appendix.
 <!-- Practical Appendix: Reference and further reading -->
 
 ### Practical Appendix
+
 This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
 
 - Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
@@ -345,7 +354,8 @@ This appendix contains brief practical notes and quick references to complement 
   - Prefer idiomatic standard-library helpers for clarity and maintainability.
 
 Further reading and sources:
-- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+
+- Official language documentation (search for `official <LANG> docs` where `<LANG>` is the lesson's language).
 - Standard library reference and API pages.
 - For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
 
