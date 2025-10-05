@@ -1,3 +1,13 @@
+<!-- Practical Appendix: Reference and further reading -->
+
+<!-- markdownlint-disable MD013 -->
+### Practical Appendix
+
+This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
+- Further reading and sources:
+
+- Official language documentation (search for `official <LANG> docs` where `<LANG>` is the lesson's language).
+- Standard library reference and API pages.
 # Your First C Programs
 
 Welcome to C! Instead of diving straight into operating system details, this lesson focuses on the classic workflow every beginner follows: write a small program, compile it with `gcc`, run it, and gradually add variables, formatted output, and user input. Every section is self-contained and ends with a checkpoint so you can confirm you understand the idea before moving on.
@@ -412,7 +422,7 @@ This appendix contains brief practical notes and quick references to complement 
   - Prefer idiomatic standard-library helpers for clarity and maintainability.
 
 Further reading and sources:
-- Official language documentation (search for "official <LANG> docs" where <LANG> is the lesson's language).
+- Official language documentation (search for `official <LANG> docs` where `<LANG>` is the lesson's language).
 - Standard library reference and API pages.
 - For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
 
