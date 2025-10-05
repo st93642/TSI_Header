@@ -261,3 +261,91 @@ This approach clarifies intent and centralizes configuration adjustments.
 5. When would `private_constant` be a better choice than documenting “do not use this constant” in comments?
 
 Constants bring structure to configuration and reduce ambiguity in your code. Respect their immutability, organize them within clear namespaces, and leverage Ruby’s lookup rules to keep your codebase tidy and intention-revealing.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Constants — Patterns & Tests (Appendix — constants-ruby2)
+
+Advice for defining constants, freezing data, and testing configuration values safely.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>Why</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Freeze literals</td><td>Prevent accidental mutation</td><td>`MY_CONST = {...}.freeze`</td></tr>
+    <tr><td>Use ENV for overrides</td><td>Runtime configuration</td><td>Provide defaults and document behavior</td></tr>
+    <tr><td>Feature flags</td><td>Toggle behavior in tests</td><td>Prefer runtime flags over recompilation</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+DEFAULTS = {
+  retries: 3,
+  timeout: 5
+}.freeze
+
+TIMEOUT = ENV.fetch('TIMEOUT', DEFAULTS[:timeout]).to_i
+```
+
+### Testing constants
+
+- Use `stub_const` (RSpec) or temporarily reassign constants in tests and ensure they are restored in `ensure` blocks.
+
+```ruby
+require 'minitest/autorun'
+
+class TestConstants < Minitest::Test
+  def test_override
+    original = Object.const_get(:TIMEOUT)
+    Object.send(:remove_const, :TIMEOUT)
+    Object.const_set(:TIMEOUT, 10)
+    assert_equal 10, TIMEOUT
+  ensure
+    Object.send(:remove_const, :TIMEOUT)
+    Object.const_set(:TIMEOUT, original)
+  end
+end
+```
+
+### Exercises (Appendix — constants-ruby2)
+
+1. Add a frozen DEFAULTS constant and a helper that returns merged runtime config; write tests for default and overridden behavior.
+2. Document why freezing matters and demonstrate a failing test when a constant is mutated accidentally.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Constants — Freeze, Mutability & Naming (Appendix — constants-ruby-appendix-20251005)
+
+Practical guidance on using constants in Ruby, controlling mutability with `freeze`, and naming conventions to avoid surprises.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Advice</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Freezing</td><td>Call `freeze` on objects</td><td>Prevents accidental modification of arrays/hashes</td></tr>
+    <tr><td>Dynamic constants</td><td>Use cautiously</td><td>Prefer configuration over changing constants at runtime</td></tr>
+    <tr><td>Naming</td><td>UPPER_SNAKE_CASE</td><td>Indicates constant intent</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: freeze a constant
+
+```ruby
+DEFAULT_TAGS = %w[bug feature].freeze
+DEFAULT_CONFIG = { retries: 3 }.freeze
+```
+
+### Exercises (Appendix — constants-ruby-appendix-20251005)
+
+1. Create a module with configuration constants and write tests that assert they are frozen.
+2. Demonstrate what happens when you attempt to mutate a frozen constant and catch the resulting error.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

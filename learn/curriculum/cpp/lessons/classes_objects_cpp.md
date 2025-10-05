@@ -327,3 +327,39 @@ Create classes for accounts and transactions.
 ## Recap and next steps
 
 Classes enable OOP by bundling data and behavior. Next, explore inheritance.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Classes & Objects — Rule of Five & RAII (Appendix — classes_objects_cpp-appendix-20251005)
+
+Practical patterns for resource management in C++ using RAII and implementing the rule of five correctly.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concept</th><th>Advice</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>RAII</td><td>Wrap resources in classes</td><td>Destructors release resources</td></tr>
+    <tr><td>Rule of Five</td><td>Define move/copy as needed</td><td>Prefer `= default` where possible</td></tr>
+    <tr><td>Smart pointers</td><td>Use unique_ptr/shared_ptr</td><td>Prefer unique_ptr for ownership</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: RAII file wrapper
+
+```cpp
+struct File {
+  FILE* f;
+  File(const char* path) { f = fopen(path, "r"); }
+  ~File() { if (f) fclose(f); }
+};
+```
+
+### Exercises (Appendix — classes_objects_cpp-appendix-20251005)
+
+1. Convert a raw pointer-based API to RAII classes and add tests verifying no leaks.
+2. Implement move constructors and test move vs copy behaviour.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

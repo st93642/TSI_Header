@@ -280,3 +280,66 @@ end
 
 1. Convert one of the lesson's examples into a Minitest and ensure it runs under `ruby -r minitest/autorun`.
 2. Add a simple GitHub Actions workflow that runs `bundle exec rake test` or `ruby -r minitest/autorun` on push.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Testing Demo — Fixtures, Factories & Small Suites (Appendix — testing_demo-ruby2)
+
+Practical demo patterns for setting up reliable small test suites, using fixtures, and creating lightweight factories.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Fixtures</td><td>Static data</td><td>Good for simple, stable fixtures</td></tr>
+    <tr><td>Factories</td><td>Dynamic test data</td><td>Use for flexible test generation</td></tr>
+    <tr><td>Test grouping</td><td>Related behaviours</td><td>Keep tests small and focused</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example factory
+
+```ruby
+def user_factory(attrs = {})
+  { name: 'User', email: 'a@example.com' }.merge(attrs)
+end
+```
+
+### Exercises (Appendix — testing_demo-ruby2)
+
+1. Create a small test fixture file and write tests that load it for multiple test cases.
+2. Implement a tiny factory helper and replace repeated fixture creation in tests; verify reduced duplication.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Testing Demos — Mocks, Stubs & CI (Appendix — testing_demo-ruby-appendix-20251005)
+
+Real-world tips for mocking external services, using fixtures, and wiring tests into CI pipelines.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Task</th><th>Tool</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>HTTP stubs</td><td>WebMock</td><td>Isolate network calls</td></tr>
+    <tr><td>Fixtures</td><td>YAML/FactoryBot</td><td>Keep fixtures small</td></tr>
+    <tr><td>CI</td><td>GitHub Actions</td><td>Run tests on PRs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: WebMock
+
+```ruby
+require 'webmock/minitest'
+stub_request(:get, "https://api.example.com/ok").to_return(status: 200, body: "ok")
+```
+
+### Exercises (Appendix — testing_demo-ruby-appendix-20251005)
+
+1. Add a CI workflow that runs the test suite on push and PR.
+2. Add a test that stubs an external API and asserts retry behaviour.

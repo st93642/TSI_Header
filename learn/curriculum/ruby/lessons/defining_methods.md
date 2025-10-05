@@ -272,3 +272,59 @@ Prefer small, focused methods that do one thing well. Decompose complex logic in
 5. When does defining methods dynamically with `define_method` make sense, and what trade-offs come with meta-programming?
 
 Mastering Ruby method definitions empowers you to build expressive APIs. Keep your methods small, choose argument styles that make intent clear, and use blocks and keyword arguments to craft elegant, flexible interfaces.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Defining Methods — Visibility, Defaults & Keywords (Appendix — defining_methods-ruby2)
+
+Best practices when defining methods: choose clear parameter styles, manage visibility, and test edge cases for default and keyword arguments.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Keyword args</td><td>Named params</td><td>Ruby 2.7+ style; prefer explicit keywords</td></tr>
+    <tr><td>Defaults</td><td>Optional params</td><td>Use `nil` sentinel for expensive defaults</td></tr>
+    <tr><td>Visibility</td><td>Encapsulation</td><td>`private` vs `protected` for API control</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+def greet(name:, polite: true)
+  return "Hello, #{name}" if polite
+  "Hey #{name}"
+end
+
+private
+
+def helper
+  # internal
+end
+```
+
+### Testing method signatures
+
+- Exercise default and keyword combinations, and test argument error cases.
+
+```ruby
+require 'minitest/autorun'
+
+class TestMethods < Minitest::Test
+  def test_greet
+    assert_equal 'Hello, Ada', greet(name: 'Ada')
+    assert_equal 'Hey Ada', greet(name: 'Ada', polite: false)
+  end
+end
+```
+
+### Exercises (Appendix — defining_methods-ruby2)
+
+1. Implement a method that accepts either a hash or keyword args and normalize inputs inside the method; add tests to cover both call styles.
+2. Create a class with public and private methods and write tests ensuring private methods are not part of the public interface.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

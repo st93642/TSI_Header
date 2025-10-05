@@ -259,3 +259,73 @@ References and safe patterns for file and stream IO in Ruby.
 2. Demonstrate reading a binary file safely and add related unit assertions.
 
 <!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: IO — Helpers & Tests (Appendix — input_output-ruby2)
+
+Quick helpers for reading/writing files, capturing IO in tests, and safe user input patterns.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Action</th><th>Helper</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Read file</td><td>File.read / File.foreach</td><td>use foreach for large files</td></tr>
+    <tr><td>Write file</td><td>File.write</td><td>atomic writes via temp+rename</td></tr>
+    <tr><td>Test IO</td><td>StringIO</td><td>stub $stdin/$stdout for interactive tests</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Atomic write pattern
+
+```ruby
+temp = "#{path}.tmp"
+File.write(temp, data)
+File.rename(temp, path)
+```
+
+### Exercises (Appendix — input_output-ruby2)
+
+1. Implement a helper that reads CSV lines lazily and test with a large generated string using `StringIO`.
+2. Add a test that simulates `$stdin` input for an interactive prompt and asserts returned result.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Input & Output — Binary IO, Sockets & Streaming (Appendix — input_output-ruby2)
+
+Quick patterns for working with binary files, basic socket usage, and streaming large payloads without loading into memory.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Use</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Binary IO</td><td>File.open('file','rb')</td><td>Use for non-text files</td></tr>
+    <tr><td>Sockets</td><td>TCPSocket</td><td>Be aware of blocking reads</td></tr>
+    <tr><td>Streaming</td><td>IO#readpartial</td><td>Use for chunked processing</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: read in chunks
+
+```ruby
+File.open('big.bin', 'rb') do |f|
+  while chunk = f.read(4096)
+    process(chunk)
+  end
+end
+```
+
+### Exercises (Appendix — input_output-ruby2-unique)
+
+1. Implement a streaming file checksum that reads in fixed-size chunks and write tests using Tempfile.
+2. Create a simple TCP echo client and server for local testing and write integration tests.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

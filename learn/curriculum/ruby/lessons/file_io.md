@@ -229,37 +229,129 @@ end
 
 <!-- markdownlint-disable MD033 MD010 -->
 
-### Practical Appendix: File IO Patterns for Production
+## Practical Appendix: File IO — Atomic Writes & Streaming (Appendix — file_io-ruby2)
 
-This appendix collects patterns for robust file IO: temp files, locking, encoding, and a small HTML table summarizing modes.
-
-```ruby
-require 'tempfile'
-Tempfile.create('upload') do |tmp|
-  tmp.write(uploaded_data)
-  tmp.flush
-  process(tmp.path)
-end
-```
+Recipes for safely reading and writing files, streaming large inputs, and testing IO helpers.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Mode</th><th>Description</th><th>Use case</th></tr>
+    <tr><th>Operation</th><th>Pattern</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>"r"</td><td>Read</td><td>Open configs</td></tr>
-    <tr><td>"w"</td><td>Write (truncate)</td><td>Export reports</td></tr>
-    <tr><td>"a"</td><td>Append</td><td>Log files</td></tr>
+    <tr><td>Atomic write</td><td>temp file + rename</td><td>reduces partial-write risk</td></tr>
+    <tr><td>Streaming</td><td>File.foreach</td><td>memory efficient for large files</td></tr>
+    <tr><td>Binary IO</td><td>rb mode</td><td>use for non-text files</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises
+### Atomic write example
 
-1. Implement a rotator that renames `app.log` when it exceeds 5 MB and creates a new log file.
-2. Write a script that safely appends lines to a shared CSV file using file locks.
+```ruby
+temp = "#{path}.tmp"
+File.write(temp, data)
+File.rename(temp, path)
+```
 
-<!-- markdownlint-enable MD010 -->
+### Streaming example
+
+```ruby
+File.foreach('large.csv') do |line|
+  process(line)
+end
+```
+
+### Exercises (Appendix — file_io-ruby2)
+
+1. Implement an atomic writer helper and test that it replaces the target file only after a successful write (use `StringIO` and temp dirs in tests).
+2. Build a streaming CSV reader that yields rows lazily and test it with a generated large string.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
 With these tools, your Ruby scripts can ingest logs, export reports, and manage configuration safely. Combine streaming IO with structured data helpers, and you’ll be ready to automate real-world workflows with confidence.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: File IO — Locking, Permissions & Robust Patterns (Appendix — file_io-ruby3)
+
+Advanced patterns for file operations: advisory locking, correct permission handling, and robust error handling for production code.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Locking</td><td>File#flock</td><td>Advisory locks; coordinate processes carefully</td></tr>
+    <tr><td>Permissions</td><td>File.chmod/umask</td><td>Set explicit perms when creating sensitive files</td></tr>
+    <tr><td>Retries</td><td>Exponential backoff</td><td>Useful for transient IO failures</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: advisory lock
+
+```ruby
+File.open('data.db', 'r+') do |f|
+  f.flock(File::LOCK_EX)
+  begin
+    # read, modify, write
+  ensure
+    f.flock(File::LOCK_UN)
+  end
+end
+```
+
+### Safe permissions
+
+```ruby
+old_umask = File.umask(0)
+File.open('secret.txt', File::CREAT|File::WRONLY, 0600) { |f| f.write(secret) }
+ensure
+  File.umask(old_umask)
+end
+```
+
+### Robust streaming
+
+- For large files, stream and process line-by-line with `File.foreach` or `IO#readpartial` for sockets.
+- Use `Tempfile` for atomic constructs and ensure cleanup in `ensure`.
+
+### Exercises (Appendix — file_io-ruby3)
+
+1. Implement a small file-backed counter that uses `flock` to coordinate increments across processes; add tests using parallel processes or threads.
+2. Write a helper that creates files with secure permissions (0600) and test that the created file has the expected mode.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: File I/O — Streaming, Encoding & Atomic Writes (Appendix — file_io-ruby-appendix-20251005)
+
+Practical guidance for safe file writes, streaming large files, and handling encodings in Ruby applications.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Task</th><th>Approach</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Stream read</td><td>File.foreach</td><td>Memory-safe</td></tr>
+    <tr><td>Atomic write</td><td>Write temp + rename</td><td>Prevents partial writes</td></tr>
+    <tr><td>Encoding</td><td>File.open('r:UTF-8')</td><td>Specify encodings explicitly</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: atomic write
+
+```ruby
+File.open('out.tmp','w') do |f|
+  f.write(data)
+end
+File.rename('out.tmp', 'out.txt')
+```
+
+### Exercises (Appendix — file_io-ruby-appendix-20251005)
+
+1. Implement atomic file writes and add tests that simulate partial-failure by raising during write.
+2. Read a UTF-16 file safely and convert it to UTF-8.

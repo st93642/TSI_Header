@@ -310,3 +310,51 @@ gdb --args ./program arg1 arg2
 2. Create a CI job (optional) that compiles with `-fsanitize=address` and runs the binary as a smoke test.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Error & Debugging Patterns in C (Appendix — error_debug_c-appendix-20251005-01)
+
+Quick recipes for assertions, checking `errno`, and basic `gdb` usage to track down runtime errors.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Command</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>assert</td><td>#include <assert.h></td><td>Use to catch invariants in debug builds</td></tr>
+    <tr><td>errno</td><td>errno, perror()</td><td>Check after syscalls and library calls</td></tr>
+    <tr><td>gdb</td><td>gdb ./prog</td><td>Set breakpoints and inspect backtraces</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: check errno after open
+
+```c
+int fd = open(path, O_RDONLY);
+if (fd < 0) {
+  perror("open");
+  return -1;
+}
+```
+
+### Quick gdb tips
+
+```sh
+# compile with -g
+gcc -g -o prog prog.c
+# run
+gdb --args ./prog arg1 arg2
+(gdb) run
+(gdb) bt
+(gdb) print variable
+```
+
+### Exercises (Appendix — error_debug_c-appendix-20251005-01)
+
+1. Reproduce a segfault and use `gdb` to find the offending line. Add a minimal assertion to prevent it.
+2. Write a wrapper that prints `strerror(errno)` on failure and tests several failure modes.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

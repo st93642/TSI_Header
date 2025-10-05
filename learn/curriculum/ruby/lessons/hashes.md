@@ -244,37 +244,96 @@ Hashes are Ruby’s flexible dictionaries—lean on them to organize structured 
 
 <!-- markdownlint-disable MD033 MD010 -->
 
-### Practical Appendix: Deep Merge & Safe Defaults
+## Practical Appendix: Hashes — Defaults, Merging & Key Normalization (Appendix — hashes-ruby2)
 
-This appendix provides a safe deep merge helper, a short HTML table for default strategies, and exercises.
-
-```ruby
-def deep_merge(a, b)
-  a.merge(b) do |_k, old, new|
-    if old.is_a?(Hash) && new.is_a?(Hash)
-      deep_merge(old, new)
-    else
-      new
-    end
-  end
-end
-```
+Practical recipes for common Hash operations: default procs, deep merging, normalizing keys, and test strategies.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Strategy</th><th>Behavior</th><th>Use case</th></tr>
+    <tr><th>Operation</th><th>Pattern</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>shallow merge</td><td>values from other overwrite</td><td>Flat configs</td></tr>
-    <tr><td>deep merge</td><td>merge nested hashes</td><td>Complex config files</td></tr>
+    <tr><td>Default values</td><td>Hash.new(0) or default_proc</td><td>Beware mutable defaults</td></tr>
+    <tr><td>Symbol vs String</td><td>normalize keys</td><td>Consistent access reduces bugs</td></tr>
+    <tr><td>Merging</td><td>merge / merge!</td><td>Use custom merge block for deep merge</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises
+### Examples
 
-1. Implement `deep_merge` and test with nested hashes including arrays.
-2. Provide a `with_overrides(config, overrides)` helper that returns a merged, frozen result.
+```ruby
+h = Hash.new { |hash, key| hash[key] = [] }
+h[:a] << 1
 
-<!-- markdownlint-enable MD010 -->
+# normalize keys
+h = h.transform_keys(&:to_sym)
+
+# deep merge
+merged = a.merge(b) { |key, oldv, newv| oldv.is_a?(Hash) && newv.is_a?(Hash) ? oldv.merge(newv) : newv }
+```
+
+### Testing hash behaviour
+
+- Test for presence/absence of keys and that default procs behave as expected.
+
+```ruby
+require 'minitest/autorun'
+
+class TestHashes < Minitest::Test
+  def test_default_proc
+    h = Hash.new { |hh,k| hh[k] = [] }
+    h[:x] << 1
+    assert_equal [1], h[:x]
+  end
+end
+```
+
+### Exercises (Appendix — hashes-ruby2)
+
+1. Implement a `deep_merge(a,b)` helper that merges nested hashes and write tests for conflicting and nested keys.
+2. Build a normalizer that accepts mixed string/symbol keys and returns a hash with symbol keys only; add tests.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Hashes — Performance, Frozen Defaults & Deep Symbolization (Appendix — hashes-ruby2-appendix2)
+
+Advanced recipes for performant hash usage, safe default procs, and converting deeply nested keys to symbols without mutating inputs.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Frozen defaults</td><td>use frozen constants</td><td>Avoids accidental mutation across callers</td></tr>
+    <tr><td>Deep symbolization</td><td>recursive transform_keys</td><td>Copy structures to avoid side effects</td></tr>
+    <tr><td>Performance</td><td>use symbols for fixed keys</td><td>Profile large maps and prefer native methods</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: deep symbolize
+
+```ruby
+def deep_symbolize(obj)
+  case obj
+  when Hash
+    obj.each_with_object({}) { |(k,v), h| h[k.to_sym] = deep_symbolize(v) }
+  when Array
+    obj.map { |e| deep_symbolize(e) }
+  else
+    obj
+  end
+end
+```
+
+### Exercises (Appendix — hashes-ruby2-appendix2)
+
+1. Implement `deep_symbolize` and ensure it does not mutate the original object (write tests that freeze the input and verify immutability).
+2. Benchmark hash access patterns for string vs symbol keys on large datasets and report the memory/throughput differences.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

@@ -163,6 +163,57 @@ For production-grade logs, prefer `logger.debug` or `Rails.logger.debug` with JS
 
 <!-- markdownlint-disable MD033 MD010 -->
 
+## Practical Appendix: `p` & Debugging — Quick Inspectors & Strategies (Appendix — p_method-ruby2)
+
+When to use `p`, `puts`, `pp`, and logging for debugging; how to keep debug code out of production and test for side effects.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>p</td><td>Quick inspect with `inspect`</td><td>Good for quick REPL debug; avoid in production logs</td></tr>
+    <tr><td>puts</td><td>User-facing output</td><td>Prefer for formatted output</td></tr>
+    <tr><td>pp</td><td>Pretty-print complex objects</td><td>Useful for nested structures</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example debugger helpers
+
+```ruby
+def debug(obj)
+  warn obj.inspect
+end
+
+# Use 'warn' to send to STDERR so tests can capture/redirect it
+```
+
+### Testing debug output
+
+- Capture STDOUT/STDERR in tests when asserting side-effecting output.
+
+```ruby
+require 'minitest/autorun'
+
+class TestDebug < Minitest::Test
+  def test_debug
+    out = capture_io { debug('x') }
+    assert_match /x/, out.join
+  end
+end
+```
+
+### Exercises (Appendix — p_method-ruby2)
+
+1. Implement a `with_debug` helper that yields a block and logs entry/exit with timing; write tests that assert timing behaviour and that logs are written to STDERR.
+2. Replace ad-hoc `p` calls in a small codebase with a configurable logger and test that log level controls emission.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD010 -->
+
 ### Practical Appendix: Debugging Helpers (Appendix)
 
 A short appendix showing `p`, `pp`, `logger` usage and a table comparing output helpers.
@@ -271,3 +322,38 @@ pp obj
 2. Add a conditional debug printer that respects an environment flag.
 
 <!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Debug Print Helpers — `p`, `pp` & Replace with Logger (Appendix — p_method-ruby-appendix-20251005-02)
+
+Hands-on recipes to turn ad-hoc `p` debugging into structured, testable logging and debug helpers.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Helper</th><th>Behavior</th><th>Replacement</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>p</td><td>inspect</td><td>Logger.debug(obj.inspect)</td></tr>
+    <tr><td>pp</td><td>pretty-print</td><td>Logger.debug(pp(obj))</td></tr>
+    <tr><td>puts</td><td>to_s</td><td>Logger.info</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: toggleable debug
+
+```ruby
+require 'logger'
+logger = Logger.new(STDOUT)
+logger.level = Logger::WARN
+logger.debug { obj.inspect }
+```
+
+### Exercises (Appendix — p_method-ruby-appendix-20251005-02)
+
+1. Replace `p` calls in a small script with `Logger` and add tests asserting log messages are emitted at the correct levels.
+2. Implement a debug helper that respects an environment variable to enable verbose output.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

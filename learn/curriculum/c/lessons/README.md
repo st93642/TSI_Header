@@ -290,3 +290,41 @@ jobs:
 
 1. Run one lesson under Valgrind, capture the output, and add a short note in the lesson describing any fixes you applied.
 2. Add a `run_tests.sh` that builds `lesson_bin`, runs it, and (optionally) runs Memcheck; make sure it exits non-zero on failures.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Building & Running C Examples (Appendix — c-lessons-readme-appendix2)
+
+This short appendix shows common build commands, a tiny Makefile snippet, and recommended compiler flags for development and debugging.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Task</th><th>Command</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Build (gcc)</td><td>gcc -o prog prog.c</td><td>Use -g for debugging</td></tr>
+    <tr><td>ASAN</td><td>-fsanitize=address</td><td>Catch memory errors quickly</td></tr>
+    <tr><td>Optimization</td><td>-O2</td><td>Use for release builds</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Minimal Makefile
+
+```makefile
+CC = gcc
+CFLAGS = -Wall -Wextra -g
+
+all: prog
+
+prog: prog.o
+	$(CC) $(CFLAGS) -o $@ $^
+```
+
+### Exercises (Appendix — c-lessons-readme-appendix2)
+
+1. Create a Makefile target `debug` that builds with ASAN flags.
+2. Add a `clean` target that removes compiled artifacts.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

@@ -259,3 +259,103 @@ int main(){
 
 1. Replace `std::cin` parsing with `std::from_chars` for a high-performance parser (C++17+), and document differences.
 2. Add input validation tests that feed invalid input via a redirected stdin file.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Arithmetic & Input — Parsing, Validation & Fast IO (Appendix — arithmetic_input_cpp-appendix2)
+
+Practical guidance for parsing numeric input robustly in C++, validating values, and using fast IO techniques for large input.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Parsing</td><td>std::stoi / std::stoll</td><td>Catch `std::invalid_argument` and `std::out_of_range`</td></tr>
+    <tr><td>Validation</td><td>Range checks</td><td>Check limits before using values</td></tr>
+    <tr><td>Fast IO</td><td>sync_with_stdio(false)</td><td>Use for competitive-style inputs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: safe parse
+
+```cpp
+#include <string>
+#include <stdexcept>
+
+int safe_stoi(const std::string &s, bool &ok) {
+  try { ok = true; return std::stoi(s); } catch(...) { ok = false; return 0; }
+}
+```
+
+### Exercises (Appendix — arithmetic_input_cpp-appendix2)
+
+1. Implement robust integer parsing with error flags and test with large and malformed inputs.
+2. Benchmark reading numbers with `cin` vs a custom fast reader and report timings.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Arithmetic Input — Edge-case Tests & Validation (Appendix — arithmetic_input_cpp-appendix3)
+
+Extra guidance for validating numeric inputs and writing tests that confirm behavior over malformed inputs and boundary values.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Malformed input</td><td>return error codes</td><td>Do not trust external input</td></tr>
+    <tr><td>Boundary tests</td><td>use INT_MAX/INT_MIN</td><td>Ensure no overflow occurs</td></tr>
+    <tr><td>Timeouts</td><td>validate before heavy work</td><td>Fail fast on bad inputs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix — arithmetic_input_cpp-appendix3)
+
+1. Add tests exercising `std::stoi` failure modes and boundary conditions.
+2. Implement input validation that returns clear error codes and test with a harness.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Arithmetic & Input — Parsing, Overflow & Formatting (Appendix — arithmetic_input_cpp-appendix-20251005)
+
+Practical details for safe numeric parsing, handling overflow and formatting for display.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Tip</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Parsing</td><td>Use `std::from_chars` where available</td><td>Provides error reporting without exceptions</td></tr>
+    <tr><td>Overflow</td><td>Check ranges</td><td>Use wider types for accumulation</td></tr>
+    <tr><td>Formatting</td><td>std::format / iomanip</td><td>Be careful with locales</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: from_chars
+
+```cpp
+#include <charconv>
+int x;
+auto [ptr, ec] = std::from_chars(buf, buf + len, x);
+if (ec != std::errc()) {
+  // handle parse error
+}
+```
+
+### Exercises (Appendix — arithmetic_input_cpp-appendix-20251005)
+
+1. Parse a list of integers robustly from input with error reporting.
+2. Implement safe summation that avoids overflow by using `long long` or checked add.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

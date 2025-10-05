@@ -227,34 +227,122 @@ Answering these questions solidifies your understanding before moving to richer 
 
 <!-- markdownlint-disable MD033 MD010 -->
 
-### Practical Appendix: Streams in Production
+## Practical Appendix: iostreams — Patterns & Tests (Appendix — iostream_basics-appendix2)
 
-This appendix includes formatting recipes, a small CI snippet that runs a console program with sample input, and an HTML table comparing stream manipulators.
-
-```bash
-# CI job to build and run a quick smoke test
-mkdir build && cd build
-cmake ..
-cmake --build .
-printf "Ada\n20\n3.8\n" | ./profile_app
-```
+Recipes for using `std::cout`, `std::cin`, formatting manipulators, and small testable examples for IO.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Manipulator</th><th>Purpose</th><th>Example</th></tr>
+    <tr><th>Task</th><th>Tool</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>std::setw</td><td>Set field width</td><td>std::cout << std::setw(10) << value;</td></tr>
-    <tr><td>std::setprecision</td><td>Control decimal digits</td><td>std::cout << std::fixed << std::setprecision(2);</td></tr>
-    <tr><td>std::hex</td><td>Hex formatting</td><td>std::cout << std::hex << num;</td></tr>
+    <tr><td>Formatted output</td><td>iomanip</td><td>use std::setw, std::setprecision</td></tr>
+    <tr><td>Safe input</td><td>std::getline & std::stringstream</td><td>avoid operator>> when reading lines</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises
+### Example: formatting
 
-1. Create a small program that reads three values and prints a formatted table using `std::setw` and `std::setprecision`.
-2. Add a `--quiet` flag to suppress `std::clog` messages and test both modes in CI.
+```cpp
+#include <iostream>
+#include <iomanip>
 
-<!-- markdownlint-enable MD010 -->
+std::cout << std::setw(10) << std::left << "Name" << std::setw(6) << "Score" << '\n';
+std::cout << std::setw(10) << "Alice" << std::setw(6) << 95 << '\n';
+```
+
+### Test-friendly IO
+
+Wrap IO interactions so unit tests can inject streams:
+
+```cpp
+#include <sstream>
+
+std::string greet(std::istream &in, std::ostream &out) {
+    std::string name;
+    std::getline(in, name);
+    out << "Hello, " << name;
+    return name;
+}
+```
+
+### Exercises (Appendix — iostream_basics-appendix2)
+
+1. Implement `greet` and test it by passing `std::istringstream`/`std::ostringstream` pairs.
+2. Format a small table of data and add assertions that the output contains expected columns.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: iostream Basics — Performance & Formatting (Appendix — iostream_basics_cpp-appendix-20251005-01)
+
+Practical tips for `std::cout`/`std::cin` performance, formatting numbers, and file I/O using streams.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Task</th><th>Tip</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Fast I/O</td><td>std::ios::sync_with_stdio(false); std::cin.tie(nullptr);</td><td>Disable sync for speed</td></tr>
+    <tr><td>Formatting</td><td>std::setw, std::setprecision</td><td>Include <iomanip></td></tr>
+    <tr><td>File streams</td><td>std::ifstream/std::ofstream</td><td>Check `is_open()`</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: fast read loop
+
+```cpp
+std::ios::sync_with_stdio(false);
+std::cin.tie(nullptr);
+int x;
+while (std::cin >> x) {
+  // process x
+}
+```
+
+### Exercises (Appendix — iostream_basics_cpp-appendix-20251005-01)
+
+1. Benchmark `scanf/printf` vs `cin/cout` with and without sync turned off.
+2. Read a large CSV via `std::ifstream` and parse lines safely.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Stream Error Handling & Formatting (Appendix — iostream_basics_cpp-appendix-2-20251005)
+
+How to detect stream errors, clear state, and format structured output using `std::ostream` manipulators.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>API</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Test stream state</td><td>if (std::cin.fail())</td><td>Reset with `std::cin.clear()`</td></tr>
+    <tr><td>Format numbers</td><td>std::fixed/std::setprecision</td><td>Include `<iomanip>`</td></tr>
+    <tr><td>Hex/bin</td><td>std::hex/std::dec</td><td>Use with caution for I/O</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: check and clear
+
+```cpp
+int x;
+if (!(std::cin >> x)) {
+  std::cerr << "parse error" << std::endl;
+  std::cin.clear();
+  std::string dummy; std::getline(std::cin, dummy);
+}
+```
+
+### Exercises (Appendix — iostream_basics_cpp-appendix-2-20251005)
+
+1. Read a file and handle malformed lines robustly (skip + log).
+2. Print a table of floats with aligned columns using `setw` and `setprecision`.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

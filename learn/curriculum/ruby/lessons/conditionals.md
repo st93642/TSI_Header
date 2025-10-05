@@ -237,29 +237,99 @@ puts "Inventory empty" unless items&.any?
 
 <!-- markdownlint-disable MD033 MD010 -->
 
-### Practical Appendix: Guard Clauses & Best Practices
+## Practical Appendix: Conditionals — Guard Clauses & Idioms (Appendix — conditionals-ruby2)
 
-This appendix collects guard clause patterns, a short HTML table comparing constructs, and exercises to refactor nested conditionals.
+Guidance for choosing conditional styles, guard clauses for early returns, and test patterns for branching logic.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Construct</th><th>When to use</th><th>Notes</th></tr>
+    <tr><th>Style</th><th>When</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>if/elsif</td><td>Multiple exclusive branches</td><td>Clear ordering important</td></tr>
-    <tr><td>case</td><td>Many discrete matches</td><td>Good for enums</td></tr>
-    <tr><td>pattern matching</td><td>Destructure data</td><td>Ruby 2.7+</td></tr>
+    <tr><td>Guard clause</td><td>Early returns</td><td>Makes code flatter and clearer</td></tr>
+    <tr><td>case/when</td><td>Multiple branches</td><td>Use `when` with ranges or classes</td></tr>
+    <tr><td>ternary</td><td>Simple inline choices</td><td>Keep concise; avoid nested ternaries</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises
+### Examples
 
-1. Refactor a nested `if` example into guard clauses.
-2. Implement a `feature_enabled?(user, flags)` helper that composes env checks and membership lists.
+```ruby
+def process(user)
+  return unless user&.active?
+  # proceed
+end
 
-<!-- markdownlint-enable MD010 -->
+case value
+when 0..9
+  :small
+when 10..99
+  :medium
+else
+  :large
+end
+```
+
+### Testing branches
+
+- Write separate tests for each branch, include edge cases (nil, boundary values).
+
+```ruby
+require 'minitest/autorun'
+
+class TestConditionals < Minitest::Test
+  def test_guard
+    assert_nil process(nil)
+  end
+end
+```
+
+### Exercises (Appendix — conditionals-ruby2)
+
+1. Refactor a method that has nested `if` statements into guard clauses and case statements where appropriate; add tests proving behaviour unchanged.
+2. Implement a parser that returns different symbols for numeric ranges and thoroughly test boundaries (e.g., 9, 10, 99, 100).
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Conditionals — Refactoring & Property Tests (Appendix — conditionals-ruby3)
+
+Refactor patterns for complex branching, guard-clause idioms, and an introduction to property-based testing approaches for conditional logic.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Refactor</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Guard clauses</td><td>Reduce nesting</td><td>Return early for invalid inputs</td></tr>
+    <tr><td>Case expressions</td><td>Multiple branches</td><td>Use `when` with ranges for clarity</td></tr>
+    <tr><td>Property tests</td><td>Complex invariants</td><td>Randomized inputs can reveal edge cases</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: guard clauses
+
+```ruby
+def process(item)
+  return :invalid unless item
+  return :empty if item.empty?
+  # normal processing
+end
+```
+
+### Property-like checks
+
+- Use small randomized inputs to assert invariants, e.g., that a function preserves length or ordering.
+
+### Exercises (Appendix — conditionals-ruby3)
+
+1. Refactor a nested-if example into guard clauses and provide tests demonstrating behavior preserved.
+2. Write a property-style test that checks a conditional transformation keeps ordering for random inputs.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
 ## Self-check questions
 

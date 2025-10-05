@@ -302,3 +302,73 @@ Implement a linked list using pointers.
 ## Recap and next steps
 
 Pointers unlock C's potential. Practice safe memory management, then explore advanced topics like structs and file I/O.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Pointers & Memory — Ownership, realloc & valgrind tips (Appendix — pointers_memory_c-appendix2)
+
+Practical guidance for avoiding common C memory issues: ownership comments, safe `realloc` patterns and valgrind usage for leak detection.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Problem</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Realloc failure</td><td>Use temporary pointer</td><td>Avoid losing original on OOM</td></tr>
+    <tr><td>Double free</td><td>Set pointer to NULL after free</td><td>Optional: wrap in helper</td></tr>
+    <tr><td>Leak detection</td><td>Use valgrind</td><td>Run with --leak-check=full</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: safe realloc
+
+```c
+int *tmp = realloc(arr, new_size * sizeof(int));
+if (!tmp) {
+  // handle OOM, keep original arr unchanged
+} else {
+  arr = tmp;
+}
+```
+
+### Exercises (Appendix — pointers_memory_c-appendix2)
+
+1. Write a small program that grows an array using `realloc` and intentionally simulate a failure to assert safety.
+2. Run valgrind on the program and fix any reported leaks or invalid accesses.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Memory Debugging — ASAN, Valgrind & Tools (Appendix — pointers_memory_c-appendix3)
+
+Practical commands and patterns to debug memory errors using AddressSanitizer (ASAN), valgrind, and compiler flags.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Tool</th><th>Command</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>ASAN</td><td>Compile with -fsanitize=address</td><td>Fast and actionable on supported compilers</td></tr>
+    <tr><td>Valgrind</td><td>valgrind --leak-check=full</td><td>Slower but widely available</td></tr>
+    <tr><td>GDB</td><td>run & bt</td><td>Use for interactive debugging</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: compile with ASAN
+
+```sh
+gcc -g -O1 -fsanitize=address -o prog prog.c
+./prog
+```
+
+### Exercises (Appendix — pointers_memory_c-appendix3)
+
+1. Rebuild a small test program with ASAN and reproduce an invalid read, then fix it.
+2. Compare valgrind and ASAN outputs and document which errors each catches for your program.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

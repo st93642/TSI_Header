@@ -264,3 +264,81 @@ int main() {
 2. Micro-benchmark a loop with iterators vs indexing using `std::chrono` and report results.
 
 <!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Loops — range-for, iterator invalidation & perf (Appendix — loops_cpp-appendix2)
+
+Notes on safe looping patterns, avoiding iterator invalidation, and micro-optimizations that matter in hot loops.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Loop</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>range-for</td><td>Readable loops</td><td>Prefer const_ref for large objects</td></tr>
+    <tr><td>index-based</td><td>Performance-critical</td><td>Prefer raw loops on PODs</td></tr>
+    <tr><td>erase in loop</td><td>Modifying container</td><td>Use erase-return idioms to avoid invalidation</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: erase-remove idiom
+
+```cpp
+auto it = std::remove_if(vec.begin(), vec.end(), [](int x){ return x < 0; });
+vec.erase(it, vec.end());
+```
+
+### Exercises (Appendix — loops_cpp-appendix2)
+
+1. Demonstrate iterator invalidation by erasing elements incorrectly, then fix it using the erase-remove idiom.
+2. Benchmark a tight loop over `std::vector<int>` using indexes vs range-for and report timing.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Loops & Concurrency — Thread-safety and Ranges (Appendix — loops_cpp-appendix3)
+
+Guidance for iterating data shared across threads and safe patterns when looping in concurrent contexts.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Shared container</td><td>Use mutex or copy-on-write</td><td>Prefer minimal critical sections</td></tr>
+    <tr><td>Producer/consumer</td><td>Use condition_variable</td><td>Avoid busy-waiting</td></tr>
+    <tr><td>Atomic counters</td><td>std::atomic</td><td>Use for simple counters</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: simple producer/consumer
+
+```cpp
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+
+std::queue<int> q;
+std::mutex m;
+std::condition_variable cv;
+
+// producer
+{
+  std::lock_guard<std::mutex> lk(m);
+  q.push(1);
+}
+cv.notify_one();
+```
+
+### Exercises (Appendix — loops_cpp-appendix3)
+
+1. Implement a producer/consumer with `std::thread` and `condition_variable`, add tests asserting ordering guarantees.
+2. Demonstrate a data race and then fix it by introducing proper synchronization and re-run tests.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

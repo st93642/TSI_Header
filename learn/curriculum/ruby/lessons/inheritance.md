@@ -73,6 +73,10 @@ class Vehicle
     @wheels = wheels
     @color = color
   end
+
+  def move
+    "Moving on #{wheels} wheels"
+  end
 end
 
 class SportsCar < Vehicle
@@ -285,3 +289,47 @@ Use `respond_to?` to check for capability instead of class when possible—duck 
 5. How can `inherited` hooks help maintain global registries of subclasses, and what are potential pitfalls?
 
 Inheritance should model “is-a” relationships. Use it to share contracts and behavior across related classes, but don’t hesitate to reach for composition or module mixins when the relationship isn’t a clean hierarchy. Understanding Ruby’s lookup chain and `super` semantics ensures subclasses remain predictable and maintainable.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Inheritance — LSP, Composition & Testing (Appendix — inheritance-ruby2)
+
+When to use inheritance vs composition, respecting the Liskov Substitution Principle, and tests to verify substitutability.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Approach</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Inheritance</td><td>IS-A relationships</td><td>Prefer for behaviour sharing with clear hierarchies</td></tr>
+    <tr><td>Composition</td><td>Has-a relationships</td><td>Better for flexibility and testing</td></tr>
+    <tr><td>LSP</td><td>Substitutability</td><td>Derived classes must honour parent contracts</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: composition
+
+```ruby
+class Logger
+  def initialize(io); @io = io; end
+  def log(msg); @io.puts msg; end
+end
+
+class Service
+  def initialize(logger: Logger.new(STDOUT)); @logger = logger; end
+  def call; @logger.log('ok'); end
+end
+```
+
+### Tests
+
+- Test behaviour through public interfaces; use mocks to assert interactions when needed.
+
+### Exercises (Appendix — inheritance-ruby2)
+
+1. Replace inheritance-based code with composition and add tests proving behaviour preserved.
+2. Create a subclass that violates LSP and write a test showing why it's incorrect; then fix and re-test.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

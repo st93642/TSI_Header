@@ -311,3 +311,70 @@ puts m[:year] if m
 2. Replace a fragile parser with `Regexp.union` and ensure user input is escaped before interpolation.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Regex — Performance, Named Captures & Unicode (Appendix — regex-ruby2)
+
+Practical recipes for writing efficient Ruby regexes, using named captures, and handling Unicode-aware patterns.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Named captures</td><td>/(?<name>\w+)/</td><td>Use `MatchData` with names for clarity</td></tr>
+    <tr><td>Performance</td><td>Precompile Regexp</td><td>Use `Regexp.new` outside loops</td></tr>
+    <tr><td>Unicode</td><td>/u flag</td><td>Be explicit about encoding when matching Unicode</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```ruby
+re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/
+if m = re.match('2025-10-05')
+  puts m[:year]
+end
+```
+
+### Exercises (Appendix — regex-ruby2)
+
+1. Write a regex that extracts key parts of an ISO8601 date and test with valid/invalid inputs.
+2. Measure matching speed on large inputs and demonstrate precompiling the regex yields fewer allocations.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Regex — Debugging & Test Suites (Appendix — regex-ruby3)
+
+How to debug complex regular expressions, build test suites for regex correctness, and avoid catastrophic backtracking.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Debugging</td><td>Use Rubular or regex101 locally</td><td>Test Unicode edge cases</td></tr>
+    <tr><td>Backtracking</td><td>Prefer atomic groups</td><td>Avoid nested `.*` patterns</td></tr>
+    <tr><td>Testing</td><td>Example-driven tests</td><td>Include invalid inputs to assert failure</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: atomic grouping
+
+```ruby
+# use (?>...) in PCRE; in Ruby use careful patterns to avoid nested wildcards
+```
+
+### Exercises (Appendix — regex-ruby3)
+
+1. Create a test suite for a date-extraction regex that includes valid and invalid examples and measure matching performance.
+2. Demonstrate catastrophic backtracking with a pathological input and refactor the regex to avoid it.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

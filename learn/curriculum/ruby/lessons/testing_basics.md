@@ -237,43 +237,100 @@ Minitest’s low ceremony encourages fast feedback. Keep tests small, determinis
 
 <!-- markdownlint-disable MD033 MD010 -->
 
-### Practical Appendix: Test Helpers & CI
+## Practical Appendix: Testing Basics — Setup, Fixtures & Mocks (Appendix — testing_basics-ruby2)
 
-This appendix adds common test helpers, a GitHub Actions snippet to run tests, and an HTML table comparing assertions.
+Practical guidance for organizing tests, using setup/teardown, fixtures, and when to use mocks or stubs.
 
-```yaml
-name: Ruby tests
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Technique</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>setup/teardown</td><td>Common test state</td><td>Use to reduce duplication</td></tr>
+    <tr><td>fixtures</td><td>Repeated data</td><td>Prefer factories for flexible tests</td></tr>
+    <tr><td>mocks/stubs</td><td>Isolate external systems</td><td>Use sparingly to avoid brittle tests</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```ruby
+require 'minitest/autorun'
+
+class MyTest < Minitest::Test
+  def setup
+    @tmp = Tempfile.new('t')
+  end
+
+  def teardown
+    @tmp.close!
+  end
+end
+```
+
+### Exercises (Appendix — testing_basics-ruby2)
+
+1. Write tests that use setup/teardown to create temporary directories and assert cleanup.
+2. Replace a test that hits an external API with a mocked response and assert behavior remains correct.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Testing Basics — CI, Parametrized Tests & Benchmarks (Appendix — testing_basics-ruby3)
+
+Guidance for wiring tests into CI, using table-driven tests, and adding lightweight benchmarks to monitor regressions.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>CI integration</td><td>GitHub Actions / GitLab CI</td><td>Run tests on push and PR
+</td></tr>
+    <tr><td>Param tests</td><td>Loop over cases</td><td>Keep cases small and canonical</td></tr>
+    <tr><td>Benchmarks</td><td>Benchmark/benchmark-ips</td><td>Use CI only for smoke benchmarks</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: table-driven test
+
+```ruby
+cases = [
+  [1, 2, 3],
+  [2, 2, 4]
+]
+
+cases.each do |a, b, expected|
+  assert_equal expected, add(a, b)
+end
+```
+
+### CI snippet (GitHub Actions)
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr><td><pre><code class="language-yaml">name: Ruby CI
 on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
-      - name: Install
-        run: bundle install
-      - name: Run tests
-        run: bundle exec rake test
-```
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <thead>
-    <tr><th>Assertion</th><th>Purpose</th><th>Example</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>assert_equal</td><td>Equality</td><td>assert_equal 3, sum(1,2)</td></tr>
-    <tr><td>assert_raises</td><td>Error expectation</td><td>assert_raises(ArgumentError) { call }</td></tr>
-  </tbody>
+          ruby-version: 3.1
+      - run: bundle install --jobs 4
+      - run: bundle exec rake test
+</code></pre></td></tr>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises
+### Exercises (Appendix — testing_basics-ruby3)
 
-1. Add a `test_helper.rb` that sets up `minitest/reporters` and requires support files.
-2. Add a CI badge to the README and demonstrate failing tests in CI when appropriate.
+1. Add a small CI workflow that runs tests on PRs and show the config file.
+2. Convert repetitive test cases into a table-driven loop and add benchmark assertions.
 
-<!-- markdownlint-enable MD010 -->
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

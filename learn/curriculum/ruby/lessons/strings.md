@@ -204,29 +204,163 @@ puts "Line\nBreak".dump # => "\"Line\\nBreak\""
 
 <!-- markdownlint-disable MD033 MD010 -->
 
-### Practical Appendix: Strings — Encoding & Performance
+## Practical Appendix: Strings — Encoding, Performance & Tests (Appendix — strings-ruby2)
 
-This appendix includes tips on encoding conversion, `StringIO` building, and an HTML table summarizing creation methods.
+Practical recipes and gotchas when working with Ruby strings in real projects: encoding, interpolation, templating, memory usage, and test strategies.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Creation</th><th>Syntax</th><th>Use</th></tr>
+    <tr><th>Topic</th><th>When to use</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>Single quotes</td><td>'...'</td><td>Literal strings</td></tr>
-    <tr><td>Double quotes</td><td>"..."</td><td>Interpolation and escapes</td></tr>
-    <tr><td>Heredoc</td><td><<~TEXT</td><td>Multi-line templates</td></tr>
+    <tr><td>Encoding</td><td>Multilingual input/output</td><td>Use `#encoding` and `String#force_encoding` carefully</td></tr>
+    <tr><td>Interpolation</td><td>Templates / messages</td><td>Prefer interpolation over concatenation for readability</td></tr>
+    <tr><td>Frozen strings</td><td>Performance & immutability</td><td>Use `#freeze` or `--enable-frozen-string-literal` where appropriate</td></tr>
+    <tr><td>Byte processing</td><td>Binary protocols</td><td>Use `String#bytes` or `String#b` for binary-safe ops</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises
+### Encoding basics
 
-1. Benchmark string concatenation with `+=` vs `StringIO` for 50_000 items.
-2. Write a sanitizer that removes control characters and normalizes whitespace.
+Ruby strings carry an associated encoding (for example UTF-8). When reading files or network data, ensure the correct encoding is used:
 
-<!-- markdownlint-enable MD010 -->
+```ruby
+# read a UTF-8 file
+text = File.read('doc.md', encoding: 'UTF-8')
+
+# check encoding
+puts text.encoding #=> #<Encoding:UTF-8>
+
+# convert to UTF-8 safely
+utf8 = text.encode('UTF-8')
+```
+
+If you receive a byte sequence in an unknown encoding, avoid `force_encoding` unless you know the input's bytes represent that encoding. Prefer `encode` with error handling:
+
+```ruby
+safe = raw_string.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
+```
+
+### Interpolation vs concatenation
+
+Interpolated strings are clearer and usually faster than repeated concatenation:
+
+```ruby
+name = 'Alice'
+# interpolation
+msg = "Hello, #{name}!"
+# concatenation
+msg2 = 'Hello, ' + name + '!'
+```
+
+For many fragments, use `String#<<` to avoid creating many intermediate strings in loops:
+
+```ruby
+out = String.new
+items.each { |it| out << it << ',' }
+```
+
+### Freezing and deduplication
+
+Freezing short, repeated strings can reduce GC pressure in long-running processes.
+
+```ruby
+KEYS = %w[id name email].map!(&:freeze)
+# or enable frozen string literals with a magic comment
+# frozen_string_literal: true
+```
+
+Ruby 3+ and modern toolchains deduplicate and optimize interned strings; measure before optimizing prematurely.
+
+### Binary-safe operations
+
+When operating on binary protocols or checksums, work on the byte level:
+
+```ruby
+bytes = str.b # ensures ASCII-8BIT (binary) view
+checksum = Digest::SHA256.hexdigest(bytes)
+```
+
+### Regex tips for strings
+
+- Use non-capturing groups `(?:...)` when captures are unnecessary.
+- Prefer `` carefully — Unicode word boundaries depend on encoding.
+- Use `String#match?` for boolean checks (avoids allocating MatchData):
+
+```ruby
+if str.match?(/\A\d{4}-\d{2}-\d{2}\z/)
+  # date-like
+end
+```
+
+### Performance considerations
+
+- Avoid repeated `gsub` allocations in tight loops; consider `String#tr` for single-character transforms.
+- For joining many fragments, build into an array and `join` once, or use `String#<<` to append.
+
+Benchmark pattern example (micro-benchmark):
+
+```ruby
+require 'benchmark'
+
+n = 50_000
+Benchmark.bm do |x|
+  x.report('concat') do
+    s = ''
+    n.times { s = s + 'a' }
+  end
+
+  x.report('<<') do
+    s = ''
+    n.times { s << 'a' }
+  end
+
+  x.report('array_join') do
+    a = []
+    n.times { a << 'a' }
+    a.join
+  end
+end
+```
+
+### Templating & safe interpolation
+
+When rendering user-provided input into templates, sanitize or escape to avoid injections (HTML/JSON). Prefer library templating helpers that escape automatically for the target (ERB with `h` helper or use a safe templating library).
+
+### Tests for string behavior
+
+- Use `assert_equal` for deterministic outputs.
+- Use `assert_match` for regex checks.
+- Use `refute` / `refute_match` for absence checks.
+
+Example Minitest:
+
+```ruby
+require 'minitest/autorun'
+
+class TestStrings < Minitest::Test
+  def test_interpolation
+    name = 'Zoë'
+    assert_equal "Hello, Zoë!", "Hello, #{name}!"
+  end
+
+  def test_encoding_safe
+    raw = "caf\xC3\xA9".b # bytes representing 'café' in UTF-8
+    s = raw.encode('UTF-8')
+    assert_equal 'café', s
+  end
+end
+```
+
+### Exercises (Appendix — strings-ruby2)
+
+1. Write a `safe_truncate(str, max_len)` that truncates to a maximum number of characters without splitting multi-byte characters and write tests ensuring UTF-8 safety.
+2. Implement a template renderer that safely escapes HTML by default and write tests verifying escaping occurs for user input but not for safe HTML fragments.
+3. Benchmark three concatenation strategies over 100k iterations and report allocations and time; add tests asserting that the fastest strategy is at least 20% faster than the slowest on your machine.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
 
 ## Guided practice
 

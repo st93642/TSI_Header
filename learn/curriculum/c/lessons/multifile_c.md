@@ -273,3 +273,58 @@ A few links and tips for profiling multi-file C programs and integrating with CI
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Multi-file C — Headers, Linking & Build Tips (Appendix — multifile_c-appendix2)
+
+Practical guidance for organizing C code across multiple source and header files, compilation commands, and simple Makefile patterns.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Header guards</td><td>#ifndef / #define</td><td>Prevent multiple inclusion</td></tr>
+    <tr><td>Compilation</td><td>cc -c file.c</td><td>Produce object files then link</td></tr>
+    <tr><td>Linking</td><td>cc file.o other.o -o prog</td><td>Order matters for static libs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example header guard
+
+```c
+#ifndef MYLIB_H
+#define MYLIB_H
+
+void helper(void);
+
+#endif /* MYLIB_H */
+```
+
+### Simple Makefile
+
+```makefile
+CC = cc
+CFLAGS = -Wall -Wextra -O2
+
+all: prog
+
+prog: main.o util.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f *.o prog
+```
+
+### Exercises (Appendix — multifile_c-appendix2)
+
+1. Split a single-file C program into `main.c` and `util.c` with `util.h` and provide a Makefile; ensure the program builds and runs.
+2. Add a simple unit test using a small test runner (or harness) that links with the compiled objects.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

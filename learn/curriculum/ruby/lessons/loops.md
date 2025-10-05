@@ -299,3 +299,42 @@ File.foreach("logs/access.log")
 5. What are the trade-offs between inline loop modifiers and multiline loops?
 
 Loops are everywhere in Ruby—data pipelines, background jobs, command-line tools, even inside framework internals. Mastery comes from choosing the right construct, naming intent clearly, and building guardrails against infinite runs or runaway memory. Practice the scenarios above, experiment with enumerators, and profile long-running code to keep your iterations lean and expressive.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Loops — Enumerator Performance & Parallelization (Appendix — loops-ruby2)
+
+Performance-minded loop patterns: using `each`, `map`, `reduce`, `Enumerator::Lazy`, and basic parallelization hints with threads/fibers.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>each/map</td><td>Transform collections</td><td>Prefer `map` when collecting results</td></tr>
+    <tr><td>lazy</td><td>Large sequences</td><td>Avoid materializing large arrays</td></tr>
+    <tr><td>parallel</td><td>IO-bound work</td><td>Use threads or external pools cautiously</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+# lazy chain
+(1..1_000_000).lazy.select(&:odd?).first(10)
+
+# simple parallel (IO-bound)
+threads = urls.map do |u|
+  Thread.new { fetch(u) }
+end
+threads.each(&:join)
+```
+
+### Exercises (Appendix — loops-ruby2)
+
+1. Benchmark `map` vs manual `each <<` for building arrays and report allocations.
+2. Implement a simple thread pool to perform IO-bound fetches and test concurrency correctness.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

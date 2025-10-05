@@ -270,4 +270,81 @@ finish = Date.new(2025,10,5)
 1. Create a date-range generator that yields only weekdays and test it.
 2. Replace an eager mapping with lazy enumerables for large ranges and benchmark memory.
 
-<!-- markdownlint-enable MD010 -->
+<!-- markdownlint-disable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Ranges — Iteration, Inclusion & Performance (Appendix — ranges-ruby2)
+
+Practical notes for using `Range` objects for iteration, membership checks, and converting to arrays safely.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Operation</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Iteration</td><td>Small ranges</td><td>Poor idea for huge ranges (use lazy)</td></tr>
+    <tr><td>Inclusion</td><td>Membership check</td><td>`(1..5).include?(3)`</td></tr>
+    <tr><td>Exclusive ranges</td><td>Upper bound excluded</td><td>Use `...` when excluding</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+(1..5).each { |i| puts i }
+('a'..'z').to_a.sample(5)
+
+# exclusive upper
+(0...10).to_a.size # 10 elements: 0..9
+```
+
+### Lazy ranges
+
+For very large or infinite sequences, use lazy enumerators:
+
+```ruby
+range = (1..Float::INFINITY).lazy.map { |n| n * 2 }
+range.first(10)
+```
+
+### Exercises (Appendix — ranges-ruby2)
+
+1. Implement a `range_overlap?(r1, r2)` that returns true if two numeric ranges overlap, with tests covering edge cases (touching endpoints, reversed ranges).
+2. Use a lazy enumerator to generate the first 100 primes and test properties (e.g., that each is prime).
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Ranges — Slicing, Steps & Use in Case (Appendix — ranges-ruby-appendix-20251005)
+
+Practical notes for using ranges to generate sequences, slice arrays, and pattern-match numeric intervals.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Operation</th><th>API</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Sequence</td><td>(1..10).to_a</td><td>Inclusive ranges use `..`, exclusive `...`</td></tr>
+    <tr><td>Step</td><td>step</td><td>Use `each_slice` for batches</td></tr>
+    <tr><td>Case</td><td>when 0..9</td><td>Range membership works in `case`</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: stepped ranges
+
+```ruby
+(0..10).step(2) { |n| puts n }
+```
+
+### Exercises (Appendix — ranges-ruby-appendix-20251005)
+
+1. Create a function that returns ranges of equal-sized chunks for a given array and test it.
+2. Use ranges in a `case` statement to assign letter grades from numeric scores.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

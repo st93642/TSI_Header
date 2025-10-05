@@ -288,3 +288,65 @@ Consider composition (objects containing other objects) or service objects when 
 5. What problems can arise from mixing in too many modules, and how can you mitigate them?
 
 Mixins provide Ruby’s version of multiple inheritance. Use them to compose behavior across unrelated classes, but keep modules focused, explicit, and well-documented so your ancestor chains remain understandable.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Mixins — Include vs Extend, Conflicts & Tests (Appendix — mixins-ruby2)
+
+Patterns for using modules as mixins: when to `include` vs `extend`, how to resolve method conflicts, and testing strategies.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Use</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>include</td><td>Instance methods</td><td>Mix behaviour into instances</td></tr>
+    <tr><td>extend</td><td>Class methods</td><td>Add methods to the singleton class</td></tr>
+    <tr><td>Conflicts</td><td>Aliasing</td><td>Use `alias_method` or explicit module prepending</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```ruby
+module Logging
+  def log(msg); puts msg; end
+end
+
+class Service
+  include Logging
+end
+```
+
+### Exercises (Appendix — mixins-ruby2)
+
+1. Create a module that provides logging and include it into a class; test that instances respond to `log`.
+2. Demonstrate method conflicts when including multiple modules and resolve using `Module#prepend` or aliasing; add tests.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Mixins — `prepend`, Refinements & Namespacing (Appendix — mixins-ruby3)
+
+Advanced mixin patterns: use `prepend` to change method lookup, consider refinements for scoped monkey-patching, and keep module namespacing clean.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>prepend</td><td>Override instance methods</td><td>Prepend modules to intercept calls</td></tr>
+    <tr><td>refinements</td><td>Scoped monkey-patch</td><td>Use sparingly; limited to specific files/scopes</td></tr>
+    <tr><td>namespacing</td><td>Avoid top-level leakage</td><td>Prefer `MyGem::Utils` over global modules</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix — mixins-ruby3)
+
+1. Demonstrate `prepend` to add logging around an existing instance method and test that the original method is still called.
+2. Use a refinement to add a helper method only in a test file and assert it doesn't leak globally.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

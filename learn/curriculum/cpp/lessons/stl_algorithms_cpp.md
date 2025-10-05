@@ -201,7 +201,7 @@ Small notes about iterator invalidation, comparator correctness, and a concise t
 1. Add tests that intentionally pass invalid comparators and assert graceful failure modes.
 2. Document when `std::stable_sort` is necessary in the project.
 
-<!-- markdownlint-enable MD010 -->
+<!-- markdownlint-disable MD010 -->
 
 <!-- markdownlint-disable MD033 MD010 -->
 
@@ -229,7 +229,7 @@ Authoritative references for algorithm complexity and example idioms.
 1. Replace a manual loop with `std::transform` and add a small benchmark using `<chrono>`.
 2. Try `std::execution::par` on a CPU-bound transform and note portability caveats.
 
-<!-- markdownlint-enable MD010 -->
+<!-- markdownlint-disable MD010 -->
 
 <!-- markdownlint-disable MD033 MD010 -->
 
@@ -264,4 +264,81 @@ std::transform(std::execution::par, v.begin(), v.end(), v.begin(), [](int x){ re
 1. Apply `std::execution::par` to a CPU-bound transform and measure speedups across cores; note caveats.
 2. Replace a custom loop with a suitable `std::algorithm` and assert behavior.
 
-<!-- markdownlint-enable MD010 -->
+<!-- markdownlint-disable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: STL Algorithms — Idioms & Tests (Appendix — stl_algorithms_cpp-appendix2)
+
+Compact reference for common `<algorithm>` idioms, complexity notes, and testable examples.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Algorithm</th><th>Use</th><th>Complexity</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::sort</td><td>Sort a vector</td><td>O(n log n)</td></tr>
+    <tr><td>std::find_if</td><td>Search with predicate</td><td>O(n)</td></tr>
+    <tr><td>std::accumulate</td><td>Fold values</td><td>O(n)</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick examples
+
+```cpp
+#include <algorithm>
+#include <numeric>
+
+std::sort(vec.begin(), vec.end());
+int sum = std::accumulate(vec.begin(), vec.end(), 0);
+```
+
+### Test tips
+
+- Verify algorithm results with small deterministic inputs and edge cases (empty, single element).
+- Use `<algorithm>` in combination with lambda expressions for concise logic.
+
+### Exercises (Appendix — stl_algorithms_cpp-appendix2)
+
+1. Implement a frequency map using `std::sort` + `std::unique` and test with sample data.
+2. Use `std::partition` to separate even and odd numbers and add tests that assert partition invariants.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: STL Algorithms — partition, stable_sort & unique (Appendix — stl_algorithms_cpp-appendix3)
+
+Concrete examples using common STL algorithms and notes on complexity and stability when choosing algorithms.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Algorithm</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>std::partition</td><td>Partition elements</td><td>Useful for quick separation</td></tr>
+    <tr><td>std::stable_sort</td><td>Maintain order</td><td>Use when stability matters</td></tr>
+    <tr><td>std::unique</td><td>Remove consecutive duplicates</td><td>Often combined with sort</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```cpp
+std::stable_sort(vec.begin(), vec.end(), cmp);
+auto it = std::unique(vec.begin(), vec.end());
+vec.erase(it, vec.end());
+
+std::partition(vec.begin(), vec.end(), [](int x){ return x % 2 == 0; });
+```
+
+### Exercises (Appendix — stl_algorithms_cpp-appendix3)
+
+1. Implement frequency counting using `std::sort` + `std::unique` and test with sample data.
+2. Use `std::partition` to separate values by a predicate and assert partition invariants in tests.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

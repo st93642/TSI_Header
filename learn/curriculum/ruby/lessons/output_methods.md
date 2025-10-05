@@ -240,55 +240,140 @@ Short references for common output helpers in Ruby and examples showing `puts`, 
 
 <!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-## Practical Appendix: Output Helpers — Tests & CI (Appendix — output_methods-ruby2)
+## Practical Appendix: Output Methods — Logging, Formatting & Test Capture (Appendix — output_methods-ruby2)
 
-Recipes for verifying output behaviour across `puts`, `print`, and `p`, plus CI smoke examples and test helpers.
+Practical recipes for structured logging, formatting output for different audiences, and capturing output in tests.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Helper</th><th>Test pattern</th><th>Notes</th></tr>
+    <tr><th>Use</th><th>Tool</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>puts</td><td>capture stdout and compare lines</td><td>returns nil, so assert side-effects</td></tr>
-    <tr><td>print</td><td>prompt tests need flush</td><td>use STDOUT.flush</td></tr>
-    <tr><td>p</td><td>inspect output includes quotes</td><td>use to assert exact formatting</td></tr>
+    <tr><td>Simple output</td><td>puts / print</td><td>Human-readable, not structured</td></tr>
+    <tr><td>Logging</td><td>Logger</td><td>Use levels and rotate files in production</td></tr>
+    <tr><td>Test capture</td><td>capture_io / Open3</td><td>Assert stdout/stderr in tests</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Capture helper (repeatable)
+### Example: Logger
 
 ```ruby
-require 'stringio'
-
-def capture_stdout
-  old_stdout = $stdout
-  $stdout = StringIO.new
-  yield
-  $stdout.string
-ensure
-  $stdout = old_stdout
-end
-```
-
-### CI smoke (GitHub Actions)
-
-```yaml
-name: Output helper smoke
-on: [push]
-jobs:
-  smoke:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run ruby output examples
-        run: ruby -e "puts 'example'"
+require 'logger'
+log = Logger.new(STDOUT)
+log.level = Logger::INFO
+log.info('Started')
 ```
 
 ### Exercises (Appendix — output_methods-ruby2)
 
-1. Create tests that assert the exact output of `puts`, `print`, and `p` using the `capture_stdout` helper.
-2. Add a CI smoke job that runs a small sample script and reports exit status.
+1. Replace ad-hoc `puts` calls with `Logger` and add tests that capture log output with different levels.
+2. Format tabular data for console output and write tests that assert column alignment for sample data.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Output Methods — I18n & Formatting Libraries (Appendix — output_methods-ruby3)
+
+Notes on using formatting libraries and simple internationalization patterns for formatting dates, numbers, and messages.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Area</th><th>Library</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Numbers</td><td>number_to_currency (Rails) or custom formatter</td><td>Locale-aware formatting</td></tr>
+    <tr><td>Dates</td><td>I18n.l / strftime</td><td>Use locale-aware date formats if supported</td></tr>
+    <tr><td>Messages</td><td>I18n.t</td><td>Keep message interpolation safe</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix — output_methods-ruby3)
+
+1. Add a number formatting helper for currencies with tests for different locales.
+2. Replace `puts` date outputs with locale-aware formatting and test sample locales.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Output Methods — Structured Output & Exporting (Appendix — output_methods-ruby4)
+
+Guidance for exporting structured data (CSV/JSON), streaming large exports, and ensuring testable output formats.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Format</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>CSV</td><td>Tabular exports</td><td>Use `CSV.generate` and stream rows</td></tr>
+    <tr><td>JSON</td><td>API responses</td><td>Use `JSON.generate` with symbolize_names as needed</td></tr>
+    <tr><td>Streaming</td><td>Large exports</td><td>Write rows incrementally to avoid memory spikes</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: streaming CSV
+
+```ruby
+require 'csv'
+CSV($stdout) do |csv|
+  data.each { |row| csv << row }
+end
+```
+
+### Exercises (Appendix — output_methods-ruby4)
+
+1. Implement a CSV exporter that streams rows to STDOUT and add tests using Tempfile to capture output.
+2. Produce JSON output for a nested data structure and write tests asserting key ordering where necessary.
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Output Methods — puts, print & printf (Appendix — output_methods-ruby3)
+
+Practical examples and gotchas when printing in Ruby. This appendix contains examples for formatting, performance tips for large IO, and small utilities.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Method</th><th>Newline?</th><th>Use case</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>puts</td><td>Yes</td><td>Prints with newline; converts to_s</td></tr>
+    <tr><td>print</td><td>No</td><td>Low-level printing; manual newline control</td></tr>
+    <tr><td>printf</td><td>Depends</td><td>C-style formatting via format string</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: buffered writes for speed
+
+```ruby
+File.open('out.txt', 'w') do |f|
+  f.sync = false
+  10_000.times { |i| f.puts "line #{i}" }
+end
+```
+
+### Example: formatting
+
+```ruby
+name = 'Alice'
+age = 30
+printf("%s is %d years old\n", name, age)
+puts "%s is %d years old" % [name, age]
+```
+
+### Exercises (Appendix — output_methods-ruby3-unique)
+
+1. Write a script that streams data to STDOUT while showing progress every 1000 lines.
+2. Benchmark `puts` vs `print` with many small writes and report the time differences.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+### More Exercises (Appendix — output_methods-ruby3-extra)
+
+1. Create a logger that buffers messages and flushes on error level >= WARN.
+2. Write a script that reads lines from STDIN and writes them to a rotated file every 1000 lines.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

@@ -300,3 +300,81 @@ end
 2. Compare `+=` vs `StringIO` for building a large string and report timings.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Arrays — Memory, Slicing & Enumerable Combinations (Appendix — arrays-ruby2)
+
+Practical techniques for working with arrays efficiently: slicing, avoiding excessive allocations, and combining Enumerable helpers.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Technique</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Slicing</td><td>Extract subsequences</td><td>Use `slice` or range indexing</td></tr>
+    <tr><td>Preallocate</td><td>Known size</td><td>Use `Array.new(size)` to avoid repeated resizing</td></tr>
+    <tr><td>Enumerable combos</td><td>Transform & filter</td><td>Prefer `map.compact` over repeated loops</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+arr = (1..1000).to_a
+slice = arr[100, 50]
+
+# preallocate
+out = Array.new(100_000)
+
+# chain
+res = arr.select(&:odd?).map { |n| n * 2 }
+```
+
+### Exercises (Appendix — arrays-ruby2)
+
+1. Implement a `chunk_by` helper that groups consecutive elements by a predicate and test with edge cases.
+2. Write a memory benchmark comparing building arrays with repeated `<<` vs preallocated indices.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Arrays — Advanced Slicing & Lazy Generation (Appendix — arrays-ruby3)
+
+Advanced techniques for extracting windows, creating views, and generating arrays lazily to reduce memory pressure.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Technique</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>each_slice</td><td>Batch processing</td><td>Good for streaming operations</td></tr>
+    <tr><td>views</td><td>Avoid copies</td><td>Use ranges and `lazy` to avoid allocations</td></tr>
+    <tr><td>generators</td><td>On-demand sequences</td><td>Use Enumerator for custom sequences</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples (Appendix — arrays-ruby3-examples)
+
+```ruby
+(1..1000).each_slice(100) { |slice| process(slice) }
+
+gen = Enumerator.new do |y|
+  i = 0
+  loop { y << i; i += 1 }
+end
+
+5.times { puts gen.next }
+```
+
+### Exercises (Appendix — arrays-ruby3)
+
+1. Implement `window_sums(arr, k)` using `each_cons` and test with edge cases.
+2. Create an Enumerator that yields an infinite arithmetic progression and test the first N values.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

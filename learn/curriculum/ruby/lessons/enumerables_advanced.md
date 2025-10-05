@@ -206,6 +206,38 @@ puts high_cpu.take(5).force
 
 Combine `lazy` with `chunk_while` to process log windows without slurping entire files.
 
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Lazy Enumerables & Streaming (Appendix — enumerables_advanced-ruby2)
+
+Using `Enumerator::Lazy` to process large sequences without allocating intermediate arrays.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Technique</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Enumerator::Lazy</td><td>Large pipelines</td><td>Chain maps/filters without intermediates</td></tr>
+    <tr><td>Streams</td><td>I/O</td><td>Yield lines to avoid full reads</td></tr>
+    <tr><td>Chunking</td><td>Batch work</td><td>Process in fixed-size blocks</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: lazy chain
+
+```ruby
+(1..Float::INFINITY).lazy.select { |n| prime?(n) }.first(10)
+```
+
+### Exercises (Appendix — enumerables_advanced-ruby2)
+
+1. Process a very large file line-by-line using `File.foreach` and a lazy enumerator to transform and count matching lines.
+2. Implement a memory-safe pipeline that computes running aggregates using `each_slice`.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
 ## Designing your own enumerable objects
 
 Custom collections should:

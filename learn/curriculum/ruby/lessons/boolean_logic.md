@@ -257,27 +257,127 @@ Strong boolean logic unlocks robust conditionals, readable code, and fewer surpr
 
 <!-- markdownlint-disable MD033 MD010 -->
 
-### Practical Appendix: Operator Precedence & Patterns
+## Practical Appendix: Boolean Logic — Short-circuit & Test Patterns (Appendix — boolean_logic-ruby2)
 
-This appendix shows precedence examples, safe boolean helpers, and an HTML table summarising operator precedence and common idioms.
+Tips for writing clear boolean expressions, using short-circuiting, and testing complex conditions.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Operator</th><th>Precedence</th><th>Notes</th></tr>
+    <tr><th>Concept</th><th>When</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>!</td><td>High</td><td>Negation</td></tr>
-    <tr><td>&&</td><td>Higher</td><td>Logical AND</td></tr>
-    <tr><td>||</td><td>Lower</td><td>Logical OR</td></tr>
-    <tr><td>and/or</td><td>Very low</td><td>Use for control flow, not expressions</td></tr>
+    <tr><td>Short-circuit</td><td>Use &&/||</td><td>Order operands to avoid nil errors</td></tr>
+    <tr><td>De Morgan</td><td>Negation simplification</td><td>Rewrite `!(a && b)` as `!a || !b` for clarity</td></tr>
+    <tr><td>Predicate methods</td><td>Method naming</td><td>End boolean methods with `?` for readability</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises
+### Examples (Appendix — boolean_logic-ruby2-examples-20251005-01-A-1)
 
-1. Build a `truthy_value?(v)` helper that normalizes common boolean-like strings to booleans.
-2. Rewrite a complex conditional using intermediate variables for clarity and add unit tests.
+```ruby
+if user && user.admin?
+  # safe access
+end
 
-<!-- markdownlint-enable MD010 -->
+# predicate
+def adult?(age)
+  age >= 18
+end
+```
+
+### Exercises (Appendix — boolean_logic-ruby2-unique-20251005-01-A-1)
+
+- Write tests for true and false cases, including nil and edge inputs.
+
+```ruby
+require 'minitest/autorun'
+
+class TestBool < Minitest::Test
+  def test_adult
+    assert adult?(18)
+    refute adult?(17)
+  end
+end
+```
+
+### Examples (Appendix — boolean_logic-ruby2-examples-20251005-01-B-1)
+
+```ruby
+if user && user.admin?
+  # safe access
+end
+
+# predicate
+def adult?(age)
+  age >= 18
+end
+```
+
+### Exercises (Appendix — boolean_logic-ruby2-unique-20251005-01-B-1)
+
+- Write tests for true and false cases, including nil and edge inputs.
+
+```ruby
+require 'minitest/autorun'
+
+class TestBool < Minitest::Test
+  def test_adult
+    assert adult?(18)
+    refute adult?(17)
+  end
+end
+```
+
+### Exercises (Appendix — boolean_logic-ruby2-EXTRA-20251005-01)
+
+1. Refactor a complex boolean expression using De Morgan's laws and add tests showing equivalence.
+2. Implement a set of predicate helpers and write tests for boundary values and nil-handling.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Boolean Logic — Truthiness & Guard Clauses (Appendix — boolean_logic-ruby2)
+
+Practical notes about truthy/falsey values in Ruby, operator precedence, and idiomatic guard clauses.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concept</th><th>Ruby specifics</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Truthiness</td><td>Only `false` and `nil` are falsey</td><td>Be careful when using `||` for defaults with false values</td></tr>
+    <tr><td>Guard clauses</td><td>Early returns</td><td>Improve readability</td></tr>
+    <tr><td>Operator precedence</td><td>Use parentheses</td><td>Avoid subtle bugs with `and`/`or`</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples (Appendix — boolean_logic-ruby2-examples-20251005-01-A-2)
+
+```ruby
+# guard clause
+return unless user
+# careful with defaults
+value = option || 'default' # but if option can be false this may be wrong
+```
+
+### Exercises (Appendix — boolean_logic-ruby2-unique-20251005-01-A-2)
+
+1. Write tests that demonstrate that only `nil` and `false` are falsey by plotting expressions that might look false but are truthy.
+2. Refactor a function with nested conditionals into clear guard clauses and add tests.
+
+### Examples (Appendix — boolean_logic-ruby2-examples-20251005-01-B-2)
+
+```ruby
+# guard clause
+return unless user
+# careful with defaults
+value = option || 'default' # but if option can be false this may be wrong
+```
+
+### Exercises (Appendix — boolean_logic-ruby2-unique-20251005-01-B-2)
+
+1. Write tests that demonstrate that only `nil` and `false` are falsey by plotting expressions that might look false but are truthy.
+2. Refactor a function with nested conditionals into clear guard clauses and add tests.

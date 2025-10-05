@@ -276,4 +276,56 @@ end
 1. Implement `safe_to_sym` and test it rejects unexpected keys.
 2. Benchmark repeated `to_sym` on the same string vs memoized symbol usage.
 
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Symbols — Interning, Memory & Use Cases (Appendix — symbols-ruby2)
+
+Notes on when to use symbols vs strings, memory implications, and safe patterns for dynamic symbol creation.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Use</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Identifiers</td><td>Method or key names</td><td>Good as hash keys for fixed sets</td></tr>
+    <tr><td>Dynamic symbols</td><td>Rare</td><td>Avoid creating from user input to prevent memory growth</td></tr>
+    <tr><td>String vs Symbol</td><td>Text data</td><td>Prefer String for user-visible text</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```ruby
+h = { foo: 1, bar: 2 }
+h[:foo] # => 1
+
+# avoid:
+user_input = 'danger'
+sym = user_input.to_sym # may bloat symbol table
+```
+
+### Testing symbol behavior
+
+- Test that API accepts either string or symbol keys if you support both (`h.fetch('k') || h.fetch(:k)` patterns or normalize keys).
+
+```ruby
+require 'minitest/autorun'
+
+class TestSymbols < Minitest::Test
+  def test_hash_access
+    h = { 'a' => 1 }
+    assert_equal 1, h['a']
+  end
+end
+```
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+### Exercises (Appendix — symbols-ruby2-unique)
+
+1. Write a helper that normalizes hash keys to symbols safely (without converting unknown large user inputs), and test with mixed key types.
+2. Benchmark lookups on large hashes keyed by strings vs symbols and report any performance differences.
+
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

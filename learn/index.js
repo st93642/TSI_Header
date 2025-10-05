@@ -287,8 +287,8 @@ class Learn {
                 solutionPanelOptions
             );
             
-            // Set HTML content with syntax highlighting
-            panel.webview.html = this.getSolutionHtml(solution, exercise);
+            // Set HTML content with syntax highlighting using local extension resources
+            panel.webview.html = this.getSolutionHtml(solution, exercise, panel.webview);
             
             // Get next lesson in curriculum for the "Next Lesson" button
             const curriculumLanguage = exercise.curriculumLanguage || language;
@@ -523,19 +523,36 @@ class Learn {
      * @param {Object} exercise - Exercise object
      * @returns {string} HTML string
      */
-    getSolutionHtml(solution, exercise) {
+    getSolutionHtml(solution, exercise, webview) {
         // Get next lesson in curriculum for the button
         const curriculum = this.learnManager.loadCurriculum('ruby').then(curriculum => {
             const progress = this.progressTracker.getProgress('ruby');
             return this.learnManager.getNextLesson(curriculum, progress);
         });
         
+        // Prepare URIs for highlight assets. If a webview is provided, use local extension resources
+        let highlightCss = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css';
+        let highlightJs = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js';
+        if (webview && this.vscode && this.vscode.Uri) {
+            try {
+                const cssPath = this.vscode.Uri.file(path.join(__dirname, '..', 'resources', 'highlightjs', 'github-dark.min.css'));
+                const jsPath = this.vscode.Uri.file(path.join(__dirname, '..', 'resources', 'highlightjs', 'highlight.min.js'));
+                highlightCss = webview.asWebviewUri(cssPath);
+                highlightJs = webview.asWebviewUri(jsPath);
+            } catch (e) {
+                // fallback to CDN if anything goes wrong
+            }
+        }
+
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solution: ${exercise.title}</title>
+    <!-- Highlight.js styles and script (local extension resource when available, otherwise CDN) -->
+    <link rel="stylesheet" href="${highlightCss}">
+    <script src="${highlightJs}"></script>
     <style>
         * {
             margin: 0;
@@ -630,17 +647,9 @@ class Learn {
         <strong>Explanation:</strong> ${solution.explanation || 'Complete solution for this exercise.'}
     </div>
     
-    <div class="solution-container">
+        <div class="solution-container">
         <div class="solution-header">Complete Solution Code:</div>
-        <pre><code>${solution.code.split('\n').map(line => {
-            const trimmed = line.trim();
-            const isRubyComment = trimmed.startsWith('#') && !trimmed.startsWith('#include');
-            const isCStyleComment = trimmed.startsWith('//') || trimmed.startsWith('/*') || trimmed.startsWith('*') || trimmed.startsWith('*/');
-            if (isRubyComment || isCStyleComment) {
-                return `<span class="code-comment">${this.escapeHtml(line)}</span>`;
-            }
-            return this.escapeHtml(line);
-        }).join('\n')}</code></pre>
+        <pre><code class="language-${(exercise.language || 'plaintext')}">${this.escapeHtml(solution.code)}</code></pre>
     </div>
     
     <div class="button-container">
@@ -666,6 +675,15 @@ class Learn {
                 command: 'browseLessons'
             });
         }
+
+        // Highlight code blocks when the DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                if (window.hljs && typeof hljs.highlightAll === 'function') hljs.highlightAll();
+            } catch (e) {
+                // ignore highlight errors
+            }
+        });
     </script>
 </body>
 </html>`;

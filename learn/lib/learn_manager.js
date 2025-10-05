@@ -351,12 +351,28 @@ class LearnManager {
             `).join('\n')
                 : '<button class="exercise-button" onclick="startDefaultExercise()">\n            📝 Start Practice Exercise\n        </button>';
 
+            // Prepare highlight.js asset URIs if available via resolveResourceUri
+            let highlightCssUri = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css';
+            let highlightJsUri = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js';
+            if (resolveResourceUri) {
+                try {
+                    // Use absolute paths (relative to this module) so resolveResourceUri can create correct webview URIs
+                    const cssAbs = path.join(__dirname, '..', '..', 'resources', 'highlightjs', 'github-dark.min.css');
+                    const jsAbs = path.join(__dirname, '..', '..', 'resources', 'highlightjs', 'highlight.min.js');
+                    highlightCssUri = resolveResourceUri(cssAbs);
+                    highlightJsUri = resolveResourceUri(jsAbs);
+                } catch (e) {
+                    // ignore and fall back to CDN
+                }
+            }
+
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${lesson.title || 'Lesson'}</title>
+    <link rel="stylesheet" href="${highlightCssUri}">
     <style>
         * {
             margin: 0;
@@ -424,7 +440,7 @@ class LearnManager {
             border-radius: 5px;
             overflow-x: auto;
             margin: 15px 0;
-            line-height: 1.0;
+            line-height: 1.5;
             white-space: pre;
             font-family: var(--vscode-editor-font-family);
         }
@@ -432,7 +448,7 @@ class LearnManager {
             background-color: transparent;
             padding: 0;
             font-size: 13px;
-            line-height: 1.0;
+            line-height: 1.5;
             color: var(--vscode-textPreformat-foreground);
             white-space: pre;
             font-family: inherit;
@@ -505,6 +521,7 @@ class LearnManager {
         </button>
     </div>
     
+    <script src="${highlightJsUri}"></script>
     <script>
         const vscode = acquireVsCodeApi();
         const exerciseConfig = ${JSON.stringify(exerciseConfig)};
@@ -530,6 +547,16 @@ class LearnManager {
                 command: 'completeLesson'
             });
         }
+        // Invoke highlight.js when the lesson DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                if (window.hljs && typeof hljs.highlightAll === 'function') {
+                    hljs.highlightAll();
+                }
+            } catch (e) {
+                // ignore
+            }
+        });
     </script>
 </body>
 </html>`;
@@ -544,21 +571,13 @@ class LearnManager {
         let html = markdown;
         
         // Convert code blocks first (before other replacements)
+        // Preserve language class for highlight.js and avoid wrapping individual lines so the highlighter can parse them
         html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-            // Highlight comments in code blocks and normalize line spacing
-            const processedCode = code
-                .split('\n')
-                .map(line => {
-                    // Check if line is a comment
-                    if (line.trim().startsWith('#')) {
-                        return `<span class="code-comment">${this.escapeHtml(line)}</span>`;
-                    }
-                    return this.escapeHtml(line);
-                })
-                .join('\n')
-                // Normalize line spacing: replace multiple consecutive empty lines with single empty lines
-                .replace(/\n{3,}/g, '\n\n');
-            return `<pre><code>${processedCode}</code></pre>`;
+            const language = (lang || '').trim();
+            const langClass = language ? `language-${language}` : 'language-plaintext';
+            // Escape HTML inside code block but keep original newlines. Normalize excessive blank lines.
+            const escaped = this.escapeHtml(code).replace(/\n{3,}/g, '\n\n');
+            return `<pre><code class="${langClass}">${escaped}</code></pre>`;
         });
 
         // Convert images

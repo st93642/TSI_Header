@@ -323,3 +323,37 @@ int main(){
 2. Demonstrate iterator invalidation by storing an iterator before growing the vector and document the behaviour.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: std::vector — Capacity, Reserve & Move Semantics (Appendix — vectors_cpp-appendix-20251005)
+
+Practical tips for using `std::vector` efficiently: `reserve`, `shrink_to_fit`, and understanding capacity vs size.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Operation</th><th>Method</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Reserve</td><td>v.reserve(n)</td><td>Avoid repeated reallocations</td></tr>
+    <tr><td>Access</td><td>operator[] vs at()</td><td>`at` checks bounds</td></tr>
+    <tr><td>Shrink</td><td>v.shrink_to_fit()</td><td>Non-binding request</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```cpp
+std::vector<int> v;
+v.reserve(1000);
+for (int i = 0; i < 1000; ++i) v.push_back(i);
+```
+
+### Exercises (Appendix — vectors_cpp-appendix-20251005)
+
+1. Benchmark push_back with and without reserve and report timings.
+2. Demonstrate move semantics when pushing movable objects into a vector.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

@@ -286,3 +286,64 @@ When macros affect API shapes, prefer adding small integration tests that compil
 2. Add a small CMake option that toggles a compile-time flag and ensure both variants compile in CI.
 
 <!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Preprocessor — Macros, Guards & Conditional Compilation (Appendix — preprocessor_c-appendix2)
+
+Practical recipes for writing and testing preprocessor code: safe macros, header guards, and platform-specific compilation patterns.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Header guards</td><td>All headers</td><td>Use `#ifndef/#define/#endif` or `#pragma once`</td></tr>
+    <tr><td>Function-like macros</td><td>Small inline code</td><td>Prefer inline functions when possible</td></tr>
+    <tr><td>Conditional compile</td><td>Platform-specific</td><td>Keep build matrices small and explicit</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: header guard
+
+```c
+#ifndef MYLIB_UTILS_H
+#define MYLIB_UTILS_H
+
+/* declarations */
+
+#endif /* MYLIB_UTILS_H */
+```
+
+### Macro hygiene
+
+- Parenthesize macro parameters: `#define SQUARE(x) ((x) * (x))`
+- Avoid macros that evaluate arguments multiple times when side effects matter.
+
+### Conditional compilation example
+
+```c
+#ifdef _WIN32
+  /* Windows-specific code */
+#else
+  /* POSIX code */
+#endif
+```
+
+### Testing preprocessor-time behaviour
+
+- Prefer small compile-time tests: create separate translation units that include your macros and confirm expansion via `-E` preprocessor output.
+- Use `static_assert` where available to check sizes and constants.
+
+```c
+_Static_assert(sizeof(void*) == 8, "64-bit required");
+```
+
+### Exercises (Appendix — preprocessor_c-appendix2)
+
+1. Create a header with proper guards and a small macro; compile with `-E` to view the expansion and add a short README describing the macro's behavior.
+2. Write a small cross-platform compile example that uses `#ifdef` and provide a Makefile target that builds on both POSIX and Windows (where applicable).
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

@@ -288,3 +288,76 @@ Create `Employee` base, `Manager`, `Developer` derived.
 ## Recap and next steps
 
 Inheritance enables hierarchies. Next, explore polymorphism.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Inheritance in C++ — Virtuals, Slicing & Design (Appendix — inheritance_cpp-appendix2)
+
+Guidance for safe inheritance usage in C++: prefer composition, use virtual destructors, avoid object slicing, and test polymorphic behavior.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Issue</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Virtual destructor</td><td>virtual ~Base()</td><td>Always provide if deleting via base pointer</td></tr>
+    <tr><td>Slicing</td><td>Use pointers/references</td><td>Avoid storing derived objects by value in base-type containers</td></tr>
+    <tr><td>Testing</td><td>Polymorphic tests</td><td>Use base pointers to assert overridden behaviour</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```cpp
+struct Base { virtual ~Base() = default; virtual void act() = 0; };
+struct Derived : Base { void act() override { /*...*/ } };
+
+Base* b = new Derived();
+delete b; // safe because Base has virtual destructor
+```
+
+### Exercises (Appendix — inheritance_cpp-appendix2)
+
+1. Write a polymorphic hierarchy with a virtual method and test that a base pointer calls the derived implementation.
+2. Demonstrate object slicing and fix it by using pointers or smart pointers; add tests showing the difference.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Inheritance — Patterns, CRTP & Testing (Appendix — inheritance_cpp-appendix3)
+
+Notes on modern inheritance patterns, when to use CRTP (Curiously Recurring Template Pattern), and testing strategies for polymorphic hierarchies.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>CRTP</td><td>Static polymorphism</td><td>Avoids virtual calls when appropriate</td></tr>
+    <tr><td>Strategy</td><td>Composition over inheritance</td><td>Prefer interfaces for behaviour</td></tr>
+    <tr><td>Testing</td><td>Polymorphic assertions</td><td>Test through base interfaces</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: CRTP
+
+```cpp
+template <typename Derived>
+struct Base {
+  void interface() { static_cast<Derived*>(this)->implementation(); }
+};
+
+struct Impl : Base<Impl> { void implementation() {/*...*/} };
+```
+
+### Exercises (Appendix — inheritance_cpp-appendix3)
+
+1. Implement a CRTP helper and use it for a small compile-time polymorphism example; add tests asserting behaviour.
+2. Replace an inheritance-based design with composition and add tests verifying behaviour remains correct.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

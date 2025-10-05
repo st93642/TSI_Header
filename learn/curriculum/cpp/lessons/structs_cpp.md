@@ -257,3 +257,92 @@ Authoritative references for standard-layout types, alignment, and packing.
 5. How could you organise struct declarations and implementations across headers and source files in a multi-file project?
 
 With structs under your belt, you can model richer data as you continue through the curriculum.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Structs — Layout & Testing (Appendix — structs_cpp-appendix2)
+
+Notes and recipes for struct layout, padding, alignment, and unit tests that verify layout-sensitive behavior.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Why</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Padding</td><td>Memory layout</td><td>Order fields to reduce padding</td></tr>
+    <tr><td>Alignment</td><td>ABI-compatible layout</td><td>Use static_assert on sizeof and alignof</td></tr>
+    <tr><td>Testing</td><td>Catch mismatches early</td><td>Use unit tests and static_asserts</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: checking layout
+
+```cpp
+#include <cassert>
+#include <cstddef>
+
+struct Packed {
+    int32_t a;
+    int16_t b;
+    // expect padding; verify with static_assert in tests
+};
+
+static_assert(sizeof(Packed) >= sizeof(int32_t) + sizeof(int16_t));
+```
+
+### Test snippet (Catch2)
+
+```cpp
+#include <catch2/catch.hpp>
+
+TEST_CASE("struct size and alignment") {
+    REQUIRE(sizeof(Packed) >= 6);
+}
+```
+
+### Exercises (Appendix — structs_cpp-appendix2)
+
+1. Reorder fields in a struct for minimal padding and verify size reduction using `static_assert`.
+2. Create a POD struct and memcpy it to/from a byte buffer; add tests verifying round-trip fidelity.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Structs — POD, Default Init & Move Semantics (Appendix — structs_cpp-appendix2)
+
+Practical guidance for designing plain-old-data structs, safe defaults, and move-friendly members.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Advice</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>POD vs non-POD</td><td>Prefer POD for C-like interop</td><td>Avoid user-defined dtor/copy/move to remain POD</td></tr>
+    <tr><td>Default init</td><td>Provide constructors or in-class defaults</td><td>Prevents uninitialized members</td></tr>
+    <tr><td>Move semantics</td><td>Make move ctor/assign noexcept</td><td>Enables optimizations in containers</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```cpp
+struct Item {
+  int id = 0;
+  std::string name;
+};
+
+std::vector<Item> v;
+v.emplace_back(); // uses defaults
+```
+
+### Exercises (Appendix — structs_cpp-appendix2-unique)
+
+1. Convert a class with manual resource management into a POD-like struct using RAII-friendly members and verify copy/move behaviour.
+2. Add benchmarks comparing move vs copy when inserting into `std::vector`.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

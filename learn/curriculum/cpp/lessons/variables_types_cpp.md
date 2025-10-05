@@ -273,3 +273,76 @@ int main() {
 2. Add assertions or checks for potential overflows where inputs are untrusted.
 
 <!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Variables & Types — `auto`, `size_t`, and Best Practices (Appendix — variables_types_cpp-appendix2)
+
+Notes on choosing types, using `auto` safely, integer widths, and avoiding signed/unsigned surprises.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Recommendation</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>`auto`</td><td>Use for long types</td><td>Prefer when it improves readability</td></tr>
+    <tr><td>`size_t`</td><td>Container sizes/indices</td><td>Unsigned — be careful with arithmetic</td></tr>
+    <tr><td>Fixed-width types</td><td>`int32_t`, `uint64_t`</td><td>Use in ABI or protocol code</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```cpp
+auto it = vec.begin();
+size_t n = vec.size();
+int64_t counter = 0;
+```
+
+### Testing type-sensitive code
+
+- Test boundary conditions (max/min) for integer code paths.
+- Use static assertions where applicable: `static_assert(sizeof(long) >= 8, "need 64-bit");`
+
+### Exercises (Appendix — variables_types_cpp-appendix2)
+
+1. Write a function that accepts a container and returns the sum using `auto` for the iterator and test it with `vector<int>` and `list<long>`.
+2. Demonstrate a signed/unsigned bug with a small test and fix it by changing types or using `std::make_signed`/`std::make_unsigned` appropriately.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Variables & Types — auto, decltype & Aliases (Appendix — variables_types_cpp-appendix-20251005-01)
+
+Practical examples using modern C++ type features and guidance for choosing value vs reference semantics.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>auto</td><td>Type deduction</td><td>Use to avoid redundancy, but keep clarity</td></tr>
+    <tr><td>decltype</td><td>Obtain type of expression</td><td>Useful in templates and generic code</td></tr>
+    <tr><td>using</td><td>Type aliases</td><td>Prefer `using Name = T;` over typedef</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: auto and decltype
+
+```cpp
+auto v = std::vector<int>{1,2,3};
+using Vec = decltype(v);
+Vec v2 = v;
+```
+
+### Exercises (Appendix — variables_types_cpp-appendix-20251005-01)
+
+1. Refactor a legacy function signature using `auto` and `using` aliases to improve readability.
+2. Add tests (static_assert) demonstrating deduced types match expected types.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

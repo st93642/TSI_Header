@@ -162,10 +162,12 @@ void Widget::draw() { /* forward to pimpl */ }
 ```
 
 Benefits:
+
 - Changes to impl do not require recompiling clients.
 - Improves ABI stability for libraries.
- 
+
 Tradeoffs:
+
 - Slight runtime and code complexity cost (indirection, heap allocation).
 
 ### Include-What-You-Use (IWYU) Practices
@@ -209,10 +211,12 @@ int add(int a, int b) { return a + b; }
 ```
 
 Pros:
+
 - Faster builds by avoiding textual inclusion.
 - Stronger encapsulation of implementation.
- 
+
 Cons:
+
 - Tooling and ecosystem support still maturing in many environments.
 
 ### Header Hygiene: CI Checks & Scripts
@@ -311,3 +315,37 @@ python3 ../scripts/compile_headers.py --compile-commands compile_commands.json
 ---
 
 End of Header Best Practices & Tooling Appendix.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Header Basics — Guards, PIMPL & Minimal Includes (Appendix — header_basics_cpp-appendix2)
+
+Practical advice for writing headers: minimize includes, prefer forward declarations, and use PIMPL for ABI stability.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Include minimal</td><td>Use forward declarations</td><td>Reduces compile-time coupling</td></tr>
+    <tr><td>PIMPL</td><td>Pointer to impl</td><td>Helps hide implementation and reduce recompiles</td></tr>
+    <tr><td>Guards</td><td>#pragma once / include guards</td><td>Prevent multiple inclusion</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: forward decl
+
+```cpp
+// header.h
+class Widget; // forward
+void operate(Widget* w);
+```
+
+### Exercises (Appendix — header_basics_cpp-appendix2)
+
+1. Refactor a header to replace heavy includes with forward declarations and measure compile time difference for a small project.
+2. Implement a simple PIMPL for a class with private data and test compilation and linking.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

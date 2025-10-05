@@ -287,3 +287,81 @@ Create base `Shape` class with derived `Circle`, `Rectangle`.
 ## Recap and next steps
 
 Encapsulation enables modular design. Next, explore inheritance.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Classes & Encapsulation — Access, RAII & Tests (Appendix — classes_encapsulation_cpp-appendix2)
+
+Practical patterns for designing classes in C++: encapsulation, RAII, access specifiers, and unit testing tips.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Encapsulation</td><td>private / protected</td><td>Hide implementation details</td></tr>
+    <tr><td>RAII</td><td>Resource management</td><td>Use constructors/destructors to manage resources</td></tr>
+    <tr><td>Testing</td><td>Unit tests</td><td>Test behaviour via public API</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: RAII
+
+```cpp
+class FileHandle {
+public:
+  FileHandle(const char* path) { f = fopen(path, "r"); }
+  ~FileHandle() { if (f) fclose(f); }
+private:
+  FILE* f;
+};
+```
+
+### Exercises (Appendix — classes_encapsulation_cpp-appendix2)
+
+1. Implement a small RAII wrapper for a resource and write unit tests verifying construction and cleanup.
+2. Refactor a data-struct to hide internal state and provide a minimal public API; add tests that verify behavior remains correct.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Classes & Encapsulation — Thread-safety & Design (Appendix — classes_encapsulation_cpp-appendix3)
+
+Design notes for thread-safe classes, using mutexes inside RAII objects, and small examples showing safe concurrent access patterns.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Thread-safety</td><td>std::mutex</td><td>Protect shared state; keep locks small</td></tr>
+    <tr><td>Immutable interfaces</td><td>const methods</td><td>Prefer immutable data when possible</td></tr>
+    <tr><td>PIMPL</td><td>Pointer to impl</td><td>Helps hide mutexes from public API</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: guarded counter
+
+```cpp
+#include <mutex>
+
+class Counter {
+  std::mutex m;
+  int value = 0;
+public:
+  void inc() { std::lock_guard<std::mutex> g(m); ++value; }
+  int get() { std::lock_guard<std::mutex> g(m); return value; }
+};
+```
+
+### Exercises (Appendix — classes_encapsulation_cpp-appendix3)
+
+1. Add thread-safety to a simple class using `std::mutex` and test concurrent increments using threads.
+2. Refactor a class to use PIMPL to hide synchronization details from the public header.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

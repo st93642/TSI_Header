@@ -299,3 +299,39 @@ Reach for procs or blocks when you require lenient arity or DSL-style behavior t
 5. What patterns help avoid performance or readability issues when you introduce lambdas into a codebase?
 
 Lambdas give you a middle ground between single-use blocks and full classes—embrace them for clean, composable, expressive Ruby code.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Lambdas & Procs — Arity, Currying & Use Cases (Appendix — lambdas-ruby2)
+
+Practical guide to when to use `Proc`, `lambda`, and `->` syntax; arity differences and leveraging `#curry` for composable functions.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Behavior</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>lambda</td><td>Strict arity</td><td>Raises ArgumentError on mismatch</td></tr>
+    <tr><td>proc</td><td>Lenient arity</td><td>Useful for varargs adapters</td></tr>
+    <tr><td>curry</td><td>Partial application</td><td>Useful in functional pipelines</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+adder = ->(a, b) { a + b }
+add1 = adder.curry[1]
+add1[2] # => 3
+
+p = proc { |x, y| puts x }
+```
+
+### Exercises (Appendix — lambdas-ruby2)
+
+1. Convert a chain of small functions into curried lambdas and test composition.
+2. Demonstrate arity differences between `lambda` and `proc` with tests that assert behavior on wrong argument counts.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

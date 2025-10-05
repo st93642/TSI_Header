@@ -283,3 +283,75 @@ puts "#{name} will be #{age + 5} in five years."
 ## Next steps
 
 Experiment liberally—create variables, mutate them, inspect object IDs, and practice destructuring. Mastery of variables and types makes the rest of Ruby's features click, whether you are parsing API payloads or modeling business logic. Next up, we zoom in on strings and text manipulation, expanding your toolkit for working with human-readable data.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Variables & Types — Numeric Promotion & Safe Defaults (Appendix — variables_types-ruby2)
+
+Notes on how Ruby treats numeric operations, common pitfalls, and patterns for safe default values.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Numeric promotion</td><td>Integers and Floats</td><td>Watch division: `1/2` => 0 in older Ruby; use `1.0/2` or `to_f`</td></tr>
+    <tr><td>Default values</td><td>nil sentinel</td><td>Use `opts.fetch(:k, default)` to avoid accidental mutation</td></tr>
+    <tr><td>Immutability</td><td>freeze constants</td><td>Freeze arrays/hashes to signal intent</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+# division
+puts 1.fdiv(2) # => 0.5
+
+# safe defaults
+def configure(opts = {})
+  opts = { retry: 3 }.merge(opts)
+end
+```
+
+### Exercises (Appendix — variables_types-ruby2)
+
+1. Demonstrate integer division vs float division and write tests covering both.
+2. Implement a config loader that uses frozen default objects and write tests ensuring defaults are not mutated.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Variables & Types — Scope, Duck Typing & Conventions (Appendix — variables_types-ruby-appendix-20251005)
+
+Practical notes on choosing variable scope, understanding Ruby's type system, and when to document expected types.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Var type</th><th>Prefix</th><th>When to use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Local</td><td>none</td><td>Method-scope locals</td></tr>
+    <tr><td>Instance</td><td>@</td><td>Per-object state</td></tr>
+    <tr><td>Class</td><td>@@</td><td>Shared across class hierarchy (use sparingly)</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: duck typing
+
+```ruby
+def process(collection)
+  collection.each { |x| puts x }
+end
+```
+
+### Exercises (Appendix — variables_types-ruby-appendix-20251005)
+
+1. Convert a class using class variables to one using class instance variables and add tests.
+2. Document expected types for public methods and add simple runtime assertions.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

@@ -224,9 +224,9 @@ Authoritative references and patterns for conditional logic, pattern matching (C
 
 <!-- markdownlint-enable MD010 -->
 
-<!-- markdownlint-disable MD033 MD010 -->
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-### Practical Appendix: Conditionals — Deep Dive (Appendix II — External Links)
+## Practical Appendix: Conditionals — Deep Dive (Appendix II — External Links)
 
 Show more about `constexpr if`, type traits, and when to prefer tag-dispatch or concept-based overloads.
 
@@ -262,3 +262,119 @@ void print_if_integer(const T& v) {
 2. Add a small set of static_asserts that validate template branches.
 
 <!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Conditionals — Patterns & Tests (Appendix — conditionals_cpp-appendix2)
+
+Common conditional patterns, avoiding nested if-else complexity, and small unit-testable examples.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>Why</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Early return</td><td>Reduce nesting</td><td>if (!ok) return;</td></tr>
+    <tr><td>Use enums</td><td>Make states explicit</td><td>enum class State { Pending, Ready }</td></tr>
+    <tr><td>Branch coverage</td><td>Test all paths</td><td>Use unit tests for each branch</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: early returns & enums
+
+```cpp
+enum class Status { OK, ERROR };
+
+Status check(int x) {
+    if (x < 0) return Status::ERROR;
+    if (x == 0) return Status::OK;
+    return Status::OK;
+}
+```
+
+### Testing tips
+
+- Write unit tests that explicitly exercise each conditional path.
+- Use parameterized tests for combinations of inputs that affect multiple branches.
+
+### Exercises (Appendix — conditionals_cpp-appendix2)
+
+1. Refactor a nested-if example into early-return style and add tests for each path.
+2. Replace magic numbers in conditionals with named constants or enums and add static_asserts where appropriate.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Conditionals — switch, constexpr & Pattern Dispatch (Appendix — conditionals_cpp-appendix3)
+
+Practical tips for writing clear conditionals in C++: prefer `switch` for integer enums, use `constexpr` for compile-time branches, and emulate pattern dispatch with variant/visit.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Technique</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>switch</td><td>Enums/ints</td><td>Use `default` and avoid fall-through unless intended</td></tr>
+    <tr><td>constexpr if</td><td>Compile-time</td><td>Use for template dispatch</td></tr>
+    <tr><td>std::variant</td><td>Sum types</td><td>Use `std::visit` for type-based dispatch</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: constexpr-if
+
+```cpp
+template<typename T>
+void f(T t) {
+  if constexpr (std::is_integral_v<T>) {
+    // integer-specific
+  } else {
+    // other
+  }
+}
+```
+
+### Exercises (Appendix — conditionals_cpp-appendix3)
+
+1. Replace a chain of `if-else` on an enum with a `switch` statement and add tests covering all values.
+2. Use `std::variant` and `std::visit` to dispatch behavior for multiple possible value types and test each case.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Testing Conditionals — Property Tests & Edge Cases (Appendix — conditionals_cpp-appendix4)
+
+Practical guidance for testing branches: use property-based approaches and enumerate edge cases to avoid logic regression.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Strategy</th><th>Tooling</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Enumerate enums</td><td>Unit tests</td><td>Cover every enum value including default</td></tr>
+    <tr><td>Property tests</td><td>Smallcheck-style</td><td>Use randomized inputs to find invariants</td></tr>
+    <tr><td>Boundary tests</td><td>Edge values</td><td>Focus on off-by-one</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: table-driven tests
+
+```cpp
+struct Case { int in; int expected; };
+Case cases[] = {{0,0}, {1,1}, {2,1}};
+for (auto &c : cases) EXPECT_EQ(f(c.in), c.expected);
+```
+
+### Exercises (Appendix — conditionals_cpp-appendix4)
+
+1. Add table-driven tests enumerating all enum values and a failing case, then fix the implementation.
+2. Create a small randomized tester that asserts invariants over hundreds of generated inputs.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

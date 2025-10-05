@@ -262,3 +262,93 @@ Reading and cautionary notes for runtime code generation and reflection.
 2. Add a short note documenting why excessive metaprogramming can harm maintainability.
 
 <!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Metaprogramming — Safe Patterns & Tests (Appendix — metaprogramming-ruby2)
+
+Compact recipes for using `define_method`, `method_missing`, and reflection safely plus test strategies to verify dynamic behaviour.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Technique</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>define_method</td><td>Generate methods dynamically</td><td>Avoid defining methods on global classes in libraries</td></tr>
+    <tr><td>method_missing</td><td>Flexible dispatch</td><td>Provide respond_to_missing? for compatibility</td></tr>
+    <tr><td>Reflection</td><td>Introspection</td><td>Use sparingly; prefer explicit APIs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: define_method
+
+```ruby
+class MyBuilder
+  %i[one two three].each do |name|
+    define_method("do_#{name}") do |arg|
+      "#{name}-#{arg}"
+    end
+  end
+end
+```
+
+### Testing dynamic methods
+
+- Use `respond_to?` checks and test that generated methods behave as expected.
+
+```ruby
+require 'minitest/autorun'
+
+class TestMeta < Minitest::Test
+  def test_dynamic
+    b = MyBuilder.new
+    assert_respond_to b, :do_one
+    assert_equal 'one-42', b.do_one(42)
+  end
+end
+```
+
+### Exercises (Appendix — metaprogramming-ruby2)
+
+1. Implement a small DSL that defines attribute helpers at runtime and write tests verifying behavior.
+2. Replace `method_missing` logic with explicit generated methods to improve performance and testability.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Metaprogramming Patterns & Safety (Appendix — metaprogramming-ruby-appendix-20251005)
+
+Guidance on using `define_method`, `method_missing`, and avoiding maintainability pitfalls.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>Use</th><th>Safety</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>define_method</td><td>Generate methods</td><td>Prefer explicit definitions when possible</td></tr>
+    <tr><td>method_missing</td><td>Dynamic dispatch</td><td>Implement `respond_to_missing?`</td></tr>
+    <tr><td>send</td><td>Call private methods</td><td>Use sparingly; document intent</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: safe dynamic method
+
+```ruby
+class AttrList
+  def initialize(names)
+    names.each { |n| define_singleton_method(n) { instance_variable_get("@#{n}") } }
+  end
+end
+```
+
+### Exercises (Appendix — metaprogramming-ruby-appendix-20251005)
+
+1. Implement `method_missing` for a delegator and add tests for expected methods and `respond_to?`.
+2. Document when metaprogramming improves vs harms clarity in a short note.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

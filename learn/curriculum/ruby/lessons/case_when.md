@@ -278,3 +278,60 @@ This appendix shows common patterns for matching API responses, arrays, and nest
 2. Add guards to match only JSON responses when `headers[:content_type]` includes `json`.
 
 <!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: case/when — Pattern Matching & Best Practices (Appendix — case_when-ruby2)
+
+Guidance for using `case/when`, simple pattern matching, and tests to cover multiple branches and edge cases.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>When to use</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Multiple distinct branches</td><td>case/when</td><td>Readable for many alternatives</td></tr>
+    <tr><td>Class matching</td><td>when String, Integer</td><td>Useful for dispatch based on type</td></tr>
+    <tr><td>Pattern matching (2.7+)</td><td>in and pattern matching</td><td>Use `in` for structural matches</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+case obj
+when Array then :array
+when Hash then :hash
+when nil then :none
+else :other
+end
+
+# Pattern matching (Ruby 2.7+)
+case data
+in {name: String => n, age: Integer => a}
+  "#{n}-#{a}"
+end
+```
+
+### Testing branches
+
+- Test each branch explicitly and include unexpected types.
+
+```ruby
+require 'minitest/autorun'
+
+class TestCaseWhen < Minitest::Test
+  def test_branches
+    assert_equal :array, detect_type([])
+  end
+end
+```
+
+### Exercises (Appendix — case_when-ruby2)
+
+1. Rewrite a series of if/elsif statements into a `case` expression and add tests covering every branch.
+2. Use pattern matching to destructure a nested hash and write tests for valid and invalid shapes.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

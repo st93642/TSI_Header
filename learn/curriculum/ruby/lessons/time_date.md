@@ -233,30 +233,142 @@ Time.now.utc.iso8601
 
 <!-- markdownlint-enable MD010 -->
 
-<!-- markdownlint-disable MD033 MD010 -->
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-### Practical Appendix: Time & Date — Resources (Appendix — External Links)
+## Practical Appendix: Time & Date — Timezones, DST & ISO Handling (Appendix — time_date-ruby4)
 
-References for date/time handling and timezone-aware patterns in Ruby.
-
-- Ruby Time and Date docs: [Time](https://ruby-doc.org/core/Time.html), [Date](https://ruby-doc.org/stdlib/date/rdoc/Date.html)
-- ActiveSupport time helpers (Rails): [ActiveSupport::TimeWithZone]
+Additional practical notes on timezone databases, daylight saving time pitfalls, and robust parsing/output for APIs.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Topic</th><th>Doc</th><th>Notes</th></tr>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>Time</td><td><a href="https://ruby-doc.org/core/Time.html">Time</a></td><td>Use UTC for storage</td></tr>
-    <tr><td>Date</td><td><a href="https://ruby-doc.org/stdlib/date/rdoc/Date.html">Date</a></td><td>Use for date-only logic</td></tr>
+    <tr><td>Timezone DB</td><td>tzinfo / zoneinfo</td><td>Use canonical TZ identifiers (e.g., 'America/New_York')</td></tr>
+    <tr><td>DST</td><td>Be explicit</td><td>Avoid ambiguous local times around DST transitions</td></tr>
+    <tr><td>ISO output</td><td>to_s / iso8601</td><td>Prefer `Time#iso8601` for API responses</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises (External Resources)
+### Example: tzinfo
 
-1. Convert a naive local-time example to UTC and write tests verifying the conversion.
-2. Use `Time.parse` and `Date.parse` in tests and document edge cases around DST transitions.
+```ruby
+require 'tzinfo'
+ny = TZInfo::Timezone.get('America/New_York')
+ny.to_local(Time.now.utc)
+```
 
-<!-- markdownlint-enable MD010 -->
+### Exercises (Appendix — time_date-ruby4)
+
+1. Parse timestamps from multiple timezones and normalize to UTC for storage; write tests covering DST transition cases.
+2. Create a helper that formats times in ISO8601 with timezone offset and test formatting.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Time & Date — Serialization & ISO Roundtrips (Appendix — time_date-ruby5)
+
+Quick recipes for serializing time objects consistently across services and ensuring roundtrip safety when persisting timestamps.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Goal</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Store UTC</td><td>Time.utc / iso8601</td><td>Convert to UTC before persisting</td></tr>
+    <tr><td>Roundtrip</td><td>iso8601 with offset</td><td>Preserve timezone offset when needed</td></tr>
+    <tr><td>Validation</td><td>Parse and compare</td><td>Assert equality of normalized times in tests</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```ruby
+t = Time.now.utc
+s = t.iso8601
+parsed = Time.parse(s)
+assert_equal t.to_i, parsed.to_i
+```
+
+### Exercises (Appendix — time_date-ruby5)
+
+1. Implement helpers that serialize Time objects to ISO8601 and parse them back, adding tests for roundtrip integrity.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Time & Date — Formatting Strategies & ISO Compliance (Appendix — time_date-ruby6)
+
+Notes on choosing formatting strategies for storage and display, and ensuring ISO8601 compliance in APIs.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Goal</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>API storage</td><td>Use UTC ISO8601</td><td>Use `time.iso8601(3)` for millisecond precision</td></tr>
+    <tr><td>Human display</td><td>Localize with timezone</td><td>Show friendly format to users</td></tr>
+    <tr><td>Validation</td><td>strict parse</td><td>Reject ambiguous local times</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example (Appendix — time_date-ruby6-example)
+
+```ruby
+iso = Time.now.utc.iso8601(3)
+parsed = Time.iso8601(iso)
+```
+
+### Exercises (Appendix — time_date-ruby6)
+
+1. Add formatters for API and human display and write tests that assert roundtrip fidelity for API format.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Time & Date — parsing, formatting & zones (Appendix — time_date-ruby3)
+
+Practical recipes to parse timestamps, format them for logs, and work safely with time zones.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Task</th><th>API</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Parse ISO8601</td><td>Time.iso8601 / DateTime.iso8601</td><td>Requires 'time' or DateTime library</td></tr>
+    <tr><td>Formatting</td><td>strftime</td><td>Use explicit zone offsets for logs</td></tr>
+    <tr><td>Time zones</td><td>TZ environment</td><td>Prefer UTC for storage</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+require 'time'
+
+t = Time.iso8601('2021-08-25T14:35:00Z')
+puts t.utc.iso8601
+puts t.strftime('%Y-%m-%d %H:%M:%S %z')
+
+# Convert local time to UTC
+local = Time.new(2021,8,25,16,0,0, "-05:00")
+puts local.getutc
+```
+
+### Exercises (Appendix — time_date-ruby3)
+
+1. Create a function that accepts a timestamp string in unknown formats and normalizes to UTC ISO8601.
+2. Add tests that confirm conversions between zones preserve the instant in time.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

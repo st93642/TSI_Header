@@ -259,3 +259,114 @@ puts value.infinite?   # => 1
 5. How can you generate reproducible random sequences, and why is that valuable in testing?
 
 Math is more than memorizing operators—it’s about choosing precise types, writing clear formulas, and guarding against edge cases. Keep experimenting with Ruby’s numeric classes to make your calculations both elegant and reliable.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Numbers — Parsing, Rounding & Benchmarks (Appendix — numbers-ruby3)
+
+Practical tips for parsing numeric input, rounding strategies, and benchmarking numeric operations in Ruby.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Parsing</td><td>Integer/Float parsing</td><td>Use `Integer(str)` / `Float(str)` with rescue for errors</td></tr>
+    <tr><td>Rounding</td><td>`round`, `floor`, `ceil`</td><td>Know your rounding modes for financials</td></tr>
+    <tr><td>Benchmarks</td><td>Benchmark/benchmark-ips</td><td>Measure hotspots before optimizing</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Parsing example
+
+```ruby
+begin
+  n = Integer('42')
+rescue ArgumentError
+  n = nil
+end
+```
+
+### Rounding
+
+```ruby
+(2.3456).round(2) # => 2.35
+```
+
+### Exercises (Appendix — numbers-ruby3)
+
+1. Implement `safe_int(str)` that returns nil for invalid inputs and write tests.
+2. Benchmark `BigDecimal` vs `Float` for a summation of 1_000_000 terms and report allocations/time.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Numbers — JSON Interop & Edge Cases (Appendix — numbers-ruby4)
+
+Handling numeric values when serializing to/from JSON, preserving precision for large integers, and edge cases in parsing.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Large ints</td><td>Use BigDecimal/BigInteger</td><td>JS numbers lose precision above 2^53</td></tr>
+    <tr><td>JSON parsing</td><td>JSON.parse</td><td>Symbolize keys when useful</td></tr>
+    <tr><td>Encoding</td><td>Stringify carefully</td><td>Avoid scientific notation when exact digits matter</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+require 'json'
+obj = JSON.parse('{"n": 9007199254740993}') # may lose precision in JS
+
+# keep as string to preserve
+obj2 = JSON.parse('{"n": "9007199254740993"}')
+```
+
+### Exercises (Appendix — numbers-ruby4)
+
+1. Serialize large integers as strings to preserve precision and write tests that parse them back correctly.
+2. Demonstrate precision loss when passing large integers through JavaScript clients and propose mitigations.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Numbers — BigDecimal, Precision & Currency (Appendix — numbers-ruby3)
+
+Practical tips for handling numeric precision, money, and avoiding float pitfalls in Ruby.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Task</th><th>Recommended API</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Precise decimal math</td><td>BigDecimal</td><td>Avoid floats for money</td></tr>
+    <tr><td>Formatting</td><td>sprintf/format</td><td>Locale-aware formatting may require gems</td></tr>
+    <tr><td>Rounding</td><td>round/ceil/floor</td><td>Know the rounding mode</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: BigDecimal
+
+```ruby
+require 'bigdecimal'
+require 'bigdecimal/util'
+
+price = '19.99'.to_d
+tax = price * '0.075'.to_d
+puts (price + tax).to_s('F')
+```
+
+### Exercises (Appendix — numbers-ruby3-unique)
+
+1. Implement currency addition using `BigDecimal` and format output for two decimal places.
+2. Add tests that verify behaviour with very small and very large magnitudes.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

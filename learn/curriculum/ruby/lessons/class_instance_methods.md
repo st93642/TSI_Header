@@ -322,3 +322,48 @@ If a class method starts accumulating lots of conditional logic or state, consid
 5. How does `private_class_method` improve encapsulation for factory patterns?
 
 Mastering the distinction between class and instance methods helps you keep responsibilities clear. Reach for class methods when the behavior belongs to the class as a whole—configuration, caching, factories—and lean on instance methods when the logic depends on an object’s unique state.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Class vs Instance Methods & Visibility (Appendix — class_instance_methods-ruby-appendix-20251005)
+
+Notes about when to use class methods, instance methods, `self.` vs `class << self`, and `private`/`protected` visibility.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concept</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Class method</td><td>Factory or utility</td><td>Use `self.method` or `def self.method`</td></tr>
+    <tr><td>Instance method</td><td>Per-object behaviour</td><td>Prefer instance state for mutable data</td></tr>
+    <tr><td>Visibility</td><td>private/protected</td><td>Document intended access</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```ruby
+class User
+  def self.find(id)
+    # class-level finder
+  end
+
+  def name
+    @name
+  end
+
+  private
+  def secret
+    'shh'
+  end
+end
+```
+
+### Exercises (Appendix — class_instance_methods-ruby-appendix-20251005)
+
+1. Convert several helper methods into class methods where appropriate and add tests.
+2. Demonstrate visibility by attempting to call a private method from outside and assert the error.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

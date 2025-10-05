@@ -248,6 +248,86 @@ rescue StandardError => e
 end
 ```
 
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Error Handling — Custom Errors, Retries & Fail-Fast (Appendix — error_handling-ruby3)
+
+Practical guidance on designing error classes, retry strategies for transient failures, and patterns for fail-fast behaviour.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Custom errors</td><td>Domain-specific failures</td><td>Inherit from `StandardError`</td></tr>
+    <tr><td>Retries</td><td>Transient network failures</td><td>Use exponential backoff and limit retries</td></tr>
+    <tr><td>Fail-fast</td><td>Detect catastrophic state</td><td>Raise early and let CI catch regressions</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: retry
+
+```ruby
+require 'net/http'
+
+retries = 0
+begin
+  res = Net::HTTP.get_response(uri)
+rescue StandardError
+  retries += 1
+  retry if retries < 3
+  raise
+end
+```
+
+### Exercises (Appendix — error_handling-ruby3)
+
+1. Implement a retry wrapper with exponential backoff and add tests that simulate transient failures.
+2. Create a small custom error class hierarchy and add tests asserting rescue behavior only catches intended error types.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Observability & Error Reporting (Appendix — error_handling-ruby4)
+
+Notes on turning runtime errors into actionable signals: structured logging, correlation ids, and graceful degradation.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Technique</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Structured logs</td><td>JSON log lines</td><td>Include correlation_id and error class</td></tr>
+    <tr><td>Correlation</td><td>Pass request ids</td><td>Helps trace failures across components</td></tr>
+    <tr><td>Graceful fallback</td><td>Fallback strategies</td><td>Prefer default behaviour over crash when safe</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: custom error with metadata
+
+```ruby
+class PaymentError < StandardError
+  attr_reader :code, :details
+  def initialize(msg = nil, code: nil, details: {})
+    super(msg)
+    @code = code
+    @details = details
+  end
+end
+
+raise PaymentError.new('failed', code: 402, details: {order: 42})
+```
+
+### Exercises (Appendix — error_handling-ruby4)
+
+1. Create a middleware that captures exceptions, logs them with a correlation id and returns a sanitized error response.
+2. Add tests that assert the middleware logs the expected JSON fields and that sensitive fields are redacted.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
 ## Key Takeaways
 
 - Use `begin...rescue...end` to handle exceptions

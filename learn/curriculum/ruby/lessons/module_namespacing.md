@@ -259,3 +259,105 @@ This keeps your external API intentional and malleable.
 5. What are the pros and cons of deep namespace hierarchies, and how do you keep them manageable?
 
 Thoughtful namespacing keeps Ruby codebases intuitive as they grow. Group related components, expose clear APIs, and lean on modules to prevent naming conflicts while maintaining a discoverable structure.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Module Namespacing — Autoload, Constants & Testing (Appendix — module_namespacing-ruby2)
+
+Guidance for organizing code with modules, using `autoload`, managing constants, and testing module boundaries.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Namespace modules</td><td>module MyApp; end</td><td>Group related classes and avoid top-level leakage</td></tr>
+    <tr><td>autoload</td><td>autoload :Lib, 'my_app/lib'</td><td>Lazy-load constants to reduce startup time</td></tr>
+    <tr><td>Constants</td><td>Freeze values</td><td>Signal immutability and avoid accidental mutation</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example
+
+```ruby
+module MyApp
+  autoload :Utils, 'my_app/utils'
+end
+```
+
+### Tests
+
+- Assert that constants are present and that autoload triggers load when referenced.
+
+### Exercises (Appendix — module_namespacing-ruby2)
+
+1. Convert a flat set of classes into a namespaced module and adjust requires; add tests to ensure constant lookup works.
+2. Use `autoload` for a large helper and write a test asserting it loads on first use.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Module Namespacing — Gem Layout & Require Order (Appendix — module_namespacing-ruby3)
+
+Practical notes for project layout: `lib/` structure, require order, and avoiding circular requires in namespaced projects.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>lib layout</td><td>lib/mygem.rb + lib/mygem/**</td><td>Keep top-level file small and require internals lazily</td></tr>
+    <tr><td>require order</td><td>Explicit requires</td><td>Avoid circular requires by deferring requires inside methods when needed</td></tr>
+    <tr><td>autoload pitfalls</td><td>Be careful with constants</td><td>Autoload can surprise during test setup</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Exercises (Appendix — module_namespacing-ruby3)
+
+1. Scaffold a minimal gem layout with namespaced modules and verify require order by running tests.
+2. Introduce a circular require and then refactor to defer loading to break the cycle; add tests confirming load completes.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Modules & Namespacing — Mixins, Names, Autoload (Appendix — module_namespacing-ruby-appendix-20251005)
+
+Practical guidance on using modules for namespacing, mixins, and `autoload` patterns to keep code organized.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Use</th><th>Pattern</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Namespacing</td><td>module Foo; end</td><td>Avoid global constants</td></tr>
+    <tr><td>Mixins</td><td>include/extend</td><td>Prefer composition when possible</td></tr>
+    <tr><td>Autoload</td><td>autoload :Thing, 'thing'</td><td>Lazy-loading constants</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example (Appendix — module_namespacing-ruby-appendix-20251005-01
+
+```ruby
+module Utils
+  def self.format(x) x.to_s end
+end
+
+class C
+  include Utils
+end
+```
+
+### Exercises (Appendix — module_namespacing-ruby-appendix-20251005-01)
+
+1. Refactor a small set of classes into a module namespace and add tests referencing the new names.
+2. Replace a mixin with explicit delegation and benchmark clarity/maintainability.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

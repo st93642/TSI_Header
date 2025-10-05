@@ -234,7 +234,7 @@ end
 
 <!-- markdownlint-disable MD033 MD010 -->
 
-### Practical Appendix: JSON & CSV Patterns
+## Practical Appendix: JSON & CSV Patterns
 
 This appendix shows quick tips for streaming JSON/CSV, safe parsing, and an HTML table of converters.
 
@@ -266,3 +266,99 @@ end
 2. Add a `--pretty` flag to pretty-print JSON output for debugging.
 
 <!-- markdownlint-enable MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Standard Library — Useful Modules & Patterns (Appendix — standard_library-ruby2)
+
+A compact reference to frequently used stdlib modules and pragmatic examples for real projects.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Module</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>JSON</td><td>Parse/Generate JSON</td><td>Prefer `JSON.parse` with symbolize_names when useful</td></tr>
+    <tr><td>CSV</td><td>CSV file processing</td><td>Use streaming for large files</td></tr>
+    <tr><td>Net::HTTP</td><td>HTTP clients</td><td>Consider `uri` and error handling for timeouts</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Quick examples
+
+```ruby
+require 'json'
+obj = JSON.parse('{"a":1}', symbolize_names: true)
+
+require 'csv'
+CSV.foreach('data.csv', headers: true) do |row|
+  process(row)
+end
+```
+
+### Testing stdlib interactions
+
+- Stub network calls with libraries (e.g., `WebMock` or `VCR`) to keep tests deterministic.
+- Use temporary files or `Tempfile` for files in tests.
+
+```ruby
+require 'minitest/autorun'
+require 'tempfile'
+
+class TestStdlib < Minitest::Test
+  def test_tempfile
+    t = Tempfile.new('x')
+    t.write('hello')
+    t.rewind
+    assert_equal 'hello', t.read
+  ensure
+    t.close!
+  end
+end
+```
+
+### Exercises (Appendix — standard_library-ruby2)
+
+1. Read a CSV file with headers and convert it into an array of hashes; test with a small fixture.
+2. Implement a wrapper over `Net::HTTP` that retries on transient failures and write tests using a stubbed server.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Standard Library Highlights — net/http, JSON & open-uri (Appendix — standard_library-ruby-appendix-20251005)
+
+Small recipes showing common standard library usages and safe patterns for network I/O and JSON parsing.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Library</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>net/http</td><td>HTTP clients</td><td>Use timeouts and handle errors</td></tr>
+    <tr><td>JSON</td><td>Parsing</td><td>Rescue parse errors</td></tr>
+    <tr><td>open-uri</td><td>Quick fetch</td><td>Beware untrusted URLs</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: safe JSON parse
+
+```ruby
+require 'json'
+begin
+  obj = JSON.parse(text)
+rescue JSON::ParserError
+  # handle bad JSON
+end
+```
+
+### Exercises (Appendix — standard_library-ruby-appendix-20251005)
+
+1. Fetch JSON from a URL with a timeout and parse it safely, adding tests for timeouts.
+2. Use `open-uri` with caution and write a wrapper that validates the URL first.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

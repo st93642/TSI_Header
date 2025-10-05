@@ -314,3 +314,36 @@ Notes on struct packing, alignment, and portability concerns for C lessons that 
 ## Recap and next steps
 
 Structs empower you to model real-world entities. Next, explore file I/O to persist data.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Structs & Data — Alignment, Packing & Init (Appendix — structs_data_c-appendix-20251005-01)
+
+Practical notes about struct layout, padding surprises, and safe initialization patterns in C.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Advice</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Padding</td><td>Order fields by size</td><td>Reduces memory footprint and improves cache locality</td></tr>
+    <tr><td>Packing</td><td>Use pragmas carefully</td><td>May break ABI portability</td></tr>
+    <tr><td>Init</td><td>Use designated initializers (C99)</td><td>Clearer & safer than positional init</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: designated initializer
+
+```c
+struct Point { double x, y; };
+struct Point p = {.x = 0.0, .y = 0.0};
+```
+
+### Exercises (Appendix — structs_data_c-appendix-20251005-01)
+
+1. Reorder fields in a struct to minimize padding and measure `sizeof` before/after.
+2. Use designated initializers to create clear example data and add checks.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

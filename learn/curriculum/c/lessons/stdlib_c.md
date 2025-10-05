@@ -302,6 +302,77 @@ Calculator that logs operations.
 4. How to get current time?
 5. When to use realloc?
 
+## Practical Appendix: stdlib.h — Utilities, qsort & getenv (Appendix — stdlib_c-appendix2)
+
+Practical recipes for using `stdlib.h` safely: random numbers, process env access, `qsort`, and testing small utilities.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Function</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>qsort</td><td>Sort arrays</td><td>Provide comparator with correct casting</td></tr>
+    <tr><td>getenv</td><td>Read env</td><td>Check for NULL</td></tr>
+    <tr><td>malloc/free</td><td>Memory</td><td>Check allocation results</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: qsort comparator
+
+```c
+int cmp_int(const void *a, const void *b) {
+  int aa = *(const int*)a;
+  int bb = *(const int*)b;
+  return (aa > bb) - (aa < bb);
+}
+
+qsort(arr, n, sizeof(int), cmp_int);
+```
+
+### Exercises (Appendix — stdlib_c-appendix2)
+
+1. Write a small program that reads an env var for a limit (with fallback) and prints the first N Fibonacci numbers.
+2. Implement and test a comparator for `qsort` that sorts structs by a numeric field.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Numeric Conversions & Environment (Appendix — stdlib_c-appendix3)
+
+Tips for safely converting strings to numbers, checking `strtol` errors, and using `setenv`/`getenv` patterns in portable code.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Function</th><th>Common pitfall</th><th>Fix</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>strtol</td><td>silent overflow or partial parse</td><td>check `endptr` and `errno`</td></tr>
+    <tr><td>getenv</td><td>returns NULL</td><td>provide defaults and avoid modifying returned pointer</td></tr>
+    <tr><td>setenv</td><td>portability</td><td>use `setenv` when available, otherwise `putenv` carefully</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: safe strtol
+
+```c
+char *end;
+errno = 0;
+long v = strtol(s, &end, 10);
+if (end == s || *end != '\0' || errno == ERANGE) {
+  // handle parse error
+}
+```
+
+### Exercises (Appendix — stdlib_c-appendix3)
+
+1. Write a small program that reads an env var for timeout and falls back to a default; validate numeric parsing with `strtol`.
+2. Add unit tests (scripts) that run the program with invalid envs and assert the fallback is used.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
+
 ## Recap and next steps
 
 The standard library is powerful. Next, explore data structures.

@@ -266,3 +266,71 @@ end
 5. When does it make sense to generate accessors dynamically with `define_method`, and what documentation considerations come with that choice?
 
 Attribute methods help you maintain encapsulation while giving callers the data they need. Reach for the least-permissive accessor, inject validation where it matters, and prefer explicit, well-documented readers and writers over indiscriminate `attr_accessor` usage.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Attribute Methods — Readers, Writers & Testing (Appendix — attr_methods-ruby2)
+
+Patterns for creating and testing attribute accessors, lazy initialization, and protecting internal state.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Pattern</th><th>When</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>attr_reader</td><td>Expose read-only</td><td>Prefer for encapsulation</td></tr>
+    <tr><td>attr_writer</td><td>Expose write-only</td><td>Rare, used for setters with side-effects</td></tr>
+    <tr><td>attr_accessor</td><td>Simple POJOs</td><td>Consider custom methods for invariants</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Examples
+
+```ruby
+class Person
+  attr_reader :name
+  attr_accessor :age
+
+  def initialize(name, age)
+    @name = name.freeze
+    @age = age
+  end
+
+  def increase_age
+    @age += 1
+  end
+end
+```
+
+### Lazy initialization
+
+```ruby
+def config
+  @config ||= load_config
+end
+```
+
+### Testing attribute behavior
+
+- Test public behavior, not internal ivars directly, unless necessary.
+
+```ruby
+require 'minitest/autorun'
+
+class TestAttrMethods < Minitest::Test
+  def test_read_only
+    p = Person.new('Ada', 30)
+    assert_equal 'Ada', p.name
+    assert_raises(NoMethodError) { p.name = 'Eve' }
+  end
+end
+```
+
+### Exercises (Appendix — attr_methods-ruby2)
+
+1. Implement an `immutable_point(x,y)` class where coordinate attributes are present but cannot be reassigned; write tests asserting immutability.
+2. Replace `attr_accessor` with explicit setter methods that validate input (e.g., age must be non-negative) and add tests for invalid input.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

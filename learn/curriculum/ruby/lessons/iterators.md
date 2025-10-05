@@ -285,3 +285,66 @@ end
 5. How can `partition` simplify code that used to rely on two separate `select`/`reject` operations?
 
 Iterators are the idiomatic way to express loops in Ruby. Mastering them lets you replace ten lines of index juggling with a single, intention-revealing method call. Combine traversal helpers, aggregators, and lazy streams to build data transformations that read like plain English while staying performant.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Iterators — each, map, each_with_index & Chaining (Appendix — iterators-ruby-appendix-20251005)
+
+Practical patterns for iterating collections efficiently and idiomatically in Ruby.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Method</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>each</td><td>Side effects</td><td>Use for iteration where return value is ignored</td></tr>
+    <tr><td>map</td><td>Transform</td><td>Returns new array of mapped values</td></tr>
+    <tr><td>each_with_index</td><td>Indexes</td><td>Use when both value and index are needed</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: chaining
+
+```ruby
+result = arr.select { |x| x.odd? }.map { |x| x * 2 }
+```
+
+### Exercises (Appendix — iterators-ruby-appendix-20251005)
+
+1. Rewrite a loop-based accumulation into `each_with_object` and test equivalence.
+2. Use `each_slice` to process a large file in batches and measure memory usage.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Advanced Iterators — each_with_object, each_slice & Lazy (Appendix — iterators-ruby-appendix-20251005-02)
+
+Practical examples for common iterator idioms that help write concise and memory-efficient Ruby.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Method</th><th>Use</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>each_with_object</td><td>Build accumulators</td><td>Avoids external mutation</td></tr>
+    <tr><td>each_slice</td><td>Batch processing</td><td>Good for large collections</td></tr>
+    <tr><td>Enumerator::Lazy</td><td>Streaming pipelines</td><td>Prevents intermediate arrays</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: each_with_object
+
+```ruby
+pairs = [[:a,1], [:b,2]]
+h = pairs.each_with_object({}) { |(k,v),acc| acc[k] = v }
+```
+
+### Exercises (Appendix — iterators-ruby-appendix-20251005-02)
+
+1. Implement a chunked processor using `each_slice` that writes each chunk to disk.
+2. Rewrite a pipeline using lazy enumerators and measure memory usage.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->

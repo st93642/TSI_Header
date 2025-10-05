@@ -256,23 +256,83 @@ Take your time with the practice prompts to build muscle memory around output me
 
 Happy coding—and remember, every experiment you try in Ruby brings you one step closer to fluency! 🚀
 
-## Practical Appendix: Hello World Enhancements (Appendix — hello_world-ruby)
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
 
-A small appendix giving suggestions to expand the hello-world lesson with testing, CLI flags, and examples.
+## Practical Appendix: Hello World — Script Basics & RSpec/Minitest Notes (Appendix — hello_world-ruby2)
+
+Practical tips for small Ruby scripts: shebangs, encoding headers, simple CLI parsing, and testing tiny scripts.
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <thead>
-    <tr><th>Topic</th><th>Why</th><th>Reference</th></tr>
+    <tr><th>Concern</th><th>Pattern</th><th>Notes</th></tr>
   </thead>
   <tbody>
-    <tr><td>CLI parsing</td><td>Add flags and options</td><td>Use OptionParser standard library</td></tr>
-    <tr><td>Testing</td><td>Validate expected output</td><td>Minitest</td></tr>
+    <tr><td>Shebang</td><td>`#!/usr/bin/env ruby`</td><td>Makes script executable on PATH</td></tr>
+    <tr><td>Encoding</td><td>`# frozen_string_literal: true`</td><td>Consider for small scripts to reduce allocations</td></tr>
+    <tr><td>Testing</td><td>Minitest/RSPEC</td><td>Wrap logic in methods for testability</td></tr>
   </tbody>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Exercises (hello_world-ruby)
+### Example script
 
-1. Add a CLI argument to change the greeting and test it with `StringIO` capture.
-2. Document expected behavior for empty input.
+```ruby
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+name = ARGV.first || 'world'
+puts "Hello, #{name}!"
+```
+
+### Testing scripts
+
+- Extract core logic into a method so unit tests can call it without forking a process.
+- For integration tests, use `Open3.capture3` to run the script and assert stdout/stderr and exit codes.
+
+### Exercises (Appendix — hello_world-ruby2)
+
+1. Convert a simple script into a testable library by moving logic into a method and adding unit tests.
+2. Write an integration test that runs the script with different arguments and verifies output and exit status.
+
+<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
+
+## Practical Appendix: Hello World — Packaging & CLI Helpers (Appendix — hello_world-ruby3)
+
+Short guidance for turning small scripts into gems or CLI executables and handling common argument parsing patterns.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <thead>
+    <tr><th>Goal</th><th>Tool</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>CLI parsing</td><td>OptionParser</td><td>Use for robust flag handling</td></tr>
+    <tr><td>Packaging</td><td>Gem skeleton</td><td>Wrap logic in a lib file and provide an executable in `bin/`</td></tr>
+    <tr><td>Testing</td><td>Open3 for integration</td><td>Assert exit codes and stdout/stderr</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+### Example: OptionParser
+
+```ruby
+require 'optparse'
+options = { }
+OptionParser.new do |opts|
+  opts.on('-nNAME', '--name=NAME', 'Name to greet') { |v| options[:name] = v }
+end.parse!
+puts "Hello, #{options[:name] || 'world'}!"
+```
+
+### Packaging notes
+
+- Move reusable code into `lib/` and keep `bin/` scripts thin.
+- Provide `executables` in the gemspec and use `bundle gem` to scaffold.
+
+### Exercises (Appendix — hello_world-ruby3)
+
+1. Convert the Hello World script into a tiny gem with a CLI entrypoint and add a test that runs the executable using `Open3.capture3`.
+2. Add OptionParser flags for `--shout` and `--repeat` and test the behavior for several combinations.
+
+<!-- markdownlint-enable MD033 MD034 MD040 MD010 -->
