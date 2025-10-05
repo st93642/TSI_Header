@@ -14,12 +14,20 @@ After studying this lesson you will be able to:
 
 ## A tour of standard streams
 
-| Stream | Purpose | Typical usage |
-| --- | --- | --- |
-| `std::cout` | Primary output channel | User prompts, results |
-| `std::cin` | Primary input channel | Reading numbers, words |
-| `std::cerr` | Unbuffered error output | Immediate diagnostics |
-| `std::clog` | Buffered logging | Status messages, debug info |
+
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Stream</th><th>Purpose</th><th>Typical usage</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>std::cout</code></td><td>Primary output channel</td><td>User prompts, results</td></tr>
+    <tr><td><code>std::cin</code></td><td>Primary input channel</td><td>Reading numbers, words</td></tr>
+    <tr><td><code>std::cerr</code></td><td>Unbuffered error output</td><td>Immediate diagnostics</td></tr>
+    <tr><td><code>std::clog</code></td><td>Buffered logging</td><td>Status messages, debug info</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
 
 All four share the same formatting rules and state flags. Choosing between them is mostly about audience (user vs developer) and buffering needs.
 

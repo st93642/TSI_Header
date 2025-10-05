@@ -42,13 +42,21 @@ Prefer automatic storage unless you have a compelling reason otherwise.
 
 ## Fundamental type families
 
-| Category | Typical types | Use when |
-| --- | --- | --- |
-| Integers | `int`, `short`, `long`, `long long`, `std::size_t` | Counting, indexing, discrete values |
-| Floating point | `float`, `double`, `long double` | Measurements requiring fractions |
-| Boolean | `bool` | Flags, logical decisions |
-| Character | `char`, `wchar_t`, `char16_t`, `char32_t` | Single code units (ASCII/Unicode) |
-| Text | `std::string`, `std::u16string` | Human-readable text |
+
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Category</th><th>Typical types</th><th>Use when</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Integers</td><td><code>int</code>, <code>short</code>, <code>long</code>, <code>long long</code>, <code>std::size_t</code></td><td>Counting, indexing, discrete values</td></tr>
+    <tr><td>Floating point</td><td><code>float</code>, <code>double</code>, <code>long double</code></td><td>Measurements requiring fractions</td></tr>
+    <tr><td>Boolean</td><td><code>bool</code></td><td>Flags, logical decisions</td></tr>
+    <tr><td>Character</td><td><code>char</code>, <code>wchar_t</code>, <code>char16_t</code>, <code>char32_t</code></td><td>Single code units (ASCII/Unicode)</td></tr>
+    <tr><td>Text</td><td><code>std::string</code>, <code>std::u16string</code></td><td>Human-readable text</td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
 
 Key guidelines:
 

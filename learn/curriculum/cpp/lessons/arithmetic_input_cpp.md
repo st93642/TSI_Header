@@ -12,13 +12,20 @@ Mixing arithmetic with live input unlocks interactive programs: grade calculator
 
 ## Operator recap and nuances
 
-| Operator | Description | Example |
-| --- | --- | --- |
-| `+` | Addition | `totalCredits = core + electives;` |
-| `-` | Subtraction | `int remaining = goal - completed;` |
-| `*` | Multiplication | `area = width * height;` |
-| `/` | Division | `double avg = sum / count;` |
-| `%` | Remainder | `bonus = points % 10;` |
+<!-- markdownlint-disable MD033 MD010 -->
+<table>
+  <thead>
+    <tr><th>Operator</th><th>Description</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>+</code></td><td>Addition</td><td><code>totalCredits = core + electives;</code></td></tr>
+    <tr><td><code>-</code></td><td>Subtraction</td><td><code>int remaining = goal - completed;</code></td></tr>
+    <tr><td><code>*</code></td><td>Multiplication</td><td><code>area = width * height;</code></td></tr>
+    <tr><td><code>/</code></td><td>Division</td><td><code>double avg = sum / count;</code></td></tr>
+    <tr><td><code>%</code></td><td>Remainder</td><td><code>bonus = points % 10;</code></td></tr>
+  </tbody>
+</table>
+<!-- markdownlint-enable MD033 MD010 -->
 
 - `%` works only with integers. For floating-point remainder use `std::fmod` from `<cmath>`.
 - Unary `-` negates a value; unary `+` has no effect but can clarify intent.
