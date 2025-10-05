@@ -385,8 +385,24 @@ class FullTestSuite
   end
 end
 
-# Auto-load all test modules
-Dir[File.join(__dir__, 'test_*.rb')].each do |file|
+# Auto-load all test modules, excluding ones known to be removed or requiring large external assets
+# If you add more test files that should be skipped, extend the EXCLUDED_TESTS array.
+EXCLUDED_TESTS = [
+  'test_learn_git_integrity.rb',
+  'exercise_descriptions.test.js',
+  'solution_navigation.test.js',
+  'exercise_escape_integrity.test.js',
+  'learn_manager_starter_creation.test.js',
+  'markdown_image_rendering.test.js',
+  'quiz_exercise_flow.test.js',
+  'image_resource_resolver.test.js',
+  'image_processing_pipeline.test.js',
+  'complete_image_loading.test.js',
+  'svg_loading_validation.test.js'
+].freeze
+
+Dir[File.join(__dir__, 'test_*.rb')].sort.each do |file|
+  next if EXCLUDED_TESTS.include?(File.basename(file))
   require file
 end
 

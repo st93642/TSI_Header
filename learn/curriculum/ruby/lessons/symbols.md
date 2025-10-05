@@ -1,7 +1,6 @@
-<!-- markdownlint-disable MD033 MD010 -->
+# # Symbols
 
-# Symbols
-<!-- markdownlint-disable MD033 MD010 -->
+Symbols are immutable identifiers—lightweight labels Ruby uses for method names, hash keys, state machines, and internal bookkeeping. Because each symbol is unique and stored once, they’re faster to compare and cheaper to reuse than strings. Knowing when to reach for symbols keeps APIs consistent and memory usage predictable.
 
 Symbols are immutable identifiers—lightweight labels Ruby uses for method names, hash keys, state machines, and internal bookkeeping. Because each symbol is unique and stored once, they’re faster to compare and cheaper to reuse than strings. Knowing when to reach for symbols keeps APIs consistent and memory usage predictable.
 

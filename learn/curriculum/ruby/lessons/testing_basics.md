@@ -1,5 +1,3 @@
-<!-- markdownlint-disable MD033 MD034 MD040 MD010 -->
-
 # Testing basics with Minitest
 
 ## Practical Appendix: Tests — CI & Fixtures (Appendix — testing-basics-playbook)
