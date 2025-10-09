@@ -5,6 +5,8 @@
 const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs').promises;
+const http = require('http');
+const https = require('https');
 
 class ExerciseRunner {
     constructor(vscode) {
@@ -27,6 +29,19 @@ class ExerciseRunner {
 
             const document = editor.document;
             const code = document.getText();
+
+            // If exercise points to external tests, try to fetch them first
+            if (exercise.externalTestsUrl && (!exercise.tests || exercise.tests.length === 0)) {
+                try {
+                    const fetched = await this.fetchExternalTests(exercise.externalTestsUrl, 5000);
+                    if (Array.isArray(fetched) && fetched.length > 0) {
+                        exercise.tests = fetched;
+                    }
+                } catch (e) {
+                    // Log but continue; if no tests available we'll treat as manual
+                    console.error(`Failed to fetch external tests: ${e.message}`);
+                }
+            }
 
             // Check if this is a manual exercise (no tests)
             if (!exercise.tests || exercise.tests.length === 0) {
@@ -73,9 +88,191 @@ class ExerciseRunner {
                 return await this.runCppTests(code, tests, { language });
             case 'c':
                 return await this.runCppTests(code, tests, { language });
+            case 'rust':
+                return await this.runRustTests(code, tests);
             default:
                 throw new Error(`Testing not yet implemented for ${language}`);
         }
+    }
+
+    /**
+     * Run Rust tests by compiling with rustc and executing the binary
+     * @param {string} code - User's Rust code
+     * @param {Array} tests - Test cases
+     * @returns {Promise<Object>} Test results
+     */
+    async runRustTests(code, tests) {
+        const tempDir = path.join(__dirname, '..', '..', '.temp_tests');
+        await fs.mkdir(tempDir, { recursive: true });
+
+        const codeFile = path.join(tempDir, 'main.rs');
+        const binFile = path.join(tempDir, 'main');
+
+        // Check if rustc exists
+        try {
+            execSync('rustc --version', { stdio: 'ignore' });
+        } catch (e) {
+            return {
+                passed: false,
+                isManual: true,
+                error: 'rustc not found in PATH. Install Rust toolchain or mark this exercise as manual.',
+                score: 0,
+                total: tests.length
+            };
+        }
+
+        try {
+            await fs.writeFile(codeFile, code);
+
+            // Compile with rustc
+            execSync(`rustc "${codeFile}" -o "${binFile}"`, {
+                cwd: tempDir,
+                encoding: 'utf8',
+                timeout: 15000
+            });
+
+            // Execute binary and capture stdout
+            const output = execSync(`"${binFile}"`, {
+                cwd: tempDir,
+                encoding: 'utf8',
+                timeout: 10000
+            });
+
+            // For now support only 'output' tests that compare stdout
+            const outputTrimmed = output;
+            let allPassed = true;
+            const failures = [];
+
+            for (const test of tests) {
+                if (test.type === 'output') {
+                    const expected = test.expected;
+                    const actual = outputTrimmed;
+                    if (actual !== expected) {
+                        allPassed = false;
+                        failures.push({
+                            name: test.name,
+                            expected,
+                            actual,
+                            message: this.formatOutputDiff(expected, actual)
+                        });
+                    }
+                } else {
+                    // unsupported test type for rust runner
+                    allPassed = false;
+                    failures.push({ name: test.name, message: 'Unsupported test type for Rust runner' });
+                }
+            }
+
+            return {
+                passed: allPassed,
+                score: allPassed ? tests.length : (tests.length - failures.length),
+                total: tests.length,
+                failures,
+                output
+            };
+        } catch (error) {
+            return {
+                passed: false,
+                error: error.stdout || error.stderr || error.message,
+                score: 0,
+                total: tests.length
+            };
+        } finally {
+            try {
+                await fs.unlink(codeFile);
+            } catch (e) {}
+            try {
+                await fs.unlink(binFile);
+            } catch (e) {}
+        }
+    }
+
+    /**
+     * Produce a human-readable diff between expected and actual stdout.
+     * Shows visible newline markers and a small line-level context around the first differing line.
+     * @param {string} expected
+     * @param {string} actual
+     * @returns {string} formatted message
+     */
+    formatOutputDiff(expected, actual) {
+        const visible = s => String(s === undefined ? '' : s).replace(/\r/g, '')
+            .replace(/\n/g, '\\n\n');
+
+        // Quick equality check handled earlier; build informative message
+        const expLines = (expected || '').split(/\r?\n/);
+        const actLines = (actual || '').split(/\r?\n/);
+
+        // Find first differing line
+        let idx = -1;
+        const maxLines = Math.max(expLines.length, actLines.length);
+        for (let i = 0; i < maxLines; i++) {
+            if (expLines[i] !== actLines[i]) { idx = i; break; }
+        }
+
+        let diffSnippet = '';
+        if (idx === -1) {
+            // Rare case: lines same but strings differ (e.g., trailing whitespace)
+            diffSnippet = `Expected (visible): ${visible(expected)}\nActual (visible): ${visible(actual)}`;
+        } else {
+            const contextBefore = 2;
+            const start = Math.max(0, idx - contextBefore);
+            const end = Math.min(maxLines - 1, idx + contextBefore);
+            const parts = [];
+            for (let i = start; i <= end; i++) {
+                const e = expLines[i] === undefined ? '' : expLines[i];
+                const a = actLines[i] === undefined ? '' : actLines[i];
+                if (e === a) {
+                    parts.push(` ${i + 1} |  ${e}`);
+                } else {
+                    parts.push(`-${i + 1} |  ${e}`);
+                    parts.push(`+${i + 1} |  ${a}`);
+                }
+            }
+            diffSnippet = parts.join('\n');
+        }
+
+        const message = `Expected:\n${visible(expected)}\n\nActual:\n${visible(actual)}\n\nDiff (context around first mismatch):\n${diffSnippet}`;
+        return message;
+    }
+
+    /**
+     * Fetch external tests over HTTP(S) with a timeout
+     * @param {string} url - URL to fetch JSON test array from
+     * @param {number} timeoutMs - request timeout in ms
+     * @returns {Promise<Array>} Parsed JSON array of tests
+     */
+    fetchExternalTests(url, timeoutMs = 5000) {
+        return new Promise((resolve, reject) => {
+            try {
+                const client = url.startsWith('https://') ? https : http;
+                const req = client.get(url, { timeout: timeoutMs }, (res) => {
+                    const { statusCode } = res;
+                    if (statusCode !== 200) {
+                        res.resume();
+                        return reject(new Error(`Request Failed. Status Code: ${statusCode}`));
+                    }
+                    let raw = '';
+                    res.setEncoding('utf8');
+                    res.on('data', (chunk) => { raw += chunk; });
+                    res.on('end', () => {
+                        try {
+                            const parsed = JSON.parse(raw);
+                            resolve(parsed);
+                        } catch (e) {
+                            reject(new Error('Invalid JSON from external tests'));
+                        }
+                    });
+                });
+
+                req.on('error', (err) => reject(err));
+                req.on('timeout', () => {
+                    req.abort();
+                    reject(new Error('Request timed out'));
+                });
+            } catch (e) {
+                reject(e);
+            }
+        });
     }
 
     /**

@@ -82,8 +82,9 @@ class TSITreeDataProvider {
             ]);
         } else if (element.id === 'learn') {
             // Learn section - programming language tutorials/resources
-            return Promise.resolve([
+                return Promise.resolve([
                 new TSITreeItem('Ruby', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-ruby'),
+                new TSITreeItem('Rust', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-rust'),
                 new TSITreeItem('C', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-c'),
                 new TSITreeItem('C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-cpp'),
                 new TSITreeItem('DSA C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-dsa-cpp'),
@@ -195,6 +196,30 @@ class TSITreeDataProvider {
                     command: 'tsiheader.viewLearnProgressGit',
                     title: 'View Git Progress',
                     tooltip: 'Review your Git learning progress and achievements'
+                })
+            ]);
+        }
+        else if (element.id === 'learn-rust') {
+            return Promise.resolve([
+                new TSITreeItem('Start Learning', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.learnRust',
+                    title: 'Start Learning Rust',
+                    tooltip: 'Begin Rust tutorials from the start'
+                }),
+                new TSITreeItem('Browse All Lessons', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.browseLessonsRust',
+                    title: 'Browse All Lessons',
+                    tooltip: 'Jump to any lesson in the Rust curriculum'
+                }),
+                new TSITreeItem('Run Exercise Tests', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.runExerciseTests',
+                    title: 'Run Exercise Tests',
+                    tooltip: 'Run tests on your current Rust exercise'
+                }),
+                new TSITreeItem('View Progress', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewLearnProgressRust',
+                    title: 'View Progress',
+                    tooltip: 'View your Rust learning progress and achievements'
                 })
             ]);
         }
@@ -373,6 +398,12 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('list-tree');
         } else if (command?.command === 'tsiheader.runExerciseTests') {
             this.iconPath = new vscode.ThemeIcon('beaker');
+        } else if (command?.command === 'tsiheader.learnRust') {
+            this.iconPath = new vscode.ThemeIcon('play-circle');
+        } else if (command?.command === 'tsiheader.browseLessonsRust') {
+            this.iconPath = new vscode.ThemeIcon('list-tree');
+        } else if (command?.command === 'tsiheader.viewLearnProgressRust') {
+            this.iconPath = new vscode.ThemeIcon('graph');
         } else if (command?.command === 'tsiheader.runExerciseTestsC') {
             this.iconPath = new vscode.ThemeIcon('beaker');
         } else if (command?.command === 'tsiheader.runExerciseTestsCpp') {

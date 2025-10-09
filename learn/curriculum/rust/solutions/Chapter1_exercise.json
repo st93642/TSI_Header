@@ -1,0 +1,11 @@
+{
+  "exerciseId": "Chapter1_exercise",
+  "languageId": "rust",
+  "code": "fn main() {\n    println!(\"Hello, world!\");\n}\n",
+  "explanation": "A minimal Rust program using println! to output Hello, world!. The exercise runner compiles the program and compares stdout to the expected string.",
+  "keyPoints": [
+    "fn main() is the program entry point",
+    "println! macro prints to stdout and appends a newline",
+    "The runner uses rustc to compile the code and executes the binary to capture stdout"
+  ]
+}

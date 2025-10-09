@@ -1472,6 +1472,7 @@ class LearnManager {
             'ruby': 'rb',
             'python': 'py',
             'javascript': 'js',
+            'rust': 'rs',
             'java': 'java',
             'cpp': 'cpp',
             'c': 'c'

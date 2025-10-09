@@ -1,0 +1,19 @@
+{
+  "id": "Chapter1_exercise",
+  "title": "Chapter 1 Exercise: Hello World",
+  "description": "Create a minimal Rust program that prints \"Hello, world!\"",
+  "difficulty": "beginner",
+  "starterCode": "fn main() {\n    // Print Hello, world!\n}\n",
+  "tests": [
+    {
+      "name": "prints hello world",
+      "type": "output",
+      "expected": "Hello, world!\n"
+    }
+  ],
+  "hints": [
+    "Use println!(\"Hello, world!\"); to print the message.",
+    "Remember to include fn main() as the entry point."
+  ],
+  "tags": ["hello", "chapter1"]
+}

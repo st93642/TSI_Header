@@ -242,6 +242,24 @@
         "icon": "$(ruby)"
       },
       {
+        "command": "tsiheader.learnRust",
+        "title": "Learn Rust",
+        "category": "Learn",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "tsiheader.browseLessonsRust",
+        "title": "Browse Rust Lessons",
+        "category": "Learn",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "tsiheader.viewLearnProgressRust",
+        "title": "View Rust Progress",
+        "category": "Learn",
+        "icon": "$(graph)"
+      },
+      {
         "command": "tsiheader.browseLessons",
         "title": "Browse All Lessons",
         "category": "Learn",

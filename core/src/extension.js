@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 04 2025 18:01 st93642                                       */
+/*  Updated: Oct 10 2025 01:51 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -957,6 +957,55 @@ extern "C" {
     
     context.subscriptions.push(learnRubyCommand);
 
+    // Register Learn Rust command
+    const learnRustCommand = vscode.commands.registerCommand('tsiheader.learnRust', async () => {
+        const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+        const learnInstance = new Learn(context, vscode);
+
+        vscode.window.showInformationMessage(
+            '📚 Start Rust Learning Journey?\n\n' +
+            'You will begin a concise Rust course with:\n' +
+            '• A small module and a hands-on exercise\n' +
+            '• Progress tracking and instant feedback\n\n' +
+            'Ready to start learning?',
+            { modal: true },
+            'Start Learning',
+            'Browse Lessons',
+            'View Progress',
+            'Cancel'
+        ).then(async selection => {
+            if (selection === 'Start Learning') {
+                await learnInstance.startLearning('rust');
+            } else if (selection === 'Browse Lessons') {
+                await learnInstance.browseLessons('rust');
+            } else if (selection === 'View Progress') {
+                try {
+                    const stats = await learnInstance.getStats('rust');
+                    vscode.window.showInformationMessage(
+                        `📊 Your Rust Learning Progress\n\n` +
+                        `Lessons Completed: ${stats.lessonsCompleted}\n` +
+                        `Exercises Completed: ${stats.exercisesCompleted}\n` +
+                        `Current Streak: ${stats.currentStreak} days\n` +
+                        `Study Time: ${stats.totalStudyTime} minutes\n` +
+                        `Achievements: ${stats.achievements}`,
+                        { modal: true },
+                        'Continue Learning',
+                        'Got it!'
+                    ).then(choice => {
+                        if (choice === 'Continue Learning') {
+                            learnInstance.startLearning('rust');
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error getting rust progress stats:', error);
+                    vscode.window.showErrorMessage(`Error loading progress: ${error.message}`, { modal: true }, 'OK');
+                }
+            }
+        });
+    });
+
+    context.subscriptions.push(learnRustCommand);
+
     // Register Browse Lessons command
     const browseLessonsCommand = vscode.commands.registerCommand('tsiheader.browseLessons', async () => {
         // Lazy load the Learn module
@@ -1006,6 +1055,45 @@ extern "C" {
     });
     
     context.subscriptions.push(viewLearnProgressCommand);
+
+    // Register Browse Lessons Rust command
+    const browseLessonsRustCommand = vscode.commands.registerCommand('tsiheader.browseLessonsRust', async () => {
+        const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+        const learnInstance = new Learn(context, vscode);
+        await learnInstance.browseLessons('rust');
+    });
+    context.subscriptions.push(browseLessonsRustCommand);
+
+    // Register View Learn Progress Rust command
+    const viewLearnProgressRustCommand = vscode.commands.registerCommand('tsiheader.viewLearnProgressRust', async () => {
+        const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+        const learnInstance = new Learn(context, vscode);
+        try {
+            const stats = await learnInstance.getStats('rust');
+            vscode.window.showInformationMessage(
+                `📊 Your Rust Learning Progress\n\n` +
+                `Lessons Completed: ${stats.lessonsCompleted}\n` +
+                `Exercises Completed: ${stats.exercisesCompleted}\n` +
+                `Current Streak: ${stats.currentStreak} days\n` +
+                `Study Time: ${stats.totalStudyTime} minutes\n` +
+                `Achievements: ${stats.achievements}`,
+                { modal: true },
+                'Continue Learning',
+                'Browse Lessons',
+                'Got it!'
+            ).then(async choice => {
+                if (choice === 'Continue Learning') {
+                    await learnInstance.startLearning('rust');
+                } else if (choice === 'Browse Lessons') {
+                    await learnInstance.browseLessons('rust');
+                }
+            });
+        } catch (error) {
+            console.error('Error getting rust progress stats:', error);
+            vscode.window.showErrorMessage(`Error loading progress: ${error.message}`, { modal: true }, 'OK');
+        }
+    });
+    context.subscriptions.push(viewLearnProgressRustCommand);
 
     // Register Learn exercise test command
     const runExerciseTestsCommand = vscode.commands.registerCommand('tsiheader.runExerciseTests', async (runtimeLanguageArg, exerciseMetaArg) => {
