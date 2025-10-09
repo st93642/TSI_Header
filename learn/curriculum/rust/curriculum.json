@@ -15,6 +15,12 @@
           "title": "Chapter 1: Getting Started with Rust",
           "duration": 30,
           "difficulty": "beginner"
+        },
+        {
+          "id": "Chapter2",
+          "title": "Chapter 2: Variables and Mutability",
+          "duration": 25,
+          "difficulty": "beginner"
         }
       ]
     }

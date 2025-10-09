@@ -1,0 +1,19 @@
+{
+  "id": "Chapter2_exercise",
+  "title": "Chapter 2 Exercise: Mutability",
+  "description": "Demonstrate mutable vs immutable bindings by printing two lines showing x before and after mutation.",
+  "difficulty": "beginner",
+  "starterCode": "fn main() {\n    // Implement mutability example: declare x, print, change, print again\n}\n",
+  "tests": [
+    {
+      "name": "prints before and after",
+      "type": "output",
+      "expected": "The value of x is: 5\nThe value of x is: 6\n"
+    }
+  ],
+  "hints": [
+    "Use `let mut x = 5;` to make x mutable.",
+    "Use println!(\"The value of x is: {x}\"); to print the value."
+  ],
+  "tags": ["variables", "mutability"]
+}

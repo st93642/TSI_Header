@@ -1,0 +1,11 @@
+{
+  "exerciseId": "Chapter2_exercise",
+  "languageId": "rust",
+  "code": "fn main() {\n    let mut x = 5;\n    println!(\"The value of x is: {x}\");\n    x = 6;\n    println!(\"The value of x is: {x}\");\n}\n",
+  "explanation": "Make x mutable with `mut`, print before and after updating its value.",
+  "keyPoints": [
+    "Variables are immutable by default",
+    "Use `mut` to make a binding mutable",
+    "println! adds a newline to the output"
+  ]
+}
