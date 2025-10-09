@@ -1,6 +1,22 @@
 # Chapter 5: Handling HTTP Requests
 
-After the detour of understanding async on a deeper level, we are now going back to our project that we were working on in chapter two. So far, we have structured our to-do module in a flexible, scalable, and re-usable manner. However, this can only get us so far in terms of web programming. We want our to-do module to reach multiple people quickly without the user having to install Rust on their own computers. We can do this with a web framework. In this chapter, we will build on the core logic of our to-do items and connect this core logic to a server. By the end of this chapter, you will be able to build a server that has a data access layer, core layer, and networking layer. You will also get some exposure in handling error across all cargo workspaces, and refactoring some of our code as our requirements for our server get more defined over time.
+After the detour of understanding async on a deeper level, we are now going back to our project that we were working on in chapter two. So far, we have structured our to-do module in a flexible, scalable, and re-usable manner. However, this can only get us so far in terms of web programming// File: to_do/core/src/structs.rs
+impl AllToDoItems {
+    pub fn from_hashmap(all_items: HashMap<String, ToDoItem>) -> AllToDoItems {
+        let mut pending = Vec::new();
+        let mut done = Vec::new();
+        for (_, item) in all_items {
+            match item.status {
+                TaskStatus::PENDING => pending.push(item),
+                TaskStatus::DONE => done.push(item)
+            }
+        }
+        AllToDoItems {
+            pending,
+            done
+        }
+    }
+}do module to reach multiple people quickly without the user having to install Rust on their own computers. We can do this with a web framework. In this chapter, we will build on the core logic of our to-do items and connect this core logic to a server. By the end of this chapter, you will be able to build a server that has a data access layer, core layer, and networking layer. You will also get some exposure in handling error across all cargo workspaces, and refactoring some of our code as our requirements for our server get more defined over time.
 
 We will start this journey by building a simple server that accepts incoming HTTP requests.
 
@@ -80,9 +96,9 @@ async fn greet(req: HttpRequest) -> impl Responder {
 }
 ```
 
-With the preceding code, we can see thar our API endpoint receives the HTTP request and returns anything that has implemented the Responder trait. We then extract the name from the endpoint of the URL or return a "World" if the name is not in the URL endpoint. Our view then returns a string. To see what we can automatically return as a response, we can check the Responder trait in the Actix web docs and scroll down to the Implementations on Foreign Types section as seen in figure 4.1.
+With the preceding code, we can see that our API endpoint receives the HTTP request and returns anything that has implemented the Responder trait. We then extract the name from the endpoint of the URL or return a "World" if the name is not in the URL endpoint. Our view then returns a string. To see what we can automatically return as a response, we can check the Responder trait in the Actix web docs and scroll down to the Implementations on Foreign Types section as seen in figure 4.1.
 
-Figure 4.1 – Implementations of Foreign types [Source: Actix web (2024) (`https://docs.rs/actix-web/latest/actix_web/trait.Responder.html#foreign-impls`)]
+Figure 4.1 – Implementations of Foreign types
 
 Here in figure 4.1, we can see that we can essentially return strings and bytes. Now that we have our API endpoint, we can build our server with the code below:
 
@@ -225,19 +241,20 @@ It is reasonable to have some alarm bells go off at what we have just done. Our 
 
 The term "over-engineered" is vague, and as a result gets banded about. In my experience, a lot of people do not look at the bigger picture when accusing an approach to be over-engineered. As we stick with this approach, you will get to experience the flexibly that we have when running our application locally, or on a server. The ease of swapping out layers so our nanoservice will be able to run as a microservice in its own Docker container, or just compile into another cargo workspace will prevent over-engineering in the future, as you will not have to run multiple Docker containers to develop against the entire system. And as systems get big with multiple developers and teams, trust me, you will thank your past self that you took this approach.
 
-Now that everything is compiling, we can move onto serving our to-do items, but we might need to refactor our to-to items first.
+Now that everything is compiling, we can move onto serving our to-do items, but we might need to refactor our to-do items first.
 
 ## Refactoring our to-do items
 
 If we want to serve our to-do items, need to get our server to talk to our core, which will then get all the to-do items from our JSON file. This is where we do see some over-engineering which is our to-do item structs. Right now, just to represent an either pending or done item, we need to navigate between three structs. Our TaskStatus enum handles the logic or serialization of the status of these structs. Right now, is a good time to look at the structs in our core module and have a quick think on how you could represent them in a single vector to be displayed in the browser. Do not spend too much time on this as I warn you, working with the structs we have now is a fruitless task.
 
-If you did try and work out how to convert the to-to items into a single vector, you may have considered wrapping the items in an enum, and then implementing a serialization trait to display these to-to items. This is like how we handle the writing of the to-do item to a file. However, this is a good time to listen to those alarm bells. We are having to do a lot of work to handle a variance of a status title. This complexity does not give us any advantages so we need to act now to prevent this over engineered approach from getting more embedded into our system as it will be harder to rip out the longer, we leave it. As David Farley says, the outcome of a surgical procedure is not better or safer because the surgeon uses a blunter knife. We do not have a safe system because we do not touch or change chunks of our code. In-fact it's the opposite. A sign of a safe well-designed system that is handled by skilled engineers is the ability to confidently change chunks of the system as we find out more, and still manage to keep the system stable. Right now, let us retreat to a safer, simpler position so the handling of our to-do items is easier to manage. We can do this by completely ripping out the to_do/core/src/structs/ directory and replacing it with a to_do/core/src/structs.rs file. Inside this file, we can define a to-do item with the following code:
+If you did try and work out how to convert the to-do items into a single vector, you may have considered wrapping the items in an enum, and then implementing a serialization trait to display these to-do items. This is like how we handle the writing of the to-do item to a file. However, this is a good time to listen to those alarm bells. We are having to do a lot of work to handle a variance of a status title. This complexity does not give us any advantages so we need to act now to prevent this over engineered approach from getting more embedded into our system as it will be harder to rip out the longer, we leave it. As David Farley says, the outcome of a surgical procedure is not better or safer because the surgeon uses a blunter knife. We do not have a safe system because we do not touch or change chunks of our code. In-fact it's the opposite. A sign of a safe well-designed system that is handled by skilled engineers is the ability to confidently change chunks of the system as we find out more, and still manage to keep the system stable. Right now, let us retreat to a safer, simpler position so the handling of our to-do items is easier to manage. We can do this by completely ripping out the to_do/core/src/structs/ directory and replacing it with a to_do/core/src/structs.rs file. Inside this file, we can define a to-do item with the following code:
 
 ```rust
 //! File: to_do/core/src/structs.rs
 use std::fmt;
 use serde::{Serialize, Deserialize};
 use crate::enums::TaskStatus;
+use std::collections::HashMap;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ToDoItem {
@@ -246,7 +263,7 @@ pub struct ToDoItem {
 }
 ```
 
-We can directly implement the serialization traits because our TaskStatus enum has already implemented the serialization traits. We also want our ToDoItem struct to print out in the same way our enum wrapping our two different previous structs did so my implanting the Display trait with the code below:
+We can directly implement the serialization traits because our TaskStatus enum has already implemented the serialization traits. We also want our ToDoItem struct to print out in the same way our enum wrapping our two different previous structs did so by implementing the Display trait with the code below:
 
 ```rust
 // File: to_do/core/src/structs.rs
@@ -317,7 +334,7 @@ We are now at the stage of serving all our items to the browser. However, before
 ```rust
 // File: to_do/core/src/structs.rs
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct AllToDOItems {
+pub struct AllToDoItems {
     pub pending: Vec<ToDoItem>,
     pub done: Vec<ToDoItem>
 }
@@ -350,10 +367,10 @@ We can now utilize our new container struct by building our get_all api function
 ```rust
 // File: to_do/core/src/api/basic_actions/get.rs
 use dal::json_file::get_all as get_all_handle;
-use crate::structs::{ ToDoItem, AllToDOItems };
+use crate::structs::{ ToDoItem, AllToDoItems };
 
-pub async fn get_all() -> Result<AllToDOItems, String> {
-    Ok(AllToDOItems::from_hashmap(
+pub fn get_all() -> Result<AllToDoItems, String> {
+    Ok(AllToDoItems::from_hashmap(
         get_all_handle::<ToDoItem>()?
     ))
 }
@@ -374,7 +391,7 @@ use core::api::basic_actions::get::get_all as get_all_core;
 use actix_web::HttpResponse;
 
 pub async fn get_all() -> HttpResponse {
-    let all_items = match get_all_core().await {
+    let all_items = match get_all_core() {
         Ok(items) => items,
         Err(e) => return HttpResponse::InternalServerError().json(e)
     };
@@ -677,7 +694,7 @@ use actix_web::HttpResponse;
 use glue::errors::NanoServiceError;
 
 pub async fn get_all() -> Result<HttpResponse, NanoServiceError> {
-    Ok(HttpResponse::Ok().json(get_all_core().await?))
+    Ok(HttpResponse::Ok().json(get_all_core()?))
 }
 ```
 

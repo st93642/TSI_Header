@@ -18,13 +18,11 @@ Building our login API
 
 Adding authentication to our frontend
 
-By the end of this chapter, you will be able to integrate another server into your system and have it compile into the same binary as the rest of the system. You will also be able to understand the basics of authentication so you can handle user accounts a login users so these users can make authenticated calls to the rest of the application.
+By the end of this chapter, you will be able to integrate another server into your system and have it compile into the same binary as the rest of the system. You will also be able to understand the basics of authentication so you can handle user accounts and log in users so these users can make authenticated calls to the rest of the application.
 
 ## Technical requirements
 
-This chapter will be relying on the code in the previous chapter that can be found at the following link:
-
-`https://github.com/PacktPublishing/Rust-Web-Programming-3E/tree/main/chapter08`
+This chapter will be relying on the code in the previous chapter.
 
 ## Building our Auth Server
 
@@ -68,9 +66,9 @@ name = "auth-dal"
 version = "0.1.0"
 edition = "2021"
 [dependencies]
-serde ={ version="1.0.197", features = ["derive"] }
+serde ={ version="1.0.203", features = ["derive"] }
 glue = { path = "../../../glue"}
-sqlx = { version = "0.7.4", features = ["postgres", "json", "runtime-tokio"], optional = false }
+sqlx = { version = "0.8.0", features = ["postgres", "json", "runtime-tokio"], optional = false }
 once_cell = { version = "1.19.0", optional = false }
 ```
 
@@ -93,7 +91,7 @@ version = "0.1.0"
 edition = "2021"
 [dependencies]
 auth-dal = { path = "../dal" }
-serde = { version = "1.0.197", features = ["derive"] }
+serde = { version = "1.0.203", features = ["derive"] }
 glue = { path = "../../../glue"}
 ```
 
@@ -170,8 +168,8 @@ name = "auth_actix_server"
 version = "0.1.0"
 edition = "2021"
 [dependencies]
-tokio = { version = "1.36.0", features = ["full"] }
-actix-web = "4.5.1"
+tokio = { version = "1.39.0", features = ["full"] }
+actix-web = "4.8.0"
 auth-core = { path = "../../core" }
 auth-dal = { path = "../../dal" }
 glue = { path = "../../../../glue", features = ["actix"] }
@@ -196,7 +194,7 @@ pub struct NewUser {
 }
 ```
 
-We can see that we have a unique ID as well as a standard ID. Unique IDs become useful when you need to expose an ID to the outside world. For instance, if we wanted to make our users verify that the email address they provided was real, we could send an email with a link containing the unique ID for the user to click on. Once the user has clicked on the link, we could match the unique ID in the link to the unique ID of the user and then verify the user. Once the user is verified, the unique ID can be changed. We will use the unique ID in our token-based login sessions. Putting the unique ID into the login token ensures that if someone else gets hod of the token, the information in the token will only be valid for a short while as we can change the unique ID when refreshing the token.
+We can see that we have a unique ID as well as a standard ID. Unique IDs become useful when you need to expose an ID to the outside world. For instance, if we wanted to make our users verify that the email address they provided was real, we could send an email with a link containing the unique ID for the user to click on. Once the user has clicked on the link, we could match the unique ID in the link to the unique ID of the user and then verify the user. Once the user is verified, the unique ID can be changed. We will use the unique ID in our token-based login sessions. Putting the unique ID into the login token ensures that if someone else gets hold of the token, the information in the token will only be valid for a short while as we can change the unique ID when refreshing the token.
 
 Now that our new user struct is done, we can now define our user struct with the code below:
 
@@ -257,7 +255,7 @@ To enable us to write the code that stores passwords new users, we must add the 
 ```toml
 # nanoservices/auth/dal/Cargo.toml
 argon2 = { version = "0.5.3", features = ["password-hash"]}
-uuid = {version = "1.8.0", features = ["serde", "v4"]}
+uuid = {version = "1.10.0", features = ["serde", "v4"]}
 rand = "0.8.5"
 ```
 
@@ -1161,7 +1159,7 @@ export const LoginForm: React.FC<LoginFormProps> = ( { setToken } ) => {
 };
 ```
 
-With this outline, we can update our email and password put into the form and fire the | function when the button on the form is clicked with the following code:
+With this outline, we can update our email and password put into the form and fire the submit function when the button on the form is clicked with the following code:
 
 ```typescript
 // ingress/frontend/src/components/LoginForm.tsx
@@ -1170,7 +1168,7 @@ return (
         <h1 className="login-title">Login</h1>
         <input type="text" className="login-input" placeholder="Email" autoFocus onChange={handleUsernameChange} value={email} />
         <input type="password" className="login-input" placeholder="Password" onChange={handlePasswordChange} value={password} />
-        <button className="login-button" id="login-button" onClick={submitLogin}>Lets Go</button>
+        <button className="login-button" id="login-button" onClick={submitLogin}>Let's Go</button>
     </div>
 );
 ```

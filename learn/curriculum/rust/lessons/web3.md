@@ -14,9 +14,7 @@ By the end of this chapter, you will understand what async programming is, and h
 
 ## Technical requirements
 
-This chapter relies on CURL which can be installed by visiting the following link:
-
-`https://help.ubidots.com/en/articles/2165289-learn-how-to-install-run-curl-on-windows-macosx-linux`
+This chapter relies on CURL which can be installed on your system.
 
 ## Understanding asynchronous programming
 
@@ -29,7 +27,7 @@ When it comes to utilizing asynchronous code, there are two main concepts we mus
 
 This is demonstrated in the classic diagram below:
 
-Figure 3.1 – Relationship between threads and processes [Source: Cburnett (2007) (`https://commons.wikimedia.org/wiki/File:Multithreaded_process.svg`), CC BY-SA 3.0 (`https://creativecommons.org/licenses/by-sa/3.0/deed.en`)]
+Figure 3.1 – Relationship between threads and processes
 
 Now that we understand what threads are and what relation they have to our code on a high-level basis, we can play with a toy example to understand how to utilize threads in our code and see the effects of these threads firsthand. A classic example is to build a basic function that merely sleeps, blocking time. This can simulate a time-expensive function such as a network request. We can run it sequentially with the following code:
 
@@ -421,7 +419,7 @@ Now that we have seen what async is, we need to understand it in the bigger cont
 
 There is some contention about this, but tokio is the main async runtime that web frameworks run on. Unlike our single threaded async queue, tokio has multiple threads with task stealing as seen in figure 3.2.
 
-Figure 3.2 – Speeding up the Tokio runtime [Source: Tokio Documentation (2019) (`https://tokio.rs/blog/2019-10-scheduler`)]
+Figure 3.2 – Speeding up the Tokio runtime
 
 Here, we can see that the tokio runtime has multiple worker threads that all have their own queues. On top of multiple workers, tokio also implements "task stealing". This is where the worker will steal a task from another queue if that worker does not have its own tasks to process. In the first section of this chapter, we used tokio to display some functionality of async runtimes. However, we restricted the number of worker threads to one to avoid the task stealing from masking how blocking works. We can see that our simple implementation of an async task queue does not really match up to the full features that a runtime like tokio offers.
 

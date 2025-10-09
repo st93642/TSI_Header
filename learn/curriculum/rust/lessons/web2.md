@@ -14,11 +14,7 @@ By the end of this chapter, you will be able to build applications in Rust that 
 
 ## Technical requirements
 
-As we move toward building web apps in Rust, we are going to have to start relying on third-party packages to do some of the heavy lifting for us. Rust manages dependencies through a package manager called Cargo. To use Cargo, we are going to have to install Rust on our computer from the following URL: `https://www.rust-lang.org/tools/install`.
-
-Installing Rust does not only provide the programming language Rust, but also the dependency manager Cargo. You can find all the code files for this chapter on GitHub:
-
-`https://github.com/PacktPublishing/Rust-Web-Programming-3E/tree/main/chapter02`
+For this chapter, ensure you have Rust installed. The code examples can be run in any Rust environment.
 
 ## Managing a software project with Cargo
 
@@ -100,9 +96,7 @@ Now that we have got our basic builds done, we can start to use Cargo to utilize
 
 ### Shipping crates with Cargo
 
-Third-party libraries in Rust are referred to as crates. Adding them and managing them with Cargo is straightforward. In this section, we will explore this process by utilizing the rand crate, available at `https://rust-random.github.io/rand/rand/index.html`.
-
-The documentation for this crate is clear and well-structured with links to structs, traits, and modules. This is not a reflection of the rand crate itself, this is standard documentation for Rust that we will cover in the next section.
+The rand crate is available for generating random numbers. The documentation for this crate is clear and well-structured with links to structs, traits, and modules. This is not a reflection of the rand crate itself, this is standard documentation for Rust that we will cover in the next section.
 
 To use this crate in our project, we open the Cargo.toml file and add the rand crate under the [dependencies] section, as follows:
 
@@ -110,7 +104,7 @@ To use this crate in our project, we open the Cargo.toml file and add the rand c
 
 Now that we've defined our dependency, we can use the rand crate to build a random number generator.
 
-We will not be using a random number generator for our to-do application, however, generating random numbers is a nice easy introduction to using third-party crates using the ThreadRng struct. The ThreadRng struct is a random number generator that generates an f64 value between 0 and 1, which is elaborated on in the rand crate documentation at `https://rust-random.github.io/rand/rand/rngs/struct.ThreadRng.html`:
+We will not be using a random number generator for our to-do application, however, generating random numbers is a nice easy introduction to using third-party crates using the ThreadRng struct. The ThreadRng struct is a random number generator that generates an f64 value between 0 and 1, which is elaborated on in the rand crate documentation:
 
 ```rust
 // src/main.rs use rand::prelude::*; fn generate_float(generator: &mut ThreadRng) -> f64 { let placeholder: f64 = generator.gen(); return placeholder * 10.0 } fn main() { let mut rng: ThreadRng = rand::thread_rng(); let random_number = generate_float(&mut rng); println!("{}", random_number); }
@@ -118,7 +112,7 @@ We will not be using a random number generator for our to-do application, howeve
 
 In the preceding code, we have defined a function called generate_float, which uses the crate to generate and return a float between 0 and 10. Once we've done this, we print the number. The implementation of the rand crate is handled by the rand documentation. Our use statement imports the rand crate. When using the rand create for generating a float, the documentation tells us to import (*) from the rand::prelude module, which simplifies the importing of common items.
 
-You can view the documentation for Rand at `https://rust-random.github.io/rand/rand/prelude/index.html`.
+You can view the documentation for Rand at the official Rust documentation site.
 
 With a few clicks on the introduction page of the rand documentation, we can dig into the declarations of the structs and functions used in the demonstration.
 

@@ -14,7 +14,7 @@ Once we have covered the main concepts in this chapter, you will be able to achi
 
 ## Technical requirements
 
-For detailed instructions, please refer to the file found here: `https://github.com/PacktPublishing/Rust-Web-Programming-3E/tree/main/chapter011`
+For this chapter, ensure you have Rust installed. The code examples can be run in any Rust environment.
 
 ## Verifying with traits
 
@@ -98,7 +98,7 @@ In our output, we can see that the overriding of the edit function for the User 
 fn cache<T: CanCreate + CanDelete>(user: &T) -> () { . . . }
 ```
 
-Here, we are saying that the user must have the permission to create and delete entries. This leads me onto my opinion that traits are more powerful than object inheritance. To qualify this, let us think about building a game. In one function, we deal damage from one player to another. We could build a class that is a player character. This class has the methods take and deal damage. We then build out different types of characters such as Orc, Elf, Human etc. that all inherit this class. This all seems reasonable, and we start coding away. However, what about buildings? Buildings could theoretically take damage, but they are not player characters. Also, buildings by themselves cannot really deal damage. We are now stuck rewriting our structure or writing new functions that accommodate buildings and having from if else if conditional logic on what function to call. However, if we have a function where one parameter must have the deal damage trait implemented, and the other parameter must have the take data trait implemented, our participants of this function can come and go with little friction. In my experience, developers who complain about Rust being a rigid language are not utilizing traits. Because of traits, I have found rust to be more flexible than many object orientated languages.
+Here, we are saying that the user must have the permission to create and delete entries. This leads me to the opinion that traits are more powerful than classical object inheritance. To illustrate, imagine a game where one function performs damage from one entity to another. You might model a base "player character" class with methods to take and deal damage, then derive Orc, Elf, Human, etc. That seems reasonable. However, what about buildings? Buildings could theoretically take damage, but they are not player characters, and buildings typically do not deal damage. At that point you end up rewriting structures or adding many if/else conditionals to decide which function to call. If instead you define a `DealDamage` trait and a `TakeDamage` trait, a function can accept any types that implement those traits and compose participants with very little friction. In my experience, developers who call Rust "rigid" are often not leveraging traits; when used well, traits make Rust more flexible than many object‑oriented approaches.
 
 We have now learned enough about traits to be productive with web development. From here, traits get even more powerful, and we will be using them for some key parts of our web programming. For instance, several Rust web frameworks have traits that execute before the request is processed by the view/API endpoint. Implementing structs with these traits automatically loads the view function with the result of the trait function. This can be database connections, extraction of tokens from headers, or anything else we wish to work with.
 
@@ -144,24 +144,29 @@ Now that we have covered generics, we can move on to the main mechanism of metap
 
 Macros enable us to write code that writes code at compilation time. We've already been using macros in our print functions. The ! notation at the end of the function denotes that this is a macro that's being called.
 
-Defining our own macros is a blend of defining a function and using a lifetime notation within a match statement in the function. To demonstrate this, we will define a macro that capitalizes a string with the following code:
+Defining our own macros is a blend of declaring patterns and emitting code at compile time. To demonstrate this, here is a small, safer macro that capitalizes the first character of a mutable String variable:
 
 ```rust
-macro_rules! capitalize { 
-    ($a: expr) => { 
-        let mut v: Vec<char> = $a.chars().collect(); 
-        v[0] = v[0].to_uppercase().nth(0).unwrap(); 
-        $a = v.into_iter().collect(); 
-    } 
-} 
-fn main() { 
-    let mut x = String::from("test"); 
-    capitalize!(x); 
-    println!("{}", x); 
+macro_rules! capitalize {
+    ($var:ident) => {
+        if !$var.is_empty() {
+            let mut chars: Vec<char> = $var.chars().collect();
+            if let Some(first) = chars.get_mut(0) {
+                *first = first.to_uppercase().next().unwrap();
+            }
+            $var = chars.into_iter().collect();
+        }
+    };
+}
+
+fn main() {
+    let mut x = String::from("test");
+    capitalize!(x);
+    println!("{}", x);
 }
 ```
 
-Instead of using the term fn, we use the macro_rules! definition. We then say that $a is the expression passed into the macro. We get the expression, convert it into a vector of chars, then make the first char uppercase, and then convert it back to a string. Note that we don't return anything in the capitalize macro, and when we call the macro, we don't assign a variable to it. However, when we print the x variable at the end, we can see that it is capitalized. This does not behave like an ordinary function. We also must note that we didn't define a type, instead, we just said it was an expression; the macro still does checks via traits. Passing an integer into the macro creates the following error:
+Instead of using the term fn, we use the macro_rules! definition. We then say that $var is an identifier passed into the macro. We check if the string is not empty, convert it into a vector of chars, make the first char uppercase, and then convert it back to a string. Note that we don't return anything in the capitalize macro, and when we call the macro, we don't assign a variable to it. However, when we print the x variable at the end, we can see that it is capitalized. This does not behave like an ordinary function. We also must note that we didn't define a type, instead, we just said it was an identifier; the macro still does checks via traits. Passing an integer into the macro creates the following error:
 
 ```text
 | capitalize!(32); | ---------------- in this macro invocation | = help: the trait `std::iter::FromIterator<char>` is not implemented for `{integer}`
@@ -271,7 +276,8 @@ Finally, we can refine a contract, wrap it in the handle enum and call our mappi
 ```rust
 fn main() { 
     let contract_one = ContractOne { 
-        data: "Contract One".to_string(), 
+        input_data: "Contract One".to_string(), 
+        output_data: None,
     }; 
     let outcome = handle_contract( 
         ContractHandler::ContractOne(contract_one) 

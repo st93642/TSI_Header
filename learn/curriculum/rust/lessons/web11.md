@@ -16,9 +16,7 @@ By the end of this chapter, you will be able to build custom caching functionali
 
 ## Technical requirements
 
-This chapter will be relying on the code in the previous chapter that can be found at the following link:
-
-`https://github.com/PacktPublishing/Rust-Web-Programming-3E/tree/main/chapter11`
+This chapter will be relying on the code in the previous chapter.
 
 ## What is caching
 
@@ -144,9 +142,9 @@ crate-type = ["cdylib"]
 
 [dependencies]
 redis-module = "2.0.7"
-chrono = "0.4.24"
+chrono = "0.4.38"
 bincode = "1.3.3"
-serde = { version = "1.0.203", features = ["derive"] }
+serde = { version = "1.0.218", features = ["derive"] }
 ```
 
 The cdylib stands for "C dynamic library." This type of library is intended to be used from languages other than Rust, such as C, C++, or even Python. As Redis is written in C, our library will have to be a C dynamic library.
@@ -537,8 +535,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-redis = { version = "0.25.4", features = ["tokio-comp"] }
-tokio = { version = "1.38.0", features = ["full"] }
+redis = { version = "0.27.5", features = ["tokio-comp"] }
+tokio = { version = "1.41.1", features = ["full"] }
 glue = { path = "../../../glue"}
 ```
 
@@ -595,13 +593,10 @@ Inside our login function, we get the connection and send the request with the c
 // nanoservices/user-session-cache/cache-client/src/lib.rs
 let mut con = get_connnection(address).await?;
 let result = con .req_packed_command( &redis::cmd("login.set") .arg(user_id) .arg(timeout_mins) .arg(perm_user_id.to_string()) .clone(), ) .await.map_err(|e|{ NanoServiceError::new( e.to_string(), NanoServiceErrorStatus::Unknown ) })?;
-match result {
-    Value::Okay => {
-        return Ok(());
-    },
-    _ => {
-        return Err(NanoServiceError::new( format!("{:?}", result), NanoServiceErrorStatus::Unknown  ));
-    }
+let result_string = unpack_result_string(result)?;
+match result_string.as_str() {
+    "OK" => Ok(()),
+    _ => Err(NanoServiceError::new( format!("{:?}", result), NanoServiceErrorStatus::Unknown ))
 }
 ```
 
@@ -609,7 +604,7 @@ We then match the result, and return an error if we do not get a value::Okay. Wi
 
 ```rust
 // nanoservices/user-session-cache/cache-client/src/lib.rs
-pub async fn logout(address: &str, user_id: &str) -> Result<String, Box<dyn Error>> {
+pub async fn logout(address: &str, user_id: &str) -> Result<String, NanoServiceError> {
     let mut con = get_connnection(address).await?;
     let result = con .req_packed_command( &redis::cmd("logout.set") .arg(user_id) .clone(), ) .await.map_err(|e|{ NanoServiceError::new( e.to_string(), NanoServiceErrorStatus::Unknown ) })?;
     let result_string = unpack_result_string(result)?;
@@ -645,7 +640,7 @@ With the result, we can inspect the string, returning a status depending on the 
 ```rust
 // nanoservices/user-session-cache/cache-client/src/lib.rs
 let result_string = unpack_result_string(result)?;
-match result.as_str() {
+match result_string.as_str() {
     "TIMEOUT" => {
         return Err(NanoServiceError::new( "Session has timed out".to_string(), NanoServiceErrorStatus::Unauthorized ));
     },
@@ -816,6 +811,7 @@ match user_id {
     UserSessionStatus::Refresh => {
         let user = get_user_by_unique_id( unique_id.clone() ).await?;
         let _ = login(&address, &unique_id, 20, user.id).await?;
+        let user_id = update(&address, &unique_id).await?;
         match user_id {
             UserSessionStatus::Ok(id) => Ok(UserSession { user_id: id }),
             _ => Err(NanoServiceError::new( "Failed to update user session".to_string(), NanoServiceErrorStatus::Unknown) )

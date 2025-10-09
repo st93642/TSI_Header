@@ -20,13 +20,11 @@ By the end of this chapter, you know how frontend assets are served and you will
 
 ## Technical requirements
 
-We will also be building on the server code we created in the Chapter 5, Processing HTTP Requests which can be found at [PUT LINK HERE]
+We will also be building on the server code we created in the Chapter 5, Processing HTTP Requests which can be found at
 
 You can find the full source code that will be used in this chapter here:
 
-[PUT LINK HERE]
-
-You will also need esbuild so you will have to install esuild using the link below:
+You will also need esbuild so you will have to install esbuild using the link below:
 
 `https://esbuild.github.io/getting-started/`
 
@@ -108,7 +106,7 @@ While this build config will enable us to build our react application with Esbui
 }
 ```
 
-Here we can see that our application dependencies are just React based and these dependencies are defined in the "dependencies" section. We have defined the dependencies that we want for the build and serving in the "devDependencies" section. Here we can see that we are using esbuild for the build, we have also defined the plugin that we are using the for the build, and the serve dependency enables us to ser the React app when developing our application. These are in the "devDependencies" section because we do not need to add these modules to our bundle to be served to the client.
+Here we can see that our application dependencies are just React based and these dependencies are defined in the "dependencies" section. We have defined the dependencies that we want for the build and serving in the "devDependencies" section. Here we can see that we are using esbuild for the build, we have also defined the plugin that we are using the for the build, and the serve dependency enables us to serve the React app when developing our application. These are in the "devDependencies" section because we do not need to add these modules to our bundle to be served to the client.
 
 Before we move onto writing any typescript code, we must define our typescript build in the ts.config.json file with the following code:
 
@@ -197,7 +195,7 @@ npm run build
 
 After a stream of build logs, we should see the bundle.js file in the public directory. We can then serve our app with the following command:
 
-npm run serve
+npm run serveve
 
 Which gives us the printout below:
 
@@ -414,7 +412,7 @@ And here we conclude that our Rust server is serving our frontend. We can also s
 
 ## Connecting backend API endpoints to the frontend
 
-We are going to connect our frontend to our backend server via HTTP requests. This means that we must connect our to-do nanoservice to our ingress. Before we can do this we must add the following decencies to our ingress Cargo.toml file with the following code:
+We are going to connect our frontend to our backend server via HTTP requests. This means that we must connect our to-do nanoservice to our ingress. Before we can do this we must add the following dependencies to our ingress Cargo.toml file with the following code:
 
 ```toml
 # File: ingress/Cargo.toml
@@ -616,7 +614,7 @@ export async function postCall<T, X>( url: string, body: T, expectedResponse: nu
 }
 ```
 
-The validateStstus it to ensures that we resolve the promise for all response statuses. It must be noted that we have the JWT in the header. Right now, this is a placeholder, but we will be reviewing the JWT in Chapter 10, Managing User Sessions. Finally, we need to define our get call function. Now is a good time to try and build this function yourself as it will be a slight variance to the post call function. If you attempted to build the function yourself, it hopefully looks like the following code:
+The validateStatus it to ensures that we resolve the promise for all response statuses. It must be noted that we have the JWT in the header. Right now, this is a placeholder, but we will be reviewing the JWT in Chapter 10, Managing User Sessions. Finally, we need to define our get call function. Now is a good time to try and build this function yourself as it will be a slight variance to the post call function. If you attempted to build the function yourself, it hopefully looks like the following code:
 
 ```typescript
 // File: ingress/frontend/src/api/utils.ts
@@ -726,7 +724,7 @@ export async function createToDoItemCall(title: string) {
 }
 ```
 
-The update function if defined with the following code:
+The update function is defined with the following code:
 
 ```typescript
 // File: ingress/frontend/src/api/update.ts
@@ -788,7 +786,7 @@ export const CreateToDoItem: React.FC<CreateToDoItemProps> = ( { passBackRespons
 }
 ```
 
-Here we can see that we initially define our state which is just a string as all we are doing is keeping track of the name of the to-do item that we are creating. We are assuming that all to-do items being created will be pending and not complete. We then define the function that updates the state of the to-do item title every time there is a change in the input HTML element where the user is inputting the title. This means that everytime the user changes the input contents for the title of the do-to item, the entire React component has access to that data, and we can alter the component however we want. We then define our API call and the tsx that the component is rendering.
+Here we can see that we initially define our state which is just a string as all we are doing is keeping track of the name of the to-do item that we are creating. We are assuming that all to-do items being created will be pending and not complete. We then define the function that updates the state of the to-do item title every time there is a change in the input HTML element where the user is inputting the title. This means that everytime the user changes the input contents for the title of the to-do item, the entire React component has access to that data, and we can alter the component however we want. We then define our API call and the tsx that the component is rendering.
 
 For the create API call, our function takes the form below:
 
@@ -815,7 +813,7 @@ For our render statement, we have the following code:
 // File: ingress/frontend/src/components/CreateItemForm.tsx
 return (
   <div className="inputContainer">
-    <input type="text" id="name" placeholder="create to do item" value={title} onChange={handleTitleChange}/>
+    <input type="text" id="name" placeholder="create to-do item" value={title} onChange={handleTitleChange}/>
     <button className="actionButton" id="create-button" onClick={createItem}>Create</button>
   </div>
 );
@@ -834,7 +832,6 @@ import {TaskStatus} from "../interfaces/toDoItems";
 interface ToDoItemProps {
   title: string;
   status: string;
-  id: number;
   passBackResponse: (response: any) => void;
 }
 ```
@@ -861,11 +858,11 @@ export const ToDoItem: React.FC<ToDoItemProps> = ( { title, status, id, passBack
 }
 ```
 
-Here we can see that we are using the useEffect to define what is going to be rendered in the button. If our status is pending, we can edit the to-do item to a complete, so the button has "complete". If the status is not pending, we then assume that the to-do item is complete, and the only thing that we want to do now is delete the to-do item, so the button renders "delete". It must be noted that there is a [status] array in the useEffect function. This array is a dependencies array. This means that the useEffect function relies on the status before executing which makes sense as we reference the status in the useEffect function.
+Here we can see that we are using the useEffect to define what is going to be rendered in the button. If our status is pending, we can edit the to-do item to a complete, so the button has "edit". If the status is not pending, we then assume that the to-do item is complete, and the only thing that we want to do now is delete the to-do item, so the button renders "delete". It must be noted that there is a [status] array in the useEffect function. This array is a dependencies array. This means that the useEffect function relies on the status before executing which makes sense as we reference the status in the useEffect function.
 
-Now that our state is defined, we can move onto the API call for editing the item. Here, must check the type of button, and make either the create or delete API depending on the button type. At this stage it is a good time to try and build this API call yourself. There is some conditional logic that you must consider, and if you get this right then you are truly comfortable making API calls to our backend. Remember to look at the to-do item component for a starting point.
+Now that our state is defined, we can move onto the API call for editing the item. Here, we must check the type of button, and make either the create or delete API depending on the button type. At this stage it is a good time to try and build this API call yourself. There is some conditional logic that you must consider, and if you get this right then you are truly comfortable making API calls to our backend. Remember to look at the to-do item component for a starting point.
 
-If you attempted to build the API, call yourself, hopefully you have a structure like the one below:
+If you attempted to build the API call yourself, hopefully you have a structure like the one below:
 
 ```typescript
 // File: ingress/frontend/src/components/ToDoItem.tsx
@@ -911,7 +908,7 @@ Finally, we must render the to-do item with the following return statement:
 ```typescript
 // File: ingress/frontend/src/components/ToDoItem.tsx
 return (
-  <div className="itemContainer" id={id}>
+  <div className="itemContainer">
     <p>{itemTitle}</p>
     <button className="actionButton" onClick={sendRequest}>{button}</button>
   </div>
@@ -937,7 +934,7 @@ Now that we have our new components, we must handle them in our App component. O
 ```typescript
 // File: ingress/frontend/src/index.tsx
 const App = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<ToDoItems | null>(null);
   function reRenderItems(items: ToDoItems) {
     setData(items);
   }
@@ -973,13 +970,13 @@ For the return statement of our App component, we merely loop through the to-do 
     <h1>Pending Items</h1>
     <div>
       {data.pending.map((item, index) => (
-        <><ToDoItem key={item.title + item.status} title={item.title} status={item.status} id={item.id} passBackResponse={reRenderItems}/></>
+        <><ToDoItem key={item.title + item.status} title={item.title} status={item.status} passBackResponse={reRenderItems}/></>
       ))}
     </div>
     <h1>Done Items</h1>
     <div>
       {data.done.map((item, index) => (
-        <><ToDoItem key={item.title + item.status} title={item.title} status={item.status} id={item.id} passBackResponse={reRenderItems}/></>
+        <><ToDoItem key={item.title + item.status} title={item.title} status={item.status} passBackResponse={reRenderItems}/></>
       ))}
     </div>
     <CreateToDoItem passBackResponse={reRenderItems} />
@@ -1048,9 +1045,9 @@ Now that everything is in order, we can focus on our CSS. We can do a basic conf
 }
 ```
 
-The background color is a reference to a type of color. This reference might not seem like it makes sense just looking at it but there are color pickers online where you can see and pick a color and the reference code is supplied. Some code editors support this functionality but for some quick reference, simply google HTML color picker and you will be spoilt for choice at the number of free online interactive tools that will be available. With the configuration above, the background for the entire page will be of the code #92a8d1, which is a navy-blue color. If we just had that, most of the page would have a white background. The navy-blue background would only be present where there is content. We set the height to 100vh. vh is relative to 1% of the height of the viewport. With this, we can deduce that 100vh means the styling we defined in the body occupies 100% of the viewport. We then define the font for all text unless overwritten to Arial, Helvetica, sans-serif. We can see that we have defined multiple fonts in the font-family. This does not mean that all of them are implemented or that there are different fonts for different levels of headers or HTML tags. Instead, this s a fallback mechanism. First, the browser will try and render Arial; if it is not supported by the browser, it will then try and render Helvetica, and if that fails too it will try and render sans-serif.
+The background color is a reference to a type of color. This reference might not seem like it makes sense just looking at it but there are color pickers online where you can see and pick a color and the reference code is supplied. Some code editors support this functionality but for some quick reference, simply google HTML color picker and you will be spoilt for choice at the number of free online interactive tools that will be available. With the configuration above, the background for the entire page will be of the code #92a8d1, which is a navy-blue color. If we just had that, most of the page would have a white background. The navy-blue background would only be present where there is content. We set the height to 100vh. vh is relative to 1% of the height of the viewport. With this, we can deduce that 100vh means the styling we defined in the body occupies 100% of the viewport. We then define the font for all text unless overwritten to Arial, Helvetica, sans-serif. We can see that we have defined multiple fonts in the font-family. This does not mean that all of them are implemented or that there are different fonts for different levels of headers or HTML tags. Instead, this is a fallback mechanism. First, the browser will try and render Arial; if it is not supported by the browser, it will then try and render Helvetica, and if that fails too it will try and render sans-serif.
 
-We have now defined the general style for our body but what about different screen sizes? For instance, if we were going to access out application on our phone, it should have different dimensions. We can see this in the following figure:
+We have now defined the general style for our body but what about different screen sizes? For instance, if we were going to access our application on our phone, it should have different dimensions. We can see this in the following figure:
 
 Figure 6.7 – Difference in margins between a phone and desktop monitor
 
@@ -1085,7 +1082,7 @@ Here we can see that the padding around the edge of the page and each element is
 
 We can also see that for our mainContainer CSS class where we house our to-do items we will overwrite the attribute grid-column-start. If we did not, then the mainContainer would be squeezed in the left margin at 1fr width. Instead, we are starting and finishing in the middle at 5fr. We can make our mainContainer span across multiple columns with a grid-column-finish attribute.
 
-If our screen gets larger, we then want to adjust the ratios even more as we do not want our items width to get out of control. To achieve this, we then define a 3 to 1 ratio with for the middle column versus the two side columns, and then a 1 to 1 ratio when the screen width gets higher than 1001px:
+If our screen gets larger, we then want to adjust the ratios even more as we do not want our items width to get out of control. To achieve this, we then define a 3 to 1 ratio for the middle column versus the two side columns, and then a 1 to 1 ratio when the screen width gets higher than 1001px:
 
 ```css
 /* File: ingress/frontend/src/App.css */
@@ -1124,7 +1121,7 @@ Now that we have defined our general CSS for our entire application, we can move
 }
 ```
 
-We can see that this class has a margin of 0.3. We are using the rem because we want the margin to scale relatively to the font size of the root element. The align-items ensures that all the children in the container including the buttons stretch to fill the container height. The flex ensures that all items grow and shink relative to each other and can be displayed next to each other. This will come in handy as we want our action button for the to-do item to sit next to the title. We also want our item to slightly change the color if our cursor hovers over it:
+We can see that this class has a margin of 0.3. We are using the rem because we want the margin to scale relatively to the font size of the root element. The align-items ensures that all the children in the container including the buttons stretch to fill the container height. The flex ensures that all items grow and shrink relative to each other and can be displayed next to each other. This will come in handy as we want our action button for the to-do item to sit next to the title. We also want our item to slightly change the color if our cursor hovers over it:
 
 ```css
 /* File: ingress/frontend/src/App.css */

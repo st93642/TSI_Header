@@ -14,11 +14,9 @@ Once you have finished this chapter you will be able to build a basic Rust serve
 
 ## Technical requirements
 
-We will also be building on the server code we created in the Chapter 3, Designing Your Web Application in Rust which can be found at [PUT LINK HERE]
+We will also be building on the server code we created in the Chapter 3, Designing Your Web Application in Rust which can be found at
 
 You can find the full source code that will be used in this chapter here:
-
-[PUT LINK HERE]
 
 You will also be making requests to your server using CURL. You can download CURL directly through your OS package manager.
 
@@ -33,7 +31,7 @@ Before we touch the networking layer, we must build the core function that loads
 . . .
 use glue::errors::{ NanoServiceError, NanoServiceErrorStatus };
 . . .
-pub async fn get_by_name(name: &str) -> Result<ToDoItem, NanoServiceError> {
+pub fn get_by_name(name: &str) -> Result<ToDoItem, NanoServiceError> {
     Ok(get_all_handle::<ToDoItem>()?
         .remove(name)
         .ok_or(
@@ -82,7 +80,7 @@ pub async fn get_by_name(req: HttpRequest) -> Result<HttpResponse, NanoServiceEr
             )
         }
     };
-    Ok(HttpResponse::Ok().json(get_by_name_core(name).await?))
+    Ok(HttpResponse::Ok().json(get_by_name_core(name)?))
 }
 ```
 
@@ -128,13 +126,13 @@ use crate::structs::ToDoItem;
 use dal::json_file::save_one;
 use glue::errors::NanoServiceError;
 
-pub async fn create(item: ToDoItem) -> Result<ToDoItem, NanoServiceError> {
+pub fn create(item: ToDoItem) -> Result<ToDoItem, NanoServiceError> {
     let _ = save_one(&item.title.to_string(), &item)?;
     Ok(item)
 }
 ```
 
-We remember that our ToDoItem struct has already implemented the serializing structs to the read and written to the JSON file. Here we have turned our create function into an async function. Right now we are not using any async functionality, but in the future we will be using async to connect to databases and make HTTP requests inside our API endpoints. Considering this, it makes sense just to make API functions in the core module async. If you kept the main.rs file in the core workspace, you now must delete it, or convert the main function in the main.rs file into async.
+We remember that our ToDoItem struct has already implemented the serializing traits to the read and written to the JSON file. Here we have turned our create function into an async function. Right now we are not using any async functionality, but in the future we will be using async to connect to databases and make HTTP requests inside our API endpoints. Considering this, it makes sense just to make API functions in the core module async. If you kept the main.rs file in the core workspace, you now must delete it, or convert the main function in the main.rs file into async.
 
 We can now wrap the core create function in our server. First, we need to use the following:
 
@@ -150,14 +148,14 @@ use glue::errors::NanoServiceError;
 use actix_web::{ HttpResponse, web::Json };
 ```
 
-We these structs and traits, we can define our create API web endpoint with the code below:
+With these structs and traits, we can define our create API web endpoint with the code below:
 
 ```rust
 //! File: nanoservices/to_do/networking/actix_server
 //! /src/api/basic_actions/create.rs
 pub async fn create(body: Json<ToDoItem>) -> Result<HttpResponse, NanoServiceError> {
-    let _ = create_core(body.into_inner()).await?;
-    Ok(HttpResponse::Ok().json(get_all_core().await?))
+    let _ = create_core(body.into_inner())?;
+    Ok(HttpResponse::Ok().json(get_all_core()?))
 }
 ```
 
@@ -250,7 +248,7 @@ And there we have it, we can see that our POST create HTTP endpoint is now worki
 
 ## Deleting resources using the DELETE method
 
-DELETE methods are like GET methods. We could technically pass data in the JSON body of the HTTP request, there should be enough data in the URL that we can perform a delete. In our case, the title of the item is enough to delete the item from storage.
+DELETE methods are like GET methods. We could technically pass data in the JSON body of the HTTP request, there is enough data in the URL that we can perform a delete. In our case, the title of the item is enough to delete the item from storage.
 
 Before we define the core and server functions, we must ensure that our data access layer function returns the right message if we do not find the right item when deleting from our store. Some slight refactoring is needed where we return the right error if there was no item found in the store with the following code:
 
@@ -284,7 +282,7 @@ use dal::json_file::delete_one;
 use crate::structs::ToDoItem;
 use glue::errors::NanoServiceError;
 
-pub async fn delete(id: &str) -> Result<(), NanoServiceError> {
+pub fn delete(id: &str) -> Result<(), NanoServiceError> {
     delete_one::<ToDoItem>(id)
 }
 ```
@@ -313,7 +311,7 @@ We then define the delete endpoint with the following code:
 pub async fn delete_by_name(req: HttpRequest) -> Result<HttpResponse, NanoServiceError> {
     match req.match_info().get("name") {
         Some(name) => {
-            delete_core(name).await?;
+            delete_core(name)?;
         },
         None => {
             return Err(
@@ -324,7 +322,7 @@ pub async fn delete_by_name(req: HttpRequest) -> Result<HttpResponse, NanoServic
             )
         }
     };
-    Ok(HttpResponse::Ok().json(get_all_core().await?))
+    Ok(HttpResponse::Ok().json(get_all_core()?))
 }
 ```
 
@@ -447,7 +445,12 @@ And with these imports we define the update function with the code below:
 
 ```rust
 //! File: nanoservices/to_do/core/src/basic_actions/update.rs
-pub async fn update(item: ToDoItem) -> Result<(), NanoServiceError> {
+//! File: nanoservices/to_do/core/src/basic_actions/update.rs
+use dal::json_file::{ get_all as get_all_handle, save_all };
+use crate::structs::ToDoItem;
+use glue::errors::{ NanoServiceError, NanoServiceErrorStatus };
+
+pub fn update(item: ToDoItem) -> Result<(), NanoServiceError> {
     let mut all_items = get_all_handle::<ToDoItem>()?;
     if !all_items.contains_key(&item.title) {
         return Err(NanoServiceError::new(
@@ -477,8 +480,8 @@ use glue::errors::NanoServiceError;
 use actix_web::{ HttpResponse, web::Json };
 
 pub async fn update(body: Json<ToDoItem>) -> Result<HttpResponse, NanoServiceError> {
-    let _ = update_core(body.into_inner()).await?;
-    Ok(HttpResponse::Ok().json(get_all_core().await?))
+    let _ = update_core(body.into_inner())?;
+    Ok(HttpResponse::Ok().json(get_all_core()?))
 }
 ```
 
@@ -642,8 +645,8 @@ use glue::{ errors::NanoServiceError, token::HeaderToken };
 . . .
 pub async fn create(token: HeaderToken, body: Json<ToDoItem>) -> Result<HttpResponse, NanoServiceError> {
     println!("Token: {}", token.message);
-    let _ = create_core(body.into_inner()).await?;
-    Ok(HttpResponse::Ok().json(get_all_core().await?))
+    let _ = create_core(body.into_inner())?;
+    Ok(HttpResponse::Ok().json(get_all_core()?))
 }
 ```
 
@@ -718,6 +721,6 @@ In the next chapter, we will be serving HTML, CSS, and JavaScript from the Actix
 
 1. A GET request can be cached, and there are limits to the types and amount of data that can be sent. A POST request has a body, which enables more data to be transferred. Also, it cannot be cached.
 2. We use middleware to open the header and check the credentials before sending the request to the desired view. This gives us an opportunity to prevent the body being loaded by returning an auth error before loading the view, preventing the potentially malicious body.
-3. For the struct to be directly returned, we will have to implement the Responder trait. During this implementation, we will have to define the responded_to function that accepts the HTTP request struct. The responded_to will be fired when the struct is returned.
+3. For the struct to be directly returned, we will have to implement the Responder trait. During this implementation, we will have to define the respond_to function that accepts the HTTP request struct. The respond_to will be fired when the struct is returned.
 4. To enact middleware we can implement the FromRequest trait for a struct, and then pass that struct as a parameter in the function of the API endpoint
 5. We decorate the struct with the `#[derive(Deserialize)]` macro. Once we have done this, we define the parameter type to be wrapped in a JSON struct: `parameter: web::Json<ToDoItem>`.

@@ -1,6 +1,6 @@
 # 11 Communicating Between Servers
 
-At this point in the book, we have two servers which are the authentication server and to-do server, however, they are not talking to each other yet. In microservices, we must be able to get our servers sending messages between each other. For our system, we must get our to-do server making requests to out authentication server. This request checks that the user is valid before we perform a database transaction on to-do items. As these items are related to the user ID passed in the request requesting the database transaction. To achieve this, the chapter will cover the following:
+At this point in the book, we have two servers which are the authentication server and to-do server, however, they are not talking to each other yet. In microservices, we must be able to get our servers sending messages between each other. For our system, we must get our to-do server making requests to our authentication server. This request checks that the user is valid before we perform a database transaction on to-do items. As these items are related to the user ID passed in the request requesting the database transaction. To achieve this, the chapter will cover the following:
 
 Getting users from auth with the unique ID
 
@@ -14,9 +14,7 @@ By the end of this chapter, you will be able to get servers talking to each othe
 
 ## Technical requirements
 
-This chapter will be relying on the code in the previous chapter that can be found at the following link:
-
-`https://github.com/PacktPublishing/Rust-Web-Programming-3E/tree/main/chapter11`
+This chapter will be relying on the code in the previous chapter.
 
 ## Getting users from auth with unique ID
 
@@ -277,7 +275,7 @@ And this is it, the data access layer is now fully tethered to the user ID for i
 For our core function, we must remember that our core does not want to have dependencies on other servers. Therefore, we merely pass in the user ID into our core API functions with the following code:
 
 ```rust
-// nanoservices/to_do/core/src/api/basic_actions/create.rs pub async fn create<T: SaveOne>(item: NewToDoItem, user_id: i32) -> Result<ToDoItem, NanoServiceError> { let created_item = T::save_one(item, user_id).await?; Ok(created_item) } // nanoservices/to_do/core/src/api/basic_actions/delete.rs pub async fn delete<T: DeleteOne>(id: &str, user_id: i32) -> Result<(), NanoServiceError> { let _ = T::delete_one(id.to_string(), user_id).await?; Ok(()) } // nanoservices/to_do/core/src/api/basic_actions/get.rs pub async fn get_all<T: GetAll>(user_id: i32) -> Result<AllToDOItems, NanoServiceError> { let all_items = T::get_all(user_id).await?; AllToDOItems::from_vec(all_items) } // nanoservices/to_do/core/src/api/basic_actions/update.rs pub async fn update<T: UpdateOne>(item: ToDoItem, user_id: i32) -> Result<(), NanoServiceError> { let _ = T::update_one(item, user_id).await?; Ok(()) }
+// nanoservices/to_do/core/src/api/basic_actions/create.rs pub async fn create<T: SaveOne>(item: NewToDoItem, user_id: i32) -> Result<ToDoItem, NanoServiceError> { let created_item = T::save_one(item, user_id).await?; Ok(created_item) } // nanoservices/to_do/core/src/api/basic_actions/delete.rs pub async fn delete<T: DeleteOne>(id: &str, user_id: i32) -> Result<(), NanoServiceError> { let _ = T::delete_one(id.to_string(), user_id).await?; Ok(()) } // nanoservices/to_do/core/src/api/basic_actions/get.rs pub async fn get_all<T: GetAll>(user_id: i32) -> Result<AllToDoItems, NanoServiceError> { let all_items = T::get_all(user_id).await?; AllToDoItems::from_vec(all_items) } // nanoservices/to_do/core/src/api/basic_actions/update.rs pub async fn update<T: UpdateOne>(item: ToDoItem, user_id: i32) -> Result<(), NanoServiceError> { let _ = T::update_one(item, user_id).await?; Ok(()) }
 ```
 
 And our core is now tethered, now we must move onto adding the user ID to the networking layer.

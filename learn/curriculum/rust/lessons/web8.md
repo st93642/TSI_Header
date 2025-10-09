@@ -1,11 +1,5 @@
 # 9 Data Persistence with PostgreSQL
 
-Before you begin: Join our book community on Discord
-
-Give your feedback straight to the author himself and chat to other early readers on our Discord server (find the "rust-web-programming-3e" channel under EARLY ACCESS SUBSCRIPTION).
-
-`https://packt.link/EarlyAccess/` By this point in the book, the frontend for our application has been defined, and our app is working at face value. However, we know that our app is reading and writing from a JSON file.
-
 In this chapter, we get rid of our JSON file and introduce a PostgreSQL database to store our data. We do this by setting up a database development environment using Docker. We then build data models in Rust to interact with the database, refactoring our app so that the create, edit, and delete endpoints interact with the database instead of the JSON file. Finally, we exploit Rust traits so any database handle that has implemented our database transaction traits can be swapped into the application with minimal effort.
 
 In this chapter, we will cover the following topics:
@@ -28,9 +22,9 @@ By the end of this chapter, you will be able to manage an application that perfo
 
 ## Technical requirements
 
-In this chapter, we will be using Docker to define, run a PostgreSQL database, and run it. This will enable our app to interact with a database on our local machine. Docker can be installed by following the instructions at `https://docs.docker.com/engine/install/`
+In this chapter, we will be using Docker to define, run a PostgreSQL database, and run it. This will enable our app to interact with a database on our local machine. Docker can be installed by following the instructions at the Docker install page.
 
-We will also be using Docker-compose on top of Docker to orchestrate our Docker containers. This can be installed by following the instructions at `https://docs.docker.com/compose/install/`
+We will also be using Docker-compose on top of Docker to orchestrate our Docker containers. This can be installed by following the instructions at the Docker-compose install page.
 
 ## Building our PostgreSQL database
 
@@ -83,15 +77,15 @@ Again, if Docker is a fresh install, then there will be no containers.
 There are other ways in which we can create a database in Docker. For instance, we can create our own DockerFile where we define our own operating system (OS), and configurations. However, we have docker-compose installed. Using docker-compose will make the database definition straightforward. It will also enable us to add more containers and services. To define our PostgreSQL database, we code the following YAML code in a docker-compose.yml file in the root directory:
 
 ```yaml
-version: "3.7" services: postgres: container_name: 'to-do-postgres' image: 'postgres:11.2' restart: always ports: - '5432:5432' environment: - 'POSTGRES_USER=username' - 'POSTGRES_DB=to_do' - 'POSTGRES_PASSWORD=password'
+version: "3.7" services: postgres: container_name: 'to-do-postgres' image: 'postgres:16.0' restart: always ports: - '5432:5432' environment: - 'POSTGRES_USER=username' - 'POSTGRES_DB=to_do' - 'POSTGRES_PASSWORD=password'
 ```
 
-In the preceding code, at the top of the file, we have defined the version. Older versions such as 2 or 1 have different styles in which the file is laid out. The different versions also support different arguments. At the time of writing this book, version 3 is the latest version. The following URL covers the changes between each docker-compose version: `https://docs.docker.com/compose/compose-file/compose-versioning/`
+In the preceding code, at the top of the file, we have defined the version. Older versions such as 2 or 1 have different styles in which the file is laid out. The different versions also support different arguments. At the time of writing this book, version 3 is the latest version. The compose versioning page covers the changes between each docker-compose version.
 
 We then define our database service that is nested under the postgres tag. Tags like the postgres and services denote dictionaries, and lists are defined with - for each element. If we were to convert our docker-compose file to JSON, it would have the following structure:
 
 ```json
-{ "version": "3.7", "services": { "postgres": { "container_name": "to-do-postgres", "image": "postgres:11.2", "restart": "always", "ports": [ "5432:5432" ], "environment": [ "POSTGRES_USER=username", "POSTGRES_DB=to_do", "POSTGRES_PASSWORD=password" ] } } }
+{ "version": "3.7", "services": { "postgres": { "container_name": "to-do-postgres", "image": "postgres:16.0", "restart": "always", "ports": [ "5432:5432" ], "environment": [ "POSTGRES_USER=username", "POSTGRES_DB=to_do", "POSTGRES_PASSWORD=password" ] } } }
 ```
 
 In the preceding code, we can see that our services are a dictionary of dictionaries, denoting each service. Thus, we can deduce that we cannot have two tags with the same name, as we cannot have two dictionary keys the same. The previous code also tells us that we can keep stacking on service tags with their own parameters.
@@ -155,7 +149,7 @@ docker image ls
 The preceding command will now give us the following output:
 
 ```text
-REPOSITORY TAG IMAGE ID postgres 11.2 3eda284d1840 CREATED SIZE 17 months ago 312MB
+REPOSITORY TAG IMAGE ID postgres 16.0 3eda284d1840 CREATED SIZE 17 months ago 312MB
 ```
 
 In the preceding output, we can see that our image has been pulled from the postgres repository. We also have a unique/random ID for the image, and we also have a date for when that image was created.
@@ -259,7 +253,7 @@ to_do_items/transactions/: This is where traits are stored for each data transac
 Before we write any code, we should configure our data access layer's Cargo.toml file with the following dependencies:
 
 ```toml
-# file: nanoservices/to_do/dal/Cargo.toml [features] json-file = ["serde_json"] sqlx-postgres = ["sqlx", "once_cell"] [dependencies] serde ={ version="1.0.197", features = ["derive"] } glue = { path = "../../../glue"} # for json-file serde_json ={ version="1.0.114", optional = true } # for sqlx-postgres sqlx = { version = "0.7.4", features = ["postgres", "json"], optional = true } once_cell = { version = "1.19.0", optional = true }
+# file: nanoservices/to_do/dal/Cargo.toml [features] json-file = ["serde_json"] sqlx-postgres = ["sqlx", "once_cell"] [dependencies] serde ={ version="1.0.203", features = ["derive"] } glue = { path = "../../../glue"} # for json-file serde_json ={ version="1.0.114", optional = true } # for sqlx-postgres sqlx = { version = "0.8.0", features = ["postgres", "json"], optional = true } once_cell = { version = "1.19.0", optional = true }
 ```
 
 Here we can see that our data access layer is aiming to support both SQLX and standard JSON file storage engines depending on the feature that is selected. We can also see that we are selective with what crates we use. We do not want to be compiling SQLX if we are just using the json-file feature.
@@ -405,7 +399,7 @@ Our implementations are defined below:
 When it comes to our Postgres query, we use the title from the item passed into delete with the following function:
 
 ```rust
-// file: nanoservices/to_do/dal/src/to_do_items/ // transactions/delete.rs #[cfg(feature = "sqlx-postgres")] async fn sqlx_postgres_delete_one(title: String) -> Result<ToDoItem, NanoServiceError> { let item = sqlx::query_as::<_, ToDoItem>(" DELETE FROM to_do_items WHERE title = $1 RETURNING *" ).bind(item.id) .fetch_one(&*SQLX_POSTGRES_POOL).await.map_err(|e| { NanoServiceError::new( e.to_string(), NanoServiceErrorStatus::Unknown ) })?; Ok(item) }
+// file: nanoservices/to_do/dal/src/to_do_items/ // transactions/delete.rs #[cfg(feature = "sqlx-postgres")] async fn sqlx_postgres_delete_one(title: String) -> Result<ToDoItem, NanoServiceError> { let item = sqlx::query_as::<_, ToDoItem>(" DELETE FROM to_do_items WHERE title = $1 RETURNING *" ).bind(title) .fetch_one(&*SQLX_POSTGRES_POOL).await.map_err(|e| { NanoServiceError::new( e.to_string(), NanoServiceErrorStatus::Unknown ) })?; Ok(item) }
 ```
 
 As for our JSON file to-do items, we use the title of the to-do item to delete the item with the code below:
@@ -427,7 +421,7 @@ With all our transactions defined, we can now move onto connecting these transac
 Now that we have defined the interface of our storage engine using traits, our core can now be agnostic to the storage engine meaning that our core dependencies now have the following:
 
 ```toml
-# nanoservices/to_do/core/Cargo.toml [dependencies] dal = { path = "../dal" } serde = { version = "1.0.197", features = ["derive"] } glue = { path = "../../../glue"}
+# nanoservices/to_do/core/Cargo.toml [dependencies] dal = { path = "../dal" } serde = { version = "1.0.203", features = ["derive"] } glue = { path = "../../../glue"}
 ```
 
 We can now redefine our create endpoint with the code below:
@@ -451,7 +445,7 @@ For our to-do application having a core may seem tedious a trivial, but sticking
 For our get core interface, we have the following code:
 
 ```rust
-// nanoservices/to_do/core/src/api/basic_actions/get.rs use dal::to_do_items::schema::AllToDOItems; use dal::to_do_items::transactions::get::GetAll; use glue::errors::NanoServiceError; pub async fn get_all<T: GetAll>() -> Result<AllToDOItems, NanoServiceError> { let all_items = T::get_all().await?; AllToDOItems::from_vec(all_items) }
+// nanoservices/to_do/core/src/api/basic_actions/get.rs use dal::to_do_items::schema::AllToDoItems; use dal::to_do_items::transactions::get::GetAll; use glue::errors::NanoServiceError; pub async fn get_all<T: GetAll>() -> Result<AllToDoItems, NanoServiceError> { let all_items = T::get_all().await?; AllToDoItems::from_vec(all_items) }
 ```
 
 Here we can see that we have removed the single get interface. This is because we were not using it in our application. General rule is that if we are not using code, we should delete it. It cleans up the code and reduces the amount of code that we are maintaining. However, like all rules there are exceptions. Going back to my surgical robotics work, it would be short-sighted of me to delete the GPU interface if we do not use it for a particular lab that does not have access to a GPU.
@@ -471,7 +465,7 @@ Our core is now updated, so we can move onto connecting our transactions to our 
 We are now at the final stage of integrating our Postgres handle into our system. As we removed the reference to the type of storage from our core making it engine agonistic, we now must define our engine in our server dependencies with the following:
 
 ```toml
-# nanoservices/to_do/networking/actix_server/Cargo.toml [dependencies] tokio = { version = "1.36.0", features = ["full"] } actix-web = "4.5.1" core = { path = "../../core" } dal = { path = "../../dal", features = ["sqlx-postgres"]} glue = { path = "../../../../glue", features = ["actix"] }
+# nanoservices/to_do/networking/actix_server/Cargo.toml [dependencies] tokio = { version = "1.39.0", features = ["full"] } actix-web = "4.8.0" core = { path = "../../core" } dal = { path = "../../dal", features = ["sqlx-postgres"]} glue = { path = "../../../../glue", features = ["actix"] }
 ```
 
 Here we can see that we have activated the sqlx-postgres feature otherwise our handle will not have implemented all the required traits to be used in our endpoints.

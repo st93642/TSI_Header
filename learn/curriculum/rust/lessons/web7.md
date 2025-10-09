@@ -6,19 +6,19 @@ In this chapter, we are going to keep the interactions with APIs to a minimum an
 
 ## Technical requirements
 
-We will also be building on the server code we created in the Chapter 6, Displaying Content in the Browser which can be found at `https://github.com/PacktPublishing/Rust-Web-Programming-3E/tree/main/chapter06/injecting_css`
+We will also be building on the server code we created in the Chapter 6, Displaying Content in the Browser which can be found at the chapter06 source code.
 
 You can find the full source code that will be used in this chapter here:
 
-`https://github.com/PacktPublishing/Rust-Web-Programming-3E/tree/main/chapter07`
+the chapter07 source code.
 
 You will also need wasm-pack which can be installed via the following link:
 
-`https://rustwasm.github.io/wasm-pack/installer/`
+the wasm-pack installer.
 
 And the WebAssembly binary toolkit which can be found in the link below:
 
-`https://github.com/WebAssembly/wabt`
+the WebAssembly binary toolkit.
 
 This toolkit can also be installed with OS package managers such as brew and apt-get.
 
@@ -80,7 +80,7 @@ pub fn rust_generate_button_text(status: String) -> String {
     match status.to_uppercase().as_str() {
         "PENDING" => "edit".to_string(),
         "DONE" => "delete".to_string(),
-        _ => "an error has occured".to_string(),
+        _ => "an error has occurred".to_string(),
     }
 }
 ```
@@ -344,7 +344,7 @@ For our Kernel workspace we have the following dependencies:
 ```toml
 // File: kernel/Cargo.toml
 [dependencies]
-serde = { version = "1.0.201", features = ["derive"] }
+serde = { version = "1.0.203", features = ["derive"] }
 ```
 
 Now with our dependency defined, we can build out the basic data struct with the code below:
@@ -399,7 +399,7 @@ Before we write any code, our WASM library has the following dependencies:
 [dependencies]
 bincode = "1.3.3"
 kernel = { path = "../kernel" }
-serde = { version = "1.0.201", features = ["derive"] }
+serde = { version = "1.0.203", features = ["derive"] }
 [lib]
 crate-type = ["cdylib"]
 ```
@@ -500,12 +500,12 @@ For our client, we must serialize and deserialize data, and load the WASM file. 
 ```toml
 // File: wasm-client/Cargo.toml
 [dependencies]
-serde = { version = "1.0.197", features = ["derive"] }
-tokio = { version = "1.36.0", features = ["full"] }
+serde = { version = "1.0.203", features = ["derive"] }
+tokio = { version = "1.39.0", features = ["full"] }
 bincode = "1.3.3"
 kernel = { path = "../kernel" }
-wasmtime-wasi = { version = "20.0.0", features = ["preview1"]}
-wasmtime = "20.0.0"
+wasmtime-wasi = { version = "23.0.0", features = ["preview1"]}
+wasmtime = "23.0.0"
 ```
 
 Now in our dependencies are defined, we can start building the client with the outline below:
@@ -633,7 +633,7 @@ Here, we can see that our struct was passed through to the WASM module, altered,
 
 ## Summary
 
-In this chapter get got to grips with packaging WASM for the frontend and interacting with WASM using Rust. While we did not build anything substantial in WASM, we focused on building a foundational knowledge on how WASM is interacted with. At the time of writing this book, the APIs, and features of WASM is rapidly changing. If we built feature rich WASM program using the current APIs, this book would age quickly, and you would be having to Google the new APIs to figure out what you need to change to get your system running. Keeping an eye on WASM is a good idea. The advantage of compiling once and running anywhere including the browser is a strong advantage to have.
+In this chapter we got to grips with packaging WASM for the frontend and interacting with WASM using Rust. While we did not build anything substantial in WASM, we focused on building a foundational knowledge on how WASM is interacted with. At the time of writing this book, the APIs, and features of WASM is rapidly changing. If we built feature rich WASM program using the current APIs, this book would age quickly, and you would be having to Google the new APIs to figure out what you need to change to get your system running. Keeping an eye on WASM is a good idea. The advantage of compiling once and running anywhere including the browser is a strong advantage to have.
 
 We are now at the stage where our basic application works in terms of creating, updating, and deleting to-do items. However, if we were to deploy it right now for multiple users, our data storage solution would slow down the number of requests and we would be held back by the lack of concurrency and networking capabilities our storage solution has. In the next chapter, we will upgrade our storage solution from a file to a Postgres database.
 
