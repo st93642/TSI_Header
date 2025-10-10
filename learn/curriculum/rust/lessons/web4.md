@@ -1,6 +1,8 @@
 # Chapter 5: Handling HTTP Requests
 
 After the detour of understanding async on a deeper level, we are now going back to our project that we were working on in chapter two. So far, we have structured our to-do module in a flexible, scalable, and re-usable manner. However, this can only get us so far in terms of web programming// File: to_do/core/src/structs.rs
+
+```rust
 impl AllToDoItems {
     pub fn from_hashmap(all_items: HashMap<String, ToDoItem>) -> AllToDoItems {
         let mut pending = Vec::new();
@@ -16,7 +18,10 @@ impl AllToDoItems {
             done
         }
     }
-}do module to reach multiple people quickly without the user having to install Rust on their own computers. We can do this with a web framework. In this chapter, we will build on the core logic of our to-do items and connect this core logic to a server. By the end of this chapter, you will be able to build a server that has a data access layer, core layer, and networking layer. You will also get some exposure in handling error across all cargo workspaces, and refactoring some of our code as our requirements for our server get more defined over time.
+}
+```
+
+To reach users, we need to serve our to-do module to reach multiple people quickly without the user having to install Rust on their own computers. We can do this with a web framework. In this chapter, we will build on the core logic of our to-do items and connect this core logic to a server. By the end of this chapter, you will be able to build a server that has a data access layer, core layer, and networking layer. You will also get some exposure in handling error across all cargo workspaces, and refactoring some of our code as our requirements for our server get more defined over time.
 
 We will start this journey by building a simple server that accepts incoming HTTP requests.
 
