@@ -21,6 +21,30 @@
           "title": "Chapter 2: Variables and Mutability",
           "duration": 25,
           "difficulty": "beginner"
+        },
+        {
+          "id": "Chapter3",
+          "title": "Chapter 3: Ownership",
+          "duration": 45,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "Chapter4",
+          "title": "Chapter 4: Defining and Instantiating Structs",
+          "duration": 40,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "Chapter5",
+          "title": "Chapter 5: Defining and Instantiating Enums",
+          "duration": 35,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "Chapter6",
+          "title": "Chapter 6: Managing Growing Projects with Packages, Crates, and Modules",
+          "duration": 50,
+          "difficulty": "beginner"
         }
       ]
     }

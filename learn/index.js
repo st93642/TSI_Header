@@ -181,22 +181,17 @@ class Learn {
                 // Show failure message with detailed results
                 const failedCount = result.failedTests || result.total - result.score;
                 
-                // Format failure messages
-                let failureDetails = '';
-                if (result.failures && result.failures.length > 0) {
-                    failureDetails = '\n\nFailures:\n' + result.failures.map((f, i) => 
-                        `${i + 1}. ${f.message || 'Test failed'}`
-                    ).join('\n');
-                }
-                
+                // Show summary in modal, then detailed view
                 this.vscode.window.showWarningMessage(
-                    `❌ ${failedCount} test(s) failed${failureDetails}\n\n${result.hint || 'Review the differences and try again!'}`,
+                    `❌ ${failedCount} test(s) failed for "${exercise.title}".\n\n${result.hint || 'Review the differences and try again!'}`,
                     { modal: true },
-                    'Try Again',
+                    'View Details',
                     'Show Hint',
                     'View Solution'
                 ).then(selection => {
-                    if (selection === 'Show Hint') {
+                    if (selection === 'View Details') {
+                        this.showFailureDetails(result, exercise);
+                    } else if (selection === 'Show Hint') {
                         this.showHint(exercise);
                     } else if (selection === 'View Solution') {
                         this.showSolution(exercise.curriculumLanguage || language, exercise);
@@ -244,6 +239,36 @@ class Learn {
                 'Got it!'
             );
         }
+    }
+
+    /**
+     * Show detailed failure information in a webview
+     * @param {Object} result - Exercise result object
+     * @param {Object} exercise - The exercise
+     */
+    async showFailureDetails(result, exercise) {
+        const panel = this.vscode.window.createWebviewPanel(
+            'tsiFailureDetails',
+            `Test Failures: ${exercise.title}`,
+            this.vscode.ViewColumn.One,
+            {
+                enableScripts: true,
+                retainContextWhenHidden: true
+            }
+        );
+
+        panel.webview.html = this.getFailureDetailsHtml(result, exercise);
+
+        // Handle messages from webview
+        panel.webview.onDidReceiveMessage(
+            message => {
+                if (message.command === 'close') {
+                    panel.dispose();
+                }
+            },
+            undefined,
+            this.context.subscriptions
+        );
     }
 
     getExerciseMetadata(filePath) {
@@ -684,6 +709,140 @@ class Learn {
                 // ignore highlight errors
             }
         });
+    </script>
+</body>
+</html>`;
+    }
+
+    /**
+     * Generate HTML for failure details display
+     * @param {Object} result - Exercise result object
+     * @param {Object} exercise - Exercise object
+     * @returns {string} HTML string
+     */
+    getFailureDetailsHtml(result, exercise) {
+        const failures = result.failures || [];
+        
+        const failureHtml = failures.map((failure, index) => `
+            <div class="failure-item">
+                <div class="failure-header">❌ Test ${index + 1}: ${failure.name || 'Unnamed Test'}</div>
+                <div class="failure-details">
+                    <pre><code>${this.escapeHtml(failure.message || 'No details available')}</code></pre>
+                </div>
+            </div>
+        `).join('');
+
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Failures: ${exercise.title}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: var(--vscode-font-family);
+            color: var(--vscode-foreground);
+            background-color: var(--vscode-editor-background);
+            padding: 20px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        h1 {
+            color: var(--vscode-errorForeground);
+            border-bottom: 2px solid var(--vscode-errorForeground);
+            padding-bottom: 10px;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .summary {
+            background-color: var(--vscode-textBlockQuote-background);
+            border-left: 4px solid var(--vscode-errorForeground);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .failure-item {
+            background-color: var(--vscode-textCodeBlock-background);
+            border-radius: 5px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid var(--vscode-textBlockQuote-border);
+        }
+        .failure-header {
+            color: var(--vscode-errorForeground);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .failure-details pre {
+            background-color: var(--vscode-textCodeBlock-background);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+            line-height: 1.5;
+            border: 1px solid var(--vscode-textBlockQuote-border);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .failure-details code {
+            font-family: var(--vscode-editor-font-family);
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--vscode-textPreformat-foreground);
+            display: block;
+        }
+        .button-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .action-button {
+            background-color: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .action-button:hover {
+            background-color: var(--vscode-button-hoverBackground);
+        }
+    </style>
+</head>
+<body>
+    <h1>❌ Test Failures: ${exercise.title}</h1>
+    
+    <div class="summary">
+        <strong>Summary:</strong> ${result.score || 0}/${result.total || 0} tests passed. ${failures.length} test(s) failed.
+        ${result.hint ? `<br><br><strong>Hint:</strong> ${result.hint}` : ''}
+    </div>
+    
+    ${failureHtml}
+    
+    <div class="button-container">
+        <button class="action-button" onclick="closePanel()">
+            Close
+        </button>
+    </div>
+    
+    <script>
+        const vscode = acquireVsCodeApi();
+        
+        function closePanel() {
+            vscode.postMessage({
+                command: 'close'
+            });
+        }
     </script>
 </body>
 </html>`;

@@ -497,6 +497,7 @@ Caller (has reference):      Callee / Owner (s1):       Heap data:
 ---------------------       ---------------------
 
 Note: The opposite of referencing by using & is dereferencing, which is accomplished with the dereference operator, *. We’ll see some uses of the dereference operator in Chapter 8 and discuss details of dereferencing in Chapter 15.
+```
 
 Let’s take a closer look at the function call here:
 

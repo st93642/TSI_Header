@@ -1,0 +1,21 @@
+{
+  "id": "Chapter3_exercise",
+  "title": "Ownership Practice",
+  "description": "Practice ownership concepts in Rust by implementing functions that take ownership and borrow references. Complete the functions and observe how ownership works.",
+  "difficulty": "beginner",
+  "starterCode": "fn take_ownership(s: String) -> usize {\n    // Return the length of the string\n    // This function takes ownership of s\n}\n\nfn borrow_string(s: &String) -> usize {\n    // Return the length of the string\n    // This function borrows s\n}\n\nfn main() {\n    let s1 = String::from(\"hello\");\n    let len1 = take_ownership(s1);\n    println!(\"Length from ownership: {}\", len1);\n    // s1 is moved and cannot be used here\n    \n    let s2 = String::from(\"world\");\n    let len2 = borrow_string(&s2);\n    println!(\"Length from borrow: {}\", len2);\n    // s2 is still accessible here\n}",
+  "tests": [
+    {
+      "name": "main function demonstrates ownership",
+      "call": "main",
+      "expected": "Length from ownership: 5\nLength from borrow: 5\n",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "For take_ownership, use s.len() to get the length",
+    "For borrow_string, use s.len() as well",
+    "In main, create strings with String::from and call the functions"
+  ],
+  "tags": ["ownership", "borrowing", "basics", "beginner"]
+}

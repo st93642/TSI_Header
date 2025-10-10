@@ -1,13 +1,3 @@
-<!-- Practical Appendix: Reference and further reading -->
-
-<!-- markdownlint-disable MD013 -->
-### Practical Appendix
-
-This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
-- Further reading and sources:
-
-- Official language documentation (search for `official <LANG> docs` where `<LANG>` is the lesson's language).
-- Standard library reference and API pages.
 # Your First C Programs
 
 Welcome to C! Instead of diving straight into operating system details, this lesson focuses on the classic workflow every beginner follows: write a small program, compile it with `gcc`, run it, and gradually add variables, formatted output, and user input. Every section is self-contained and ends with a checkpoint so you can confirm you understand the idea before moving on.
@@ -407,25 +397,3 @@ Combine everything into a richer console app that supports both interactive prom
 - Experiment with sanitiser builds (`-fsanitize=address`) to catch memory bugs introduced while expanding the codebase.
 
 When these boxes are checked, you are ready for the accompanying exercises that reinforce the same ideas in a guided setting.
-
-
-<!-- Practical Appendix: Reference and further reading -->
-
-<!-- markdownlint-disable MD013 -->
-### Practical Appendix
-This appendix contains brief practical notes and quick references to complement the lesson content. It is intentionally short and safe: no code execution or large data dumps.
-
-- Reference: Official documentation and language core references are excellent further reading sources. Follow the standard docs for authoritative examples.
-- Quick tips:
-  - Re-run the examples in a REPL to experiment with small changes.
-  - Use small, focused test cases when validating behavior.
-  - Prefer idiomatic standard-library helpers for clarity and maintainability.
-
-Further reading and sources:
-- Official language documentation (search for `official <LANG> docs` where `<LANG>` is the lesson's language).
-- Standard library reference and API pages.
-- For curriculum authors: keep examples minimal and include runnable snippets in fenced code blocks.
-
-*End of Practical Appendix.*
-
-<!-- markdownlint-enable MD013 -->

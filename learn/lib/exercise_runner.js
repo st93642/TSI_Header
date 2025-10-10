@@ -138,16 +138,23 @@ class ExerciseRunner {
                 timeout: 10000
             });
 
+            console.log('Rust runner: output =', JSON.stringify(output));
+            console.log('Rust runner: tests =', tests);
+
             // For now support only 'output' tests that compare stdout
             const outputTrimmed = output;
             let allPassed = true;
             const failures = [];
 
             for (const test of tests) {
+                console.log('Rust runner: processing test', test.name, 'type:', test.type);
                 if (test.type === 'output') {
                     const expected = test.expected;
                     const actual = outputTrimmed;
+                    console.log('Rust runner: expected =', JSON.stringify(expected));
+                    console.log('Rust runner: actual =', JSON.stringify(actual));
                     if (actual !== expected) {
+                        console.log('Rust runner: test failed');
                         allPassed = false;
                         failures.push({
                             name: test.name,
@@ -155,13 +162,18 @@ class ExerciseRunner {
                             actual,
                             message: this.formatOutputDiff(expected, actual)
                         });
+                    } else {
+                        console.log('Rust runner: test passed');
                     }
                 } else {
                     // unsupported test type for rust runner
+                    console.log('Rust runner: unsupported test type');
                     allPassed = false;
                     failures.push({ name: test.name, message: 'Unsupported test type for Rust runner' });
                 }
             }
+
+            console.log('Rust runner: allPassed =', allPassed, 'failures.length =', failures.length);
 
             return {
                 passed: allPassed,
@@ -171,11 +183,18 @@ class ExerciseRunner {
                 output
             };
         } catch (error) {
+            console.log('Rust runner: error =', error.message);
             return {
                 passed: false,
                 error: error.stdout || error.stderr || error.message,
                 score: 0,
-                total: tests.length
+                total: tests.length,
+                failures: [{
+                    name: 'Execution Error',
+                    expected: '',
+                    actual: '',
+                    message: `Failed to execute: ${error.message}`
+                }]
             };
         } finally {
             try {

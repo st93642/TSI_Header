@@ -1,0 +1,20 @@
+{
+  "id": "Chapter4_exercise",
+  "title": "Structs and Methods",
+  "description": "Define a Rectangle struct with width and height fields, implement area() and can_hold() methods, and create instances to demonstrate their usage.",
+  "difficulty": "beginner",
+  "starterCode": "#[derive(Debug)]\nstruct Rectangle {\n    width: u32,\n    height: u32,\n}\n\nimpl Rectangle {\n    fn area(&self) -> u32 {\n        // Calculate and return the area\n        0 // Replace with actual implementation\n    }\n\n    fn can_hold(&self, other: &Rectangle) -> bool {\n        // Check if self can hold the other rectangle\n        false // Replace with actual implementation\n    }\n}\n\nfn main() {\n    let rect1 = Rectangle {\n        width: 30,\n        height: 50,\n    };\n    \n    let rect2 = Rectangle {\n        width: 10,\n        height: 40,\n    };\n    \n    let rect3 = Rectangle {\n        width: 60,\n        height: 45,\n    };\n\n    // Print the area of rect1\n    println!(\"Area of rect1: {}\", rect1.area());\n    \n    // Check if rect1 can hold rect2 and rect3\n    println!(\"Can rect1 hold rect2? {}\", rect1.can_hold(&rect2));\n    println!(\"Can rect1 hold rect3? {}\", rect1.can_hold(&rect3));\n}",
+  "tests": [
+    {
+      "name": "Rectangle area calculation",
+      "call": "main()",
+      "expected": "Area of rect1: 1500\nCan rect1 hold rect2? true\nCan rect1 hold rect3? false\n",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Implement the area method by multiplying width and height",
+    "For can_hold, check if both width and height of self are greater than the other rectangle",
+    "Use &self for borrowing in methods"
+  ]
+}

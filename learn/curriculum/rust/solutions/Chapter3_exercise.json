@@ -1,0 +1,12 @@
+{
+  "exerciseId": "Chapter3_exercise",
+  "languageId": "rust",
+  "code": "fn greet(name: &str) -> String {\n    format!(\"Hello, {}!\", name)\n}\n\nfn add(a: i32, b: i32) -> i32 {\n    a + b\n}\n\nfn main() {\n    println!(\"{}\", greet(\"World\"));\n    println!(\"{}\", add(5, 3));\n}",
+  "explanation": "This solution demonstrates basic function definition and usage in Rust. The greet function uses the format! macro to create a formatted string, while add performs simple arithmetic. The main function calls these and prints the results.",
+  "keyPoints": [
+    "Functions are defined with fn keyword followed by name, parameters, and return type",
+    "Use format! macro for string formatting",
+    "Return values use the return keyword or implicit last expression",
+    "Call functions by name with parentheses and arguments"
+  ]
+}

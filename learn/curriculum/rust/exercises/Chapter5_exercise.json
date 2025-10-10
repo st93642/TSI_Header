@@ -1,0 +1,21 @@
+{
+  "id": "Chapter5_exercise",
+  "title": "Enums and Pattern Matching",
+  "description": "Define an enum for different types of messages, implement methods to process them, and use match expressions to handle different variants.",
+  "difficulty": "beginner",
+  "starterCode": "enum Message {\n    Quit,\n    Move { x: i32, y: i32 },\n    Write(String),\n    ChangeColor(i32, i32, i32),\n}\n\nimpl Message {\n    fn call(&self) {\n        // Implement the call method to handle different message types\n        // Use match expression to handle each variant\n        match self {\n            // Handle each variant appropriately\n            Message::Quit => println!(\"Quit\"),\n            Message::Move { x, y } => println!(\"Move to ({}, {})\", x, y),\n            Message::Write(text) => println!(\"Write: {}\", text),\n            Message::ChangeColor(r, g, b) => println!(\"Change color to ({}, {}, {})\", r, g, b),\n        }\n    }\n}\n\nfn process_option(value: Option<i32>) -> i32 {\n    // Use match to handle Option<i32>\n    // Return the value if Some, or 0 if None\n    match value {\n        Some(v) => v,\n        None => 0,\n    }\n}\n\nfn main() {\n    let messages = vec![\n        Message::Quit,\n        Message::Move { x: 10, y: 20 },\n        Message::Write(String::from(\"Hello, Rust!\")),\n        Message::ChangeColor(255, 0, 0),\n    ];\n\n    // Call the call method on each message\n    for message in &messages {\n        message.call();\n    }\n\n    // Test process_option function\n    let some_value = Some(42);\n    let none_value = None;\n\n    println!(\"Some(42) processed: {}\", process_option(some_value));\n    println!(\"None processed: {}\", process_option(none_value));\n}",
+  "tests": [
+    {
+      "name": "Message enum and methods",
+      "call": "main()",
+      "expected": "Quit\nMove to (10, 20)\nWrite: Hello, Rust!\nChange color to (255, 0, 0)\nSome(42) processed: 42\nNone processed: 0\n",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Define the Message enum with the four variants as shown",
+    "Implement the call method using a match expression",
+    "For process_option, use match on the Option<i32> parameter",
+    "Remember that match expressions must be exhaustive"
+  ]
+}

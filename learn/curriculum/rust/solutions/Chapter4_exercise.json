@@ -1,0 +1,13 @@
+{
+  "exerciseId": "Chapter4_exercise",
+  "languageId": "rust",
+  "code": "#[derive(Debug)]\nstruct Rectangle {\n    width: u32,\n    height: u32,\n}\n\nimpl Rectangle {\n    fn area(&self) -> u32 {\n        self.width * self.height\n    }\n\n    fn can_hold(&self, other: &Rectangle) -> bool {\n        self.width > other.width && self.height > other.height\n    }\n}\n\nfn main() {\n    let rect1 = Rectangle {\n        width: 30,\n        height: 50,\n    };\n    \n    let rect2 = Rectangle {\n        width: 10,\n        height: 40,\n    };\n    \n    let rect3 = Rectangle {\n        width: 60,\n        height: 45,\n    };\n\n    // Print the area of rect1\n    println!(\"Area of rect1: {}\", rect1.area());\n    \n    // Check if rect1 can hold rect2 and rect3\n    println!(\"Can rect1 hold rect2? {}\", rect1.can_hold(&rect2));\n    println!(\"Can rect1 hold rect3? {}\", rect1.can_hold(&rect3));\n}",
+  "explanation": "This solution demonstrates defining a Rectangle struct with width and height fields, implementing methods using impl blocks, and using method syntax to call them on struct instances.",
+  "keyPoints": [
+    "Structs are defined with the struct keyword and curly braces containing field names and types",
+    "Methods are defined in impl blocks and take &self as the first parameter",
+    "The area method calculates width * height",
+    "The can_hold method checks if both dimensions are greater than another rectangle's dimensions",
+    "Methods are called using dot notation on struct instances"
+  ]
+}
