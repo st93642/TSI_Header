@@ -1,0 +1,25 @@
+{
+  "id": "Chapter10_exercise",
+  "title": "Writing Automated Tests",
+  "description": "Implement comprehensive unit tests for a math utility module. Create tests that verify function behavior, handle edge cases, and use various testing features like assert macros, should_panic, and custom failure messages.\n\n**What you need to implement:**\n- A `MathUtils` module with functions: `add`, `divide`, `is_even`, `factorial`\n- Unit tests for each function using `assert_eq!`, `assert!`, and `assert_ne!`\n- Tests that use `#[should_panic]` for functions that should panic on invalid input\n- Custom failure messages in assertions\n- Tests that return `Result<T, E>` instead of panicking\n- Edge case testing (division by zero, negative factorials, etc.)\n- Helper functions within the test module\n\n**Expected output:**\nYour tests should pass when run with `cargo test`:\n```\nrunning 8 tests\n...\ntest result: ok. 8 passed; 0 failed\n```\n\n**Test Requirements:**\n- Test normal operation of all functions\n- Test panic conditions with `#[should_panic]`\n- Test edge cases and error conditions\n- Use custom assertion messages\n- Include at least one test that returns `Result<T, E>`",
+  "difficulty": "intermediate",
+  "starterCode": "pub mod math_utils {\n    pub fn add(a: i32, b: i32) -> i32 {\n        a + b\n    }\n\n    pub fn divide(a: i32, b: i32) -> i32 {\n        if b == 0 {\n            panic!(\"Division by zero!\");\n        }\n        a / b\n    }\n\n    pub fn is_even(n: i32) -> bool {\n        n % 2 == 0\n    }\n\n    pub fn factorial(n: u32) -> u64 {\n        if n == 0 {\n            1\n        } else {\n            n as u64 * factorial(n - 1)\n        }\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use super::math_utils::*;\n\n    // Implement comprehensive tests here\n    // Include tests for normal operation, panic conditions, edge cases\n    // Use various assert macros and should_panic\n}",
+  "tests": [
+    {
+      "name": "Comprehensive test suite for math utilities",
+      "call": "cargo test",
+      "expected": "running 8 tests\ntest tests::test_add ... ok\ntest tests::test_divide ... ok\ntest tests::test_divide_by_zero_panics ... ok\ntest tests::test_edge_cases ... ok\ntest tests::test_factorial ... ok\ntest tests::test_is_even ... ok\ntest tests::test_result_based_test ... ok\ntest tests::test_with_custom_messages ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use `#[test]` to mark test functions",
+    "Use `#[should_panic]` for tests that expect panics",
+    "Use `assert_eq!`, `assert!`, and `assert_ne!` macros",
+    "Add custom messages with `assert!(condition, \"message\")`",
+    "Test functions can return `Result<(), String>` instead of panicking",
+    "Test edge cases like division by zero, negative numbers, overflow",
+    "Create helper functions within the tests module for common setup"
+  ],
+  "tags": ["testing", "unit-tests", "assert", "should_panic", "edge-cases", "result"]
+}

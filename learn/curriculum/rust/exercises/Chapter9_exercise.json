@@ -1,0 +1,23 @@
+{
+  "id": "Chapter9_exercise",
+  "title": "Generic Types, Traits, and Lifetimes",
+  "description": "Implement generic functions and structs with trait bounds and lifetime annotations. Create a generic container that can hold different types of items and implements methods with proper lifetime constraints.\n\n**What you need to implement:**\n- A generic `Container<T>` struct that holds a vector of items\n- Implement `Display` trait for `Container<T>` where T implements `Display`\n- A generic function `find_longest_item<'a, T>(items: &'a [T]) -> Option<&'a T>` that finds the item with the longest display representation\n- Use trait bounds to ensure T can be compared and displayed\n- Implement a method on `Container<T>` that uses the `find_longest_item` function\n- In `main()`, create containers with different types (String, i32) and demonstrate the functionality\n\n**Expected output:**\nYour program should create containers and find the longest items:\n```\nContainer with strings: [\"hello\", \"world\", \"rust\", \"programming\"]\nLongest item: programming\n\nContainer with numbers: [10, 25, 5, 100, 42]\nLongest item: 100\n```",
+  "difficulty": "intermediate",
+  "starterCode": "use std::fmt;\n\nstruct Container<T> {\n    items: Vec<T>,\n}\n\nimpl<T> Container<T> {\n    fn new(items: Vec<T>) -> Self {\n        Container { items }\n    }\n}\n\n// Implement Display for Container<T> where T: Display\n\n// Implement find_longest_item function with proper generics and lifetimes\n\n// Add a method to Container that finds the longest item\n\nfn main() {\n    // Create a container with strings\n    let string_container = Container::new(vec![\n        \"hello\".to_string(),\n        \"world\".to_string(),\n        \"rust\".to_string(),\n        \"programming\".to_string(),\n    ]);\n    \n    println!(\"Container with strings: {}\", string_container);\n    // Find and print the longest string\n    \n    // Create a container with numbers\n    let number_container = Container::new(vec![10, 25, 5, 100, 42]);\n    \n    println!(\"\\nContainer with numbers: {}\", number_container);\n    // Find and print the longest number (by string representation)\n}",
+  "tests": [
+    {
+      "name": "Generic container with Display trait",
+      "call": "main()",
+      "expected": "Container with strings: [\"hello\", \"world\", \"rust\", \"programming\"]\nLongest item: programming\n\nContainer with numbers: [10, 25, 5, 100, 42]\nLongest item: 100\n",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use impl<T: fmt::Display> fmt::Display for Container<T> to implement Display trait",
+    "For find_longest_item, use trait bounds like T: AsRef<str> or create a custom trait",
+    "Use lifetime annotations 'a for references in the function signature",
+    "The Display trait is in std::fmt, so use std::fmt::Display in bounds",
+    "For comparing lengths, convert items to strings using format!() or to_string()"
+  ],
+  "tags": ["generics", "traits", "lifetimes", "trait-bounds", "display-trait"]
+}

@@ -45,6 +45,30 @@
           "title": "Chapter 6: Managing Growing Projects with Packages, Crates, and Modules",
           "duration": 50,
           "difficulty": "beginner"
+        },
+        {
+          "id": "Chapter7",
+          "title": "Chapter 7: Common Collections",
+          "duration": 55,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "Chapter8",
+          "title": "Chapter 8: Error Handling",
+          "duration": 60,
+          "difficulty": "beginner"
+        },
+        {
+          "id": "Chapter9",
+          "title": "Chapter 9: Generic Types, Traits, and Lifetimes",
+          "duration": 70,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "Chapter10",
+          "title": "Chapter 10: Writing Automated Tests",
+          "duration": 65,
+          "difficulty": "intermediate"
         }
       ]
     }

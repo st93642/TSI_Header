@@ -1,7 +1,7 @@
 {
   "id": "Chapter2_exercise",
   "title": "Chapter 2 Exercise: Mutability",
-  "description": "Demonstrate mutable vs immutable bindings by printing two lines showing x before and after mutation.",
+  "description": "Demonstrate Rust's mutability concepts by creating a mutable variable, printing its initial value, changing it, and printing the new value. Your program should output exactly:\n\n```\nThe value of x is: 5\nThe value of x is: 6\n```\n\nImplement this by:\n1. Declaring a mutable variable `x` with initial value 5\n2. Printing the initial value using `println!`\n3. Changing the value of `x` to 6\n4. Printing the new value using `println!`",
   "difficulty": "beginner",
   "starterCode": "fn main() {\n    // Implement mutability example: declare x, print, change, print again\n}\n",
   "tests": [

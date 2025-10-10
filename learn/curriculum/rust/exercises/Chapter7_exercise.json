@@ -1,0 +1,24 @@
+{
+  "id": "Chapter7_exercise",
+  "title": "Text Analysis with Collections",
+  "description": "Create a text analysis program that demonstrates Rust's common collections: vectors, strings, and hash maps.\n\n**What you need to implement:**\n- Analyze this specific text: `\"hello world hello rust\"`\n- Use a `Vec<&str>` to store individual words from the text\n- Use string methods like `split_whitespace()` to break text into words\n- Use a `HashMap<&str, u32>` to count word frequencies with the `entry().or_insert(0)` pattern\n- Iterate over characters using `chars()` method to analyze vowels and consonants\n- Print results showing word counts, character analysis, and most frequent word\n\n**Expected output:**\nYour program should produce exactly this output when run:\n```\nWords: hello, world, hello, rust\nWord count: 4\nCharacter count: 22\nMost frequent word: hello (appears 2 times)\nVowels: e, o, o, e, o, u\nConsonants: h, l, l, w, r, l, d, h, l, l, r, s, t\nhello: 2\nworld: 1\nrust: 1\n```",
+  "difficulty": "beginner",
+  "starterCode": "// Create a text analysis program using vectors, strings, and hash maps\n// Analyze the text \"hello world hello rust\" to count word frequencies and analyze character usage\n\nfn main() {\n    // Your code here - analyze the text \"hello world hello rust\" using all three collection types\n}",
+  "tests": [
+    {
+      "name": "Text analysis with collections",
+      "call": "main()",
+      "expected": "Words: hello, world, hello, rust\nWord count: 4\nCharacter count: 22\nMost frequent word: hello (appears 2 times)\nVowels: e, o, o, e, o, u\nConsonants: h, l, l, w, r, l, d, h, l, l, r, s, t\nhello: 2\nworld: 1\nrust: 1\n",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use a vector to store individual words from the text",
+    "Use split_whitespace() to split text into words",
+    "Use a hash map to count word frequencies with entry().or_insert(0)",
+    "Iterate over string characters using chars() method",
+    "Use vectors to collect vowels and consonants separately",
+    "Print results showing word counts and character analysis"
+  ],
+  "tags": ["vectors", "strings", "hashmaps", "collections", "text-processing"]
+}

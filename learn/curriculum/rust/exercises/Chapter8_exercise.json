@@ -1,0 +1,24 @@
+{
+  "id": "Chapter8_exercise",
+  "title": "Error Handling with Result and the ? Operator",
+  "description": "Implement a configuration file reader that demonstrates Rust's error handling patterns. Create functions that read and parse configuration data from a file, handling various error conditions gracefully using Result and the ? operator.\n\n**What you need to implement:**\n- A `Config` struct with fields for `port` (u16), `host` (String), and `debug` (bool)\n- A `Config::new()` method that creates a Config from parsed values\n- A `read_config_from_file()` function that reads configuration from a file and returns `Result<Config, Box<dyn std::error::Error>>`\n- Use the ? operator to propagate errors from file reading and parsing operations\n- Handle different types of errors appropriately (file not found, parsing errors, etc.)\n- In `main()`, attempt to read configuration and handle both success and failure cases\n\n**Expected output:**\nYour program should handle the case where the config file doesn't exist by creating a default configuration:\n```\nConfig file not found, using defaults:\nHost: localhost\nPort: 8080\nDebug: false\n```\n\nWhen the config file exists with valid data, it should parse and display the configuration.",
+  "difficulty": "beginner",
+  "starterCode": "use std::fs;\nuse std::io;\nuse std::error::Error;\n\n#[derive(Debug)]\nstruct Config {\n    host: String,\n    port: u16,\n    debug: bool,\n}\n\nimpl Config {\n    fn new(host: String, port: u16, debug: bool) -> Self {\n        Config { host, port, debug }\n    }\n}\n\nfn read_config_from_file(filename: &str) -> Result<Config, Box<dyn Error>> {\n    // Read the file content\n    // Parse the configuration data\n    // Return a Config instance or an error\n    // Use the ? operator for error propagation\n}\n\nfn main() {\n    // Try to read configuration from \"config.txt\"\n    // Handle both success and error cases\n    // On error, use default configuration\n}",
+  "tests": [
+    {
+      "name": "Error handling with Result and ? operator",
+      "call": "main()",
+      "expected": "Config file not found, using defaults:\nHost: localhost\nPort: 8080\nDebug: false\n",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use fs::read_to_string() to read the file content",
+    "Parse the content line by line (host=value format)",
+    "Use str::parse() methods for converting strings to numbers/booleans",
+    "The ? operator will automatically propagate errors",
+    "Handle the case where config file doesn't exist by providing defaults",
+    "Use Box<dyn Error> as the error type to handle different error kinds"
+  ],
+  "tags": ["error-handling", "result", "option", "file-io", "parsing"]
+}

@@ -395,7 +395,7 @@ class LearnManager {
             background-color: var(--vscode-editor-background);
             padding: 20px;
             line-height: 1.6;
-            font-size: 14px;
+            font-size: 16px;
             max-width: 900px;
             margin: 0 auto;
         }
@@ -403,7 +403,7 @@ class LearnManager {
             color: var(--vscode-textLink-foreground);
             border-bottom: 2px solid var(--vscode-textLink-foreground);
             padding-bottom: 10px;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
             margin-top: 0;
             margin-bottom: 20px;
@@ -412,19 +412,19 @@ class LearnManager {
             color: var(--vscode-textLink-activeForeground);
             margin-top: 30px;
             margin-bottom: 15px;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
         }
         h3 {
             color: var(--vscode-textLink-activeForeground);
             margin-top: 20px;
             margin-bottom: 10px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
         }
         p {
             margin: 10px 0;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.6;
         }
         ul, ol {
@@ -433,7 +433,7 @@ class LearnManager {
         }
         li {
             margin: 5px 0;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.6;
         }
         code {
@@ -441,7 +441,7 @@ class LearnManager {
             padding: 2px 6px;
             border-radius: 3px;
             font-family: var(--vscode-editor-font-family);
-            font-size: 13px;
+            font-size: 14px;
             color: var(--vscode-textPreformat-foreground);
         }
         pre {
@@ -457,7 +457,7 @@ class LearnManager {
         pre code {
             background-color: transparent;
             padding: 0;
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.5;
             color: var(--vscode-textPreformat-foreground);
             white-space: pre-wrap;
@@ -477,13 +477,13 @@ class LearnManager {
             vertical-align: top;
         }
         pre code * {
-            font-size: 13px !important;
+            font-size: 14px !important;
             line-height: 1.0 !important;
         }
         .code-comment {
             color: var(--vscode-editorLineNumber-foreground);
             font-style: italic;
-            font-size: 13px;
+            font-size: 14px;
         }
         strong {
             font-weight: 600;
@@ -501,7 +501,7 @@ class LearnManager {
             margin: 10px 5px;
             border-radius: 3px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
         }
         .exercise-button:hover {
@@ -529,7 +529,7 @@ class LearnManager {
             border-left: 4px solid var(--vscode-textLink-foreground);
             padding: 10px 15px;
             margin: 20px 0;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.6;
         }
     </style>
@@ -871,7 +871,7 @@ class LearnManager {
         .quiz-option {
             display: block;
             margin: 8px 0;
-            font-size: 14px;
+            font-size: 16px;
         }
         .quiz-option input {
             margin-right: 8px;
@@ -887,7 +887,7 @@ class LearnManager {
             margin-right: 10px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
         }
         button:hover {
             background-color: var(--vscode-button-hoverBackground);

@@ -1,0 +1,13 @@
+{
+  "exerciseId": "Chapter8_exercise",
+  "languageId": "rust",
+  "code": "use std::fs;\nuse std::io;\nuse std::error::Error;\n\n#[derive(Debug)]\nstruct Config {\n    host: String,\n    port: u16,\n    debug: bool,\n}\n\nimpl Config {\n    fn new(host: String, port: u16, debug: bool) -> Self {\n        Config { host, port, debug }\n    }\n}\n\nfn read_config_from_file(filename: &str) -> Result<Config, Box<dyn Error>> {\n    let content = fs::read_to_string(filename)?;\n    \n    let mut host = String::from(\"localhost\");\n    let mut port = 8080;\n    let mut debug = false;\n    \n    for line in content.lines() {\n        let line = line.trim();\n        if line.is_empty() || line.starts_with('#') {\n            continue;\n        }\n        \n        if let Some((key, value)) = line.split_once('=') {\n            let key = key.trim();\n            let value = value.trim();\n            \n            match key {\n                \"host\" => host = value.to_string(),\n                \"port\" => port = value.parse()?,\n                \"debug\" => debug = value.parse()?,\n                _ => {}\n            }\n        }\n    }\n    \n    Ok(Config::new(host, port, debug))\n}\n\nfn main() {\n    match read_config_from_file(\"config.txt\") {\n        Ok(config) => {\n            println!(\"Configuration loaded:\");\n            println!(\"Host: {}\", config.host);\n            println!(\"Port: {}\", config.port);\n            println!(\"Debug: {}\", config.debug);\n        }\n        Err(e) => {\n            println!(\"Config file not found, using defaults:\");\n            println!(\"Host: localhost\");\n            println!(\"Port: 8080\");\n            println!(\"Debug: false\");\n        }\n    }\n}",
+  "explanation": "This solution demonstrates comprehensive error handling in Rust using Result and the ? operator. The code shows how to handle file I/O errors, parsing errors, and provides graceful fallback to default values when the configuration file is missing.\n\nKey concepts demonstrated:\n- Using Result<T, E> for recoverable errors\n- The ? operator for automatic error propagation\n- Box<dyn Error> for handling multiple error types\n- Pattern matching on Result variants\n- Graceful error recovery with default values",
+  "keyPoints": [
+    "Use Result<T, E> for operations that can fail but should be recoverable",
+    "The ? operator automatically propagates errors, eliminating boilerplate",
+    "Box<dyn Error> allows handling different error types uniformly",
+    "Always provide meaningful fallbacks when errors occur",
+    "File operations and parsing are common sources of recoverable errors"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "exerciseId": "Chapter7_exercise",
+  "languageId": "rust",
+  "code": "use std::collections::HashMap;\n\nfn main() {\n    let text = \"hello world hello rust\";\n    \n    // Vector to store words\n    let mut words: Vec<&str> = Vec::new();\n    for word in text.split_whitespace() {\n        words.push(word);\n    }\n    \n    println!(\"Words: {}\", words.join(\", \"));\n    println!(\"Word count: {}\", words.len());\n    \n    // Count characters in the text\n    let char_count = text.chars().count();\n    println!(\"Character count: {}\", char_count);\n    \n    // Hash map for word frequency counting\n    let mut word_freq: HashMap<&str, u32> = HashMap::new();\n    for word in &words {\n        let count = word_freq.entry(word).or_insert(0);\n        *count += 1;\n    }\n    \n    // Find most frequent word\n    let mut max_word = \"\";\n    let mut max_count = 0;\n    for (word, count) in &word_freq {\n        if *count > max_count {\n            max_word = word;\n            max_count = *count;\n        }\n    }\n    println!(\"Most frequent word: {} (appears {} times)\", max_word, max_count);\n    \n    // Analyze characters - separate vowels and consonants\n    let mut vowels: Vec<char> = Vec::new();\n    let mut consonants: Vec<char> = Vec::new();\n    \n    for ch in text.chars() {\n        if ch.is_alphabetic() {\n            let lower_ch = ch.to_lowercase().next().unwrap();\n            if matches!(lower_ch, 'a' | 'e' | 'i' | 'o' | 'u') {\n                vowels.push(ch);\n            } else {\n                consonants.push(ch);\n            }\n        }\n    }\n    \n    println!(\"Vowels: {}\", vowels.iter().map(|c| c.to_string()).collect::<Vec<String>>().join(\", \"));\n    println!(\"Consonants: {}\", consonants.iter().map(|c| c.to_string()).collect::<Vec<String>>().join(\", \"));\n    \n    // Print word frequencies\n    for (word, count) in &word_freq {\n        println!(\"{}: {}\", word, count);\n    }\n}",
+  "explanation": "This solution demonstrates Rust's three common collections: vectors for storing word lists and character collections, strings for text processing with split_whitespace() and chars(), and hash maps for counting word frequencies using the entry API.",
+  "keyPoints": [
+    "Vectors store variable-length lists of values of the same type",
+    "Strings are UTF-8 encoded and provide methods like split_whitespace() and chars()",
+    "Hash maps associate keys with values and provide the entry API for conditional insertion",
+    "Use references when iterating to avoid moving ownership",
+    "The entry().or_insert() pattern is idiomatic for counting operations",
+    "chars() method properly handles Unicode characters"
+  ]
+}

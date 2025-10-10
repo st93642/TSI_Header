@@ -590,13 +590,13 @@ class Learn {
             background-color: var(--vscode-editor-background);
             padding: 20px;
             line-height: 1.6;
-            font-size: 14px;
+            font-size: 16px;
         }
         h1 {
             color: var(--vscode-textLink-foreground);
             border-bottom: 2px solid var(--vscode-textLink-foreground);
             padding-bottom: 10px;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
             margin-bottom: 20px;
         }
@@ -609,7 +609,7 @@ class Learn {
         }
         .solution-header {
             color: var(--vscode-textLink-activeForeground);
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             margin-bottom: 15px;
         }
@@ -624,7 +624,7 @@ class Learn {
         }
         code {
             font-family: var(--vscode-editor-font-family);
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.5;
             color: var(--vscode-textPreformat-foreground);
             display: block;
@@ -645,7 +645,7 @@ class Learn {
             margin: 0 5px;
             border-radius: 3px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
         }
         .solution-button:hover {
@@ -660,7 +660,7 @@ class Learn {
             border-left: 4px solid var(--vscode-textLink-foreground);
             padding: 15px 20px;
             margin: 20px 0;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.6;
         }
     </style>
@@ -750,13 +750,13 @@ class Learn {
             background-color: var(--vscode-editor-background);
             padding: 20px;
             line-height: 1.6;
-            font-size: 14px;
+            font-size: 16px;
         }
         h1 {
             color: var(--vscode-errorForeground);
             border-bottom: 2px solid var(--vscode-errorForeground);
             padding-bottom: 10px;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
             margin-bottom: 20px;
         }
@@ -765,7 +765,7 @@ class Learn {
             border-left: 4px solid var(--vscode-errorForeground);
             padding: 15px 20px;
             margin: 20px 0;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.6;
         }
         .failure-item {
@@ -777,7 +777,7 @@ class Learn {
         }
         .failure-header {
             color: var(--vscode-errorForeground);
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             margin-bottom: 15px;
         }
@@ -794,7 +794,7 @@ class Learn {
         }
         .failure-details code {
             font-family: var(--vscode-editor-font-family);
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.5;
             color: var(--vscode-textPreformat-foreground);
             display: block;
@@ -811,7 +811,7 @@ class Learn {
             margin: 0 5px;
             border-radius: 3px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
         }
         .action-button:hover {
