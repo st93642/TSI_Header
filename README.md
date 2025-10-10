@@ -6,7 +6,7 @@
 
 - Insert institution-branded headers and boilerplate across **147+ languages**.
 - Scaffold production-ready projects for **C / C++ / Java / Python / Ruby / Rust / PHP / HTML**.
-- Teach and practice with in-editor **Learn Mode** lessons and exercises.
+- Teach and practice with in-editor **Learn Mode** lessons and exercises for **C, C++, Ruby, and now comprehensive Rust curriculum**.
 - Stay focused via the **Study Mode** Pomodoro timer with persistent analytics.
 
 ## Requirements
@@ -16,6 +16,7 @@
 - **Ruby**: Version 2.7 or later (for CLI operations and compilation).
 - **Git**: For user identity resolution and project scaffolding.
 - **Supported Languages**: C, C++, Java, Python, Ruby, Rust, PHP, HTML, and 140+ others for header insertion.
+- **Learn Mode**: Interactive curriculum for C, C++, Ruby, and **comprehensive Rust programming** (21 core chapters + 12 advanced web development chapters).
 
 ## Configuration quick hits
 
@@ -31,7 +32,7 @@
 
 - **TSI Commands** for headers, classes, code bases.
 - **TSI Projects** for language scaffolds.
-- **📚 Learn** (Ruby, C, C++) and **Study Mode** commands for curriculum + Pomodoro.
+- **📚 Learn** (Ruby, C, C++, **Rust**) and **Study Mode** commands for curriculum + Pomodoro.
 
 ## Troubleshooting
 
