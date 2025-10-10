@@ -1,0 +1,51 @@
+{
+  "exerciseId": "web12_exercise",
+  "languageId": "rust",
+  "title": "Chapter 13: Advanced Web Patterns",
+  "description": "Implement advanced web development patterns including microservices architecture, event-driven systems, CQRS (Command Query Responsibility Segregation), event sourcing, distributed tracing, circuit breakers, and advanced concurrency patterns. This exercise covers building scalable, resilient distributed systems.",
+  "difficulty": "expert",
+  "starterCode": "use actix_web::{web, HttpResponse, Result};\nuse serde::{Deserialize, Serialize};\nuse std::sync::Arc;\nuse tokio::sync::RwLock;\n\n// TODO: Implement microservices architecture\n// TODO: Add event-driven communication\n// TODO: Implement CQRS pattern\n// TODO: Add event sourcing\n// TODO: Implement distributed tracing\n// TODO: Add circuit breaker pattern\n// TODO: Implement advanced concurrency patterns\n\n#[derive(Serialize, Deserialize)]\npub struct Command {\n    // Define command structure\n}\n\n#[derive(Serialize, Deserialize)]\npub struct Event {\n    // Define event structure\n}\n\npub fn main() {\n    // Test your advanced patterns here\n    println!(\"Advanced web patterns implemented!\");\n}",
+  "tests": [
+    {
+      "name": "Microservices communication works",
+      "call": "test_microservices()",
+      "expected": "Service discovery configured\\nInter-service communication established\\nAPI gateway routes requests",
+      "type": "output"
+    },
+    {
+      "name": "Event-driven system functions",
+      "call": "test_event_driven()",
+      "expected": "Events published and consumed\\nEvent handlers processed\\nMessage queues working",
+      "type": "output"
+    },
+    {
+      "name": "CQRS pattern implemented",
+      "call": "test_cqrs()",
+      "expected": "Commands and queries separated\\nWrite and read models distinct\\nEventual consistency maintained",
+      "type": "output"
+    },
+    {
+      "name": "Event sourcing works",
+      "call": "test_event_sourcing()",
+      "expected": "Events stored sequentially\\nState rebuilt from events\\nEvent replay functionality",
+      "type": "output"
+    },
+    {
+      "name": "Distributed tracing enabled",
+      "call": "test_distributed_tracing()",
+      "expected": "Request tracing across services\\nTrace correlation IDs\\nPerformance monitoring active",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use message queues for inter-service communication",
+    "Implement event sourcing for audit trails",
+    "Separate read and write models in CQRS",
+    "Add correlation IDs for request tracing",
+    "Use circuit breakers for fault tolerance",
+    "Implement sagas for distributed transactions",
+    "Add event versioning for schema evolution",
+    "Use optimistic concurrency for data integrity"
+  ],
+  "tags": ["microservices", "event-driven", "cqrs", "event-sourcing", "distributed-tracing", "circuit-breaker"]
+}

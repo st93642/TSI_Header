@@ -1,0 +1,43 @@
+{
+  "exerciseId": "web4_exercise",
+  "languageId": "rust",
+  "title": "Chapter 5: Building HTTP Servers with Actix",
+  "description": "Implement a complete HTTP server using Actix Web framework. This exercise covers server setup, route handling, middleware, error handling, and building RESTful APIs with proper HTTP status codes and JSON responses.",
+  "difficulty": "advanced",
+  "starterCode": "use actix_web::{web, App, HttpServer, HttpResponse, Result};\nuse serde::{Deserialize, Serialize};\nuse std::sync::Mutex;\nuse std::collections::HashMap;\n\n// TODO: Define data models\n// TODO: Implement route handlers\n// TODO: Add middleware for logging\n// TODO: Handle errors properly\n// TODO: Set up server configuration\n\n#[actix_web::main]\nasync fn main() -> std::io::Result<()> {\n    // Test your server implementation here\n    println!(\"HTTP Server implemented!\");\n    Ok(())\n}",
+  "tests": [
+    {
+      "name": "Server starts and handles basic routes",
+      "call": "test_server_startup()",
+      "expected": "Server started successfully on port 8080",
+      "type": "output"
+    },
+    {
+      "name": "CRUD operations work correctly",
+      "call": "test_crud_operations()",
+      "expected": "Created item with ID 1\\nRetrieved item: Test Item\\nUpdated item successfully\\nDeleted item successfully",
+      "type": "output"
+    },
+    {
+      "name": "Error handling works properly",
+      "call": "test_error_handling()",
+      "expected": "404 Not Found error handled\\n400 Bad Request error handled\\n500 Internal Server Error handled",
+      "type": "output"
+    },
+    {
+      "name": "Middleware logging works",
+      "call": "test_middleware_logging()",
+      "expected": "Request: GET /api/items logged\\nRequest: POST /api/items logged\\nRequest: PUT /api/items/1 logged",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use actix_web::web::Data for shared state between handlers",
+    "Implement proper HTTP status codes with HttpResponse builders",
+    "Use serde for JSON serialization/deserialization",
+    "Create middleware using actix_web::middleware or custom implementations",
+    "Handle errors with Result<T, actix_web::Error> return types",
+    "Use extractors like web::Path, web::Query, web::Json for request data"
+  ],
+  "tags": ["actix-web", "http-server", "rest-api", "middleware", "error-handling"]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "web2_exercise",
+  "title": "Designing Your Web Application: To-Do CLI with Nanoservices",
+  "description": "Build a command-line to-do application using Rust's Cargo for project management, structured code with nanoservices, and a data access layer for JSON storage. Implement enums, structs with composition, API layer, and CLI interaction using clap.",
+  "difficulty": "intermediate",
+  "starterCode": "// TODO: Set up Cargo project structure with workspaces\n// TODO: Define TaskStatus enum with Display trait\n// TODO: Create Base, Pending, and Done structs\n// TODO: Implement API layer for creating tasks\n// TODO: Build data access layer with JSON file storage\n// TODO: Integrate CLI with clap for task creation\n\nuse std::collections::HashMap;\nuse serde::{Deserialize, Serialize};\n\n#[derive(Serialize, Deserialize, Debug, Clone)]\npub enum TaskStatus {\n    DONE,\n    PENDING\n}\n\n// TODO: Implement Display trait for TaskStatus\n\npub struct Base {\n    pub title: String,\n    pub status: TaskStatus\n}\n\npub struct Pending {\n    pub super_struct: Base\n}\n\n// TODO: Implement Pending::new\n\npub struct Done {\n    pub super_struct: Base\n}\n\n// TODO: Implement Done::new\n\npub enum ItemTypes {\n    Pending(Pending),\n    Done(Done)\n}\n\n// TODO: Implement Display trait for ItemTypes\n\n// TODO: Implement create function that saves to JSON\n\n// TODO: Implement data access functions (get_all, save_all, etc.)\n\n// TODO: Set up clap CLI struct and main function",
+  "tests": [
+    {
+      "name": "TaskStatus Display trait works",
+      "call": "println!(\"{}\", TaskStatus::DONE); println!(\"{}\", TaskStatus::PENDING)",
+      "expected": "DONE\nPENDING",
+      "type": "output"
+    },
+    {
+      "name": "Pending struct creation",
+      "call": "let p = Pending::new(\"test task\"); assert_eq!(p.super_struct.title, \"test task\"); assert!(matches!(p.super_struct.status, TaskStatus::PENDING))",
+      "expected": "",
+      "type": "output"
+    },
+    {
+      "name": "Done struct creation",
+      "call": "let d = Done::new(\"completed task\"); assert_eq!(d.super_struct.title, \"completed task\"); assert!(matches!(d.super_struct.status, TaskStatus::DONE))",
+      "expected": "",
+      "type": "output"
+    },
+    {
+      "name": "ItemTypes Display trait works",
+      "call": "let p = ItemTypes::Pending(Pending::new(\"pending item\")); let d = ItemTypes::Done(Done::new(\"done item\")); println!(\"{}\", p); println!(\"{}\", d)",
+      "expected": "Pending: pending item\nDone: done item",
+      "type": "output"
+    },
+    {
+      "name": "Create function saves to JSON",
+      "call": "let result = create(\"test task\", TaskStatus::PENDING); assert!(result.is_ok()); let tasks: HashMap<String, TaskStatus> = get_all().unwrap(); assert_eq!(tasks.get(\"test task\"), Some(&TaskStatus::PENDING))",
+      "expected": "",
+      "type": "output"
+    },
+    {
+      "name": "JSON file operations work",
+      "call": "save_one(\"key1\", &TaskStatus::DONE); let retrieved: TaskStatus = get_one(\"key1\").unwrap(); assert!(matches!(retrieved, TaskStatus::DONE)); delete_one::<TaskStatus>(\"key1\"); let tasks: HashMap<String, TaskStatus> = get_all().unwrap(); assert!(!tasks.contains_key(\"key1\"))",
+      "expected": "",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use 'cargo new' to create the project structure with workspaces",
+    "Implement fmt::Display for TaskStatus using match statements",
+    "Use composition in Pending and Done structs with Base",
+    "Create an API module with create function that calls data access layer",
+    "Use serde for JSON serialization with Serialize/Deserialize traits",
+    "Implement clap Parser derive for CLI arguments",
+    "Use environment variable JSON_STORE_PATH for file location"
+  ],
+  "tags": ["cargo", "nanoservices", "enums", "structs", "composition", "api", "json", "clap", "serde"]
+}

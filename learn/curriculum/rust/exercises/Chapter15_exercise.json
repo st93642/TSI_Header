@@ -1,0 +1,58 @@
+{
+  "id": "Chapter15_exercise",
+  "title": "Fearless Concurrency Mastery Exercise",
+  "description": "Demonstrate comprehensive understanding of Rust's concurrency features including threads, message passing, shared state, and the Send/Sync traits. This exercise will guide you through building concurrent programs that are safe and efficient.\n\nComplete the following tasks:\n1. Create and manage multiple threads with proper synchronization\n2. Implement message passing using channels (mpsc)\n3. Use shared state with Mutex<T> and Arc<T>\n4. Handle thread communication and data sharing safely\n5. Demonstrate Send and Sync trait usage\n6. Build a concurrent data processing pipeline",
+  "difficulty": "advanced",
+  "starterCode": "// Fearless Concurrency Exercise\n// Implement various concurrency patterns\n\nuse std::sync::{Arc, Mutex};\nuse std::sync::mpsc;\nuse std::thread;\nuse std::time::Duration;\n\n// 1. Thread management\n// TODO: Implement a function that spawns multiple threads\n\n// 2. Message passing\n// TODO: Implement producer-consumer pattern\n\n// 3. Shared state\n// TODO: Implement thread-safe counter\n\n// 4. Concurrent data processing\n// TODO: Implement parallel computation\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_thread_creation_and_joining() {\n        // Test basic thread spawning and joining\n        let mut handles = vec![];\n        \n        for i in 0..5 {\n            let handle = thread::spawn(move || {\n                thread::sleep(Duration::from_millis(10));\n                i * 2\n            });\n            handles.push(handle);\n        }\n        \n        let mut results = vec![];\n        for handle in handles {\n            results.push(handle.join().unwrap());\n        }\n        \n        assert_eq!(results, vec![0, 2, 4, 6, 8]);\n    }\n\n    #[test]\n    fn test_message_passing() {\n        // Test basic channel communication\n        let (tx, rx) = mpsc::channel();\n        \n        thread::spawn(move || {\n            tx.send(\"Hello from thread!\").unwrap();\n        });\n        \n        let received = rx.recv().unwrap();\n        assert_eq!(received, \"Hello from thread!\");\n    }\n\n    #[test]\n    fn test_shared_mutex_counter() {\n        // Test shared state with Mutex\n        let counter = Arc::new(Mutex::new(0));\n        let mut handles = vec![];\n        \n        for _ in 0..10 {\n            let counter = Arc::clone(&counter);\n            let handle = thread::spawn(move || {\n                let mut num = counter.lock().unwrap();\n                *num += 1;\n            });\n            handles.push(handle);\n        }\n        \n        for handle in handles {\n            handle.join().unwrap();\n        }\n        \n        assert_eq!(*counter.lock().unwrap(), 10);\n    }\n\n    #[test]\n    fn test_multiple_producers() {\n        // Test multiple producers sending to single consumer\n        let (tx, rx) = mpsc::channel();\n        let mut handles = vec![];\n        \n        for i in 0..3 {\n            let tx_clone = tx.clone();\n            let handle = thread::spawn(move || {\n                for j in 0..3 {\n                    tx_clone.send(format!(\"Thread {}: Message {}\", i, j)).unwrap();\n                    thread::sleep(Duration::from_millis(1));\n                }\n            });\n            handles.push(handle);\n        }\n        \n        drop(tx); // Close the channel\n        \n        let mut messages = vec![];\n        for received in rx {\n            messages.push(received);\n        }\n        \n        assert_eq!(messages.len(), 9);\n    }\n\n    #[test]\n    fn test_concurrent_data_processing() {\n        // Test parallel data processing\n        let data = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];\n        let shared_data = Arc::new(Mutex::new(data));\n        let results = Arc::new(Mutex::new(vec![]));\n        let mut handles = vec![];\n        \n        for i in 0..4 {\n            let data_clone = Arc::clone(&shared_data);\n            let results_clone = Arc::clone(&results);\n            let handle = thread::spawn(move || {\n                // Process subset of data\n                let mut local_results = vec![];\n                let data = data_clone.lock().unwrap();\n                let start = i * (data.len() / 4);\n                let end = if i == 3 { data.len() } else { (i + 1) * (data.len() / 4) };\n                \n                for &num in &data[start..end] {\n                    local_results.push(num * num);\n                }\n                \n                let mut results = results_clone.lock().unwrap();\n                results.extend(local_results);\n            });\n            handles.push(handle);\n        }\n        \n        for handle in handles {\n            handle.join().unwrap();\n        }\n        \n        let mut final_results = results.lock().unwrap().clone();\n        final_results.sort();\n        assert_eq!(final_results, vec![1, 4, 9, 16, 25, 36, 49, 64, 81, 100]);\n    }\n\n    #[test]\n    fn test_thread_safety_guarantees() {\n        // Test that Rust prevents certain unsafe operations\n        // This should compile and run without issues\n        let counter = Arc::new(Mutex::new(0));\n        let counter_clone = Arc::clone(&counter);\n        \n        thread::spawn(move || {\n            *counter_clone.lock().unwrap() += 1;\n        }).join().unwrap();\n        \n        assert_eq!(*counter.lock().unwrap(), 1);\n    }\n}",
+  "tests": [
+    {
+      "name": "Thread spawning and joining works correctly",
+      "call": "thread::spawn(|| 42).join().unwrap()",
+      "expected": "42",
+      "type": "output"
+    },
+    {
+      "name": "Message passing with channels works",
+      "call": "let (tx, rx) = mpsc::channel(); tx.send(42).unwrap(); rx.recv().unwrap()",
+      "expected": "42",
+      "type": "output"
+    },
+    {
+      "name": "Mutex provides thread-safe access",
+      "call": "let m = Mutex::new(5); *m.lock().unwrap() = 10; *m.lock().unwrap()",
+      "expected": "10",
+      "type": "output"
+    },
+    {
+      "name": "Arc enables shared ownership across threads",
+      "call": "let a = Arc::new(42); let b = Arc::clone(&a); *a == *b",
+      "expected": "true",
+      "type": "output"
+    },
+    {
+      "name": "Multiple threads can safely increment shared counter",
+      "call": "cargo test test_shared_mutex_counter",
+      "expected": "test result: ok",
+      "type": "output"
+    },
+    {
+      "name": "Concurrent data processing produces correct results",
+      "call": "cargo test test_concurrent_data_processing",
+      "expected": "test result: ok",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use thread::spawn to create new threads and handle.join().unwrap() to wait for completion",
+    "Use mpsc::channel() for message passing between threads",
+    "Use Arc<Mutex<T>> for shared mutable state across threads",
+    "Clone transmitters with tx.clone() for multiple producers",
+    "Use thread::sleep() to simulate work and test interleaving",
+    "Drop transmitters to close channels and end iteration",
+    "Use move closures to transfer ownership to spawned threads",
+    "Leverage Rust's type system to prevent data races at compile time",
+    "Use try_recv() for non-blocking receives, recv() for blocking",
+    "Remember that Mutex<T> provides interior mutability like RefCell<T>"
+  ],
+  "tags": ["concurrency", "threads", "channels", "mutex", "arc", "message-passing", "shared-state", "send", "sync"]
+}

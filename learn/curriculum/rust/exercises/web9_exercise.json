@@ -1,0 +1,50 @@
+{
+  "exerciseId": "web9_exercise",
+  "languageId": "rust",
+  "title": "Chapter 10: Middleware and Logging",
+  "description": "Implement comprehensive middleware system including logging, CORS handling, rate limiting, request/response transformation, error handling middleware, and custom middleware development. This exercise covers middleware chaining, conditional middleware, and performance monitoring.",
+  "difficulty": "advanced",
+  "starterCode": "use actix_web::{web, App, HttpServer, HttpResponse, Result, middleware::Logger};\nuse actix_web::http::header;\nuse std::collections::HashMap;\nuse std::sync::Mutex;\nuse chrono::{Utc, Duration};\n\n// TODO: Implement logging middleware\n// TODO: Add CORS handling\n// TODO: Create rate limiting middleware\n// TODO: Implement request transformation\n// TODO: Add response compression\n// TODO: Create custom middleware\n\npub struct AppState {\n    // Define application state\n}\n\npub fn main() {\n    // Test your middleware implementation here\n    println!(\"Middleware implemented!\");\n}",
+  "tests": [
+    {
+      "name": "Logging middleware captures requests",
+      "call": "test_logging_middleware()",
+      "expected": "Request logged: GET /api/users 200\\nResponse logged: 200 OK",
+      "type": "output"
+    },
+    {
+      "name": "CORS middleware handles preflight",
+      "call": "test_cors_middleware()",
+      "expected": "CORS headers added\\nPreflight request handled",
+      "type": "output"
+    },
+    {
+      "name": "Rate limiting works correctly",
+      "call": "test_rate_limiting()",
+      "expected": "Request 1 allowed\\nRequest 2 allowed\\nRequest 101 blocked",
+      "type": "output"
+    },
+    {
+      "name": "Request transformation works",
+      "call": "test_request_transformation()",
+      "expected": "Request body transformed\\nHeaders normalized",
+      "type": "output"
+    },
+    {
+      "name": "Response compression works",
+      "call": "test_response_compression()",
+      "expected": "Response compressed from 1000 to 100 bytes",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use actix_web::middleware::Logger for basic logging",
+    "Implement custom middleware using actix_web::dev::Transform",
+    "Use CORS middleware for cross-origin requests",
+    "Implement rate limiting with token bucket algorithm",
+    "Use middleware for request/response transformation",
+    "Chain multiple middleware in correct order",
+    "Handle middleware errors gracefully"
+  ],
+  "tags": ["middleware", "logging", "cors", "rate-limiting", "transformation", "compression"]
+}

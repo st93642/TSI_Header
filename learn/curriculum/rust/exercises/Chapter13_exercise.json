@@ -1,0 +1,68 @@
+{
+  "id": "Chapter13_exercise",
+  "title": "Cargo and Crates.io Mastery Exercise",
+  "description": "Demonstrate proficiency with Cargo's advanced features including release profiles, workspaces, documentation, and publishing workflows. This exercise will guide you through creating a multi-crate workspace, customizing build profiles, writing comprehensive documentation, and preparing a crate for publication.\n\nComplete the following tasks:\n1. Create a workspace with multiple crates\n2. Implement custom release profiles\n3. Add comprehensive documentation with examples\n4. Set up proper crate metadata for publishing\n5. Create and test workspace dependencies\n6. Demonstrate binary installation concepts",
+  "difficulty": "intermediate",
+  "starterCode": "// This is the main crate in our workspace\n// We'll create a calculator library and binary\n\npub mod math {\n    pub fn add(a: i32, b: i32) -> i32 {\n        a + b\n    }\n\n    pub fn multiply(a: i32, b: i32) -> i32 {\n        a * b\n    }\n}\n\npub mod advanced {\n    /// Calculates the factorial of a number using iteration\n    ///\n    /// # Examples\n    ///\n    /// ```\n    /// let result = rust_calculator::advanced::factorial(5);\n    /// assert_eq!(result, 120);\n    /// ```\n    ///\n    /// # Panics\n    ///\n    /// Panics if n is negative\n    pub fn factorial(n: u64) -> u64 {\n        if n == 0 {\n            1\n        } else {\n            n * factorial(n - 1)\n        }\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_add() {\n        assert_eq!(math::add(2, 3), 5);\n    }\n\n    #[test]\n    fn test_multiply() {\n        assert_eq!(math::multiply(4, 5), 20);\n    }\n\n    #[test]\n    fn test_factorial() {\n        assert_eq!(advanced::factorial(0), 1);\n        assert_eq!(advanced::factorial(1), 1);\n        assert_eq!(advanced::factorial(5), 120);\n    }\n}",
+  "tests": [
+    {
+      "name": "Basic math functions work correctly",
+      "call": "math::add(10, 5)",
+      "expected": "15",
+      "type": "output"
+    },
+    {
+      "name": "Advanced factorial function works",
+      "call": "advanced::factorial(6)",
+      "expected": "720",
+      "type": "output"
+    },
+    {
+      "name": "Documentation tests pass",
+      "call": "cargo test --doc",
+      "expected": "running 1 test\ntest advanced::factorial ... ok",
+      "type": "output"
+    },
+    {
+      "name": "Workspace builds successfully",
+      "call": "cargo build",
+      "expected": "Finished",
+      "type": "output"
+    },
+    {
+      "name": "Release profile optimization works",
+      "call": "cargo build --release",
+      "expected": "Finished `release` profile",
+      "type": "output"
+    },
+    {
+      "name": "Custom profile can be used",
+      "call": "cargo build --profile custom",
+      "expected": "Finished `custom` profile",
+      "type": "output"
+    },
+    {
+      "name": "Binary can be run",
+      "call": "cargo run",
+      "expected": "Calculator result:",
+      "type": "output"
+    },
+    {
+      "name": "Package can be verified for publishing",
+      "call": "cargo package --allow-dirty",
+      "expected": "Packaged",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Create a workspace Cargo.toml in the root directory with resolver = \"3\"",
+    "Add [profile.custom] section with opt-level = 2 and debug = true",
+    "Use /// for function documentation and //! for crate-level docs",
+    "Include examples in documentation that can be tested with cargo test --doc",
+    "Add proper metadata fields: description, license, repository, etc.",
+    "Create separate crates for different functionalities within the workspace",
+    "Use path dependencies for workspace crates",
+    "Test both debug and release builds to verify profile differences"
+  ],
+  "tags": ["cargo", "crates.io", "workspaces", "documentation", "publishing", "release-profiles"]
+}

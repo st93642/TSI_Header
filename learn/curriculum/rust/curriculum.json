@@ -3,7 +3,7 @@
   "languageId": "rust",
   "version": "1.0.0",
   "description": "Minimal Rust roadmap for the Learn mode (sample lesson and exercise).",
-  "estimatedHours": 1,
+  "estimatedHours": 120,
   "modules": [
     {
       "id": "basics",
@@ -69,6 +69,144 @@
           "title": "Chapter 10: Writing Automated Tests",
           "duration": 65,
           "difficulty": "intermediate"
+        },
+        {
+          "id": "Chapter11",
+          "title": "Chapter 11: An I/O Project: Building a Command Line Program",
+          "duration": 80,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "Chapter12",
+          "title": "Chapter 12: Functional Language Features: Iterators and Closures",
+          "duration": 75,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "Chapter13",
+          "title": "Chapter 13: More About Cargo and Crates.io",
+          "duration": 60,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "Chapter14",
+          "title": "Chapter 14: Smart Pointers",
+          "duration": 85,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "Chapter15",
+          "title": "Chapter 15: Fearless Concurrency",
+          "duration": 90,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "Chapter16",
+          "title": "Chapter 16: Object Oriented Programming Features",
+          "duration": 70,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "Chapter17",
+          "title": "Chapter 17: Patterns and Matching",
+          "duration": 80,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "Chapter18",
+          "title": "Chapter 18: Advanced Features",
+          "duration": 95,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "Chapter19",
+          "title": "Chapter 19: Advanced Features",
+          "duration": 95,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "Chapter20",
+          "title": "Chapter 20: Final Project: Building a Multithreaded Web Server",
+          "duration": 100,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "Chapter21",
+          "title": "Chapter 21: 100 Exercises in Readable Code",
+          "duration": 50,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "web1",
+          "title": "Chapter 1: Useful Rust Patterns for Web Programming",
+          "duration": 75,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web2",
+          "title": "Chapter 3: Designing Your Web Application in Rust",
+          "duration": 90,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "web3",
+          "title": "Chapter 4: Async Rust",
+          "duration": 85,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web4",
+          "title": "Chapter 5: Handling HTTP Requests",
+          "duration": 95,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web5",
+          "title": "Chapter 6: Processing HTTP Requests",
+          "duration": 90,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web6",
+          "title": "Chapter 7: Database Integration",
+          "duration": 100,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web7",
+          "title": "Chapter 8: WASM Integration",
+          "duration": 95,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web8",
+          "title": "Chapter 9: Authentication and Authorization",
+          "duration": 85,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web9",
+          "title": "Chapter 10: Middleware and Logging",
+          "duration": 80,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web10",
+          "title": "Chapter 11: API Design and Documentation",
+          "duration": 75,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web11",
+          "title": "Chapter 12: Deployment and Scaling",
+          "duration": 90,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "web12",
+          "title": "Chapter 13: Advanced Web Patterns",
+          "duration": 95,
+          "difficulty": "advanced"
         }
       ]
     }

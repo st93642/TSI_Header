@@ -1,0 +1,43 @@
+{
+  "id": "Chapter19_exercise",
+  "title": "Advanced Features Exercise",
+  "description": "Practice advanced Rust features including unsafe code, advanced traits, advanced types, function pointers, and macros. Implement a safe wrapper around unsafe operations, create custom traits with associated types, work with the newtype pattern, and define a declarative macro.\n\nSteps:\n1. Implement a safe wrapper for raw pointer operations\n2. Create an advanced trait with associated types for a generic container\n3. Use the newtype pattern for type safety with measurements\n4. Implement function pointers and returning closures\n5. Define a declarative macro for creating vectors with custom initialization",
+  "difficulty": "expert",
+  "starterCode": "// Step 1: Safe wrapper for raw pointers\npub struct SafeBuffer<T> {\n    data: Vec<T>,\n}\n\nimpl<T> SafeBuffer<T> {\n    pub fn new() -> Self {\n        SafeBuffer { data: Vec::new() }\n    }\n    \n    // Implement methods to safely access elements using raw pointers internally\n    pub fn push(&mut self, value: T) {\n        // TODO: Use unsafe code internally but provide safe interface\n    }\n    \n    pub fn get(&self, index: usize) -> Option<&T> {\n        // TODO: Use unsafe code internally but provide safe interface\n    }\n}\n\n// Step 2: Advanced trait with associated types\npub trait Container {\n    type Item;\n    \n    fn add(&mut self, item: Self::Item);\n    fn get(&self, index: usize) -> Option<&Self::Item>;\n    fn len(&self) -> usize;\n}\n\npub struct GenericContainer<T> {\n    items: Vec<T>,\n}\n\nimpl<T> GenericContainer<T> {\n    pub fn new() -> Self {\n        GenericContainer { items: Vec::new() }\n    }\n}\n\n// TODO: Implement Container trait for GenericContainer\n\n// Step 3: Newtype pattern for type safety\n#[derive(Debug, Clone, Copy, PartialEq)]\npub struct Meters(f64);\n\n#[derive(Debug, Clone, Copy, PartialEq)]\npub struct Feet(f64);\n\nimpl Meters {\n    pub fn new(value: f64) -> Self {\n        Meters(value)\n    }\n    \n    // TODO: Implement conversion methods\n    pub fn to_feet(self) -> Feet {\n        // 1 meter = 3.28084 feet\n    }\n}\n\nimpl Feet {\n    pub fn new(value: f64) -> Self {\n        Feet(value)\n    }\n    \n    pub fn to_meters(self) -> Meters {\n        // 1 foot = 0.3048 meters\n    }\n}\n\n// Step 4: Function pointers and returning closures\npub fn apply_operation<F>(x: i32, op: F) -> i32 \nwhere\n    F: Fn(i32) -> i32,\n{\n    op(x)\n}\n\npub fn create_multiplier(factor: i32) -> impl Fn(i32) -> i32 {\n    move |x| x * factor\n}\n\n// Step 5: Declarative macro\n// TODO: Create a macro that generates a vector with repeated elements\n// Example: vec_repeat![1, 2, 3; 3] should create [1, 2, 3, 1, 2, 3, 1, 2, 3]\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n    \n    #[test]\n    fn test_safe_buffer() {\n        let mut buffer = SafeBuffer::new();\n        buffer.push(42);\n        buffer.push(24);\n        \n        assert_eq!(buffer.get(0), Some(&42));\n        assert_eq!(buffer.get(1), Some(&24));\n        assert_eq!(buffer.get(2), None);\n    }\n    \n    #[test]\n    fn test_generic_container() {\n        let mut container = GenericContainer::<i32>::new();\n        container.add(10);\n        container.add(20);\n        \n        assert_eq!(container.len(), 2);\n        assert_eq!(container.get(0), Some(&10));\n        assert_eq!(container.get(1), Some(&20));\n    }\n    \n    #[test]\n    fn test_newtype_conversion() {\n        let meters = Meters::new(10.0);\n        let feet = meters.to_feet();\n        \n        // Approximate conversion: 10 meters ≈ 32.8084 feet\n        assert!((feet.0 - 32.8084).abs() < 0.001);\n        \n        let back_to_meters = feet.to_meters();\n        assert!((back_to_meters.0 - 10.0).abs() < 0.001);\n    }\n    \n    #[test]\n    fn test_function_pointers() {\n        let add_five = |x| x + 5;\n        assert_eq!(apply_operation(10, add_five), 15);\n        \n        let multiplier = create_multiplier(3);\n        assert_eq!(multiplier(4), 12);\n    }\n    \n    #[test]\n    fn test_vec_repeat_macro() {\n        let v = vec_repeat![1, 2, 3; 2];\n        assert_eq!(v, vec![1, 2, 3, 1, 2, 3]);\n        \n        let empty = vec_repeat![5; 0];\n        assert_eq!(empty, Vec::<i32>::new());\n    }\n}",
+  "tests": [
+    {
+      "name": "SafeBuffer basic operations",
+      "call": "test_safe_buffer",
+      "type": "unit_test"
+    },
+    {
+      "name": "GenericContainer trait implementation",
+      "call": "test_generic_container",
+      "type": "unit_test"
+    },
+    {
+      "name": "Newtype pattern conversions",
+      "call": "test_newtype_conversion",
+      "type": "unit_test"
+    },
+    {
+      "name": "Function pointers and closures",
+      "call": "test_function_pointers",
+      "type": "unit_test"
+    },
+    {
+      "name": "Declarative macro functionality",
+      "call": "test_vec_repeat_macro",
+      "type": "unit_test"
+    }
+  ],
+  "hints": [
+    "For SafeBuffer, use raw pointers internally with unsafe blocks but ensure all public methods are safe",
+    "Implement the Container trait for GenericContainer using associated types",
+    "Use the newtype pattern to prevent mixing up Meters and Feet values",
+    "Function pointers have type fn, while closures implement Fn traits",
+    "Declarative macros use macro_rules! and pattern matching on tokens",
+    "Remember to handle edge cases in your implementations"
+  ],
+  "tags": ["unsafe", "traits", "newtype", "macros", "advanced"]
+}

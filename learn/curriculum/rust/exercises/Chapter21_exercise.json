@@ -1,0 +1,47 @@
+{
+  "id": "Chapter21_exercise",
+  "title": "100 Exercises in Readable Code",
+  "description": "Apply Rust best practices for readable code by implementing functions that follow the principles from Chapter 21. Focus on pattern matching, error handling, functional programming, naming conventions, documentation, and other readability principles.\n\nSteps:\n1. Implement a user management system with proper error handling and pattern matching\n2. Create data processing functions using iterators and functional programming\n3. Build a shape calculation module with enums and traits\n4. Implement a configuration system with proper naming and documentation\n5. Add async functionality for file operations",
+  "difficulty": "expert",
+  "starterCode": "// Step 1: User Management System\nuse std::collections::HashMap;\n\n#[derive(Debug, Clone)]\npub struct User {\n    pub id: u32,\n    pub name: String,\n    pub email: String,\n    pub is_active: bool,\n}\n\npub struct UserManager {\n    users: HashMap<u32, User>,\n    next_id: u32,\n}\n\nimpl UserManager {\n    pub fn new() -> Self {\n        UserManager {\n            users: HashMap::new(),\n            next_id: 1,\n        }\n    }\n    \n    // TODO: Implement methods following readable code principles\n    // - Use descriptive names\n    // - Handle errors properly with Result\n    // - Use pattern matching where appropriate\n    pub fn add_user(&mut self, name: String, email: String) -> Result<u32, String> {\n        // TODO: Validate input, create user, return ID\n    }\n    \n    pub fn get_user(&self, id: u32) -> Option<&User> {\n        // TODO: Return user by ID\n    }\n    \n    pub fn update_user_email(&mut self, id: u32, new_email: String) -> Result<(), String> {\n        // TODO: Update user email with validation\n    }\n    \n    pub fn deactivate_user(&mut self, id: u32) -> Result<(), String> {\n        // TODO: Deactivate user account\n    }\n}\n\n// Step 2: Data Processing with Functional Programming\npub fn process_numbers(numbers: Vec<i32>) -> (Vec<i32>, i32, f64) {\n    // TODO: Use iterators, map, filter, and collect\n    // Return (even_squares, sum, average)\n    // Follow functional programming principles\n}\n\npub fn group_words_by_length(words: Vec<String>) -> HashMap<usize, Vec<String>> {\n    // TODO: Use iterators and collect to group words by length\n    // Return HashMap<length, Vec<words>>\n}\n\n// Step 3: Shape Calculations with Enums and Traits\n#[derive(Debug, Clone, Copy)]\npub enum Shape {\n    Circle(f64), // radius\n    Rectangle(f64, f64), // width, height\n    Triangle(f64, f64, f64), // sides a, b, c\n}\n\npub trait ShapeCalculations {\n    fn area(&self) -> f64;\n    fn perimeter(&self) -> f64;\n    fn description(&self) -> String;\n}\n\nimpl ShapeCalculations for Shape {\n    // TODO: Implement trait methods using pattern matching\n    // Use descriptive method names and proper documentation\n    fn area(&self) -> f64 {\n        match self {\n            // TODO: Calculate area for each shape variant\n        }\n    }\n    \n    fn perimeter(&self) -> f64 {\n        match self {\n            // TODO: Calculate perimeter for each shape variant\n        }\n    }\n    \n    fn description(&self) -> f64 {\n        match self {\n            // TODO: Return descriptive string for each shape\n        }\n    }\n}\n\n// Step 4: Configuration System\n#[derive(Debug, Clone)]\npub struct ApplicationConfig {\n    pub database_url: String,\n    pub max_connections: u32,\n    pub enable_logging: bool,\n    pub server_port: u16,\n}\n\nimpl ApplicationConfig {\n    // TODO: Use proper naming conventions (snake_case)\n    // TODO: Add documentation comments\n    /// Creates a new application configuration with default values.\n    pub fn new() -> Self {\n        ApplicationConfig {\n            database_url: \"postgresql://localhost/mydb\".to_string(),\n            max_connections: 10,\n            enable_logging: true,\n            server_port: 8080,\n        }\n    }\n    \n    // TODO: Implement builder pattern methods\n    pub fn with_database_url(mut self, url: String) -> Self {\n        self.database_url = url;\n        self\n    }\n    \n    pub fn with_max_connections(mut self, connections: u32) -> Self {\n        // TODO: Add validation\n        self.max_connections = connections;\n        self\n    }\n    \n    pub fn with_logging(mut self, enabled: bool) -> Self {\n        self.enable_logging = enabled;\n        self\n    }\n}\n\n// Step 5: Async File Operations\nuse tokio::fs;\nuse tokio::io::{self, AsyncReadExt, AsyncWriteExt};\n\npub async fn read_file_content_async(file_path: &str) -> Result<String, io::Error> {\n    // TODO: Use async/await for file operations\n    // Follow async best practices\n}\n\npub async fn write_file_content_async(file_path: &str, content: &str) -> Result<(), io::Error> {\n    // TODO: Use async/await for file operations\n}\n\npub async fn process_file_async(input_path: &str, output_path: &str) -> Result<(), io::Error> {\n    // TODO: Read from input file, process content, write to output file\n    // Use ? operator for error propagation\n}",
+  "tests": [
+    {
+      "name": "User management system functionality",
+      "call": "test_user_management",
+      "type": "unit_test"
+    },
+    {
+      "name": "Data processing with functional programming",
+      "call": "test_data_processing",
+      "type": "unit_test"
+    },
+    {
+      "name": "Shape calculations with enums and traits",
+      "call": "test_shape_calculations",
+      "type": "unit_test"
+    },
+    {
+      "name": "Configuration system with proper naming",
+      "call": "test_configuration_system",
+      "type": "unit_test"
+    },
+    {
+      "name": "Async file operations",
+      "call": "test_async_file_operations",
+      "type": "unit_test"
+    }
+  ],
+  "hints": [
+    "Use snake_case for all variable and function names",
+    "Add comprehensive documentation comments (///) for public APIs",
+    "Use Result and Option for error handling instead of panics",
+    "Leverage pattern matching with match expressions",
+    "Use iterators, map, filter, and collect for functional programming",
+    "Implement traits for shared behavior",
+    "Use async/await for asynchronous operations",
+    "Follow the builder pattern for complex object construction",
+    "Use descriptive boolean prefixes (is_, has_, can_)",
+    "Keep functions focused on single responsibilities"
+  ],
+  "tags": ["readability", "best-practices", "functional-programming", "async", "error-handling", "documentation"]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "Chapter12_exercise",
+  "title": "Functional Language Features: Iterators and Closures",
+  "description": "Implement functional programming concepts in Rust using closures and iterators. Create custom iterator adapters, use closures for data transformation, and build higher-order functions that demonstrate Rust's functional programming capabilities.\n\n**What you need to implement:**\n- A custom iterator that generates Fibonacci numbers\n- Iterator adapters using closures for filtering and mapping\n- A higher-order function that takes a closure and applies it to a collection\n- Performance comparison between imperative and functional approaches\n- Closure capture modes (Fn, FnMut, FnOnce) demonstration\n- Custom iterator methods using closures\n\n**Expected output:**\nYour program should demonstrate various functional programming patterns:\n```\nFibonacci numbers: [1, 1, 2, 3, 5, 8, 13, 21]\nEven numbers: [2, 4, 6, 8, 10]\nSquared numbers: [1, 4, 9, 16, 25]\nSum of evens: 30\n```\n\n**Requirements:**\n- Implement a custom iterator struct with Iterator trait\n- Use closures for data transformation and filtering\n- Demonstrate different closure capture modes\n- Compare performance between imperative and functional approaches\n- Include comprehensive tests for all iterator functionality",
+  "difficulty": "intermediate",
+  "starterCode": "pub struct Fibonacci {\n    a: u64,\n    b: u64,\n}\n\nimpl Fibonacci {\n    pub fn new() -> Self {\n        Fibonacci { a: 0, b: 1 }\n    }\n}\n\n// Implement Iterator for Fibonacci\n\npub fn filter_and_map<T, F, G, U, V>(\n    collection: Vec<T>,\n    filter_fn: F,\n    map_fn: G,\n) -> Vec<V>\nwhere\n    F: Fn(&T) -> bool,\n    G: Fn(T) -> V,\n{\n    // Implement filter and map using closures\n}\n\npub fn demonstrate_closures() {\n    // Demonstrate Fn, FnMut, and FnOnce\n    // Show different capture modes\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    // Implement comprehensive tests\n    // Test Fibonacci iterator\n    // Test filter_and_map function\n    // Test closure capture modes\n}",
+  "tests": [
+    {
+      "name": "Functional programming with iterators and closures",
+      "call": "cargo test",
+      "expected": "running 8 tests\ntest tests::test_fibonacci_iterator ... ok\ntest tests::test_filter_and_map ... ok\ntest tests::test_closure_capture_modes ... ok\ntest tests::test_custom_iterator_methods ... ok\ntest tests::test_higher_order_function ... ok\ntest tests::test_iterator_adapters ... ok\ntest tests::test_performance_comparison ... ok\ntest tests::test_real_world_example ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Implement Iterator trait for Fibonacci with next() method",
+    "Use closures with move keyword for different capture modes",
+    "Create custom iterator adapter methods using impl blocks",
+    "Use fold, map, filter, and collect for functional operations",
+    "Compare imperative loops vs functional approaches",
+    "Test different closure traits (Fn, FnMut, FnOnce)",
+    "Use iterators for lazy evaluation and performance benefits"
+  ],
+  "tags": ["functional-programming", "iterators", "closures", "higher-order-functions", "iterator-adapters", "performance"]
+}

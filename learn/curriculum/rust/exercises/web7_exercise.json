@@ -1,0 +1,50 @@
+{
+  "exerciseId": "web7_exercise",
+  "languageId": "rust",
+  "title": "Chapter 8: WASM Integration",
+  "description": "Implement WebAssembly integration including compiling Rust to WASM, interacting with WASM modules from Rust, memory management, and passing complex data structures across the WASM boundary. This exercise covers wasmtime runtime, WASM memory allocation, and foreign function interfaces.",
+  "difficulty": "advanced",
+  "starterCode": "use wasmtime::{Engine, Module, Store, Linker, Instance};\nuse wasmtime_wasi::WasiCtxBuilder;\nuse std::mem::size_of;\n\n// TODO: Set up WASM engine and runtime\n// TODO: Load and instantiate WASM modules\n// TODO: Implement memory allocation for WASM\n// TODO: Pass complex data structures to WASM\n// TODO: Handle WASM function calls and returns\n// TODO: Manage memory cleanup\n\npub async fn run_wasm_example() {\n    // Test your WASM integration here\n    println!(\"WASM integration implemented!\");\n}\n\npub fn main() {\n    println!(\"WASM integration implemented!\");\n}",
+  "tests": [
+    {
+      "name": "WASM module loads and instantiates",
+      "call": "test_wasm_loading()",
+      "expected": "WASM module loaded successfully\\nWASM instance created",
+      "type": "output"
+    },
+    {
+      "name": "Memory allocation works in WASM",
+      "call": "test_memory_allocation()",
+      "expected": "Memory allocated at address 1024\\nMemory deallocated successfully",
+      "type": "output"
+    },
+    {
+      "name": "Data passing to WASM works",
+      "call": "test_data_passing()",
+      "expected": "Data sent to WASM: Hello WASM\\nData processed by WASM",
+      "type": "output"
+    },
+    {
+      "name": "Complex data structures work",
+      "call": "test_complex_data()",
+      "expected": "Struct with name: John, age: 30 sent to WASM\\nWASM processed struct successfully",
+      "type": "output"
+    },
+    {
+      "name": "WASM function calls work",
+      "call": "test_function_calls()",
+      "expected": "WASM function called\\nResult: 42",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use wasmtime crate for WASM runtime in Rust",
+    "Implement memory allocation functions in WASM using alloc crate",
+    "Use bincode or serde for serializing data to pass to WASM",
+    "Handle WASM memory with raw pointers and unsafe code",
+    "Use WASI for system interface access from WASM",
+    "Implement proper cleanup of allocated memory",
+    "Use typed functions for calling WASM exports"
+  ],
+  "tags": ["wasm", "wasmtime", "memory-management", "ffi", "serialization", "runtime"]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "chapter16_exercise",
+  "title": "Chapter 16: Asynchronous Programming - Async, Await, Futures, and Streams",
+  "description": "Practice asynchronous programming concepts in Rust including futures, async/await syntax, streams, and integration with threads. This exercise covers the fundamentals of async Rust programming.",
+  "difficulty": "advanced",
+  "starterCode": "use std::time::Duration;\n\n// TODO: Implement the async functions and complete the main function\n\nasync fn simple_async() {\n    // TODO: Print a message and sleep for 100ms\n}\n\nasync fn async_with_return(value: i32) -> i32 {\n    // TODO: Sleep for 50ms and return value * 2\n    value\n}\n\nasync fn timeout_example() -> Result<String, Duration> {\n    // TODO: Create a timeout that waits for 200ms and returns a message\n    // If timeout elapses, return the duration as error\n    Ok(\"Success\".to_string())\n}\n\n#[tokio::main]\nasync fn main() {\n    // TODO: Call simple_async and await it\n    \n    // TODO: Call async_with_return with value 5 and print result\n    \n    // TODO: Call timeout_example and handle the result\n    \n    // TODO: Create a stream that yields numbers 1-5 with 100ms delay between each\n    // Use tokio_stream::StreamExt to work with streams\n    \n    // TODO: Spawn a task that prints numbers 1-3 with 200ms delay\n    \n    // TODO: Use join! to wait for multiple futures\n}",
+  "tests": [
+    {
+      "name": "Simple async function executes",
+      "call": "simple_async()",
+      "expected": "Function should complete without error",
+      "type": "output"
+    },
+    {
+      "name": "Async function with return value",
+      "call": "async_with_return(5)",
+      "expected": "10",
+      "type": "return"
+    },
+    {
+      "name": "Timeout example succeeds",
+      "call": "timeout_example()",
+      "expected": "Success",
+      "type": "return"
+    },
+    {
+      "name": "Stream yields correct values",
+      "call": "create_number_stream()",
+      "expected": "[1, 2, 3, 4, 5]",
+      "type": "return"
+    },
+    {
+      "name": "Spawned task completes",
+      "call": "spawn_task_example()",
+      "expected": "Task completed",
+      "type": "return"
+    },
+    {
+      "name": "Join multiple futures",
+      "call": "join_futures_example()",
+      "expected": "All futures completed",
+      "type": "return"
+    }
+  ],
+  "hints": [
+    "Use tokio::time::sleep for async delays",
+    "Use tokio::spawn for spawning tasks",
+    "Use futures::join! or tokio::join! for waiting on multiple futures",
+    "Use tokio_stream::StreamExt for stream operations",
+    "Use tokio::time::timeout for timeout functionality",
+    "Remember to await all async operations"
+  ],
+  "tags": ["async", "await", "futures", "streams", "tokio", "concurrency"]
+}

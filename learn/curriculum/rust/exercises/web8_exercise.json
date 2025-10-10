@@ -1,0 +1,50 @@
+{
+  "exerciseId": "web8_exercise",
+  "languageId": "rust",
+  "title": "Chapter 9: Authentication and Authorization",
+  "description": "Implement comprehensive authentication and authorization system including JWT tokens, password hashing, user registration/login, role-based access control, and session management. This exercise covers secure password handling, token validation, and protecting API endpoints.",
+  "difficulty": "advanced",
+  "starterCode": "use actix_web::{web, HttpResponse, Result};\nuse serde::{Deserialize, Serialize};\nuse std::collections::HashMap;\nuse bcrypt::{hash, verify};\nuse jsonwebtoken::{encode, decode, Header, Algorithm, Validation, EncodingKey, DecodingKey};\n\n// TODO: Implement user authentication\n// TODO: Add JWT token handling\n// TODO: Create password hashing\n// TODO: Implement role-based authorization\n// TODO: Add session management\n// TODO: Protect API endpoints\n\n#[derive(Serialize, Deserialize)]\npub struct User {\n    // Define user structure\n}\n\n#[derive(Deserialize)]\npub struct LoginRequest {\n    // Define login request\n}\n\npub fn main() {\n    // Test your authentication system here\n    println!(\"Authentication implemented!\");\n}",
+  "tests": [
+    {
+      "name": "User registration works",
+      "call": "test_user_registration()",
+      "expected": "User registered successfully with hashed password",
+      "type": "output"
+    },
+    {
+      "name": "User login generates JWT token",
+      "call": "test_user_login()",
+      "expected": "Login successful, JWT token generated",
+      "type": "output"
+    },
+    {
+      "name": "JWT token validation works",
+      "call": "test_token_validation()",
+      "expected": "Token validated successfully\\nUser claims extracted",
+      "type": "output"
+    },
+    {
+      "name": "Role-based authorization works",
+      "call": "test_role_authorization()",
+      "expected": "Admin access granted\\nUser access granted\\nGuest access denied",
+      "type": "output"
+    },
+    {
+      "name": "Password hashing is secure",
+      "call": "test_password_hashing()",
+      "expected": "Password hashed successfully\\nPassword verification successful",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use bcrypt or argon2 for secure password hashing",
+    "Implement JWT tokens with jsonwebtoken crate",
+    "Create middleware for token validation",
+    "Use role-based access control with enums",
+    "Store user sessions securely",
+    "Implement proper error handling for auth failures",
+    "Use secure random generation for tokens"
+  ],
+  "tags": ["authentication", "jwt", "authorization", "bcrypt", "security", "sessions"]
+}

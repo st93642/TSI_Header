@@ -1,0 +1,51 @@
+{
+  "exerciseId": "web11_exercise",
+  "languageId": "rust",
+  "title": "Chapter 12: Deployment and Scaling",
+  "description": "Implement production deployment strategies including Docker containerization, environment configuration, monitoring, logging, load balancing, and horizontal scaling. This exercise covers container orchestration, health checks, metrics collection, and performance optimization for production workloads.",
+  "difficulty": "advanced",
+  "starterCode": "use actix_web::{web, HttpResponse, Result};\nuse std::env;\nuse serde::{Deserialize, Serialize};\n\n// TODO: Implement Docker containerization\n// TODO: Add environment-based configuration\n// TODO: Implement health checks\n// TODO: Add monitoring and metrics\n// TODO: Configure load balancing\n// TODO: Implement horizontal scaling\n// TODO: Add production logging\n\n#[derive(Serialize, Deserialize)]\npub struct HealthStatus {\n    // Define health check structure\n}\n\n#[derive(Serialize)]\npub struct Metrics {\n    // Define metrics structure\n}\n\npub fn main() {\n    // Test your deployment setup here\n    println!(\"Deployment and scaling implemented!\");\n}",
+  "tests": [
+    {
+      "name": "Docker containerization works",
+      "call": "test_docker_setup()",
+      "expected": "Dockerfile created\\nMulti-stage build configured\\nContainer runs successfully",
+      "type": "output"
+    },
+    {
+      "name": "Environment configuration loads",
+      "call": "test_env_config()",
+      "expected": "Environment variables loaded\\nConfiguration validated\\nSecrets handled securely",
+      "type": "output"
+    },
+    {
+      "name": "Health checks respond correctly",
+      "call": "test_health_checks()",
+      "expected": "Health endpoint returns 200\\nDependencies checked\\nReadiness probe configured",
+      "type": "output"
+    },
+    {
+      "name": "Monitoring and metrics work",
+      "call": "test_monitoring()",
+      "expected": "Metrics endpoint available\\nRequest count tracked\\nResponse times measured",
+      "type": "output"
+    },
+    {
+      "name": "Load balancing configured",
+      "call": "test_load_balancing()",
+      "expected": "Multiple instances started\\nLoad balancer configured\\nRequests distributed evenly",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use multi-stage Docker builds for smaller images",
+    "Load configuration from environment variables",
+    "Implement comprehensive health checks",
+    "Add structured logging with levels",
+    "Use connection pooling for databases",
+    "Implement graceful shutdown handling",
+    "Add request ID tracing across services",
+    "Configure proper resource limits"
+  ],
+  "tags": ["deployment", "docker", "scaling", "monitoring", "load-balancing", "production"]
+}

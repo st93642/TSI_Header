@@ -1,0 +1,54 @@
+{
+  "id": "chapter18_exercise",
+  "title": "Chapter 18: Patterns and Matching",
+  "description": "Practice using Rust's pattern matching features including destructuring, match guards, and different pattern contexts. This exercise covers comprehensive pattern usage in Rust.",
+  "difficulty": "advanced",
+  "starterCode": "use std::collections::HashMap;\n\n// TODO: Define structs and enums for pattern matching\n// struct Point {\n//     x: i32,\n//     y: i32,\n// }\n//\n// enum Shape {\n//     Circle { radius: f64 },\n//     Rectangle { width: f64, height: f64 },\n//     Triangle(f64, f64, f64),\n// }\n\n// TODO: Implement functions that use pattern matching\n// fn describe_point(point: &Point) -> String {\n//     // TODO: Use pattern matching to describe the point\n//     \"Unknown\".to_string()\n// }\n//\n// fn calculate_area(shape: &Shape) -> f64 {\n//     // TODO: Use pattern matching to calculate area\n//     0.0\n// }\n\n// TODO: Implement a function with match guards\n// fn classify_number(n: i32) -> &'static str {\n//     // TODO: Use match with guards to classify numbers\n//     \"unknown\"\n// }\n\n// TODO: Implement destructuring in function parameters\n// fn process_tuple((a, b): (i32, i32)) -> i32 {\n//     // TODO: Use destructuring in parameters\n//     0\n// }\n\n// TODO: Implement pattern matching with @ bindings\n// fn extract_range_value(n: i32) -> Option<i32> {\n//     // TODO: Use @ binding to extract values in range\n//     None\n// }\n\n// TODO: Implement ignoring patterns\n// fn sum_with_ignore(vec: Vec<i32>) -> i32 {\n//     // TODO: Use .. to ignore parts of vectors\n//     0\n// }\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_point_description() {\n        // TODO: Test describe_point function\n    }\n\n    #[test]\n    fn test_shape_area() {\n        // TODO: Test calculate_area function\n    }\n\n    #[test]\n    fn test_number_classification() {\n        // TODO: Test classify_number function\n    }\n\n    #[test]\n    fn test_tuple_processing() {\n        // TODO: Test process_tuple function\n    }\n\n    #[test]\n    fn test_range_extraction() {\n        // TODO: Test extract_range_value function\n    }\n\n    #[test]\n    fn test_sum_with_ignore() {\n        // TODO: Test sum_with_ignore function\n    }\n}",
+  "tests": [
+    {
+      "name": "Point description works",
+      "call": "describe_point(&Point { x: 0, y: 0 })",
+      "expected": "Origin",
+      "type": "return"
+    },
+    {
+      "name": "Circle area calculation",
+      "call": "calculate_area(&Shape::Circle { radius: 2.0 })",
+      "expected": "12.566370614359172",
+      "type": "return"
+    },
+    {
+      "name": "Number classification",
+      "call": "classify_number(15)",
+      "expected": "small odd",
+      "type": "return"
+    },
+    {
+      "name": "Tuple processing",
+      "call": "process_tuple((3, 7))",
+      "expected": "10",
+      "type": "return"
+    },
+    {
+      "name": "Range extraction",
+      "call": "extract_range_value(25)",
+      "expected": "Some(25)",
+      "type": "return"
+    },
+    {
+      "name": "Sum with ignore",
+      "call": "sum_with_ignore(vec![1, 2, 3, 4, 5])",
+      "expected": "9",
+      "type": "return"
+    }
+  ],
+  "hints": [
+    "Use struct destructuring with Point { x, y }",
+    "Use enum destructuring for Shape variants",
+    "Match guards use 'if' conditions after patterns",
+    "@ bindings create variables while testing patterns",
+    "_ ignores single values, .. ignores multiple values",
+    "Function parameters can destructure tuples directly"
+  ],
+  "tags": ["patterns", "matching", "destructuring", "guards", "bindings", "refutability"]
+}

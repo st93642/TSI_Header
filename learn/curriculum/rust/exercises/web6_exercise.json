@@ -1,0 +1,50 @@
+{
+  "exerciseId": "web6_exercise",
+  "languageId": "rust",
+  "title": "Chapter 7: Database Integration",
+  "description": "Implement database integration with connection pooling, migrations, CRUD operations, and query building. This exercise covers working with PostgreSQL using diesel ORM, implementing repositories, handling transactions, and database connection management.",
+  "difficulty": "advanced",
+  "starterCode": "use diesel::prelude::*;\nuse diesel::pg::PgConnection;\nuse std::env;\n\n// TODO: Define database models\n// TODO: Implement database connection pooling\n// TODO: Create migration system\n// TODO: Implement repository pattern\n// TODO: Handle database transactions\n// TODO: Add query building and filtering\n\npub fn establish_connection() -> PgConnection {\n    // Implement database connection\n    todo!()\n}\n\n#[derive(Queryable)]\npub struct User {\n    // Define user model\n}\n\npub fn main() {\n    // Test your database integration here\n    println!(\"Database integration implemented!\");\n}",
+  "tests": [
+    {
+      "name": "Database connection works",
+      "call": "test_database_connection()",
+      "expected": "Database connection established successfully",
+      "type": "output"
+    },
+    {
+      "name": "CRUD operations work correctly",
+      "call": "test_crud_operations()",
+      "expected": "User created with ID 1\\nUser retrieved: John Doe\\nUser updated successfully\\nUser deleted successfully",
+      "type": "output"
+    },
+    {
+      "name": "Transactions work properly",
+      "call": "test_transactions()",
+      "expected": "Transaction committed successfully\\nTransaction rolled back on error",
+      "type": "output"
+    },
+    {
+      "name": "Query building and filtering works",
+      "call": "test_query_building()",
+      "expected": "Found 5 active users\\nFound users with email domain: example.com",
+      "type": "output"
+    },
+    {
+      "name": "Connection pooling works",
+      "call": "test_connection_pooling()",
+      "expected": "Connection pool created with 10 connections",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use diesel for ORM and query building",
+    "Implement connection pooling with r2d2 or bb8",
+    "Use diesel_migrations for database schema management",
+    "Implement repository pattern for data access abstraction",
+    "Use database transactions for data consistency",
+    "Handle database errors gracefully with custom error types",
+    "Use connection pooling to manage database connections efficiently"
+  ],
+  "tags": ["database", "diesel", "postgresql", "orm", "migrations", "transactions"]
+}

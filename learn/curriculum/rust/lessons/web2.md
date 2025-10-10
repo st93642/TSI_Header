@@ -56,7 +56,10 @@ cargo new web_app
 
 The preceding command builds a basic Cargo Rust project. If we explore this application, we'll see the following structure:
 
-└── web_app ├── Cargo.toml └── src └── main.rs
+|── web_app
+├── Cargo.toml
+└── src
+    └── main.rs
 
 We can see that there is only one Rust file, and this is the main.rs file that is housed in the src directory. If you open the main.rs file, you will see that this is the same as the file that we made in the previous section. It is an entry point with the default code printing out hello world to the console. The dependencies and metadata for our project are defined in the Cargo.toml file.
 
@@ -160,7 +163,14 @@ Now that we have a well-documented, running Cargo project, we need to be able to
 
 Now that we have our program running and using third-party modules, we can start to interact with our Rust programs through command-line inputs. This is where we start to build out our web application for most of the book. We will keep everything isolated, giving us maximum flexibility. Initially, our project will take the following file structure:
 
-├── Cargo.toml └── to_do └── core ├── Cargo.toml └── src └── main.rs
+```text
+├── Cargo.toml
+└── to_do
+    └── core
+        ├── Cargo.toml
+        └── src
+            └── main.rs
+```
 
 Here, we have defined our to_do service. Inside the to_do service, we have a core module. The core module is where we run our core logic which is handling the creation of to-do items. Later, we will build out the data access module and networking modules for the to_do service.
 
@@ -272,7 +282,22 @@ To avoid mistakes and repetitive code, we can build a Base struct and have that 
 
 Before we write any code, we need to define the file structure for our to-do structs. Our whole entire application now needs to have the following outline:
 
-├── Cargo.toml └── to_do └── core ├── Cargo.toml └── src ├── api │ └── mod.rs ├── enums.rs ├── main.rs └── structs ├── base.rs ├── done.rs ├── mod.rs └── pending.rs
+```text
+├── Cargo.toml
+└── to_do
+    └── core
+        ├── Cargo.toml
+        └── src
+            ├── api
+            │   └── mod.rs
+            ├── enums.rs
+            ├── main.rs
+            └── structs
+                ├── base.rs
+                ├── done.rs
+                ├── mod.rs
+                └── pending.rs
+```
 
 Here we can see that we have defined two modules, api and structs in the core of the to_do service. You might note that there is a mod.rs in the api and structs directories. The mod.rs enables us to declare files in the module. For instance, we can declare the files in the structs module with the following code:
 
@@ -362,7 +387,18 @@ The api module gives other developers a clean interface to interact with. This c
 
 For now, our api module takes the following form:
 
-├── Cargo.toml └── to_do └── core ├── Cargo.toml └── src ├── api │ ├── basic_actions │ │ ├── create.rs │ │ └── mod.rs │ └── mod.rs
+```text
+├── Cargo.toml
+└── to_do
+    └── core
+        ├── Cargo.toml
+        └── src
+            ├── api
+            │   ├── basic_actions
+            │   │   ├── create.rs
+            │   │   └── mod.rs
+            │   └── mod.rs
+```
 
 Our api module is already defined in our main.rs file. So, all we need is the following declarations to have our create in the api module plugged in:
 

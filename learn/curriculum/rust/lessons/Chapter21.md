@@ -1134,11 +1134,11 @@ the code more readable and maintainable. The Into trait is automatically
 implemented for types that implement From, allowing for easy conversion
 back to the original type. In the bad example, manual conversions are used,
 which can lead to more verbose and error-prone code.
+
 **Memo**
 The From trait is often preferred over the Into trait when implementing
 conversions because From is more flexible and can be automatically
-converted into Into. This means that if you implement `From<T>` for U, you
-get `Into<U>` for T for free.
+converted into Into.
 
 18
 Use Cow (Clone on Write) for efficient
@@ -4234,6 +4234,8 @@ let tuple = ("Alice".to_string(), 30);
 let person = create_person(tuple.0, tuple.1);
 println!("Name: {}, Age: {}", person.name, person.age);
 }
+```
+
 The good code example implements the From trait for Person, allowing
 seamless conversion from a tuple to Person using the .into() method. This
 approach is more idiomatic and flexible.
@@ -4252,6 +4254,7 @@ The following code demonstrates the use of Cow to handle both borrowed
 and owned strings efficiently:
 
 ### Good Code Example 68
+
 ```rust
 use std::borrow::Cow;
 fn process_string(input: &str) -> Cow<str> {
@@ -4288,6 +4291,7 @@ let s2 = "I love coding";
 println!("Processed: {}", process_string(s1));
 println!("Processed: {}", process_string(s2));
 }
+```
 
 The good code example uses Cow to efficiently handle both borrowed and
 owned data. It avoids unnecessary allocations when no modifications are
@@ -4307,6 +4311,7 @@ The following code demonstrates proper use of Rc for shared ownership in
 a single-threaded context:
 
 ### Good Code Example 69
+
 ```rust
 use std::rc::Rc;
 // Define a simple struct
@@ -4563,6 +4568,7 @@ let quantity = 15;
 let final_price = price * (1.0 - (if quantity > 10 { 0.1 } else { 0.05 }) (quantity as f64 * 0.01).min(0.2));
 println!("Final price: ${:.2}", final_price);
 }
+```
 
 The good code example introduces a helper function calculate_discount that
 encapsulates the complex discount calculation logic. This approach
@@ -4582,6 +4588,7 @@ The following code shows how parentheses can be used to make the order
 of operations clear:
 
 ### Good Code Example 74
+
 ```rust
 fn main() {
 let a = 5;
@@ -4615,6 +4622,7 @@ let y = 4;
 let z = x + y * 2 - x / y;
 println!("z: {}", z);
 }
+```
 
 The good code example uses parentheses to explicitly show the intended
 order of operations. This makes it immediately clear how the expressions
@@ -4637,6 +4645,7 @@ multiple method calls in a single line can obscure the logic and make it
 harder for others to understand and maintain the code.
 
 ### Good Code Example 75
+
 ```rust
 // Good example: Method calls are broken into multiple lines for clarity.
 let data = vec![1, 2, 3, 4, 5];
@@ -5707,7 +5716,7 @@ println!("File contents: {}", contents);
 The good example uses Result to handle potential errors gracefully. It
 defines a custom error type FileReadError that encapsulates both IO errors
 and a specific error for empty files. The read_file_contents function returns
-a Result<String, FileReadError>, allowing the caller to handle different
+a `Result<String, FileReadError>`, allowing the caller to handle different
 error cases.
 The bad example, on the other hand, uses unwrap() which will panic if an
 error occurs. This approach is less robust and doesn't provide the caller with
@@ -6106,6 +6115,7 @@ let rectangle = Rectangle { width: 4.0, height: 3.0 };
 println!("Circle area: {}", circle_area(&circle));
 println!("Rectangle area: {}", rectangle_area(&rectangle));
 }
+```
 
 The good code example uses a trait Shape to define a common interface for
 different shapes. This allows for polymorphism, as demonstrated by the
@@ -6125,6 +6135,7 @@ The following code demonstrates the use of impl Trait in function
 signatures:
 
 ### Good Code Example 98
+
 ```rust
 use std::fmt::Display;
 // Function that returns an impl Trait
@@ -6162,6 +6173,7 @@ println!("{}", greeter("Alice".to_string()));
 print_twice(42);
 print_twice("Rust");
 }
+```
 
 The good code example uses impl Trait in function signatures, making the
 code more concise and easier to read. For create_greeter, it avoids the need
@@ -6182,6 +6194,7 @@ The following example demonstrates a macro that simplifies logging with
 different severity levels.
 
 ### Good Code Example 99
+
 ```rust
 // Define a macro for logging with different severity levels
 macro_rules! log {

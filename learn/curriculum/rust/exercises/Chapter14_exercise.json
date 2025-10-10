@@ -1,0 +1,57 @@
+{
+  "id": "Chapter14_exercise",
+  "title": "Smart Pointers Mastery Exercise",
+  "description": "Demonstrate comprehensive understanding of Rust's smart pointers including Box<T>, Rc<T>, RefCell<T>, and Weak<T>. This exercise will guide you through implementing recursive data structures, reference counting, interior mutability, and preventing memory leaks through proper smart pointer usage.\n\nComplete the following tasks:\n1. Implement a recursive data structure using Box<T>\n2. Create a multi-owner data structure with Rc<T>\n3. Implement interior mutability with RefCell<T>\n4. Combine Rc<T> and RefCell<T> for shared mutable state\n5. Use Weak<T> to prevent reference cycles\n6. Demonstrate proper cleanup and memory management",
+  "difficulty": "advanced",
+  "starterCode": "// Smart Pointers Exercise\n// Implement various smart pointer patterns\n\n// 1. Box<T> for recursive types\nenum List<T> {\n    Cons(T, Box<List<T>>),\n    Nil,\n}\n\n// 2. Rc<T> for shared ownership\nuse std::rc::Rc;\n\n// 3. RefCell<T> for interior mutability\nuse std::cell::RefCell;\n\n// 4. Weak<T> for preventing cycles\nuse std::rc::Weak;\n\n// TODO: Implement the required structs and functions\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_box_recursive_list() {\n        // Test basic Box<T> usage\n        let list = List::Cons(1, Box::new(List::Cons(2, Box::new(List::Nil))));\n        // Add assertions\n    }\n\n    #[test]\n    fn test_rc_shared_ownership() {\n        // Test Rc<T> reference counting\n        let data = Rc::new(42);\n        let owner1 = Rc::clone(&data);\n        let owner2 = Rc::clone(&data);\n        assert_eq!(Rc::strong_count(&data), 3);\n    }\n\n    #[test]\n    fn test_refcell_interior_mutability() {\n        // Test RefCell<T> interior mutability\n        let value = RefCell::new(5);\n        *value.borrow_mut() += 1;\n        assert_eq!(*value.borrow(), 6);\n    }\n\n    #[test]\n    fn test_combined_rc_refcell() {\n        // Test Rc<RefCell<T>> for shared mutable state\n        let shared = Rc::new(RefCell::new(vec![1, 2, 3]));\n        let borrower1 = Rc::clone(&shared);\n        let borrower2 = Rc::clone(&shared);\n        \n        borrower1.borrow_mut().push(4);\n        borrower2.borrow_mut().push(5);\n        \n        assert_eq!(*shared.borrow(), vec![1, 2, 3, 4, 5]);\n    }\n\n    #[test]\n    fn test_weak_references() {\n        // Test Weak<T> for non-owning references\n        let strong = Rc::new(42);\n        let weak = Rc::downgrade(&strong);\n        \n        assert_eq!(Rc::weak_count(&strong), 1);\n        assert_eq!(Rc::strong_count(&strong), 1);\n        \n        // Test upgrading weak reference\n        if let Some(value) = weak.upgrade() {\n            assert_eq!(*value, 42);\n        } else {\n            panic!(\"Weak reference should be valid\");\n        }\n    }\n\n    #[test]\n    fn test_no_reference_cycles() {\n        // Test that your implementation doesn't create cycles\n        // This should pass without panicking\n    }\n}",
+  "tests": [
+    {
+      "name": "Box<T> recursive list creation works",
+      "call": "List::Cons(1, Box::new(List::Cons(2, Box::new(List::Nil))))",
+      "expected": "List created successfully",
+      "type": "output"
+    },
+    {
+      "name": "Rc<T> reference counting works",
+      "call": "Rc::strong_count(&Rc::new(42))",
+      "expected": "1",
+      "type": "output"
+    },
+    {
+      "name": "RefCell<T> allows interior mutation",
+      "call": "let x = RefCell::new(5); *x.borrow_mut() = 10; *x.borrow()",
+      "expected": "10",
+      "type": "output"
+    },
+    {
+      "name": "Rc<RefCell<T>> enables shared mutation",
+      "call": "let shared = Rc::new(RefCell::new(0)); let clone = Rc::clone(&shared); *clone.borrow_mut() += 5; *shared.borrow()",
+      "expected": "5",
+      "type": "output"
+    },
+    {
+      "name": "Weak<T> prevents cycles",
+      "call": "let strong = Rc::new(42); let weak = Rc::downgrade(&strong); drop(strong); weak.upgrade().is_none()",
+      "expected": "true",
+      "type": "output"
+    },
+    {
+      "name": "Memory cleanup works properly",
+      "call": "cargo test --lib",
+      "expected": "all tests passed",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use Box<T> for recursive types where the size isn't known at compile time",
+    "Use Rc<T> when you need multiple ownership of the same data",
+    "Use RefCell<T> when you need to mutate data through an immutable reference",
+    "Combine Rc<RefCell<T>> for shared mutable state across multiple owners",
+    "Use Weak<T> for parent-child relationships to prevent reference cycles",
+    "Always check reference counts with Rc::strong_count() and Rc::weak_count()",
+    "Use borrow() and borrow_mut() methods on RefCell<T> appropriately",
+    "Call Rc::downgrade() to create weak references from strong ones",
+    "Use Weak::upgrade() to safely access data that might have been dropped"
+  ],
+  "tags": ["smart-pointers", "box", "rc", "refcell", "weak", "interior-mutability", "reference-counting", "memory-management"]
+}

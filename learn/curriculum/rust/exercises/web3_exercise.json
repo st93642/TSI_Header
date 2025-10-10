@@ -1,0 +1,42 @@
+{
+  "exerciseId": "web3_exercise",
+  "languageId": "rust",
+  "title": "Chapter 4: Async Rust Fundamentals",
+  "description": "Implement async Rust patterns including futures, async functions, tokio runtime, and concurrent task execution. This exercise covers spawning tasks, using async channels, implementing timeouts, and building async services.",
+  "difficulty": "advanced",
+  "starterCode": "use tokio::time::{sleep, Duration};\nuse tokio::sync::mpsc;\nuse std::sync::Arc;\nuse tokio::sync::Mutex;\n\n// TODO: Implement async service with channels\n// TODO: Create concurrent task execution\n// TODO: Add timeout handling\n// TODO: Implement async data processing\n\n#[tokio::main]\nasync fn main() {\n    // Test your async implementation here\n    println!(\"Async Rust patterns implemented!\");\n}",
+  "tests": [
+    {
+      "name": "Async task spawning works correctly",
+      "call": "test_async_task_spawning()",
+      "expected": "Task 1 completed\\nTask 2 completed\\nTask 3 completed",
+      "type": "output"
+    },
+    {
+      "name": "Async channels work properly",
+      "call": "test_async_channels()",
+      "expected": "Received: Hello\\nReceived: World\\nReceived: Async",
+      "type": "output"
+    },
+    {
+      "name": "Timeout handling works",
+      "call": "test_timeout_handling()",
+      "expected": "Fast operation completed\\nSlow operation timed out",
+      "type": "output"
+    },
+    {
+      "name": "Concurrent data processing works",
+      "call": "test_concurrent_processing()",
+      "expected": "Processed 100 items concurrently",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use tokio::spawn to create concurrent tasks",
+    "Implement channels with mpsc for async communication",
+    "Use tokio::time::timeout for operation timeouts",
+    "Use Arc<Mutex<>> for shared mutable state in async contexts",
+    "Remember to await all async operations"
+  ],
+  "tags": ["async", "tokio", "futures", "concurrency", "channels"]
+}

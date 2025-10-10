@@ -1,0 +1,26 @@
+{
+  "id": "Chapter11_exercise",
+  "title": "An I/O Project: Building a Command Line Program",
+  "description": "Build a command line text processing tool that demonstrates I/O operations, error handling, and command line argument parsing. Create a program that can count words, lines, and characters in text files, with options for case sensitivity and output formatting.\n\n**What you need to implement:**\n- A command line tool that accepts file paths and processing options\n- Word counting functionality (count words, lines, characters)\n- Case-sensitive and case-insensitive word counting modes\n- Environment variable support for default behavior\n- Proper error handling with meaningful error messages\n- Standard error output for errors, standard output for results\n- Modular code structure with library functions\n- Comprehensive tests for all functionality\n\n**Expected output:**\nYour program should handle various scenarios:\n```\n$ cargo run -- input.txt\nLines: 10\nWords: 50\nCharacters: 250\n\n$ CASE_INSENSITIVE=1 cargo run -- input.txt\nLines: 10\nWords: 48 (case insensitive)\nCharacters: 250\n```\n\n**Requirements:**\n- Accept command line arguments for file paths\n- Support environment variables for configuration\n- Handle file reading errors gracefully\n- Print results to stdout, errors to stderr\n- Include unit tests for core functionality\n- Follow modular design principles",
+  "difficulty": "intermediate",
+  "starterCode": "use std::env;\nuse std::fs;\nuse std::error::Error;\nuse std::process;\n\npub struct Config {\n    pub file_path: String,\n    pub case_sensitive: bool,\n}\n\nimpl Config {\n    pub fn build(args: &[String]) -> Result<Config, &'static str> {\n        // Parse command line arguments\n        // Check for environment variables\n        // Return Config or error\n    }\n}\n\npub fn run(config: Config) -> Result<(), Box<dyn Error>> {\n    // Read file contents\n    // Process text based on configuration\n    // Print results to stdout\n    // Return success or error\n}\n\npub fn count_text(content: &str, case_sensitive: bool) -> (usize, usize, usize) {\n    // Count lines, words, and characters\n    // Handle case sensitivity for word counting\n    // Return tuple of (lines, words, characters)\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    // Implement comprehensive tests\n    // Test Config::build\n    // Test count_text function\n    // Test error handling\n}",
+  "tests": [
+    {
+      "name": "Command line text processing tool",
+      "call": "cargo test",
+      "expected": "running 6 tests\ntest tests::test_case_insensitive_counting ... ok\ntest tests::test_case_sensitive_counting ... ok\ntest tests::test_config_build ... ok\ntest tests::test_count_text ... ok\ntest tests::test_error_handling ... ok\ntest tests::test_run_function ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use std::env::args() to collect command line arguments",
+    "Use std::env::var() to check environment variables",
+    "Use fs::read_to_string() for file reading",
+    "Use eprintln! for error messages, println! for results",
+    "Split code between lib.rs (logic) and main.rs (CLI interface)",
+    "Test Config::build with various argument combinations",
+    "Test count_text with different text samples and case settings",
+    "Handle file not found and permission errors appropriately"
+  ],
+  "tags": ["command-line", "file-io", "error-handling", "environment-variables", "modularity", "testing"]
+}

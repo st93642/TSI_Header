@@ -1,0 +1,50 @@
+{
+  "exerciseId": "web5_exercise",
+  "languageId": "rust",
+  "title": "Chapter 6: Processing HTTP Requests and Responses",
+  "description": "Implement comprehensive HTTP request processing including path parameters, query strings, request bodies, headers, form data, and file uploads. This exercise covers request validation, content negotiation, and building complex API responses.",
+  "difficulty": "advanced",
+  "starterCode": "use actix_web::{web, HttpResponse, Result};\nuse serde::{Deserialize, Serialize};\nuse std::collections::HashMap;\n\n// TODO: Implement path parameter handling\n// TODO: Add query parameter processing\n// TODO: Handle JSON request bodies\n// TODO: Process form data and file uploads\n// TODO: Implement request validation\n// TODO: Add content negotiation\n\n#[derive(Deserialize)]\npub struct QueryParams {\n    // Define query parameters\n}\n\n#[derive(Serialize)]\npub struct ApiResponse<T> {\n    // Define response structure\n}\n\nasync fn process_request() -> Result<HttpResponse> {\n    // Test your request processing here\n    Ok(HttpResponse::Ok().json(\"Request processed!\"))\n}\n\npub fn main() {\n    println!(\"HTTP request processing implemented!\");\n}",
+  "tests": [
+    {
+      "name": "Path parameters are extracted correctly",
+      "call": "test_path_parameters()",
+      "expected": "User ID: 123, Post ID: 456",
+      "type": "output"
+    },
+    {
+      "name": "Query parameters are processed properly",
+      "call": "test_query_parameters()",
+      "expected": "Limit: 10, Offset: 20, Sort: name",
+      "type": "output"
+    },
+    {
+      "name": "JSON request bodies are handled",
+      "call": "test_json_bodies()",
+      "expected": "Received user: John Doe, age: 30",
+      "type": "output"
+    },
+    {
+      "name": "Form data processing works",
+      "call": "test_form_data()",
+      "expected": "Form submitted: title=Test, content=Content",
+      "type": "output"
+    },
+    {
+      "name": "Request validation works",
+      "call": "test_validation()",
+      "expected": "Validation passed for valid data\\nValidation failed for invalid data",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Use web::Path<T> for path parameters like /users/{id}",
+    "Use web::Query<T> for query parameters like ?limit=10&offset=20",
+    "Use web::Json<T> for JSON request bodies",
+    "Use web::Form<T> for URL-encoded form data",
+    "Implement custom extractors for complex validation",
+    "Use serde for serialization/deserialization",
+    "Handle different content types with proper headers"
+  ],
+  "tags": ["http-requests", "parameters", "json", "forms", "validation", "extractors"]
+}

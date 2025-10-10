@@ -1,0 +1,51 @@
+{
+  "exerciseId": "web10_exercise",
+  "languageId": "rust",
+  "title": "Chapter 11: API Design and Documentation",
+  "description": "Implement comprehensive API design principles including RESTful design, OpenAPI/Swagger documentation, API versioning, error handling, pagination, filtering, and hypermedia controls. This exercise covers API specification, documentation generation, and client SDK development.",
+  "difficulty": "advanced",
+  "starterCode": "use actix_web::{web, HttpResponse, Result};\nuse serde::{Deserialize, Serialize};\nuse std::collections::HashMap;\n\n// TODO: Design RESTful API endpoints\n// TODO: Implement OpenAPI documentation\n// TODO: Add API versioning\n// TODO: Implement pagination and filtering\n// TODO: Add hypermedia controls\n// TODO: Create API specification\n\n#[derive(Serialize, Deserialize)]\npub struct ApiResponse<T> {\n    // Define API response structure\n}\n\n#[derive(Deserialize)]\npub struct PaginationQuery {\n    // Define pagination parameters\n}\n\npub fn main() {\n    // Test your API design here\n    println!(\"API design implemented!\");\n}",
+  "tests": [
+    {
+      "name": "RESTful endpoints follow conventions",
+      "call": "test_restful_endpoints()",
+      "expected": "GET /api/v1/users - List users\\nPOST /api/v1/users - Create user\\nGET /api/v1/users/123 - Get user\\nPUT /api/v1/users/123 - Update user\\nDELETE /api/v1/users/123 - Delete user",
+      "type": "output"
+    },
+    {
+      "name": "OpenAPI documentation generates",
+      "call": "test_openapi_docs()",
+      "expected": "OpenAPI spec generated\\nSwagger UI available at /docs",
+      "type": "output"
+    },
+    {
+      "name": "API versioning works correctly",
+      "call": "test_api_versioning()",
+      "expected": "v1 API active\\nv2 API available\\nBackward compatibility maintained",
+      "type": "output"
+    },
+    {
+      "name": "Pagination and filtering work",
+      "call": "test_pagination_filtering()",
+      "expected": "Page 1 of 5 returned\\nFiltered by status=active\\nSorted by created_at desc",
+      "type": "output"
+    },
+    {
+      "name": "Hypermedia controls included",
+      "call": "test_hypermedia()",
+      "expected": "HATEOAS links included\\nSelf link: /api/v1/users/123\\nRelated links provided",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Follow RESTful conventions for resource naming",
+    "Use OpenAPI/Swagger for API documentation",
+    "Implement proper HTTP status codes",
+    "Add pagination with limit/offset or cursor-based",
+    "Include hypermedia links in responses",
+    "Version APIs with URL paths or headers",
+    "Document error responses comprehensively",
+    "Use consistent JSON response formats"
+  ],
+  "tags": ["api-design", "rest", "openapi", "documentation", "versioning", "pagination"]
+}

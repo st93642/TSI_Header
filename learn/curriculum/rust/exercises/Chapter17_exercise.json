@@ -1,0 +1,47 @@
+{
+  "id": "chapter17_exercise",
+  "title": "Chapter 17: Object-Oriented Programming Features",
+  "description": "Practice implementing object-oriented concepts in Rust including encapsulation, polymorphism with trait objects, and the state pattern. This exercise covers Rust's approach to OOP features.",
+  "difficulty": "advanced",
+  "starterCode": "use std::fmt;\n\n// TODO: Define a trait for drawable objects\n// trait Drawable {\n//     fn draw(&self);\n// }\n\n// TODO: Implement structs that represent different shapes\n// struct Circle {\n//     radius: f64,\n// }\n//\n// struct Rectangle {\n//     width: f64,\n//     height: f64,\n// }\n\n// TODO: Implement the Drawable trait for both shapes\n\n// TODO: Create a struct that holds a collection of drawable objects\n// struct Drawing {\n//     shapes: Vec<Box<dyn Drawable>>,\n// }\n\n// TODO: Implement methods for the Drawing struct\n\n// TODO: Implement a simple state machine for a blog post\n// Define states: Draft, PendingReview, Published\n// trait PostState {\n//     fn request_review(self: Box<Self>) -> Box<dyn PostState>;\n//     fn approve(self: Box<Self>) -> Box<dyn PostState>;\n//     fn content(&self, post: &Post) -> &str;\n// }\n\n// TODO: Define the Post struct\n// struct Post {\n//     state: Option<Box<dyn PostState>>,\n//     content: String,\n// }\n\n// TODO: Implement methods for Post\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_shapes() {\n        // TODO: Test that shapes can be drawn\n    }\n\n    #[test]\n    fn test_drawing() {\n        // TODO: Test that drawing can hold multiple shapes\n    }\n\n    #[test]\n    fn test_blog_post_workflow() {\n        // TODO: Test the complete blog post state workflow\n    }\n}",
+  "tests": [
+    {
+      "name": "Circle implements Drawable",
+      "call": "let circle = Circle { radius: 5.0 }; circle.draw()",
+      "expected": "Circle with radius 5",
+      "type": "output"
+    },
+    {
+      "name": "Rectangle implements Drawable",
+      "call": "let rect = Rectangle { width: 10.0, height: 8.0 }; rect.draw()",
+      "expected": "Rectangle 10x8",
+      "type": "output"
+    },
+    {
+      "name": "Drawing holds multiple shapes",
+      "call": "let mut drawing = Drawing::new(); drawing.add_shape(Box::new(Circle { radius: 3.0 })); drawing.add_shape(Box::new(Rectangle { width: 4.0, height: 5.0 })); drawing.draw_all()",
+      "expected": "Drawing all shapes",
+      "type": "output"
+    },
+    {
+      "name": "Blog post starts as draft",
+      "call": "let post = Post::new(); post.content()",
+      "expected": "",
+      "type": "return"
+    },
+    {
+      "name": "Blog post workflow",
+      "call": "let mut post = Post::new(); post.add_text(\"Hello World\"); post.request_review(); post.approve(); post.content()",
+      "expected": "Hello World",
+      "type": "return"
+    }
+  ],
+  "hints": [
+    "Use trait objects with Box<dyn Trait> for polymorphism",
+    "Implement encapsulation by making fields private and providing public methods",
+    "For the state pattern, use trait objects to represent different states",
+    "Use self: Box<Self> in trait methods to consume and transform state",
+    "Remember to handle ownership properly when transitioning between states"
+  ],
+  "tags": ["oop", "traits", "polymorphism", "encapsulation", "state-pattern", "trait-objects"]
+}

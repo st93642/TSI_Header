@@ -1,0 +1,42 @@
+{
+  "exerciseId": "web1_exercise",
+  "languageId": "rust",
+  "title": "Chapter 1: Useful Rust Patterns for Web Programming",
+  "description": "Implement a comprehensive web programming system using Rust patterns including traits for permissions, macros for message mapping, trait-based configuration, and type-state patterns. This exercise covers user management with role-based permissions, message routing with macros, database abstraction with traits, and state management with type safety.",
+  "difficulty": "advanced",
+  "starterCode": "use std::collections::HashMap;\nuse std::marker::PhantomData;\n\n// TODO: Define user structs with permissions\n// TODO: Implement traits for permissions\n// TODO: Create message mapping macro\n// TODO: Implement database abstraction with traits\n// TODO: Add type-state pattern for transactions\n\nfn main() {\n    // Test your implementation here\n    println!(\"Web programming patterns implemented!\");\n}",
+  "tests": [
+    {
+      "name": "User permissions work correctly",
+      "call": "test_user_permissions()",
+      "expected": "Admin can create, edit, and delete. User can only edit.",
+      "type": "output"
+    },
+    {
+      "name": "Message mapping macro works",
+      "call": "test_message_mapping()",
+      "expected": "Contract One processed\\nContract Two processed\\nUser John found",
+      "type": "output"
+    },
+    {
+      "name": "Database abstraction with traits works",
+      "call": "test_database_abstraction()",
+      "expected": "Found user: John, age: 30",
+      "type": "output"
+    },
+    {
+      "name": "Type-state pattern prevents invalid operations",
+      "call": "test_type_state_pattern()",
+      "expected": "Transaction 1 committed successfully",
+      "type": "output"
+    }
+  ],
+  "hints": [
+    "Start by defining user structs and permission traits",
+    "Create a macro for mapping messages to handler functions",
+    "Use traits without self references for database abstraction",
+    "Implement PhantomData for type-state pattern",
+    "Test each component separately before combining them"
+  ],
+  "tags": ["traits", "macros", "web-programming", "type-state", "permissions"]
+}
