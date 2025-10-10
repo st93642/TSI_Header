@@ -1,8 +1,8 @@
 {
   "name": "tsi-header",
-  "displayName": "TSI Header - st93642",
-  "description": "Code generation and headers for 120+ languages with 100% quality assurance",
-  "version": "6.1.0",
+  "displayName": "TSI Header, Learn & Pomodoro",
+  "description": "Code generation and headers, learning modules, and Pomodoro timer for focused study sessions",
+  "version": "6.1.1",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
