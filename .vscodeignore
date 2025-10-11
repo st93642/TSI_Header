@@ -5,42 +5,68 @@
 .env
 node_modules/
 npm-debug.log*
+yarn-error.log*
 
-# Test files
+# Test files and directories
 spec/
 scripts/
-!scripts/comprehensive_language_test.rb
 *.test.js
 *.test.rb
 learn/tests/
 test_output/
 TEST_Suite/
 Libft/
+tests/
+.ruby-lsp/
 
 # Documentation and development
 *.md
 !README.md
 docs/
 ref.txt
+.markdownlint.json
 
 # Temporary files
 .DS_Store
 Thumbs.db
 *.tmp
 *.temp
+*.log
 
 # Ruby specific
 Gemfile
 Gemfile.lock
 .bundle/
 
-# Build artifacts
+# Build artifacts and cache
 out/test/
 .nyc_output/
 coverage/
+*.tsbuildinfo
 
 # Development scripts (keep only essential ones)
 scripts/add_headers.rb
 scripts/project_status.rb
 scripts/installation_guide.rb
+scripts/comprehensive_language_test.rb
 learn_exercises/
+
+# Source maps and development assets
+*.map
+*.ts
+!core/src/extension.js
+
+# Package manager files
+package-lock.json
+yarn.lock
+
+# IDE files
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+Icon?
+.AppleDouble
+.LSOverride
