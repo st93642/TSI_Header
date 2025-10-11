@@ -33,6 +33,12 @@
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             height: 'auto',
+            timeZone: 'local', // Explicitly use local timezone
+            eventTimeFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Force 24-hour format
+            },
             events: [],
             eventClick: handleEventClick,
             dateClick: handleDateClick,
@@ -264,7 +270,7 @@
                 ${extendedProps.data.description ? `
                     <div class="description-section">
                         <strong>Description:</strong>
-                        <div class="description-content">${extendedProps.data.description.replace(/\n/g, '<br>')}</div>
+                        <div class="description-content">${makeLinksClickable(extendedProps.data.description.replace(/\n/g, '<br>'))}</div>
                     </div>
                 ` : ''}
                 ${extendedProps.type === 'deadline' ? `<p><strong>Priority:</strong> ${extendedProps.data.priority}</p>` : ''}
@@ -429,6 +435,14 @@
                 font-size: var(--vscode-font-size);
                 line-height: 1.4;
             }
+            .description-link {
+                color: var(--vscode-textLink-foreground);
+                text-decoration: underline;
+                cursor: pointer;
+            }
+            .description-link:hover {
+                color: var(--vscode-textLink-activeForeground);
+            }
             .modal-actions {
                 display: flex;
                 gap: 10px;
@@ -517,7 +531,7 @@
                     <div class="deadline-title">${deadline.title}</div>
                     <div class="deadline-meta">
                         Due: ${formatDate(new Date(deadline.dueDate))}
-                        ${deadline.description ? `• ${deadline.description}` : ''}
+                        ${deadline.description ? `• ${makeLinksClickable(deadline.description.length > 50 ? deadline.description.substring(0, 50) + '...' : deadline.description)}` : ''}
                     </div>
                 </div>
                 <div class="deadline-actions">
@@ -746,13 +760,37 @@
     }
 
     /**
+     * Convert URLs in text to clickable links
+     */
+    function makeLinksClickable(text) {
+        if (!text) return text;
+
+        try {
+            // Regex to match URLs (http, https, ftp, etc.)
+            const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
+            // Replace URLs with clickable links
+            return text.replace(urlRegex, function(url) {
+                return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="description-link">${url}</a>`;
+            });
+        } catch (error) {
+            console.error('Error making links clickable:', error);
+            return text; // Return original text if there's an error
+        }
+    }
+
+    /**
      * Format date for display
      */
     function formatDate(date) {
         if (!date) return '';
 
         const d = new Date(date);
-        return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const dateStr = d.toLocaleDateString();
+        // Force 24-hour format - use local time since times are now treated as local
+        const hours = d.getHours().toString().padStart(2, '0');
+        const minutes = d.getMinutes().toString().padStart(2, '0');
+        return `${dateStr} ${hours}:${minutes}`;
     }
 
 })();

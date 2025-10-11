@@ -588,7 +588,8 @@ class CalendarManager {
     parseICalendar(icsData) {
         const events = [];
         // First, unfold folded lines (lines that start with a space are continuations)
-        const unfoldedData = icsData.replace(/\r?\n /g, '');
+        // Handle both CRLF and LF line endings, and various folding patterns
+        const unfoldedData = icsData.replace(/\r?\n[ \t]/g, '');
         const lines = unfoldedData.split('\n');
         let currentEvent = null;
 
@@ -614,10 +615,14 @@ class CalendarManager {
                         currentEvent.description = value.replace(/\\n/g, '\n').replace(/\\,/g, ',');
                         break;
                     case 'DTSTART':
-                        currentEvent.startDate = this.parseICalendarDate(value);
+                        const startInfo = this.parseICalendarDateTime(value);
+                        currentEvent.startDate = startInfo.date;
+                        currentEvent.startTime = startInfo.time;
                         break;
                     case 'DTEND':
-                        currentEvent.endDate = this.parseICalendarDate(value);
+                        const endInfo = this.parseICalendarDateTime(value);
+                        currentEvent.endDate = endInfo.date;
+                        currentEvent.endTime = endInfo.time;
                         break;
                     case 'DUE':
                         currentEvent.dueDate = this.parseICalendarDate(value);
@@ -651,14 +656,24 @@ class CalendarManager {
                 });
             } else if (event.startDate) {
                 // This is an event
-                calendarData.customEvents.push({
+                const customEvent = {
                     id: event.id || Date.now().toString(),
                     title: event.title || 'Imported Event',
                     description: event.description || '',
                     date: event.startDate,
                     category: 'Other',
                     createdAt: new Date().toISOString()
-                });
+                };
+
+                // Add time information if available
+                if (event.startTime) {
+                    customEvent.time = event.startTime;
+                }
+                if (event.endTime) {
+                    customEvent.endTime = event.endTime;
+                }
+
+                calendarData.customEvents.push(customEvent);
             }
         });
 
@@ -666,27 +681,77 @@ class CalendarManager {
     }
 
     /**
-     * Parse iCalendar date format
+     * Parse iCalendar date/time format - display raw calendar times
      */
-    parseICalendarDate(dateString) {
-        // Handle different iCalendar date formats
-        // YYYYMMDDTHHMMSS or YYYYMMDD
-        if (dateString.includes('T')) {
+    parseICalendarDateTime(dateTimeString) {
+        // Parse iCalendar date/time and display exactly as in remote calendar
+        // Handle timezone information properly
+
+        let dateTime = dateTimeString;
+        let isUTC = false;
+
+        // Handle timezone indicators
+        if (dateTimeString.includes(';TZID=')) {
+            // Extract just the date/time part after TZID parameter
+            const tzidMatch = dateTimeString.match(/^[^:]*;TZID=[^:]+:(.*)$/);
+            if (tzidMatch) {
+                dateTime = tzidMatch[1];
+                // Times with TZID are in the specified timezone - treat as local time
+            }
+        }
+
+        // Handle UTC indicator (Z)
+        if (dateTime.endsWith('Z')) {
+            dateTime = dateTime.slice(0, -1);
+            isUTC = true;
+        }
+
+        // Parse the date/time components
+        let match;
+        if (dateTime.includes('T')) {
             // DateTime format: YYYYMMDDTHHMMSS
-            const match = dateString.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/);
+            match = dateTime.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})$/);
             if (match) {
                 const [, year, month, day, hour, minute, second] = match;
-                return `${year}-${month}-${day}`;
+
+                // If it's marked as UTC, convert to local time for display
+                let displayHour = parseInt(hour);
+                let displayMinute = parseInt(minute);
+
+                if (isUTC) {
+                    // Convert UTC to local time
+                    const utcDate = new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}Z`);
+                    displayHour = utcDate.getHours();
+                    displayMinute = utcDate.getMinutes();
+                }
+
+                const time = `${displayHour.toString().padStart(2, '0')}:${displayMinute.toString().padStart(2, '0')}`;
+                return {
+                    date: `${year}-${month}-${day}`,
+                    time: time
+                };
             }
         } else {
             // Date format: YYYYMMDD
-            const match = dateString.match(/^(\d{4})(\d{2})(\d{2})/);
+            match = dateTime.match(/^(\d{4})(\d{2})(\d{2})$/);
             if (match) {
                 const [, year, month, day] = match;
-                return `${year}-${month}-${day}`;
+                return {
+                    date: `${year}-${month}-${day}`,
+                    time: null
+                };
             }
         }
-        return dateString; // Return as-is if parsing fails
+
+        return { date: dateTimeString, time: null }; // Return as-is if parsing fails
+    }
+
+    /**
+     * Parse iCalendar date format (legacy method for DUE dates)
+     */
+    parseICalendarDate(dateString) {
+        const result = this.parseICalendarDateTime(dateString);
+        return result.date;
     }
     async fetchUrl(url) {
         return new Promise((resolve, reject) => {

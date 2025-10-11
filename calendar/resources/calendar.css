@@ -133,6 +133,25 @@
     border: none;
     font-size: 0.85em;
     padding: 2px 6px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+    line-height: 1.2;
+    max-height: none;
+}
+
+.fc-event-main {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.fc-event-title {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    display: block;
 }
 
 .fc-event:hover {

@@ -177,19 +177,33 @@ class CalendarEventManager {
 
                 // Check if this is a timed event (has time field)
                 if (event.time) {
-                    // Timed event - create with specific start time
-                    const startDateTime = `${event.date}T${event.time}:00`;
+                    // Timed event - create with specific start time (local timezone)
+                    // Avoid exact 00:00:00 and 23:59:00 to prevent midnight spanning issues
+                    let timeStr;
+                    if (event.time === '00:00') {
+                        timeStr = '00:00:01';
+                    } else if (event.time === '23:59') {
+                        timeStr = '23:58:00';
+                    } else {
+                        timeStr = `${event.time}:00`;
+                    }
+                    const startDateTime = `${event.date}T${timeStr}`; // No Z suffix - treat as local time
                     eventConfig.start = startDateTime;
+                    eventConfig.allDay = false; // Explicitly not all-day
 
-                    // If it has an end time, use it; otherwise make it 1 hour long
+                    // If it has an end time, use it; otherwise handle point-in-time events
                     if (event.endTime) {
-                        const endDateTime = `${event.date}T${event.endTime}:00`;
+                        const endDateTime = `${event.date}T${event.endTime}:00`; // No Z suffix - treat as local time
+                        eventConfig.end = endDateTime;
+                    } else if (event.time === '23:59') {
+                        // Special case: 23:59 events get 1 minute duration (23:58-23:59)
+                        const endDateTime = `${event.date}T23:59:00`; // No Z suffix - treat as local time
                         eventConfig.end = endDateTime;
                     } else {
-                        // Default 1 hour duration
-                        const startTime = new Date(startDateTime);
-                        const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Add 1 hour
-                        eventConfig.end = endTime.toISOString();
+                        // Point-in-time event - make it all-day with time in title
+                        eventConfig.allDay = true;
+                        eventConfig.start = event.date;
+                        eventConfig.title = `📅 ${event.time} - ${event.title}`;
                     }
                 } else {
                     // All-day event
@@ -211,14 +225,12 @@ class CalendarEventManager {
 
                 if (schedule.daysOfWeek.includes(dayOfWeek)) {
                     const eventDate = date.toISOString().split('T')[0];
-                    const startDateTime = `${eventDate}T${schedule.startTime}:00`;
-                    const endDateTime = `${eventDate}T${schedule.endTime}:00`;
 
                     events.push({
                         id: `schedule-${schedule.id}-${eventDate}`,
                         title: `⏰ ${schedule.title}`,
-                        start: startDateTime,
-                        end: endDateTime,
+                        start: `${eventDate}T${schedule.startTime}:00`, // No Z suffix - treat as local time
+                        end: `${eventDate}T${schedule.endTime}:00`, // No Z suffix - treat as local time
                         backgroundColor: this.getScheduleColor(schedule.category),
                         borderColor: this.getScheduleColor(schedule.category),
                         textColor: '#ffffff',
