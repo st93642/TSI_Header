@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 11 2025 00:23 st93642                                       */
+/*  Updated: Oct 11 2025 20:48 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -48,14 +48,85 @@ function activate(context) {
     studyModeExtension.activate();
 
     // Initialize Calendar module (lazy-loaded)
+    let calendarManager = null;
     try {
         const { CalendarManager } = require(path.join(__dirname, '..', '..', 'calendar', 'src'));
-        const calendarManager = new CalendarManager(context);
+        calendarManager = new CalendarManager(context);
         calendarManager.initialize();
         console.log('Calendar module initialized successfully');
     } catch (error) {
         console.error('Failed to initialize calendar module:', error);
     }
+
+    // Register test notification command (available even if calendar fails to initialize)
+    const testNotificationCommand = vscode.commands.registerCommand('tsiheader.testNotification', async () => {
+        try {
+            const config = vscode.workspace.getConfiguration('tsiheader');
+            const enableEmail = config.get('notifications.enableEmail', false);
+            const notificationService = config.get('notifications.emailService');
+            const email = config.get('notifications.emailAddress');
+            
+            if (!enableEmail) {
+                vscode.window.showErrorMessage(
+                    'Email notifications are disabled. Please enable tsiheader.notifications.enableEmail in settings.',
+                    'Open Settings'
+                ).then(selection => {
+                    if (selection === 'Open Settings') {
+                        vscode.commands.executeCommand('workbench.action.openSettings', '@ext:st93642.tsi-header notifications');
+                    }
+                });
+                return;
+            }
+            
+            if (!notificationService || !email) {
+                vscode.window.showErrorMessage(
+                    'Notification settings not configured. Please set tsiheader.notifications.emailService and tsiheader.notifications.emailAddress in settings.',
+                    'Open Settings'
+                ).then(selection => {
+                    if (selection === 'Open Settings') {
+                        vscode.commands.executeCommand('workbench.action.openSettings', '@ext:st93642.tsi-header notifications');
+                    }
+                });
+                return;
+            }
+
+            if (!calendarManager || !calendarManager.webviewProvider || !calendarManager.webviewProvider.notificationService) {
+                vscode.window.showErrorMessage(
+                    'Calendar module not available. The test notification feature requires the calendar module to be properly initialized.',
+                    'OK'
+                );
+                return;
+            }
+            
+            // Create a test event for tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(9, 0, 0, 0); // 9 AM tomorrow
+            
+            const testEvent = {
+                id: 'test-notification-' + Date.now(),
+                title: 'Test Notification Event',
+                type: 'custom',
+                start: tomorrow.toISOString(),
+                description: 'This is a test notification to verify your email settings are working correctly.',
+                category: 'Other'
+            };
+            
+            // Send test notification
+            const notificationResult = await calendarManager.webviewProvider.notificationService.sendNotification(testEvent, 'Test notification for TSI Header Calendar');
+            
+            if (notificationResult.success) {
+                vscode.window.showInformationMessage('✅ Test notification sent successfully! Check your email.');
+            } else {
+                vscode.window.showErrorMessage(`❌ Test notification failed: ${notificationResult.error}`);
+            }
+        } catch (error) {
+            console.error('Test notification error:', error);
+            vscode.window.showErrorMessage(`❌ Test notification error: ${error.message}`);
+        }
+    });
+    
+    context.subscriptions.push(testNotificationCommand);
 
     // Helper function to show configuration instructions
     function showConfigurationInstructions(type) {

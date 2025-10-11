@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const path = require('path');
+const { NotificationService } = require('./notificationService');
 
 /**
  * Calendar Webview Provider
@@ -12,6 +13,14 @@ class CalendarWebviewProvider {
         this.eventManager = eventManager;
         this.treeDataProvider = treeDataProvider;
         this._currentPanel = null;
+        this.notificationService = new NotificationService(this.eventManager);
+
+        // Listen for configuration changes
+        this.configChangeListener = vscode.workspace.onDidChangeConfiguration(e => {
+            if (e.affectsConfiguration('tsiheader.notifications')) {
+                this.notificationService.onConfigurationChange();
+            }
+        });
     }
 
     /**
@@ -363,6 +372,18 @@ class CalendarWebviewProvider {
     _postMessage(message) {
         if (this._currentPanel) {
             this._currentPanel.webview.postMessage(message);
+        }
+    }
+
+    /**
+     * Dispose of resources
+     */
+    dispose() {
+        if (this.configChangeListener) {
+            this.configChangeListener.dispose();
+        }
+        if (this.notificationService) {
+            this.notificationService.dispose();
         }
     }
 }

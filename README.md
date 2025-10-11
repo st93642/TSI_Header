@@ -6,8 +6,9 @@
 
 - Insert institution-branded headers and boilerplate across **147+ languages**.
 - Scaffold production-ready projects for **C / C++ / Java / Python / Ruby / Rust / PHP / HTML**.
-- Teach and practice with in-editor **Learn Mode** lessons and exercises for **C, C++, Ruby, and now comprehensive Rust curriculum**.
+- Teach and practice with in-editor **Learn Mode** lessons and exercises for **C, C++, Ruby, and comprehensive Rust curriculum**.
 - Stay focused via the **Study Mode** Pomodoro timer with persistent analytics.
+- **🆕 Study Calendar** with deadline tracking, custom events, daily schedules, and **SMTP email notifications**.
 
 ## Requirements
 
@@ -17,10 +18,12 @@
 - **Git**: For user identity resolution and project scaffolding.
 - **Supported Languages**: C, C++, Java, Python, Ruby, Rust, PHP, HTML, and 140+ others for header insertion.
 - **Learn Mode**: Interactive curriculum for C, C++, Ruby, and **comprehensive Rust programming** (21 core chapters + 12 advanced web development chapters).
+- **Email Notifications**: SMTP, SendGrid, Mailgun, or webhook support for calendar reminders.
 
 ## Configuration quick hits
 
 - User identity resolves in this order: VS Code settings → Git config → `TSI_USERNAME` / `TSI_EMAIL` env vars.
+- Calendar notifications: Configure SMTP settings or use SendGrid/Mailgun API keys for email reminders.
 
 ## Getting started in VS Code
 
@@ -33,6 +36,40 @@
 - **TSI Commands** for headers, classes, code bases.
 - **TSI Projects** for language scaffolds.
 - **📚 Learn** (Ruby, C, C++, **Rust**) and **Study Mode** commands for curriculum + Pomodoro.
+- **📅 Study Calendar** for scheduling deadlines, events, and automated email notifications.
+
+## Calendar Features
+
+### Event Management
+
+- **Deadlines**: Track assignment due dates with priority levels
+- **Custom Events**: Schedule study sessions, meetings, or personal events
+- **Daily Schedules**: Set recurring time blocks for consistent study routines
+- **Import/Export**: Support for iCalendar (.ics) files and URL imports
+
+### Email Notifications
+
+Configure notifications in VS Code settings (`tsiheader.notifications.*`):
+
+- **SMTP**: Direct email server support with STARTTLS encryption
+- **SendGrid**: Cloud email delivery service
+- **Mailgun**: Enterprise email API
+- **Webhook**: Custom notification integrations
+
+Example SMTP configuration:
+
+```json
+{
+  "tsiheader.notifications.enableEmail": true,
+  "tsiheader.notifications.emailService": "smtp",
+  "tsiheader.notifications.smtpHost": "smtp.gmail.com",
+  "tsiheader.notifications.smtpPort": 587,
+  "tsiheader.notifications.smtpUser": "your-email@gmail.com",
+  "tsiheader.notifications.smtpPassword": "your-app-password",
+  "tsiheader.notifications.emailAddress": "recipient@example.com",
+  "tsiheader.notifications.advanceNotice": 24
+}
+```
 
 ## Troubleshooting
 
@@ -40,6 +77,8 @@
 
 - **Extension not activating**: Ensure VS Code is version 1.74.0+. Reload the window (Ctrl+Shift+P > "Developer: Reload Window").
 - **Headers not inserting**: Check user settings (`tsiheader.username`, `tsiheader.email`) or Git config. Run `git config --global user.name` to verify.
+- **SMTP connection errors**: Verify server settings and credentials. Use port 587 for STARTTLS or 465 for direct TLS. Check firewall settings.
+- **Email notifications not working**: Test with "TSI Header: Test Email Notification" command. Check VS Code output panel for detailed SMTP logs.
 - **C/C++ compilation errors on Windows**: Learn Mode automatically probes `g++`, `gcc`, and `clang++` in your PATH plus common MinGW/MSYS2/LLVM install folders. If you still see a "g++ not found" error, follow these steps:
   1. **Install MSYS2 (recommended)**
      - Download the installer from [msys2.org](https://www.msys2.org/) and complete the setup.
@@ -68,12 +107,14 @@
 - **Compilation errors**: For C/C++ projects, ensure a compatible compiler (GCC/Clang) is installed and in PATH. Test with `g++ --version`.
 - **Learn Mode exercises failing**: Verify Node.js and Ruby are installed. Run `ruby TEST_Suite/test_learn_module.rb` to check curriculum integrity.
 - **Study Mode not persisting**: Data is stored in VS Code's global state; try resetting with "TSI Header: Reset Study Progress".
+- **Calendar events not showing**: Check that the calendar view is enabled and refresh the view. Events are stored locally in VS Code's workspace state.
 
 ### Getting Help
 
 - Check the [GitHub Issues](https://github.com/st93642/TSI_Header/issues) for known problems.
 - Run `ruby TEST_Suite/full_test_suite.rb` for comprehensive diagnostics.
 - For Learn Mode, ensure `learn_exercises/` is empty (files are generated dynamically).
+- For calendar issues, check the VS Code output panel for detailed error messages.
 
 ## Contributing
 

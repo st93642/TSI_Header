@@ -34,6 +34,14 @@
             },
             height: 'auto',
             timeZone: 'local', // Explicitly use local timezone
+            firstDay: 1, // Start week on Monday (0 = Sunday, 1 = Monday)
+            slotDuration: '00:30:00', // 30-minute time slots
+            slotLabelInterval: '01:00:00', // Show labels every hour
+            slotLabelFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Force 24-hour format for time slots
+            },
             eventTimeFormat: {
                 hour: '2-digit',
                 minute: '2-digit',

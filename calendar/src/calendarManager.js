@@ -516,8 +516,72 @@ class CalendarManager {
     }
 
     /**
-     * Import calendar data from configured URL
+     * Import calendar data from file
      */
+    async importCalendar() {
+        try {
+            // Show file picker
+            const uri = await vscode.window.showOpenDialog({
+                canSelectFiles: true,
+                canSelectFolders: false,
+                canSelectMany: false,
+                defaultUri: vscode.workspace.workspaceFolders?.[0]?.uri,
+                filters: {
+                    'Calendar files': ['json', 'ics'],
+                    'JSON files': ['json'],
+                    'iCalendar files': ['ics'],
+                    'All files': ['*']
+                },
+                openLabel: 'Import Calendar'
+            });
+
+            if (!uri || uri.length === 0) {
+                return; // User cancelled
+            }
+
+            const fileUri = uri[0];
+
+            // Show progress
+            await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: 'Importing calendar from file...',
+                cancellable: false
+            }, async (progress) => {
+                progress.report({ increment: 0, message: 'Reading file...' });
+
+                // Read file content
+                const fileContent = await vscode.workspace.fs.readFile(fileUri);
+                const content = Buffer.from(fileContent).toString('utf8');
+
+                progress.report({ increment: 30, message: 'Parsing data...' });
+
+                let data;
+                if (content.trim().startsWith('BEGIN:VCALENDAR')) {
+                    // Parse iCalendar format
+                    data = this.parseICalendar(content);
+                } else {
+                    // Parse JSON format
+                    try {
+                        data = JSON.parse(content);
+                    } catch (error) {
+                        throw new Error('Invalid JSON format in calendar file');
+                    }
+                }
+
+                progress.report({ increment: 70, message: 'Importing data...' });
+
+                // Import the data
+                await this.dataManager.importData(data);
+
+                progress.report({ increment: 100, message: 'Complete!' });
+            });
+
+            vscode.window.showInformationMessage('Calendar imported successfully from file!');
+
+        } catch (error) {
+            vscode.window.showErrorMessage(`Failed to import calendar from file: ${error.message}`);
+        }
+    }
     async importCalendarFromUrl() {
         try {
             // Get the import URL from configuration

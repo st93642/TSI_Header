@@ -191,19 +191,17 @@ class CalendarEventManager {
                     eventConfig.start = startDateTime;
                     eventConfig.allDay = false; // Explicitly not all-day
 
-                    // If it has an end time, use it; otherwise handle point-in-time events
+                    // If it has an end time, use it; otherwise create a default 1-hour duration
                     if (event.endTime) {
                         const endDateTime = `${event.date}T${event.endTime}:00`; // No Z suffix - treat as local time
                         eventConfig.end = endDateTime;
-                    } else if (event.time === '23:59') {
-                        // Special case: 23:59 events get 1 minute duration (23:58-23:59)
-                        const endDateTime = `${event.date}T23:59:00`; // No Z suffix - treat as local time
-                        eventConfig.end = endDateTime;
                     } else {
-                        // Point-in-time event - make it all-day with time in title
-                        eventConfig.allDay = true;
-                        eventConfig.start = event.date;
-                        eventConfig.title = `📅 ${event.time} - ${event.title}`;
+                        // Create a default 1-hour duration for timed events without explicit end time
+                        const [hours, minutes] = event.time.split(':').map(Number);
+                        const endHour = hours + 1;
+                        const endTimeStr = endHour < 24 ? `${endHour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00` : '23:59:00';
+                        const endDateTime = `${event.date}T${endTimeStr}`; // No Z suffix - treat as local time
+                        eventConfig.end = endDateTime;
                     }
                 } else {
                     // All-day event

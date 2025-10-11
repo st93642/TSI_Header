@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header, Learn & Pomodoro",
   "description": "Code generation and headers, learning modules, and Pomodoro timer for focused study sessions",
-  "version": "6.4.0",
+  "version": "6.6.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -90,6 +90,78 @@
         "tsiheader.calendar.importUrl": {
           "type": "string",
           "description": "URL for importing calendar data from external source",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.enableEmail": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable email notifications for upcoming events and deadlines",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.emailService": {
+          "type": "string",
+          "enum": ["sendgrid", "mailgun", "smtp", "webhook"],
+          "enumDescriptions": [
+            "SendGrid email service",
+            "Mailgun email service", 
+            "Custom SMTP server",
+            "Webhook for external notification service"
+          ],
+          "description": "Email service provider for notifications",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.emailAddress": {
+          "type": "string",
+          "description": "Email address to send notifications to",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.advanceNotice": {
+          "type": "number",
+          "default": 24,
+          "minimum": 1,
+          "maximum": 168,
+          "description": "Hours in advance to send notifications (1-168 hours)",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.sendgridApiKey": {
+          "type": "string",
+          "description": "SendGrid API key for email notifications",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.mailgunApiKey": {
+          "type": "string",
+          "description": "Mailgun API key for email notifications",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.mailgunDomain": {
+          "type": "string",
+          "description": "Mailgun domain for email notifications",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.smtpHost": {
+          "type": "string",
+          "description": "SMTP server hostname",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.smtpPort": {
+          "type": "number",
+          "default": 587,
+          "description": "SMTP server port",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.smtpUser": {
+          "type": "string",
+          "description": "SMTP username",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.smtpPassword": {
+          "type": "string",
+          "description": "SMTP password",
+          "scope": "resource"
+        },
+        "tsiheader.notifications.webhookUrl": {
+          "type": "string",
+          "description": "Webhook URL for external notification service",
           "scope": "resource"
         }
       }
@@ -220,206 +292,212 @@
       {
         "command": "tsiheader.startStudySession",
         "title": "Start Study Session",
-        "category": "Study Mode",
+        "category": "TSI Header",
         "icon": "$(play)"
       },
       {
         "command": "tsiheader.pauseStudyTimer",
         "title": "Pause/Resume Study Timer",
-        "category": "Study Mode",
+        "category": "TSI Header",
         "icon": "$(debug-pause)"
       },
       {
         "command": "tsiheader.stopStudySession",
         "title": "Stop Study Session",
-        "category": "Study Mode",
+        "category": "TSI Header",
         "icon": "$(stop)"
       },
       {
         "command": "tsiheader.viewStudyStats",
         "title": "View Study Statistics",
-        "category": "Study Mode",
+        "category": "TSI Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.configureStudyMode",
         "title": "Configure Study Mode",
-        "category": "Study Mode",
+        "category": "TSI Header",
         "icon": "$(settings-gear)"
       },
       {
         "command": "tsiheader.resetStudyProgress",
         "title": "Reset Study Progress",
-        "category": "Study Mode",
+        "category": "TSI Header",
         "icon": "$(clear-all)"
       },
       {
         "command": "tsiheader.learnRuby",
         "title": "Learn Ruby",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(ruby)"
       },
       {
         "command": "tsiheader.learnRust",
         "title": "Learn Rust",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(tools)"
       },
       {
         "command": "tsiheader.browseLessonsRust",
         "title": "Browse Rust Lessons",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressRust",
         "title": "View Rust Progress",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.browseLessons",
         "title": "Browse All Lessons",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgress",
         "title": "View Learning Progress",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.runExerciseTests",
         "title": "Run Exercise Tests",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(play)"
       },
       {
         "command": "tsiheader.learnC",
         "title": "Learn C",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(file-code)"
       },
       {
         "command": "tsiheader.browseLessonsC",
         "title": "Browse All C Lessons",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressC",
         "title": "View C Learning Progress",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.runExerciseTestsC",
         "title": "Run C Exercise Tests",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(play)"
       },
       {
         "command": "tsiheader.learnCpp",
         "title": "Learn C++",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(file-code)"
       },
       {
         "command": "tsiheader.browseLessonsCpp",
         "title": "Browse All C++ Lessons",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressCpp",
         "title": "View C++ Learning Progress",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.runExerciseTestsCpp",
         "title": "Run C++ Exercise Tests",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(play)"
       },
       {
         "command": "tsiheader.learnCppDsa",
         "title": "Learn C++ DSA",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(rocket)"
       },
       {
         "command": "tsiheader.browseLessonsCppDsa",
         "title": "Browse C++ DSA Lessons",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressCppDsa",
         "title": "View C++ DSA Progress",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.learnGit",
         "title": "Learn Git",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(git-branch)"
       },
       {
         "command": "tsiheader.browseLessonsGit",
         "title": "Browse Git Lessons",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressGit",
         "title": "View Git Progress",
-        "category": "Learn",
+        "category": "TSI Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.showCalendar",
         "title": "Show Study Calendar",
-        "category": "Calendar",
+        "category": "TSI Header",
         "icon": "$(calendar)"
       },
       {
         "command": "tsiheader.addCalendarDeadline",
         "title": "Add Deadline",
-        "category": "Calendar",
+        "category": "TSI Header",
         "icon": "$(clock)"
       },
       {
         "command": "tsiheader.addCalendarEvent",
         "title": "Add Custom Event",
-        "category": "Calendar",
+        "category": "TSI Header",
         "icon": "$(add)"
       },
       {
         "command": "tsiheader.addCalendarSchedule",
         "title": "Add Daily Schedule",
-        "category": "Calendar",
+        "category": "TSI Header",
         "icon": "$(history)"
       },
       {
         "command": "tsiheader.exportCalendar",
         "title": "Export Calendar",
-        "category": "Calendar",
+        "category": "TSI Header",
         "icon": "$(export)"
       },
       {
         "command": "tsiheader.importCalendar",
         "title": "Import Calendar",
-        "category": "Calendar",
+        "category": "TSI Header",
         "icon": "$(import)"
       },
       {
         "command": "tsiheader.importCalendarFromUrl",
         "title": "Import Calendar from URL",
-        "category": "Calendar",
+        "category": "TSI Header",
         "icon": "$(cloud-download)"
+      },
+      {
+        "command": "tsiheader.testNotification",
+        "title": "Test Email Notification",
+        "category": "TSI Header",
+        "icon": "$(bell)"
       }
     ],
     "commandPalette": [
