@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header, Learn & Pomodoro",
   "description": "Code generation and headers, learning modules, and Pomodoro timer for focused study sessions",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -86,6 +86,11 @@
           "minimum": 1,
           "maximum": 10,
           "description": "Number of work sessions before a long break (1-10)"
+        },
+        "tsiheader.calendar.importUrl": {
+          "type": "string",
+          "description": "URL for importing calendar data from external source",
+          "scope": "resource"
         }
       }
     },
@@ -409,6 +414,12 @@
         "title": "Import Calendar",
         "category": "Calendar",
         "icon": "$(import)"
+      },
+      {
+        "command": "tsiheader.importCalendarFromUrl",
+        "title": "Import Calendar from URL",
+        "category": "Calendar",
+        "icon": "$(cloud-download)"
       }
     ],
     "commandPalette": [
@@ -652,6 +663,11 @@
       },
       {
         "command": "tsiheader.importCalendar",
+        "when": "view == tsi-calendar",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.importCalendarFromUrl",
         "when": "view == tsi-calendar",
         "group": "navigation"
       }

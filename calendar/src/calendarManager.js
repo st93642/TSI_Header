@@ -31,7 +31,10 @@ class CalendarTreeDataProvider {
                 new CalendarTreeItem('', vscode.TreeItemCollapsibleState.None, 'separator'), // Empty separator
                 new CalendarTreeItem('Upcoming Deadlines', vscode.TreeItemCollapsibleState.Expanded, 'deadlines'),
                 new CalendarTreeItem('Today\'s Schedule', vscode.TreeItemCollapsibleState.Expanded, 'today'),
-                new CalendarTreeItem('This Week\'s Events', vscode.TreeItemCollapsibleState.Expanded, 'week')
+                new CalendarTreeItem('This Week\'s Events', vscode.TreeItemCollapsibleState.Expanded, 'week'),
+                new CalendarTreeItem('', vscode.TreeItemCollapsibleState.None, 'separator'), // Empty separator
+                new CalendarTreeItem('📥 Import from File', vscode.TreeItemCollapsibleState.None, 'import-calendar'),
+                new CalendarTreeItem('🌐 Import from URL', vscode.TreeItemCollapsibleState.None, 'import-calendar-url')
             ];
         }
 
@@ -50,6 +53,12 @@ class CalendarTreeDataProvider {
             return [];
         }
         if (element.contextValue === 'add-schedule') {
+            return [];
+        }
+        if (element.contextValue === 'import-calendar') {
+            return [];
+        }
+        if (element.contextValue === 'import-calendar-url') {
             return [];
         }
 
@@ -74,7 +83,8 @@ class CalendarTreeDataProvider {
                 vscode.TreeItemCollapsibleState.None,
                 'deadline'
             );
-            item.tooltip = deadline.description || deadline.title;
+            const truncatedDesc = this.truncateDescription(deadline.description || deadline.title);
+            item.tooltip = truncatedDesc;
             item.iconPath = this.getPriorityIcon(deadline.priority);
             item.command = {
                 command: 'tsiheader.showCalendar',
@@ -113,7 +123,8 @@ class CalendarTreeDataProvider {
                 vscode.TreeItemCollapsibleState.None,
                 'event'
             );
-            item.tooltip = event.extendedProps.data.description || event.title;
+            const truncatedDesc = this.truncateDescription(event.extendedProps.data.description || event.title);
+            item.tooltip = truncatedDesc;
             item.iconPath = this.getCategoryIcon(event.extendedProps.data.category);
             item.command = {
                 command: 'tsiheader.showCalendar',
@@ -141,6 +152,13 @@ class CalendarTreeDataProvider {
             case 'meeting': return new vscode.ThemeIcon('organization');
             default: return new vscode.ThemeIcon('calendar');
         }
+    }
+
+    truncateDescription(description, maxLength = 100) {
+        if (!description || description.length <= maxLength) {
+            return description;
+        }
+        return description.substring(0, maxLength - 3) + '... (Click to view full details in calendar)';
     }
 }
 
@@ -189,6 +207,26 @@ class CalendarTreeItem extends vscode.TreeItem {
             };
             this.iconPath = new vscode.ThemeIcon('history');
             this.tooltip = 'Add a new daily schedule';
+        }
+
+        if (contextValue === 'import-calendar') {
+            this.command = {
+                command: 'tsiheader.importCalendar',
+                title: 'Import from File',
+                arguments: []
+            };
+            this.iconPath = new vscode.ThemeIcon('file-code');
+            this.tooltip = 'Import calendar data from a JSON file';
+        }
+
+        if (contextValue === 'import-calendar-url') {
+            this.command = {
+                command: 'tsiheader.importCalendarFromUrl',
+                title: 'Import from URL',
+                arguments: []
+            };
+            this.iconPath = new vscode.ThemeIcon('cloud-download');
+            this.tooltip = 'Import calendar data from configured URL';
         }
     }
 }
@@ -269,6 +307,12 @@ class CalendarManager {
             this.treeDataProvider.refresh();
         });
 
+        // Import calendar from URL command
+        const importFromUrlCmd = vscode.commands.registerCommand('tsiheader.importCalendarFromUrl', async () => {
+            await this.importCalendarFromUrl();
+            this.treeDataProvider.refresh();
+        });
+
         // Add to subscriptions
         this.context.subscriptions.push(
             showCalendarCmd,
@@ -276,7 +320,8 @@ class CalendarManager {
             addEventCmd,
             addScheduleCmd,
             exportCmd,
-            importCmd
+            importCmd,
+            importFromUrlCmd
         );
     }
 
@@ -471,31 +516,219 @@ class CalendarManager {
     }
 
     /**
-     * Import calendar data
+     * Import calendar data from configured URL
      */
-    async importCalendar() {
+    async importCalendarFromUrl() {
         try {
-            const uris = await vscode.window.showOpenDialog({
-                canSelectFiles: true,
-                canSelectFolders: false,
-                canSelectMany: false,
-                filters: {
-                    'JSON files': ['json'],
-                    'All files': ['*']
+            // Get the import URL from configuration
+            const config = vscode.workspace.getConfiguration('tsiheader');
+            const importUrl = config.get('calendar.importUrl');
+
+            if (!importUrl) {
+                const setUrl = await vscode.window.showInformationMessage(
+                    'No calendar import URL configured. Would you like to set one?',
+                    'Set URL', 'Cancel'
+                );
+
+                if (setUrl === 'Set URL') {
+                    const url = await vscode.window.showInputBox({
+                        prompt: 'Enter calendar import URL',
+                        placeHolder: 'https://example.com/calendar/export.php?...',
+                    });
+
+                    if (url) {
+                        await config.update('calendar.importUrl', url, vscode.ConfigurationTarget.Global);
+                        vscode.window.showInformationMessage('Calendar import URL saved. You can now import calendar data.');
+                    }
+                }
+                return;
+            }
+
+            // Show progress
+            await vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                title: 'Importing calendar from URL...',
+                cancellable: false
+            }, async (progress) => {
+                progress.report({ increment: 0, message: 'Fetching data...' });
+
+                try {
+                    const response = await this.fetchUrl(importUrl);
+                    progress.report({ increment: 50, message: 'Parsing data...' });
+
+                    let data;
+                    if (response.trim().startsWith('BEGIN:VCALENDAR')) {
+                        // Parse iCalendar format
+                        data = this.parseICalendar(response);
+                    } else {
+                        // Parse JSON format
+                        data = JSON.parse(response);
+                    }
+
+                    progress.report({ increment: 75, message: 'Importing data...' });
+
+                    await this.dataManager.importData(data);
+                    progress.report({ increment: 100, message: 'Complete!' });
+
+                } catch (error) {
+                    throw new Error(`Failed to import calendar: ${error.message}`);
                 }
             });
 
-            if (uris && uris[0]) {
-                const content = await vscode.workspace.fs.readFile(uris[0]);
-                const data = JSON.parse(content.toString());
+            vscode.window.showInformationMessage('Calendar imported successfully from URL!');
 
-                await this.dataManager.importData(data);
-                this.treeDataProvider.refresh();
-                vscode.window.showInformationMessage('Calendar imported successfully!');
-            }
         } catch (error) {
-            vscode.window.showErrorMessage(`Failed to import calendar: ${error.message}`);
+            vscode.window.showErrorMessage(`Failed to import calendar from URL: ${error.message}`);
         }
+    }
+
+    /**
+     * Parse iCalendar format and convert to calendar data structure
+     */
+    parseICalendar(icsData) {
+        const events = [];
+        // First, unfold folded lines (lines that start with a space are continuations)
+        const unfoldedData = icsData.replace(/\r?\n /g, '');
+        const lines = unfoldedData.split('\n');
+        let currentEvent = null;
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+
+            if (line === 'BEGIN:VEVENT') {
+                currentEvent = {};
+            } else if (line === 'END:VEVENT') {
+                if (currentEvent) {
+                    events.push(currentEvent);
+                    currentEvent = null;
+                }
+            } else if (currentEvent && line.includes(':')) {
+                const [key, ...valueParts] = line.split(':');
+                const value = valueParts.join(':');
+
+                switch (key) {
+                    case 'SUMMARY':
+                        currentEvent.title = value;
+                        break;
+                    case 'DESCRIPTION':
+                        currentEvent.description = value.replace(/\\n/g, '\n').replace(/\\,/g, ',');
+                        break;
+                    case 'DTSTART':
+                        currentEvent.startDate = this.parseICalendarDate(value);
+                        break;
+                    case 'DTEND':
+                        currentEvent.endDate = this.parseICalendarDate(value);
+                        break;
+                    case 'DUE':
+                        currentEvent.dueDate = this.parseICalendarDate(value);
+                        break;
+                    case 'UID':
+                        currentEvent.id = value;
+                        break;
+                }
+            }
+        }
+
+        // Convert to calendar data format
+        const calendarData = {
+            deadlines: [],
+            customEvents: [],
+            dailySchedules: [],
+            version: '1.0.0'
+        };
+
+        events.forEach(event => {
+            if (event.dueDate) {
+                // This is a deadline
+                calendarData.deadlines.push({
+                    id: event.id || Date.now().toString(),
+                    title: event.title || 'Imported Deadline',
+                    description: event.description || '',
+                    dueDate: event.dueDate,
+                    priority: 'medium',
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                });
+            } else if (event.startDate) {
+                // This is an event
+                calendarData.customEvents.push({
+                    id: event.id || Date.now().toString(),
+                    title: event.title || 'Imported Event',
+                    description: event.description || '',
+                    date: event.startDate,
+                    category: 'Other',
+                    createdAt: new Date().toISOString()
+                });
+            }
+        });
+
+        return calendarData;
+    }
+
+    /**
+     * Parse iCalendar date format
+     */
+    parseICalendarDate(dateString) {
+        // Handle different iCalendar date formats
+        // YYYYMMDDTHHMMSS or YYYYMMDD
+        if (dateString.includes('T')) {
+            // DateTime format: YYYYMMDDTHHMMSS
+            const match = dateString.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/);
+            if (match) {
+                const [, year, month, day, hour, minute, second] = match;
+                return `${year}-${month}-${day}`;
+            }
+        } else {
+            // Date format: YYYYMMDD
+            const match = dateString.match(/^(\d{4})(\d{2})(\d{2})/);
+            if (match) {
+                const [, year, month, day] = match;
+                return `${year}-${month}-${day}`;
+            }
+        }
+        return dateString; // Return as-is if parsing fails
+    }
+    async fetchUrl(url) {
+        return new Promise((resolve, reject) => {
+            const https = require('https');
+            const urlObj = new URL(url);
+
+            const options = {
+                hostname: urlObj.hostname,
+                path: urlObj.pathname + urlObj.search,
+                method: 'GET',
+                headers: {
+                    'User-Agent': 'TSI-Header-VSCode-Extension/6.2.0'
+                }
+            };
+
+            const req = https.request(options, (res) => {
+                let data = '';
+
+                res.on('data', (chunk) => {
+                    data += chunk;
+                });
+
+                res.on('end', () => {
+                    if (res.statusCode >= 200 && res.statusCode < 300) {
+                        resolve(data);
+                    } else {
+                        reject(new Error(`HTTP ${res.statusCode}: ${res.statusText}`));
+                    }
+                });
+            });
+
+            req.on('error', (error) => {
+                reject(error);
+            });
+
+            req.setTimeout(30000, () => {
+                req.destroy();
+                reject(new Error('Request timeout'));
+            });
+
+            req.end();
+        });
     }
 }
 

@@ -290,6 +290,7 @@ class CalendarWebviewProvider {
                 description: eventData.description,
                 date: eventData.date,
                 time: eventData.time,
+                endTime: eventData.endTime, // Include end time if provided
                 category: eventData.category,
                 createdAt: eventData.createdAt
             };

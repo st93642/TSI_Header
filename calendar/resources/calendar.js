@@ -261,7 +261,12 @@
                 <p><strong>Type:</strong> ${getEventTypeLabel(extendedProps.type)}</p>
                 <p><strong>Date:</strong> ${formatDate(event.start)}</p>
                 ${event.end ? `<p><strong>End:</strong> ${formatDate(event.end)}</p>` : ''}
-                ${extendedProps.data.description ? `<p><strong>Description:</strong> ${extendedProps.data.description}</p>` : ''}
+                ${extendedProps.data.description ? `
+                    <div class="description-section">
+                        <strong>Description:</strong>
+                        <div class="description-content">${extendedProps.data.description.replace(/\n/g, '<br>')}</div>
+                    </div>
+                ` : ''}
                 ${extendedProps.type === 'deadline' ? `<p><strong>Priority:</strong> ${extendedProps.data.priority}</p>` : ''}
                 ${extendedProps.type === 'deadline' ? `<p><strong>Completed:</strong> ${extendedProps.data.completed ? 'Yes' : 'No'}</p>` : ''}
                 ${extendedProps.type === 'customEvent' ? `<p><strong>Category:</strong> ${extendedProps.data.category}</p>` : ''}
@@ -336,9 +341,9 @@
                 background-color: var(--vscode-editor-background);
                 border: 1px solid var(--vscode-panel-border);
                 border-radius: 6px;
-                max-width: 500px;
+                max-width: 700px;
                 width: 90%;
-                max-height: 80vh;
+                max-height: 90vh;
                 overflow-y: auto;
             }
             .modal-header {
@@ -401,6 +406,28 @@
             .event-details p {
                 margin: 8px 0;
                 color: var(--vscode-descriptionForeground);
+            }
+            .description-section {
+                margin: 15px 0;
+            }
+            .description-section strong {
+                display: block;
+                margin-bottom: 8px;
+                color: var(--vscode-foreground);
+            }
+            .description-content {
+                background-color: var(--vscode-textBlockQuote-background);
+                border: 1px solid var(--vscode-textBlockQuote-border);
+                border-radius: 3px;
+                padding: 12px;
+                color: var(--vscode-descriptionForeground);
+                max-height: 300px;
+                overflow-y: auto;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                font-family: var(--vscode-font-family);
+                font-size: var(--vscode-font-size);
+                line-height: 1.4;
             }
             .modal-actions {
                 display: flex;
