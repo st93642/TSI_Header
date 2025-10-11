@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 10 2025 01:51 st93642                                       */
+/*  Updated: Oct 11 2025 00:23 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -31,6 +31,8 @@ const { createDocumentationFiles } = require('../generators/project/documentatio
 const { createGitIgnoreFile } = require('../generators/project/gitIgnoreGenerator');
 // Import study mode extension
 const { StudyModeExtension } = require('./studyModeExtension');
+// Import calendar module (lazy-loaded)
+// const { CalendarManager } = require('../../calendar/src');
 // Import tree data providers
 const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvider');
 
@@ -44,6 +46,16 @@ function activate(context) {
     // Initialize Study Mode extension
     const studyModeExtension = new StudyModeExtension(vscode, context);
     studyModeExtension.activate();
+
+    // Initialize Calendar module (lazy-loaded)
+    try {
+        const { CalendarManager } = require(path.join(__dirname, '..', '..', 'calendar', 'src'));
+        const calendarManager = new CalendarManager(context);
+        calendarManager.initialize();
+        console.log('Calendar module initialized successfully');
+    } catch (error) {
+        console.error('Failed to initialize calendar module:', error);
+    }
 
     // Helper function to show configuration instructions
     function showConfigurationInstructions(type) {

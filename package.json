@@ -2,7 +2,7 @@
   "name": "tsi-header",
   "displayName": "TSI Header, Learn & Pomodoro",
   "description": "Code generation and headers, learning modules, and Pomodoro timer for focused study sessions",
-  "version": "6.1.1",
+  "version": "6.2.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -95,6 +95,11 @@
           "id": "tsi-header-explorer",
           "title": "TSI Header",
           "icon": "$(mortar-board)"
+        },
+        {
+          "id": "tsi-calendar-container",
+          "title": "Study Calendar",
+          "icon": "$(calendar)"
         }
       ]
     },
@@ -110,6 +115,14 @@
           "id": "tsi-projects",
           "name": "TSI Projects",
           "icon": "$(folder)",
+          "when": "true"
+        }
+      ],
+      "tsi-calendar-container": [
+        {
+          "id": "tsi-calendar",
+          "name": "Calendar",
+          "icon": "$(calendar)",
           "when": "true"
         }
       ]
@@ -360,6 +373,48 @@
         "title": "View Git Progress",
         "category": "Learn",
         "icon": "$(graph)"
+      },
+      {
+        "command": "tsiheader.showCalendar",
+        "title": "Show Study Calendar",
+        "category": "Calendar",
+        "icon": "$(calendar)"
+      },
+      {
+        "command": "tsiheader.addCalendarDeadline",
+        "title": "Add Deadline",
+        "category": "Calendar",
+        "icon": "$(clock)"
+      },
+      {
+        "command": "tsiheader.addCalendarEvent",
+        "title": "Add Custom Event",
+        "category": "Calendar",
+        "icon": "$(add)"
+      },
+      {
+        "command": "tsiheader.addCalendarSchedule",
+        "title": "Add Daily Schedule",
+        "category": "Calendar",
+        "icon": "$(history)"
+      },
+      {
+        "command": "tsiheader.exportCalendar",
+        "title": "Export Calendar",
+        "category": "Calendar",
+        "icon": "$(export)"
+      },
+      {
+        "command": "tsiheader.importCalendar",
+        "title": "Import Calendar",
+        "category": "Calendar",
+        "icon": "$(import)"
+      }
+    ],
+    "commandPalette": [
+      {
+        "command": "tsiheader.showCalendar",
+        "when": "true"
       }
     ],
     "menus": {
@@ -566,6 +621,38 @@
       {
         "command": "tsiheader.refreshProjects",
         "when": "view == tsi-projects",
+        "group": "navigation"
+      }
+    ],
+    "view/title:tsi-calendar-container": [
+      {
+        "command": "tsiheader.showCalendar",
+        "when": "view == tsi-calendar",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.addCalendarDeadline",
+        "when": "view == tsi-calendar",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.addCalendarEvent",
+        "when": "view == tsi-calendar",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.addCalendarSchedule",
+        "when": "view == tsi-calendar",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.exportCalendar",
+        "when": "view == tsi-calendar",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.importCalendar",
+        "when": "view == tsi-calendar",
         "group": "navigation"
       }
     ]

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Calendar</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+    <link href="calendar.css" rel="stylesheet">
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <h2>📅 Study Calendar</h2>
+            <div class="calendar-controls">
+                <button id="today-btn" class="btn btn-primary">Today</button>
+                <button id="refresh-btn" class="btn btn-secondary">Refresh</button>
+            </div>
+        </div>
+
+        <div class="calendar-legend">
+            <div class="legend-item">
+                <span class="legend-color high-priority"></span>
+                <span>High Priority</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color medium-priority"></span>
+                <span>Medium Priority</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color low-priority"></span>
+                <span>Low Priority</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color study-event"></span>
+                <span>Study Events</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color study-schedule"></span>
+                <span>Study Schedule</span>
+            </div>
+        </div>
+
+        <div id="calendar"></div>
+
+        <div class="upcoming-section">
+            <h3>📋 Upcoming Deadlines</h3>
+            <div id="upcoming-deadlines" class="deadline-list"></div>
+        </div>
+
+        <div class="today-section">
+            <h3>⏰ Today's Schedule</h3>
+            <div id="today-schedule" class="schedule-list"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="calendar.js"></script>
+</body>
+</html>

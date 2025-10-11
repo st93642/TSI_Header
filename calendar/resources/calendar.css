@@ -1,0 +1,312 @@
+/* Study Calendar Styles */
+
+.calendar-container {
+    padding: 20px;
+    font-family: var(--vscode-font-family);
+    color: var(--vscode-foreground);
+    background-color: var(--vscode-editor-background);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--vscode-panel-border);
+    padding-bottom: 15px;
+}
+
+.calendar-header h2 {
+    margin: 0;
+    color: var(--vscode-foreground);
+    font-size: 1.5em;
+}
+
+.calendar-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
+}
+
+.btn-primary:hover {
+    background-color: var(--vscode-button-hoverBackground);
+}
+
+.btn-secondary {
+    background-color: var(--vscode-button-secondaryBackground);
+    color: var(--vscode-button-secondaryForeground);
+}
+
+.btn-secondary:hover {
+    background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
+.calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--vscode-editorWidget-background);
+    border: 1px solid var(--vscode-editorWidget-border);
+    border-radius: 6px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.high-priority { background-color: #e74c3c; }
+.medium-priority { background-color: #f39c12; }
+.low-priority { background-color: #27ae60; }
+.study-event { background-color: #3498db; }
+.study-schedule { background-color: #2980b9; }
+
+/* FullCalendar customizations */
+#calendar {
+    margin-bottom: 30px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--vscode-panel-border);
+}
+
+.fc {
+    background-color: var(--vscode-editor-background);
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+    border-color: var(--vscode-panel-border);
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    border-color: var(--vscode-panel-border);
+}
+
+.fc-col-header,
+.fc-daygrid-day,
+.fc-timegrid-slot {
+    background-color: var(--vscode-editor-background);
+}
+
+.fc-col-header-cell {
+    background-color: var(--vscode-editorWidget-background);
+    color: var(--vscode-foreground);
+    font-weight: 600;
+    border-color: var(--vscode-panel-border);
+}
+
+.fc-daygrid-day-number,
+.fc-col-header-cell-cushion {
+    color: var(--vscode-foreground);
+}
+
+.fc-day-today {
+    background-color: var(--vscode-editorWidget-background) !important;
+}
+
+.fc-event {
+    border-radius: 4px;
+    border: none;
+    font-size: 0.85em;
+    padding: 2px 6px;
+}
+
+.fc-event:hover {
+    opacity: 0.8;
+}
+
+.fc-button {
+    background-color: var(--vscode-button-background) !important;
+    border-color: var(--vscode-button-background) !important;
+    color: var(--vscode-button-foreground) !important;
+    border-radius: 4px !important;
+    font-size: 0.9em !important;
+    padding: 6px 12px !important;
+}
+
+.fc-button:hover {
+    background-color: var(--vscode-button-hoverBackground) !important;
+    border-color: var(--vscode-button-hoverBackground) !important;
+}
+
+.fc-button-active {
+    background-color: var(--vscode-button-hoverBackground) !important;
+    border-color: var(--vscode-button-hoverBackground) !important;
+}
+
+/* Sections */
+.upcoming-section,
+.today-section {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: var(--vscode-editorWidget-background);
+    border: 1px solid var(--vscode-editorWidget-border);
+    border-radius: 6px;
+}
+
+.upcoming-section h3,
+.today-section h3 {
+    margin: 0 0 15px 0;
+    color: var(--vscode-foreground);
+    font-size: 1.2em;
+    border-bottom: 1px solid var(--vscode-panel-border);
+    padding-bottom: 8px;
+}
+
+.deadline-list,
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.deadline-item,
+.schedule-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background-color: var(--vscode-editor-background);
+    border: 1px solid var(--vscode-panel-border);
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.deadline-item:hover,
+.schedule-item:hover {
+    background-color: var(--vscode-list-hoverBackground);
+}
+
+.deadline-info,
+.schedule-info {
+    flex: 1;
+}
+
+.deadline-title,
+.schedule-title {
+    font-weight: 600;
+    color: var(--vscode-foreground);
+    margin-bottom: 4px;
+}
+
+.deadline-meta,
+.schedule-meta {
+    font-size: 0.85em;
+    color: var(--vscode-descriptionForeground);
+}
+
+.deadline-actions,
+.schedule-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.deadline-priority {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.priority-high { background-color: #e74c3c; color: white; }
+.priority-medium { background-color: #f39c12; color: white; }
+.priority-low { background-color: #27ae60; color: white; }
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.checkbox {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--vscode-errorForeground);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 3px;
+    font-size: 1.2em;
+    line-height: 1;
+    transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: var(--vscode-errorForeground);
+    color: white;
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    color: var(--vscode-descriptionForeground);
+    font-style: italic;
+    padding: 20px;
+}
+
+.empty-state p {
+    margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .calendar-container {
+        padding: 10px;
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .calendar-controls {
+        justify-content: center;
+    }
+
+    .calendar-legend {
+        justify-content: center;
+    }
+
+    .deadline-item,
+    .schedule-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .deadline-actions,
+    .schedule-actions {
+        justify-content: center;
+    }
+}
