@@ -8,12 +8,18 @@ const { NotificationService } = require('./notificationService');
  */
 
 class CalendarWebviewProvider {
-    constructor(extensionUri, eventManager, treeDataProvider) {
+    constructor(extensionUri, eventManager, treeDataProvider, context = null) {
         this.extensionUri = extensionUri;
         this.eventManager = eventManager;
         this.treeDataProvider = treeDataProvider;
+        this.context = context;
         this._currentPanel = null;
         this.notificationService = new NotificationService(this.eventManager);
+
+        // Set context for notification service if available
+        if (this.context) {
+            this.notificationService.setContext(this.context);
+        }
 
         // Listen for configuration changes
         this.configChangeListener = vscode.workspace.onDidChangeConfiguration(e => {

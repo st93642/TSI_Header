@@ -12,7 +12,7 @@ class NotificationService {
         this.eventManager = eventManager;
         this.checkInterval = null;
         this.lastCheckTime = Date.now();
-        this.sentNotifications = new Set(); // Track sent notifications
+        this.sentNotifications = new Set(); // Track sent notifications in memory
         this.initialize();
     }
 
@@ -21,6 +21,14 @@ class NotificationService {
      */
     async initialize() {
         const config = vscode.workspace.getConfiguration('tsiheader.notifications');
+
+        // Load previously sent notifications from persistent storage
+        const context = await this.getExtensionContext();
+        if (context) {
+            const stored = context.globalState.get('sentNotifications', []);
+            this.sentNotifications = new Set(stored);
+            console.log(`Loaded ${this.sentNotifications.size} previously sent notifications`);
+        }
 
         if (config.get('enableEmail', false)) {
             this.startNotificationChecker();
@@ -32,6 +40,24 @@ class NotificationService {
     }
 
     /**
+     * Get extension context for persistent storage
+     */
+    async getExtensionContext() {
+        // This will be set by the calendar manager when creating the service
+        return this.context || null;
+    }
+
+    /**
+     * Set extension context for persistent storage
+     */
+    setContext(context) {
+        this.context = context;
+        // Load previously sent notifications
+        const stored = context.globalState.get('sentNotifications', []);
+        this.sentNotifications = new Set(stored);
+    }
+
+    /**
      * Start the periodic notification checker
      */
     startNotificationChecker() {
@@ -39,13 +65,15 @@ class NotificationService {
             clearInterval(this.checkInterval);
         }
 
-        // Check every 15 minutes
+        // Check every hour instead of every 15 minutes to reduce frequency
         this.checkInterval = setInterval(() => {
             this.checkUpcomingEvents();
-        }, 15 * 60 * 1000);
+        }, 60 * 60 * 1000); // 1 hour
 
-        // Initial check
-        this.checkUpcomingEvents();
+        // Initial check with a small delay
+        setTimeout(() => {
+            this.checkUpcomingEvents();
+        }, 5000); // 5 second delay on startup
     }
 
     /**
@@ -68,11 +96,20 @@ class NotificationService {
             const now = new Date();
             const notificationTime = new Date(now.getTime() + (advanceNotice * 60 * 60 * 1000));
 
+            console.log(`Checking for upcoming events (advance notice: ${advanceNotice} hours)`);
+
             // Get events in the notification window
             const events = await this.getUpcomingEvents(notificationTime);
 
+            console.log(`Found ${events.length} events requiring notifications`);
+
             for (const event of events) {
-                await this.sendNotification(event);
+                const result = await this.sendNotification(event);
+                if (result.success && !result.alreadySent) {
+                    console.log(`Sent notification for: ${event.title}`);
+                } else if (result.alreadySent) {
+                    console.log(`Notification already sent for: ${event.title}`);
+                }
             }
         } catch (error) {
             console.error('Error checking upcoming events:', error);
@@ -118,28 +155,32 @@ class NotificationService {
         const config = vscode.workspace.getConfiguration('tsiheader.notifications');
         const service = config.get('emailService');
 
+        // Create a more specific notification key
+        const eventTime = event.start || event.date;
+        const notificationKey = `${event.id}-${event.title}-${eventTime}`;
+
+        // Check if we've already sent this notification
+        if (this.sentNotifications.has(notificationKey)) {
+            console.log(`Notification already sent for event: ${event.title}`);
+            return { success: true, alreadySent: true };
+        }
+
         try {
             switch (service) {
-                case 'sendgrid':
-                    await this.sendSendGridNotification(event, customMessage);
-                    break;
-                case 'mailgun':
-                    await this.sendMailgunNotification(event, customMessage);
-                    break;
                 case 'smtp':
                     await this.sendSMTPNotification(event, customMessage);
-                    break;
-                case 'webhook':
-                    await this.sendWebhookNotification(event, customMessage);
                     break;
                 default:
                     return { success: false, error: 'No email service configured' };
             }
 
             // Mark notification as sent
-            const notificationKey = `${event.id}-${event.start || event.date}`;
             this.sentNotifications.add(notificationKey);
 
+            // Persist to storage
+            await this.persistSentNotifications();
+
+            console.log(`Notification sent for event: ${event.title}`);
             return { success: true };
 
         } catch (error) {
@@ -149,74 +190,24 @@ class NotificationService {
     }
 
     /**
-     * Send notification via SendGrid
+     * Persist sent notifications to storage
      */
-    async sendSendGridNotification(event, customMessage = null) {
-        const config = vscode.workspace.getConfiguration('tsiheader.notifications');
-        const apiKey = config.get('sendgridApiKey');
-        const emailAddress = config.get('emailAddress');
-
-        if (!apiKey || !emailAddress) {
-            throw new Error('SendGrid API key and email address required');
-        }
-
-        const emailData = {
-            personalizations: [{
-                to: [{ email: emailAddress }],
-                subject: `Upcoming: ${event.title}`
-            }],
-            from: { email: 'noreply@tsi-header.com', name: 'TSI Header Extension' },
-            content: [{
-                type: 'text/plain',
-                value: this.formatEmailContent(event, customMessage)
-            }]
-        };
-
-        const options = {
-            hostname: 'api.sendgrid.com',
-            path: '/v3/mail/send',
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${apiKey}`,
-                'Content-Type': 'application/json'
+    async persistSentNotifications() {
+        try {
+            const context = await this.getExtensionContext();
+            if (context) {
+                // Convert Set to Array for storage and limit size to prevent unbounded growth
+                const notificationsArray = Array.from(this.sentNotifications);
+                // Keep only the most recent 1000 notifications to prevent storage bloat
+                if (notificationsArray.length > 1000) {
+                    notificationsArray.splice(0, notificationsArray.length - 1000);
+                    this.sentNotifications = new Set(notificationsArray);
+                }
+                await context.globalState.update('sentNotifications', notificationsArray);
             }
-        };
-
-        await this.makeHttpsRequest(options, JSON.stringify(emailData));
-    }
-
-    /**
-     * Send notification via Mailgun
-     */
-    async sendMailgunNotification(event, customMessage = null) {
-        const config = vscode.workspace.getConfiguration('tsiheader.notifications');
-        const apiKey = config.get('mailgunApiKey');
-        const domain = config.get('mailgunDomain');
-        const emailAddress = config.get('emailAddress');
-
-        if (!apiKey || !domain || !emailAddress) {
-            throw new Error('Mailgun API key, domain, and email address required');
+        } catch (error) {
+            console.error('Error persisting sent notifications:', error);
         }
-
-        const auth = Buffer.from(`api:${apiKey}`).toString('base64');
-        const emailData = new URLSearchParams({
-            from: `TSI Header Extension <noreply@${domain}>`,
-            to: emailAddress,
-            subject: `Upcoming: ${event.title}`,
-            text: this.formatEmailContent(event, customMessage)
-        });
-
-        const options = {
-            hostname: 'api.mailgun.net',
-            path: `/v3/${domain}/messages`,
-            method: 'POST',
-            headers: {
-                'Authorization': `Basic ${auth}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        };
-
-        await this.makeHttpsRequest(options, emailData.toString());
     }
 
     /**
@@ -242,40 +233,7 @@ class NotificationService {
         const emailData = this.createSMTPEmail(fromEmail, emailAddress, subject, emailContent);
 
         // Send via SMTP
-        await this.sendViaSMTP(host, port, user, password, emailData);
-    }
-
-    /**
-     * Send notification via webhook
-     */
-    async sendWebhookNotification(event, customMessage = null) {
-        const config = vscode.workspace.getConfiguration('tsiheader.notifications');
-        const webhookUrl = config.get('webhookUrl');
-
-        if (!webhookUrl) {
-            throw new Error('Webhook URL required');
-        }
-
-        const payload = {
-            event: 'calendar_notification',
-            data: event,
-            customMessage: customMessage,
-            timestamp: new Date().toISOString()
-        };
-
-        const url = new URL(webhookUrl);
-        const options = {
-            hostname: url.hostname,
-            path: url.pathname + url.search,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'User-Agent': 'TSI-Header-Extension/1.0'
-            }
-        };
-
-        const protocol = url.protocol === 'https:' ? https : http;
-        await this.makeRequest(protocol, options, JSON.stringify(payload));
+        await this.sendViaSMTP(host, port, user, password, emailData, emailAddress);
     }
 
     /**
@@ -331,7 +289,7 @@ TSI Header Extension
     /**
      * Send email via SMTP
      */
-    sendViaSMTP(host, port, user, password, emailData) {
+    sendViaSMTP(host, port, user, password, emailData, recipientEmail) {
         return new Promise((resolve, reject) => {
             const net = require('net');
             const tls = require('tls');
@@ -349,7 +307,7 @@ TSI Header Extension
                 { cmd: () => Buffer.from(user).toString('base64') + '\r\n', description: 'Username' },
                 { cmd: () => Buffer.from(password).toString('base64') + '\r\n', description: 'Password' },
                 { cmd: () => `MAIL FROM:<${user.includes('@') ? user : user + '@' + host}>\r\n`, description: 'MAIL FROM' },
-                { cmd: () => `RCPT TO:<${user.includes('@') ? user : user + '@' + host}>\r\n`, description: 'RCPT TO' },
+                { cmd: () => `RCPT TO:<${recipientEmail}>\r\n`, description: 'RCPT TO' },
                 { cmd: () => `DATA\r\n`, description: 'DATA' },
                 { cmd: () => emailData + '\r\n.\r\n', description: 'Email data' },
                 { cmd: () => `QUIT\r\n`, description: 'QUIT' }

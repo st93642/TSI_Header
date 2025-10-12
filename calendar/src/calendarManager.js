@@ -78,8 +78,9 @@ class CalendarTreeDataProvider {
     async getUpcomingDeadlines() {
         const deadlines = await this.eventManager.getUpcomingDeadlines(7); // Next 7 days
         return deadlines.map(deadline => {
+            const formattedDate = this.formatDate(deadline.dueDate);
             const item = new CalendarTreeItem(
-                `${deadline.title} (${deadline.dueDate})`,
+                `${deadline.title} (${formattedDate})`,
                 vscode.TreeItemCollapsibleState.None,
                 'deadline'
             );
@@ -118,8 +119,9 @@ class CalendarTreeDataProvider {
         const events = await this.eventManager.getEventsInRange(today.toISOString().split('T')[0], weekEnd.toISOString().split('T')[0]);
         return events.map(event => {
             const eventDate = event.start.split('T')[0]; // Extract date from start datetime
+            const formattedDate = this.formatDate(eventDate);
             const item = new CalendarTreeItem(
-                `${eventDate}: ${event.title}`,
+                `${formattedDate}: ${event.title}`,
                 vscode.TreeItemCollapsibleState.None,
                 'event'
             );
@@ -133,6 +135,24 @@ class CalendarTreeDataProvider {
             };
             return item;
         });
+    }
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const month = monthNames[date.getMonth()];
+        const day = date.getDate().toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${month}.${day}.${year}`;
+    }
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const month = monthNames[date.getMonth()];
+        const day = date.getDate().toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${month}.${day}.${year}`;
     }
 
     getPriorityIcon(priority) {
@@ -252,7 +272,7 @@ class CalendarManager {
         );
 
         // Register webview provider for the full calendar modal
-        this.webviewProvider = new CalendarWebviewProvider(this.context.extensionUri, this.eventManager, this.treeDataProvider);
+        this.webviewProvider = new CalendarWebviewProvider(this.context.extensionUri, this.eventManager, this.treeDataProvider, this.context);
 
         // Register commands
         this.registerCommands();

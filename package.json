@@ -100,12 +100,9 @@
         },
         "tsiheader.notifications.emailService": {
           "type": "string",
-          "enum": ["sendgrid", "mailgun", "smtp", "webhook"],
+          "enum": ["smtp"],
           "enumDescriptions": [
-            "SendGrid email service",
-            "Mailgun email service", 
-            "Custom SMTP server",
-            "Webhook for external notification service"
+            "Custom SMTP server"
           ],
           "description": "Email service provider for notifications",
           "scope": "resource"
@@ -121,21 +118,6 @@
           "minimum": 1,
           "maximum": 168,
           "description": "Hours in advance to send notifications (1-168 hours)",
-          "scope": "resource"
-        },
-        "tsiheader.notifications.sendgridApiKey": {
-          "type": "string",
-          "description": "SendGrid API key for email notifications",
-          "scope": "resource"
-        },
-        "tsiheader.notifications.mailgunApiKey": {
-          "type": "string",
-          "description": "Mailgun API key for email notifications",
-          "scope": "resource"
-        },
-        "tsiheader.notifications.mailgunDomain": {
-          "type": "string",
-          "description": "Mailgun domain for email notifications",
           "scope": "resource"
         },
         "tsiheader.notifications.smtpHost": {
@@ -157,11 +139,6 @@
         "tsiheader.notifications.smtpPassword": {
           "type": "string",
           "description": "SMTP password",
-          "scope": "resource"
-        },
-        "tsiheader.notifications.webhookUrl": {
-          "type": "string",
-          "description": "Webhook URL for external notification service",
           "scope": "resource"
         }
       }

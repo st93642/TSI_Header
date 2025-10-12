@@ -186,6 +186,11 @@
         const dateStr = dateTime.toISOString().split('T')[0];
         const timeStr = dateTime.toTimeString().substring(0, 5); // HH:MM format
 
+        // Format date for display
+        const d = new Date(dateTime);
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const displayDate = `${monthNames[d.getMonth()]}.${d.getDate().toString().padStart(2, '0')}.${d.getFullYear()}`;
+
         const modal = createModal('Add Event', `
             <div class="add-event-form">
                 <div class="form-group">
@@ -198,15 +203,17 @@
                 </div>
                 <div class="form-group">
                     <label for="event-date">Date:</label>
-                    <input type="date" id="event-date" value="${dateStr}" required>
+                    <input type="text" id="event-date" value="${displayDate}" pattern="(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\.\\d{1,2}\\.\\d{4}" placeholder="Mmm.dd.yyyy" required>
                 </div>
                 <div class="form-group">
                     <label for="event-time">Start Time:</label>
-                    <input type="time" id="event-time" value="${timeStr}" required>
+                    <input type="text" id="event-time" value="${timeStr}" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM (24-hour)" maxlength="5" required>
+                    <small style="color: var(--vscode-descriptionForeground); font-size: 0.9em;">Format: HH:MM (24-hour, e.g., 14:30)</small>
                 </div>
                 <div class="form-group">
                     <label for="event-end-time">End Time (optional):</label>
-                    <input type="time" id="event-end-time" placeholder="Leave empty for 1 hour">
+                    <input type="text" id="event-end-time" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" placeholder="HH:MM (24-hour)" maxlength="5">
+                    <small style="color: var(--vscode-descriptionForeground); font-size: 0.9em;">Format: HH:MM (24-hour, e.g., 16:00)</small>
                 </div>
                 <div class="form-group">
                     <label for="event-category">Category:</label>
@@ -229,7 +236,7 @@
         document.getElementById('add-event-submit').addEventListener('click', () => {
             const title = document.getElementById('event-title').value.trim();
             const description = document.getElementById('event-description').value.trim();
-            const date = document.getElementById('event-date').value;
+            let date = document.getElementById('event-date').value;
             const time = document.getElementById('event-time').value;
             const endTime = document.getElementById('event-end-time').value;
             const category = document.getElementById('event-category').value;
@@ -238,6 +245,20 @@
                 showNotification('Please fill in all required fields', 'error');
                 return;
             }
+
+            // Validate time format
+            if (!isValid24HourTime(time)) {
+                showNotification('Please enter time in HH:MM format (24-hour)', 'error');
+                return;
+            }
+
+            if (endTime && !isValid24HourTime(endTime)) {
+                showNotification('Please enter end time in HH:MM format (24-hour)', 'error');
+                return;
+            }
+
+            // Convert formatted date (Mmm.dd.yyyy) back to YYYY-MM-DD
+            date = convertFormattedDateToISO(date);
 
             // Create event object
             const eventData = {
@@ -267,6 +288,51 @@
         document.getElementById('add-event-cancel').addEventListener('click', () => {
             modal.remove();
         });
+
+        // Force 24-hour format for time inputs
+        setTimeout(() => {
+            const timeInputs = modal.querySelectorAll('input[type="text"][pattern*=":"]');
+            timeInputs.forEach(input => {
+                // Set input mode to numeric for better mobile experience
+                input.setAttribute('inputmode', 'numeric');
+
+                // Add input formatting
+                const formatTimeInput = (value) => {
+                    // Remove any non-numeric characters except colon
+                    let cleanValue = value.replace(/[^0-9:]/g, '');
+
+                    // Auto-format as user types
+                    if (cleanValue.length >= 2 && cleanValue.charAt(2) !== ':') {
+                        cleanValue = cleanValue.substring(0, 2) + ':' + cleanValue.substring(2);
+                    }
+
+                    // Limit to HH:MM format
+                    if (cleanValue.length > 5) {
+                        cleanValue = cleanValue.substring(0, 5);
+                    }
+
+                    return cleanValue;
+                };
+
+                // Apply formatting on input
+                input.addEventListener('input', (e) => {
+                    const formatted = formatTimeInput(e.target.value);
+                    if (formatted !== e.target.value) {
+                        e.target.value = formatted;
+                    }
+                });
+
+                // Validate on blur
+                input.addEventListener('blur', (e) => {
+                    if (e.target.value && !isValid24HourTime(e.target.value)) {
+                        e.target.style.borderColor = 'var(--vscode-errorForeground)';
+                        showNotification('Invalid time format. Use HH:MM (24-hour)', 'error');
+                    } else {
+                        e.target.style.borderColor = 'var(--vscode-input-border)';
+                    }
+                });
+            });
+        }, 100);
     }
     function showEventDetailsModal(event, extendedProps) {
         const modal = createModal('Event Details', `
@@ -402,6 +468,54 @@
                 font-family: var(--vscode-font-family);
                 font-size: var(--vscode-font-size);
                 box-sizing: border-box;
+            }
+            .add-event-form input[type="time"] {
+                /* Force 24-hour format display */
+                font-variant-numeric: tabular-nums;
+            }
+            /* Comprehensive AM/PM hiding for all browsers */
+            .add-event-form input[type="time"]::-webkit-datetime-edit-ampm-field,
+            .add-event-form input[type="time"]::-webkit-datetime-edit-meridiem-field,
+            .add-event-form input[type="time"]::-webkit-datetime-edit-text,
+            .add-event-form input[type="time"]::-moz-datetime-edit-ampm-field,
+            .add-event-form input[type="time"]::-ms-datetime-edit-ampm-field {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                width: 0 !important;
+                height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                background: transparent !important;
+                position: absolute !important;
+                clip: rect(0, 0, 0, 0) !important;
+                overflow: hidden !important;
+            }
+            /* Force time input to show only hours and minutes */
+            .add-event-form input[type="time"]::-webkit-datetime-edit-fields-wrapper {
+                display: flex;
+                align-items: center;
+            }
+            .add-event-form input[type="time"]::-webkit-datetime-edit-hour-field,
+            .add-event-form input[type="time"]::-webkit-datetime-edit-minute-field {
+                padding: 0 2px;
+                width: 20px;
+                text-align: center;
+                font-variant-numeric: tabular-nums;
+                border: none;
+                background: transparent;
+            }
+            .add-event-form input[type="time"]::-webkit-datetime-edit-hour-field {
+                border-right: 1px solid #ccc;
+            }
+            /* Firefox specific */
+            .add-event-form input[type="time"] {
+                -moz-appearance: textfield;
+            }
+            /* Ensure the picker indicator doesn't interfere */
+            .add-event-form input[type="time"]::-webkit-calendar-picker-indicator {
+                opacity: 0.8;
             }
             .add-event-form input:focus,
             .add-event-form textarea:focus,
@@ -788,17 +902,49 @@
     }
 
     /**
+     * Validate 24-hour time format (HH:MM)
+     */
+    function isValid24HourTime(timeString) {
+        if (!timeString || typeof timeString !== 'string') return false;
+
+        const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+        return timeRegex.test(timeString);
+    }
+
+    /**
+     * Convert formatted date (Mmm.dd.yyyy) to ISO format (YYYY-MM-DD)
+     */
+    function convertFormattedDateToISO(formattedDate) {
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const parts = formattedDate.split('.');
+        if (parts.length !== 3) return formattedDate;
+
+        const monthName = parts[0];
+        const day = parseInt(parts[1]);
+        const year = parseInt(parts[2]);
+
+        const monthIndex = monthNames.indexOf(monthName);
+        if (monthIndex === -1) return formattedDate;
+
+        const date = new Date(year, monthIndex, day);
+        return date.toISOString().split('T')[0];
+    }
+
+    /**
      * Format date for display
      */
     function formatDate(date) {
         if (!date) return '';
 
         const d = new Date(date);
-        const dateStr = d.toLocaleDateString();
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const month = monthNames[d.getMonth()];
+        const day = d.getDate().toString().padStart(2, '0');
+        const year = d.getFullYear();
         // Force 24-hour format - use local time since times are now treated as local
         const hours = d.getHours().toString().padStart(2, '0');
         const minutes = d.getMinutes().toString().padStart(2, '0');
-        return `${dateStr} ${hours}:${minutes}`;
+        return `${month}.${day}.${year} ${hours}:${minutes}`;
     }
 
 })();

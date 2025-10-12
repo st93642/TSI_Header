@@ -122,6 +122,50 @@
 .fc-daygrid-day-number,
 .fc-col-header-cell-cushion {
     color: var(--vscode-foreground);
+    text-align: left !important;
+    justify-content: flex-start !important;
+}
+
+/* Force left-align dates in calendar cells using absolute positioning */
+.fc-daygrid-day .fc-daygrid-day-top {
+    position: relative !important;
+    padding-top: 20px !important; /* Make room for the absolutely positioned date */
+    min-height: 20px !important;
+}
+
+.fc-daygrid-day .fc-daygrid-day-number {
+    position: absolute !important;
+    top: 2px !important;
+    left: 2px !important;
+    right: auto !important;
+    bottom: auto !important;
+    text-align: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    z-index: 2 !important; /* Ensure date stays above events */
+}
+
+/* Additional specificity for date alignment */
+.fc-theme-standard .fc-daygrid-day .fc-daygrid-day-number {
+    position: absolute !important;
+    top: 2px !important;
+    left: 2px !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    z-index: 2 !important;
+}
+
+/* Ensure events don't overlap with the date */
+.fc-daygrid-day .fc-daygrid-day-events {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.fc-daygrid-day .fc-daygrid-day-bottom {
+    margin-top: 0 !important;
 }
 
 .fc-day-today {
