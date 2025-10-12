@@ -156,7 +156,7 @@ class CalendarDataManager {
     }
 
     /**
-     * Import data (with validation)
+     * Import data (with validation) - merges with existing data instead of replacing
      */
     async importData(importData) {
         // Validate import data structure
@@ -177,12 +177,131 @@ class CalendarDataManager {
             importData.version = '1.0.0';
         }
 
-        // Validate and clean data
+        // Validate and clean imported data
         importData.deadlines = this.validateDeadlines(importData.deadlines);
         importData.customEvents = this.validateCustomEvents(importData.customEvents);
         importData.dailySchedules = this.validateDailySchedules(importData.dailySchedules);
 
-        await this.saveData(importData);
+        // Get existing data to merge with
+        const existingData = await this.getData();
+
+        // Merge data instead of replacing
+        const mergedData = {
+            version: importData.version || existingData.version || '1.0.0',
+            deadlines: this.mergeDeadlines(existingData.deadlines || [], importData.deadlines),
+            customEvents: this.mergeCustomEvents(existingData.customEvents || [], importData.customEvents),
+            dailySchedules: this.mergeDailySchedules(existingData.dailySchedules || [], importData.dailySchedules)
+        };
+
+        await this.saveData(mergedData);
+    }
+
+    /**
+     * Merge deadlines - avoid duplicates by title and due date
+     */
+    mergeDeadlines(existing, imported) {
+        const merged = [...existing];
+
+        imported.forEach(importedDeadline => {
+            // Check if a deadline with same title and due date already exists
+            const existingIndex = merged.findIndex(existingDeadline =>
+                existingDeadline.title === importedDeadline.title &&
+                existingDeadline.dueDate === importedDeadline.dueDate
+            );
+
+            if (existingIndex === -1) {
+                // Generate new ID to avoid conflicts
+                const newDeadline = {
+                    ...importedDeadline,
+                    id: `imported-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                    createdAt: new Date().toISOString()
+                };
+                merged.push(newDeadline);
+            } else {
+                // Update existing deadline with imported data (prefer imported version)
+                merged[existingIndex] = {
+                    ...merged[existingIndex],
+                    ...importedDeadline,
+                    id: merged[existingIndex].id, // Keep existing ID
+                    updatedAt: new Date().toISOString()
+                };
+            }
+        });
+
+        return merged;
+    }
+
+    /**
+     * Merge custom events - avoid duplicates by title, date, and time
+     */
+    mergeCustomEvents(existing, imported) {
+        const merged = [...existing];
+
+        imported.forEach(importedEvent => {
+            // Check if an event with same title, date, and time already exists
+            const existingIndex = merged.findIndex(existingEvent =>
+                existingEvent.title === importedEvent.title &&
+                existingEvent.date === importedEvent.date &&
+                existingEvent.time === importedEvent.time
+            );
+
+            if (existingIndex === -1) {
+                // Generate new ID to avoid conflicts
+                const newEvent = {
+                    ...importedEvent,
+                    id: `imported-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                    createdAt: new Date().toISOString()
+                };
+                merged.push(newEvent);
+            } else {
+                // Update existing event with imported data (prefer imported version)
+                merged[existingIndex] = {
+                    ...merged[existingIndex],
+                    ...importedEvent,
+                    id: merged[existingIndex].id, // Keep existing ID
+                    updatedAt: new Date().toISOString()
+                };
+            }
+        });
+
+        return merged;
+    }
+
+    /**
+     * Merge daily schedules - avoid duplicates by title and schedule details
+     */
+    mergeDailySchedules(existing, imported) {
+        const merged = [...existing];
+
+        imported.forEach(importedSchedule => {
+            // Check if a schedule with same title, start/end time, and days already exists
+            const existingIndex = merged.findIndex(existingSchedule =>
+                existingSchedule.title === importedSchedule.title &&
+                existingSchedule.startTime === importedSchedule.startTime &&
+                existingSchedule.endTime === importedSchedule.endTime &&
+                JSON.stringify(existingSchedule.daysOfWeek.sort()) === JSON.stringify(importedSchedule.daysOfWeek.sort())
+            );
+
+            if (existingIndex === -1) {
+                // Generate new ID to avoid conflicts
+                const newSchedule = {
+                    ...importedSchedule,
+                    id: `imported-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                    createdAt: new Date().toISOString()
+                };
+                merged.push(newSchedule);
+            } else {
+                // Update existing schedule with imported data (prefer imported version)
+                merged[existingIndex] = {
+                    ...merged[existingIndex],
+                    ...importedSchedule,
+                    id: merged[existingIndex].id, // Keep existing ID
+                    updatedAt: new Date().toISOString()
+                };
+            }
+        });
+
+        return merged;
     }
 
     /**
@@ -254,35 +373,7 @@ class CalendarDataManager {
         return data;
     }
 
-    /**
-     * Export calendar data for backup
-     */
-    async exportData() {
-        return await this.getData();
-    }
 
-    /**
-     * Import calendar data from backup
-     */
-    async importData(data) {
-        // Validate data structure
-        if (!data || typeof data !== 'object') {
-            throw new Error('Invalid calendar data format');
-        }
-
-        // Ensure required fields exist
-        data.deadlines = data.deadlines || [];
-        data.customEvents = data.customEvents || [];
-        data.dailySchedules = data.dailySchedules || [];
-        data.version = data.version || '1.0.0';
-
-        // Validate and clean data
-        data.deadlines = data.deadlines.filter(item => item && item.id && item.title);
-        data.customEvents = data.customEvents.filter(item => item && item.id && item.title);
-        data.dailySchedules = data.dailySchedules.filter(item => item && item.id && item.title);
-
-        await this.saveData(data);
-    }
 
     /**
      * Clear all data (for testing/reset)

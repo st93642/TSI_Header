@@ -561,10 +561,10 @@ class CalendarManager {
 
             const fileUri = uri[0];
 
-            // Show progress
+                        // Show progress
             await vscode.window.withProgress({
                 location: vscode.ProgressLocation.Notification,
-                title: 'Importing calendar from file...',
+                title: 'Merging calendar data from file...',
                 cancellable: false
             }, async (progress) => {
                 progress.report({ increment: 0, message: 'Reading file...' });
@@ -588,7 +588,7 @@ class CalendarManager {
                     }
                 }
 
-                progress.report({ increment: 70, message: 'Importing data...' });
+                progress.report({ increment: 70, message: 'Merging with existing calendar...' });
 
                 // Import the data
                 await this.dataManager.importData(data);
@@ -596,7 +596,7 @@ class CalendarManager {
                 progress.report({ increment: 100, message: 'Complete!' });
             });
 
-            vscode.window.showInformationMessage('Calendar imported successfully from file!');
+            vscode.window.showInformationMessage('Calendar data merged successfully! New events added and duplicates updated.');
 
         } catch (error) {
             vscode.window.showErrorMessage(`Failed to import calendar from file: ${error.message}`);
@@ -631,7 +631,7 @@ class CalendarManager {
             // Show progress
             await vscode.window.withProgress({
                 location: vscode.ProgressLocation.Notification,
-                title: 'Importing calendar from URL...',
+                title: 'Merging calendar data from URL...',
                 cancellable: false
             }, async (progress) => {
                 progress.report({ increment: 0, message: 'Fetching data...' });
@@ -649,7 +649,7 @@ class CalendarManager {
                         data = JSON.parse(response);
                     }
 
-                    progress.report({ increment: 75, message: 'Importing data...' });
+                    progress.report({ increment: 75, message: 'Merging with existing calendar...' });
 
                     await this.dataManager.importData(data);
                     progress.report({ increment: 100, message: 'Complete!' });
@@ -659,7 +659,7 @@ class CalendarManager {
                 }
             });
 
-            vscode.window.showInformationMessage('Calendar imported successfully from URL!');
+            vscode.window.showInformationMessage('Calendar data merged successfully from URL! New events added and duplicates updated.');
 
         } catch (error) {
             vscode.window.showErrorMessage(`Failed to import calendar from URL: ${error.message}`);
