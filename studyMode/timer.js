@@ -218,33 +218,36 @@ class StudyModeTimer {
         if (!this.statusBarItem) return; // Skip if no status bar item (e.g., in tests)
 
         let icon = '';
-        let text = '';
+        let visualCountdown = '';
         let tooltip = '';
 
         switch (this.currentPhase) {
             case 'work':
                 icon = this.isRunning ? '🍅' : '⏸️🍅';
-                text = this.isRunning ? this.formatTime(this.getRemainingTime()) : this.formatTime(this.remainingTime);
-                tooltip = `Work Session ${this.currentSession + 1}/${this.sessionsBeforeLongBreak}`;
+                visualCountdown = this.generateTomatoCountdown();
+                const workTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
+                tooltip = `Work Session ${this.currentSession + 1}/${this.sessionsBeforeLongBreak} - ${this.formatTime(workTime)} remaining`;
                 break;
             case 'shortBreak':
                 icon = this.isRunning ? '☕' : '⏸️☕';
-                text = this.isRunning ? this.formatTime(this.getRemainingTime()) : this.formatTime(this.remainingTime);
-                tooltip = this.isRunning ? 'Short Break' : 'Short Break - Choose Take Break or Skip Break';
+                visualCountdown = this.generateCoffeeCountdown();
+                const shortBreakTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
+                tooltip = this.isRunning ? `Short Break - ${this.formatTime(shortBreakTime)} remaining` : 'Short Break - Choose Take Break or Skip Break';
                 break;
             case 'longBreak':
                 icon = this.isRunning ? '🏖️' : '⏸️🏖️';
-                text = this.isRunning ? this.formatTime(this.getRemainingTime()) : this.formatTime(this.remainingTime);
-                tooltip = this.isRunning ? 'Long Break' : 'Long Break - Choose Take Break or Skip Break';
+                visualCountdown = this.generateCoffeeCountdown();
+                const longBreakTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
+                tooltip = this.isRunning ? `Long Break - ${this.formatTime(longBreakTime)} remaining` : 'Long Break - Choose Take Break or Skip Break';
                 break;
             case 'stopped':
                 icon = '⏹️';
-                text = 'Study Mode';
+                visualCountdown = 'Study Mode';
                 tooltip = 'Click to start study session';
                 break;
         }
 
-        this.statusBarItem.text = `${icon} ${text}`;
+        this.statusBarItem.text = `${icon} ${visualCountdown}`;
         this.statusBarItem.tooltip = tooltip;
 
         if (this.currentPhase !== 'stopped') {
@@ -252,6 +255,40 @@ class StudyModeTimer {
         } else {
             this.statusBarItem.hide();
         }
+    }
+
+    generateTomatoCountdown() {
+        const remainingTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
+        const remainingMinutes = Math.ceil(remainingTime / (60 * 1000)); // Round up to next minute
+        
+        // For sessions > 30 minutes, show remaining minutes modulo 30
+        // This creates a "renewing" effect every 30 minutes
+        const displayMinutes = remainingMinutes > 30 ? remainingMinutes % 30 || 30 : remainingMinutes;
+        
+        // Generate tomato string
+        let tomatoes = '';
+        for (let i = 0; i < displayMinutes; i++) {
+            tomatoes += '🍅';
+        }
+        
+        return tomatoes || '🍅'; // Always show at least one tomato
+    }
+
+    generateCoffeeCountdown() {
+        const remainingTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
+        const remainingMinutes = Math.ceil(remainingTime / (60 * 1000)); // Round up to next minute
+        
+        // For sessions > 30 minutes, show remaining minutes modulo 30
+        // This creates a "renewing" effect every 30 minutes
+        const displayMinutes = remainingMinutes > 30 ? remainingMinutes % 30 || 30 : remainingMinutes;
+        
+        // Generate coffee string
+        let coffees = '';
+        for (let i = 0; i < displayMinutes; i++) {
+            coffees += '☕';
+        }
+        
+        return coffees || '☕'; // Always show at least one coffee cup
     }
 
     showPhaseNotification() {
