@@ -223,19 +223,19 @@ class StudyModeTimer {
 
         switch (this.currentPhase) {
             case 'work':
-                icon = this.isRunning ? '🍅' : '⏸️🍅';
+                icon = this.isRunning ? '' : '❄️';
                 visualCountdown = this.generateTomatoCountdown();
                 const workTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
                 tooltip = `Work Session ${this.currentSession + 1}/${this.sessionsBeforeLongBreak} - ${this.formatTime(workTime)} remaining`;
                 break;
             case 'shortBreak':
-                icon = this.isRunning ? '☕' : '⏸️☕';
+                icon = this.isRunning ? '' : '❄️';
                 visualCountdown = this.generateCoffeeCountdown();
                 const shortBreakTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
                 tooltip = this.isRunning ? `Short Break - ${this.formatTime(shortBreakTime)} remaining` : 'Short Break - Choose Take Break or Skip Break';
                 break;
             case 'longBreak':
-                icon = this.isRunning ? '🏖️' : '⏸️🏖️';
+                icon = this.isRunning ? '' : '❄️';
                 visualCountdown = this.generateCoffeeCountdown();
                 const longBreakTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
                 tooltip = this.isRunning ? `Long Break - ${this.formatTime(longBreakTime)} remaining` : 'Long Break - Choose Take Break or Skip Break';
@@ -247,7 +247,7 @@ class StudyModeTimer {
                 break;
         }
 
-        this.statusBarItem.text = `${icon} ${visualCountdown}`;
+        this.statusBarItem.text = icon ? `${icon} ${visualCountdown}` : visualCountdown;
         this.statusBarItem.tooltip = tooltip;
 
         if (this.currentPhase !== 'stopped') {
@@ -259,7 +259,8 @@ class StudyModeTimer {
 
     generateTomatoCountdown() {
         const remainingTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
-        const remainingMinutes = Math.ceil(remainingTime / (60 * 1000)); // Round up to next minute
+        // Use floor division and add 30 seconds to round up partial minutes
+        const remainingMinutes = Math.floor((remainingTime + 30000) / (60 * 1000));
         
         // For sessions > 30 minutes, show remaining minutes modulo 30
         // This creates a "renewing" effect every 30 minutes
@@ -276,7 +277,8 @@ class StudyModeTimer {
 
     generateCoffeeCountdown() {
         const remainingTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
-        const remainingMinutes = Math.ceil(remainingTime / (60 * 1000)); // Round up to next minute
+        // Use floor division and add 30 seconds to round up partial minutes
+        const remainingMinutes = Math.floor((remainingTime + 30000) / (60 * 1000));
         
         // For sessions > 30 minutes, show remaining minutes modulo 30
         // This creates a "renewing" effect every 30 minutes
