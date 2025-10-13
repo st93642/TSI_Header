@@ -13,7 +13,7 @@ function generateVueHtmlCodeBase() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TSI Header - Vue.js Application</title>
+    <title>Uni-header - Vue.js Application</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.js"></script>
 </head>
 <body>

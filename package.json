@@ -1,8 +1,8 @@
 {
-  "name": "tsi-header",
-  "displayName": "TSI Header, Learn & Pomodoro",
-  "description": "Code generation and headers, learning modules, and Pomodoro timer for focused study sessions",
-  "version": "6.8.0",
+  "name": "uni-header",
+  "displayName": "University Header, Learn, Pomodoro & Calendar",
+  "description": "Code generation and headers, learning modules, Pomodoro timer for focused study sessions and calendar",
+  "version": "6.8.1",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -40,18 +40,18 @@
     "*"
   ],
   "main": "./core/src/extension.js",
-  "contributes": {
+    "contributes": {
     "configuration": {
-      "title": "TSI Header",
+      "title": "Uni Header",
       "properties": {
         "tsiheader.username": {
           "type": "string",
-          "description": "Username to use in TSI headers",
+          "description": "Username to use in Uni headers",
           "scope": "resource"
         },
         "tsiheader.email": {
           "type": "string",
-          "description": "Email address to use in TSI headers",
+          "description": "Email address to use in Uni headers",
           "scope": "resource"
         },
         "tsiheader.studyMode.enableSounds": {
@@ -147,7 +147,7 @@
       "activitybar": [
         {
           "id": "tsi-header-explorer",
-          "title": "TSI Header",
+          "title": "Uni Header",
           "icon": "$(mortar-board)"
         },
         {
@@ -161,13 +161,13 @@
       "tsi-header-explorer": [
         {
           "id": "tsi-commands",
-          "name": "TSI Commands",
+          "name": "Uni Commands",
           "icon": "$(list-unordered)",
           "when": "true"
         },
         {
           "id": "tsi-projects",
-          "name": "TSI Projects",
+          "name": "Uni Projects",
           "icon": "$(folder)",
           "when": "true"
         }
@@ -185,295 +185,295 @@
       {
         "command": "tsiheader.insertHeader",
         "title": "Insert Header",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(add)"
       },
       {
         "command": "tsiheader.updateHeader",
         "title": "Update Header",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(sync)"
       },
       {
         "command": "tsiheader.addClass",
         "title": "Add class",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(symbol-class)"
       },
       {
         "command": "tsiheader.addCodeBase",
         "title": "Add code base",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(code)"
       },
       {
         "command": "tsiheader.createTSIProject",
-        "title": "Create TSI Project",
-        "category": "TSI Header",
+        "title": "Create Uni Project",
+        "category": "Uni Header",
         "icon": "$(folder-opened)"
       },
       {
         "command": "tsiheader.removeHeader",
         "title": "Remove Header",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(trash)"
       },
       {
         "command": "tsiheader.createCProject",
-        "title": "Create C TSI Project",
-        "category": "TSI Header",
+        "title": "Create C Uni Project",
+        "category": "Uni Header",
         "icon": "$(file-code)"
       },
       {
         "command": "tsiheader.createCppProject",
-        "title": "Create C++ TSI Project",
-        "category": "TSI Header",
+        "title": "Create C++ Uni Project",
+        "category": "Uni Header",
         "icon": "$(file-code)"
       },
       {
         "command": "tsiheader.createPythonProject",
-        "title": "Create Python TSI Project",
-        "category": "TSI Header",
+        "title": "Create Python Uni Project",
+        "category": "Uni Header",
         "icon": "$(snake)"
       },
       {
         "command": "tsiheader.createJavaProject",
-        "title": "Create Java TSI Project",
-        "category": "TSI Header",
+        "title": "Create Java Uni Project",
+        "category": "Uni Header",
         "icon": "$(coffee)"
       },
       {
         "command": "tsiheader.createRustProject",
-        "title": "Create Rust TSI Project",
-        "category": "TSI Header",
+        "title": "Create Rust Uni Project",
+        "category": "Uni Header",
         "icon": "$(tools)"
       },
       {
         "command": "tsiheader.createRubyProject",
-        "title": "Create Ruby TSI Project",
-        "category": "TSI Header",
+        "title": "Create Ruby Uni Project",
+        "category": "Uni Header",
         "icon": "$(ruby)"
       },
       {
         "command": "tsiheader.createPhpProject",
-        "title": "Create PHP TSI Project",
-        "category": "TSI Header",
+        "title": "Create PHP Uni Project",
+        "category": "Uni Header",
         "icon": "$(globe)"
       },
       {
         "command": "tsiheader.createHtmlProject",
-        "title": "Create HTML TSI Project",
-        "category": "TSI Header",
+        "title": "Create HTML Uni Project",
+        "category": "Uni Header",
         "icon": "$(globe)"
       },
       {
         "command": "tsiheader.startStudySession",
         "title": "Start Study Session",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(play)"
       },
       {
         "command": "tsiheader.pauseStudyTimer",
         "title": "Pause/Resume Study Timer",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(debug-pause)"
       },
       {
         "command": "tsiheader.stopStudySession",
         "title": "Stop Study Session",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(stop)"
       },
       {
         "command": "tsiheader.viewStudyStats",
         "title": "View Study Statistics",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.configureStudyMode",
         "title": "Configure Study Mode",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(settings-gear)"
       },
       {
         "command": "tsiheader.resetStudyProgress",
         "title": "Reset Study Progress",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(clear-all)"
       },
       {
         "command": "tsiheader.learnRuby",
         "title": "Learn Ruby",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(ruby)"
       },
       {
         "command": "tsiheader.learnRust",
         "title": "Learn Rust",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(tools)"
       },
       {
         "command": "tsiheader.browseLessonsRust",
         "title": "Browse Rust Lessons",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressRust",
         "title": "View Rust Progress",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.browseLessons",
         "title": "Browse All Lessons",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgress",
         "title": "View Learning Progress",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.runExerciseTests",
         "title": "Run Exercise Tests",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(play)"
       },
       {
         "command": "tsiheader.learnC",
         "title": "Learn C",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(file-code)"
       },
       {
         "command": "tsiheader.browseLessonsC",
         "title": "Browse All C Lessons",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressC",
         "title": "View C Learning Progress",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.runExerciseTestsC",
         "title": "Run C Exercise Tests",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(play)"
       },
       {
         "command": "tsiheader.learnCpp",
         "title": "Learn C++",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(file-code)"
       },
       {
         "command": "tsiheader.browseLessonsCpp",
         "title": "Browse All C++ Lessons",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressCpp",
         "title": "View C++ Learning Progress",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.runExerciseTestsCpp",
         "title": "Run C++ Exercise Tests",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(play)"
       },
       {
         "command": "tsiheader.learnCppDsa",
         "title": "Learn C++ DSA",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(rocket)"
       },
       {
         "command": "tsiheader.browseLessonsCppDsa",
         "title": "Browse C++ DSA Lessons",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressCppDsa",
         "title": "View C++ DSA Progress",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.learnGit",
         "title": "Learn Git",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(git-branch)"
       },
       {
         "command": "tsiheader.browseLessonsGit",
         "title": "Browse Git Lessons",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(list-tree)"
       },
       {
         "command": "tsiheader.viewLearnProgressGit",
         "title": "View Git Progress",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(graph)"
       },
       {
         "command": "tsiheader.showCalendar",
         "title": "Show Study Calendar",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(calendar)"
       },
       {
         "command": "tsiheader.addCalendarDeadline",
         "title": "Add Deadline",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(clock)"
       },
       {
         "command": "tsiheader.addCalendarEvent",
         "title": "Add Custom Event",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(add)"
       },
       {
         "command": "tsiheader.addCalendarSchedule",
         "title": "Add Daily Schedule",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(history)"
       },
       {
         "command": "tsiheader.exportCalendar",
         "title": "Export Calendar",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(export)"
       },
       {
         "command": "tsiheader.importCalendar",
         "title": "Import Calendar",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(import)"
       },
       {
         "command": "tsiheader.importCalendarFromUrl",
         "title": "Import Calendar from URL",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(cloud-download)"
       },
       {
         "command": "tsiheader.testNotification",
         "title": "Test Email Notification",
-        "category": "TSI Header",
+        "category": "Uni Header",
         "icon": "$(bell)"
       }
     ],

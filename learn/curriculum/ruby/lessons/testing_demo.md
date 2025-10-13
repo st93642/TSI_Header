@@ -2,7 +2,7 @@
 
 ## Overview
 
-This lesson demonstrates the enhanced testing capabilities of the TSI Header
+This lesson demonstrates the enhanced testing capabilities of the Uni-header
 extension. The testing system now supports multiple types of tests to validate
 different aspects of your code behavior.
 

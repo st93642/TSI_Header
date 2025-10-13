@@ -12,7 +12,7 @@ FROM ubuntu:20.04
 # Set maintainer label
 LABEL maintainer="TSI Student <student@tsi.lv>"
 LABEL version="1.0"
-LABEL description="TSI Header - Basic Docker Image"
+LABEL description="Uni-header - Basic Docker Image"
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive

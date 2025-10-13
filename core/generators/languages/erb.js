@@ -9,7 +9,7 @@ function generateErbCodeBase() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TSI Header - ERB Template Example</title>
+    <title>Uni-header - ERB Template Example</title>
     <style>
         body {
             font-family: Arial, sans-serif;
