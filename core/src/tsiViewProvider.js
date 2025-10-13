@@ -223,8 +223,7 @@ class TSITreeDataProvider {
                     tooltip: 'View your Rust learning progress and achievements'
                 })
             ]);
-        }
-        else if (element.id === 'learn-odin') {
+        } else if (element.id === 'learn-odin') {
             return Promise.resolve([
                 new TSITreeItem('Start Foundations', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.learnOdin',
@@ -240,6 +239,16 @@ class TSITreeDataProvider {
                     command: 'tsiheader.viewLearnProgressOdin',
                     title: 'View Progress',
                     tooltip: 'Track your progress through The Odin Project'
+                }),
+                new TSITreeItem('Clear Cache', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.clearOdinCache',
+                    title: 'Clear Cache',
+                    tooltip: 'Clear all cached Odin Project lessons'
+                }),
+                new TSITreeItem('View Cache Stats', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewOdinCacheStats',
+                    title: 'View Cache Stats',
+                    tooltip: 'View statistics about cached lessons'
                 })
             ]);
         }
@@ -270,13 +279,22 @@ class TSIProjectDataProvider {
                     title: 'Create TSI Project',
                     tooltip: 'Create new TSI project with professional structure'
                 }),
-                new TSITreeItem('📋 Recent Projects', vscode.TreeItemCollapsibleState.Collapsed),
+                new TSITreeItem('📋 Cached Lessons', vscode.TreeItemCollapsibleState.Collapsed),
                 new TSITreeItem('⚙️ Project Templates', vscode.TreeItemCollapsibleState.Collapsed)
             ]);
-        } else if (element.label === '📋 Recent Projects') {
-            // Could add logic to show recent TSI projects
+        } else if (element.label === '📋 Cached Lessons') {
+            // Cached lessons section - show cache management commands
             return Promise.resolve([
-                new TSITreeItem('No recent projects', vscode.TreeItemCollapsibleState.None)
+                new TSITreeItem('Clear Cache', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.clearOdinCache',
+                    title: 'Clear Odin Project Cache',
+                    tooltip: 'Clear all cached Odin Project lessons'
+                }),
+                new TSITreeItem('View Cache Stats', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewOdinCacheStats',
+                    title: 'View Odin Project Cache Stats',
+                    tooltip: 'View statistics about cached lessons'
+                })
             ]);
         } else if (element.label === '⚙️ Project Templates') {
             return Promise.resolve([
@@ -446,6 +464,10 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('graph');
         } else if (command?.command === 'tsiheader.viewLearnProgressOdin') {
             this.iconPath = new vscode.ThemeIcon('graph');
+        } else if (command?.command === 'tsiheader.clearOdinCache') {
+            this.iconPath = new vscode.ThemeIcon('clear-all');
+        } else if (command?.command === 'tsiheader.viewOdinCacheStats') {
+            this.iconPath = new vscode.ThemeIcon('database');
         }
     }
 }

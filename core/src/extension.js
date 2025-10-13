@@ -2010,6 +2010,82 @@ extern "C" {
 
     context.subscriptions.push(viewLearnProgressOdinCommand);
 
+    // Odin Project Cache Management Commands
+    const clearOdinCacheCommand = vscode.commands.registerCommand('tsiheader.clearOdinCache', async () => {
+        try {
+            // Lazy load the Odin Project manager
+            const OdinProjectManager = require(path.join(__dirname, '..', '..', 'top', 'odin_manager.js'));
+            const odinManager = new OdinProjectManager(vscode);
+
+            const confirmed = await vscode.window.showWarningMessage(
+                'Clear Odin Project Cache?\n\n' +
+                'This will delete all cached lessons. You will need to re-download lessons from The Odin Project website next time you access them.\n\n' +
+                'Cached lessons allow offline access when you don\'t have internet connection.',
+                { modal: true },
+                'Clear Cache',
+                'Cancel'
+            );
+
+            if (confirmed === 'Clear Cache') {
+                const success = await odinManager.clearLessonCache();
+                if (success) {
+                    vscode.window.showInformationMessage('✅ Odin Project cache cleared successfully!');
+                } else {
+                    vscode.window.showErrorMessage('❌ Failed to clear Odin Project cache');
+                }
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error clearing cache: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(clearOdinCacheCommand);
+
+    const viewOdinCacheStatsCommand = vscode.commands.registerCommand('tsiheader.viewOdinCacheStats', async () => {
+        try {
+            // Lazy load the Odin Project manager
+            const OdinProjectManager = require(path.join(__dirname, '..', '..', 'top', 'odin_manager.js'));
+            const odinManager = new OdinProjectManager(vscode);
+
+            const stats = await odinManager.getCacheStats();
+
+            const formatSize = (bytes) => {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            };
+
+            const formatDate = (dateStr) => {
+                if (!dateStr) return 'Never';
+                return new Date(dateStr).toLocaleDateString();
+            };
+
+            const message = `📊 Odin Project Cache Statistics\n\n` +
+                `📚 Cached Lessons: ${stats.totalLessons}\n` +
+                `💾 Cache Size: ${formatSize(stats.totalSize)}\n` +
+                `📅 Oldest Cache: ${formatDate(stats.oldestCache)}\n` +
+                `🆕 Newest Cache: ${formatDate(stats.newestCache)}\n\n` +
+                `Cache helps provide offline access to lessons you've previously viewed.`;
+
+            const action = await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                'Clear Cache',
+                'Got it!'
+            );
+
+            if (action === 'Clear Cache') {
+                await vscode.commands.executeCommand('tsiheader.clearOdinCache');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing cache stats: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewOdinCacheStatsCommand);
+
     // Register feature module commands
     // Code quality enforcement module removed
     // context.subscriptions.push(diagnosticCollection);

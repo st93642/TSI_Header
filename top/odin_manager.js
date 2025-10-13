@@ -7,11 +7,197 @@
 const https = require('https');
 const http = require('http');
 const path = require('path');
+const fs = require('fs').promises;
+const crypto = require('crypto');
 
 class OdinProjectManager {
     constructor(vscode, progressTracker = null) {
         this.vscode = vscode;
         this.progressTracker = progressTracker;
+        this.cacheDir = null;
+    }
+
+    /**
+     * Get the cache directory path for Odin Project lessons
+     * @returns {Promise<string>} Path to cache directory
+     */
+    async getCacheDir() {
+        if (this.cacheDir) return this.cacheDir;
+
+        try {
+            // Use VS Code's global storage path for caching
+            // This will be in the user's VS Code data directory
+            const extensionId = 'st93642.uni-header';
+            const globalStoragePath = this.vscode.env.globalStorageUri;
+
+            if (globalStoragePath) {
+                this.cacheDir = this.vscode.Uri.joinPath(globalStoragePath, 'odin-cache').fsPath;
+            } else {
+                // Fallback to workspace directory if global storage not available
+                const workspaceFolder = this.vscode.workspace.workspaceFolders?.[0];
+                if (workspaceFolder) {
+                    this.cacheDir = this.vscode.Uri.joinPath(workspaceFolder.uri, '.vscode', 'odin-cache').fsPath;
+                } else {
+                    // Last resort: use temp directory
+                    const os = require('os');
+                    const path = require('path');
+                    this.cacheDir = path.join(os.tmpdir(), 'vscode-odin-cache');
+                }
+            }
+
+            // Ensure cache directory exists
+            await fs.mkdir(this.cacheDir, { recursive: true });
+            return this.cacheDir;
+        } catch (error) {
+            console.error('Failed to create cache directory:', error);
+            return null;
+        }
+    }
+
+    /**
+     * Generate a cache key for a lesson URL
+     * @param {string} url - Lesson URL
+     * @returns {string} Cache key
+     */
+    getCacheKey(url) {
+        return crypto.createHash('md5').update(url).digest('hex');
+    }
+
+    /**
+     * Get cache file path for a lesson
+     * @param {string} url - Lesson URL
+     * @returns {Promise<string>} Path to cache file
+     */
+    async getCacheFilePath(url) {
+        const cacheDir = await this.getCacheDir();
+        if (!cacheDir) return null;
+
+        const cacheKey = this.getCacheKey(url);
+        return path.join(cacheDir, `${cacheKey}.json`);
+    }
+
+    /**
+     * Save lesson content to cache
+     * @param {string} url - Lesson URL
+     * @param {string} title - Lesson title
+     * @param {string} htmlContent - Raw HTML content
+     * @param {string} formattedContent - Formatted HTML content
+     * @returns {Promise<boolean>} Success status
+     */
+    async saveLessonToCache(url, title, htmlContent, formattedContent) {
+        try {
+            const cacheFilePath = await this.getCacheFilePath(url);
+            if (!cacheFilePath) return false;
+
+            const cacheData = {
+                url: url,
+                title: title,
+                htmlContent: htmlContent,
+                formattedContent: formattedContent,
+                cachedAt: new Date().toISOString(),
+                version: '1.0'
+            };
+
+            await fs.writeFile(cacheFilePath, JSON.stringify(cacheData, null, 2), 'utf8');
+            return true;
+        } catch (error) {
+            console.error('Failed to save lesson to cache:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Load lesson content from cache
+     * @param {string} url - Lesson URL
+     * @param {number} maxAgeHours - Maximum age of cache in hours (default: 24)
+     * @returns {Promise<Object|null>} Cached lesson data or null if not found/expired
+     */
+    async loadLessonFromCache(url, maxAgeHours = 24) {
+        try {
+            const cacheFilePath = await this.getCacheFilePath(url);
+            if (!cacheFilePath) return null;
+
+            const cacheData = JSON.parse(await fs.readFile(cacheFilePath, 'utf8'));
+
+            // Check if cache is expired
+            const cachedAt = new Date(cacheData.cachedAt);
+            const now = new Date();
+            const ageHours = (now - cachedAt) / (1000 * 60 * 60);
+
+            if (ageHours > maxAgeHours) {
+                // Cache is too old, remove it
+                await fs.unlink(cacheFilePath).catch(() => {});
+                return null;
+            }
+
+            return cacheData;
+        } catch (error) {
+            // Cache file doesn't exist or is corrupted
+            return null;
+        }
+    }
+
+    /**
+     * Clear all cached lessons
+     * @returns {Promise<boolean>} Success status
+     */
+    async clearLessonCache() {
+        try {
+            const cacheDir = await this.getCacheDir();
+            if (!cacheDir) return false;
+
+            const files = await fs.readdir(cacheDir);
+            await Promise.all(
+                files
+                    .filter(file => file.endsWith('.json'))
+                    .map(file => fs.unlink(path.join(cacheDir, file)))
+            );
+
+            return true;
+        } catch (error) {
+            console.error('Failed to clear lesson cache:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Get cache statistics
+     * @returns {Promise<Object>} Cache statistics
+     */
+    async getCacheStats() {
+        try {
+            const cacheDir = await this.getCacheDir();
+            if (!cacheDir) return { totalLessons: 0, totalSize: 0, oldestCache: null, newestCache: null };
+
+            const files = await fs.readdir(cacheDir);
+            const cacheFiles = files.filter(file => file.endsWith('.json'));
+
+            let totalSize = 0;
+            let oldestCache = null;
+            let newestCache = null;
+
+            for (const file of cacheFiles) {
+                const filePath = path.join(cacheDir, file);
+                const stats = await fs.stat(filePath);
+                totalSize += stats.size;
+
+                const cacheData = JSON.parse(await fs.readFile(filePath, 'utf8'));
+                const cachedAt = new Date(cacheData.cachedAt);
+
+                if (!oldestCache || cachedAt < oldestCache) oldestCache = cachedAt;
+                if (!newestCache || cachedAt > newestCache) newestCache = cachedAt;
+            }
+
+            return {
+                totalLessons: cacheFiles.length,
+                totalSize: totalSize,
+                oldestCache: oldestCache ? oldestCache.toISOString() : null,
+                newestCache: newestCache ? newestCache.toISOString() : null
+            };
+        } catch (error) {
+            console.error('Failed to get cache stats:', error);
+            return { totalLessons: 0, totalSize: 0, oldestCache: null, newestCache: null };
+        }
     }
 
     /**
@@ -435,18 +621,45 @@ class OdinProjectManager {
             panel.webview.html = this.getLoadingHtml(lesson.title);
 
             try {
-                // Fetch lesson content with retry logic
-                const htmlContent = await this.fetchLessonContentWithRetry(lesson.url);
+                let formattedContent;
+                let htmlContent;
 
-                // Extract and format content
-                const formattedContent = this.extractLessonContent(htmlContent, lesson.title, nextLesson, panel.webview);
+                // Try to load from cache first
+                const cachedLesson = await this.loadLessonFromCache(lesson.url);
+
+                if (cachedLesson) {
+                    // Use cached content
+                    formattedContent = cachedLesson.formattedContent;
+                    htmlContent = cachedLesson.htmlContent;
+
+                    // Update loading message to show it's from cache
+                    panel.webview.html = this.getLoadingHtml(`${lesson.title} (Offline)`, true);
+                    await new Promise(resolve => setTimeout(resolve, 500)); // Brief pause to show offline message
+                } else {
+                    // Fetch lesson content with retry logic
+                    htmlContent = await this.fetchLessonContentWithRetry(lesson.url);
+
+                    // Extract and format content
+                    formattedContent = this.extractLessonContent(htmlContent, lesson.title, nextLesson, panel.webview);
+
+                    // Save to cache for future use
+                    await this.saveLessonToCache(lesson.url, lesson.title, htmlContent, formattedContent);
+                }
 
                 // Set the content
                 panel.webview.html = formattedContent;
 
             } catch (error) {
-                // Show error message
-                panel.webview.html = this.getErrorHtml(lesson.title, error.message, lesson.url);
+                // Try to load from cache as fallback
+                const cachedLesson = await this.loadLessonFromCache(lesson.url, 7 * 24); // Allow up to 7 days old cache as fallback
+
+                if (cachedLesson) {
+                    // Show cached content with a warning
+                    panel.webview.html = this.getOfflineFallbackHtml(cachedLesson.formattedContent, lesson.title, error.message);
+                } else {
+                    // Show error message
+                    panel.webview.html = this.getErrorHtml(lesson.title, error.message, lesson.url);
+                }
             }
 
             // Handle messages from webview
@@ -478,11 +691,36 @@ class OdinProjectManager {
     }
 
     /**
+     * Get offline fallback HTML when network fails but cached content exists
+     * @param {string} cachedContent - Cached formatted content
+     * @param {string} lessonTitle - Lesson title
+     * @param {string} errorMessage - Original error message
+     * @returns {string} HTML content with offline warning
+     */
+    getOfflineFallbackHtml(cachedContent, lessonTitle, errorMessage) {
+        // Insert offline warning at the top of the cached content
+        const offlineWarning = `
+        <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin-bottom: 20px; color: #856404;">
+            <strong>⚠️ Offline Mode</strong><br>
+            This lesson is loaded from cache because the latest version couldn't be fetched from The Odin Project.<br>
+            <small>Error: ${errorMessage}</small>
+        </div>
+        `;
+
+        // Insert the warning after the header but before the content
+        return cachedContent.replace(
+            /(<div class="page-container">)/,
+            offlineWarning + '$1'
+        );
+    }
+
+    /**
      * Get loading HTML
      * @param {string} lessonTitle - Title of the lesson
+     * @param {boolean} fromCache - Whether content is loaded from cache
      * @returns {string} HTML content
      */
-    getLoadingHtml(lessonTitle) {
+    getLoadingHtml(lessonTitle, fromCache = false) {
         return `
         <!DOCTYPE html>
         <html>
@@ -532,7 +770,7 @@ class OdinProjectManager {
             <div class="loading">
                 <div class="spinner"></div>
                 <h2>Loading ${lessonTitle}...</h2>
-                <p>Fetching content from The Odin Project</p>
+                <p>${fromCache ? 'Loading from cache...' : 'Fetching content from The Odin Project'}</p>
             </div>
         </body>
         </html>`;

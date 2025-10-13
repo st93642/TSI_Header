@@ -173,7 +173,7 @@
         },
         {
           "id": "tsi-projects",
-          "name": "Uni Projects",
+          "name": "Cached Lessons",
           "icon": "$(folder)",
           "when": "true"
         }
@@ -453,6 +453,18 @@
         "icon": "$(graph)"
       },
       {
+        "command": "tsiheader.clearOdinCache",
+        "title": "Clear Odin Project Cache",
+        "category": "Uni Header",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "tsiheader.viewOdinCacheStats",
+        "title": "View Odin Project Cache Stats",
+        "category": "Uni Header",
+        "icon": "$(database)"
+      },
+      {
         "command": "tsiheader.showCalendar",
         "title": "Show Study Calendar",
         "category": "Uni Header",
@@ -504,6 +516,14 @@
     "commandPalette": [
       {
         "command": "tsiheader.showCalendar",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.clearOdinCache",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.viewOdinCacheStats",
         "when": "true"
       }
     ],
@@ -712,6 +732,16 @@
         "command": "tsiheader.refreshProjects",
         "when": "view == tsi-projects",
         "group": "navigation"
+      },
+      {
+        "command": "tsiheader.clearOdinCache",
+        "when": "view == tsi-projects",
+        "group": "cached-lessons"
+      },
+      {
+        "command": "tsiheader.viewOdinCacheStats",
+        "when": "view == tsi-projects",
+        "group": "cached-lessons"
       }
     ],
     "view/title:tsi-calendar-container": [
