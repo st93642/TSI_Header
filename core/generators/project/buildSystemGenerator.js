@@ -73,7 +73,7 @@ async function generateMakefileContent(language, projectName, vscode) {
         // Get extension path
         let extensionPath;
         try {
-            extensionPath = vscode.extensions.getExtension('st93642.tsi-header').extensionPath;
+            extensionPath = vscode.extensions.getExtension('st93642.uni-header').extensionPath;
         } catch (e) {
             extensionPath = process.cwd();
         }
@@ -180,7 +180,7 @@ async function generatePythonMakefileContentWithHeader(projectName, vscode) {
         // Get extension path
         let extensionPath;
         try {
-            extensionPath = vscode.extensions.getExtension('st93642.tsi-header').extensionPath;
+            extensionPath = vscode.extensions.getExtension('st93642.uni-header').extensionPath;
         } catch (e) {
             extensionPath = process.cwd();
         }
@@ -269,7 +269,7 @@ async function generateMavenPomContentWithHeader(projectName, vscode) {
         // Get extension path
         let extensionPath;
         try {
-            extensionPath = vscode.extensions.getExtension('st93642.tsi-header').extensionPath;
+            extensionPath = vscode.extensions.getExtension('st93642.uni-header').extensionPath;
         } catch (e) {
             extensionPath = process.cwd();
         }
@@ -365,7 +365,7 @@ async function generateGradleBuildContentWithHeader(projectName, vscode) {
         // Get extension path
         let extensionPath;
         try {
-            extensionPath = vscode.extensions.getExtension('st93642.tsi-header').extensionPath;
+            extensionPath = vscode.extensions.getExtension('st93642.uni-header').extensionPath;
         } catch (e) {
             extensionPath = process.cwd();
         }

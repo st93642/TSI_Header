@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 13 2025 15:06 st93642                                       */
+/*  Updated: Oct 13 2025 17:05 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -72,7 +72,7 @@ function activate(context) {
                     'Open Settings'
                 ).then(selection => {
                     if (selection === 'Open Settings') {
-                        vscode.commands.executeCommand('workbench.action.openSettings', '@ext:st93642.tsi-header notifications');
+                        vscode.commands.executeCommand('workbench.action.openSettings', '@ext:st93642.uni-header notifications');
                     }
                 });
                 return;
@@ -84,7 +84,7 @@ function activate(context) {
                     'Open Settings'
                 ).then(selection => {
                     if (selection === 'Open Settings') {
-                        vscode.commands.executeCommand('workbench.action.openSettings', '@ext:st93642.tsi-header notifications');
+                        vscode.commands.executeCommand('workbench.action.openSettings', '@ext:st93642.uni-header notifications');
                     }
                 });
                 return;
@@ -145,7 +145,7 @@ function activate(context) {
         vscode.window.showInformationMessage(message, 'Open Settings', 'Git Config Help')
             .then(selection => {
                 if (selection === 'Open Settings') {
-                    vscode.commands.executeCommand('workbench.action.openSettings', `@ext:st93642.tsi-header`);
+                    vscode.commands.executeCommand('workbench.action.openSettings', `@ext:st93642.uni-header`);
                 } else if (selection === 'Git Config Help') {
                     vscode.env.openExternal(vscode.Uri.parse('https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup'));
                 }
@@ -1820,9 +1820,13 @@ extern "C" {
     // Odin Project Learning Commands
     const learnOdinCommand = vscode.commands.registerCommand('tsiheader.learnOdin', async () => {
         try {
-            // Lazy load the Odin Project manager
+            // Lazy load the Learn module to get progress tracker
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+            
+            // Lazy load the Odin Project manager with progress tracker
             const OdinProjectManager = require(path.join(__dirname, '..', '..', 'top', 'odin_manager.js'));
-            const odinManager = new OdinProjectManager(vscode);
+            const odinManager = new OdinProjectManager(vscode, learnInstance.progressTracker);
 
             const message = '🚀 The Odin Project - Full Stack JavaScript\n\n' +
                 'Embark on a comprehensive journey to become a full-stack developer:\n' +
@@ -1842,12 +1846,22 @@ extern "C" {
             );
 
             if (action === 'Start Foundations') {
-                // Load curriculum and start with first lesson
+                // Load curriculum and start with first lesson in Foundations course
                 const fs = require('fs');
                 const curriculumPath = path.join(__dirname, '..', '..', 'top', 'curriculum.json');
                 const curriculum = JSON.parse(fs.readFileSync(curriculumPath, 'utf8'));
-                const firstLesson = curriculum.modules[0].lessons[0];
-                await odinManager.openLesson(firstLesson, context);
+                const foundationsPath = curriculum.paths.find(path => path.id === 'foundations');
+                if (foundationsPath && foundationsPath.courses.length > 0) {
+                    const foundationsCourse = foundationsPath.courses[0];
+                    if (foundationsCourse.lessons && foundationsCourse.lessons.length > 0) {
+                        const firstLesson = foundationsCourse.lessons[0];
+                        await odinManager.openLesson(firstLesson, context);
+                    } else {
+                        vscode.window.showErrorMessage('No lessons found in Foundations course');
+                    }
+                } else {
+                    vscode.window.showErrorMessage('Foundations path not found in curriculum');
+                }
             } else if (action === 'Browse All Lessons') {
                 await vscode.commands.executeCommand('tsiheader.browseLessonsOdin');
             } else if (action === 'View Progress') {
@@ -1862,26 +1876,51 @@ extern "C" {
 
     const browseLessonsOdinCommand = vscode.commands.registerCommand('tsiheader.browseLessonsOdin', async () => {
         try {
+            // Lazy load the Learn module to get progress tracker
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+            
+            // Lazy load the Odin Project manager with progress tracker
+            const OdinProjectManager = require(path.join(__dirname, '..', '..', 'top', 'odin_manager.js'));
+            const odinManager = new OdinProjectManager(vscode, learnInstance.progressTracker);
+            
             const fs = require('fs');
             const curriculumPath = path.join(__dirname, '..', '..', 'top', 'curriculum.json');
             const curriculum = JSON.parse(fs.readFileSync(curriculumPath, 'utf8'));
 
+            // Get progress to show completion status
+            const progress = await odinManager.getProgressStats();
+            const completedLessons = new Set(progress.completed || []);
+
             // Create quick pick items for all lessons
             const items = [];
-            curriculum.modules.forEach(module => {
-                // Add module separator
+            curriculum.paths.forEach(path => {
+                // Add path separator
                 items.push({
-                    label: `📚 ${module.title}`,
+                    label: `📚 ${path.title}`,
                     kind: vscode.QuickPickItemKind.Separator
                 });
 
-                module.lessons.forEach(lesson => {
+                path.courses.forEach(course => {
+                    // Add course as separator
                     items.push({
-                        label: `  ${lesson.title}`,
-                        description: `${lesson.duration} min • ${lesson.difficulty}`,
-                        detail: lesson.url,
-                        lesson: lesson
+                        label: `  📖 ${course.title}`,
+                        kind: vscode.QuickPickItemKind.Separator
                     });
+
+                    // Add lessons within the course
+                    if (course.lessons && course.lessons.length > 0) {
+                        course.lessons.forEach(lesson => {
+                            const isCompleted = completedLessons.has(lesson.id);
+                            const icon = isCompleted ? '✅' : '○';
+                            items.push({
+                                label: `    ${icon} ${lesson.title}`,
+                                description: `${lesson.estimatedHours}h`,
+                                detail: isCompleted ? 'Completed' : 'Not started',
+                                lesson: lesson
+                            });
+                        });
+                    }
                 });
             });
 
@@ -1891,8 +1930,6 @@ extern "C" {
             });
 
             if (selected && selected.lesson) {
-                const OdinProjectManager = require(path.join(__dirname, '..', '..', 'top', 'odin_manager.js'));
-                const odinManager = new OdinProjectManager(vscode);
                 await odinManager.openLesson(selected.lesson, context);
             }
         } catch (error) {
@@ -1904,25 +1941,68 @@ extern "C" {
 
     const viewLearnProgressOdinCommand = vscode.commands.registerCommand('tsiheader.viewLearnProgressOdin', async () => {
         try {
-            // For now, show a placeholder message since we don't have progress tracking for Odin Project yet
-            const message = '📊 The Odin Project Progress\n\n' +
-                'Progress tracking for The Odin Project curriculum is coming soon!\n\n' +
-                'In the meantime, you can:\n' +
-                '• Browse and access all lessons\n' +
-                '• Track your progress manually on the Odin Project website\n' +
-                '• Complete projects and build your portfolio\n\n' +
-                'The Odin Project provides comprehensive learning paths for full-stack development.';
+            // Lazy load the Learn module to get progress tracker
+            const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
+            const learnInstance = new Learn(context, vscode);
+            
+            // Lazy load the Odin Project manager with progress tracker
+            const OdinProjectManager = require(path.join(__dirname, '..', '..', 'top', 'odin_manager.js'));
+            const odinManager = new OdinProjectManager(vscode, learnInstance.progressTracker);
+            
+            // Get actual progress statistics
+            const stats = await odinManager.getProgressStats();
+            
+            // Load curriculum to get total lesson count
+            const fs = require('fs');
+            const curriculumPath = path.join(__dirname, '..', '..', 'top', 'curriculum.json');
+            const curriculum = JSON.parse(fs.readFileSync(curriculumPath, 'utf8'));
+            
+            // Count total lessons in curriculum
+            let totalLessons = 0;
+            curriculum.paths.forEach(path => {
+                path.courses.forEach(course => {
+                    if (course.lessons) {
+                        totalLessons += course.lessons.length;
+                    }
+                });
+            });
+            
+            const completionRate = totalLessons > 0 ? Math.round((stats.lessonsCompleted / totalLessons) * 100) : 0;
+            
+            const message = `📊 The Odin Project Progress\n\n` +
+                `📚 Lessons Completed: ${stats.lessonsCompleted}/${totalLessons} (${completionRate}%)\n` +
+                `🔥 Current Streak: ${stats.currentStreak} days\n` +
+                `⏱️ Total Study Time: ${stats.totalStudyTime} minutes\n` +
+                `🏆 Achievements: ${stats.achievements}\n` +
+                `📅 Last Study Date: ${stats.lastStudyDate}\n\n` +
+                `Keep up the great work on your full-stack development journey! 🚀`;
 
-            await vscode.window.showInformationMessage(
+            const action = await vscode.window.showInformationMessage(
                 message,
                 { modal: true },
+                'Continue Learning',
                 'Browse Lessons',
                 'Got it!'
-            ).then(action => {
-                if (action === 'Browse Lessons') {
-                    vscode.commands.executeCommand('tsiheader.browseLessonsOdin');
+            );
+
+            if (action === 'Continue Learning') {
+                // Start with foundations if no progress, otherwise continue from current progress
+                if (stats.lessonsCompleted === 0) {
+                    const foundationsPath = curriculum.paths.find(path => path.id === 'foundations');
+                    if (foundationsPath && foundationsPath.courses.length > 0) {
+                        const foundationsCourse = foundationsPath.courses[0];
+                        if (foundationsCourse.lessons && foundationsCourse.lessons.length > 0) {
+                            const firstLesson = foundationsCourse.lessons[0];
+                            await odinManager.openLesson(firstLesson, context);
+                        }
+                    }
+                } else {
+                    // For now, just open browse lessons - could be enhanced to find next lesson
+                    await vscode.commands.executeCommand('tsiheader.browseLessonsOdin');
                 }
-            });
+            } else if (action === 'Browse Lessons') {
+                await vscode.commands.executeCommand('tsiheader.browseLessonsOdin');
+            }
         } catch (error) {
             vscode.window.showErrorMessage(`Error viewing Odin progress: ${error.message}`);
         }

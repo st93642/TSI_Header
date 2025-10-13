@@ -1,0 +1,194 @@
+[
+  {
+    "title": "How This Course Will Work",
+    "url": "https://www.theodinproject.com/lessons/foundations-how-this-course-will-work"
+  },
+  {
+    "title": "Introduction to Web Development",
+    "url": "https://www.theodinproject.com/lessons/foundations-introduction-to-web-development"
+  },
+  {
+    "title": "Motivation and Mindset",
+    "url": "https://www.theodinproject.com/lessons/foundations-motivation-and-mindset"
+  },
+  {
+    "title": "Asking For Help",
+    "url": "https://www.theodinproject.com/lessons/foundations-asking-for-help"
+  },
+  {
+    "title": "Join the Odin Community",
+    "url": "https://www.theodinproject.com/lessons/foundations-join-the-odin-community"
+  },
+  {
+    "title": "Computer Basics",
+    "url": "https://www.theodinproject.com/lessons/foundations-computer-basics"
+  },
+  {
+    "title": "How Does the Web Work?",
+    "url": "https://www.theodinproject.com/lessons/foundations-how-does-the-web-work"
+  },
+  {
+    "title": "Installation Overview",
+    "url": "https://www.theodinproject.com/lessons/foundations-installation-overview"
+  },
+  {
+    "title": "Installations",
+    "url": "https://www.theodinproject.com/lessons/foundations-installations"
+  },
+  {
+    "title": "Text Editors",
+    "url": "https://www.theodinproject.com/lessons/foundations-text-editors"
+  },
+  {
+    "title": "Command Line Basics",
+    "url": "https://www.theodinproject.com/lessons/foundations-command-line-basics"
+  },
+  {
+    "title": "Setting up Git",
+    "url": "https://www.theodinproject.com/lessons/foundations-setting-up-git"
+  },
+  {
+    "title": "Introduction to Git",
+    "url": "https://www.theodinproject.com/lessons/foundations-introduction-to-git"
+  },
+  {
+    "title": "Git Basics",
+    "url": "https://www.theodinproject.com/lessons/foundations-git-basics"
+  },
+  {
+    "title": "Introduction to HTML and CSS",
+    "url": "https://www.theodinproject.com/lessons/foundations-introduction-to-html-and-css"
+  },
+  {
+    "title": "Elements and Tags",
+    "url": "https://www.theodinproject.com/lessons/foundations-elements-and-tags"
+  },
+  {
+    "title": "HTML Boilerplate",
+    "url": "https://www.theodinproject.com/lessons/foundations-html-boilerplate"
+  },
+  {
+    "title": "Working with Text",
+    "url": "https://www.theodinproject.com/lessons/foundations-working-with-text"
+  },
+  {
+    "title": "Lists",
+    "url": "https://www.theodinproject.com/lessons/foundations-lists"
+  },
+  {
+    "title": "Links and Images",
+    "url": "https://www.theodinproject.com/lessons/foundations-links-and-images"
+  },
+  {
+    "title": "Commit Messages",
+    "url": "https://www.theodinproject.com/lessons/foundations-commit-messages"
+  },
+  {
+    "title": "Project Project: Recipes",
+    "url": "https://www.theodinproject.com/lessons/foundations-recipes"
+  },
+  {
+    "title": "Intro to CSS",
+    "url": "https://www.theodinproject.com/lessons/foundations-intro-to-css"
+  },
+  {
+    "title": "The Cascade",
+    "url": "https://www.theodinproject.com/lessons/foundations-the-cascade"
+  },
+  {
+    "title": "Inspecting HTML and CSS",
+    "url": "https://www.theodinproject.com/lessons/foundations-inspecting-html-and-css"
+  },
+  {
+    "title": "The Box Model",
+    "url": "https://www.theodinproject.com/lessons/foundations-the-box-model"
+  },
+  {
+    "title": "Block and Inline",
+    "url": "https://www.theodinproject.com/lessons/foundations-block-and-inline"
+  },
+  {
+    "title": "Introduction to Flexbox",
+    "url": "https://www.theodinproject.com/lessons/foundations-introduction-to-flexbox"
+  },
+  {
+    "title": "Growing and Shrinking",
+    "url": "https://www.theodinproject.com/lessons/foundations-growing-and-shrinking"
+  },
+  {
+    "title": "Axes",
+    "url": "https://www.theodinproject.com/lessons/foundations-axes"
+  },
+  {
+    "title": "Alignment",
+    "url": "https://www.theodinproject.com/lessons/foundations-alignment"
+  },
+  {
+    "title": "Project Project: Landing Page",
+    "url": "https://www.theodinproject.com/lessons/foundations-landing-page"
+  },
+  {
+    "title": "Variables and Operators",
+    "url": "https://www.theodinproject.com/lessons/foundations-variables-and-operators"
+  },
+  {
+    "title": "Installing Node.js",
+    "url": "https://www.theodinproject.com/lessons/foundations-installing-node-js"
+  },
+  {
+    "title": "Data Types and Conditionals",
+    "url": "https://www.theodinproject.com/lessons/foundations-data-types-and-conditionals"
+  },
+  {
+    "title": "JavaScript Developer Tools",
+    "url": "https://www.theodinproject.com/lessons/foundations-javascript-developer-tools"
+  },
+  {
+    "title": "Function Basics",
+    "url": "https://www.theodinproject.com/lessons/foundations-function-basics"
+  },
+  {
+    "title": "Problem Solving",
+    "url": "https://www.theodinproject.com/lessons/foundations-problem-solving"
+  },
+  {
+    "title": "Understanding Errors",
+    "url": "https://www.theodinproject.com/lessons/foundations-understanding-errors"
+  },
+  {
+    "title": "Project Project: Rock Paper Scissors",
+    "url": "https://www.theodinproject.com/lessons/foundations-rock-paper-scissors"
+  },
+  {
+    "title": "Clean Code",
+    "url": "https://www.theodinproject.com/lessons/foundations-clean-code"
+  },
+  {
+    "title": "Loops and Arrays",
+    "url": "https://www.theodinproject.com/lessons/foundations-loops-and-arrays"
+  },
+  {
+    "title": "DOM Manipulation and Events",
+    "url": "https://www.theodinproject.com/lessons/foundations-dom-manipulation-and-events"
+  },
+  {
+    "title": "Revisiting Rock Paper Scissors",
+    "url": "https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors"
+  },
+  {
+    "title": "Project Project: Etch-a-Sketch",
+    "url": "https://www.theodinproject.com/lessons/foundations-etch-a-sketch"
+  },
+  {
+    "title": "Object Basics",
+    "url": "https://www.theodinproject.com/lessons/foundations-object-basics"
+  },
+  {
+    "title": "Project Project: Calculator",
+    "url": "https://www.theodinproject.com/lessons/foundations-calculator"
+  },
+  {
+    "title": "Choose Your Path Forward",
+    "url": "https://www.theodinproject.com/lessons/foundations-choose-your-path-forward"
+  }
+]

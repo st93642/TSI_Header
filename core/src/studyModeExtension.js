@@ -247,7 +247,7 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
     }
 
     openConfiguration() {
-        this.vscode.commands.executeCommand('workbench.action.openSettings', '@ext:st93642.tsi-header tsiheader.studyMode');
+        this.vscode.commands.executeCommand('workbench.action.openSettings', '@ext:st93642.uni-header tsiheader.studyMode');
     }
 
     setupStatePersistence() {

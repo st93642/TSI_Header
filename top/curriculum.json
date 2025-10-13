@@ -1,325 +1,2444 @@
 {
   "language": "Odin Project",
-  "version": "1.0.0",
-  "description": "The Odin Project - Full Stack JavaScript curriculum with HTML, CSS, JavaScript, Node.js, React, and more",
-  "estimatedHours": 300,
-  "modules": [
+  "version": "2.0.0",
+  "description": "The Odin Project - Complete Full Stack Development Curriculum",
+  "estimatedHours": 800,
+  "paths": [
     {
       "id": "foundations",
       "title": "Foundations",
-      "description": "HTML, CSS, and JavaScript fundamentals",
-      "lessons": [
+      "description": "Essential tools and fundamentals for web development",
+      "courses": [
         {
-          "id": "computer-fundamentals",
-          "title": "How This Course Will Work",
-          "duration": 30,
-          "difficulty": "beginner",
-          "url": "https://www.theodinproject.com/paths/foundations/courses/foundations"
-        },
-        {
-          "id": "installations",
-          "title": "Installing and Using Git",
-          "duration": 45,
-          "difficulty": "beginner",
-          "url": "https://www.theodinproject.com/lessons/foundations-installing-git"
-        },
-        {
-          "id": "command-line-basics",
-          "title": "Command Line Basics",
-          "duration": 60,
-          "difficulty": "beginner",
-          "url": "https://www.theodinproject.com/lessons/foundations-command-line-basics"
-        },
-        {
-          "id": "setting-up-git",
-          "title": "Setting Up Git",
-          "duration": 30,
-          "difficulty": "beginner",
-          "url": "https://www.theodinproject.com/lessons/foundations-setting-up-git"
-        },
-        {
-          "id": "html-foundations",
-          "title": "HTML Foundations",
-          "duration": 90,
-          "difficulty": "beginner",
-          "url": "https://www.theodinproject.com/lessons/foundations-html-foundations"
-        },
-        {
-          "id": "css-foundations",
-          "title": "CSS Foundations",
-          "duration": 120,
-          "difficulty": "beginner",
-          "url": "https://www.theodinproject.com/lessons/foundations-css-foundations"
-        },
-        {
-          "id": "flexbox",
-          "title": "Flexbox",
-          "duration": 90,
-          "difficulty": "beginner",
-          "url": "https://www.theodinproject.com/lessons/foundations-flexbox"
-        },
-        {
-          "id": "javascript-basics",
-          "title": "JavaScript Basics",
-          "duration": 180,
-          "difficulty": "beginner",
-          "url": "https://www.theodinproject.com/lessons/foundations-javascript-basics"
-        },
-        {
-          "id": "dom-manipulation",
-          "title": "DOM Manipulation and Events",
-          "duration": 120,
-          "difficulty": "beginner",
-          "url": "https://www.theodinproject.com/lessons/foundations-dom-manipulation-and-events"
-        },
-        {
-          "id": "javascript-objects",
-          "title": "JavaScript Objects and Object Constructors",
-          "duration": 90,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/foundations-javascript-objects-and-object-constructors"
-        },
-        {
-          "id": "library",
-          "title": "Library",
-          "duration": 180,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/foundations-library"
-        },
-        {
-          "id": "tic-tac-toe",
-          "title": "Tic Tac Toe",
-          "duration": 240,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/foundations-tic-tac-toe"
-        },
-        {
-          "id": "restaurant-page",
-          "title": "Restaurant Page",
-          "duration": 180,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/foundations-restaurant-page"
-        },
-        {
-          "id": "todo-list",
-          "title": "Todo List",
-          "duration": 240,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/foundations-todo-list"
-        },
-        {
-          "id": "calculator",
-          "title": "Calculator",
-          "duration": 180,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/foundations-calculator"
-        },
-        {
-          "id": "etch-a-sketch",
-          "title": "Etch-a-Sketch",
-          "duration": 180,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/foundations-etch-a-sketch"
-        },
-        {
-          "id": "rock-paper-scissors",
-          "title": "Rock Paper Scissors",
-          "duration": 180,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/foundations-rock-paper-scissors"
+          "id": "foundations-course",
+          "title": "Foundations Course",
+          "description": "HTML, CSS, JavaScript, Git, and Command Line fundamentals",
+          "url": "https://www.theodinproject.com/paths/foundations/courses/foundations",
+          "estimatedHours": 200,
+          "lessons": [
+            {
+              "id": "how-this-course-will-work",
+              "title": "How This Course Will Work",
+              "url": "https://www.theodinproject.com/lessons/foundations-how-this-course-will-work",
+              "estimatedHours": 1
+            },
+            {
+              "id": "introduction-to-web-development",
+              "title": "Introduction to Web Development",
+              "url": "https://www.theodinproject.com/lessons/foundations-introduction-to-web-development",
+              "estimatedHours": 1
+            },
+            {
+              "id": "motivation-and-mindset",
+              "title": "Motivation and Mindset",
+              "url": "https://www.theodinproject.com/lessons/foundations-motivation-and-mindset",
+              "estimatedHours": 1
+            },
+            {
+              "id": "asking-for-help",
+              "title": "Asking For Help",
+              "url": "https://www.theodinproject.com/lessons/foundations-asking-for-help",
+              "estimatedHours": 1
+            },
+            {
+              "id": "join-the-odin-community",
+              "title": "Join the Odin Community",
+              "url": "https://www.theodinproject.com/lessons/foundations-join-the-odin-community",
+              "estimatedHours": 1
+            },
+            {
+              "id": "computer-basics",
+              "title": "Computer Basics",
+              "url": "https://www.theodinproject.com/lessons/foundations-computer-basics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "how-does-the-web-work",
+              "title": "How Does the Web Work?",
+              "url": "https://www.theodinproject.com/lessons/foundations-how-does-the-web-work",
+              "estimatedHours": 2
+            },
+            {
+              "id": "installation-overview",
+              "title": "Installation Overview",
+              "url": "https://www.theodinproject.com/lessons/foundations-installation-overview",
+              "estimatedHours": 1
+            },
+            {
+              "id": "installations",
+              "title": "Installations",
+              "url": "https://www.theodinproject.com/lessons/foundations-installations",
+              "estimatedHours": 3
+            },
+            {
+              "id": "text-editors",
+              "title": "Text Editors",
+              "url": "https://www.theodinproject.com/lessons/foundations-text-editors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "command-line-basics",
+              "title": "Command Line Basics",
+              "url": "https://www.theodinproject.com/lessons/foundations-command-line-basics",
+              "estimatedHours": 3
+            },
+            {
+              "id": "setting-up-git",
+              "title": "Setting up Git",
+              "url": "https://www.theodinproject.com/lessons/foundations-setting-up-git",
+              "estimatedHours": 2
+            },
+            {
+              "id": "introduction-to-git",
+              "title": "Introduction to Git",
+              "url": "https://www.theodinproject.com/lessons/foundations-introduction-to-git",
+              "estimatedHours": 2
+            },
+            {
+              "id": "git-basics",
+              "title": "Git Basics",
+              "url": "https://www.theodinproject.com/lessons/foundations-git-basics",
+              "estimatedHours": 4
+            },
+            {
+              "id": "introduction-to-html-and-css",
+              "title": "Introduction to HTML and CSS",
+              "url": "https://www.theodinproject.com/lessons/foundations-introduction-to-html-and-css",
+              "estimatedHours": 2
+            },
+            {
+              "id": "elements-and-tags",
+              "title": "Elements and Tags",
+              "url": "https://www.theodinproject.com/lessons/foundations-elements-and-tags",
+              "estimatedHours": 3
+            },
+            {
+              "id": "html-boilerplate",
+              "title": "HTML Boilerplate",
+              "url": "https://www.theodinproject.com/lessons/foundations-html-boilerplate",
+              "estimatedHours": 2
+            },
+            {
+              "id": "working-with-text",
+              "title": "Working with Text",
+              "url": "https://www.theodinproject.com/lessons/foundations-working-with-text",
+              "estimatedHours": 3
+            },
+            {
+              "id": "lists",
+              "title": "Lists",
+              "url": "https://www.theodinproject.com/lessons/foundations-lists",
+              "estimatedHours": 2
+            },
+            {
+              "id": "links-and-images",
+              "title": "Links and Images",
+              "url": "https://www.theodinproject.com/lessons/foundations-links-and-images",
+              "estimatedHours": 3
+            },
+            {
+              "id": "commit-messages",
+              "title": "Commit Messages",
+              "url": "https://www.theodinproject.com/lessons/foundations-commit-messages",
+              "estimatedHours": 2
+            },
+            {
+              "id": "recipes",
+              "title": "Project: Recipes",
+              "url": "https://www.theodinproject.com/lessons/foundations-recipes",
+              "estimatedHours": 4
+            },
+            {
+              "id": "intro-to-css",
+              "title": "Intro to CSS",
+              "url": "https://www.theodinproject.com/lessons/foundations-intro-to-css",
+              "estimatedHours": 3
+            },
+            {
+              "id": "the-cascade",
+              "title": "The Cascade",
+              "url": "https://www.theodinproject.com/lessons/foundations-the-cascade",
+              "estimatedHours": 2
+            },
+            {
+              "id": "inspecting-html-and-css",
+              "title": "Inspecting HTML and CSS",
+              "url": "https://www.theodinproject.com/lessons/foundations-inspecting-html-and-css",
+              "estimatedHours": 2
+            },
+            {
+              "id": "the-box-model",
+              "title": "The Box Model",
+              "url": "https://www.theodinproject.com/lessons/foundations-the-box-model",
+              "estimatedHours": 3
+            },
+            {
+              "id": "block-and-inline",
+              "title": "Block and Inline",
+              "url": "https://www.theodinproject.com/lessons/foundations-block-and-inline",
+              "estimatedHours": 2
+            },
+            {
+              "id": "introduction-to-flexbox",
+              "title": "Introduction to Flexbox",
+              "url": "https://www.theodinproject.com/lessons/foundations-introduction-to-flexbox",
+              "estimatedHours": 3
+            },
+            {
+              "id": "growing-and-shrinking",
+              "title": "Growing and Shrinking",
+              "url": "https://www.theodinproject.com/lessons/foundations-growing-and-shrinking",
+              "estimatedHours": 2
+            },
+            {
+              "id": "axes",
+              "title": "Axes",
+              "url": "https://www.theodinproject.com/lessons/foundations-axes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "alignment",
+              "title": "Alignment",
+              "url": "https://www.theodinproject.com/lessons/foundations-alignment",
+              "estimatedHours": 2
+            },
+            {
+              "id": "landing-page",
+              "title": "Project: Landing Page",
+              "url": "https://www.theodinproject.com/lessons/foundations-landing-page",
+              "estimatedHours": 6
+            },
+            {
+              "id": "variables-and-operators",
+              "title": "Variables and Operators",
+              "url": "https://www.theodinproject.com/lessons/foundations-variables-and-operators",
+              "estimatedHours": 3
+            },
+            {
+              "id": "installing-node-js",
+              "title": "Installing Node.js",
+              "url": "https://www.theodinproject.com/lessons/foundations-installing-node-js",
+              "estimatedHours": 2
+            },
+            {
+              "id": "data-types-and-conditionals",
+              "title": "Data Types and Conditionals",
+              "url": "https://www.theodinproject.com/lessons/foundations-data-types-and-conditionals",
+              "estimatedHours": 4
+            },
+            {
+              "id": "javascript-developer-tools",
+              "title": "JavaScript Developer Tools",
+              "url": "https://www.theodinproject.com/lessons/foundations-javascript-developer-tools",
+              "estimatedHours": 2
+            },
+            {
+              "id": "function-basics",
+              "title": "Function Basics",
+              "url": "https://www.theodinproject.com/lessons/foundations-function-basics",
+              "estimatedHours": 3
+            },
+            {
+              "id": "problem-solving",
+              "title": "Problem Solving",
+              "url": "https://www.theodinproject.com/lessons/foundations-problem-solving",
+              "estimatedHours": 2
+            },
+            {
+              "id": "understanding-errors",
+              "title": "Understanding Errors",
+              "url": "https://www.theodinproject.com/lessons/foundations-understanding-errors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "rock-paper-scissors",
+              "title": "Project: Rock Paper Scissors",
+              "url": "https://www.theodinproject.com/lessons/foundations-rock-paper-scissors",
+              "estimatedHours": 6
+            },
+            {
+              "id": "clean-code",
+              "title": "Clean Code",
+              "url": "https://www.theodinproject.com/lessons/foundations-clean-code",
+              "estimatedHours": 2
+            },
+            {
+              "id": "loops-and-arrays",
+              "title": "Loops and Arrays",
+              "url": "https://www.theodinproject.com/lessons/foundations-loops-and-arrays",
+              "estimatedHours": 4
+            },
+            {
+              "id": "dom-manipulation-and-events",
+              "title": "DOM Manipulation and Events",
+              "url": "https://www.theodinproject.com/lessons/foundations-dom-manipulation-and-events",
+              "estimatedHours": 4
+            },
+            {
+              "id": "revisiting-rock-paper-scissors",
+              "title": "Revisiting Rock Paper Scissors",
+              "url": "https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors",
+              "estimatedHours": 3
+            },
+            {
+              "id": "etch-a-sketch",
+              "title": "Project: Etch-a-Sketch",
+              "url": "https://www.theodinproject.com/lessons/foundations-etch-a-sketch",
+              "estimatedHours": 6
+            },
+            {
+              "id": "object-basics",
+              "title": "Object Basics",
+              "url": "https://www.theodinproject.com/lessons/foundations-object-basics",
+              "estimatedHours": 3
+            },
+            {
+              "id": "calculator",
+              "title": "Project: Calculator",
+              "url": "https://www.theodinproject.com/lessons/foundations-calculator",
+              "estimatedHours": 8
+            },
+            {
+              "id": "choose-your-path-forward",
+              "title": "Choose Your Path Forward",
+              "url": "https://www.theodinproject.com/lessons/foundations-choose-your-path-forward",
+              "estimatedHours": 1
+            }
+          ]
         }
       ]
     },
     {
       "id": "full-stack-javascript",
       "title": "Full Stack JavaScript",
-      "description": "Node.js, Express, MongoDB, and React",
-      "lessons": [
+      "description": "Complete JavaScript development path from front-end to back-end",
+      "courses": [
         {
-          "id": "introduction-to-frameworks",
-          "title": "Introduction to Frameworks and React",
-          "duration": 60,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-introduction-to-frameworks-and-react"
+          "id": "intermediate-html-and-css",
+          "title": "Intermediate HTML and CSS",
+          "description": "Advanced HTML and CSS techniques",
+          "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/intermediate-html-and-css",
+          "estimatedHours": 80,
+          "lessons": [
+            {
+              "id": "node-path-intermediate-html-and-css-introduction",
+              "title": "Introduction",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-introduction",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-emmet",
+              "title": "Emmet",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-emmet",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-svg",
+              "title": "SVG",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-svg",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-tables",
+              "title": "Tables",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-tables",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-default-styles",
+              "title": "Default Styles",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-default-styles",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-css-units",
+              "title": "CSS Units",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-css-units",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-more-text-styles",
+              "title": "More Text Styles",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-more-text-styles",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-more-css-properties",
+              "title": "More CSS Properties",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-more-css-properties",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-advanced-selectors",
+              "title": "Advanced Selectors",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-advanced-selectors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-positioning",
+              "title": "Positioning",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-positioning",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-css-functions",
+              "title": "CSS Functions",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-css-functions",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-custom-properties",
+              "title": "Custom Properties",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-custom-properties",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-browser-compatibility",
+              "title": "Browser Compatibility",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-browser-compatibility",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-frameworks-and-preprocessors",
+              "title": "Frameworks and Preprocessors",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-frameworks-and-preprocessors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-form-basics",
+              "title": "Form Basics",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-form-basics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-form-validation",
+              "title": "Form Validation",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-form-validation",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-sign-up-form",
+              "title": "Project Project: Sign-up Form",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-sign-up-form",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-introduction-to-grid",
+              "title": "Introduction to Grid",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-introduction-to-grid",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-creating-a-grid",
+              "title": "Creating a Grid",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-creating-a-grid",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-positioning-grid-elements",
+              "title": "Positioning Grid Elements",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-positioning-grid-elements",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-advanced-grid-properties",
+              "title": "Advanced Grid Properties",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-advanced-grid-properties",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-using-flexbox-and-grid",
+              "title": "Using Flexbox and Grid",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-using-flexbox-and-grid",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-intermediate-html-and-css-admin-dashboard",
+              "title": "Project Project: Admin Dashboard",
+              "url": "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-admin-dashboard",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "package-json",
-          "title": "Package JSON",
-          "duration": 45,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-package-json"
+          "id": "javascript-course",
+          "title": "JavaScript",
+          "description": "Core JavaScript programming and algorithms",
+          "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript",
+          "estimatedHours": 150,
+          "lessons": [
+            {
+              "id": "node-path-javascript-how-this-course-will-work",
+              "title": "How This Course Will Work",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-how-this-course-will-work",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-a-quick-review",
+              "title": "A Quick Review",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-a-quick-review",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-organizing-your-javascript-code-introduction",
+              "title": "Organizing Your JavaScript Code Introduction",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-organizing-your-javascript-code-introduction",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-objects-and-object-constructors",
+              "title": "Objects and Object Constructors",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-objects-and-object-constructors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-library",
+              "title": "Project Project: Library",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-library",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-factory-functions-and-the-module-pattern",
+              "title": "Factory Functions and the Module Pattern",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-factory-functions-and-the-module-pattern",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-tic-tac-toe",
+              "title": "Project Project: Tic Tac Toe",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-classes",
+              "title": "Classes",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-classes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-es6-modules",
+              "title": "ES6 Modules",
+              "url": "https://www.theodinproject.com/lessons/javascript-es6-modules",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-npm",
+              "title": "npm",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-npm",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-webpack",
+              "title": "Webpack",
+              "url": "https://www.theodinproject.com/lessons/javascript-webpack",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-restaurant-page",
+              "title": "Project Project: Restaurant Page",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-restaurant-page",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-revisiting-webpack",
+              "title": "Revisiting Webpack",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-revisiting-webpack",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-json",
+              "title": "JSON",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-json",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-oop-principles",
+              "title": "OOP Principles",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-oop-principles",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-todo-list",
+              "title": "Project Project: Todo List",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-todo-list",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-linting",
+              "title": "Linting",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-linting",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-dynamic-user-interface-interactions",
+              "title": "Dynamic User Interface Interactions",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-dynamic-user-interface-interactions",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-form-validation-with-javascript",
+              "title": "Form Validation with JavaScript",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-form-validation-with-javascript",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-what-is-es6",
+              "title": "What is ES6?",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-what-is-es6",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-asynchronous-code",
+              "title": "Asynchronous Code",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-asynchronous-code",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-working-with-apis",
+              "title": "Working with APIs",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-working-with-apis",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-async-and-await",
+              "title": "Async and Await",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-async-and-await",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-weather-app",
+              "title": "Project Project: Weather App",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-weather-app",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-a-very-brief-intro-to-cs",
+              "title": "A Very Brief Intro to CS",
+              "url": "https://www.theodinproject.com/lessons/javascript-a-very-brief-intro-to-cs",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-recursive-methods",
+              "title": "Recursive Methods",
+              "url": "https://www.theodinproject.com/lessons/javascript-recursive-methods",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-recursion",
+              "title": "Project Project: Recursion",
+              "url": "https://www.theodinproject.com/lessons/javascript-recursion",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-time-complexity",
+              "title": "Time Complexity",
+              "url": "https://www.theodinproject.com/lessons/javascript-time-complexity",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-space-complexity",
+              "title": "Space Complexity",
+              "url": "https://www.theodinproject.com/lessons/javascript-space-complexity",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-common-data-structures-and-algorithms",
+              "title": "Common Data Structures and Algorithms",
+              "url": "https://www.theodinproject.com/lessons/javascript-common-data-structures-and-algorithms",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-linked-lists",
+              "title": "Project Project: Linked Lists",
+              "url": "https://www.theodinproject.com/lessons/javascript-linked-lists",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-hashmap-data-structure",
+              "title": "HashMap Data Structure",
+              "url": "https://www.theodinproject.com/lessons/javascript-hashmap-data-structure",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-hashmap",
+              "title": "Project Project: HashMap",
+              "url": "https://www.theodinproject.com/lessons/javascript-hashmap",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-binary-search-trees",
+              "title": "Project Project: Binary Search Trees",
+              "url": "https://www.theodinproject.com/lessons/javascript-binary-search-trees",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-knights-travails",
+              "title": "Project Project: Knights Travails",
+              "url": "https://www.theodinproject.com/lessons/javascript-knights-travails",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-a-deeper-look-at-git",
+              "title": "A Deeper Look at Git",
+              "url": "https://www.theodinproject.com/lessons/javascript-a-deeper-look-at-git",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-working-with-remotes",
+              "title": "Working with Remotes",
+              "url": "https://www.theodinproject.com/lessons/javascript-working-with-remotes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-using-git-in-the-real-world",
+              "title": "Using Git in the Real World",
+              "url": "https://www.theodinproject.com/lessons/javascript-using-git-in-the-real-world",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-testing-basics",
+              "title": "Testing Basics",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-testing-basics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-testing-practice",
+              "title": "Project Project: Testing Practice",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-testing-practice",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-more-testing",
+              "title": "More Testing",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-more-testing",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-battleship",
+              "title": "Project Project: Battleship",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-battleship",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-javascript-conclusion",
+              "title": "Conclusion",
+              "url": "https://www.theodinproject.com/lessons/node-path-javascript-conclusion",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "npm",
-          "title": "NPM",
-          "duration": 60,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-npm"
+          "id": "advanced-html-and-css",
+          "title": "Advanced HTML and CSS",
+          "description": "Advanced HTML and CSS techniques",
+          "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/advanced-html-and-css",
+          "estimatedHours": 100,
+          "lessons": [
+            {
+              "id": "node-path-advanced-html-and-css-transforms",
+              "title": "Transforms",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-transforms",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-transitions",
+              "title": "Transitions",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-transitions",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-keyframes",
+              "title": "Keyframes",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-keyframes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-introduction-to-web-accessibility",
+              "title": "Introduction to Web Accessibility",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-introduction-to-web-accessibility",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-the-web-content-accessibility-guidelines-wcag",
+              "title": "The Web Content Accessibility Guidelines (WCAG)",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-the-web-content-accessibility-guidelines-wcag",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-semantic-html",
+              "title": "Semantic HTML",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-semantic-html",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-accessible-colors",
+              "title": "Accessible Colors",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-accessible-colors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-keyboard-navigation",
+              "title": "Keyboard Navigation",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-keyboard-navigation",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-meaningful-text",
+              "title": "Meaningful Text",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-meaningful-text",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-wai-aria",
+              "title": "WAI-ARIA",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-wai-aria",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-accessibility-auditing",
+              "title": "Accessibility Auditing",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-accessibility-auditing",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-introduction-to-responsive-design",
+              "title": "Introduction to Responsive Design",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-introduction-to-responsive-design",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-natural-responsiveness",
+              "title": "Natural Responsiveness",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-natural-responsiveness",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-responsive-images",
+              "title": "Responsive Images",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-responsive-images",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-media-queries",
+              "title": "Media Queries",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-media-queries",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-advanced-html-and-css-homepage",
+              "title": "Project Project: Homepage",
+              "url": "https://www.theodinproject.com/lessons/node-path-advanced-html-and-css-homepage",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "webpack",
-          "title": "Webpack",
-          "duration": 90,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-webpack"
+          "id": "react",
+          "title": "React",
+          "description": "Modern front-end development with React",
+          "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/react",
+          "estimatedHours": 120,
+          "lessons": [
+            {
+              "id": "node-path-react-new-how-this-course-will-work",
+              "title": "How This Course Will Work",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-how-this-course-will-work",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-introduction-to-react",
+              "title": "Introduction To React",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-introduction-to-react",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-setting-up-a-react-environment",
+              "title": "Setting Up A React Environment",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-setting-up-a-react-environment",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-react-components",
+              "title": "React Components",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-react-components",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-what-is-jsx",
+              "title": "What Is JSX?",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-what-is-jsx",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-rendering-techniques",
+              "title": "Rendering Techniques",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-rendering-techniques",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-keys-in-react",
+              "title": "Keys In React",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-keys-in-react",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-passing-data-between-components",
+              "title": "Passing Data Between Components",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-passing-data-between-components",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-introduction-to-state",
+              "title": "Introduction To State",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-introduction-to-state",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-more-on-state",
+              "title": "More On State",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-more-on-state",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-cv-application",
+              "title": "Project Project: CV Application",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-cv-application",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-how-to-deal-with-side-effects",
+              "title": "How To Deal With Side Effects",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-how-to-deal-with-side-effects",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-memory-card",
+              "title": "Project Project: Memory Card",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-memory-card",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-class-based-components",
+              "title": "Class Based Components",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-class-based-components",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-component-lifecycle-methods",
+              "title": "Component Lifecycle Methods",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-component-lifecycle-methods",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-introduction-to-react-testing",
+              "title": "Introduction To React Testing",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-introduction-to-react-testing",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-mocking-callbacks-and-components",
+              "title": "Mocking Callbacks And Components",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-mocking-callbacks-and-components",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-type-checking-with-proptypes",
+              "title": "Type Checking With PropTypes",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-type-checking-with-proptypes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-react-router",
+              "title": "React Router",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-react-router",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-fetching-data-in-react",
+              "title": "Fetching Data In React",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-fetching-data-in-react",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-styling-react-applications",
+              "title": "Styling React Applications",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-styling-react-applications",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-shopping-cart",
+              "title": "Project Project: Shopping Cart",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-shopping-cart",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-managing-state-with-the-context-api",
+              "title": "Managing State With The Context API",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-managing-state-with-the-context-api",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-reducing-state",
+              "title": "Reducing State",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-reducing-state",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-new-refs-and-memoization",
+              "title": "Refs And Memoization",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-new-refs-and-memoization",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-react-conclusion",
+              "title": "Conclusion",
+              "url": "https://www.theodinproject.com/lessons/node-path-react-conclusion",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "babel",
-          "title": "Babel",
-          "duration": 60,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-babel"
+          "id": "databases",
+          "title": "Databases",
+          "description": "Database design and management",
+          "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/databases",
+          "estimatedHours": 60,
+          "lessons": [
+            {
+              "id": "node-path-databases",
+              "title": "Databases",
+              "url": "https://www.theodinproject.com/lessons/node-path-databases",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-databases-databases-and-sql",
+              "title": "Databases and SQL",
+              "url": "https://www.theodinproject.com/lessons/node-path-databases-databases-and-sql",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-databases-sql-zoo",
+              "title": "Project Project: SQL Zoo",
+              "url": "https://www.theodinproject.com/lessons/node-path-databases-sql-zoo",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "linting",
-          "title": "Linting",
-          "duration": 45,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-linting"
-        },
-        {
-          "id": "react-introduction",
-          "title": "React Introduction",
-          "duration": 90,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-react-introduction"
-        },
-        {
-          "id": "react-state-events",
-          "title": "React State and Events",
-          "duration": 120,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-react-state-and-events"
-        },
-        {
-          "id": "react-components",
-          "title": "React Components",
-          "duration": 120,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-react-components"
-        },
-        {
-          "id": "react-facts-site",
-          "title": "React Facts Site",
-          "duration": 180,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-react-facts-site"
-        },
-        {
-          "id": "airbnb-clone",
-          "title": "Airbnb Clone",
-          "duration": 240,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-airbnb-clone"
-        },
-        {
-          "id": "meme-generator",
-          "title": "Meme Generator",
-          "duration": 240,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-meme-generator"
-        },
-        {
-          "id": "tenzies-game",
-          "title": "Tenzies Game",
-          "duration": 240,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-tenzies-game"
-        },
-        {
-          "id": "notes-app",
-          "title": "Notes App",
-          "duration": 240,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/node-path-javascript-notes-app"
+          "id": "nodejs",
+          "title": "Node.js",
+          "description": "Server-side JavaScript with Node.js",
+          "url": "https://www.theodinproject.com/paths/full-stack-javascript/courses/nodejs",
+          "estimatedHours": 100,
+          "lessons": [
+            {
+              "id": "nodejs-introduction-to-the-back-end",
+              "title": "Introduction to the Back End",
+              "url": "https://www.theodinproject.com/lessons/nodejs-introduction-to-the-back-end",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-introduction-what-is-nodejs",
+              "title": "Introduction: What is NodeJS?",
+              "url": "https://www.theodinproject.com/lessons/nodejs-introduction-what-is-nodejs",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-getting-started",
+              "title": "Getting Started",
+              "url": "https://www.theodinproject.com/lessons/nodejs-getting-started",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-debugging-node",
+              "title": "Debugging Node",
+              "url": "https://www.theodinproject.com/lessons/nodejs-debugging-node",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-basic-informational-site",
+              "title": "Project Project: Basic Informational Site",
+              "url": "https://www.theodinproject.com/lessons/nodejs-basic-informational-site",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-environment-variables",
+              "title": "Environment Variables",
+              "url": "https://www.theodinproject.com/lessons/nodejs-environment-variables",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-introduction-to-frameworks",
+              "title": "Introduction to Frameworks",
+              "url": "https://www.theodinproject.com/lessons/nodejs-introduction-to-frameworks",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-nodejs-introduction-to-express",
+              "title": "Introduction to Express",
+              "url": "https://www.theodinproject.com/lessons/node-path-nodejs-introduction-to-express",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-routes",
+              "title": "Routes",
+              "url": "https://www.theodinproject.com/lessons/nodejs-routes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-controllers",
+              "title": "Controllers",
+              "url": "https://www.theodinproject.com/lessons/nodejs-controllers",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-views",
+              "title": "Views",
+              "url": "https://www.theodinproject.com/lessons/nodejs-views",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-nodejs-mini-message-board",
+              "title": "Project Project: Mini Message Board",
+              "url": "https://www.theodinproject.com/lessons/node-path-nodejs-mini-message-board",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-nodejs-deployment",
+              "title": "Deployment",
+              "url": "https://www.theodinproject.com/lessons/node-path-nodejs-deployment",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-forms-and-data-handling",
+              "title": "Forms and Data Handling",
+              "url": "https://www.theodinproject.com/lessons/nodejs-forms-and-data-handling",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-installing-postgresql",
+              "title": "Installing PostgreSQL",
+              "url": "https://www.theodinproject.com/lessons/nodejs-installing-postgresql",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-using-postgresql",
+              "title": "Using PostgreSQL",
+              "url": "https://www.theodinproject.com/lessons/nodejs-using-postgresql",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-nodejs-inventory-application",
+              "title": "Project Project: Inventory Application",
+              "url": "https://www.theodinproject.com/lessons/node-path-nodejs-inventory-application",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-nodejs-authentication-basics",
+              "title": "Authentication Basics",
+              "url": "https://www.theodinproject.com/lessons/node-path-nodejs-authentication-basics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-nodejs-members-only",
+              "title": "Project Project: Members Only",
+              "url": "https://www.theodinproject.com/lessons/node-path-nodejs-members-only",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-prisma-orm",
+              "title": "Prisma ORM",
+              "url": "https://www.theodinproject.com/lessons/nodejs-prisma-orm",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-file-uploader",
+              "title": "Project Project: File Uploader",
+              "url": "https://www.theodinproject.com/lessons/nodejs-file-uploader",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-api-basics",
+              "title": "API Basics",
+              "url": "https://www.theodinproject.com/lessons/nodejs-api-basics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-api-security",
+              "title": "API Security",
+              "url": "https://www.theodinproject.com/lessons/nodejs-api-security",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-nodejs-blog-api",
+              "title": "Project Project: Blog API",
+              "url": "https://www.theodinproject.com/lessons/node-path-nodejs-blog-api",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-testing-routes-and-controllers",
+              "title": "Testing Routes and Controllers",
+              "url": "https://www.theodinproject.com/lessons/nodejs-testing-routes-and-controllers",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-nodejs-testing-database-operations",
+              "title": "Testing Database Operations",
+              "url": "https://www.theodinproject.com/lessons/node-path-nodejs-testing-database-operations",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-where-s-waldo-a-photo-tagging-app",
+              "title": "Project Project: Where&#39;s Waldo (A Photo Tagging App)",
+              "url": "https://www.theodinproject.com/lessons/nodejs-where-s-waldo-a-photo-tagging-app",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-messaging-app",
+              "title": "Project Project: Messaging App",
+              "url": "https://www.theodinproject.com/lessons/nodejs-messaging-app",
+              "estimatedHours": 2
+            },
+            {
+              "id": "node-path-nodejs-odin-book",
+              "title": "Project Project: Odin-Book",
+              "url": "https://www.theodinproject.com/lessons/node-path-nodejs-odin-book",
+              "estimatedHours": 2
+            },
+            {
+              "id": "nodejs-conclusion",
+              "title": "Conclusion",
+              "url": "https://www.theodinproject.com/lessons/nodejs-conclusion",
+              "estimatedHours": 2
+            }
+          ]
         }
       ]
     },
     {
-      "id": "ruby-on-rails",
-      "title": "Ruby on Rails",
-      "description": "Full-stack web development with Ruby on Rails",
-      "lessons": [
+      "id": "full-stack-ruby-on-rails",
+      "title": "Full Stack Ruby on Rails",
+      "description": "Complete Ruby on Rails development path",
+      "courses": [
         {
-          "id": "ruby-on-rails-introduction",
-          "title": "Ruby on Rails Introduction",
-          "duration": 60,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-introduction"
+          "id": "intermediate-html-and-css",
+          "title": "Intermediate HTML and CSS",
+          "description": "Advanced HTML and CSS techniques",
+          "url": "https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/intermediate-html-and-css",
+          "estimatedHours": 80,
+          "lessons": [
+            {
+              "id": "intermediate-html-and-css-introduction",
+              "title": "Introduction",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-introduction",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-emmet",
+              "title": "Emmet",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-emmet",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-svg",
+              "title": "SVG",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-svg",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-tables",
+              "title": "Tables",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-tables",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-default-styles",
+              "title": "Default Styles",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-default-styles",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-css-units",
+              "title": "CSS Units",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-css-units",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-more-text-styles",
+              "title": "More Text Styles",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-more-text-styles",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-more-css-properties",
+              "title": "More CSS Properties",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-more-css-properties",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-advanced-selectors",
+              "title": "Advanced Selectors",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-advanced-selectors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-positioning",
+              "title": "Positioning",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-positioning",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-css-functions",
+              "title": "CSS Functions",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-css-functions",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-custom-properties",
+              "title": "Custom Properties",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-custom-properties",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-browser-compatibility",
+              "title": "Browser Compatibility",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-browser-compatibility",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-frameworks-and-preprocessors",
+              "title": "Frameworks and Preprocessors",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-frameworks-and-preprocessors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-form-basics",
+              "title": "Form Basics",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-form-basics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-form-validation",
+              "title": "Form Validation",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-form-validation",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-sign-up-form",
+              "title": "Project Project: Sign-up Form",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-sign-up-form",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-introduction-to-grid",
+              "title": "Introduction to Grid",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-introduction-to-grid",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-creating-a-grid",
+              "title": "Creating a Grid",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-creating-a-grid",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-positioning-grid-elements",
+              "title": "Positioning Grid Elements",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-positioning-grid-elements",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-advanced-grid-properties",
+              "title": "Advanced Grid Properties",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-advanced-grid-properties",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-using-flexbox-and-grid",
+              "title": "Using Flexbox and Grid",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-using-flexbox-and-grid",
+              "estimatedHours": 2
+            },
+            {
+              "id": "intermediate-html-and-css-admin-dashboard",
+              "title": "Project Project: Admin Dashboard",
+              "url": "https://www.theodinproject.com/lessons/intermediate-html-and-css-admin-dashboard",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "installing-ruby",
-          "title": "Installing Ruby",
-          "duration": 45,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-installing-ruby"
+          "id": "javascript-course",
+          "title": "JavaScript",
+          "description": "Core JavaScript programming fundamentals",
+          "url": "https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/javascript",
+          "estimatedHours": 100,
+          "lessons": [
+            {
+              "id": "javascript-how-this-course-will-work",
+              "title": "How This Course Will Work",
+              "url": "https://www.theodinproject.com/lessons/javascript-how-this-course-will-work",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-a-quick-review",
+              "title": "A Quick Review",
+              "url": "https://www.theodinproject.com/lessons/javascript-a-quick-review",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-organizing-your-javascript-code-introduction",
+              "title": "Organizing Your JavaScript Code Introduction",
+              "url": "https://www.theodinproject.com/lessons/javascript-organizing-your-javascript-code-introduction",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-objects-and-object-constructors",
+              "title": "Objects and Object Constructors",
+              "url": "https://www.theodinproject.com/lessons/javascript-objects-and-object-constructors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-library",
+              "title": "Project Project: Library",
+              "url": "https://www.theodinproject.com/lessons/javascript-library",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-factory-functions-and-the-module-pattern",
+              "title": "Factory Functions and the Module Pattern",
+              "url": "https://www.theodinproject.com/lessons/javascript-factory-functions-and-the-module-pattern",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-tic-tac-toe",
+              "title": "Project Project: Tic Tac Toe",
+              "url": "https://www.theodinproject.com/lessons/javascript-tic-tac-toe",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-classes",
+              "title": "Classes",
+              "url": "https://www.theodinproject.com/lessons/javascript-classes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "rails-path-javascript-es6-modules",
+              "title": "ES6 Modules",
+              "url": "https://www.theodinproject.com/lessons/rails-path-javascript-es6-modules",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-npm",
+              "title": "npm",
+              "url": "https://www.theodinproject.com/lessons/javascript-npm",
+              "estimatedHours": 2
+            },
+            {
+              "id": "rails-path-javascript-webpack",
+              "title": "Webpack",
+              "url": "https://www.theodinproject.com/lessons/rails-path-javascript-webpack",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-restaurant-page",
+              "title": "Project Project: Restaurant Page",
+              "url": "https://www.theodinproject.com/lessons/javascript-restaurant-page",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-revisiting-webpack",
+              "title": "Revisiting Webpack",
+              "url": "https://www.theodinproject.com/lessons/javascript-revisiting-webpack",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-json",
+              "title": "JSON",
+              "url": "https://www.theodinproject.com/lessons/javascript-json",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-oop-principles",
+              "title": "OOP Principles",
+              "url": "https://www.theodinproject.com/lessons/javascript-oop-principles",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-todo-list",
+              "title": "Project Project: Todo List",
+              "url": "https://www.theodinproject.com/lessons/javascript-todo-list",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-linting",
+              "title": "Linting",
+              "url": "https://www.theodinproject.com/lessons/javascript-linting",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-dynamic-user-interface-interactions",
+              "title": "Dynamic User Interface Interactions",
+              "url": "https://www.theodinproject.com/lessons/javascript-dynamic-user-interface-interactions",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-form-validation-with-javascript",
+              "title": "Form Validation with JavaScript",
+              "url": "https://www.theodinproject.com/lessons/javascript-form-validation-with-javascript",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-what-is-es6",
+              "title": "What is ES6?",
+              "url": "https://www.theodinproject.com/lessons/javascript-what-is-es6",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-asynchronous-code",
+              "title": "Asynchronous Code",
+              "url": "https://www.theodinproject.com/lessons/javascript-asynchronous-code",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-working-with-apis",
+              "title": "Working with APIs",
+              "url": "https://www.theodinproject.com/lessons/javascript-working-with-apis",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-async-and-await",
+              "title": "Async and Await",
+              "url": "https://www.theodinproject.com/lessons/javascript-async-and-await",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-weather-app",
+              "title": "Project Project: Weather App",
+              "url": "https://www.theodinproject.com/lessons/javascript-weather-app",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-testing-basics",
+              "title": "Testing Basics",
+              "url": "https://www.theodinproject.com/lessons/javascript-testing-basics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-testing-practice",
+              "title": "Project Project: Testing Practice",
+              "url": "https://www.theodinproject.com/lessons/javascript-testing-practice",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-more-testing",
+              "title": "More Testing",
+              "url": "https://www.theodinproject.com/lessons/javascript-more-testing",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-battleship",
+              "title": "Project Project: Battleship",
+              "url": "https://www.theodinproject.com/lessons/javascript-battleship",
+              "estimatedHours": 2
+            },
+            {
+              "id": "javascript-conclusion",
+              "title": "Conclusion",
+              "url": "https://www.theodinproject.com/lessons/javascript-conclusion",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "installing-rails",
-          "title": "Installing Rails",
-          "duration": 60,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-installing-rails"
+          "id": "ruby",
+          "title": "Ruby",
+          "description": "Ruby programming language fundamentals",
+          "url": "https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby",
+          "estimatedHours": 120,
+          "lessons": [
+            {
+              "id": "ruby-how-this-course-will-work",
+              "title": "How This Course Will Work",
+              "url": "https://www.theodinproject.com/lessons/ruby-how-this-course-will-work",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-installing-ruby",
+              "title": "Installing Ruby",
+              "url": "https://www.theodinproject.com/lessons/ruby-installing-ruby",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-basic-data-types",
+              "title": "Basic Data Types",
+              "url": "https://www.theodinproject.com/lessons/ruby-basic-data-types",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-variables",
+              "title": "Variables",
+              "url": "https://www.theodinproject.com/lessons/ruby-variables",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-input-and-output",
+              "title": "Input and Output",
+              "url": "https://www.theodinproject.com/lessons/ruby-input-and-output",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-conditional-logic",
+              "title": "Conditional Logic",
+              "url": "https://www.theodinproject.com/lessons/ruby-conditional-logic",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-loops",
+              "title": "Loops",
+              "url": "https://www.theodinproject.com/lessons/ruby-loops",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-arrays",
+              "title": "Arrays",
+              "url": "https://www.theodinproject.com/lessons/ruby-arrays",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-hashes",
+              "title": "Hashes",
+              "url": "https://www.theodinproject.com/lessons/ruby-hashes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-methods",
+              "title": "Methods",
+              "url": "https://www.theodinproject.com/lessons/ruby-methods",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-debugging",
+              "title": "Debugging",
+              "url": "https://www.theodinproject.com/lessons/ruby-debugging",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-basic-enumerable-methods",
+              "title": "Basic Enumerable Methods",
+              "url": "https://www.theodinproject.com/lessons/ruby-basic-enumerable-methods",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-predicate-enumerable-methods",
+              "title": "Predicate Enumerable Methods",
+              "url": "https://www.theodinproject.com/lessons/ruby-predicate-enumerable-methods",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-nested-collections",
+              "title": "Nested Collections",
+              "url": "https://www.theodinproject.com/lessons/ruby-nested-collections",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-caesar-cipher",
+              "title": "Project Project: Caesar Cipher",
+              "url": "https://www.theodinproject.com/lessons/ruby-caesar-cipher",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-sub-strings",
+              "title": "Project Project: Sub Strings",
+              "url": "https://www.theodinproject.com/lessons/ruby-sub-strings",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-stock-picker",
+              "title": "Project Project: Stock Picker",
+              "url": "https://www.theodinproject.com/lessons/ruby-stock-picker",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-bubble-sort",
+              "title": "Project Project: Bubble Sort",
+              "url": "https://www.theodinproject.com/lessons/ruby-bubble-sort",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-object-oriented-programming",
+              "title": "Object Oriented Programming",
+              "url": "https://www.theodinproject.com/lessons/ruby-object-oriented-programming",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-project-management",
+              "title": "Project Management",
+              "url": "https://www.theodinproject.com/lessons/ruby-project-management",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-linting-and-rubocop",
+              "title": "Linting and RuboCop",
+              "url": "https://www.theodinproject.com/lessons/ruby-linting-and-rubocop",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-tic-tac-toe",
+              "title": "Project Project: Tic Tac Toe",
+              "url": "https://www.theodinproject.com/lessons/ruby-tic-tac-toe",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-mastermind",
+              "title": "Project Project: Mastermind",
+              "url": "https://www.theodinproject.com/lessons/ruby-mastermind",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-files-and-serialization",
+              "title": "Files and Serialization",
+              "url": "https://www.theodinproject.com/lessons/ruby-files-and-serialization",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-hangman",
+              "title": "Project Project: Hangman",
+              "url": "https://www.theodinproject.com/lessons/ruby-hangman",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-pattern-matching",
+              "title": "Pattern Matching",
+              "url": "https://www.theodinproject.com/lessons/ruby-pattern-matching",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-blocks",
+              "title": "Blocks",
+              "url": "https://www.theodinproject.com/lessons/ruby-blocks",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-custom-enumerables",
+              "title": "Project Project: Custom Enumerables",
+              "url": "https://www.theodinproject.com/lessons/ruby-custom-enumerables",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-a-very-brief-intro-to-cs",
+              "title": "A Very Brief Intro to CS",
+              "url": "https://www.theodinproject.com/lessons/ruby-a-very-brief-intro-to-cs",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-recursive-methods",
+              "title": "Recursive Methods",
+              "url": "https://www.theodinproject.com/lessons/ruby-recursive-methods",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-recursion",
+              "title": "Project Project: Recursion",
+              "url": "https://www.theodinproject.com/lessons/ruby-recursion",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-time-complexity",
+              "title": "Time Complexity",
+              "url": "https://www.theodinproject.com/lessons/ruby-time-complexity",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-space-complexity",
+              "title": "Space Complexity",
+              "url": "https://www.theodinproject.com/lessons/ruby-space-complexity",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-common-data-structures-and-algorithms",
+              "title": "Common Data Structures and Algorithms",
+              "url": "https://www.theodinproject.com/lessons/ruby-common-data-structures-and-algorithms",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-linked-lists",
+              "title": "Project Project: Linked Lists",
+              "url": "https://www.theodinproject.com/lessons/ruby-linked-lists",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-hashmap-data-structure",
+              "title": "HashMap Data Structure",
+              "url": "https://www.theodinproject.com/lessons/ruby-hashmap-data-structure",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-hashmap",
+              "title": "Project Project: HashMap",
+              "url": "https://www.theodinproject.com/lessons/ruby-hashmap",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-binary-search-trees",
+              "title": "Project Project: Binary Search Trees",
+              "url": "https://www.theodinproject.com/lessons/ruby-binary-search-trees",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-knights-travails",
+              "title": "Project Project: Knights Travails",
+              "url": "https://www.theodinproject.com/lessons/ruby-knights-travails",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-a-deeper-look-at-git",
+              "title": "A Deeper Look at Git",
+              "url": "https://www.theodinproject.com/lessons/ruby-a-deeper-look-at-git",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-working-with-remotes",
+              "title": "Working with Remotes",
+              "url": "https://www.theodinproject.com/lessons/ruby-working-with-remotes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-using-git-in-the-real-world",
+              "title": "Using Git in the Real World",
+              "url": "https://www.theodinproject.com/lessons/ruby-using-git-in-the-real-world",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-test-driven-development",
+              "title": "Test Driven Development",
+              "url": "https://www.theodinproject.com/lessons/ruby-test-driven-development",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-introduction-to-rspec",
+              "title": "Introduction to RSpec",
+              "url": "https://www.theodinproject.com/lessons/ruby-introduction-to-rspec",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-connect-four",
+              "title": "Project Project: Connect Four",
+              "url": "https://www.theodinproject.com/lessons/ruby-connect-four",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-ruby-final-project",
+              "title": "Project Project: Ruby Final Project",
+              "url": "https://www.theodinproject.com/lessons/ruby-ruby-final-project",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-conclusion",
+              "title": "Conclusion",
+              "url": "https://www.theodinproject.com/lessons/ruby-conclusion",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "rails-new",
-          "title": "Rails New",
-          "duration": 45,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-rails-new"
+          "id": "ruby-on-rails",
+          "title": "Ruby on Rails",
+          "description": "Full-stack web development with Ruby on Rails",
+          "url": "https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-on-rails",
+          "estimatedHours": 150,
+          "lessons": [
+            {
+              "id": "ruby-on-rails-how-this-course-will-work",
+              "title": "How This Course Will Work",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-how-this-course-will-work",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-introduction-to-the-back-end",
+              "title": "Introduction to the Back End",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-introduction-to-the-back-end",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-introduction-to-frameworks",
+              "title": "Introduction to Frameworks",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-introduction-to-frameworks",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-installing-rails",
+              "title": "Project Project: Installing Rails",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-installing-rails",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-a-railsy-web-refresher",
+              "title": "A Railsy Web Refresher",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-a-railsy-web-refresher",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-routing",
+              "title": "Routing",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-routing",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-controllers",
+              "title": "Controllers",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-controllers",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-views",
+              "title": "Views",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-views",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-blog-app",
+              "title": "Project Project: Blog App",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-blog-app",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-deployment",
+              "title": "Deployment",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-deployment",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-active-record-basics",
+              "title": "Active Record Basics",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-active-record-basics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-migrations",
+              "title": "Migrations",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-migrations",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-basic-validations",
+              "title": "Basic Validations",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-basic-validations",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-basic-associations",
+              "title": "Basic Associations",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-basic-associations",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-micro-reddit",
+              "title": "Project Project: Micro-Reddit",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-micro-reddit",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-the-asset-pipeline",
+              "title": "The Asset Pipeline",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-the-asset-pipeline",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-importmaps",
+              "title": "Importmaps",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-importmaps",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-turbo-drive",
+              "title": "Turbo Drive",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-turbo-drive",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-form-basics",
+              "title": "Form Basics",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-form-basics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-forms",
+              "title": "Project Project: Forms",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-forms",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-sessions-cookies-and-authentication",
+              "title": "Sessions Cookies and Authentication",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-sessions-cookies-and-authentication",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-members-only",
+              "title": "Project Project: Members Only!",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-members-only",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-installing-postgresql",
+              "title": "Installing PostgreSQL",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-installing-postgresql",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-active-record-queries",
+              "title": "Active Record Queries",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-active-record-queries",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-active-record-associations",
+              "title": "Active Record Associations",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-active-record-associations",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-private-events",
+              "title": "Project Project: Private Events",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-private-events",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-active-record-callbacks",
+              "title": "Active Record Callbacks",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-active-record-callbacks",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-advanced-forms",
+              "title": "Advanced Forms",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-advanced-forms",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-flight-booker",
+              "title": "Project Project: Flight Booker",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-flight-booker",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-apis-and-building-your-own",
+              "title": "APIs and Building Your Own",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-apis-and-building-your-own",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-working-with-external-apis",
+              "title": "Working with External APIs",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-working-with-external-apis",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-kittens-api",
+              "title": "Project Project: Kittens API",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-kittens-api",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-pexels-api",
+              "title": "Project Project: Pexels API",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-pexels-api",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-css-bundling",
+              "title": "CSS Bundling",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-css-bundling",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-js-bundling",
+              "title": "JS Bundling",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-js-bundling",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-turbo",
+              "title": "Turbo",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-turbo",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-stimulus",
+              "title": "Stimulus",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-stimulus",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-mailers",
+              "title": "Mailers",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-mailers",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-sending-confirmation-emails",
+              "title": "Project Project: Sending Confirmation Emails",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-sending-confirmation-emails",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-advanced-topics",
+              "title": "Advanced Topics",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-advanced-topics",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-websockets-and-actioncable",
+              "title": "Websockets and Actioncable",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-websockets-and-actioncable",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-rails-final-project",
+              "title": "Project Project: Rails Final Project",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-rails-final-project",
+              "estimatedHours": 2
+            },
+            {
+              "id": "ruby-on-rails-conclusion",
+              "title": "Conclusion",
+              "url": "https://www.theodinproject.com/lessons/ruby-on-rails-conclusion",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "models-views-controllers",
-          "title": "Models, Views, Controllers",
-          "duration": 90,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-models-views-controllers"
+          "id": "advanced-html-and-css",
+          "title": "Advanced HTML and CSS",
+          "description": "Advanced HTML and CSS techniques",
+          "url": "https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/advanced-html-and-css",
+          "estimatedHours": 100,
+          "lessons": [
+            {
+              "id": "advanced-html-and-css-transforms",
+              "title": "Transforms",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-transforms",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-transitions",
+              "title": "Transitions",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-transitions",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-keyframes",
+              "title": "Keyframes",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-keyframes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-introduction-to-web-accessibility",
+              "title": "Introduction to Web Accessibility",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-introduction-to-web-accessibility",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-the-web-content-accessibility-guidelines-wcag",
+              "title": "The Web Content Accessibility Guidelines (WCAG)",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-the-web-content-accessibility-guidelines-wcag",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-semantic-html",
+              "title": "Semantic HTML",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-semantic-html",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-accessible-colors",
+              "title": "Accessible Colors",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-accessible-colors",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-keyboard-navigation",
+              "title": "Keyboard Navigation",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-keyboard-navigation",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-meaningful-text",
+              "title": "Meaningful Text",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-meaningful-text",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-wai-aria",
+              "title": "WAI-ARIA",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-wai-aria",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-accessibility-auditing",
+              "title": "Accessibility Auditing",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-accessibility-auditing",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-introduction-to-responsive-design",
+              "title": "Introduction to Responsive Design",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-introduction-to-responsive-design",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-natural-responsiveness",
+              "title": "Natural Responsiveness",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-natural-responsiveness",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-responsive-images",
+              "title": "Responsive Images",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-responsive-images",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-media-queries",
+              "title": "Media Queries",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-media-queries",
+              "estimatedHours": 2
+            },
+            {
+              "id": "advanced-html-and-css-homepage",
+              "title": "Project Project: Homepage",
+              "url": "https://www.theodinproject.com/lessons/advanced-html-and-css-homepage",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "blog-app",
-          "title": "Blog App",
-          "duration": 300,
-          "difficulty": "intermediate",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-blog-app"
+          "id": "databases",
+          "title": "Databases",
+          "description": "Database design and management",
+          "url": "https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/databases",
+          "estimatedHours": 60,
+          "lessons": [
+            {
+              "id": "databases",
+              "title": "Databases",
+              "url": "https://www.theodinproject.com/lessons/databases",
+              "estimatedHours": 2
+            },
+            {
+              "id": "databases-databases-and-sql",
+              "title": "Databases and SQL",
+              "url": "https://www.theodinproject.com/lessons/databases-databases-and-sql",
+              "estimatedHours": 2
+            },
+            {
+              "id": "databases-sql-zoo",
+              "title": "Project Project: SQL Zoo",
+              "url": "https://www.theodinproject.com/lessons/databases-sql-zoo",
+              "estimatedHours": 2
+            }
+          ]
         },
         {
-          "id": "flight-booker",
-          "title": "Flight Booker",
-          "duration": 240,
-          "difficulty": "advanced",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-flight-booker"
-        },
-        {
-          "id": "members-only",
-          "title": "Members Only",
-          "duration": 240,
-          "difficulty": "advanced",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-members-only"
-        },
-        {
-          "id": "private-events",
-          "title": "Private Events",
-          "duration": 240,
-          "difficulty": "advanced",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-private-events"
-        },
-        {
-          "id": "odin-facebook",
-          "title": "Odin Facebook",
-          "duration": 360,
-          "difficulty": "advanced",
-          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-odin-facebook"
+          "id": "react",
+          "title": "React",
+          "description": "Modern front-end development with React",
+          "url": "https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/react",
+          "estimatedHours": 120,
+          "lessons": [
+            {
+              "id": "react-new-how-this-course-will-work",
+              "title": "How This Course Will Work",
+              "url": "https://www.theodinproject.com/lessons/react-new-how-this-course-will-work",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-introduction-to-react",
+              "title": "Introduction To React",
+              "url": "https://www.theodinproject.com/lessons/react-new-introduction-to-react",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-setting-up-a-react-environment",
+              "title": "Setting Up A React Environment",
+              "url": "https://www.theodinproject.com/lessons/react-new-setting-up-a-react-environment",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-react-components",
+              "title": "React Components",
+              "url": "https://www.theodinproject.com/lessons/react-new-react-components",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-what-is-jsx",
+              "title": "What Is JSX?",
+              "url": "https://www.theodinproject.com/lessons/react-new-what-is-jsx",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-rendering-techniques",
+              "title": "Rendering Techniques",
+              "url": "https://www.theodinproject.com/lessons/react-new-rendering-techniques",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-keys-in-react",
+              "title": "Keys In React",
+              "url": "https://www.theodinproject.com/lessons/react-new-keys-in-react",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-passing-data-between-components",
+              "title": "Passing Data Between Components",
+              "url": "https://www.theodinproject.com/lessons/react-new-passing-data-between-components",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-introduction-to-state",
+              "title": "Introduction To State",
+              "url": "https://www.theodinproject.com/lessons/react-new-introduction-to-state",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-more-on-state",
+              "title": "More On State",
+              "url": "https://www.theodinproject.com/lessons/react-new-more-on-state",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-cv-application",
+              "title": "Project Project: CV Application",
+              "url": "https://www.theodinproject.com/lessons/react-new-cv-application",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-how-to-deal-with-side-effects",
+              "title": "How To Deal With Side Effects",
+              "url": "https://www.theodinproject.com/lessons/react-new-how-to-deal-with-side-effects",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-memory-card",
+              "title": "Project Project: Memory Card",
+              "url": "https://www.theodinproject.com/lessons/react-new-memory-card",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-class-based-components",
+              "title": "Class Based Components",
+              "url": "https://www.theodinproject.com/lessons/react-new-class-based-components",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-component-lifecycle-methods",
+              "title": "Component Lifecycle Methods",
+              "url": "https://www.theodinproject.com/lessons/react-new-component-lifecycle-methods",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-introduction-to-react-testing",
+              "title": "Introduction To React Testing",
+              "url": "https://www.theodinproject.com/lessons/react-new-introduction-to-react-testing",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-mocking-callbacks-and-components",
+              "title": "Mocking Callbacks And Components",
+              "url": "https://www.theodinproject.com/lessons/react-new-mocking-callbacks-and-components",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-type-checking-with-proptypes",
+              "title": "Type Checking With PropTypes",
+              "url": "https://www.theodinproject.com/lessons/react-new-type-checking-with-proptypes",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-react-router",
+              "title": "React Router",
+              "url": "https://www.theodinproject.com/lessons/react-new-react-router",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-fetching-data-in-react",
+              "title": "Fetching Data In React",
+              "url": "https://www.theodinproject.com/lessons/react-new-fetching-data-in-react",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-styling-react-applications",
+              "title": "Styling React Applications",
+              "url": "https://www.theodinproject.com/lessons/react-new-styling-react-applications",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-shopping-cart",
+              "title": "Project Project: Shopping Cart",
+              "url": "https://www.theodinproject.com/lessons/react-new-shopping-cart",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-managing-state-with-the-context-api",
+              "title": "Managing State With The Context API",
+              "url": "https://www.theodinproject.com/lessons/react-new-managing-state-with-the-context-api",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-reducing-state",
+              "title": "Reducing State",
+              "url": "https://www.theodinproject.com/lessons/react-new-reducing-state",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-refs-and-memoization",
+              "title": "Refs And Memoization",
+              "url": "https://www.theodinproject.com/lessons/react-new-refs-and-memoization",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-using-ruby-on-rails-for-your-backend",
+              "title": "Using Ruby On Rails For Your Backend",
+              "url": "https://www.theodinproject.com/lessons/react-new-using-ruby-on-rails-for-your-backend",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-where-s-waldo-a-photo-tagging-app",
+              "title": "Project Project: Where&#39;s Waldo (A Photo Tagging App)",
+              "url": "https://www.theodinproject.com/lessons/react-new-where-s-waldo-a-photo-tagging-app",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-new-messaging-app",
+              "title": "Project Project: Messaging App",
+              "url": "https://www.theodinproject.com/lessons/react-new-messaging-app",
+              "estimatedHours": 2
+            },
+            {
+              "id": "react-conclusion",
+              "title": "Conclusion",
+              "url": "https://www.theodinproject.com/lessons/react-conclusion",
+              "estimatedHours": 2
+            }
+          ]
         }
       ]
     }
   ],
-  "prerequisites": [],
+  "prerequisites": [
+    "Basic computer literacy",
+    "Access to a computer with internet connection",
+    "Willingness to learn and problem-solve independently"
+  ],
   "outcomes": [
-    "Build responsive websites with HTML and CSS",
-    "Write clean, maintainable JavaScript code",
-    "Create dynamic web applications with React",
-    "Develop full-stack applications with Node.js and Express",
-    "Build robust web applications with Ruby on Rails",
-    "Deploy applications to production environments"
+    "Master HTML and CSS for responsive web design",
+    "Write clean, efficient JavaScript code",
+    "Build full-stack applications with modern frameworks",
+    "Work with databases and data management",
+    "Deploy applications to production environments",
+    "Navigate the job search and interview process",
+    "Contribute to open source projects",
+    "Develop strong problem-solving and debugging skills"
   ]
 }

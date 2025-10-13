@@ -34,7 +34,7 @@ async function generateTSIHeaderContent(fileName, vscode) {
         let extensionPath;
         try {
             // Try to get from VS Code context
-            extensionPath = vscode.extensions.getExtension('st93642.tsi-header').extensionPath;
+            extensionPath = vscode.extensions.getExtension('st93642.uni-header').extensionPath;
         } catch (e) {
             // Fallback to current working directory
             extensionPath = process.cwd();
