@@ -6,6 +6,7 @@
 
 const https = require('https');
 const http = require('http');
+const path = require('path');
 
 class OdinProjectManager {
     constructor(vscode, progressTracker = null) {
@@ -130,20 +131,58 @@ class OdinProjectManager {
      * @param {string} html - Raw HTML content
      * @param {string} lessonTitle - Title of the lesson
      * @param {Object|null} nextLesson - Next lesson object or null
+     * @param {Object} webview - VS Code webview object for URI conversion
      * @returns {string} Cleaned HTML content
      */
-    extractLessonContent(html, lessonTitle, nextLesson) {
+    extractLessonContent(html, lessonTitle, nextLesson, webview) {
         try {
-            // Extract only the div with class containing "lesson-content"
-            const lessonContentRegex = /<div[^>]*class="[^"]*lesson-content[^"]*"[^>]*>(.*?)<\/div>/is;
-            const match = html.match(lessonContentRegex);
+            // Extract lesson content using a more robust approach
+            let content = '';
             
-            if (!match || !match[1]) {
+            // Try to find the main lesson content div with data-lesson-toc-target="lessonContent"
+            const mainContentRegex = /<div[^>]*data-lesson-toc-target="lessonContent"[^>]*>([\s\S]*?)<\/div>\s*<div[^>]*pt-10[^>]*flex[^>]*items-center[^>]*>/i;
+            let match = mainContentRegex.exec(html);
+            if (match) {
+                content = match[1];
+            } else {
+                // Fallback to the original regex patterns
+                const lessonContentRegex1 = /<div[^>]*class="[^"]*lesson-content[^"]*"[^>]*>(.*?)<\/div>/gis;
+                let match1;
+                while ((match1 = lessonContentRegex1.exec(html)) !== null) {
+                    content += match1[1];
+                }
+                
+                // Pattern 2: lesson-content_panel
+                const lessonContentRegex2 = /<div[^>]*class="[^"]*lesson-content_panel[^"]*"[^>]*>(.*?)<\/div>/gis;
+                let match2;
+                while ((match2 = lessonContentRegex2.exec(html)) !== null) {
+                    content += match2[1];
+                }
+                
+                // Pattern 3: Any div with lesson in class name
+                const lessonContentRegex3 = /<div[^>]*class="[^"]*lesson[^"]*"[^>]*>(.*?)<\/div>/gis;
+                let match3;
+                while ((match3 = lessonContentRegex3.exec(html)) !== null) {
+                    // Skip if we already captured this content
+                    if (!content.includes(match3[1].substring(0, 100))) {
+                        content += match3[1];
+                    }
+                }
+            }
+            
+            // If no content found, try a broader approach
+            if (!content) {
+                const broadRegex = /<main[^>]*>(.*?)<\/main>/gis;
+                const broadMatch = broadRegex.exec(html);
+                if (broadMatch) {
+                    content = broadMatch[1];
+                }
+            }
+            
+            if (!content) {
                 // Fallback to generic content
                 return this.getGenericLessonContent(lessonTitle);
             }
-
-            let content = match[1];
 
             // Clean up the content - remove unwanted elements
             content = content.replace(/<script[^>]*>.*?<\/script>/gis, '');
@@ -157,149 +196,34 @@ class OdinProjectManager {
             content = content.replace(/<button[^>]*>.*?<\/button>/gis, '');
             content = content.replace(/<select[^>]*>.*?<\/select>/gis, '');
 
-            // Remove specific Odin Project navigation elements
-            content = content.replace(/<[^>]*>Improve on GitHub<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*>Report an issue<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*>See lesson changelog<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*>View Course<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*>Sign in to track progress<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*>Next Lesson.*?<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*>[^<]*Next Lesson[^<]*<\/[^>]*>/gi, '');
-
-            // Remove arrow icons and symbols - comprehensive filtering
-            content = content.replace(/[→←↑↓⇒⇐⇓⇑↗↘↙↖▶◀▲▼►◄▸◂▴▾▻◅]/g, ''); // Unicode arrows and triangles
-            content = content.replace(/&[lr]arr;/gi, ''); // HTML arrow entities
-            content = content.replace(/&[lr]Arr;/gi, ''); // HTML double arrow entities
-            content = content.replace(/&uarr;/gi, ''); // Up arrow
-            content = content.replace(/&darr;/gi, ''); // Down arrow
-            content = content.replace(/&[lr]tri;/gi, ''); // Triangle entities
-            content = content.replace(/&[lr]ang;/gi, ''); // Angle bracket entities
-            content = content.replace(/&#x?[0-9a-f]+;/gi, ''); // Numeric HTML entities that might be arrows
-
-            // Remove elements with arrow-related classes or attributes
-            content = content.replace(/<[^>]*class="[^"]*arrow[^"]*"[^>]*>.*?<\/[^>]*>/gi, ''); // Arrow classes
-            content = content.replace(/<[^>]*class="[^"]*fa-arrow[^"]*"[^>]*><\/[^>]*>/gi, ''); // FontAwesome arrows
-            content = content.replace(/<[^>]*class="[^"]*icon-arrow[^"]*"[^>]*><\/[^>]*>/gi, ''); // Icon arrows
-            content = content.replace(/<[^>]*data-icon="[^"]*arrow[^"]*"[^>]*><\/[^>]*>/gi, ''); // Data icon arrows
-            content = content.replace(/<i[^>]*class="[^"]*fa[^"]*arrow[^"]*"[^>]*><\/i>/gi, ''); // FontAwesome arrow icons
-            content = content.replace(/<span[^>]*class="[^"]*arrow[^"]*"[^>]*>.*?<\/span>/gi, ''); // Arrow spans
-            content = content.replace(/<div[^>]*class="[^"]*arrow[^"]*"[^>]*>.*?<\/div>/gi, ''); // Arrow divs
-
-            // Remove SVG icons that might contain arrows
-            content = content.replace(/<svg[^>]*>[\s\S]*?<\/svg>/gi, ''); // All SVG elements
-            content = content.replace(/<path[^>]*d="[^"]*M[^"]*"[^>]*>/gi, ''); // SVG path elements that might be arrows
-            content = content.replace(/<use[^>]*href="[^"]*#arrow[^"]*"[^>]*>/gi, ''); // SVG use elements referencing arrows
-
-            // Remove any remaining icon elements that might contain arrows
-            content = content.replace(/<i[^>]*class="[^"]*icon[^"]*"[^>]*><\/i>/gi, ''); // Generic icons
-            content = content.replace(/<span[^>]*class="[^"]*icon[^"]*"[^>]*>.*?<\/span>/gi, ''); // Icon spans
-            content = content.replace(/<div[^>]*class="[^"]*icon[^"]*"[^>]*>.*?<\/div>/gi, ''); // Icon divs
-
-            // Remove elements with CSS that might create arrows (pseudo-elements, backgrounds)
-            content = content.replace(/<[^>]*style="[^"]*content:[^"]*arrow[^"]*"[^>]*>.*?<\/[^>]*>/gi, ''); // Inline styles with arrow content
-            content = content.replace(/<[^>]*style="[^"]*background[^"]*arrow[^"]*"[^>]*>.*?<\/[^>]*>/gi, ''); // Background arrows
-
-            // Remove any remaining elements that might be navigation arrows or next buttons
-            content = content.replace(/<[^>]*>[^<]*next[^<]*<\/[^>]*>/gi, ''); // Elements containing "next"
-            content = content.replace(/<[^>]*>[^<]*continue[^<]*<\/[^>]*>/gi, ''); // Elements containing "continue"
-            content = content.replace(/<[^>]*class="[^"]*next[^"]*"[^>]*>.*?<\/[^>]*>/gi, ''); // Next classes
-            content = content.replace(/<[^>]*class="[^"]*continue[^"]*"[^>]*>.*?<\/[^>]*>/gi, ''); // Continue classes
-
-            // More comprehensive filtering for remaining elements
-            content = content.replace(/See lesson changelog/gi, '');
-            content = content.replace(/View Course/gi, '');
-            content = content.replace(/changelog/gi, '');
-            content = content.replace(/<[^>]*href="[^"]*changelog[^"]*"[^>]*>.*?<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*href="[^"]*course[^"]*"[^>]*>.*?<\/[^>]*>/gi, '');
-
-            // Remove GitHub related elements (icons, links, etc.)
-            content = content.replace(/<[^>]*class="[^"]*github[^"]*"[^>]*>.*?<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*href="[^"]*github[^"]*"[^>]*>.*?<\/[^>]*>/gi, '');
-            content = content.replace(/<svg[^>]*>.*?<\/svg>/gis, ''); // Remove SVG icons
-            content = content.replace(/<i[^>]*class="[^"]*fa[^"]*github[^"]*"[^>]*><\/i>/gi, ''); // FontAwesome GitHub icons
-            content = content.replace(/<span[^>]*class="[^"]*icon[^"]*github[^"]*"[^>]*>.*?<\/span>/gi, ''); // Icon spans
-
-            // Remove elements containing these texts (more comprehensive)
-            content = content.replace(/<a[^>]*href="[^"]*github[^"]*"[^>]*>.*?<\/a>/gi, '');
-            content = content.replace(/<a[^>]*href="[^"]*report[^"]*"[^>]*>.*?<\/a>/gi, '');
-            content = content.replace(/<a[^>]*href="[^"]*changelog[^"]*"[^>]*>.*?<\/a>/gi, '');
-            content = content.replace(/<a[^>]*href="[^"]*signin[^"]*"[^>]*>.*?<\/a>/gi, '');
-            content = content.replace(/<div[^>]*class="[^"]*lesson-navigation[^"]*"[^>]*>.*?<\/div>/gis, '');
-            content = content.replace(/<div[^>]*class="[^"]*course-navigation[^"]*"[^>]*>.*?<\/div>/gis, '');
-            content = content.replace(/<div[^>]*class="[^"]*progress-tracker[^"]*"[^>]*>.*?<\/div>/gis, '');
-
-            // Remove footer-like sections that might contain these links
-            content = content.replace(/<div[^>]*class="[^"]*footer[^"]*"[^>]*>.*?<\/div>/gis, '');
-            content = content.replace(/<section[^>]*class="[^"]*footer[^"]*"[^>]*>.*?<\/section>/gis, '');
-            content = content.replace(/<footer[^>]*>.*?<\/footer>/gis, '');
-
-            // Remove any remaining navigation or action sections
-            content = content.replace(/<div[^>]*class="[^"]*actions[^"]*"[^>]*>.*?<\/div>/gis, '');
-            content = content.replace(/<div[^>]*class="[^"]*nav[^"]*"[^>]*>.*?<\/div>/gis, '');
-            content = content.replace(/<nav[^>]*>.*?<\/nav>/gis, '');
-
-            // Remove any elements that might be at the end of lessons (common places for navigation arrows)
-            content = content.replace(/<div[^>]*class="[^"]*lesson-end[^"]*"[^>]*>.*?<\/div>/gis, '');
-            content = content.replace(/<div[^>]*class="[^"]*lesson-footer[^"]*"[^>]*>.*?<\/div>/gis, '');
-            content = content.replace(/<div[^>]*class="[^"]*lesson-navigation[^"]*"[^>]*>.*?<\/div>/gis, '');
-            content = content.replace(/<section[^>]*class="[^"]*lesson-end[^"]*"[^>]*>.*?<\/section>/gis, '');
-            content = content.replace(/<section[^>]*class="[^"]*lesson-footer[^"]*"[^>]*>.*?<\/section>/gis, '');
-
-            // Remove any remaining elements with IDs that might indicate navigation
-            content = content.replace(/<[^>]*id="[^"]*next[^"]*"[^>]*>.*?<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*id="[^"]*arrow[^"]*"[^>]*>.*?<\/[^>]*>/gi, '');
-            content = content.replace(/<[^>]*id="[^"]*navigation[^"]*"[^>]*>.*?<\/[^>]*>/gi, '');
-
-            // Final cleanup: remove any standalone arrow symbols that might have been missed
-            content = content.replace(/\s*[→←↑↓⇒⇐⇓⇑↗↘↙↖▶◀▲▼►◄▸◂▴▾▻◅]\s*/g, ' '); // Clean up any remaining arrows with surrounding whitespace
 
             // Extract meaningful content while preserving structure
             // Allow common content elements including links
             const allowedTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'strong', 'em', 'a', 'br', 'span', 'div'];
 
-            // Use a more comprehensive approach - extract content blocks while preserving structure
+            // Use a simpler approach - extract content blocks while preserving structure
             let cleanContent = '';
 
             // Split content into logical sections and clean each one
-            const sections = content.split(/(<\/?(?:h[1-6]|p|ul|ol|blockquote|pre|div)[^>]*>)/i);
+            const sections = content.split(/(<\/?(?:h[1-6]|p|ul|ol|blockquote|pre|code|div)[^>]*>)/i);
 
+            // Process sections sequentially - much simpler approach
             for (let i = 0; i < sections.length; i++) {
-                let section = sections[i];
-
-                // If this is a tag, check if it's allowed
+                const section = sections[i];
+                
                 if (section.match(/^<\/?[a-zA-Z][^>]*>$/)) {
+                    // This is a tag
                     const tagMatch = section.match(/^<\/?([a-zA-Z]+)/);
                     if (tagMatch) {
                         const tagName = tagMatch[1].toLowerCase();
                         if (allowedTags.includes(tagName)) {
                             cleanContent += section;
                         }
-                        // Skip content inside non-allowed tags
-                        if (!section.startsWith('</') && allowedTags.includes(tagName)) {
-                            // Find the matching closing tag and include content
-                            let depth = 1;
-                            let contentSection = '';
-                            for (let j = i + 1; j < sections.length && depth > 0; j++) {
-                                if (sections[j].match(new RegExp(`^</${tagName}`, 'i'))) {
-                                    depth--;
-                                    if (depth === 0) {
-                                        contentSection += sections[j];
-                                        i = j; // Skip to after this closing tag
-                                        break;
-                                    }
-                                } else if (sections[j].match(new RegExp(`^<${tagName}`, 'i'))) {
-                                    depth++;
-                                }
-                                contentSection += sections[j];
-                            }
-                            cleanContent += contentSection;
-                        }
+                        // Skip non-allowed tags entirely
                     }
-                } else if (section.trim()) {
-                    // This is text content - include it if it's substantial
-                    if (section.trim().length > 10) {
-                        cleanContent += section;
-                    }
+                } else {
+                    // This is content - add it
+                    cleanContent += section;
                 }
             }
 
@@ -340,7 +264,7 @@ class OdinProjectManager {
 
             // If we have substantial content, format it
             if (cleanContent.length > 200) {
-                return this.formatLessonContent(cleanContent, lessonTitle, nextLesson);
+                return this.formatLessonContent(cleanContent, lessonTitle, nextLesson, webview);
             } else {
                 // Fallback to generic content
                 return this.getGenericLessonContent(lessonTitle);
@@ -357,9 +281,22 @@ class OdinProjectManager {
      * @param {string} content - Extracted HTML content
      * @param {string} lessonTitle - Title of the lesson
      * @param {Object|null} nextLesson - Next lesson object or null
+     * @param {Object} webview - VS Code webview object for URI conversion
      * @returns {string} Formatted HTML page
      */
-    formatLessonContent(content, lessonTitle, nextLesson) {
+    formatLessonContent(content, lessonTitle, nextLesson, webview) {
+        // Prepare URIs for Prism.js assets (since The Odin Project uses Prism.js for highlighting)
+        let prismCss = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css';
+        let prismJs = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js';
+        if (webview && this.vscode && this.vscode.Uri) {
+            try {
+                // For now, we'll use CDN since we don't have local Prism.js resources
+                // TODO: Add Prism.js resources to the project for offline support
+            } catch (e) {
+                // fallback to CDN if anything goes wrong
+            }
+        }
+
         // Build HTML using string concatenation to avoid JSX linting issues
         let html = '<!DOCTYPE html>';
         html += '<html lang="en">';
@@ -367,6 +304,7 @@ class OdinProjectManager {
         html += '<meta charset="UTF-8">';
         html += '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
         html += '<title>' + lessonTitle + ' - The Odin Project</title>';
+        html += '<link rel="stylesheet" href="' + prismCss + '">';
         html += '<style>';
         html += ':root{--bg-color:#f8f9fa;--text-color:#333;--card-bg:white;--card-shadow:rgba(0,0,0,0.1);--border-color:#dee2e6;--accent-bg:#e9ecef;--accent-border:#007bff;--link-color:#007bff;--button-bg:#6c757d;--button-hover:#5a6268;--header-bg:linear-gradient(135deg,#007bff,#0056b3)}';
         html += '@media(prefers-color-scheme:dark){:root{--bg-color:#1e1e1e;--text-color:#cccccc;--card-bg:#2d2d30;--card-shadow:rgba(0,0,0,0.3);--border-color:#3e3e42;--accent-bg:#3c3c3c;--accent-border:#4fc1ff;--link-color:#4fc1ff;--button-bg:#5f5f5f;--button-hover:#6f6f6f;--header-bg:linear-gradient(135deg,#4fc1ff,#1e90ff)}}';
@@ -376,7 +314,7 @@ class OdinProjectManager {
 
         // Header styles
         html += '.lesson-header{background:var(--header-bg);color:white;padding:20px 15px;border-radius:0;margin-bottom:20px;text-align:center}';
-        html += '.lesson-title{font-size:2.8em;margin:0;font-weight:300}';
+        html += '.lesson-title{font-size:2.2em;margin:0;font-weight:300}';
         html += '.lesson-subtitle{font-size:1.3em;opacity:0.9;margin-top:10px}';
 
         // Content container styles
@@ -385,7 +323,7 @@ class OdinProjectManager {
         html += '.content-section{background:var(--card-bg);padding:20px;border-radius:10px;margin-bottom:10px;box-shadow:0 2px 10px var(--card-shadow);border:1px solid var(--border-color)}';
 
         // Typography styles
-        html += '.lesson-content h1,.lesson-content h2,.lesson-content h3,.lesson-content h4,.lesson-content h5,.lesson-content h6{color:var(--text-color);margin-top:30px;margin-bottom:15px;font-weight:600;font-size:2.5em}';
+        html += '.lesson-content h1,.lesson-content h2,.lesson-content h3,.lesson-content h4,.lesson-content h5,.lesson-content h6{color:var(--text-color);margin-top:30px;margin-bottom:15px;font-weight:600;font-size:1.8em}';
         html += '.lesson-content p{margin-bottom:15px;color:var(--text-color);font-size:0.95em}';
         html += '.lesson-content ul,.lesson-content ol{margin-bottom:15px;padding-left:30px}';
         html += '.lesson-content li{margin-bottom:5px;color:var(--text-color);font-size:1.1em}';
@@ -394,6 +332,7 @@ class OdinProjectManager {
         html += '.lesson-content code{background:var(--accent-bg);padding:2px 6px;border-radius:3px;font-family:"Monaco","Menlo","Ubuntu Mono",monospace;font-size:1em;color:var(--text-color)}';
         html += '.lesson-content a{color:var(--link-color);text-decoration:none}';
         html += '.lesson-content a:hover{text-decoration:underline}';
+        html += '.lesson-content a[href^="#"] { font-weight: bold; font-size: 1.1em; }';
 
         // Button styles
         html += '.back-button{display:inline-block;background:var(--button-bg);color:white;padding:12px 24px;text-decoration:none;border-radius:5px;margin-top:10px;font-weight:500;border:none;cursor:pointer;font-size:16px}';
@@ -404,12 +343,13 @@ class OdinProjectManager {
         // Responsive design
         html += '@media(max-width:768px){';
         html += '.lesson-header{padding:15px 10px}';
-        html += '.lesson-title{font-size:2em}';
+        html += '.lesson-title{font-size:1.8em}';
         html += '.content-section{padding:15px}';
         html += '.lesson-content{max-width:none;padding:10px 0}';
         html += '.page-container{padding:0 10px}';
         html += '}';
         html += '</style>';
+        html += '<script src="' + prismJs + '"></script>';
         html += '</head>';
         html += '<body>';
         html += '<div class="lesson-header">';
@@ -433,6 +373,8 @@ class OdinProjectManager {
         html += '<script>';
         html += 'function goBack(){if(typeof acquireVsCodeApi!=="undefined"){const vscode=acquireVsCodeApi();vscode.postMessage({command:"goBack"})}}';
         html += 'function nextLesson(){if(typeof acquireVsCodeApi!=="undefined"){const vscode=acquireVsCodeApi();vscode.postMessage({command:"nextLesson"})}}';
+        html += '// Prism.js highlighting is already applied server-side by The Odin Project';
+        html += '// No additional client-side highlighting needed';
         html += '</script>';
         html += '</body>';
         html += '</html>';
@@ -483,7 +425,9 @@ class OdinProjectManager {
                 {
                     enableScripts: true,
                     retainContextWhenHidden: true,
-                    localResourceRoots: []
+                    localResourceRoots: [
+                        this.vscode.Uri.file(path.join(__dirname, '..', 'resources'))
+                    ]
                 }
             );
 
@@ -495,7 +439,7 @@ class OdinProjectManager {
                 const htmlContent = await this.fetchLessonContentWithRetry(lesson.url);
 
                 // Extract and format content
-                const formattedContent = this.extractLessonContent(htmlContent, lesson.title, nextLesson);
+                const formattedContent = this.extractLessonContent(htmlContent, lesson.title, nextLesson, panel.webview);
 
                 // Set the content
                 panel.webview.html = formattedContent;
