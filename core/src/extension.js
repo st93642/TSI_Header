@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 11 2025 20:48 st93642                                       */
+/*  Updated: Oct 13 2025 15:06 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -1816,6 +1816,119 @@ extern "C" {
     });
 
     context.subscriptions.push(viewLearnProgressGitCommand);
+
+    // Odin Project Learning Commands
+    const learnOdinCommand = vscode.commands.registerCommand('tsiheader.learnOdin', async () => {
+        try {
+            // Lazy load the Odin Project manager
+            const OdinProjectManager = require(path.join(__dirname, '..', '..', 'top', 'odin_manager.js'));
+            const odinManager = new OdinProjectManager(vscode);
+
+            const message = '🚀 The Odin Project - Full Stack JavaScript\n\n' +
+                'Embark on a comprehensive journey to become a full-stack developer:\n' +
+                '• Foundations: HTML, CSS, JavaScript, Git\n' +
+                '• Full Stack JavaScript: Node.js, Express, React, MongoDB\n' +
+                '• Ruby on Rails: Complete web application development\n' +
+                '• 300+ hours of interactive curriculum\n\n' +
+                'Lessons are fetched live from The Odin Project website.\n\n' +
+                'Ready to start your coding journey?';
+
+            const action = await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                'Start Foundations',
+                'Browse All Lessons',
+                'View Progress'
+            );
+
+            if (action === 'Start Foundations') {
+                // Load curriculum and start with first lesson
+                const fs = require('fs');
+                const curriculumPath = path.join(__dirname, '..', '..', 'top', 'curriculum.json');
+                const curriculum = JSON.parse(fs.readFileSync(curriculumPath, 'utf8'));
+                const firstLesson = curriculum.modules[0].lessons[0];
+                await odinManager.openLesson(firstLesson, context);
+            } else if (action === 'Browse All Lessons') {
+                await vscode.commands.executeCommand('tsiheader.browseLessonsOdin');
+            } else if (action === 'View Progress') {
+                await vscode.commands.executeCommand('tsiheader.viewLearnProgressOdin');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error starting Odin Project: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(learnOdinCommand);
+
+    const browseLessonsOdinCommand = vscode.commands.registerCommand('tsiheader.browseLessonsOdin', async () => {
+        try {
+            const fs = require('fs');
+            const curriculumPath = path.join(__dirname, '..', '..', 'top', 'curriculum.json');
+            const curriculum = JSON.parse(fs.readFileSync(curriculumPath, 'utf8'));
+
+            // Create quick pick items for all lessons
+            const items = [];
+            curriculum.modules.forEach(module => {
+                // Add module separator
+                items.push({
+                    label: `📚 ${module.title}`,
+                    kind: vscode.QuickPickItemKind.Separator
+                });
+
+                module.lessons.forEach(lesson => {
+                    items.push({
+                        label: `  ${lesson.title}`,
+                        description: `${lesson.duration} min • ${lesson.difficulty}`,
+                        detail: lesson.url,
+                        lesson: lesson
+                    });
+                });
+            });
+
+            const selected = await vscode.window.showQuickPick(items, {
+                placeHolder: 'Select a lesson from The Odin Project',
+                matchOnDescription: true
+            });
+
+            if (selected && selected.lesson) {
+                const OdinProjectManager = require(path.join(__dirname, '..', '..', 'top', 'odin_manager.js'));
+                const odinManager = new OdinProjectManager(vscode);
+                await odinManager.openLesson(selected.lesson, context);
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error browsing Odin lessons: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(browseLessonsOdinCommand);
+
+    const viewLearnProgressOdinCommand = vscode.commands.registerCommand('tsiheader.viewLearnProgressOdin', async () => {
+        try {
+            // For now, show a placeholder message since we don't have progress tracking for Odin Project yet
+            const message = '📊 The Odin Project Progress\n\n' +
+                'Progress tracking for The Odin Project curriculum is coming soon!\n\n' +
+                'In the meantime, you can:\n' +
+                '• Browse and access all lessons\n' +
+                '• Track your progress manually on the Odin Project website\n' +
+                '• Complete projects and build your portfolio\n\n' +
+                'The Odin Project provides comprehensive learning paths for full-stack development.';
+
+            await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                'Browse Lessons',
+                'Got it!'
+            ).then(action => {
+                if (action === 'Browse Lessons') {
+                    vscode.commands.executeCommand('tsiheader.browseLessonsOdin');
+                }
+            });
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing Odin progress: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewLearnProgressOdinCommand);
 
     // Register feature module commands
     // Code quality enforcement module removed

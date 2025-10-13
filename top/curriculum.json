@@ -1,0 +1,325 @@
+{
+  "language": "Odin Project",
+  "version": "1.0.0",
+  "description": "The Odin Project - Full Stack JavaScript curriculum with HTML, CSS, JavaScript, Node.js, React, and more",
+  "estimatedHours": 300,
+  "modules": [
+    {
+      "id": "foundations",
+      "title": "Foundations",
+      "description": "HTML, CSS, and JavaScript fundamentals",
+      "lessons": [
+        {
+          "id": "computer-fundamentals",
+          "title": "How This Course Will Work",
+          "duration": 30,
+          "difficulty": "beginner",
+          "url": "https://www.theodinproject.com/paths/foundations/courses/foundations"
+        },
+        {
+          "id": "installations",
+          "title": "Installing and Using Git",
+          "duration": 45,
+          "difficulty": "beginner",
+          "url": "https://www.theodinproject.com/lessons/foundations-installing-git"
+        },
+        {
+          "id": "command-line-basics",
+          "title": "Command Line Basics",
+          "duration": 60,
+          "difficulty": "beginner",
+          "url": "https://www.theodinproject.com/lessons/foundations-command-line-basics"
+        },
+        {
+          "id": "setting-up-git",
+          "title": "Setting Up Git",
+          "duration": 30,
+          "difficulty": "beginner",
+          "url": "https://www.theodinproject.com/lessons/foundations-setting-up-git"
+        },
+        {
+          "id": "html-foundations",
+          "title": "HTML Foundations",
+          "duration": 90,
+          "difficulty": "beginner",
+          "url": "https://www.theodinproject.com/lessons/foundations-html-foundations"
+        },
+        {
+          "id": "css-foundations",
+          "title": "CSS Foundations",
+          "duration": 120,
+          "difficulty": "beginner",
+          "url": "https://www.theodinproject.com/lessons/foundations-css-foundations"
+        },
+        {
+          "id": "flexbox",
+          "title": "Flexbox",
+          "duration": 90,
+          "difficulty": "beginner",
+          "url": "https://www.theodinproject.com/lessons/foundations-flexbox"
+        },
+        {
+          "id": "javascript-basics",
+          "title": "JavaScript Basics",
+          "duration": 180,
+          "difficulty": "beginner",
+          "url": "https://www.theodinproject.com/lessons/foundations-javascript-basics"
+        },
+        {
+          "id": "dom-manipulation",
+          "title": "DOM Manipulation and Events",
+          "duration": 120,
+          "difficulty": "beginner",
+          "url": "https://www.theodinproject.com/lessons/foundations-dom-manipulation-and-events"
+        },
+        {
+          "id": "javascript-objects",
+          "title": "JavaScript Objects and Object Constructors",
+          "duration": 90,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/foundations-javascript-objects-and-object-constructors"
+        },
+        {
+          "id": "library",
+          "title": "Library",
+          "duration": 180,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/foundations-library"
+        },
+        {
+          "id": "tic-tac-toe",
+          "title": "Tic Tac Toe",
+          "duration": 240,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/foundations-tic-tac-toe"
+        },
+        {
+          "id": "restaurant-page",
+          "title": "Restaurant Page",
+          "duration": 180,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/foundations-restaurant-page"
+        },
+        {
+          "id": "todo-list",
+          "title": "Todo List",
+          "duration": 240,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/foundations-todo-list"
+        },
+        {
+          "id": "calculator",
+          "title": "Calculator",
+          "duration": 180,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/foundations-calculator"
+        },
+        {
+          "id": "etch-a-sketch",
+          "title": "Etch-a-Sketch",
+          "duration": 180,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/foundations-etch-a-sketch"
+        },
+        {
+          "id": "rock-paper-scissors",
+          "title": "Rock Paper Scissors",
+          "duration": 180,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/foundations-rock-paper-scissors"
+        }
+      ]
+    },
+    {
+      "id": "full-stack-javascript",
+      "title": "Full Stack JavaScript",
+      "description": "Node.js, Express, MongoDB, and React",
+      "lessons": [
+        {
+          "id": "introduction-to-frameworks",
+          "title": "Introduction to Frameworks and React",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-introduction-to-frameworks-and-react"
+        },
+        {
+          "id": "package-json",
+          "title": "Package JSON",
+          "duration": 45,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-package-json"
+        },
+        {
+          "id": "npm",
+          "title": "NPM",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-npm"
+        },
+        {
+          "id": "webpack",
+          "title": "Webpack",
+          "duration": 90,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-webpack"
+        },
+        {
+          "id": "babel",
+          "title": "Babel",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-babel"
+        },
+        {
+          "id": "linting",
+          "title": "Linting",
+          "duration": 45,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-linting"
+        },
+        {
+          "id": "react-introduction",
+          "title": "React Introduction",
+          "duration": 90,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-react-introduction"
+        },
+        {
+          "id": "react-state-events",
+          "title": "React State and Events",
+          "duration": 120,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-react-state-and-events"
+        },
+        {
+          "id": "react-components",
+          "title": "React Components",
+          "duration": 120,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-react-components"
+        },
+        {
+          "id": "react-facts-site",
+          "title": "React Facts Site",
+          "duration": 180,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-react-facts-site"
+        },
+        {
+          "id": "airbnb-clone",
+          "title": "Airbnb Clone",
+          "duration": 240,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-airbnb-clone"
+        },
+        {
+          "id": "meme-generator",
+          "title": "Meme Generator",
+          "duration": 240,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-meme-generator"
+        },
+        {
+          "id": "tenzies-game",
+          "title": "Tenzies Game",
+          "duration": 240,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-tenzies-game"
+        },
+        {
+          "id": "notes-app",
+          "title": "Notes App",
+          "duration": 240,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/node-path-javascript-notes-app"
+        }
+      ]
+    },
+    {
+      "id": "ruby-on-rails",
+      "title": "Ruby on Rails",
+      "description": "Full-stack web development with Ruby on Rails",
+      "lessons": [
+        {
+          "id": "ruby-on-rails-introduction",
+          "title": "Ruby on Rails Introduction",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-introduction"
+        },
+        {
+          "id": "installing-ruby",
+          "title": "Installing Ruby",
+          "duration": 45,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-installing-ruby"
+        },
+        {
+          "id": "installing-rails",
+          "title": "Installing Rails",
+          "duration": 60,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-installing-rails"
+        },
+        {
+          "id": "rails-new",
+          "title": "Rails New",
+          "duration": 45,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-rails-new"
+        },
+        {
+          "id": "models-views-controllers",
+          "title": "Models, Views, Controllers",
+          "duration": 90,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-models-views-controllers"
+        },
+        {
+          "id": "blog-app",
+          "title": "Blog App",
+          "duration": 300,
+          "difficulty": "intermediate",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-blog-app"
+        },
+        {
+          "id": "flight-booker",
+          "title": "Flight Booker",
+          "duration": 240,
+          "difficulty": "advanced",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-flight-booker"
+        },
+        {
+          "id": "members-only",
+          "title": "Members Only",
+          "duration": 240,
+          "difficulty": "advanced",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-members-only"
+        },
+        {
+          "id": "private-events",
+          "title": "Private Events",
+          "duration": 240,
+          "difficulty": "advanced",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-private-events"
+        },
+        {
+          "id": "odin-facebook",
+          "title": "Odin Facebook",
+          "duration": 360,
+          "difficulty": "advanced",
+          "url": "https://www.theodinproject.com/lessons/ruby-on-rails-odin-facebook"
+        }
+      ]
+    }
+  ],
+  "prerequisites": [],
+  "outcomes": [
+    "Build responsive websites with HTML and CSS",
+    "Write clean, maintainable JavaScript code",
+    "Create dynamic web applications with React",
+    "Develop full-stack applications with Node.js and Express",
+    "Build robust web applications with Ruby on Rails",
+    "Deploy applications to production environments"
+  ]
+}

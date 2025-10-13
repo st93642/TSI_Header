@@ -429,6 +429,24 @@
         "icon": "$(graph)"
       },
       {
+        "command": "tsiheader.learnOdin",
+        "title": "Learn The Odin Project",
+        "category": "Uni Header",
+        "icon": "$(book)"
+      },
+      {
+        "command": "tsiheader.browseLessonsOdin",
+        "title": "Browse Odin Project Lessons",
+        "category": "Uni Header",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "tsiheader.viewLearnProgressOdin",
+        "title": "View Odin Project Progress",
+        "category": "Uni Header",
+        "icon": "$(graph)"
+      },
+      {
         "command": "tsiheader.showCalendar",
         "title": "Show Study Calendar",
         "category": "Uni Header",
