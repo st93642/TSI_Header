@@ -6,7 +6,7 @@
 
 - Insert university branded headers and boilerplates across **147+ languages**.
 - Scaffold production-ready projects for **C / C++ / Java / Python / Ruby / Rust / PHP / HTML**.
-- Teach and practice with in-editor **Learn Mode** lessons and exercises for **C, C++, Ruby, and comprehensive Rust curriculum**.
+- Teach and practice with in-editor **Learn Mode** lessons and exercises for **C, C++, Ruby, Rust, Git, and The Odin Project**.
 - Stay focused via the **Study Mode** Pomodoro timer with persistent analytics.
 - **🆕 Study Calendar** with deadline tracking, custom events, daily schedules, and **SMTP email notifications**.
 
@@ -17,7 +17,7 @@
 - **Ruby**: Version 2.7 or later (for CLI operations and compilation).
 - **Git**: For user identity resolution and project scaffolding.
 - **Supported Languages**: C, C++, Java, Python, Ruby, Rust, PHP, HTML, and 140+ others for header insertion.
-- **Learn Mode**: Interactive curriculum for C, C++, Ruby, and **comprehensive Rust programming** (21 core chapters + 12 advanced web development chapters).
+- **Learn Mode**: Interactive curriculum for C, C++, Ruby, Rust, Git, and **The Odin Project** (complete full-stack JavaScript curriculum).
 - **Email Notifications**: SMTP for calendar reminders.
 
 ## Configuration quick hints
@@ -35,7 +35,7 @@
 
 - **Uni Commands** for headers, classes, code bases.
 - **Uni Projects** for language scaffolds.
-- **📚 Learn** (Ruby, C, C++, **Rust**) and **Study Mode** commands for curriculum + Pomodoro.
+- **📚 Learn** (Ruby, C, C++, Rust, Git, **Odin Project**) and **Study Mode** commands for curriculum + Pomodoro.
 - **📅 Study Calendar** for scheduling deadlines, events, and automated email notifications.
 
 ## Calendar Features
