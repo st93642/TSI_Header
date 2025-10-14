@@ -7,6 +7,7 @@
 - Insert university branded headers and boilerplates across **147+ languages**.
 - Scaffold production-ready projects for **C / C++ / Java / Python / Ruby / Rust / PHP / HTML**.
 - Teach and practice with in-editor **Learn Mode** lessons and exercises for **C, C++, Ruby, Rust, Git, and The Odin Project**.
+- **🆕 Offline caching** for Odin Project lessons - access lessons without internet connection and manage cache from the sidebar.
 - Stay focused via the **Study Mode** Pomodoro timer with persistent analytics.
 - **🆕 Study Calendar** with deadline tracking, custom events, daily schedules, and **SMTP email notifications**.
 

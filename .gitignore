@@ -209,3 +209,42 @@ dev/
 
 # Copilot instructions (internal development guide)
 .github/copilot-instructions.md
+
+# Learn exercises (ephemeral, user-generated)
+learn_exercises/
+
+# Test suite output
+TEST_Suite/test_output/
+TEST_Suite/temp_test_files/
+
+# Odin Project cache (user data)
+.top-cache/
+
+# VS Code extension cache and data
+.vscode/odin-cache/
+.vscode/globalStorage/
+*.globalStorage/
+
+# Additional cache directories
+.cache/
+*.cache
+
+# VS Code extension testing artifacts
+.vscode-test/
+test-results/
+coverage/
+
+# Additional OS files
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Additional temporary files
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
