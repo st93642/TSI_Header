@@ -2,14 +2,25 @@
 
 ![Uni Header Overview](resources/main-picture.png)
 
+**Version 7.0.0** - Latest release with custom header support and enhanced header detection.
+
+## What's New in v7.0.0
+
+- **🆕 Custom Institution Headers**: Configure your own university/organization branding for all generated headers
+- **🆕 Enhanced Header Detection**: Improved pattern matching for all 122+ supported languages
+- **🆕 Fixed "Unknown" Username Issues**: Headers now properly resolve user identity from VS Code settings and Git config
+- **🆕 Project Creation Respects Custom Settings**: New projects now use custom header configurations instead of default TSI branding
+
 ## Features
 
-- Insert university branded headers and boilerplates across **147+ languages**.
+- Insert university branded headers and boilerplates across **122+ languages**.
 - Scaffold production-ready projects for **C / C++ / Java / Python / Ruby / Rust / PHP / HTML**.
 - Teach and practice with in-editor **Learn Mode** lessons and exercises for **C, C++, Ruby, Rust, Git, and The Odin Project**.
 - **🆕 Offline caching** for Odin Project lessons - access lessons without internet connection and manage cache from the sidebar.
 - Stay focused via the **Study Mode** Pomodoro timer with persistent analytics.
 - **🆕 Study Calendar** with deadline tracking, custom events, daily schedules, and **SMTP email notifications**.
+- **🆕 Custom Institution Headers** - Configure your own institution name and URL for personalized headers.
+- **🆕 Enhanced Header Detection** - Automatically detects and updates headers across all supported languages.
 
 ## Requirements
 
@@ -17,7 +28,7 @@
 - **Node.js**: Version 16 or later (for development and testing).
 - **Ruby**: Version 2.7 or later (for CLI operations and compilation).
 - **Git**: For user identity resolution and project scaffolding.
-- **Supported Languages**: C, C++, Java, Python, Ruby, Rust, PHP, HTML, and 140+ others for header insertion.
+- **Supported Languages**: C, C++, Java, Python, Ruby, Rust, PHP, HTML, and 115+ others for header insertion.
 - **Learn Mode**: Interactive curriculum for C, C++, Ruby, Rust, Git, and **The Odin Project** (complete full-stack JavaScript curriculum).
 - **Email Notifications**: SMTP for calendar reminders.
 
@@ -25,6 +36,21 @@
 
 - User identity resolves in this order: VS Code settings → Git config → `TSI_USERNAME` / `TSI_EMAIL` env vars.
 - Calendar notifications: Configure SMTP settings for email reminders.
+- **Custom Headers**: Enable `tsiheader.customHeader.enableCustomHeader` to use your institution's branding instead of default TSI headers.
+
+## Custom Header Configuration
+
+Personalize headers with your institution's branding:
+
+```json
+{
+  "tsiheader.customHeader.enableCustomHeader": true,
+  "tsiheader.customHeader.institutionName": "Your University Name",
+  "tsiheader.customHeader.institutionUrl": "https://your-university.edu"
+}
+```
+
+When enabled, all generated headers (manual insertion, project creation, auto-updates) will use your custom institution name and URL instead of the default TSI branding.
 
 ## Getting started in VS Code
 
@@ -32,7 +58,8 @@
 2. `npm run compile` to mirror the active `core/src/extension.js` into `out/`.
 3. Launch the extension (F5) or package with `npx vsce package`.
 4. Configure `tsiheader.username` / `tsiheader.email` or rely on Git settings.
-5. Use Activity Bar panels:
+5. **Optional**: Enable custom headers with `tsiheader.customHeader.enableCustomHeader` for personalized branding.
+6. Use Activity Bar panels:
 
 - **Uni Commands** for headers, classes, code bases.
 - **Uni Projects** for language scaffolds.
@@ -74,6 +101,8 @@ Example SMTP configuration:
 ### Common Issues
 
 - **Extension not activating**: Ensure VS Code is version 1.74.0+. Reload the window (Ctrl+Shift+P > "Developer: Reload Window").
+- **Headers showing "unknown" username**: This is automatically fixed when updating existing headers. The extension now properly reads git configuration and VS Code settings.
+- **Custom headers not working in projects**: Ensure `tsiheader.customHeader.enableCustomHeader` is enabled. Project creation now respects custom header settings.
 - **Headers not inserting**: Check user settings (`tsiheader.username`, `tsiheader.email`) or Git config. Run `git config --global user.name` to verify.
 - **SMTP connection errors**: Verify server settings and credentials. Use port 587 for STARTTLS or 465 for direct TLS. Check firewall settings.
 - **Email notifications not working**: Test with "Uni Header: Test Email Notification" command. Check VS Code output panel for detailed SMTP logs.
