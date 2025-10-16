@@ -1,14 +1,14 @@
 /*****************************************************************************/
 /*                                                                           */
-/*  extension.js                                         TTTTTTTT SSSSSSS II */
-/*                                                          TT    SS      II */
-/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
-/*                                                          TT         SS II */
-/*  Created: Sep 23 2025 11:39 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 13 2025 17:05 st93642                                       */
+/*  extension.js                                                             */
 /*                                                                           */
-/*   Transport and Telecommunication Institute - Riga, Latvia                */
-/*                       https://tsi.lv                                      */
+/*  By: st93642@students.tsi.lv                                              */
+/*                                                                           */
+/*  Created: Sep 23 2025 11:39 st93642                                       */
+/*  Updated: Oct 16 2025 12:18 st93642                                       */
+/*                                                                           */
+/*   Transport Institute                                                     */
+/*                       https://tsi.example.com                             */
 /*****************************************************************************/
 
 const vscode = require('vscode');
@@ -180,6 +180,9 @@ function activate(context) {
             const config = vscode.workspace.getConfiguration('tsiheader');
             const username = config.get('username');
             const email = config.get('email');
+            const enableCustomHeader = config.get('customHeader.enableCustomHeader', false);
+            const institutionName = config.get('customHeader.institutionName', 'Transport and Telecommunication Institute - Riga, Latvia');
+            const institutionUrl = config.get('customHeader.institutionUrl', 'https://tsi.lv');
             
             // Check for credentials and show helpful setup instructions if missing
             const hasUsername = username && username.trim() !== '';
@@ -222,6 +225,17 @@ function activate(context) {
             }
             if (email && email.trim() !== '') {
                 env.TSI_EMAIL = email;
+            }
+            
+            // Set custom header environment variables
+            if (enableCustomHeader) {
+                env.TSI_CUSTOM_HEADER_ENABLED = 'true';
+                if (institutionName && institutionName.trim() !== '') {
+                    env.TSI_CUSTOM_INSTITUTION_NAME = institutionName;
+                }
+                if (institutionUrl && institutionUrl.trim() !== '') {
+                    env.TSI_CUSTOM_INSTITUTION_URL = institutionUrl;
+                }
             }
             
             // Execute Ruby CLI
@@ -269,6 +283,9 @@ function activate(context) {
             const config = vscode.workspace.getConfiguration('tsiheader');
             const username = config.get('username');
             const email = config.get('email');
+            const enableCustomHeader = config.get('customHeader.enableCustomHeader', false);
+            const institutionName = config.get('customHeader.institutionName', 'Transport and Telecommunication Institute - Riga, Latvia');
+            const institutionUrl = config.get('customHeader.institutionUrl', 'https://tsi.lv');
             
             // Check for credentials and show helpful setup instructions if missing
             const hasUsername = username && username.trim() !== '';
@@ -313,6 +330,17 @@ function activate(context) {
                 env.TSI_EMAIL = email;
             }
             
+            // Set custom header environment variables
+            if (enableCustomHeader) {
+                env.TSI_CUSTOM_HEADER_ENABLED = 'true';
+                if (institutionName && institutionName.trim() !== '') {
+                    env.TSI_CUSTOM_INSTITUTION_NAME = institutionName;
+                }
+                if (institutionUrl && institutionUrl.trim() !== '') {
+                    env.TSI_CUSTOM_INSTITUTION_URL = institutionUrl;
+                }
+            }
+            
             // Execute Ruby CLI for update
             const command = `ruby "${cliPath}" update "${detectedLanguageId}" "${fileName}"`;
             console.log('Executing update command:', command);
@@ -342,17 +370,81 @@ function activate(context) {
             const document = editor.document;
             const text = document.getText();
             
-            // Check if file has a TSI header using the same logic as auto-update
+            // Check if file has a header produced by this extension
             const lines = text.split('\n');
             let hasHeader = false;
             let headerEndLine = -1;
             
+            // Look for header pattern: starts with comment delimiter + asterisks (top border)
             for (let i = 0; i < Math.min(15, lines.length); i++) {
-                if (lines[i].includes('Transport and Telecommunication Institute')) {
+                const line = lines[i].trim();
+                // Check for various header top border patterns for all supported languages:
+                // /* ******** */ (C-style: c, cpp, java, javascript, etc.)
+                // #*********# (Hash-style: python, ruby, perl, etc.)
+                // ;; ******** ;; (Semicolon-style: lisp, scheme, etc.)
+                // (* ******** *) (Paren-style: mathematica, ocaml, etc.)
+                // -- ******** -- (Dash-style: haskell, lua, etc.)
+                // %% ******** %% (Percent-style: latex, matlab, etc.)
+                // <!-- ******** --> (HTML-style: html, xml, etc.)
+                // <# ******** #> (Block-style: jinja, etc.)
+                // { ******** } (Brace-style: pascal, etc.)
+                // " ******** " (Quote-style: smalltalk, etc.)
+                // // ******** // (Double-slash: labview, etc.)
+                // <!--- ******** ---> (ColdFusion-style)
+                // ! ******** ! (Exclamation-style: factor, etc.)
+                // * ******** * (Asterisk-style: abap)
+                // ; ******** ; (Single-semicolon: algol, etc.)
+                // {# ******** #} (Twig-style)
+                // -# ******** -# (HAML-style)
+                // {{!-- ******** --}} (Handlebars-style)
+                // @* ******** *@ (Razor-style)
+                // ********** (Plain text: json, markdown, etc.)
+                if (line.match(/^\/\*[\*]+\*\/$/) ||  // /* ******** */
+                    line.match(/^#[\*]+#$/) ||        // #*********#
+                    line.match(/^;; [\*]+ ;;$/) ||    // ;; ******** ;;
+                    line.match(/^\(\* [\*]+ \*\)$/) || // (* ******** *)
+                    line.match(/^-- [\*]+ --$/) ||    // -- ******** --
+                    line.match(/^%% [\*]+ %%$/) ||    // %% ******** %%
+                    line.match(/^<!-- [\*]+ -->$/) || // <!-- ******** -->
+                    line.match(/^<# [\*]+ #>$/) ||    // <# ******** #>
+                    line.match(/^{ [\*]+ }$/) ||      // { ******** }
+                    line.match(/^" [\*]+ "$/) ||      // " ******** "
+                    line.match(/^\/\/ [\*]+ \/\/$/) || // // ******** //
+                    line.match(/^<!--- [\*]+ --->$/) || // <!--- ******** --->
+                    line.match(/^! [\*]+ !$/) ||      // ! ******** !
+                    line.match(/^\* [\*]+ \*$/) ||    // * ******** *
+                    line.match(/^; [\*]+ ;$/) ||      // ; ******** ;
+                    line.match(/^{# [\*]+ #}$/) ||    // {# ******** #}
+                    line.match(/^-# [\*]+ -#$/) ||    // -# ******** -#
+                    line.match(/^{{\!-- [\*]+ --}}$/) || // {{!-- ******** --}}
+                    line.match(/^@\* [\*]+ \*@$/) ||  // @* ******** *@
+                    line.match(/^[\*]{10,}$/)) {      // ********** (plain text)
                     hasHeader = true;
-                    // Find the end of the header (empty line after header)
-                    for (let j = i + 1; j < Math.min(i + 15, lines.length); j++) {
-                        if (lines[j].trim() === '') {
+                    
+                    // Find the end of the header (bottom border line)
+                    for (let j = i + 1; j < Math.min(i + 20, lines.length); j++) {
+                        const checkLine = lines[j].trim();
+                        // Look for bottom border (similar pattern to top border)
+                        if (checkLine.match(/^\/\*[\*]+\*\/$/) ||  // /* ******** */
+                            checkLine.match(/^#[\*]+#$/) ||        // #*********#
+                            checkLine.match(/^;; [\*]+ ;;$/) ||    // ;; ******** ;;
+                            checkLine.match(/^\(\* [\*]+ \*\)$/) || // (* ******** *)
+                            checkLine.match(/^-- [\*]+ --$/) ||    // -- ******** --
+                            checkLine.match(/^%% [\*]+ %%$/) ||    // %% ******** %%
+                            checkLine.match(/^<!-- [\*]+ -->$/) || // <!-- ******** -->
+                            checkLine.match(/^<# [\*]+ #>$/) ||    // <# ******** #>
+                            checkLine.match(/^{ [\*]+ }$/) ||      // { ******** }
+                            checkLine.match(/^" [\*]+ "$/) ||      // " ******** "
+                            checkLine.match(/^\/\/ [\*]+ \/\/$/) || // // ******** //
+                            checkLine.match(/^<!--- [\*]+ --->$/) || // <!--- ******** --->
+                            checkLine.match(/^! [\*]+ !$/) ||      // ! ******** !
+                            checkLine.match(/^\* [\*]+ \*$/) ||    // * ******** *
+                            checkLine.match(/^; [\*]+ ;$/) ||      // ; ******** ;
+                            checkLine.match(/^{# [\*]+ #}$/) ||    // {# ******** #}
+                            checkLine.match(/^-# [\*]+ -#$/) ||    // -# ******** -#
+                            checkLine.match(/^{{\!-- [\*]+ --}}$/) || // {{!-- ******** --}}
+                            checkLine.match(/^@\* [\*]+ \*@$/) ||  // @* ******** *@
+                            checkLine.match(/^[\*]{10,}$/)) {      // ********** (plain text)
                             headerEndLine = j;
                             break;
                         }
@@ -362,7 +454,7 @@ function activate(context) {
             }
             
             if (!hasHeader) {
-                vscode.window.showErrorMessage('No TSI header found to remove in this file.');
+                vscode.window.showErrorMessage('No header found to remove in this file.');
                 return;
             }
             
@@ -396,10 +488,51 @@ function activate(context) {
         const text = document.getText();
         const lines = text.split('\n');
         
-        // Look for TSI header pattern in first few lines
+        // Look for header pattern in first few lines
         let hasHeader = false;
         for (let i = 0; i < Math.min(15, lines.length); i++) {
-            if (lines[i].includes('Transport and Telecommunication Institute')) {
+            const line = lines[i].trim();
+            // Check for various header top border patterns for all supported languages:
+            // /* ******** */ (C-style: c, cpp, java, javascript, etc.)
+            // #*********# (Hash-style: python, ruby, perl, etc.)
+            // ;; ******** ;; (Semicolon-style: lisp, scheme, etc.)
+            // (* ******** *) (Paren-style: mathematica, ocaml, etc.)
+            // -- ******** -- (Dash-style: haskell, lua, etc.)
+            // %% ******** %% (Percent-style: latex, matlab, etc.)
+            // <!-- ******** --> (HTML-style: html, xml, etc.)
+            // <# ******** #> (Block-style: jinja, etc.)
+            // { ******** } (Brace-style: pascal, etc.)
+            // " ******** " (Quote-style: smalltalk, etc.)
+            // // ******** // (Double-slash: labview, etc.)
+            // <!--- ******** ---> (ColdFusion-style)
+            // ! ******** ! (Exclamation-style: factor, etc.)
+            // * ******** * (Asterisk-style: abap)
+            // ; ******** ; (Single-semicolon: algol, etc.)
+            // {# ******** #} (Twig-style)
+            // -# ******** -# (HAML-style)
+            // {{!-- ******** --}} (Handlebars-style)
+            // @* ******** *@ (Razor-style)
+            // ********** (Plain text: json, markdown, etc.)
+            if (line.match(/^\/\*[\*]+\*\/$/) ||  // /* ******** */
+                line.match(/^#[\*]+#$/) ||        // #*********#
+                line.match(/^;; [\*]+ ;;$/) ||    // ;; ******** ;;
+                line.match(/^\(\* [\*]+ \*\)$/) || // (* ******** *)
+                line.match(/^-- [\*]+ --$/) ||    // -- ******** --
+                line.match(/^%% [\*]+ %%$/) ||    // %% ******** %%
+                line.match(/^<!-- [\*]+ -->$/) || // <!-- ******** -->
+                line.match(/^<# [\*]+ #>$/) ||    // <# ******** #>
+                line.match(/^{ [\*]+ }$/) ||      // { ******** }
+                line.match(/^" [\*]+ "$/) ||      // " ******** "
+                line.match(/^\/\/ [\*]+ \/\/$/) || // // ******** //
+                line.match(/^<!--- [\*]+ --->$/) || // <!--- ******** --->
+                line.match(/^! [\*]+ !$/) ||      // ! ******** !
+                line.match(/^\* [\*]+ \*$/) ||    // * ******** *
+                line.match(/^; [\*]+ ;$/) ||      // ; ******** ;
+                line.match(/^{# [\*]+ #}$/) ||    // {# ******** #}
+                line.match(/^-# [\*]+ -#$/) ||    // -# ******** -#
+                line.match(/^{{\!-- [\*]+ --}}$/) || // {{!-- ******** --}}
+                line.match(/^@\* [\*]+ \*@$/) ||  // @* ******** *@
+                line.match(/^[\*]{10,}$/)) {      // ********** (plain text)
                 hasHeader = true;
                 break;
             }
@@ -412,6 +545,9 @@ function activate(context) {
         // Check for credentials (same logic as manual update)
         const username = config.get('username');
         const email = config.get('email');
+        const enableCustomHeader = config.get('customHeader.enableCustomHeader', false);
+        const institutionName = config.get('customHeader.institutionName', 'Transport and Telecommunication Institute - Riga, Latvia');
+        const institutionUrl = config.get('customHeader.institutionUrl', 'https://tsi.lv');
         
         const hasUsername = username && username.trim() !== '';
         const hasEmail = email && email.trim() !== '';
@@ -455,6 +591,17 @@ function activate(context) {
             }
             if (hasEmail) {
                 env.TSI_EMAIL = email;
+            }
+            
+            // Set custom header environment variables
+            if (enableCustomHeader) {
+                env.TSI_CUSTOM_HEADER_ENABLED = 'true';
+                if (institutionName && institutionName.trim() !== '') {
+                    env.TSI_CUSTOM_INSTITUTION_NAME = institutionName;
+                }
+                if (institutionUrl && institutionUrl.trim() !== '') {
+                    env.TSI_CUSTOM_INSTITUTION_URL = institutionUrl;
+                }
             }
             
             // Execute Ruby CLI for auto-update

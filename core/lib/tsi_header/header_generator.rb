@@ -1,18 +1,7 @@
 #!/usr/bin/env ruby
 
-#*****************************************************************************#
-#                                                                             #
-#  header_generator.rb                                    TTTTTTTT SSSSSSS II #
-#                                                            TT    SS      II #
-#  By: st93642@students.tsi.lv                      TT    SSSSSSS II #
-#                                                            TT         SS II #
-#  Created: Sep 23 2025 11:19 st93642               TT    SSSSSSS II #
-#  Updated: Sep 23 2025 11:19 st93642                                #
-#                                                                             #
-#   Transport and Telecommunication Institute - Riga, Latvia                  #
-#                       https://tsi.lv                                        #
-#*****************************************************************************#
 
+require_relative 'delimiters'
 module TSIHeader
   class HeaderGenerator
     def self.supports_language?(language_id)
@@ -52,7 +41,8 @@ module TSIHeader
       
       # Line 3: Filename and TSI logo (right-aligned logo)
       filename_part = "  #{header_info.filename}"
-      logo_part = "TTTTTTTT SSSSSSS II"
+      logo_lines = Configuration.custom_logo_lines
+      logo_part = logo_lines[0]  # First logo line
       # Calculate padding to right-align logo with 1 space from right wall
       logo_start_pos = content_width - logo_part.length - 1 # 1 space from right
       text_padding = logo_start_pos - filename_part.length
@@ -63,13 +53,13 @@ module TSIHeader
       lines << "#{left}#{filename_part}#{' ' * text_padding}#{logo_part} #{right}"
       
       # Line 4: Second logo line (right-aligned)
-      logo_part = "TT    SS      II"
+      logo_part = logo_lines[1]  # Second logo line
       logo_start_pos = content_width - logo_part.length - 1
       lines << "#{left}#{' ' * logo_start_pos}#{logo_part} #{right}"
       
       # Line 5: Author line with logo (right-aligned logo)
       author_part = "  By: #{header_info.author}"
-      logo_part = "TT    SSSSSSS II"
+      logo_part = logo_lines[2]  # Third logo line
       logo_start_pos = content_width - logo_part.length - 1
       text_padding = logo_start_pos - author_part.length
       if text_padding < 1
@@ -79,13 +69,13 @@ module TSIHeader
       lines << "#{left}#{author_part}#{' ' * text_padding}#{logo_part} #{right}"
       
       # Line 6: Third logo line (right-aligned)
-      logo_part = "TT         SS II"
+      logo_part = logo_lines[3]  # Fourth logo line
       logo_start_pos = content_width - logo_part.length - 1
       lines << "#{left}#{' ' * logo_start_pos}#{logo_part} #{right}"
       
       # Line 7: Created line with logo (right-aligned logo)
       created_part = "  Created: #{header_info.formatted_created_at} #{header_info.created_by}"
-      logo_part = "TT    SSSSSSS II"
+      logo_part = logo_lines[4]  # Fifth logo line
       logo_start_pos = content_width - logo_part.length - 1
       text_padding = logo_start_pos - created_part.length
       if text_padding < 1
@@ -107,12 +97,12 @@ module TSIHeader
       lines << "#{left}#{' ' * content_width}#{right}"
       
       # Line 10: Institution name
-      inst_line = "   Transport and Telecommunication Institute - Riga, Latvia"
+      inst_line = "   #{Configuration.institution_name}"
       padding_needed = content_width - inst_line.length
       lines << "#{left}#{inst_line}#{' ' * padding_needed}#{right}"
       
       # Line 11: Institution URL
-      url_line = "                       https://tsi.lv"
+      url_line = "                       #{Configuration.institution_url}"
       padding_needed = content_width - url_line.length
       lines << "#{left}#{url_line}#{' ' * padding_needed}#{right}"
       
@@ -136,7 +126,8 @@ module TSIHeader
       
       # Line 3: Filename and TSI logo (right-aligned logo)
       filename_part = "  #{header_info.filename}"
-      logo_part = "TTTTTTTT SSSSSSS II"
+      logo_lines = Configuration.custom_logo_lines
+      logo_part = logo_lines[0]  # First logo line
       # Calculate padding to right-align logo with 1 space from right wall
       content_width = 79
       logo_start_pos = content_width - logo_part.length - 1 # 1 space from right
@@ -148,13 +139,13 @@ module TSIHeader
       lines << "#{filename_part}#{' ' * text_padding}#{logo_part} "
       
       # Line 4: Second logo line (right-aligned)
-      logo_part = "TT    SS      II"
+      logo_part = logo_lines[1]  # Second logo line
       logo_start_pos = content_width - logo_part.length - 1
       lines << "#{' ' * logo_start_pos}#{logo_part} "
       
       # Line 5: Author line with logo (right-aligned logo)
       author_part = "  By: #{header_info.author}"
-      logo_part = "TT    SSSSSSS II"
+      logo_part = logo_lines[2]  # Third logo line
       logo_start_pos = content_width - logo_part.length - 1
       text_padding = logo_start_pos - author_part.length
       if text_padding < 1
@@ -164,13 +155,13 @@ module TSIHeader
       lines << "#{author_part}#{' ' * text_padding}#{logo_part} "
       
       # Line 6: Third logo line (right-aligned)
-      logo_part = "TT         SS II"
+      logo_part = logo_lines[3]  # Fourth logo line
       logo_start_pos = content_width - logo_part.length - 1
       lines << "#{' ' * logo_start_pos}#{logo_part} "
       
       # Line 7: Created line with logo (right-aligned logo)
       created_part = "  Created: #{header_info.formatted_created_at} #{header_info.created_by}"
-      logo_part = "TT    SSSSSSS II"
+      logo_part = logo_lines[4]  # Fifth logo line
       logo_start_pos = content_width - logo_part.length - 1
       text_padding = logo_start_pos - created_part.length
       if text_padding < 1
@@ -192,12 +183,12 @@ module TSIHeader
       lines << " " * 79
       
       # Line 10: Institution name
-      inst_line = "   Transport and Telecommunication Institute - Riga, Latvia"
+      inst_line = "   #{Configuration.institution_name}"
       padding_needed = content_width - inst_line.length
       lines << "#{inst_line}#{' ' * padding_needed}"
       
       # Line 11: Institution URL
-      url_line = "                       https://tsi.lv"
+      url_line = "                       #{Configuration.institution_url}"
       padding_needed = content_width - url_line.length
       lines << "#{url_line}#{' ' * padding_needed}"
       
@@ -219,7 +210,8 @@ module TSIHeader
       
       # Line 3: Filename and TSI logo
       filename_part = "  #{header_info.filename}"
-      logo_part = "TTTTTTTT SSSSSSS II"
+      logo_lines = Configuration.custom_logo_lines
+      logo_part = logo_lines[0]  # First logo line
       # Calculate padding to right-align logo with 1 space from right wall
       total_content_width = 77 # Total width minus frame characters
       logo_start_pos = total_content_width - logo_part.length - 1 # 1 space from right
@@ -231,13 +223,13 @@ module TSIHeader
       lines << "##{filename_part}#{' ' * text_padding}#{logo_part} #"
       
       # Line 4: Second logo line (right-aligned)
-      logo_part = "TT    SS      II"
+      logo_part = logo_lines[1]  # Second logo line
       logo_start_pos = total_content_width - logo_part.length - 1
       lines << "##{' ' * logo_start_pos}#{logo_part} #"
       
       # Line 5: Author line with logo (right-aligned logo)
       author_part = "  By: #{header_info.author}"
-      logo_part = "TT    SSSSSSS II"
+      logo_part = logo_lines[2]  # Third logo line
       logo_start_pos = total_content_width - logo_part.length - 1
       text_padding = logo_start_pos - author_part.length
       if text_padding < 1
@@ -247,13 +239,13 @@ module TSIHeader
       lines << "##{author_part}#{' ' * text_padding}#{logo_part} #"
       
       # Line 6: Third logo line (right-aligned)
-      logo_part = "TT         SS II"
+      logo_part = logo_lines[3]  # Fourth logo line
       logo_start_pos = total_content_width - logo_part.length - 1
       lines << "##{' ' * logo_start_pos}#{logo_part} #"
       
       # Line 7: Created line with logo (right-aligned logo)
       created_part = "  Created: #{header_info.formatted_created_at} #{header_info.created_by}"
-      logo_part = "TT    SSSSSSS II"
+      logo_part = logo_lines[4]  # Fifth logo line
       logo_start_pos = total_content_width - logo_part.length - 1
       text_padding = logo_start_pos - created_part.length
       if text_padding < 1
@@ -275,12 +267,12 @@ module TSIHeader
       lines << "#" + " " * 77 + "#"
       
       # Line 10: Institution name
-      inst_line = "   Transport and Telecommunication Institute - Riga, Latvia"
+      inst_line = "   #{Configuration.institution_name}"
       padding_needed = 77 - inst_line.length
       lines << "##{inst_line}#{' ' * padding_needed}#"
       
       # Line 11: Institution URL
-      url_line = "                       https://tsi.lv"
+      url_line = "                       #{Configuration.institution_url}"
       padding_needed = 77 - url_line.length
       lines << "##{url_line}#{' ' * padding_needed}#"
       

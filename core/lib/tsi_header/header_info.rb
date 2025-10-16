@@ -1,17 +1,6 @@
 #!/usr/bin/env ruby
 
-#*****************************************************************************#
-#                                                                             #
-#  header_info.rb                                         TTTTTTTT SSSSSSS II #
-#                                                            TT    SS      II #
-#  By: st93642@students.tsi.lv                      TT    SSSSSSS II #
-#                                                            TT         SS II #
-#  Created: Sep 23 2025 11:19 st93642               TT    SSSSSSS II #
-#  Updated: Sep 23 2025 11:19 st93642                                #
-#                                                                             #
-#   Transport and Telecommunication Institute - Riga, Latvia                  #
-#                       https://tsi.lv                                        #
-#*****************************************************************************#
+
 
 require 'time'
 
@@ -51,6 +40,10 @@ module TSIHeader
       if existing_header_info
         existing_header_info.filename = File.basename(document.file_name)
         existing_header_info.author = email  # Use email directly
+        # Update created_by if it's unknown or empty (fix for broken headers)
+        if existing_header_info.created_by.nil? || existing_header_info.created_by.empty? || existing_header_info.created_by == "unknown"
+          existing_header_info.created_by = user
+        end
         existing_header_info.updated_by = user
         existing_header_info.updated_at = now
         existing_header_info

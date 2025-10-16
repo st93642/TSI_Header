@@ -1,17 +1,6 @@
 #!/usr/bin/env ruby
 
-#*****************************************************************************#
-#                                                                             #
-#  configuration.rb                                       TTTTTTTT SSSSSSS II #
-#                                                            TT    SS      II #
-#  By: st93642@students.tsi.lv                      TT    SSSSSSS II #
-#                                                            TT         SS II #
-#  Created: Sep 23 2025 11:19 st93642               TT    SSSSSSS II #
-#  Updated: Sep 23 2025 11:19 st93642                                #
-#                                                                             #
-#   Transport and Telecommunication Institute - Riga, Latvia                  #
-#                       https://tsi.lv                                        #
-#*****************************************************************************#
+
 
 module TSIHeader
   class Configuration
@@ -47,11 +36,41 @@ module TSIHeader
       end
 
       def institution_name
-        'Transport and Telecommunication Institute - Riga, Latvia'
+        if custom_header_enabled?
+          custom_institution_name
+        else
+          'Transport and Telecommunication Institute - Riga, Latvia'
+        end
       end
 
       def institution_url
-        'https://tsi.lv'
+        if custom_header_enabled?
+          custom_institution_url
+        else
+          'https://tsi.lv'
+        end
+      end
+
+      def custom_header_enabled?
+        get_env_var('TSI_CUSTOM_HEADER_ENABLED') == 'true'
+      end
+
+      def custom_institution_name
+        get_env_var('TSI_CUSTOM_INSTITUTION_NAME') || 'Transport and Telecommunication Institute - Riga, Latvia'
+      end
+
+      def custom_institution_url
+        get_env_var('TSI_CUSTOM_INSTITUTION_URL') || 'https://tsi.lv'
+      end
+
+      def custom_logo_lines
+        if custom_header_enabled?
+          # When custom headers are enabled, remove the logo completely
+          ['', '', '', '', '']
+        else
+          # Default TSI logo lines
+          ['TTTTTTTT SSSSSSS II', 'TT    SS      II', 'TT    SSSSSSS II', 'TT         SS II', 'TT    SSSSSSS II']
+        end
       end
 
       private
