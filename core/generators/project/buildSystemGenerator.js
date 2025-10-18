@@ -84,6 +84,9 @@ async function generateMakefileContent(language, projectName, vscode) {
         const config = vscode.workspace.getConfiguration('tsiheader');
         const username = config.get('username');
         const email = config.get('email');
+        const enableCustomHeader = config.get('customHeader.enableCustomHeader', false);
+        const institutionName = config.get('customHeader.institutionName', 'Transport and Telecommunication Institute - Riga, Latvia');
+        const institutionUrl = config.get('customHeader.institutionUrl', 'https://tsi.lv');
         
         // Set environment variables
         const env = {
@@ -95,6 +98,17 @@ async function generateMakefileContent(language, projectName, vscode) {
         }
         if (email && email.trim() !== '') {
             env.TSI_EMAIL = email;
+        }
+        
+        // Set custom header environment variables
+        if (enableCustomHeader) {
+            env.TSI_CUSTOM_HEADER_ENABLED = 'true';
+            if (institutionName && institutionName.trim() !== '') {
+                env.TSI_CUSTOM_INSTITUTION_NAME = institutionName;
+            }
+            if (institutionUrl && institutionUrl.trim() !== '') {
+                env.TSI_CUSTOM_INSTITUTION_URL = institutionUrl;
+            }
         }
         
         // Execute Ruby CLI for Makefile
@@ -191,6 +205,9 @@ async function generatePythonMakefileContentWithHeader(projectName, vscode) {
         const config = vscode.workspace.getConfiguration('tsiheader');
         const username = config.get('username');
         const email = config.get('email');
+        const enableCustomHeader = config.get('customHeader.enableCustomHeader', false);
+        const institutionName = config.get('customHeader.institutionName', 'Transport and Telecommunication Institute - Riga, Latvia');
+        const institutionUrl = config.get('customHeader.institutionUrl', 'https://tsi.lv');
         
         // Set environment variables
         const env = {
@@ -202,6 +219,17 @@ async function generatePythonMakefileContentWithHeader(projectName, vscode) {
         }
         if (email && email.trim() !== '') {
             env.TSI_EMAIL = email;
+        }
+        
+        // Set custom header environment variables
+        if (enableCustomHeader) {
+            env.TSI_CUSTOM_HEADER_ENABLED = 'true';
+            if (institutionName && institutionName.trim() !== '') {
+                env.TSI_CUSTOM_INSTITUTION_NAME = institutionName;
+            }
+            if (institutionUrl && institutionUrl.trim() !== '') {
+                env.TSI_CUSTOM_INSTITUTION_URL = institutionUrl;
+            }
         }
         
         // Execute Ruby CLI
@@ -280,6 +308,9 @@ async function generateMavenPomContentWithHeader(projectName, vscode) {
         const config = vscode.workspace.getConfiguration('tsiheader');
         const username = config.get('username');
         const email = config.get('email');
+        const enableCustomHeader = config.get('customHeader.enableCustomHeader', false);
+        const institutionName = config.get('customHeader.institutionName', 'Transport and Telecommunication Institute - Riga, Latvia');
+        const institutionUrl = config.get('customHeader.institutionUrl', 'https://tsi.lv');
         
         // Set environment variables
         const env = {
@@ -291,6 +322,17 @@ async function generateMavenPomContentWithHeader(projectName, vscode) {
         }
         if (email && email.trim() !== '') {
             env.TSI_EMAIL = email;
+        }
+        
+        // Set custom header environment variables
+        if (enableCustomHeader) {
+            env.TSI_CUSTOM_HEADER_ENABLED = 'true';
+            if (institutionName && institutionName.trim() !== '') {
+                env.TSI_CUSTOM_INSTITUTION_NAME = institutionName;
+            }
+            if (institutionUrl && institutionUrl.trim() !== '') {
+                env.TSI_CUSTOM_INSTITUTION_URL = institutionUrl;
+            }
         }
         
         // Execute Ruby CLI for XML
@@ -376,6 +418,9 @@ async function generateGradleBuildContentWithHeader(projectName, vscode) {
         const config = vscode.workspace.getConfiguration('tsiheader');
         const username = config.get('username');
         const email = config.get('email');
+        const enableCustomHeader = config.get('customHeader.enableCustomHeader', false);
+        const institutionName = config.get('customHeader.institutionName', 'Transport and Telecommunication Institute - Riga, Latvia');
+        const institutionUrl = config.get('customHeader.institutionUrl', 'https://tsi.lv');
         
         // Set environment variables
         const env = {
@@ -387,6 +432,17 @@ async function generateGradleBuildContentWithHeader(projectName, vscode) {
         }
         if (email && email.trim() !== '') {
             env.TSI_EMAIL = email;
+        }
+        
+        // Set custom header environment variables
+        if (enableCustomHeader) {
+            env.TSI_CUSTOM_HEADER_ENABLED = 'true';
+            if (institutionName && institutionName.trim() !== '') {
+                env.TSI_CUSTOM_INSTITUTION_NAME = institutionName;
+            }
+            if (institutionUrl && institutionUrl.trim() !== '') {
+                env.TSI_CUSTOM_INSTITUTION_URL = institutionUrl;
+            }
         }
         
         // Execute Ruby CLI for Gradle (use shell script format)

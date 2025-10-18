@@ -1,15 +1,8 @@
 # Uni Header Extension
-
+![OnMarketplace](image.png)
 ![Uni Header Overview](resources/main-picture.png)
 
-**Version 7.0.0** - Latest release with custom header support and enhanced header detection.
-
-## What's New in v7.0.0
-
 - **🆕 Custom Institution Headers**: Configure your own university/organization branding for all generated headers
-- **🆕 Enhanced Header Detection**: Improved pattern matching for all 122+ supported languages
-- **🆕 Fixed "Unknown" Username Issues**: Headers now properly resolve user identity from VS Code settings and Git config
-- **🆕 Project Creation Respects Custom Settings**: New projects now use custom header configurations instead of default TSI branding
 
 ## Features
 
@@ -50,16 +43,9 @@ Personalize headers with your institution's branding:
 }
 ```
 
-When enabled, all generated headers (manual insertion, project creation, auto-updates) will use your custom institution name and URL instead of the default TSI branding.
+When enabled, all generated headers (manual insertion, project creation, auto-updates) will use your custom institution name and URL instead of the default branding.
 
-## Getting started in VS Code
-
-1. Clone or open the repo, run `npm install` (installs only dev typings).
-2. `npm run compile` to mirror the active `core/src/extension.js` into `out/`.
-3. Launch the extension (F5) or package with `npx vsce package`.
-4. Configure `tsiheader.username` / `tsiheader.email` or rely on Git settings.
-5. **Optional**: Enable custom headers with `tsiheader.customHeader.enableCustomHeader` for personalized branding.
-6. Use Activity Bar panels:
+Use Activity Bar panels:
 
 - **Uni Commands** for headers, classes, code bases.
 - **Uni Projects** for language scaffolds.
@@ -131,17 +117,12 @@ Example SMTP configuration:
 
      If you prefer Clang, run `clang++ --version` instead.
   6. **Re-run the Learn exercise**; the runner should automatically pick up the installed compiler. The error message lists every location it checks—use it to confirm your PATH settings if the issue persists.
+
 - **Compilation errors**: For C/C++ projects, ensure a compatible compiler (GCC/Clang) is installed and in PATH. Test with `g++ --version`.
-- **Learn Mode exercises failing**: Verify Node.js and Ruby are installed. Run `ruby TEST_Suite/test_learn_module.rb` to check curriculum integrity.
-- **Study Mode not persisting**: Data is stored in VS Code's global state; try resetting with "Uni Header: Reset Study Progress".
-- **Calendar events not showing**: Check that the calendar view is enabled and refresh the view. Events are stored locally in VS Code's workspace state.
 
 ### Getting Help
 
 - Check the [GitHub Issues](https://github.com/st93642/TSI_Header/issues) for known problems.
-- Run `ruby TEST_Suite/full_test_suite.rb` for comprehensive diagnostics.
-- For Learn Mode, ensure `learn_exercises/` is empty (files are generated dynamically).
-- For calendar issues, check the VS Code output panel for detailed error messages.
 
 ## Contributing
 
