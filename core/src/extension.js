@@ -2233,6 +2233,127 @@ extern "C" {
 
     context.subscriptions.push(viewOdinCacheStatsCommand);
 
+    // Mathematics Learning Commands
+    const learnMathematicsCommand = vscode.commands.registerCommand('tsiheader.learnMathematics', async () => {
+        try {
+            // Lazy load the Mathematics manager
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+
+            const workbooks = await mathManager.getWorkbooks();
+            
+            vscode.window.showInformationMessage(
+                '🔢 Start Higher Mathematics Learning?\n\n' +
+                'Explore advanced mathematics with HELM workbooks:\n' +
+                '• Matrices fundamentals and operations\n' +
+                '• Matrix solution of equations\n' +
+                '• Interactive exercises and quizzes\n' +
+                '• PDF workbooks with detailed explanations\n\n' +
+                'Ready to begin your mathematics journey?',
+                { modal: true },
+                'Browse Workbooks',
+                'View Exercises',
+                'Cancel'
+            ).then(async selection => {
+                if (selection === 'Browse Workbooks') {
+                    // Show available workbooks
+                    const workbookItems = workbooks.map(workbook => ({
+                        label: `📚 ${workbook.title}`,
+                        description: 'Open PDF workbook',
+                        workbook: workbook
+                    }));
+                    
+                    const selected = await vscode.window.showQuickPick(workbookItems, {
+                        placeHolder: 'Select a mathematics workbook'
+                    });
+                    
+                    if (selected) {
+                        await mathManager.openWorkbook(selected.workbook);
+                    }
+                } else if (selection === 'View Exercises') {
+                    await vscode.commands.executeCommand('tsiheader.viewMathematicsExercises');
+                }
+            });
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error starting mathematics learning: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(learnMathematicsCommand);
+
+    const browseMathematicsWorkbooksCommand = vscode.commands.registerCommand('tsiheader.browseMathematicsWorkbooks', async () => {
+        try {
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+            
+            const workbooks = await mathManager.getWorkbooks();
+            const workbookItems = workbooks.map(workbook => ({
+                label: `📚 ${workbook.title}`,
+                description: 'Open PDF workbook',
+                workbook: workbook
+            }));
+            
+            const selected = await vscode.window.showQuickPick(workbookItems, {
+                placeHolder: 'Select a mathematics workbook to open'
+            });
+            
+            if (selected) {
+                await mathManager.openWorkbook(selected.workbook);
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error browsing mathematics workbooks: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(browseMathematicsWorkbooksCommand);
+
+    const viewMathematicsExercisesCommand = vscode.commands.registerCommand('tsiheader.viewMathematicsExercises', async () => {
+        try {
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+            
+            // For now, show available exercises manually
+            const exercises = [
+                {
+                    id: 'matrix_operations_basics',
+                    title: 'Matrix Addition and Scalar Multiplication',
+                    description: 'Practice basic matrix operations'
+                },
+                {
+                    id: 'gaussian_elimination_practice',
+                    title: 'Solving Systems with Gaussian Elimination',
+                    description: 'Use Gaussian elimination to solve linear systems'
+                }
+            ];
+            
+            const exerciseItems = exercises.map(exercise => ({
+                label: `📝 ${exercise.title}`,
+                description: exercise.description,
+                exercise: exercise
+            }));
+            
+            const selected = await vscode.window.showQuickPick(exerciseItems, {
+                placeHolder: 'Select a mathematics exercise'
+            });
+            
+            if (selected) {
+                // Load and display the exercise
+                const exerciseData = await mathManager.loadExercise(selected.exercise.id);
+                
+                vscode.window.showInformationMessage(
+                    `📝 ${exerciseData.title}\n\n${exerciseData.description}\n\nThis is a manual exercise. Complete it and mark as done when finished.`,
+                    { modal: true },
+                    'Mark Complete',
+                    'Got it!'
+                );
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing mathematics exercises: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewMathematicsExercisesCommand);
+
     // Register feature module commands
     // Code quality enforcement module removed
     // context.subscriptions.push(diagnosticCollection);

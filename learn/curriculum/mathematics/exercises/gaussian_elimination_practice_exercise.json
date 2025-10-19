@@ -1,0 +1,18 @@
+{
+  "id": "gaussian_elimination_practice",
+  "title": "Solving Systems with Gaussian Elimination",
+  "description": "Use Gaussian elimination to solve the following system of linear equations:\n\n**System of equations:**\n```\n2x + 3y - z = 8\n4x - 2y + 3z = 4\n3x + y - 2z = 9\n```\n\n**Steps to follow:**\n1. Write the augmented matrix\n2. Use row operations to get the matrix in row echelon form\n3. Back-substitute to find the solution\n4. Verify your solution by substitution\n\nShow all your work including each row operation performed.",
+  "difficulty": "advanced",
+  "type": "manual",
+  "tags": ["mathematics", "linear algebra", "gaussian elimination", "systems of equations"],
+  "hints": [
+    "Start with the augmented matrix: [2 3 -1 | 8; 4 -2 3 | 4; 3 1 -2 | 9]",
+    "Use row operations: multiply row by scalar, add multiple of one row to another",
+    "Aim for upper triangular form (row echelon form)",
+    "Back-substitute from bottom to top",
+    "Check your solution by plugging back into original equations"
+  ],
+  "solution": "Augmented matrix:\n[2 3 -1 | 8]\n[4 -2 3 | 4]\n[3 1 -2 | 9]\n\nAfter row operations:\n[2 3 -1 | 8]\n[0 -8 5 | -12]\n[0 -4 1/2 | 3/2]\n\nFurther elimination:\n[2 3 -1 | 8]\n[0 -8 5 | -12]\n[0 0 -3/2 | 9/2]\n\nSolution: x = 2, y = 1, z = -3",
+  "lessonId": "gaussian_elimination",
+  "workbook": "HELM Workbook 8 Matrix solution of Equations"
+}

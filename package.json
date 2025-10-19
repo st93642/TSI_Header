@@ -483,6 +483,24 @@
         "icon": "$(database)"
       },
       {
+        "command": "tsiheader.learnMathematics",
+        "title": "Learn Higher Mathematics",
+        "category": "Uni Header",
+        "icon": "$(symbol-operator)"
+      },
+      {
+        "command": "tsiheader.browseMathematicsWorkbooks",
+        "title": "Browse Mathematics Workbooks",
+        "category": "Uni Header",
+        "icon": "$(book)"
+      },
+      {
+        "command": "tsiheader.viewMathematicsExercises",
+        "title": "View Mathematics Exercises",
+        "category": "Uni Header",
+        "icon": "$(list-ordered)"
+      },
+      {
         "command": "tsiheader.showCalendar",
         "title": "Show Study Calendar",
         "category": "Uni Header",
@@ -760,6 +778,21 @@
         "command": "tsiheader.viewOdinCacheStats",
         "when": "view == tsi-projects",
         "group": "cached-lessons"
+      },
+      {
+        "command": "tsiheader.learnMathematics",
+        "when": "view == tsi-projects",
+        "group": "mathematics"
+      },
+      {
+        "command": "tsiheader.browseMathematicsWorkbooks",
+        "when": "view == tsi-projects",
+        "group": "mathematics"
+      },
+      {
+        "command": "tsiheader.viewMathematicsExercises",
+        "when": "view == tsi-projects",
+        "group": "mathematics"
       }
     ],
     "view/title:tsi-calendar-container": [
