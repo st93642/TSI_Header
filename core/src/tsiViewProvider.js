@@ -89,7 +89,8 @@ class TSITreeDataProvider {
                 new TSITreeItem('C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-cpp'),
                 new TSITreeItem('DSA C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-dsa-cpp'),
                 new TSITreeItem('Git', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-git'),
-                new TSITreeItem('🚀 Odin Project', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-odin')
+                new TSITreeItem('� Mathematics', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-mathematics'),
+                new TSITreeItem('�🚀 Odin Project', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-odin')
             ]);
         } else if (element.id === 'learn-ruby') {
             // Ruby learning section
@@ -249,6 +250,24 @@ class TSITreeDataProvider {
                     command: 'tsiheader.viewOdinCacheStats',
                     title: 'View Cache Stats',
                     tooltip: 'View statistics about cached lessons'
+                })
+            ]);
+        } else if (element.id === 'learn-mathematics') {
+            return Promise.resolve([
+                new TSITreeItem('Start Learning', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.learnMathematics',
+                    title: 'Start Learning Mathematics',
+                    tooltip: 'Begin higher mathematics learning with HELM workbooks'
+                }),
+                new TSITreeItem('Browse Workbooks', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.browseMathematicsWorkbooks',
+                    title: 'Browse Mathematics Workbooks',
+                    tooltip: 'View available mathematics workbooks and PDFs'
+                }),
+                new TSITreeItem('View Exercises', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewMathematicsExercises',
+                    title: 'View Mathematics Exercises',
+                    tooltip: 'Browse and complete mathematics exercises'
                 })
             ]);
         }
@@ -414,6 +433,8 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('graph');
         } else if (id === 'learn-git') {
             this.iconPath = new vscode.ThemeIcon('git-branch');
+        } else if (id === 'learn-mathematics') {
+            this.iconPath = new vscode.ThemeIcon('symbol-operator');
         } else if (id === 'learn-odin') {
             this.iconPath = new vscode.ThemeIcon('rocket');
         } else if (command?.command === 'tsiheader.learnRuby') {
