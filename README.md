@@ -22,12 +22,13 @@ The extension is now live and available for download from the [VS Code marketpla
 ## Requirements
 
 - **Visual Studio Code**: Version 1.74.0 or later.
-- **Node.js**: Version 16 or later (for development and testing).
-- **Ruby**: Version 2.7 or later (for CLI operations and compilation).
-- **Git**: For user identity resolution and project scaffolding.
-- **Supported Languages**: C, C++, Java, Python, Ruby, Rust, PHP, HTML, and 115+ others for header insertion.
-- **Learn Mode**: Interactive curriculum for C, C++, Ruby, Rust, Git, and **The Odin Project** (complete full-stack JavaScript curriculum).
-- **Email Notifications**: SMTP for calendar reminders.
+- **Ruby**: Version 2.7 or later (required for header generation and CLI operations).
+- **Git** (optional): For automatic user identity resolution in headers.
+- **Compilers** (optional, for Learn Mode exercises):
+  - **C/C++**: GCC, Clang, or MSVC compiler
+  - **Ruby**: Ruby runtime for Ruby exercises
+  - **Rust**: Rust compiler for Rust exercises
+- **Email Server** (optional): SMTP server for calendar email notifications.
 
 ## Configuration quick hints
 
@@ -127,10 +128,6 @@ Example SMTP configuration:
 ### Getting Help
 
 - Check the [GitHub Issues](https://github.com/st93642/TSI_Header/issues) for known problems.
-
-## Contributing
-
-Contributions welcome!
 
 ## License
 
