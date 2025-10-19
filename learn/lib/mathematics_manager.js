@@ -26,7 +26,7 @@ class MathematicsManager {
         }
 
         try {
-            const curriculumPath = path.join(__dirname, 'curriculum', 'mathematics', 'curriculum.json');
+            const curriculumPath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'curriculum.json');
             const curriculumContent = await fs.readFile(curriculumPath, 'utf8');
             const curriculum = JSON.parse(curriculumContent);
             this.curriculumCache.set('mathematics', curriculum);
@@ -42,7 +42,7 @@ class MathematicsManager {
      */
     async getWorkbooks() {
         try {
-            const workbooksPath = path.join(__dirname, 'curriculum', 'mathematics', 'workbooks');
+            const workbooksPath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'workbooks');
             const files = await fs.readdir(workbooksPath);
             const pdfFiles = files.filter(file => file.endsWith('.pdf'));
 
@@ -99,7 +99,7 @@ class MathematicsManager {
      */
     async loadExercise(exerciseId) {
         try {
-            const exercisePath = path.join(__dirname, 'curriculum', 'mathematics', 'exercises', `${exerciseId}_exercise.json`);
+            const exercisePath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'exercises', `${exerciseId}_exercise.json`);
             const exerciseContent = await fs.readFile(exercisePath, 'utf8');
             return JSON.parse(exerciseContent);
         } catch (error) {
@@ -114,7 +114,7 @@ class MathematicsManager {
      */
     async loadLesson(lessonId) {
         try {
-            const lessonPath = path.join(__dirname, 'curriculum', 'mathematics', 'lessons', `${lessonId}.md`);
+            const lessonPath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'lessons', `${lessonId}.md`);
             const lessonContent = await fs.readFile(lessonPath, 'utf8');
             return {
                 id: lessonId,
