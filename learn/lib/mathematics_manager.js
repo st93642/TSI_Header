@@ -64,31 +64,24 @@ class MathematicsManager {
      */
     async openWorkbook(workbook) {
         try {
-            const panel = this.vscode.window.createWebviewPanel(
-                'tsiMathematicsWorkbook',
-                `📚 ${workbook.title}`,
-                this.vscode.ViewColumn.One,
-                {
-                    enableScripts: true,
-                    retainContextWhenHidden: true,
-                    localResourceRoots: [
-                        this.vscode.Uri.file(path.join(__dirname, '..', '..', 'learn', 'curriculum', 'mathematics', 'workbooks'))
-                    ]
-                }
-            );
-
-            // Convert PDF path to webview URI
-            const pdfUri = this.vscode.Uri.file(workbook.path);
-            const webviewUri = panel.webview.asWebviewUri(pdfUri);
-
-            panel.webview.html = this.getPdfViewerHtml(workbook, webviewUri);
+            // Open PDF file directly in VS Code
+            const document = await this.vscode.workspace.openTextDocument(workbook.path);
+            await this.vscode.window.showTextDocument(document, {
+                viewColumn: this.vscode.ViewColumn.One,
+                preview: false
+            });
 
         } catch (error) {
-            this.vscode.window.showErrorMessage(
-                `Failed to open workbook: ${error.message}`,
-                { modal: true },
-                'Got it!'
-            );
+            // If direct opening fails, try opening with system default application
+            try {
+                await this.vscode.commands.executeCommand('vscode.open', this.vscode.Uri.file(workbook.path));
+            } catch (fallbackError) {
+                this.vscode.window.showErrorMessage(
+                    `Failed to open workbook: ${error.message}`,
+                    { modal: true },
+                    'Got it!'
+                );
+            }
         }
     }
 
@@ -179,18 +172,28 @@ class MathematicsManager {
     }
 
     /**
-     * Generate HTML for PDF viewer
-     * @param {Object} workbook - Workbook object
-     * @param {string} pdfUri - PDF webview URI
+     * Generate HTML for lesson viewer
+     * @param {Object} lesson - Lesson object
      * @returns {string} HTML string
      */
-    getPdfViewerHtml(workbook, pdfUri) {
+    getLessonHtml(lesson) {
+        // Simple markdown-like rendering (could be enhanced with a proper markdown parser)
+        const renderedContent = lesson.content
+            .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            .replace(/`(.+?)`/g, '<code>$1</code>')
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/\n/g, '<br>');
+
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${workbook.title}</title>
+    <title>${lesson.title}</title>
     <style>
         * {
             margin: 0;
@@ -201,107 +204,113 @@ class MathematicsManager {
             font-family: var(--vscode-font-family);
             color: var(--vscode-foreground);
             background-color: var(--vscode-editor-background);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
+            padding: 20px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .header {
-            padding: 10px 20px;
-            background-color: var(--vscode-titleBar-activeBackground);
-            border-bottom: 1px solid var(--vscode-titleBar-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header h1 {
-            font-size: 18px;
+        h1 {
+            color: var(--vscode-textLink-foreground);
+            border-bottom: 2px solid var(--vscode-textLink-foreground);
+            padding-bottom: 10px;
+            font-size: 28px;
             font-weight: 600;
-            color: var(--vscode-titleBar-activeForeground);
+            margin-bottom: 20px;
         }
-        .pdf-container {
-            flex: 1;
-            position: relative;
+        h2 {
+            color: var(--vscode-textLink-foreground);
+            font-size: 24px;
+            font-weight: 600;
+            margin: 30px 0 15px 0;
         }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        h3 {
+            color: var(--vscode-textLink-foreground);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 25px 0 10px 0;
         }
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        p {
+            margin-bottom: 15px;
             font-size: 16px;
-            color: var(--vscode-descriptionForeground);
         }
-        .error {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        code {
+            background-color: var(--vscode-textCodeBlock-background);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: var(--vscode-editor-font-family);
+            font-size: 14px;
+        }
+        strong {
+            font-weight: 600;
+        }
+        em {
+            font-style: italic;
+        }
+        .math-expression {
+            background-color: var(--vscode-textBlockQuote-background);
+            border-left: 4px solid var(--vscode-textLink-foreground);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-family: 'Times New Roman', serif;
+        }
+        .navigation {
+            margin-top: 40px;
             text-align: center;
-            color: var(--vscode-errorForeground);
+            padding-top: 20px;
+            border-top: 1px solid var(--vscode-textBlockQuote-border);
         }
-        .error h2 {
-            margin-bottom: 10px;
+        .nav-button {
+            background-color: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .nav-button:hover {
+            background-color: var(--vscode-button-hoverBackground);
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>📚 ${workbook.title}</h1>
-        <div>
-            <button onclick="goToExercises()" style="
-                background: var(--vscode-button-background);
-                color: var(--vscode-button-foreground);
-                border: none;
-                padding: 6px 12px;
-                border-radius: 3px;
-                cursor: pointer;
-                font-size: 12px;
-            ">📝 Exercises</button>
-        </div>
+    <h1>📖 ${lesson.title}</h1>
+    <div class="content">
+        <p>${renderedContent}</p>
     </div>
-    <div class="pdf-container">
-        <div class="loading">Loading PDF...</div>
-        <iframe
-            src="${pdfUri}"
-            onload="hideLoading()"
-            onerror="showError()"
-            style="display: none;">
-        </iframe>
+
+    <div class="navigation">
+        <button class="nav-button" onclick="openWorkbook()">📚 View Workbook</button>
+        <button class="nav-button" onclick="startExercise()">📝 Practice Exercise</button>
+        <button class="nav-button" onclick="nextLesson()">Next Lesson →</button>
     </div>
 
     <script>
         const vscode = acquireVsCodeApi();
 
-        function hideLoading() {
-            document.querySelector('.loading').style.display = 'none';
-            document.querySelector('iframe').style.display = 'block';
-        }
-
-        function showError() {
-            document.querySelector('.loading').innerHTML = \`
-                <div class="error">
-                    <h2>❌ PDF Loading Error</h2>
-                    <p>Unable to load the PDF. Please ensure you have a PDF viewer installed.</p>
-                    <p>You can also try opening the PDF externally.</p>
-                </div>
-            \`;
-        }
-
-        function goToExercises() {
+        function openWorkbook() {
             vscode.postMessage({
-                command: 'openExercises',
-                workbookId: '${workbook.id}'
+                command: 'openWorkbook'
+            });
+        }
+
+        function startExercise() {
+            vscode.postMessage({
+                command: 'startExercise'
+            });
+        }
+
+        function nextLesson() {
+            vscode.postMessage({
+                command: 'nextLesson'
             });
         }
     </script>
 </body>
 </html>`;
     }
-
     /**
      * Generate HTML for lesson viewer
      * @param {Object} lesson - Lesson object
