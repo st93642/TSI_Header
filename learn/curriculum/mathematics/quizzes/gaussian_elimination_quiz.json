@@ -1,0 +1,63 @@
+{
+  "id": "gaussian_elimination_quiz",
+  "title": "Gaussian Elimination Quiz",
+  "description": "Test your understanding of Gaussian elimination and solving systems of linear equations.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is the first step in Gaussian elimination?",
+      "options": [
+        "Write the system as an augmented matrix",
+        "Back-substitute to find variables",
+        "Check the solution by substitution",
+        "Find the determinant"
+      ],
+      "correct": 0,
+      "explanation": "Gaussian elimination begins by representing the system of equations as an augmented matrix."
+    },
+    {
+      "question": "Which row operation is NOT allowed in Gaussian elimination?",
+      "options": [
+        "Multiply a row by a non-zero scalar",
+        "Add a multiple of one row to another row",
+        "Swap two rows",
+        "Multiply two rows together"
+      ],
+      "correct": 3,
+      "explanation": "You can multiply a row by a scalar, add multiples of rows, and swap rows, but you cannot multiply two rows together."
+    },
+    {
+      "question": "What does it mean when you get a row like [0 0 0 | 5] in Gaussian elimination?",
+      "options": [
+        "The system has infinitely many solutions",
+        "The system has a unique solution",
+        "The system has no solution (inconsistent)",
+        "You made a calculation error"
+      ],
+      "correct": 2,
+      "explanation": "A row [0 0 0 | 5] means 0x + 0y + 0z = 5, which is 0 = 5, an impossible equation indicating an inconsistent system."
+    },
+    {
+      "question": "In which form should the matrix be for back-substitution?",
+      "options": [
+        "Upper triangular form",
+        "Lower triangular form",
+        "Diagonal form",
+        "Identity form"
+      ],
+      "correct": 0,
+      "explanation": "After forward elimination, the matrix should be in upper triangular form (also called row echelon form) for back-substitution."
+    },
+    {
+      "question": "For the system: 2x + y = 5, 4x + 2y = 10, what is the solution?",
+      "options": [
+        "x = 2.5, y = 0",
+        "x = 0, y = 5",
+        "Infinitely many solutions",
+        "No solution"
+      ],
+      "correct": 3,
+      "explanation": "The second equation is 2 × (first equation), so the system is dependent. The augmented matrix becomes [2 1 | 5; 0 0 | 0], indicating infinitely many solutions, but actually this represents the same equation twice, so there are infinitely many solutions."
+    }
+  ]
+}

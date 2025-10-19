@@ -10,14 +10,14 @@ Matrices are rectangular arrays of numbers that can represent various mathematic
 
 Two matrices can be added if they have the same dimensions. Addition is performed element-wise:
 
-```
+```text
 A + B = [a₁₁ + b₁₁  a₁₂ + b₁₂]
         [a₂₁ + b₂₁  a₂₂ + b₂₂]
 ```
 
 **Example:**
 
-```
+```text
 A = [2  4]    B = [1  3]    A + B = [3  7]
     [3  1]        [4  2]            [7  3]
 ```
@@ -26,14 +26,14 @@ A = [2  4]    B = [1  3]    A + B = [3  7]
 
 A matrix can be multiplied by a scalar (real number) by multiplying each element by that scalar:
 
-```
+```text
 k × A = [k × a₁₁  k × a₁₂]
         [k × a₂₁  k × a₂₂]
 ```
 
 **Example:**
 
-```
+```text
 3 × A = [6  12]  where A = [2  4]
         [9  3]           [3  1]
 ```

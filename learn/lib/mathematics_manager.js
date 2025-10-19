@@ -92,34 +92,51 @@ class MathematicsManager {
     }
 
     /**
-     * Load a mathematics lesson
-     * @param {string} lessonId - Lesson ID
-     * @returns {Promise<Object>} Lesson object
+     * Load a mathematics quiz
+     * @param {string} quizId - Quiz ID
+     * @returns {Promise<Object>} Quiz object
      */
-    async loadLesson(lessonId) {
+    async loadQuiz(quizId) {
         try {
-            const lessonPath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'lessons', `${lessonId}.md`);
-            const lessonContent = await fs.readFile(lessonPath, 'utf8');
-            return {
-                id: lessonId,
-                content: lessonContent,
-                title: this.extractTitleFromContent(lessonContent)
-            };
+            const quizPath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'quizzes', `${quizId}_quiz.json`);
+            const quizContent = await fs.readFile(quizPath, 'utf8');
+            return JSON.parse(quizContent);
         } catch (error) {
-            throw new Error(`Failed to load lesson ${lessonId}: ${error.message}`);
+            throw new Error(`Failed to load quiz ${quizId}: ${error.message}`);
         }
     }
 
     /**
-     * Open a lesson in webview
-     * @param {Object} lesson - Lesson object
+     * Get list of available quizzes
+     * @returns {Promise<Array>} Array of quiz objects
+     */
+    async getQuizzes() {
+        try {
+            const quizzesPath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'quizzes');
+            const files = await fs.readdir(quizzesPath);
+            const jsonFiles = files.filter(file => file.endsWith('_quiz.json'));
+
+            return jsonFiles.map(filename => ({
+                id: filename.replace('_quiz.json', ''),
+                title: filename.replace('_quiz.json', '').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                filename: filename,
+                path: path.join(quizzesPath, filename)
+            }));
+        } catch (error) {
+            throw new Error(`Failed to load quizzes: ${error.message}`);
+        }
+    }
+
+    /**
+     * Open an exercise in webview
+     * @param {Object} exercise - Exercise object
      * @returns {Promise<void>}
      */
-    async openLesson(lesson) {
+    async openExercise(exercise) {
         try {
             const panel = this.vscode.window.createWebviewPanel(
-                'tsiMathematicsLesson',
-                `📖 ${lesson.title}`,
+                'tsiMathematicsExercise',
+                `� ${exercise.title}`,
                 this.vscode.ViewColumn.One,
                 {
                     enableScripts: true,
@@ -127,11 +144,39 @@ class MathematicsManager {
                 }
             );
 
-            panel.webview.html = this.getLessonHtml(lesson);
+            panel.webview.html = this.getExerciseHtml(exercise);
 
         } catch (error) {
             this.vscode.window.showErrorMessage(
-                `Failed to open lesson: ${error.message}`,
+                `Failed to open exercise: ${error.message}`,
+                { modal: true },
+                'Got it!'
+            );
+        }
+    }
+
+    /**
+     * Open a quiz in webview
+     * @param {Object} quiz - Quiz object
+     * @returns {Promise<void>}
+     */
+    async openQuiz(quiz) {
+        try {
+            const panel = this.vscode.window.createWebviewPanel(
+                'tsiMathematicsQuiz',
+                `🧠 ${quiz.title}`,
+                this.vscode.ViewColumn.One,
+                {
+                    enableScripts: true,
+                    retainContextWhenHidden: true
+                }
+            );
+
+            panel.webview.html = this.getQuizHtml(quiz);
+
+        } catch (error) {
+            this.vscode.window.showErrorMessage(
+                `Failed to open quiz: ${error.message}`,
                 { modal: true },
                 'Got it!'
             );
@@ -148,43 +193,27 @@ class MathematicsManager {
     }
 
     /**
-     * Extract title from markdown content
-     * @param {string} content - Markdown content
-     * @returns {string} Title
-     */
-    extractTitleFromContent(content) {
-        const lines = content.split('\n');
-        for (const line of lines) {
-            if (line.startsWith('# ')) {
-                return line.substring(2).trim();
-            }
-        }
-        return 'Mathematics Lesson';
-    }
-
-    /**
-     * Generate HTML for lesson viewer
-     * @param {Object} lesson - Lesson object
+     * Generate HTML for exercise viewer
+     * @param {Object} exercise - Exercise object
      * @returns {string} HTML string
      */
-    getLessonHtml(lesson) {
-        // Simple markdown-like rendering (could be enhanced with a proper markdown parser)
-        const renderedContent = lesson.content
-            .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/`(.+?)`/g, '<code>$1</code>')
+    getExerciseHtml(exercise) {
+        const formattedDescription = exercise.description
             .replace(/\n\n/g, '</p><p>')
-            .replace(/\n/g, '<br>');
+            .replace(/\n/g, '<br>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/`(.+?)`/g, '<code>$1</code>');
+
+        const hintsHtml = exercise.hints ? exercise.hints.map(hint =>
+            `<li>${hint}</li>`
+        ).join('') : '';
 
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${lesson.title}</title>
+    <title>${exercise.title}</title>
     <style>
         * {
             margin: 0;
@@ -197,45 +226,55 @@ class MathematicsManager {
             background-color: var(--vscode-editor-background);
             padding: 20px;
             line-height: 1.6;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
-        h1 {
-            color: var(--vscode-textLink-foreground);
-            border-bottom: 2px solid var(--vscode-textLink-foreground);
-            padding-bottom: 10px;
-            font-size: 28px;
-            font-weight: 600;
+        .header {
+            background-color: var(--vscode-titleBar-activeBackground);
+            color: var(--vscode-titleBar-activeForeground);
+            padding: 20px;
+            border-radius: 8px;
             margin-bottom: 20px;
+            border: 1px solid var(--vscode-titleBar-border);
         }
-        h2 {
-            color: var(--vscode-textLink-foreground);
+        .header h1 {
             font-size: 24px;
             font-weight: 600;
-            margin: 30px 0 15px 0;
+            margin-bottom: 10px;
         }
-        h3 {
+        .difficulty {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        .difficulty.intermediate {
+            background-color: var(--vscode-charts-orange);
+            color: white;
+        }
+        .difficulty.advanced {
+            background-color: var(--vscode-charts-red);
+            color: white;
+        }
+        .exercise-content {
+            background-color: var(--vscode-editorWidget-background);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .exercise-content h2 {
             color: var(--vscode-textLink-foreground);
             font-size: 20px;
-            font-weight: 600;
-            margin: 25px 0 10px 0;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--vscode-textLink-foreground);
+            padding-bottom: 5px;
         }
-        p {
+        .exercise-content p {
             margin-bottom: 15px;
             font-size: 16px;
-        }
-        code {
-            background-color: var(--vscode-textCodeBlock-background);
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-family: var(--vscode-editor-font-family);
-            font-size: 14px;
-        }
-        strong {
-            font-weight: 600;
-        }
-        em {
-            font-style: italic;
         }
         .math-expression {
             background-color: var(--vscode-textBlockQuote-background);
@@ -243,43 +282,410 @@ class MathematicsManager {
             padding: 15px 20px;
             margin: 20px 0;
             font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            white-space: pre-wrap;
         }
-        .navigation {
-            margin-top: 40px;
+        .hints-section {
+            background-color: var(--vscode-textBlockQuote-background);
+            border: 1px solid var(--vscode-textBlockQuote-border);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .hints-section h3 {
+            color: var(--vscode-textLink-foreground);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .hints-section ul {
+            margin-left: 20px;
+        }
+        .hints-section li {
+            margin-bottom: 8px;
+            color: var(--vscode-descriptionForeground);
+        }
+        .actions {
             text-align: center;
             padding-top: 20px;
             border-top: 1px solid var(--vscode-textBlockQuote-border);
         }
-        .nav-button {
+        .btn {
             background-color: var(--vscode-button-background);
             color: var(--vscode-button-foreground);
             border: none;
-            padding: 10px 20px;
-            margin: 0 5px;
-            border-radius: 3px;
+            padding: 12px 24px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 500;
+            margin: 0 10px;
+            transition: background-color 0.2s;
         }
-        .nav-button:hover {
+        .btn:hover {
             background-color: var(--vscode-button-hoverBackground);
+        }
+        .btn.secondary {
+            background-color: var(--vscode-button-secondaryBackground);
+            color: var(--vscode-button-secondaryForeground);
+        }
+        .btn.secondary:hover {
+            background-color: var(--vscode-button-secondaryHoverBackground);
+        }
+        .solution-section {
+            background-color: var(--vscode-textBlockQuote-background);
+            border: 1px solid var(--vscode-textBlockQuote-border);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        .solution-section.show {
+            display: block;
+        }
+        .solution-section h3 {
+            color: var(--vscode-textLink-foreground);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .solution-content {
+            background-color: var(--vscode-editor-background);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: var(--vscode-editor-foreground);
         }
     </style>
 </head>
 <body>
-    <h1>📖 ${lesson.title}</h1>
-    <div class="content">
-        <p>${renderedContent}</p>
+    <div class="header">
+        <h1>📝 ${exercise.title}</h1>
+        <span class="difficulty ${exercise.difficulty}">${exercise.difficulty}</span>
     </div>
 
-    <div class="navigation">
-        <button class="nav-button" onclick="openWorkbook()">📚 View Workbook</button>
-        <button class="nav-button" onclick="startExercise()">📝 Practice Exercise</button>
-        <button class="nav-button" onclick="nextLesson()">Next Lesson →</button>
+    <div class="exercise-content">
+        <h2>Problem Statement</h2>
+        <p>${formattedDescription}</p>
+    </div>
+
+    ${hintsHtml ? `
+    <div class="hints-section">
+        <h3>💡 Hints</h3>
+        <ul>${hintsHtml}</ul>
+    </div>
+    ` : ''}
+
+    <div class="actions">
+        <button class="btn secondary" onclick="showSolution()">Show Solution</button>
+        <button class="btn" onclick="openWorkbook()">📚 View Workbook</button>
+        <button class="btn" onclick="takeQuiz()">🧠 Take Quiz</button>
+    </div>
+
+    <div class="solution-section" id="solution">
+        <h3>✅ Solution</h3>
+        <div class="solution-content">${exercise.solution || 'Solution not available yet.'}</div>
     </div>
 
     <script>
         const vscode = acquireVsCodeApi();
+
+        function showSolution() {
+            document.getElementById('solution').classList.add('show');
+        }
+
+        function openWorkbook() {
+            vscode.postMessage({
+                command: 'openWorkbook',
+                workbookId: '${exercise.workbook ? exercise.workbook.replace(/HELM Workbook /, '').split(' ')[0] : ''}'
+            });
+        }
+
+        function takeQuiz() {
+            vscode.postMessage({
+                command: 'takeQuiz',
+                exerciseId: '${exercise.id}'
+            });
+        }
+    </script>
+</body>
+</html>`;
+    }
+
+    /**
+     * Generate HTML for quiz viewer
+     * @param {Object} quiz - Quiz object
+     * @returns {string} HTML string
+     */
+    getQuizHtml(quiz) {
+        const questionsHtml = quiz.questions.map((question, index) => {
+            const optionsHtml = question.options.map((option, optIndex) =>
+                `<label class="option">
+                    <input type="radio" name="q${index}" value="${optIndex}">
+                    <span>${option}</span>
+                </label>`
+            ).join('');
+
+            return `
+                <div class="question" data-index="${index}">
+                    <h3>Question ${index + 1}</h3>
+                    <p>${question.question}</p>
+                    <div class="options">
+                        ${optionsHtml}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${quiz.title}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: var(--vscode-font-family);
+            color: var(--vscode-foreground);
+            background-color: var(--vscode-editor-background);
+            padding: 20px;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: var(--vscode-titleBar-activeBackground);
+            color: var(--vscode-titleBar-activeForeground);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--vscode-titleBar-border);
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .progress {
+            background-color: var(--vscode-progressBar-background);
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: var(--vscode-progressBar-foreground);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .question {
+            background-color: var(--vscode-editorWidget-background);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .question h3 {
+            color: var(--vscode-textLink-foreground);
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .question p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .option:hover {
+            background-color: var(--vscode-list-hoverBackground);
+        }
+        .option input[type="radio"] {
+            margin-right: 12px;
+            accent-color: var(--vscode-textLink-foreground);
+        }
+        .option.correct {
+            background-color: var(--vscode-charts-green);
+            border-color: var(--vscode-charts-green);
+        }
+        .option.incorrect {
+            background-color: var(--vscode-charts-red);
+            border-color: var(--vscode-charts-red);
+        }
+        .actions {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--vscode-textBlockQuote-border);
+        }
+        .btn {
+            background-color: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: var(--vscode-button-hoverBackground);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .results {
+            background-color: var(--vscode-textBlockQuote-background);
+            border: 1px solid var(--vscode-textBlockQuote-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        .results.show {
+            display: block;
+        }
+        .results h2 {
+            color: var(--vscode-textLink-foreground);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .score.excellent { color: var(--vscode-charts-green); }
+        .score.good { color: var(--vscode-charts-yellow); }
+        .score.needs-work { color: var(--vscode-charts-red); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧠 ${quiz.title}</h1>
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="questionCounter">Question 1 of ${quiz.questions.length}</div>
+    </div>
+
+    <div id="quizContent">
+        ${questionsHtml}
+    </div>
+
+    <div class="actions">
+        <button class="btn" id="prevBtn" onclick="previousQuestion()" disabled>Previous</button>
+        <button class="btn" id="nextBtn" onclick="nextQuestion()">Next</button>
+        <button class="btn" id="submitBtn" onclick="submitQuiz()" style="display: none;">Submit Quiz</button>
+    </div>
+
+    <div class="results" id="results">
+        <h2>Quiz Complete!</h2>
+        <div class="score" id="score"></div>
+        <p id="feedback"></p>
+        <button class="btn" onclick="restartQuiz()">Try Again</button>
+        <button class="btn" onclick="openWorkbook()">📚 View Workbook</button>
+    </div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+        const quiz = ${JSON.stringify(quiz)};
+        let currentQuestion = 0;
+        let answers = new Array(quiz.questions.length).fill(null);
+        let showResults = false;
+
+        function updateUI() {
+            const progress = ((currentQuestion + 1) / quiz.questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('questionCounter').textContent = \`Question \${currentQuestion + 1} of \${quiz.questions.length}\`;
+
+            // Show/hide questions
+            document.querySelectorAll('.question').forEach((q, index) => {
+                q.style.display = index === currentQuestion ? 'block' : 'none';
+            });
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').style.display = currentQuestion === quiz.questions.length - 1 ? 'none' : 'inline-block';
+            document.getElementById('submitBtn').style.display = currentQuestion === quiz.questions.length - 1 ? 'inline-block' : 'none';
+
+            // Show results if quiz is complete
+            document.getElementById('results').style.display = showResults ? 'block' : 'none';
+            document.getElementById('quizContent').style.display = showResults ? 'none' : 'block';
+            document.querySelector('.actions').style.display = showResults ? 'none' : 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < quiz.questions.length - 1) {
+                currentQuestion++;
+                updateUI();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                updateUI();
+            }
+        }
+
+        function submitQuiz() {
+            let correct = 0;
+            answers.forEach((answer, index) => {
+                if (answer === quiz.questions[index].correct) {
+                    correct++;
+                }
+            });
+
+            const percentage = Math.round((correct / quiz.questions.length) * 100);
+            const scoreElement = document.getElementById('score');
+            const feedbackElement = document.getElementById('feedback');
+
+            scoreElement.textContent = \`\${percentage}%\`;
+            scoreElement.className = 'score';
+
+            if (percentage >= 90) {
+                scoreElement.classList.add('excellent');
+                feedbackElement.textContent = 'Excellent work! You have a strong understanding of the material.';
+            } else if (percentage >= 70) {
+                scoreElement.classList.add('good');
+                feedbackElement.textContent = 'Good job! Review the areas you missed and try again.';
+            } else {
+                scoreElement.classList.add('needs-work');
+                feedbackElement.textContent = 'Keep practicing! Review the workbook and try the quiz again.';
+            }
+
+            showResults = true;
+            updateUI();
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            answers = new Array(quiz.questions.length).fill(null);
+            showResults = false;
+            updateUI();
+        }
 
         function openWorkbook() {
             vscode.postMessage({
@@ -287,17 +693,15 @@ class MathematicsManager {
             });
         }
 
-        function startExercise() {
-            vscode.postMessage({
-                command: 'startExercise'
-            });
-        }
+        // Handle radio button changes
+        document.addEventListener('change', (e) => {
+            if (e.target.type === 'radio') {
+                const questionIndex = parseInt(e.target.name.replace('q', ''));
+                answers[questionIndex] = parseInt(e.target.value);
+            }
+        });
 
-        function nextLesson() {
-            vscode.postMessage({
-                command: 'nextLesson'
-            });
-        }
+        updateUI();
     </script>
 </body>
 </html>`;

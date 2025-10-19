@@ -268,6 +268,11 @@ class TSITreeDataProvider {
                     command: 'tsiheader.viewMathematicsExercises',
                     title: 'View Mathematics Exercises',
                     tooltip: 'Browse and complete mathematics exercises'
+                }),
+                new TSITreeItem('Take Quiz', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.takeMathematicsQuiz',
+                    title: 'Take Mathematics Quiz',
+                    tooltip: 'Test your knowledge with interactive mathematics quizzes'
                 })
             ]);
         }

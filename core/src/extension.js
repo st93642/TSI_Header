@@ -1,14 +1,14 @@
 /*****************************************************************************/
 /*                                                                           */
-/*  extension.js                                                             */
+/*  extension.js                                         TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Oct 19 2025 15:36 st93642                      TT    SSSSSSS II */
+/*  Updated: Oct 19 2025 15:37 st93642                                       */
 /*                                                                           */
-/*  By: st93642@students.tsi.lv                                              */
-/*                                                                           */
-/*  Created: Sep 23 2025 11:39 st93642                                       */
-/*  Updated: Oct 16 2025 12:18 st93642                                       */
-/*                                                                           */
-/*   Transport Institute                                                     */
-/*                       https://tsi.example.com                             */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
 /*****************************************************************************/
 
 const vscode = require('vscode');
@@ -2337,15 +2337,9 @@ extern "C" {
             });
             
             if (selected) {
-                // Load and display the exercise
+                // Load and display the exercise in webview
                 const exerciseData = await mathManager.loadExercise(selected.exercise.id);
-                
-                vscode.window.showInformationMessage(
-                    `📝 ${exerciseData.title}\n\n${exerciseData.description}\n\nThis is a manual exercise. Complete it and mark as done when finished.`,
-                    { modal: true },
-                    'Mark Complete',
-                    'Got it!'
-                );
+                await mathManager.openExercise(exerciseData);
             }
         } catch (error) {
             vscode.window.showErrorMessage(`Error viewing mathematics exercises: ${error.message}`);
@@ -2353,6 +2347,34 @@ extern "C" {
     });
 
     context.subscriptions.push(viewMathematicsExercisesCommand);
+
+    const takeMathematicsQuizCommand = vscode.commands.registerCommand('tsiheader.takeMathematicsQuiz', async () => {
+        try {
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+            
+            const quizzes = await mathManager.getQuizzes();
+            const quizItems = quizzes.map(quiz => ({
+                label: `🧠 ${quiz.title}`,
+                description: 'Test your knowledge',
+                quiz: quiz
+            }));
+            
+            const selected = await vscode.window.showQuickPick(quizItems, {
+                placeHolder: 'Select a mathematics quiz'
+            });
+            
+            if (selected) {
+                // Load and display the quiz in webview
+                const quizData = await mathManager.loadQuiz(selected.quiz.id);
+                await mathManager.openQuiz(quizData);
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error loading mathematics quiz: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(takeMathematicsQuizCommand);
 
     // Register feature module commands
     // Code quality enforcement module removed
