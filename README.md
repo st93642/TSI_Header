@@ -2,6 +2,9 @@
 
 ![OnMarketplace](image.png)
 ![Uni Header Overview](resources/main-picture.png)
+![Calendar](resources/calendar.png)
+
+The extension is now live and available for download from the [VS Code marketplace](https://marketplace.visualstudio.com/items?itemName=st93642.uni-header).
 
 - **🆕 Custom Institution Headers**: Configure your own university/organization branding for all generated headers
 
