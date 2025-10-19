@@ -3,7 +3,13 @@
   "mode": "quiz",
   "title": "Quiz: Fast-Forward, Three-Way Merges, and Conflict Strategy",
   "description": "Demonstrate your ability to merge branches, resolve conflicts, and choose appropriate strategies for integration.\n\nSteps:\n1. Review the lesson diagrams on merge decision guides and conflict matrices.\n2. Answer each question, choosing all valid options for multi-select prompts.\n3. Study the explanations to refine your conflict handling playbook.\n\nExpected results: Achieve at least 8/10 before moving on to rebase workflows.",
-  "tags": ["git", "merge", "conflict", "strategy", "quiz"],
+  "tags": [
+    "git",
+    "merge",
+    "conflict",
+    "strategy",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,110 +17,224 @@
       "type": "single",
       "prompt": "When does a fast-forward merge occur?",
       "options": [
-        {"id": "a", "text": "When the target branch has no unique commits and simply advances", "correct": true},
-        {"id": "b", "text": "When there are conflicts that must be resolved"},
-        {"id": "c", "text": "When branches contain divergent histories"},
-        {"id": "d", "text": "When git merge is run with --no-ff"}
+        {
+          "id": "a",
+          "text": "When the target branch has no unique commits and simply advances",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "When there are conflicts that must be resolved"
+        },
+        {
+          "id": "c",
+          "text": "When branches contain divergent histories"
+        },
+        {
+          "id": "d",
+          "text": "When git merge is run with --no-ff"
+        }
       ],
-      "explanation": "Fast-forward merges happen when the target branch pointer can advance to the tip of the source without creating a new merge commit." 
+      "explanation": "Fast-forward merges happen when the target branch pointer can advance to the tip of the source without creating a new merge commit."
     },
     {
       "id": "git-merge-no-ff",
       "type": "truefalse",
       "prompt": "True or False: Using `git merge --no-ff` preserves a merge commit even if the branches could fast-forward.",
       "answer": "true",
-      "explanation": "--no-ff forces a merge commit for traceability and branch history clarity." 
+      "explanation": "--no-ff forces a merge commit for traceability and branch history clarity."
     },
     {
       "id": "git-merge-conflict-types",
       "type": "multiple",
       "prompt": "Which conflict categories were highlighted in the conflict resolution matrix? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Textual conflicts", "correct": true},
-        {"id": "b", "text": "Semantic conflicts", "correct": true},
-        {"id": "c", "text": "Binary conflicts", "correct": true},
-        {"id": "d", "text": "Authentication conflicts"}
+        {
+          "id": "a",
+          "text": "Textual conflicts",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Semantic conflicts",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Binary conflicts",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Authentication conflicts"
+        }
       ],
-      "explanation": "The matrix covers textual, semantic, and binary conflicts along with mitigation strategies." 
+      "explanation": "The matrix covers textual, semantic, and binary conflicts along with mitigation strategies."
     },
     {
       "id": "git-merge-tools",
       "type": "multiple",
       "prompt": "Which tools help resolve merge conflicts? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "git mergetool", "correct": true},
-        {"id": "b", "text": "External diff/merge GUIs", "correct": true},
-        {"id": "c", "text": "git rerere", "correct": true},
-        {"id": "d", "text": "git gc"}
+        {
+          "id": "a",
+          "text": "git mergetool",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "External diff/merge GUIs",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "git rerere",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "git gc"
+        }
       ],
-      "explanation": "Mergetool integrations, visual GUIs, and rerere caching accelerate conflict resolution." 
+      "explanation": "Mergetool integrations, visual GUIs, and rerere caching accelerate conflict resolution."
     },
     {
       "id": "git-merge-tracking",
       "type": "single",
       "prompt": "Which command can record previously resolved conflicts to reuse resolutions later?",
       "options": [
-        {"id": "a", "text": "git rerere enable", "correct": true},
-        {"id": "b", "text": "git merge --continue"},
-        {"id": "c", "text": "git stash pop"},
-        {"id": "d", "text": "git worktree add"}
+        {
+          "id": "a",
+          "text": "git rerere enable",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git merge --continue"
+        },
+        {
+          "id": "c",
+          "text": "git stash pop"
+        },
+        {
+          "id": "d",
+          "text": "git worktree add"
+        }
       ],
-      "explanation": "`git rerere enable` activates reuse recorded resolution, caching conflict resolutions." 
+      "explanation": "`git rerere enable` activates reuse recorded resolution, caching conflict resolutions."
     },
     {
       "id": "git-merge-cherry-pick",
       "type": "truefalse",
       "prompt": "True or False: Cherry-picking is ideal for moving a single fix across branches without merging entire histories.",
       "answer": "true",
-      "explanation": "Cherry-pick applies specific commits to another branch, useful for isolated fixes." 
+      "explanation": "Cherry-pick applies specific commits to another branch, useful for isolated fixes."
     },
     {
       "id": "git-merge-ours-theirs",
       "type": "multiple",
       "prompt": "Which strategies exist when resolving conflicts? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Choose ours or theirs to prefer one side", "correct": true},
-        {"id": "b", "text": "Manually edit conflicted hunks", "correct": true},
-        {"id": "c", "text": "Abort the merge if resolution is unsafe", "correct": true},
-        {"id": "d", "text": "Delete the .git directory"}
+        {
+          "id": "a",
+          "text": "Choose ours or theirs to prefer one side",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Manually edit conflicted hunks",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Abort the merge if resolution is unsafe",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Delete the .git directory"
+        }
       ],
-      "explanation": "Resolvers can accept one side, edit manually, or abort for safety before retrying." 
+      "explanation": "Resolvers can accept one side, edit manually, or abort for safety before retrying."
     },
     {
       "id": "git-merge-verify",
       "type": "multiple",
       "prompt": "After resolving conflicts, which steps should you take before completing the merge? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Run the test suite", "correct": true},
-        {"id": "b", "text": "Review the diff of merged result", "correct": true},
-        {"id": "c", "text": "Remove conflict markers `<<<<<<<` `=======` `>>>>>>>`", "correct": true},
-        {"id": "d", "text": "Force push immediately without checks"}
+        {
+          "id": "a",
+          "text": "Run the test suite",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Review the diff of merged result",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Remove conflict markers `<<<<<<<` `=======` `>>>>>>>`",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Force push immediately without checks"
+        }
       ],
-      "explanation": "Testing, diff review, and cleaning markers ensure a high-quality merge before finalizing." 
+      "explanation": "Testing, diff review, and cleaning markers ensure a high-quality merge before finalizing."
     },
     {
       "id": "git-merge-conflict-prevention",
       "type": "multiple",
       "prompt": "Which practices reduce the likelihood of painful merge conflicts? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Integrate branches frequently", "correct": true},
-        {"id": "b", "text": "Keep commits focused", "correct": true},
-        {"id": "c", "text": "Communicate ownership of critical files", "correct": true},
-        {"id": "d", "text": "Delay merging until the end of a release"}
+        {
+          "id": "a",
+          "text": "Integrate branches frequently",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Keep commits focused",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Communicate ownership of critical files",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Delay merging until the end of a release"
+        }
       ],
-      "explanation": "Frequent integration, small commits, and clear ownership reduce surprise conflicts." 
+      "explanation": "Frequent integration, small commits, and clear ownership reduce surprise conflicts."
     },
     {
       "id": "git-merge-conflict-diagnostics",
       "type": "single",
       "prompt": "Which command shows the merge base used during a three-way merge?",
       "options": [
-        {"id": "a", "text": "git merge-base branchA branchB", "correct": true},
-        {"id": "b", "text": "git bisect"},
-        {"id": "c", "text": "git blame"},
-        {"id": "d", "text": "git describe"}
+        {
+          "id": "a",
+          "text": "git merge-base branchA branchB",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git bisect"
+        },
+        {
+          "id": "c",
+          "text": "git blame"
+        },
+        {
+          "id": "d",
+          "text": "git describe"
+        }
       ],
-      "explanation": "`git merge-base` reports the best common ancestor to understand diff contexts." 
+      "explanation": "`git merge-base` reports the best common ancestor to understand diff contexts."
     }
   ]
 }

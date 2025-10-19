@@ -39,5 +39,11 @@
     "Handle errors with Result<T, actix_web::Error> return types",
     "Use extractors like web::Path, web::Query, web::Json for request data"
   ],
-  "tags": ["actix-web", "http-server", "rest-api", "middleware", "error-handling"]
+  "tags": [
+    "actix-web",
+    "http-server",
+    "rest-api",
+    "middleware",
+    "error-handling"
+  ]
 }

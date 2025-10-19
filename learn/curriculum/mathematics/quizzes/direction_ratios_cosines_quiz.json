@@ -4,7 +4,13 @@
   "description": "Test your understanding of direction ratios and cosines.",
   "difficulty": "intermediate",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "direction ratios", "direction cosines", "angles"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "direction ratios",
+    "direction cosines",
+    "angles"
+  ],
   "questions": [
     {
       "question": "What is the relationship between direction cosines?",

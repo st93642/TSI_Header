@@ -3,7 +3,13 @@
   "mode": "quiz",
   "title": "Hash Tables & Hash-based Data Structures",
   "description": "Test your understanding of hash table concepts, collision resolution, and performance characteristics.",
-  "tags": ["cpp", "hash-tables", "data-structures", "algorithms", "quiz"],
+  "tags": [
+    "cpp",
+    "hash-tables",
+    "data-structures",
+    "algorithms",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,10 +17,23 @@
       "type": "single",
       "prompt": "What is the primary advantage of hash tables over binary search trees for key-value storage?",
       "options": [
-        { "id": "option_a", "text": "Maintaining sorted order of keys" },
-        { "id": "option_b", "text": "Average O(1) time complexity for insertions and lookups", "correct": true },
-        { "id": "option_c", "text": "Using less memory than arrays" },
-        { "id": "option_d", "text": "Supporting range queries efficiently" }
+        {
+          "id": "option_a",
+          "text": "Maintaining sorted order of keys"
+        },
+        {
+          "id": "option_b",
+          "text": "Average O(1) time complexity for insertions and lookups",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Using less memory than arrays"
+        },
+        {
+          "id": "option_d",
+          "text": "Supporting range queries efficiently"
+        }
       ],
       "explanation": "Hash tables provide average O(1) time complexity for insert, search, and delete operations through direct key-to-index mapping, making them much faster than binary search trees which require O(log n) operations."
     },
@@ -23,10 +42,23 @@
       "type": "single",
       "prompt": "In separate chaining collision resolution, what data structure is typically used to store colliding elements?",
       "options": [
-        { "id": "option_a", "text": "Arrays" },
-        { "id": "option_b", "text": "Binary trees" },
-        { "id": "option_c", "text": "Linked lists", "correct": true },
-        { "id": "option_d", "text": "Stacks" }
+        {
+          "id": "option_a",
+          "text": "Arrays"
+        },
+        {
+          "id": "option_b",
+          "text": "Binary trees"
+        },
+        {
+          "id": "option_c",
+          "text": "Linked lists",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Stacks"
+        }
       ],
       "explanation": "Separate chaining uses linked lists to store elements that hash to the same index, allowing multiple key-value pairs to coexist in the same bucket."
     },
@@ -35,11 +67,29 @@
       "type": "multiple",
       "prompt": "Which of the following are requirements for a good hash function? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "Deterministic behavior", "correct": true },
-        { "id": "option_b", "text": "Uniform key distribution", "correct": true },
-        { "id": "option_c", "text": "Fast computation", "correct": true },
-        { "id": "option_d", "text": "Reversible transformation" },
-        { "id": "option_e", "text": "Cryptographically secure" }
+        {
+          "id": "option_a",
+          "text": "Deterministic behavior",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Uniform key distribution",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Fast computation",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Reversible transformation"
+        },
+        {
+          "id": "option_e",
+          "text": "Cryptographically secure"
+        }
       ],
       "explanation": "A good hash function must be deterministic (same key always produces same hash), provide uniform distribution across the table, and be computationally efficient. While cryptographic security can be beneficial, it's not always required for general-purpose hash tables."
     },
@@ -48,10 +98,23 @@
       "type": "single",
       "prompt": "What is the load factor in a hash table, and why is it important?",
       "options": [
-        { "id": "option_a", "text": "The ratio of table size to number of elements, used for memory optimization" },
-        { "id": "option_b", "text": "The ratio of elements to table size, affecting collision probability and performance", "correct": true },
-        { "id": "option_c", "text": "The percentage of occupied buckets, determining when to resize" },
-        { "id": "option_d", "text": "The average number of operations per insertion" }
+        {
+          "id": "option_a",
+          "text": "The ratio of table size to number of elements, used for memory optimization"
+        },
+        {
+          "id": "option_b",
+          "text": "The ratio of elements to table size, affecting collision probability and performance",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "The percentage of occupied buckets, determining when to resize"
+        },
+        {
+          "id": "option_d",
+          "text": "The average number of operations per insertion"
+        }
       ],
       "explanation": "Load factor (α = n/m) represents the ratio of stored elements to table capacity. Higher load factors increase collision probability, degrading performance from O(1) to O(n) in the worst case."
     },
@@ -67,10 +130,23 @@
       "type": "single",
       "prompt": "What happens during rehashing in a hash table?",
       "options": [
-        { "id": "option_a", "text": "All elements are removed and the table becomes empty" },
-        { "id": "option_b", "text": "The hash function is changed to reduce collisions" },
-        { "id": "option_c", "text": "A new larger table is created and all elements are redistributed", "correct": true },
-        { "id": "option_d", "text": "The table size is reduced to save memory" }
+        {
+          "id": "option_a",
+          "text": "All elements are removed and the table becomes empty"
+        },
+        {
+          "id": "option_b",
+          "text": "The hash function is changed to reduce collisions"
+        },
+        {
+          "id": "option_c",
+          "text": "A new larger table is created and all elements are redistributed",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "The table size is reduced to save memory"
+        }
       ],
       "explanation": "Rehashing creates a new table with increased capacity and redistributes all existing elements using the hash function, ensuring the load factor stays within acceptable bounds for optimal performance."
     },
@@ -79,10 +155,23 @@
       "type": "single",
       "prompt": "Which collision resolution technique uses linear probing?",
       "options": [
-        { "id": "option_a", "text": "Separate chaining" },
-        { "id": "option_b", "text": "Open addressing", "correct": true },
-        { "id": "option_c", "text": "Cuckoo hashing" },
-        { "id": "option_d", "text": "Hopscotch hashing" }
+        {
+          "id": "option_a",
+          "text": "Separate chaining"
+        },
+        {
+          "id": "option_b",
+          "text": "Open addressing",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Cuckoo hashing"
+        },
+        {
+          "id": "option_d",
+          "text": "Hopscotch hashing"
+        }
       ],
       "explanation": "Linear probing is a form of open addressing where, when a collision occurs, the algorithm searches sequentially for the next available slot in the table."
     },
@@ -91,11 +180,29 @@
       "type": "multiple",
       "prompt": "What are the main disadvantages of open addressing compared to separate chaining? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "Requires more memory for pointers" },
-        { "id": "option_b", "text": "Can suffer from clustering problems", "correct": true },
-        { "id": "option_c", "text": "Deletion is more complex", "correct": true },
-        { "id": "option_d", "text": "Cannot handle high load factors well", "correct": true },
-        { "id": "option_e", "text": "Poor cache performance" }
+        {
+          "id": "option_a",
+          "text": "Requires more memory for pointers"
+        },
+        {
+          "id": "option_b",
+          "text": "Can suffer from clustering problems",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Deletion is more complex",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Cannot handle high load factors well",
+          "correct": true
+        },
+        {
+          "id": "option_e",
+          "text": "Poor cache performance"
+        }
       ],
       "explanation": "Open addressing suffers from clustering (primary and secondary), requires complex deletion handling with tombstones, and must maintain lower load factors than separate chaining to avoid performance degradation."
     },
@@ -104,10 +211,23 @@
       "type": "single",
       "prompt": "In the context of hash table instrumentation, what does 'avalanche effect' refer to?",
       "options": [
-        { "id": "option_a", "text": "When rehashing causes a cascade of operations" },
-        { "id": "option_b", "text": "When small changes in input produce large changes in hash output", "correct": true },
-        { "id": "option_c", "text": "When collisions cause elements to 'avalanche' into neighboring buckets" },
-        { "id": "option_d", "text": "When load factor exceeds safe thresholds" }
+        {
+          "id": "option_a",
+          "text": "When rehashing causes a cascade of operations"
+        },
+        {
+          "id": "option_b",
+          "text": "When small changes in input produce large changes in hash output",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "When collisions cause elements to 'avalanche' into neighboring buckets"
+        },
+        {
+          "id": "option_d",
+          "text": "When load factor exceeds safe thresholds"
+        }
       ],
       "explanation": "The avalanche effect describes how a good hash function should produce dramatically different hash values even for similar inputs, ensuring uniform distribution and making it difficult to predict hash values."
     },
@@ -116,10 +236,23 @@
       "type": "single",
       "prompt": "What is the worst-case time complexity for hash table operations, and under what conditions does it occur?",
       "options": [
-        { "id": "option_a", "text": "O(log n) when using balanced binary trees for collision resolution" },
-        { "id": "option_b", "text": "O(n) when all keys hash to the same index", "correct": true },
-        { "id": "option_c", "text": "O(1) when load factor is kept below 0.5" },
-        { "id": "option_d", "text": "O(n²) during rehashing operations" }
+        {
+          "id": "option_a",
+          "text": "O(log n) when using balanced binary trees for collision resolution"
+        },
+        {
+          "id": "option_b",
+          "text": "O(n) when all keys hash to the same index",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "O(1) when load factor is kept below 0.5"
+        },
+        {
+          "id": "option_d",
+          "text": "O(n²) during rehashing operations"
+        }
       ],
       "explanation": "Hash tables degrade to O(n) worst-case performance when all keys collide (either due to poor hash function or malicious input), requiring linear search through collision chains or probe sequences."
     }

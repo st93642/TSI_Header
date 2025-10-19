@@ -3,58 +3,88 @@
   "answerKey": [
     {
       "questionId": "git-rewrite-amend",
-      "answers": ["a"],
-      "explanation": "`git commit --amend` tweaks the latest commit without touching earlier history." 
+      "answers": [
+        "a"
+      ],
+      "explanation": "`git commit --amend` tweaks the latest commit without touching earlier history."
     },
     {
       "questionId": "git-rewrite-interactive",
-      "answers": ["a", "b", "c"],
-      "explanation": "Interactive rebase enables reordering, squashing, and dropping commits locally." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Interactive rebase enables reordering, squashing, and dropping commits locally."
     },
     {
       "questionId": "git-rewrite-public",
-      "answers": ["true"],
-      "explanation": "Force pushing and communication are mandatory when rewriting shared history." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Force pushing and communication are mandatory when rewriting shared history."
     },
     {
       "questionId": "git-rewrite-safety",
-      "answers": ["a", "b", "c"],
-      "explanation": "Backups, recorded hashes, and reflog awareness provide recovery options." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Backups, recorded hashes, and reflog awareness provide recovery options."
     },
     {
       "questionId": "git-rewrite-filter-repo",
-      "answers": ["b"],
-      "explanation": "`git filter-repo` is the modern tool for large-scale scrubbing tasks." 
+      "answers": [
+        "b"
+      ],
+      "explanation": "`git filter-repo` is the modern tool for large-scale scrubbing tasks."
     },
     {
       "questionId": "git-rewrite-reflog",
-      "answers": ["a", "b"],
-      "explanation": "Reflog entries track previous HEADs and let you `git reset` back if needed." 
+      "answers": [
+        "a",
+        "b"
+      ],
+      "explanation": "Reflog entries track previous HEADs and let you `git reset` back if needed."
     },
     {
       "questionId": "git-rewrite-signed-off",
-      "answers": ["true"],
-      "explanation": "Rewriting commits invalidates signatures; reapply them to satisfy policies." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Rewriting commits invalidates signatures; reapply them to satisfy policies."
     },
     {
       "questionId": "git-rewrite-replace",
-      "answers": ["a", "b"],
-      "explanation": "`git replace` overlays rewritten commits for experimentation without permanent changes." 
+      "answers": [
+        "a",
+        "b"
+      ],
+      "explanation": "`git replace` overlays rewritten commits for experimentation without permanent changes."
     },
     {
       "questionId": "git-rewrite-bfg",
-      "answers": ["b"],
-      "explanation": "BFG Repo-Cleaner strips large files or secrets from history efficiently." 
+      "answers": [
+        "b"
+      ],
+      "explanation": "BFG Repo-Cleaner strips large files or secrets from history efficiently."
     },
     {
       "questionId": "git-rewrite-force-push",
-      "answers": ["a", "b", "c"],
-      "explanation": "Coordinated communication plus `--force-with-lease` keeps collaborators safe." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Coordinated communication plus `--force-with-lease` keeps collaborators safe."
     },
     {
       "questionId": "git-rewrite-validation",
-      "answers": ["true"],
-      "explanation": "Test runs and regenerated notes ensure the rewritten history behaves correctly." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Test runs and regenerated notes ensure the rewritten history behaves correctly."
     }
   ],
   "keyPoints": [
@@ -62,6 +92,6 @@
     "Back up and rely on reflog before attempting destructive rewrites.",
     "Adopt filter-repo/BFG for large-scale scrubbing and communicate force pushes.",
     "Reapply signatures and validate the project after rewriting commits.",
-    "`git replace` provides a reversible way to prototype new histories." 
+    "`git replace` provides a reversible way to prototype new histories."
   ]
 }

@@ -38,5 +38,11 @@
     "Use Arc<Mutex<>> for shared mutable state in async contexts",
     "Remember to await all async operations"
   ],
-  "tags": ["async", "tokio", "futures", "concurrency", "channels"]
+  "tags": [
+    "async",
+    "tokio",
+    "futures",
+    "concurrency",
+    "channels"
+  ]
 }

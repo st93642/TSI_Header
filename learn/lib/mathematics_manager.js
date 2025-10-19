@@ -155,17 +155,30 @@ class MathematicsManager {
      */
     async openExercise(exercise) {
         try {
+            // Configure webview options with local resource access
+            const resourceRoots = [];
+            if (this.vscode && this.vscode.Uri && typeof this.vscode.Uri.file === 'function') {
+                const resourcesRoot = path.join(__dirname, '..', '..', 'resources');
+                resourceRoots.push(this.vscode.Uri.file(resourcesRoot));
+            }
+
+            const webviewOptions = {
+                enableScripts: true,
+                retainContextWhenHidden: true
+            };
+
+            if (resourceRoots.length > 0) {
+                webviewOptions.localResourceRoots = resourceRoots;
+            }
+
             const panel = this.vscode.window.createWebviewPanel(
                 'tsiMathematicsExercise',
                 `� ${exercise.title}`,
                 this.vscode.ViewColumn.One,
-                {
-                    enableScripts: true,
-                    retainContextWhenHidden: true
-                }
+                webviewOptions
             );
 
-            panel.webview.html = this.getExerciseHtml(exercise);
+            panel.webview.html = this.getExerciseHtml(exercise, panel.webview);
 
             // Handle messages from the webview
             panel.webview.onDidReceiveMessage(async (message) => {
@@ -317,18 +330,42 @@ class MathematicsManager {
     /**
      * Generate HTML for exercise viewer
      * @param {Object} exercise - Exercise object
+     * @param {Object} webview - Webview instance for URI conversion
      * @returns {string} HTML string
      */
-    getExerciseHtml(exercise) {
-        const formattedDescription = exercise.description
-            .replace(/\n\n/g, '</p><p>')
-            .replace(/\n/g, '<br>')
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/`(.+?)`/g, '<code>$1</code>');
+    getExerciseHtml(exercise, webview) {
+        // Handle description as string or array
+        const descriptionText = Array.isArray(exercise.description) 
+            ? exercise.description.join('\n') 
+            : exercise.description;
+        const formattedDescription = this.markdownToHtml(descriptionText);
+
+        // Handle solution as string or array
+        const solutionText = Array.isArray(exercise.solution) 
+            ? exercise.solution.join('\n') 
+            : (exercise.solution || 'Solution not available yet.');
+        const formattedSolution = this.markdownToHtml(solutionText);
 
         const hintsHtml = exercise.hints ? exercise.hints.map(hint =>
-            `<li>${hint}</li>`
+            `<li>${this.markdownToHtml(hint)}</li>`
         ).join('') : '';
+
+        // Prepare URIs for KaTeX assets. If a webview is provided, use local extension resources
+        let katexCss = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
+        let katexJs = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';
+        let autoRenderJs = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js';
+        if (webview && this.vscode && this.vscode.Uri) {
+            try {
+                const cssPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'katex.min.css');
+                const jsPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'katex.min.js');
+                const autoRenderPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'auto-render.min.js');
+                katexCss = webview.asWebviewUri(this.vscode.Uri.file(cssPath));
+                katexJs = webview.asWebviewUri(this.vscode.Uri.file(jsPath));
+                autoRenderJs = webview.asWebviewUri(this.vscode.Uri.file(autoRenderPath));
+            } catch (e) {
+                // fallback to CDN if anything goes wrong
+            }
+        }
 
         return `<!DOCTYPE html>
 <html lang="en">
@@ -336,6 +373,9 @@ class MathematicsManager {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${exercise.title}</title>
+    <link rel="stylesheet" href="${katexCss}">
+    <script src="${katexJs}"></script>
+    <script src="${autoRenderJs}"></script>
     <style>
         * {
             margin: 0;
@@ -350,6 +390,7 @@ class MathematicsManager {
             line-height: 1.6;
             max-width: 900px;
             margin: 0 auto;
+            font-size: 16px;
         }
         .header {
             background-color: var(--vscode-titleBar-activeBackground);
@@ -397,6 +438,7 @@ class MathematicsManager {
         .exercise-content p {
             margin-bottom: 15px;
             font-size: 16px;
+            line-height: 1.6;
         }
         .math-expression {
             background-color: var(--vscode-textBlockQuote-background);
@@ -406,6 +448,7 @@ class MathematicsManager {
             font-family: 'Times New Roman', serif;
             font-size: 16px;
             white-space: pre-wrap;
+            line-height: 1.6;
         }
         .hints-section {
             background-color: var(--vscode-textBlockQuote-background);
@@ -474,9 +517,55 @@ class MathematicsManager {
             border: 1px solid var(--vscode-editorWidget-border);
             border-radius: 4px;
             padding: 15px;
-            font-family: 'Courier New', monospace;
-            white-space: pre-wrap;
-            color: var(--vscode-editor-foreground);
+            color: var(--vscode-foreground);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .solution-content p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .solution-content strong {
+            font-weight: bold;
+        }
+        .solution-content code {
+            background-color: var(--vscode-textCodeBlock-background);
+            color: var(--vscode-textCodeBlock-foreground);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: var(--vscode-editor-font-family);
+        }
+        .solution-content h1,
+        .solution-content h2,
+        .solution-content h3,
+        .solution-content h4,
+        .solution-content h5,
+        .solution-content h6 {
+            color: var(--vscode-textLink-foreground);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .solution-content h1 {
+            font-size: 24px;
+            border-bottom: 2px solid var(--vscode-textLink-foreground);
+            padding-bottom: 5px;
+        }
+        .solution-content h2 {
+            font-size: 20px;
+            border-bottom: 2px solid var(--vscode-textLink-foreground);
+            padding-bottom: 5px;
+        }
+        .solution-content h3 {
+            font-size: 18px;
+        }
+        .solution-content ul,
+        .solution-content ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        .solution-content li {
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -488,7 +577,7 @@ class MathematicsManager {
 
     <div class="exercise-content">
         <h2>Problem Statement</h2>
-        <p>${formattedDescription}</p>
+        ${formattedDescription}
     </div>
 
     ${hintsHtml ? `
@@ -506,7 +595,7 @@ class MathematicsManager {
 
     <div class="solution-section" id="solution">
         <h3>✅ Solution</h3>
-        <div class="solution-content">${exercise.solution || 'Solution not available yet.'}</div>
+        <div class="solution-content">${formattedSolution}</div>
     </div>
 
     <script>
@@ -514,6 +603,10 @@ class MathematicsManager {
 
         function showSolution() {
             document.getElementById('solution').classList.add('show');
+            // Re-render math expressions in the newly shown solution
+            if (typeof window.renderMath === 'function') {
+                window.renderMath();
+            }
         }
 
         function openWorkbook() {
@@ -529,6 +622,30 @@ class MathematicsManager {
                 exerciseId: '${exercise.id}'
             });
         }
+
+        // Render LaTeX math expressions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to render math in the entire document
+            function renderMath() {
+                if (typeof renderMathInElement !== 'undefined') {
+                    renderMathInElement(document.body, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\\\(', right: '\\\\)', display: false},
+                            {left: '\\\\[', right: '\\\\]', display: true}
+                        ],
+                        throwOnError: false
+                    });
+                }
+            }
+            
+            // Initial render
+            renderMath();
+            
+            // Make renderMath available globally for dynamic content
+            window.renderMath = renderMath;
+        });
     </script>
 </body>
 </html>`;
@@ -972,6 +1089,160 @@ class MathematicsManager {
      */
     clearCurriculumCache() {
         this.curriculumCache.clear();
+    }
+
+    /**
+     * Simple markdown to HTML converter
+     * @param {string} markdown - Markdown content
+     * @returns {string} HTML content
+     */
+    markdownToHtml(markdown) {
+        let html = markdown;
+        
+        // Convert code blocks first (before other replacements)
+        // Preserve language class for highlight.js and avoid wrapping individual lines so the highlighter can parse them
+        html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+            const language = (lang || '').trim();
+            const langClass = language ? `language-${language}` : 'language-plaintext';
+            // Escape HTML inside code block but keep original newlines. Normalize excessive blank lines.
+            const escaped = this.escapeHtml(code).replace(/\n{3,}/g, '\n\n');
+            return `<pre><code class="${langClass}">${escaped}</code></pre>`;
+        });
+
+        // Convert images
+        html = html.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
+            const rawSource = (src || '').trim();
+            const altText = (alt || '').trim();
+            const safeAlt = this.escapeHtml(altText);
+            const safeSource = this.escapeHtml(rawSource);
+            return `<img src="${safeSource}" alt="${safeAlt}" data-tsi-src="${safeSource}">`;
+        });
+        
+        // --- Protect fenced code blocks from downstream replacements ---
+        // Extract any generated <pre><code>...</code></pre> blocks and replace
+        // them with stable placeholders so subsequent regexes don't alter
+        // their inner content (this prevents paragraph-wrapping from
+        // collapsing or concatenating code lines).
+        const codeBlockPlaceholders = [];
+        html = html.replace(/<pre><code[\s\S]*?<\/code><\/pre>/g, (match) => {
+            const idx = codeBlockPlaceholders.length;
+            codeBlockPlaceholders.push(match);
+            return `@@CODEBLOCK_${idx}@@`;
+        });
+
+        // Convert tables
+        html = html.replace(/(\|.*\|\n\|[\s\-\|:]+\|\n(?:\|.*\|\n?)*)/g, (match) => {
+            const lines = match.trim().split('\n');
+            if (lines.length < 2) return match;
+
+            // Parse header row
+            const headerLine = lines[0];
+            const separatorLine = lines[1];
+            const dataLines = lines.slice(2);
+
+            // Check if this is a valid table (separator line should contain | and - or : characters)
+            if (!separatorLine.match(/\|[\s\-\|:]+\|/)) return match;
+
+            // Parse header cells
+            const headers = headerLine.split('|').slice(1, -1).map(cell => cell.trim());
+
+            // Parse data rows
+            const rows = dataLines.map(line => {
+                return line.split('|').slice(1, -1).map(cell => cell.trim());
+            });
+
+            // Generate HTML table
+            let tableHtml = '<table>\n';
+
+            // Add header row
+            tableHtml += '<thead>\n<tr>\n';
+            headers.forEach(header => {
+                tableHtml += `<th>${header}</th>\n`;
+            });
+            tableHtml += '</tr>\n</thead>\n';
+
+            // Add data rows
+            if (rows.length > 0) {
+                tableHtml += '<tbody>\n';
+                rows.forEach(row => {
+                    tableHtml += '<tr>\n';
+                    row.forEach(cell => {
+                        tableHtml += `<td>${cell}</td>\n`;
+                    });
+                    tableHtml += '</tr>\n';
+                });
+                tableHtml += '</tbody>\n';
+            }
+
+            tableHtml += '</table>';
+            return tableHtml;
+        });
+
+        // --- Protect table HTML from paragraph conversion ---
+        const tablePlaceholders = [];
+        html = html.replace(/<table[\s\S]*?<\/table>/g, (match) => {
+            const idx = tablePlaceholders.length;
+            tablePlaceholders.push(match);
+            return `@@TABLE_${idx}@@`;
+        });
+
+        // Convert headers
+        html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+        html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+        
+        // Convert lists
+        html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+    html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+        
+        // Convert bold and italic (before inline code to avoid conflicts)
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+        
+        // Convert inline code
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+        
+        // Convert blockquotes
+        html = html.replace(/^> (.+)$/gm, '<div class="tip">$1</div>');
+        
+        // Convert paragraphs (avoid converting already tagged content)
+        html = html.replace(/\n\n+/g, '</p><p>');
+        html = html.replace(/^(?!<[hupldi])(.+)$/gm, '<p>$1</p>');
+        
+        // Clean up extra paragraph tags around block elements
+        html = html.replace(/<p>(<(?:h\d|pre|ul|div))/g, '$1');
+        html = html.replace(/(<\/(?:h\d|pre|ul|div)>)<\/p>/g, '$1');
+        
+        // Remove empty paragraphs
+        html = html.replace(/<p>\s*<\/p>/g, '');
+
+        // Restore protected code blocks
+        html = html.replace(/@@CODEBLOCK_(\d+)@@/g, (m, id) => {
+            const i = parseInt(id, 10);
+            return codeBlockPlaceholders[i] || '';
+        });
+
+        // Restore protected tables
+        html = html.replace(/@@TABLE_(\d+)@@/g, (m, id) => {
+            const i = parseInt(id, 10);
+            return tablePlaceholders[i] || '';
+        });
+
+        return html;
+    }
+
+    /**
+     * Escape HTML special characters
+     * @param {string} text - Text to escape
+     * @returns {string} Escaped text
+     */
+    escapeHtml(text) {
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 }
 

@@ -30,5 +30,12 @@
     "Handle different routes by matching on the request path",
     "Use BufReader to read lines from the TCP stream efficiently"
   ],
-  "tags": ["tcp", "http", "concurrency", "thread-pool", "channels", "web-server"]
+  "tags": [
+    "tcp",
+    "http",
+    "concurrency",
+    "thread-pool",
+    "channels",
+    "web-server"
+  ]
 }

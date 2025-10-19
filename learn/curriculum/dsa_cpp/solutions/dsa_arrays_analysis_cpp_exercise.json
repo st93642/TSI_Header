@@ -5,13 +5,22 @@
   "mode": "quiz",
   "answerKey": {
     "ledger_alignment_callout": "option_b",
-    "span_hub_advantage": ["option_a", "option_c"],
+    "span_hub_advantage": [
+      "option_a",
+      "option_c"
+    ],
     "linear_search_story": "option_b",
     "galloping_search_bounds": "option_b",
-    "interpolation_guardrails": ["option_a", "option_c"],
+    "interpolation_guardrails": [
+      "option_a",
+      "option_c"
+    ],
     "sorting_comparison_profile": "option_b",
     "insertion_sort_story": "option_b",
-    "dashboard_story": ["option_a", "option_c"],
+    "dashboard_story": [
+      "option_a",
+      "option_c"
+    ],
     "practice_commitment": "true",
     "ledger_resets": "option_a"
   },

@@ -4,7 +4,13 @@
   "description": "Test your understanding of vector equations of planes.",
   "difficulty": "intermediate",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "planes", "vector equation", "normal vector"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "planes",
+    "vector equation",
+    "normal vector"
+  ],
   "questions": [
     {
       "question": "What is the vector equation of a plane?",

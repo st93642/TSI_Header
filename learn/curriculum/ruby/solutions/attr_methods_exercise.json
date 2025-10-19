@@ -5,7 +5,7 @@
   "explanation": "This solution demonstrates proper use of Ruby's attribute accessor methods:\n\n**attr_reader**: Creates getter methods for read-only attributes like `name` and `age`\n\n**attr_accessor**: Creates both getter and setter methods for read-write attributes like `email`\n\n**attr_writer**: Creates only setter methods for write-only attributes like `password`\n\n**Custom setters**: The `price=` method includes validation to ensure positive values\n\n**Boolean attributes**: The `active?` method follows Ruby convention for boolean getters\n\n**Encapsulation**: Private methods like `hash_password` are properly encapsulated",
   "keyPoints": [
     "attr_reader creates getter methods only",
-    "attr_accessor creates both getter and setter methods", 
+    "attr_accessor creates both getter and setter methods",
     "attr_writer creates setter methods only",
     "Custom setters can include validation logic",
     "Boolean getters should end with ?",

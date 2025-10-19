@@ -25,5 +25,11 @@
     "Divide minutes by 60.0 to convert to hours; multiplying by TUITION_PER_CREDIT should happen in double space.",
     "Remember to branch on weeklyHours > 40.0 for the warning line."
   ],
-  "tags": ["c", "variables", "constants", "arithmetic", "input-output"]
+  "tags": [
+    "c",
+    "variables",
+    "constants",
+    "arithmetic",
+    "input-output"
+  ]
 }

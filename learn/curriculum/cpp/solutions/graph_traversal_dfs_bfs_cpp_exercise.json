@@ -6,52 +6,74 @@
   "answerKey": [
     {
       "questionId": "dfs_vs_bfs_time",
-      "answers": ["option_c"],
+      "answers": [
+        "option_c"
+      ],
       "rationale": "Both DFS and BFS traverse each vertex and edge once, giving O(V + E) complexity."
     },
     {
       "questionId": "dfs_data_structure",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "Iterative DFS uses a stack to manage the exploration order, simulating recursion."
     },
     {
       "questionId": "bfs_shortest_path",
-      "answers": ["true"],
+      "answers": [
+        "true"
+      ],
       "rationale": "BFS guarantees shortest paths in unweighted graphs by exploring level by level."
     },
     {
       "questionId": "dfs_cycle_detection",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "DFS detects cycles by identifying back edges to previously visited ancestors."
     },
     {
       "questionId": "adjacency_list_space",
-      "answers": ["option_c"],
+      "answers": [
+        "option_c"
+      ],
       "rationale": "Adjacency list uses O(V + E) space, storing lists for each vertex."
     },
     {
       "questionId": "bfs_queue_usage",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "BFS uses a queue to process nodes in FIFO order, ensuring breadth-first exploration."
     },
     {
       "questionId": "dfs_applications",
-      "answers": ["option_a", "option_c", "option_d"],
+      "answers": [
+        "option_a",
+        "option_c",
+        "option_d"
+      ],
       "rationale": "DFS excels at finding components, topological sorting, and cycle detection; BFS is better for shortest paths."
     },
     {
       "questionId": "graph_connected_components",
-      "answers": ["option_a"],
+      "answers": [
+        "option_a"
+      ],
       "rationale": "Each DFS/BFS call from an unvisited node discovers one connected component."
     },
     {
       "questionId": "dfs_recursive_stack",
-      "answers": ["true"],
+      "answers": [
+        "true"
+      ],
       "rationale": "Recursive DFS can exceed stack limits for large or deep graphs."
     },
     {
       "questionId": "bfs_levels",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "BFS processes nodes in the order they are discovered within each level."
     }
   ],

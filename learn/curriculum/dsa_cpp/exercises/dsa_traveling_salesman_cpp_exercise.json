@@ -3,7 +3,14 @@
   "mode": "quiz",
   "title": "Traveling Salesman Problem & NP-Completeness",
   "description": "Test your understanding of TSP, NP-completeness, approximation algorithms, and heuristic approaches.",
-  "tags": ["cpp", "tsp", "np-complete", "algorithms", "optimization", "quiz"],
+  "tags": [
+    "cpp",
+    "tsp",
+    "np-complete",
+    "algorithms",
+    "optimization",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {

@@ -3,7 +3,15 @@
   "mode": "quiz",
   "title": "Prim's Algorithm and Kruskal's Algorithm",
   "description": "Test your understanding of Minimum Spanning Tree algorithms, Prim's and Kruskal's approaches, Union-Find data structure, and their applications in C++.",
-  "tags": ["cpp", "graphs", "minimum-spanning-tree", "prims-algorithm", "kruskals-algorithm", "union-find", "quiz"],
+  "tags": [
+    "cpp",
+    "graphs",
+    "minimum-spanning-tree",
+    "prims-algorithm",
+    "kruskals-algorithm",
+    "union-find",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,10 +19,23 @@
       "type": "single",
       "prompt": "What is a Minimum Spanning Tree (MST)?",
       "options": [
-        { "id": "option_a", "text": "A tree that connects all vertices with maximum total edge weight" },
-        { "id": "option_b", "text": "A tree that connects all vertices with minimum total edge weight and no cycles", "correct": true },
-        { "id": "option_c", "text": "A tree that connects some vertices with minimum edge weights" },
-        { "id": "option_d", "text": "A tree that includes all possible edges in a graph" }
+        {
+          "id": "option_a",
+          "text": "A tree that connects all vertices with maximum total edge weight"
+        },
+        {
+          "id": "option_b",
+          "text": "A tree that connects all vertices with minimum total edge weight and no cycles",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "A tree that connects some vertices with minimum edge weights"
+        },
+        {
+          "id": "option_d",
+          "text": "A tree that includes all possible edges in a graph"
+        }
       ],
       "explanation": "An MST is a subset of edges forming a tree that connects all vertices without cycles while minimizing the total edge weight."
     },
@@ -23,10 +44,23 @@
       "type": "single",
       "prompt": "Which algorithm is generally more efficient for dense graphs (where E ≈ V²)?",
       "options": [
-        { "id": "option_a", "text": "Kruskal's algorithm" },
-        { "id": "option_b", "text": "Prim's algorithm", "correct": true },
-        { "id": "option_c", "text": "Both are equally efficient" },
-        { "id": "option_d", "text": "Neither works well with dense graphs" }
+        {
+          "id": "option_a",
+          "text": "Kruskal's algorithm"
+        },
+        {
+          "id": "option_b",
+          "text": "Prim's algorithm",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Both are equally efficient"
+        },
+        {
+          "id": "option_d",
+          "text": "Neither works well with dense graphs"
+        }
       ],
       "explanation": "Prim's algorithm performs better on dense graphs with O((V+E)log V) time, while Kruskal's is better for sparse graphs with O(E log E) time."
     },
@@ -35,10 +69,23 @@
       "type": "single",
       "prompt": "What is the primary purpose of the Union-Find data structure in Kruskal's algorithm?",
       "options": [
-        { "id": "option_a", "text": "To sort the edges by weight" },
-        { "id": "option_b", "text": "To detect cycles when adding edges", "correct": true },
-        { "id": "option_c", "text": "To calculate the total MST weight" },
-        { "id": "option_d", "text": "To store the adjacency list" }
+        {
+          "id": "option_a",
+          "text": "To sort the edges by weight"
+        },
+        {
+          "id": "option_b",
+          "text": "To detect cycles when adding edges",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "To calculate the total MST weight"
+        },
+        {
+          "id": "option_d",
+          "text": "To store the adjacency list"
+        }
       ],
       "explanation": "Union-Find is used to efficiently track which vertices are in the same connected component, allowing cycle detection when considering new edges."
     },
@@ -47,12 +94,34 @@
       "type": "multiple",
       "prompt": "Which of the following are properties of a Minimum Spanning Tree? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "Connects all vertices in the graph", "correct": true },
-        { "id": "option_b", "text": "Contains no cycles", "correct": true },
-        { "id": "option_c", "text": "Has the minimum possible total edge weight", "correct": true },
-        { "id": "option_d", "text": "Must include the heaviest edge in the graph" },
-        { "id": "option_e", "text": "Has exactly V-1 edges for V vertices", "correct": true },
-        { "id": "option_f", "text": "Is unique for all graphs" }
+        {
+          "id": "option_a",
+          "text": "Connects all vertices in the graph",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Contains no cycles",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Has the minimum possible total edge weight",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Must include the heaviest edge in the graph"
+        },
+        {
+          "id": "option_e",
+          "text": "Has exactly V-1 edges for V vertices",
+          "correct": true
+        },
+        {
+          "id": "option_f",
+          "text": "Is unique for all graphs"
+        }
       ],
       "explanation": "An MST connects all vertices, has no cycles, minimizes total weight, has V-1 edges, but may not be unique and doesn't necessarily include the heaviest edge."
     },
@@ -61,8 +130,15 @@
       "type": "single",
       "prompt": "Prim's algorithm uses a priority queue to always select the next vertex with the smallest edge weight connecting to the current MST.",
       "options": [
-        { "id": "option_a", "text": "True", "correct": true },
-        { "id": "option_b", "text": "False" }
+        {
+          "id": "option_a",
+          "text": "True",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "False"
+        }
       ],
       "explanation": "Prim's algorithm maintains a priority queue of vertices not yet in the MST, keyed by the minimum edge weight connecting them to the current MST."
     },
@@ -71,8 +147,15 @@
       "type": "single",
       "prompt": "Kruskal's algorithm begins by sorting all edges in the graph by their weights in ascending order.",
       "options": [
-        { "id": "option_a", "text": "True", "correct": true },
-        { "id": "option_b", "text": "False" }
+        {
+          "id": "option_a",
+          "text": "True",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "False"
+        }
       ],
       "explanation": "Kruskal's algorithm starts by sorting all edges by weight, then adds them to the MST in order if they don't create cycles."
     },
@@ -81,10 +164,23 @@
       "type": "single",
       "prompt": "What happens if a graph contains negative edge weights when running MST algorithms?",
       "options": [
-        { "id": "option_a", "text": "The algorithms work correctly and find the true MST" },
-        { "id": "option_b", "text": "Prim's algorithm fails but Kruskal's works" },
-        { "id": "option_c", "text": "Both algorithms may fail to find the correct MST", "correct": true },
-        { "id": "option_d", "text": "The algorithms find a maximum spanning tree instead" }
+        {
+          "id": "option_a",
+          "text": "The algorithms work correctly and find the true MST"
+        },
+        {
+          "id": "option_b",
+          "text": "Prim's algorithm fails but Kruskal's works"
+        },
+        {
+          "id": "option_c",
+          "text": "Both algorithms may fail to find the correct MST",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "The algorithms find a maximum spanning tree instead"
+        }
       ],
       "explanation": "MST algorithms assume non-negative edge weights. Negative weights can cause incorrect results as the greedy approach may not work."
     },
@@ -93,12 +189,34 @@
       "type": "multiple",
       "prompt": "Which of the following are real-world applications of Minimum Spanning Trees? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "Designing computer networks with minimum cable cost", "correct": true },
-        { "id": "option_b", "text": "Finding the shortest path between two cities" },
-        { "id": "option_c", "text": "Clustering data points in machine learning", "correct": true },
-        { "id": "option_d", "text": "Solving the traveling salesman problem exactly" },
-        { "id": "option_e", "text": "Planning transportation networks", "correct": true },
-        { "id": "option_f", "text": "Circuit board design in electronics", "correct": true }
+        {
+          "id": "option_a",
+          "text": "Designing computer networks with minimum cable cost",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Finding the shortest path between two cities"
+        },
+        {
+          "id": "option_c",
+          "text": "Clustering data points in machine learning",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Solving the traveling salesman problem exactly"
+        },
+        {
+          "id": "option_e",
+          "text": "Planning transportation networks",
+          "correct": true
+        },
+        {
+          "id": "option_f",
+          "text": "Circuit board design in electronics",
+          "correct": true
+        }
       ],
       "explanation": "MSTs are used for network design, data clustering, transportation planning, and circuit design. They don't solve shortest paths or TSP exactly."
     },
@@ -107,10 +225,23 @@
       "type": "single",
       "prompt": "In Kruskal's algorithm, how is cycle detection performed when considering a new edge?",
       "options": [
-        { "id": "option_a", "text": "By checking if the edge weight is smaller than existing edges" },
-        { "id": "option_b", "text": "By verifying if both endpoints are already in the same component", "correct": true },
-        { "id": "option_c", "text": "By counting the number of edges in the current MST" },
-        { "id": "option_d", "text": "By checking if the graph becomes disconnected" }
+        {
+          "id": "option_a",
+          "text": "By checking if the edge weight is smaller than existing edges"
+        },
+        {
+          "id": "option_b",
+          "text": "By verifying if both endpoints are already in the same component",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "By counting the number of edges in the current MST"
+        },
+        {
+          "id": "option_d",
+          "text": "By checking if the graph becomes disconnected"
+        }
       ],
       "explanation": "Cycle detection uses Union-Find: if both vertices of a candidate edge are in the same component, adding the edge would create a cycle."
     },
@@ -119,8 +250,15 @@
       "type": "single",
       "prompt": "A Minimum Spanning Tree is always unique for any given connected graph.",
       "options": [
-        { "id": "option_a", "text": "True" },
-        { "id": "option_b", "text": "False", "correct": true }
+        {
+          "id": "option_a",
+          "text": "True"
+        },
+        {
+          "id": "option_b",
+          "text": "False",
+          "correct": true
+        }
       ],
       "explanation": "MSTs are not always unique. When multiple edges have the same weight, different combinations can yield MSTs with the same total weight."
     }

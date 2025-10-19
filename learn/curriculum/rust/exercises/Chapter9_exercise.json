@@ -19,5 +19,11 @@
     "The Display trait is in std::fmt, so use std::fmt::Display in bounds",
     "For comparing lengths, convert items to strings using format!() or to_string()"
   ],
-  "tags": ["generics", "traits", "lifetimes", "trait-bounds", "display-trait"]
+  "tags": [
+    "generics",
+    "traits",
+    "lifetimes",
+    "trait-bounds",
+    "display-trait"
+  ]
 }

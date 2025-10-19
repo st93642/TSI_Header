@@ -54,5 +54,15 @@
     "Use try_recv() for non-blocking receives, recv() for blocking",
     "Remember that Mutex<T> provides interior mutability like RefCell<T>"
   ],
-  "tags": ["concurrency", "threads", "channels", "mutex", "arc", "message-passing", "shared-state", "send", "sync"]
+  "tags": [
+    "concurrency",
+    "threads",
+    "channels",
+    "mutex",
+    "arc",
+    "message-passing",
+    "shared-state",
+    "send",
+    "sync"
+  ]
 }

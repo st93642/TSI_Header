@@ -4,7 +4,13 @@
   "description": "Test your ability to determine if vectors are collinear.",
   "difficulty": "intermediate",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "collinear", "parallel", "linear dependence"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "collinear",
+    "parallel",
+    "linear dependence"
+  ],
   "questions": [
     {
       "question": "What is the condition for two vectors to be collinear?",

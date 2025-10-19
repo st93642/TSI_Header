@@ -3,7 +3,12 @@
   "mode": "quiz",
   "title": "Quiz: Securing Git with Signatures and Policies",
   "description": "Confirm your knowledge of commit signing, verified identities, and supply chain hardening steps from the lesson.",
-  "tags": ["git", "security", "signing", "supply-chain"],
+  "tags": [
+    "git",
+    "security",
+    "signing",
+    "supply-chain"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,117 +16,230 @@
       "type": "single",
       "prompt": "Which Git configuration sets the signing key used for commits?",
       "options": [
-        {"id": "a", "text": "git config user.signingkey <fingerprint>", "correct": true},
-        {"id": "b", "text": "git config core.editor"},
-        {"id": "c", "text": "git config alias.sign"},
-        {"id": "d", "text": "git config init.defaultBranch"}
+        {
+          "id": "a",
+          "text": "git config user.signingkey <fingerprint>",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git config core.editor"
+        },
+        {
+          "id": "c",
+          "text": "git config alias.sign"
+        },
+        {
+          "id": "d",
+          "text": "git config init.defaultBranch"
+        }
       ],
-      "explanation": "`user.signingkey` points Git at the GPG or SSH signing identity." 
+      "explanation": "`user.signingkey` points Git at the GPG or SSH signing identity."
     },
     {
       "id": "git-sec-gpg",
       "type": "multiple",
       "prompt": "Which commands enable GPG commit signing? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "gpg --full-generate-key", "correct": true},
-        {"id": "b", "text": "gpg --armor --export <key-id>", "correct": true},
-        {"id": "c", "text": "git config commit.gpgsign true", "correct": true},
-        {"id": "d", "text": "git prune --gpg"}
+        {
+          "id": "a",
+          "text": "gpg --full-generate-key",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "gpg --armor --export <key-id>",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "git config commit.gpgsign true",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "git prune --gpg"
+        }
       ],
-      "explanation": "Generate keys, export them, and enable `commit.gpgsign` to sign commits automatically." 
+      "explanation": "Generate keys, export them, and enable `commit.gpgsign` to sign commits automatically."
     },
     {
       "id": "git-sec-ssh",
       "type": "truefalse",
       "prompt": "True or False: SSH signing uses principals in `~/.ssh/allowed_signers` to validate commit signatures.",
       "answer": "true",
-      "explanation": "SSH signing relies on principals matched in the allowed signers file." 
+      "explanation": "SSH signing relies on principals matched in the allowed signers file."
     },
     {
       "id": "git-sec-verify",
       "type": "multiple",
       "prompt": "How can verifiers enforce signed commits in repositories? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Enable branch protection rules requiring signed commits", "correct": true},
-        {"id": "b", "text": "Configure server-side hooks to reject unsigned pushes", "correct": true},
-        {"id": "c", "text": "Set `receive.advertisePushOptions`"},
-        {"id": "d", "text": "Rely on manual review only"}
+        {
+          "id": "a",
+          "text": "Enable branch protection rules requiring signed commits",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Configure server-side hooks to reject unsigned pushes",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Set `receive.advertisePushOptions`"
+        },
+        {
+          "id": "d",
+          "text": "Rely on manual review only"
+        }
       ],
-      "explanation": "Branch protection and server hooks enforce signing policy automatically." 
+      "explanation": "Branch protection and server hooks enforce signing policy automatically."
     },
     {
       "id": "git-sec-slsa",
       "type": "single",
       "prompt": "What does SLSA Level 3 emphasize in the context of Git release integrity?",
       "options": [
-        {"id": "a", "text": "Non-hermetic builds"},
-        {"id": "b", "text": "Scripted, ephemeral builders and provenance", "correct": true},
-        {"id": "c", "text": "No signature requirements"},
-        {"id": "d", "text": "Manual artifact copying"}
+        {
+          "id": "a",
+          "text": "Non-hermetic builds"
+        },
+        {
+          "id": "b",
+          "text": "Scripted, ephemeral builders and provenance",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "No signature requirements"
+        },
+        {
+          "id": "d",
+          "text": "Manual artifact copying"
+        }
       ],
-      "explanation": "SLSA L3 expects scripted, isolated builds with provenance attestation." 
+      "explanation": "SLSA L3 expects scripted, isolated builds with provenance attestation."
     },
     {
       "id": "git-sec-sbom",
       "type": "multiple",
       "prompt": "Which items belong in a release security checklist? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Signed tags", "correct": true},
-        {"id": "b", "text": "Software Bill of Materials (SBOM)", "correct": true},
-        {"id": "c", "text": "Hash manifest of build outputs", "correct": true},
-        {"id": "d", "text": "Untracked binaries"}
+        {
+          "id": "a",
+          "text": "Signed tags",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Software Bill of Materials (SBOM)",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Hash manifest of build outputs",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Untracked binaries"
+        }
       ],
-      "explanation": "Signed tags, SBOMs, and hash manifests secure the release pipeline." 
+      "explanation": "Signed tags, SBOMs, and hash manifests secure the release pipeline."
     },
     {
       "id": "git-sec-secret-scan",
       "type": "truefalse",
       "prompt": "True or False: Secret scanning should run on both pushes and pull requests to stop leaks early.",
       "answer": "true",
-      "explanation": "Scanning all inbound changes prevents sensitive data from entering history." 
+      "explanation": "Scanning all inbound changes prevents sensitive data from entering history."
     },
     {
       "id": "git-sec-audit",
       "type": "multiple",
       "prompt": "How do you audit signature validity across history? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "`git log --show-signature`", "correct": true},
-        {"id": "b", "text": "`git verify-commit <hash>`", "correct": true},
-        {"id": "c", "text": "`git ls-tree --signed`"},
-        {"id": "d", "text": "`gpg --verify` on exported commits", "correct": true}
+        {
+          "id": "a",
+          "text": "`git log --show-signature`",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "`git verify-commit <hash>`",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "`git ls-tree --signed`"
+        },
+        {
+          "id": "d",
+          "text": "`gpg --verify` on exported commits",
+          "correct": true
+        }
       ],
-      "explanation": "Git log, `verify-commit`, and GPG verification confirm signature authenticity." 
+      "explanation": "Git log, `verify-commit`, and GPG verification confirm signature authenticity."
     },
     {
       "id": "git-sec-rotation",
       "type": "single",
       "prompt": "What is the recommended response when a signing key is compromised?",
       "options": [
-        {"id": "a", "text": "Revoke the key and rotate to a new signing identity", "correct": true},
-        {"id": "b", "text": "Delete the repository"},
-        {"id": "c", "text": "Ignore the event"},
-        {"id": "d", "text": "Disable branch protection"}
+        {
+          "id": "a",
+          "text": "Revoke the key and rotate to a new signing identity",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Delete the repository"
+        },
+        {
+          "id": "c",
+          "text": "Ignore the event"
+        },
+        {
+          "id": "d",
+          "text": "Disable branch protection"
+        }
       ],
-      "explanation": "Revoke compromised keys, announce rotation, and reissue trust." 
+      "explanation": "Revoke compromised keys, announce rotation, and reissue trust."
     },
     {
       "id": "git-sec-attestation",
       "type": "multiple",
       "prompt": "Which technologies provide build provenance attestation? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Sigstore Cosign", "correct": true},
-        {"id": "b", "text": "in-toto", "correct": true},
-        {"id": "c", "text": "`git revert`"},
-        {"id": "d", "text": "SLSA provenance builders", "correct": true}
+        {
+          "id": "a",
+          "text": "Sigstore Cosign",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "in-toto",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "`git revert`"
+        },
+        {
+          "id": "d",
+          "text": "SLSA provenance builders",
+          "correct": true
+        }
       ],
-      "explanation": "Cosign, in-toto, and SLSA tools capture provenance, while `git revert` addresses regressions." 
+      "explanation": "Cosign, in-toto, and SLSA tools capture provenance, while `git revert` addresses regressions."
     },
     {
       "id": "git-sec-policy",
       "type": "truefalse",
       "prompt": "True or False: Signed commits and tags should be validated during CI before deployment.",
       "answer": "true",
-      "explanation": "CI gates catch unsigned or unverified artifacts before they reach production." 
+      "explanation": "CI gates catch unsigned or unverified artifacts before they reach production."
     }
   ]
 }

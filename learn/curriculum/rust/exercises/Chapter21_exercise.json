@@ -43,5 +43,12 @@
     "Use descriptive boolean prefixes (is_, has_, can_)",
     "Keep functions focused on single responsibilities"
   ],
-  "tags": ["readability", "best-practices", "functional-programming", "async", "error-handling", "documentation"]
+  "tags": [
+    "readability",
+    "best-practices",
+    "functional-programming",
+    "async",
+    "error-handling",
+    "documentation"
+  ]
 }

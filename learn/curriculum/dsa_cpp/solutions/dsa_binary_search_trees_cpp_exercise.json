@@ -7,13 +7,26 @@
   "answerKey": {
     "bst_property": "option_b",
     "bst_search_complexity": "option_b",
-    "bst_deletion_cases": ["option_a", "option_b", "option_c"],
+    "bst_deletion_cases": [
+      "option_a",
+      "option_b",
+      "option_c"
+    ],
     "inorder_successor": "option_b",
     "bst_worst_case": "option_b",
     "avl_tree_balance": "option_b",
-    "red_black_properties": ["option_a", "option_b", "option_c", "option_d"],
+    "red_black_properties": [
+      "option_a",
+      "option_b",
+      "option_c",
+      "option_d"
+    ],
     "tree_rotations": "option_b",
-    "bst_applications": ["option_a", "option_b", "option_c"],
+    "bst_applications": [
+      "option_a",
+      "option_b",
+      "option_c"
+    ],
     "performance_comparison": "option_b"
   },
   "keyPoints": [

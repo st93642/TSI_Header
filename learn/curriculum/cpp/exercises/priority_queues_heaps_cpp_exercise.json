@@ -3,7 +3,12 @@
   "mode": "quiz",
   "title": "Quiz: Heaps and Priority Queues",
   "description": "Validate your understanding of heap structure, std::priority_queue usage, and algorithmic patterns from the lesson.\n\nSteps:\n1. Read each question carefully and consider the lesson examples before answering.\n2. Select the best answer(s) for each prompt. Some questions may require multiple selections.\n3. Submit the quiz to see feedback and explanations for every choice.\n\nExpected results: Select all correct answers to score at least 8 out of 10 and complete the quiz.",
-  "tags": ["cpp", "data-structures", "priority-queue", "quiz"],
+  "tags": [
+    "cpp",
+    "data-structures",
+    "priority-queue",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,10 +16,23 @@
       "type": "single",
       "prompt": "Which statement must be true for every node in a binary max-heap represented as an array?",
       "options": [
-        { "id": "option_a", "text": "Each node stores the sum of its children." },
-        { "id": "option_b", "text": "The key at a node is greater than or equal to the keys of its children.", "correct": true },
-        { "id": "option_c", "text": "The tree is complete and perfectly balanced at every level." },
-        { "id": "option_d", "text": "Sibling nodes must be sorted from left to right." }
+        {
+          "id": "option_a",
+          "text": "Each node stores the sum of its children."
+        },
+        {
+          "id": "option_b",
+          "text": "The key at a node is greater than or equal to the keys of its children.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "The tree is complete and perfectly balanced at every level."
+        },
+        {
+          "id": "option_d",
+          "text": "Sibling nodes must be sorted from left to right."
+        }
       ],
       "explanation": "A binary heap enforces the heap-order property: each parent dominates its children. Balance is structural (completeness), not necessarily perfect height balance or sibling ordering."
     },
@@ -23,10 +41,23 @@
       "type": "single",
       "prompt": "By default, what does std::priority_queue<int> return when you call top()?",
       "options": [
-        { "id": "option_a", "text": "The smallest element currently stored." },
-        { "id": "option_b", "text": "The largest element currently stored.", "correct": true },
-        { "id": "option_c", "text": "The most recently pushed element regardless of value." },
-        { "id": "option_d", "text": "The element with the smallest absolute value." }
+        {
+          "id": "option_a",
+          "text": "The smallest element currently stored."
+        },
+        {
+          "id": "option_b",
+          "text": "The largest element currently stored.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "The most recently pushed element regardless of value."
+        },
+        {
+          "id": "option_d",
+          "text": "The element with the smallest absolute value."
+        }
       ],
       "explanation": "std::priority_queue uses std::less by default, so it behaves as a max-heap and exposes the largest element at the top."
     },
@@ -35,10 +66,24 @@
       "type": "multiple",
       "prompt": "When a workload needs a decrease-key operation but you only have std::priority_queue, which strategies mirror the lesson's stale-entry approach?",
       "options": [
-        { "id": "option_a", "text": "Push a duplicate entry with the improved priority and allow the older entry to become stale.", "correct": true },
-        { "id": "option_b", "text": "Traverse the container through c() and edit the element in place." },
-        { "id": "option_c", "text": "Track the best-known distance separately and skip entries whose priority no longer matches.", "correct": true },
-        { "id": "option_d", "text": "Call pop() repeatedly until the item you need is exposed, then push it back with the new priority." }
+        {
+          "id": "option_a",
+          "text": "Push a duplicate entry with the improved priority and allow the older entry to become stale.",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Traverse the container through c() and edit the element in place."
+        },
+        {
+          "id": "option_c",
+          "text": "Track the best-known distance separately and skip entries whose priority no longer matches.",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Call pop() repeatedly until the item you need is exposed, then push it back with the new priority."
+        }
       ],
       "explanation": "The lesson highlights lazy deletion: insert an updated entry and skip stale ones on pop. Direct mutation or repeated popping breaks the heap contract or wastes time."
     },
@@ -54,10 +99,23 @@
       "type": "single",
       "prompt": "In the keep_top_k helper from the lesson, why is a std::priority_queue with std::greater<T> used?",
       "options": [
-        { "id": "option_a", "text": "To fetch the current maximum in O(1) so we can compare with new candidates." },
-        { "id": "option_b", "text": "To maintain the smallest element among the current top-k set for efficient eviction.", "correct": true },
-        { "id": "option_c", "text": "Because std::greater guarantees stable ordering of tied keys." },
-        { "id": "option_d", "text": "Because std::greater flips the container into a Fibonacci heap implementation." }
+        {
+          "id": "option_a",
+          "text": "To fetch the current maximum in O(1) so we can compare with new candidates."
+        },
+        {
+          "id": "option_b",
+          "text": "To maintain the smallest element among the current top-k set for efficient eviction.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Because std::greater guarantees stable ordering of tied keys."
+        },
+        {
+          "id": "option_d",
+          "text": "Because std::greater flips the container into a Fibonacci heap implementation."
+        }
       ],
       "explanation": "A min-heap of size k keeps the smallest tracked element at the top, making it O(1) to decide whether to evict when a larger candidate arrives."
     },
@@ -66,10 +124,23 @@
       "type": "single",
       "prompt": "With a binary heap stored in a 0-indexed array, how do you compute the parent index of node i (i > 0)?",
       "options": [
-        { "id": "option_a", "text": "i / 2" },
-        { "id": "option_b", "text": "(i - 1) / 2", "correct": true },
-        { "id": "option_c", "text": "2 * i + 1" },
-        { "id": "option_d", "text": "i - 1" }
+        {
+          "id": "option_a",
+          "text": "i / 2"
+        },
+        {
+          "id": "option_b",
+          "text": "(i - 1) / 2",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "2 * i + 1"
+        },
+        {
+          "id": "option_d",
+          "text": "i - 1"
+        }
       ],
       "explanation": "Subtract one to move past the left child offset, then halve to hop up a level when using zero-based indexing."
     },
@@ -78,10 +149,24 @@
       "type": "multiple",
       "prompt": "Select the safeguards from the lesson that keep stale entries from corrupting Dijkstra's results when using std::priority_queue.",
       "options": [
-        { "id": "option_a", "text": "Check if the popped distance exceeds the best recorded distance before relaxing edges.", "correct": true },
-        { "id": "option_b", "text": "Remove every element whose key is worse than the current top immediately after each pop." },
-        { "id": "option_c", "text": "Maintain a distance array to compare against the popped priority before processing neighbors.", "correct": true },
-        { "id": "option_d", "text": "Switch to std::multiset so every update erases the previous key." }
+        {
+          "id": "option_a",
+          "text": "Check if the popped distance exceeds the best recorded distance before relaxing edges.",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Remove every element whose key is worse than the current top immediately after each pop."
+        },
+        {
+          "id": "option_c",
+          "text": "Maintain a distance array to compare against the popped priority before processing neighbors.",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Switch to std::multiset so every update erases the previous key."
+        }
       ],
       "explanation": "Lazy deletion works by ignoring outdated pairs: you keep a best-distance array and skip any entry whose priority no longer matches it."
     },
@@ -90,10 +175,23 @@
       "type": "single",
       "prompt": "What is the default underlying container used by std::priority_queue<T>?",
       "options": [
-        { "id": "option_a", "text": "std::deque<T>" },
-        { "id": "option_b", "text": "std::vector<T>", "correct": true },
-        { "id": "option_c", "text": "std::list<T>" },
-        { "id": "option_d", "text": "std::array<T, N>" }
+        {
+          "id": "option_a",
+          "text": "std::deque<T>"
+        },
+        {
+          "id": "option_b",
+          "text": "std::vector<T>",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "std::list<T>"
+        },
+        {
+          "id": "option_d",
+          "text": "std::array<T, N>"
+        }
       ],
       "explanation": "The adaptor defaults to std::vector for contiguous storage and fast random access during sift operations."
     },
@@ -102,10 +200,23 @@
       "type": "single",
       "prompt": "When does emplace() provide a benefit over push() on std::priority_queue?",
       "options": [
-        { "id": "option_a", "text": "When you want to bypass the comparator entirely." },
-        { "id": "option_b", "text": "When constructing complex payloads directly inside the heap to avoid extra copies.", "correct": true },
-        { "id": "option_c", "text": "When the queue must stay sorted after every insert." },
-        { "id": "option_d", "text": "When allocating nodes on the stack instead of the heap." }
+        {
+          "id": "option_a",
+          "text": "When you want to bypass the comparator entirely."
+        },
+        {
+          "id": "option_b",
+          "text": "When constructing complex payloads directly inside the heap to avoid extra copies.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "When the queue must stay sorted after every insert."
+        },
+        {
+          "id": "option_d",
+          "text": "When allocating nodes on the stack instead of the heap."
+        }
       ],
       "explanation": "emplace forwards constructor arguments so you can build structs like Task{priority, label} in place without a temporary object."
     },
@@ -114,6 +225,7 @@
       "type": "truefalse",
       "prompt": "True or False: Constructing std::priority_queue from iterator range [begin, end) runs in linear time because it calls std::make_heap internally.",
       "answer": "true",
-      "explanation": "The adaptor's range constructor leverages std::make_heap, yielding O(n) complexity for the bulk build." }
+      "explanation": "The adaptor's range constructor leverages std::make_heap, yielding O(n) complexity for the bulk build."
+    }
   ]
 }

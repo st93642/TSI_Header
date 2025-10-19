@@ -4,7 +4,13 @@
   "description": "Test your understanding of general equations of planes.",
   "difficulty": "intermediate",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "planes", "general equation", "cartesian form"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "planes",
+    "general equation",
+    "cartesian form"
+  ],
   "questions": [
     {
       "question": "What is the general equation of a plane?",

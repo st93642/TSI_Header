@@ -4,7 +4,14 @@
   "description": "Test your understanding of angles between planes and point-to-plane distances.",
   "difficulty": "advanced",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "planes", "angles", "distances", "geometry"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "planes",
+    "angles",
+    "distances",
+    "geometry"
+  ],
   "questions": [
     {
       "question": "How do you find the angle between two planes?",

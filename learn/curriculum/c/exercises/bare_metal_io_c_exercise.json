@@ -17,5 +17,11 @@
     "`scanf` needs an address; pass `&studyDays` and `&minutesPerDay` when reading integers.",
     "Use the ternary operator `(studyDays > 0) ? ... : ...` to avoid dividing by zero when the user enters 0 study days."
   ],
-  "tags": ["c", "stdio", "beginner", "variables", "input-output"]
+  "tags": [
+    "c",
+    "stdio",
+    "beginner",
+    "variables",
+    "input-output"
+  ]
 }

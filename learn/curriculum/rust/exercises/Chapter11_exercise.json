@@ -22,5 +22,12 @@
     "Test count_text with different text samples and case settings",
     "Handle file not found and permission errors appropriately"
   ],
-  "tags": ["command-line", "file-io", "error-handling", "environment-variables", "modularity", "testing"]
+  "tags": [
+    "command-line",
+    "file-io",
+    "error-handling",
+    "environment-variables",
+    "modularity",
+    "testing"
+  ]
 }

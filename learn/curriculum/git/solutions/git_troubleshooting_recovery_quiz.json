@@ -3,64 +3,94 @@
   "answerKey": [
     {
       "questionId": "git-trouble-reflog",
-      "answers": ["a"],
-      "explanation": "`git reflog` lists recent HEAD updates for recovery." 
+      "answers": [
+        "a"
+      ],
+      "explanation": "`git reflog` lists recent HEAD updates for recovery."
     },
     {
       "questionId": "git-trouble-fsck",
-      "answers": ["a", "b", "c"],
-      "explanation": "`git fsck` detects corruption, dangling commits, and missing tree entries." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "`git fsck` detects corruption, dangling commits, and missing tree entries."
     },
     {
       "questionId": "git-trouble-stash",
-      "answers": ["true"],
-      "explanation": "Dropped stashes remain as dangling commits discoverable via fsck." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Dropped stashes remain as dangling commits discoverable via fsck."
     },
     {
       "questionId": "git-trouble-reset",
-      "answers": ["a", "b"],
-      "explanation": "Hard reset suits local undo and cleanup; revert is for shared branches." 
+      "answers": [
+        "a",
+        "b"
+      ],
+      "explanation": "Hard reset suits local undo and cleanup; revert is for shared branches."
     },
     {
       "questionId": "git-trouble-restore",
-      "answers": ["a"],
-      "explanation": "`git restore --source=<hash>` rehydrates files from earlier commits." 
+      "answers": [
+        "a"
+      ],
+      "explanation": "`git restore --source=<hash>` rehydrates files from earlier commits."
     },
     {
       "questionId": "git-trouble-clean",
-      "answers": ["true"],
-      "explanation": "`git clean -fdx` removes untracked and ignored artifacts." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "`git clean -fdx` removes untracked and ignored artifacts."
     },
     {
       "questionId": "git-trouble-bisect",
-      "answers": ["a", "b", "c"],
-      "explanation": "Bisect marks good/bad points and tests midpoint commits." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Bisect marks good/bad points and tests midpoint commits."
     },
     {
       "questionId": "git-trouble-merge-msg",
-      "answers": ["a", "b"],
-      "explanation": "Abort resets state; rerere reuses stored resolutions on retry." 
+      "answers": [
+        "a",
+        "b"
+      ],
+      "explanation": "Abort resets state; rerere reuses stored resolutions on retry."
     },
     {
       "questionId": "git-trouble-object",
-      "answers": ["true"],
-      "explanation": "`git cat-file -p` inspects stored object content for debugging." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "`git cat-file -p` inspects stored object content for debugging."
     },
     {
       "questionId": "git-trouble-backup",
-      "answers": ["a", "b", "c"],
-      "explanation": "Mirrors, offsite copies, and verification underpin reliable backups." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Mirrors, offsite copies, and verification underpin reliable backups."
     },
     {
       "questionId": "git-trouble-support",
-      "answers": ["true"],
-      "explanation": "Runbooks shorten recovery time by codifying steps." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Runbooks shorten recovery time by codifying steps."
     }
   ],
   "keyPoints": [
     "Use reflog, fsck, and restore commands to recover lost work.",
     "Choose reset vs. revert appropriately based on audience and scope.",
     "Automate backups and document runbooks to handle outages confidently.",
-    "Leverage bisect, rerere, and clean to diagnose and resolve tricky states." 
+    "Leverage bisect, rerere, and clean to diagnose and resolve tricky states."
   ]
 }

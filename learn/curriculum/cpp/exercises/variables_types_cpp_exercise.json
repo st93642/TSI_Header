@@ -16,5 +16,10 @@
     "Use std::boolalpha before printing the boolean so it shows true/false instead of 1/0.",
     "Print each line with std::cout << label << value << std::endl;"
   ],
-  "tags": ["variables", "types", "beginner", "basics"]
+  "tags": [
+    "variables",
+    "types",
+    "beginner",
+    "basics"
+  ]
 }

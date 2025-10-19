@@ -4,7 +4,13 @@
   "description": "Test your ability to determine if vectors are perpendicular.",
   "difficulty": "intermediate",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "perpendicular", "dot product", "orthogonal"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "perpendicular",
+    "dot product",
+    "orthogonal"
+  ],
   "questions": [
     {
       "question": "What is the condition for two vectors to be perpendicular?",

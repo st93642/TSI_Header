@@ -3,7 +3,13 @@
   "mode": "quiz",
   "title": "Quiz: Staging Strategies, Clean Commits, and Hooks",
   "description": "Ensure you can stage intentionally, craft clean commits, and leverage hooks for quality gates.\n\nSteps:\n1. Review the lesson's branching of partial staging, commit crafting, and hook automation.\n2. Complete each question, carefully handling multi-select prompts.\n3. Use the explanations to reinforce disciplined Git hygiene.\n\nExpected results: Score at least 8/10 before advancing to history inspection techniques.",
-  "tags": ["git", "staging", "commits", "hooks", "quiz"],
+  "tags": [
+    "git",
+    "staging",
+    "commits",
+    "hooks",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,110 +17,223 @@
       "type": "multiple",
       "prompt": "Which commands help stage only portions of files for focused commits? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "git add -p", "correct": true},
-        {"id": "b", "text": "git gui", "correct": true},
-        {"id": "c", "text": "git add --all"},
-        {"id": "d", "text": "git commit --interactive", "correct": true}
+        {
+          "id": "a",
+          "text": "git add -p",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git gui",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "git add --all"
+        },
+        {
+          "id": "d",
+          "text": "git commit --interactive",
+          "correct": true
+        }
       ],
-      "explanation": "Patch mode, interactive add, and GUI tools let you stage hunks selectively." 
+      "explanation": "Patch mode, interactive add, and GUI tools let you stage hunks selectively."
     },
     {
       "id": "git-stage-verify",
       "type": "single",
       "prompt": "Which command previews the staged diff without touching the working tree?",
       "options": [
-        {"id": "a", "text": "git diff --staged", "correct": true},
-        {"id": "b", "text": "git status -sb"},
-        {"id": "c", "text": "git log --oneline"},
-        {"id": "d", "text": "git restore"}
+        {
+          "id": "a",
+          "text": "git diff --staged",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git status -sb"
+        },
+        {
+          "id": "c",
+          "text": "git log --oneline"
+        },
+        {
+          "id": "d",
+          "text": "git restore"
+        }
       ],
-      "explanation": "`git diff --staged` shows the staged snapshot relative to HEAD." 
+      "explanation": "`git diff --staged` shows the staged snapshot relative to HEAD."
     },
     {
       "id": "git-stage-clean-message",
       "type": "multiple",
       "prompt": "What are hallmarks of clean commit messages? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Short imperative subject line", "correct": true},
-        {"id": "b", "text": "Describes why the change is needed", "correct": true},
-        {"id": "c", "text": "Includes unrelated fixes just because they were staged"},
-        {"id": "d", "text": "Wraps body at 72 characters", "correct": true}
+        {
+          "id": "a",
+          "text": "Short imperative subject line",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Describes why the change is needed",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Includes unrelated fixes just because they were staged"
+        },
+        {
+          "id": "d",
+          "text": "Wraps body at 72 characters",
+          "correct": true
+        }
       ],
-      "explanation": "Effective messages use imperative tone, explain motivation, and wrap bodies for readability without mixing unrelated changes." 
+      "explanation": "Effective messages use imperative tone, explain motivation, and wrap bodies for readability without mixing unrelated changes."
     },
     {
       "id": "git-stage-amend",
       "type": "truefalse",
       "prompt": "True or False: `git commit --amend` rewrites the most recent commit, replacing both its message and snapshot.",
       "answer": "true",
-      "explanation": "Amend crafts a new commit to replace HEAD, updating message and contents." 
+      "explanation": "Amend crafts a new commit to replace HEAD, updating message and contents."
     },
     {
       "id": "git-stage-hooks",
       "type": "multiple",
       "prompt": "Which tasks are commonly performed inside pre-commit hooks? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Run linters and formatters", "correct": true},
-        {"id": "b", "text": "Run fast unit tests", "correct": true},
-        {"id": "c", "text": "Push to the remote automatically"},
-        {"id": "d", "text": "Scan for secrets", "correct": true}
+        {
+          "id": "a",
+          "text": "Run linters and formatters",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Run fast unit tests",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Push to the remote automatically"
+        },
+        {
+          "id": "d",
+          "text": "Scan for secrets",
+          "correct": true
+        }
       ],
-      "explanation": "Pre-commit hooks gate staged content with linters, tests, and security scans before the commit forms." 
+      "explanation": "Pre-commit hooks gate staged content with linters, tests, and security scans before the commit forms."
     },
     {
       "id": "git-stage-prepare-commit",
       "type": "single",
       "prompt": "Which hook lets you template or augment the commit message before the editor opens?",
       "options": [
-        {"id": "a", "text": "prepare-commit-msg", "correct": true},
-        {"id": "b", "text": "commit-msg"},
-        {"id": "c", "text": "pre-commit"},
-        {"id": "d", "text": "post-commit"}
+        {
+          "id": "a",
+          "text": "prepare-commit-msg",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "commit-msg"
+        },
+        {
+          "id": "c",
+          "text": "pre-commit"
+        },
+        {
+          "id": "d",
+          "text": "post-commit"
+        }
       ],
-      "explanation": "prepare-commit-msg runs before the message editor, allowing templating or metadata injection." 
+      "explanation": "prepare-commit-msg runs before the message editor, allowing templating or metadata injection."
     },
     {
       "id": "git-stage-signed-off",
       "type": "truefalse",
       "prompt": "True or False: `git commit -s` appends a Signed-off-by trailer using the configured user name and email.",
       "answer": "true",
-      "explanation": "The -s flag adds a Signed-off-by line to the commit message footer automatically." 
+      "explanation": "The -s flag adds a Signed-off-by line to the commit message footer automatically."
     },
     {
       "id": "git-stage-reuse-message",
       "type": "single",
       "prompt": "Which command reuses the previous commit message for a new commit?",
       "options": [
-        {"id": "a", "text": "git commit --reuse-message=HEAD", "correct": true},
-        {"id": "b", "text": "git commit --same"},
-        {"id": "c", "text": "git commit --copy"},
-        {"id": "d", "text": "git commit --no-edit"}
+        {
+          "id": "a",
+          "text": "git commit --reuse-message=HEAD",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git commit --same"
+        },
+        {
+          "id": "c",
+          "text": "git commit --copy"
+        },
+        {
+          "id": "d",
+          "text": "git commit --no-edit"
+        }
       ],
-      "explanation": "--reuse-message copies an earlier message into the new commit; --no-edit keeps the current message when amending." 
+      "explanation": "--reuse-message copies an earlier message into the new commit; --no-edit keeps the current message when amending."
     },
     {
       "id": "git-stage-restore",
       "type": "multiple",
       "prompt": "How can you unstage files without losing working tree changes? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "git restore --staged <path>", "correct": true},
-        {"id": "b", "text": "git reset <path>", "correct": true},
-        {"id": "c", "text": "git checkout HEAD -- <path>"},
-        {"id": "d", "text": "git clean -fd"}
+        {
+          "id": "a",
+          "text": "git restore --staged <path>",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git reset <path>",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "git checkout HEAD -- <path>"
+        },
+        {
+          "id": "d",
+          "text": "git clean -fd"
+        }
       ],
-      "explanation": "`restore --staged` and `git reset <path>` move entries out of the index while keeping working tree modifications." 
+      "explanation": "`restore --staged` and `git reset <path>` move entries out of the index while keeping working tree modifications."
     },
     {
       "id": "git-stage-commit-size",
       "type": "multiple",
       "prompt": "Why are small, focused commits beneficial? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "They simplify code review", "correct": true},
-        {"id": "b", "text": "They isolate regressions for easier bisecting", "correct": true},
-        {"id": "c", "text": "They guarantee merges will never conflict"},
-        {"id": "d", "text": "They facilitate cherry-picking specific fixes", "correct": true}
+        {
+          "id": "a",
+          "text": "They simplify code review",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "They isolate regressions for easier bisecting",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "They guarantee merges will never conflict"
+        },
+        {
+          "id": "d",
+          "text": "They facilitate cherry-picking specific fixes",
+          "correct": true
+        }
       ],
-      "explanation": "Focused commits accelerate reviews, debugging, and selective cherry-picks." 
+      "explanation": "Focused commits accelerate reviews, debugging, and selective cherry-picks."
     }
   ]
 }

@@ -4,7 +4,14 @@
   "mode": "quiz",
   "title": "0/1 Knapsack Problem & Dynamic Programming - Solutions",
   "description": "Complete solutions and explanations for 0/1 knapsack quiz questions.",
-  "tags": ["cpp", "knapsack", "dynamic-programming", "optimization", "algorithms", "solutions"],
+  "tags": [
+    "cpp",
+    "knapsack",
+    "dynamic-programming",
+    "optimization",
+    "algorithms",
+    "solutions"
+  ],
   "questions": [
     {
       "id": "knapsack_definition",

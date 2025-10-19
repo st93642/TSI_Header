@@ -6,52 +6,74 @@
   "answerKey": [
     {
       "questionId": "pq_heap_property",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "Every parent key in a max-heap must dominate its children; sibling ordering and arithmetic relationships are not required."
     },
     {
       "questionId": "pq_default_order",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "std::priority_queue<int> uses std::less by default, so it behaves as a max-heap exposing the largest element at the top."
     },
     {
       "questionId": "pq_decrease_key_pattern",
-      "answers": ["option_a", "option_c"],
+      "answers": [
+        "option_a",
+        "option_c"
+      ],
       "rationale": "Lazy deletion pushes improved entries and skips stale ones by cross-checking the best-known distance before processing a node."
     },
     {
       "questionId": "pq_heapify_complexity",
-      "answers": ["false"],
+      "answers": [
+        "false"
+      ],
       "rationale": "std::make_heap performs bottom-up heapify in linear time; treating it as O(n log n) underestimates its efficiency."
     },
     {
       "questionId": "pq_top_k_reasoning",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "A min-heap keyed by the smallest tracked element makes it cheap to evict when a larger candidate appears, maintaining the top-k window."
     },
     {
       "questionId": "pq_parent_index",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "Zero-based heaps compute the parent index with (i - 1) / 2, mirroring the left-child offset."
     },
     {
       "questionId": "pq_stale_guard",
-      "answers": ["option_a", "option_c"],
+      "answers": [
+        "option_a",
+        "option_c"
+      ],
       "rationale": "Checking dist > distance[node] while maintaining a distance array implements the lazy deletion guard discussed in Section 5."
     },
     {
       "questionId": "pq_underlying_container",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "std::priority_queue defaults to std::vector for contiguous storage and efficient sift operations."
     },
     {
       "questionId": "pq_emplace_usage",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "emplace constructs complex payloads like Task objects directly within the container, avoiding an intermediate temporary."
     },
     {
       "questionId": "pq_bulk_constructor",
-      "answers": ["true"],
+      "answers": [
+        "true"
+      ],
       "rationale": "The range constructor calls std::make_heap internally, so the bulk build is linear-time."
     }
   ],

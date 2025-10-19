@@ -23,5 +23,10 @@
     "Match the punctuation exactly: comma, exclamation mark, and period all matter.",
     "Send the final line through std::cout << ... << std::endl; if you want to flush immediately."
   ],
-  "tags": ["iostream", "input", "output", "beginner"]
+  "tags": [
+    "iostream",
+    "input",
+    "output",
+    "beginner"
+  ]
 }

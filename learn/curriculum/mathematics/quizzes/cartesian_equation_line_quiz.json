@@ -4,7 +4,13 @@
   "description": "Test your understanding of Cartesian equations of lines.",
   "difficulty": "intermediate",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "lines", "cartesian equation", "symmetric form"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "lines",
+    "cartesian equation",
+    "symmetric form"
+  ],
   "questions": [
     {
       "question": "What is the Cartesian form of a line equation?",

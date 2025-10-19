@@ -41,5 +41,10 @@
     "Order the branches from highest to lowest threshold so the first match wins.",
     "Match the output strings exactly, including capitalisation and punctuation."
   ],
-  "tags": ["conditionals", "if", "beginner", "logic"]
+  "tags": [
+    "conditionals",
+    "if",
+    "beginner",
+    "logic"
+  ]
 }

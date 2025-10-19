@@ -4,17 +4,94 @@
   "mode": "quiz",
   "explanation": "Answer key for rebase workflows, autosquash usage, and rewriting safeguards.",
   "answerKey": [
-    {"questionId": "git-rebase-interactive", "answers": ["a"], "rationale": "git rebase -i HEAD~5 opens the interactive todo list for recent commits."},
-    {"questionId": "git-rebase-autosquash", "answers": ["true"], "rationale": "--autosquash pairs fixup!/squash! commits with their targets."},
-    {"questionId": "git-rebase-when", "answers": ["a", "c", "d"], "rationale": "Rebase is safe on private branches, pre-PR topics, and coordinated shared branches."},
-    {"questionId": "git-rebase-policy", "answers": ["a", "b", "d"], "rationale": "Protection rules, training, and force-with-lease mitigate risky rebases."},
-    {"questionId": "git-rebase-continue", "answers": ["a"], "rationale": "git rebase --continue advances after resolving conflicts."},
-    {"questionId": "git-rebase-rewrite-signoff", "answers": ["true"], "rationale": "Rewritten commits may require reapplying trailers/signatures."},
-    {"questionId": "git-rebase-hooks", "answers": ["a", "b", "c", "d"], "rationale": "Hooks can restore metadata, guard force pushes, notify systems, and enforce signing policies."},
-    {"questionId": "git-rebase-squash", "answers": ["a", "b", "d"], "rationale": "Autosquash tidies fixups, simplifies review, and aligns with release notes."},
-    {"questionId": "git-rebase-dropped-commit", "answers": ["a", "b", "d"], "rationale": "Reflog, lost-found, and stashes recover missing commits after rewrites."},
-    {"questionId": "git-rebase-force-with-lease", "answers": ["true"], "rationale": "Force-with-lease checks the remote reference before overwriting."},
-    {"questionId": "git-rebase-config", "answers": ["a"], "rationale": "pull.rebase true keeps feature branches linear when pulling upstream."}
+    {
+      "questionId": "git-rebase-interactive",
+      "answers": [
+        "a"
+      ],
+      "rationale": "git rebase -i HEAD~5 opens the interactive todo list for recent commits."
+    },
+    {
+      "questionId": "git-rebase-autosquash",
+      "answers": [
+        "true"
+      ],
+      "rationale": "--autosquash pairs fixup!/squash! commits with their targets."
+    },
+    {
+      "questionId": "git-rebase-when",
+      "answers": [
+        "a",
+        "c",
+        "d"
+      ],
+      "rationale": "Rebase is safe on private branches, pre-PR topics, and coordinated shared branches."
+    },
+    {
+      "questionId": "git-rebase-policy",
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "rationale": "Protection rules, training, and force-with-lease mitigate risky rebases."
+    },
+    {
+      "questionId": "git-rebase-continue",
+      "answers": [
+        "a"
+      ],
+      "rationale": "git rebase --continue advances after resolving conflicts."
+    },
+    {
+      "questionId": "git-rebase-rewrite-signoff",
+      "answers": [
+        "true"
+      ],
+      "rationale": "Rewritten commits may require reapplying trailers/signatures."
+    },
+    {
+      "questionId": "git-rebase-hooks",
+      "answers": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "rationale": "Hooks can restore metadata, guard force pushes, notify systems, and enforce signing policies."
+    },
+    {
+      "questionId": "git-rebase-squash",
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "rationale": "Autosquash tidies fixups, simplifies review, and aligns with release notes."
+    },
+    {
+      "questionId": "git-rebase-dropped-commit",
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "rationale": "Reflog, lost-found, and stashes recover missing commits after rewrites."
+    },
+    {
+      "questionId": "git-rebase-force-with-lease",
+      "answers": [
+        "true"
+      ],
+      "rationale": "Force-with-lease checks the remote reference before overwriting."
+    },
+    {
+      "questionId": "git-rebase-config",
+      "answers": [
+        "a"
+      ],
+      "rationale": "pull.rebase true keeps feature branches linear when pulling upstream."
+    }
   ],
   "keyPoints": [
     "Interactive rebases reshape recent commit history for clarity.",
@@ -26,6 +103,6 @@
     "Autosquashing aligns commit history with user-facing changes.",
     "Recovery tools (reflog, lost-found, stashes) undo rebase mistakes.",
     "Force-with-lease is safer than raw force pushes.",
-    "Configuring pull.rebase keeps local history linear by default." 
+    "Configuring pull.rebase keeps local history linear by default."
   ]
 }

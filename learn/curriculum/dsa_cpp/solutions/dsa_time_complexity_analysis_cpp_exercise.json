@@ -6,52 +6,76 @@
   "answerKey": [
     {
       "questionId": "complexity-basics-1",
-      "answers": ["b"],
+      "answers": [
+        "b"
+      ],
       "rationale": "Big O notation describes the upper bound or worst-case growth rate of an algorithm's time or space requirements."
     },
     {
       "questionId": "complexity-classes-2",
-      "answers": ["b"],
+      "answers": [
+        "b"
+      ],
       "rationale": "O(log n) represents logarithmic growth, commonly seen in algorithms like binary search that repeatedly divide the problem size."
     },
     {
       "questionId": "best-worst-case-3",
-      "answers": ["a", "b", "c"],
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
       "rationale": "Best case shows optimal performance, worst case provides guarantees for reliability, and average case considers typical input distributions. All three are important depending on the application context."
     },
     {
       "questionId": "sorting-complexity-4",
-      "answers": ["c"],
+      "answers": [
+        "c"
+      ],
       "rationale": "Bubble sort has O(n²) worst-case complexity because it uses nested loops that both iterate through the array."
     },
     {
       "questionId": "space-complexity-5",
-      "answers": ["b"],
+      "answers": [
+        "b"
+      ],
       "rationale": "Recursive binary search uses O(log n) space for the call stack, as the recursion depth is logarithmic in the input size."
     },
     {
       "questionId": "amortized-analysis-6",
-      "answers": ["true"],
+      "answers": [
+        "true"
+      ],
       "rationale": "std::vector push_back is amortized O(1) because while individual operations can be O(n) during resizing, the average cost over many operations is constant."
     },
     {
       "questionId": "practical-considerations-7",
-      "answers": ["a", "b", "c"],
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
       "rationale": "Practical performance considers constants, cache behavior, and crossover points where asymptotically slower algorithms may perform better for small inputs."
     },
     {
       "questionId": "complexity-hierarchy-8",
-      "answers": ["a"],
+      "answers": [
+        "a"
+      ],
       "rationale": "From best to worst performance: O(1) constant, O(log n) logarithmic, O(n) linear, O(n²) quadratic."
     },
     {
       "questionId": "merge-sort-complexity-9",
-      "answers": ["true"],
+      "answers": [
+        "true"
+      ],
       "rationale": "Merge sort consistently achieves O(n log n) time complexity regardless of input ordering, making it more predictable than quicksort."
     },
     {
       "questionId": "real-world-application-10",
-      "answers": ["b"],
+      "answers": [
+        "b"
+      ],
       "rationale": "Real-time systems require guaranteed worst-case performance bounds to meet timing deadlines and ensure system reliability."
     }
   ],

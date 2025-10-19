@@ -4,7 +4,13 @@
   "description": "Test your understanding of vector equations of lines.",
   "difficulty": "intermediate",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "lines", "vector equation", "parametric equations"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "lines",
+    "vector equation",
+    "parametric equations"
+  ],
   "questions": [
     {
       "question": "What is the vector equation of a line?",

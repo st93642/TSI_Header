@@ -5,13 +5,24 @@
   "answerKey": {
     "dp_fundamentals_1": "option_a",
     "dp_fundamentals_2": "false",
-    "dp_fundamentals_3": ["option_a", "option_c", "option_d"],
+    "dp_fundamentals_3": [
+      "option_a",
+      "option_c",
+      "option_d"
+    ],
     "dp_fundamentals_4": "option_b",
     "dp_fundamentals_5": "true",
-    "dp_fundamentals_6": ["option_a", "option_c", "option_d"],
+    "dp_fundamentals_6": [
+      "option_a",
+      "option_c",
+      "option_d"
+    ],
     "dp_fundamentals_7": "option_b",
     "dp_fundamentals_8": "false",
-    "dp_fundamentals_9": ["option_b", "option_d"],
+    "dp_fundamentals_9": [
+      "option_b",
+      "option_d"
+    ],
     "dp_fundamentals_10": "option_d"
   },
   "keyPoints": [

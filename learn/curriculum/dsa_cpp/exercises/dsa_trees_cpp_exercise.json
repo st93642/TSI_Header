@@ -3,7 +3,14 @@
   "mode": "quiz",
   "title": "Trees, Binary Trees, and Tree Traversals",
   "description": "Test your understanding of tree data structures, binary trees, traversal algorithms, and binary search trees in C++.",
-  "tags": ["cpp", "trees", "binary-trees", "tree-traversal", "binary-search-trees", "quiz"],
+  "tags": [
+    "cpp",
+    "trees",
+    "binary-trees",
+    "tree-traversal",
+    "binary-search-trees",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,10 +18,23 @@
       "type": "single",
       "prompt": "In a tree data structure, what is the term for a node that has no children?",
       "options": [
-        { "id": "option_a", "text": "Root node" },
-        { "id": "option_b", "text": "Internal node" },
-        { "id": "option_c", "text": "Leaf node", "correct": true },
-        { "id": "option_d", "text": "Parent node" }
+        {
+          "id": "option_a",
+          "text": "Root node"
+        },
+        {
+          "id": "option_b",
+          "text": "Internal node"
+        },
+        {
+          "id": "option_c",
+          "text": "Leaf node",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Parent node"
+        }
       ],
       "explanation": "A leaf node is a node that has no children in a tree structure."
     },
@@ -23,10 +43,23 @@
       "type": "single",
       "prompt": "What is the maximum number of children a node can have in a binary tree?",
       "options": [
-        { "id": "option_a", "text": "1" },
-        { "id": "option_b", "text": "2", "correct": true },
-        { "id": "option_c", "text": "3" },
-        { "id": "option_d", "text": "Unlimited" }
+        {
+          "id": "option_a",
+          "text": "1"
+        },
+        {
+          "id": "option_b",
+          "text": "2",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "3"
+        },
+        {
+          "id": "option_d",
+          "text": "Unlimited"
+        }
       ],
       "explanation": "A binary tree is defined as a tree where each node has at most two children: left and right."
     },
@@ -35,10 +68,23 @@
       "type": "single",
       "prompt": "What is the order of node visitation in pre-order traversal?",
       "options": [
-        { "id": "option_a", "text": "Left → Root → Right" },
-        { "id": "option_b", "text": "Root → Left → Right", "correct": true },
-        { "id": "option_c", "text": "Left → Right → Root" },
-        { "id": "option_d", "text": "Right → Root → Left" }
+        {
+          "id": "option_a",
+          "text": "Left → Root → Right"
+        },
+        {
+          "id": "option_b",
+          "text": "Root → Left → Right",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Left → Right → Root"
+        },
+        {
+          "id": "option_d",
+          "text": "Right → Root → Left"
+        }
       ],
       "explanation": "Pre-order traversal visits the root first, then the left subtree, then the right subtree."
     },
@@ -47,10 +93,23 @@
       "type": "single",
       "prompt": "For a binary search tree, what does in-order traversal produce?",
       "options": [
-        { "id": "option_a", "text": "Pre-order sequence" },
-        { "id": "option_b", "text": "Post-order sequence" },
-        { "id": "option_c", "text": "Sorted sequence", "correct": true },
-        { "id": "option_d", "text": "Random sequence" }
+        {
+          "id": "option_a",
+          "text": "Pre-order sequence"
+        },
+        {
+          "id": "option_b",
+          "text": "Post-order sequence"
+        },
+        {
+          "id": "option_c",
+          "text": "Sorted sequence",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Random sequence"
+        }
       ],
       "explanation": "In-order traversal of a BST produces the nodes in sorted order due to the BST property."
     },
@@ -59,10 +118,23 @@
       "type": "single",
       "prompt": "Which data structure is typically used to implement level-order traversal of a tree?",
       "options": [
-        { "id": "option_a", "text": "Stack" },
-        { "id": "option_b", "text": "Queue", "correct": true },
-        { "id": "option_c", "text": "Priority Queue" },
-        { "id": "option_d", "text": "Set" }
+        {
+          "id": "option_a",
+          "text": "Stack"
+        },
+        {
+          "id": "option_b",
+          "text": "Queue",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Priority Queue"
+        },
+        {
+          "id": "option_d",
+          "text": "Set"
+        }
       ],
       "explanation": "Level-order traversal uses a queue to process nodes level by level, ensuring FIFO order."
     },
@@ -71,10 +143,23 @@
       "type": "single",
       "prompt": "What is the average time complexity of search in a balanced binary search tree?",
       "options": [
-        { "id": "option_a", "text": "O(1)" },
-        { "id": "option_b", "text": "O(log n)", "correct": true },
-        { "id": "option_c", "text": "O(n)" },
-        { "id": "option_d", "text": "O(n²)" }
+        {
+          "id": "option_a",
+          "text": "O(1)"
+        },
+        {
+          "id": "option_b",
+          "text": "O(log n)",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "O(n)"
+        },
+        {
+          "id": "option_d",
+          "text": "O(n²)"
+        }
       ],
       "explanation": "Balanced BSTs maintain O(log n) height, resulting in O(log n) search time."
     },
@@ -83,10 +168,23 @@
       "type": "single",
       "prompt": "What is the height of a tree with a single node (just the root)?",
       "options": [
-        { "id": "option_a", "text": "0", "correct": true },
-        { "id": "option_b", "text": "1" },
-        { "id": "option_c", "text": "2" },
-        { "id": "option_d", "text": "Undefined" }
+        {
+          "id": "option_a",
+          "text": "0",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "1"
+        },
+        {
+          "id": "option_c",
+          "text": "2"
+        },
+        {
+          "id": "option_d",
+          "text": "Undefined"
+        }
       ],
       "explanation": "By convention, a single node has height 0. Height is the number of edges on the longest path."
     },
@@ -95,10 +193,24 @@
       "type": "multiple",
       "prompt": "Which of the following sequences, when inserted into an empty BST, would result in a balanced tree? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "1, 2, 3, 4, 5" },
-        { "id": "option_b", "text": "3, 1, 5, 2, 4", "correct": true },
-        { "id": "option_c", "text": "1, 3, 2, 5, 4" },
-        { "id": "option_d", "text": "5, 3, 7, 1, 9", "correct": true }
+        {
+          "id": "option_a",
+          "text": "1, 2, 3, 4, 5"
+        },
+        {
+          "id": "option_b",
+          "text": "3, 1, 5, 2, 4",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "1, 3, 2, 5, 4"
+        },
+        {
+          "id": "option_d",
+          "text": "5, 3, 7, 1, 9",
+          "correct": true
+        }
       ],
       "explanation": "Sequences that build balanced trees typically insert the middle values first, creating a more balanced structure."
     },
@@ -107,10 +219,23 @@
       "type": "single",
       "prompt": "What is the key difference between a tree and a general graph?",
       "options": [
-        { "id": "option_a", "text": "Trees can have cycles, graphs cannot" },
-        { "id": "option_b", "text": "Trees have directed edges, graphs have undirected edges" },
-        { "id": "option_c", "text": "Trees have no cycles and are connected", "correct": true },
-        { "id": "option_d", "text": "Trees can have multiple roots, graphs have one" }
+        {
+          "id": "option_a",
+          "text": "Trees can have cycles, graphs cannot"
+        },
+        {
+          "id": "option_b",
+          "text": "Trees have directed edges, graphs have undirected edges"
+        },
+        {
+          "id": "option_c",
+          "text": "Trees have no cycles and are connected",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Trees can have multiple roots, graphs have one"
+        }
       ],
       "explanation": "Trees are acyclic connected graphs - they have no cycles and all nodes are connected."
     },
@@ -119,10 +244,23 @@
       "type": "single",
       "prompt": "Post-order traversal is particularly useful for which operation?",
       "options": [
-        { "id": "option_a", "text": "Searching for a value" },
-        { "id": "option_b", "text": "Deleting the entire tree", "correct": true },
-        { "id": "option_c", "text": "Finding the minimum value" },
-        { "id": "option_d", "text": "Level-order printing" }
+        {
+          "id": "option_a",
+          "text": "Searching for a value"
+        },
+        {
+          "id": "option_b",
+          "text": "Deleting the entire tree",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Finding the minimum value"
+        },
+        {
+          "id": "option_d",
+          "text": "Level-order printing"
+        }
       ],
       "explanation": "Post-order traversal processes children before parents, making it ideal for tree deletion where you need to free children before parents."
     }

@@ -2,7 +2,12 @@
   "id": "stl_internals_cpp_exercise",
   "title": "STL Internals and Custom Containers",
   "description": "Implement a custom vector-like container that integrates with STL algorithms. The container should support push_back and work with std::sort.\n\nSteps:\n1. Define `MyVector<T>` class with private data array, size, capacity.\n2. Implement push_back, operator[], begin, end.\n3. Use dynamic allocation for storage.\n4. In main, create MyVector, add elements, sort with std::sort.\n\nExpected output/results: Sorted elements.",
-  "tags": ["cpp", "stl", "containers", "templates"],
+  "tags": [
+    "cpp",
+    "stl",
+    "containers",
+    "templates"
+  ],
   "starterCode": "#include <iostream>\n#include <algorithm>\n\n// TODO: Define MyVector class\n// template <typename T>\n// class MyVector {\n// private:\n//     T* data;\n//     size_t size_, capacity;\n// public:\n//     MyVector() : data(nullptr), size_(0), capacity(0) {}\n//     ~MyVector() { delete[] data; }\n//     void push_back(const T& value);\n//     T& operator[](size_t index);\n//     T* begin() { return data; }\n//     T* end() { return data + size_; }\n//     size_t size() const { return size_; }\n// };\n\nint main() {\n    // TODO: Create MyVector, add elements, sort\n    // MyVector<int> vec;\n    // vec.push_back(3);\n    // vec.push_back(1);\n    // vec.push_back(4);\n    // std::sort(vec.begin(), vec.end());\n    // for (size_t i = 0; i < vec.size(); ++i) {\n    //     std::cout << vec[i] << ' ';\n    // }\n    \n    return 0;\n}",
   "tests": [
     {

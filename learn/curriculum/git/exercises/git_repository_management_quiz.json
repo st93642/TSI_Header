@@ -3,7 +3,12 @@
   "mode": "quiz",
   "title": "Quiz: Initializing, Cloning, and Structuring Repositories",
   "description": "Check your mastery of repository initialization, cloning strategies, and directory structuring best practices.\n\nSteps:\n1. Revisit the lesson's guidance on git init, clone options, and ignoring files.\n2. Complete the questions, selecting every valid choice on multi-select items.\n3. Study the explanations to reinforce repository hygiene fundamentals.\n\nExpected results: Score 8/10 or higher before moving deeper into staging workflows.",
-  "tags": ["git", "repository", "management", "quiz"],
+  "tags": [
+    "git",
+    "repository",
+    "management",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,110 +16,221 @@
       "type": "single",
       "prompt": "Which command initializes a new repository in the current directory?",
       "options": [
-        {"id": "a", "text": "git start"},
-        {"id": "b", "text": "git init", "correct": true},
-        {"id": "c", "text": "git new"},
-        {"id": "d", "text": "git create"}
+        {
+          "id": "a",
+          "text": "git start"
+        },
+        {
+          "id": "b",
+          "text": "git init",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "git new"
+        },
+        {
+          "id": "d",
+          "text": "git create"
+        }
       ],
-      "explanation": "`git init` seeds a new repository by creating the .git directory." 
+      "explanation": "`git init` seeds a new repository by creating the .git directory."
     },
     {
       "id": "git-repo-clone-depth",
       "type": "multiple",
       "prompt": "What are valid reasons to use `git clone --depth`? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Reduce download size for CI pipelines", "correct": true},
-        {"id": "b", "text": "Avoid fetching historical commits you do not need", "correct": true},
-        {"id": "c", "text": "Enable fast-forward merges automatically"},
-        {"id": "d", "text": "Limit history for disposable environments", "correct": true}
+        {
+          "id": "a",
+          "text": "Reduce download size for CI pipelines",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Avoid fetching historical commits you do not need",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Enable fast-forward merges automatically"
+        },
+        {
+          "id": "d",
+          "text": "Limit history for disposable environments",
+          "correct": true
+        }
       ],
-      "explanation": "Shallow clones cut bandwidth and storage for pipelines or ephemeral environments that only require recent history." 
+      "explanation": "Shallow clones cut bandwidth and storage for pipelines or ephemeral environments that only require recent history."
     },
     {
       "id": "git-repo-bare",
       "type": "single",
       "prompt": "What distinguishes a bare repository?",
       "options": [
-        {"id": "a", "text": "It contains no working tree, storing only the Git database", "correct": true},
-        {"id": "b", "text": "It prevents receiving pushes"},
-        {"id": "c", "text": "It cannot host hooks"},
-        {"id": "d", "text": "It requires a GUI to interact"}
+        {
+          "id": "a",
+          "text": "It contains no working tree, storing only the Git database",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "It prevents receiving pushes"
+        },
+        {
+          "id": "c",
+          "text": "It cannot host hooks"
+        },
+        {
+          "id": "d",
+          "text": "It requires a GUI to interact"
+        }
       ],
-      "explanation": "Bare repositories store only Git metadata and are typically used as remote servers." 
+      "explanation": "Bare repositories store only Git metadata and are typically used as remote servers."
     },
     {
       "id": "git-repo-remote-add",
       "type": "multiple",
       "prompt": "Which commands associate additional remotes with a repository? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "git remote add upstream git@github.com:org/project.git", "correct": true},
-        {"id": "b", "text": "git remote rename origin upstream"},
-        {"id": "c", "text": "git remote set-url --add origin ssh://mirror", "correct": true},
-        {"id": "d", "text": "git remote remove"}
+        {
+          "id": "a",
+          "text": "git remote add upstream git@github.com:org/project.git",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git remote rename origin upstream"
+        },
+        {
+          "id": "c",
+          "text": "git remote set-url --add origin ssh://mirror",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "git remote remove"
+        }
       ],
-      "explanation": "`git remote add` defines new remotes; `set-url --add` appends additional push URLs." 
+      "explanation": "`git remote add` defines new remotes; `set-url --add` appends additional push URLs."
     },
     {
       "id": "git-repo-ignore",
       "type": "multiple",
       "prompt": "Which practices keep unwanted files out of version control? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Create patterns in .gitignore", "correct": true},
-        {"id": "b", "text": "Use global excludes or language-specific templates", "correct": true},
-        {"id": "c", "text": "Run git clean -fdn before committing artifacts", "correct": true},
-        {"id": "d", "text": "Track build artifacts to ease debugging"}
+        {
+          "id": "a",
+          "text": "Create patterns in .gitignore",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Use global excludes or language-specific templates",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Run git clean -fdn before committing artifacts",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Track build artifacts to ease debugging"
+        }
       ],
-      "explanation": "Ignore rules, clean dry-runs, and curated templates prevent temporary files from entering history." 
+      "explanation": "Ignore rules, clean dry-runs, and curated templates prevent temporary files from entering history."
     },
     {
       "id": "git-repo-structure",
       "type": "truefalse",
       "prompt": "True or False: Using a dedicated docs/ directory coupled with README badges can help communicate repository structure early on.",
       "answer": "true",
-      "explanation": "Organized top-level directories and documentation enhance discoverability for collaborators." 
+      "explanation": "Organized top-level directories and documentation enhance discoverability for collaborators."
     },
     {
       "id": "git-repo-hooks",
       "type": "single",
       "prompt": "Where are client-side Git hooks located by default?",
       "options": [
-        {"id": "a", "text": ".git/hooks/", "correct": true},
-        {"id": "b", "text": "hooks/"},
-        {"id": "c", "text": ".git/config/hooks"},
-        {"id": "d", "text": "~/.git-hooks"}
+        {
+          "id": "a",
+          "text": ".git/hooks/",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "hooks/"
+        },
+        {
+          "id": "c",
+          "text": ".git/config/hooks"
+        },
+        {
+          "id": "d",
+          "text": "~/.git-hooks"
+        }
       ],
-      "explanation": "Hooks live under .git/hooks/; teams may relocate them using core.hooksPath." 
+      "explanation": "Hooks live under .git/hooks/; teams may relocate them using core.hooksPath."
     },
     {
       "id": "git-repo-submodule",
       "type": "multiple",
       "prompt": "What should you remember when adding submodules? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Submodules lock to specific commits", "correct": true},
-        {"id": "b", "text": "Collaborators must run git submodule update --init", "correct": true},
-        {"id": "c", "text": "Submodules automatically track upstream branches"},
-        {"id": "d", "text": "Submodule URLs can be rewritten with relative paths", "correct": true}
+        {
+          "id": "a",
+          "text": "Submodules lock to specific commits",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Collaborators must run git submodule update --init",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Submodules automatically track upstream branches"
+        },
+        {
+          "id": "d",
+          "text": "Submodule URLs can be rewritten with relative paths",
+          "correct": true
+        }
       ],
-      "explanation": "Submodules pin commit IDs; teammates must initialize them and can configure URLs relative to the parent repo." 
+      "explanation": "Submodules pin commit IDs; teammates must initialize them and can configure URLs relative to the parent repo."
     },
     {
       "id": "git-repo-template",
       "type": "single",
       "prompt": "Which command scaffolds a new repository from an existing template directory?",
       "options": [
-        {"id": "a", "text": "git init --template=/path/to/template", "correct": true},
-        {"id": "b", "text": "git clone --bare"},
-        {"id": "c", "text": "git new --from"},
-        {"id": "d", "text": "git remote init template"}
+        {
+          "id": "a",
+          "text": "git init --template=/path/to/template",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git clone --bare"
+        },
+        {
+          "id": "c",
+          "text": "git new --from"
+        },
+        {
+          "id": "d",
+          "text": "git remote init template"
+        }
       ],
-      "explanation": "`git init --template` seeds hook scripts and config from a template directory." 
+      "explanation": "`git init --template` seeds hook scripts and config from a template directory."
     },
     {
       "id": "git-repo-creds",
       "type": "truefalse",
       "prompt": "True or False: Storing tokens in .env files and adding them to .gitignore helps prevent accidental credential leaks.",
       "answer": "true",
-      "explanation": "Separating secrets into ignored files protects credentials from being committed." 
+      "explanation": "Separating secrets into ignored files protects credentials from being committed."
     }
   ]
 }

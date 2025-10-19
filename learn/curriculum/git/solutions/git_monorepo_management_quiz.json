@@ -3,64 +3,98 @@
   "answerKey": [
     {
       "questionId": "git-monorepo-structure",
-      "answers": ["a"],
-      "explanation": "Domain-aligned directories keep monorepos navigable." 
+      "answers": [
+        "a"
+      ],
+      "explanation": "Domain-aligned directories keep monorepos navigable."
     },
     {
       "questionId": "git-monorepo-sparse",
-      "answers": ["a", "b", "c"],
-      "explanation": "Sparse checkout workflows rely on init/set/add commands." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Sparse checkout workflows rely on init/set/add commands."
     },
     {
       "questionId": "git-monorepo-partial-clone",
-      "answers": ["true"],
-      "explanation": "Partial clone defers blob transfer to shrink initial fetches." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Partial clone defers blob transfer to shrink initial fetches."
     },
     {
       "questionId": "git-monorepo-tooling",
-      "answers": ["a", "b", "c"],
-      "explanation": "Build graph tools coordinate complex monorepo pipelines." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Build graph tools coordinate complex monorepo pipelines."
     },
     {
       "questionId": "git-monorepo-codeowners",
-      "answers": ["a"],
-      "explanation": "CODEOWNERS map directories to responsible reviewers." 
+      "answers": [
+        "a"
+      ],
+      "explanation": "CODEOWNERS map directories to responsible reviewers."
     },
     {
       "questionId": "git-monorepo-automation",
-      "answers": ["a", "b", "c"],
-      "explanation": "Path-aware CI and impact analysis prevent regressions without waste." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Path-aware CI and impact analysis prevent regressions without waste."
     },
     {
       "questionId": "git-monorepo-submodules",
-      "answers": ["false"],
-      "explanation": "Submodules complicate monorepos; the lesson discourages them." 
+      "answers": [
+        "false"
+      ],
+      "explanation": "Submodules complicate monorepos; the lesson discourages them."
     },
     {
       "questionId": "git-monorepo-perf",
-      "answers": ["a", "b", "c"],
-      "explanation": "Multi-pack indexes and commit graphs boost large-repo performance." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Multi-pack indexes and commit graphs boost large-repo performance."
     },
     {
       "questionId": "git-monorepo-review",
-      "answers": ["a", "b", "d"],
-      "explanation": "Path-based reviewers, filtered diffs, and templates keep reviews focused." 
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "Path-based reviewers, filtered diffs, and templates keep reviews focused."
     },
     {
       "questionId": "git-monorepo-release",
-      "answers": ["true"],
-      "explanation": "Service-specific tags can coexist with a shared repo." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Service-specific tags can coexist with a shared repo."
     },
     {
       "questionId": "git-monorepo-dx",
-      "answers": ["a", "b", "c"],
-      "explanation": "Bootstrap scripts, docs, and caches improve developer experience." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Bootstrap scripts, docs, and caches improve developer experience."
     }
   ],
   "keyPoints": [
     "Structure monorepos with clear ownership boundaries and automation.",
     "Use sparse checkout, partial clone, and performance configs to keep repos fast.",
     "Leverage tooling for builds, reviews, and CI to scale safely.",
-    "Invest in DX via docs, bootstrapping, and caching so teams stay productive." 
+    "Invest in DX via docs, bootstrapping, and caching so teams stay productive."
   ]
 }

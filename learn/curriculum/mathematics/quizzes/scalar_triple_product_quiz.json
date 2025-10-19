@@ -4,7 +4,13 @@
   "description": "Test your understanding of the scalar triple product and its properties.",
   "difficulty": "advanced",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "triple product", "scalar triple product", "linear algebra"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "triple product",
+    "scalar triple product",
+    "linear algebra"
+  ],
   "questions": [
     {
       "question": "What is the scalar triple product of vectors a, b, and c?",

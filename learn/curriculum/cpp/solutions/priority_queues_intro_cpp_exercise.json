@@ -6,53 +6,76 @@
   "answerKey": [
     {
       "questionId": "pq_intro_invariant_pair",
-      "answers": ["option_b", "option_c"],
-      "rationale": "Heaps rely on completeness plus comparator-dominant parents. Perfect balance and sibling ordering are not required." }
-    ,
+      "answers": [
+        "option_b",
+        "option_c"
+      ],
+      "rationale": "Heaps rely on completeness plus comparator-dominant parents. Perfect balance and sibling ordering are not required."
+    },
     {
       "questionId": "pq_intro_index_math",
-      "answers": ["option_b"],
-      "rationale": "The demonstration code subtracts one, halves the result, and floors it via integer arithmetic." }
-    ,
+      "answers": [
+        "option_b"
+      ],
+      "rationale": "The demonstration code subtracts one, halves the result, and floors it via integer arithmetic."
+    },
     {
       "questionId": "pq_intro_adapter_surface",
-      "answers": ["option_b"],
-      "rationale": "Iterators would expose raw references to elements, enabling mutations that could violate the heap property." }
-    ,
+      "answers": [
+        "option_b"
+      ],
+      "rationale": "Iterators would expose raw references to elements, enabling mutations that could violate the heap property."
+    },
     {
       "questionId": "pq_intro_warmup",
-      "answers": ["false"],
-      "rationale": "The comparator first inspects integer priority; alphabetical ordering only resolves ties." }
-    ,
+      "answers": [
+        "false"
+      ],
+      "rationale": "The comparator first inspects integer priority; alphabetical ordering only resolves ties."
+    },
     {
       "questionId": "pq_intro_streaming",
-      "answers": ["option_b"],
-      "rationale": "Keeping a min-heap of the current champions makes it trivial to evict the weakest of the top ten." }
-    ,
+      "answers": [
+        "option_b"
+      ],
+      "rationale": "Keeping a min-heap of the current champions makes it trivial to evict the weakest of the top ten."
+    },
     {
       "questionId": "pq_intro_diagnostics",
-      "answers": ["option_a", "option_b"],
-      "rationale": "Skipping stale entries and validating comparator symmetry were the two checklist items covering stale entry defence." }
-    ,
+      "answers": [
+        "option_a",
+        "option_b"
+      ],
+      "rationale": "Skipping stale entries and validating comparator symmetry were the two checklist items covering stale entry defence."
+    },
     {
       "questionId": "pq_intro_adapter_flow",
-      "answers": ["option_b"],
-      "rationale": "The diagram highlights comparator logic flowing into the adaptor to govern ordering." }
-    ,
+      "answers": [
+        "option_b"
+      ],
+      "rationale": "The diagram highlights comparator logic flowing into the adaptor to govern ordering."
+    },
     {
       "questionId": "pq_intro_make_heap",
-      "answers": ["true"],
-      "rationale": "Bottom-up heapify touches each level proportionally, yielding O(n) build time." }
-    ,
+      "answers": [
+        "true"
+      ],
+      "rationale": "Bottom-up heapify touches each level proportionally, yielding O(n) build time."
+    },
     {
       "questionId": "pq_intro_observability",
-      "answers": ["option_b"],
-      "rationale": "Copy-by-value creates a temporary heap, enabling safe logging without mutating live data." }
-    ,
+      "answers": [
+        "option_b"
+      ],
+      "rationale": "Copy-by-value creates a temporary heap, enabling safe logging without mutating live data."
+    },
     {
       "questionId": "pq_intro_scenario_dispatch",
-      "answers": ["option_b"],
-      "rationale": "Creation timestamps enforce FIFO fairness when severity is equal." }
+      "answers": [
+        "option_b"
+      ],
+      "rationale": "Creation timestamps enforce FIFO fairness when severity is equal."
+    }
   ],
   "keyPoints": [
     "Completeness plus comparator dominance define heap legality.",

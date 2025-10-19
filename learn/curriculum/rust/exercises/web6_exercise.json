@@ -46,5 +46,12 @@
     "Handle database errors gracefully with custom error types",
     "Use connection pooling to manage database connections efficiently"
   ],
-  "tags": ["database", "diesel", "postgresql", "orm", "migrations", "transactions"]
+  "tags": [
+    "database",
+    "diesel",
+    "postgresql",
+    "orm",
+    "migrations",
+    "transactions"
+  ]
 }

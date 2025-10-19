@@ -212,5 +212,8 @@
     }
   ],
   "prerequisites": [],
-  "outcomes": ["Write a minimal Rust program", "Run the exercise harness"]
+  "outcomes": [
+    "Write a minimal Rust program",
+    "Run the exercise harness"
+  ]
 }

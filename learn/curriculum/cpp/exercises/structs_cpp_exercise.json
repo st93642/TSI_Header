@@ -23,5 +23,10 @@
     "Read names with std::string and temperatures with double.",
     "Set std::cout << std::fixed << std::setprecision(1) before printing the readings."
   ],
-  "tags": ["structs", "aggregation", "intermediate", "formatting"]
+  "tags": [
+    "structs",
+    "aggregation",
+    "intermediate",
+    "formatting"
+  ]
 }

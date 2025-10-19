@@ -11,10 +11,23 @@
       "type": "single",
       "prompt": "What is the fundamental ordering property of a Binary Search Tree?",
       "options": [
-        { "id": "option_a", "text": "Left subtree values > node value, right subtree values < node value" },
-        { "id": "option_b", "text": "Left subtree values < node value, right subtree values > node value", "correct": true },
-        { "id": "option_c", "text": "All left subtree values = node value, right subtree values ≠ node value" },
-        { "id": "option_d", "text": "Node value is always the median of all values" }
+        {
+          "id": "option_a",
+          "text": "Left subtree values > node value, right subtree values < node value"
+        },
+        {
+          "id": "option_b",
+          "text": "Left subtree values < node value, right subtree values > node value",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "All left subtree values = node value, right subtree values ≠ node value"
+        },
+        {
+          "id": "option_d",
+          "text": "Node value is always the median of all values"
+        }
       ],
       "explanation": "The BST property ensures left subtree contains smaller values and right subtree contains larger values."
     },
@@ -23,10 +36,23 @@
       "type": "single",
       "prompt": "What is the average time complexity of search in a balanced BST?",
       "options": [
-        { "id": "option_a", "text": "O(1)" },
-        { "id": "option_b", "text": "O(log n)", "correct": true },
-        { "id": "option_c", "text": "O(n)" },
-        { "id": "option_d", "text": "O(n log n)" }
+        {
+          "id": "option_a",
+          "text": "O(1)"
+        },
+        {
+          "id": "option_b",
+          "text": "O(log n)",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "O(n)"
+        },
+        {
+          "id": "option_d",
+          "text": "O(n log n)"
+        }
       ],
       "explanation": "Balanced BSTs maintain height proportional to log n, enabling logarithmic search time."
     },
@@ -35,10 +61,25 @@
       "type": "multiple",
       "prompt": "Which cases must be handled when deleting a node from a BST? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "Node is a leaf (no children)", "correct": true },
-        { "id": "option_b", "text": "Node has one child", "correct": true },
-        { "id": "option_c", "text": "Node has two children", "correct": true },
-        { "id": "option_d", "text": "Node is the root" }
+        {
+          "id": "option_a",
+          "text": "Node is a leaf (no children)",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Node has one child",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Node has two children",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Node is the root"
+        }
       ],
       "explanation": "BST deletion requires different strategies for nodes with 0, 1, or 2 children."
     },
@@ -47,10 +88,23 @@
       "type": "single",
       "prompt": "When deleting a node with two children, what replaces the node's value?",
       "options": [
-        { "id": "option_a", "text": "The maximum value from the left subtree" },
-        { "id": "option_b", "text": "The minimum value from the right subtree", "correct": true },
-        { "id": "option_c", "text": "The average of left and right subtree values" },
-        { "id": "option_d", "text": "A random value from either subtree" }
+        {
+          "id": "option_a",
+          "text": "The maximum value from the left subtree"
+        },
+        {
+          "id": "option_b",
+          "text": "The minimum value from the right subtree",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "The average of left and right subtree values"
+        },
+        {
+          "id": "option_d",
+          "text": "A random value from either subtree"
+        }
       ],
       "explanation": "The inorder successor (minimum value in right subtree) maintains BST ordering."
     },
@@ -59,10 +113,23 @@
       "type": "single",
       "prompt": "What causes a BST to degenerate into a linked list with O(n) operations?",
       "options": [
-        { "id": "option_a", "text": "Inserting random values" },
-        { "id": "option_b", "text": "Inserting values in sorted order", "correct": true },
-        { "id": "option_c", "text": "Deleting leaf nodes frequently" },
-        { "id": "option_d", "text": "Using duplicate values" }
+        {
+          "id": "option_a",
+          "text": "Inserting random values"
+        },
+        {
+          "id": "option_b",
+          "text": "Inserting values in sorted order",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Deleting leaf nodes frequently"
+        },
+        {
+          "id": "option_d",
+          "text": "Using duplicate values"
+        }
       ],
       "explanation": "Sorted insertions create a skewed tree where each node has only one child."
     },
@@ -71,10 +138,23 @@
       "type": "single",
       "prompt": "What balance factor range do AVL trees maintain?",
       "options": [
-        { "id": "option_a", "text": "-2 to +2" },
-        { "id": "option_b", "text": "-1 to +1", "correct": true },
-        { "id": "option_c", "text": "0 only" },
-        { "id": "option_d", "text": "No balance requirements" }
+        {
+          "id": "option_a",
+          "text": "-2 to +2"
+        },
+        {
+          "id": "option_b",
+          "text": "-1 to +1",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "0 only"
+        },
+        {
+          "id": "option_d",
+          "text": "No balance requirements"
+        }
       ],
       "explanation": "AVL trees ensure the height difference between subtrees is at most 1."
     },
@@ -83,10 +163,26 @@
       "type": "multiple",
       "prompt": "Which properties do Red-Black trees maintain? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "Every node is either red or black", "correct": true },
-        { "id": "option_b", "text": "Root is always black", "correct": true },
-        { "id": "option_c", "text": "Red nodes cannot have red children", "correct": true },
-        { "id": "option_d", "text": "All leaves have the same black height", "correct": true }
+        {
+          "id": "option_a",
+          "text": "Every node is either red or black",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Root is always black",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Red nodes cannot have red children",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "All leaves have the same black height",
+          "correct": true
+        }
       ],
       "explanation": "Red-Black trees use color properties to maintain balance and ensure O(log n) operations."
     },
@@ -95,10 +191,23 @@
       "type": "single",
       "prompt": "What is the purpose of rotations in balanced tree algorithms?",
       "options": [
-        { "id": "option_a", "text": "To change node values" },
-        { "id": "option_b", "text": "To maintain balance after insertions/deletions", "correct": true },
-        { "id": "option_c", "text": "To sort the tree" },
-        { "id": "option_d", "text": "To count nodes" }
+        {
+          "id": "option_a",
+          "text": "To change node values"
+        },
+        {
+          "id": "option_b",
+          "text": "To maintain balance after insertions/deletions",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "To sort the tree"
+        },
+        {
+          "id": "option_d",
+          "text": "To count nodes"
+        }
       ],
       "explanation": "Rotations restructure the tree to restore balance while preserving BST ordering."
     },
@@ -107,10 +216,25 @@
       "type": "multiple",
       "prompt": "Which applications commonly use BSTs? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "Database indexes", "correct": true },
-        { "id": "option_b", "text": "Symbol tables in compilers", "correct": true },
-        { "id": "option_c", "text": "Network routing tables", "correct": true },
-        { "id": "option_d", "text": "Simple arrays" }
+        {
+          "id": "option_a",
+          "text": "Database indexes",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Symbol tables in compilers",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Network routing tables",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Simple arrays"
+        }
       ],
       "explanation": "BSTs excel in applications requiring ordered data and efficient search/insert/delete operations."
     },
@@ -119,10 +243,23 @@
       "type": "single",
       "prompt": "Compared to unbalanced BSTs, what advantage do AVL trees provide?",
       "options": [
-        { "id": "option_a", "text": "Faster insertions" },
-        { "id": "option_b", "text": "Guaranteed O(log n) performance", "correct": true },
-        { "id": "option_c", "text": "Lower memory usage" },
-        { "id": "option_d", "text": "Simpler implementation" }
+        {
+          "id": "option_a",
+          "text": "Faster insertions"
+        },
+        {
+          "id": "option_b",
+          "text": "Guaranteed O(log n) performance",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Lower memory usage"
+        },
+        {
+          "id": "option_d",
+          "text": "Simpler implementation"
+        }
       ],
       "explanation": "AVL trees maintain strict balance, ensuring worst-case O(log n) performance for all operations."
     }

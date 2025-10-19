@@ -51,5 +51,15 @@
     "Implement clap Parser derive for CLI arguments",
     "Use environment variable JSON_STORE_PATH for file location"
   ],
-  "tags": ["cargo", "nanoservices", "enums", "structs", "composition", "api", "json", "clap", "serde"]
+  "tags": [
+    "cargo",
+    "nanoservices",
+    "enums",
+    "structs",
+    "composition",
+    "api",
+    "json",
+    "clap",
+    "serde"
+  ]
 }

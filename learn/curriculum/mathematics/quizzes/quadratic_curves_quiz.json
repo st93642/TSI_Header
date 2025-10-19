@@ -4,7 +4,15 @@
   "description": "Test your understanding of conic sections and quadratic curves.",
   "difficulty": "advanced",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "conic sections", "quadratic curves", "ellipses", "hyperbolas", "parabolas"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "conic sections",
+    "quadratic curves",
+    "ellipses",
+    "hyperbolas",
+    "parabolas"
+  ],
   "questions": [
     {
       "question": "Which conic section has eccentricity equal to 1?",

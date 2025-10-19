@@ -21,5 +21,12 @@
     "Test edge cases like division by zero, negative numbers, overflow",
     "Create helper functions within the tests module for common setup"
   ],
-  "tags": ["testing", "unit-tests", "assert", "should_panic", "edge-cases", "result"]
+  "tags": [
+    "testing",
+    "unit-tests",
+    "assert",
+    "should_panic",
+    "edge-cases",
+    "result"
+  ]
 }

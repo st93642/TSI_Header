@@ -7,11 +7,18 @@
     "activity_selection_problem": "C",
     "fractional_knapsack_difference": "A",
     "huffman_coding_advantage": "B",
-    "greedy_vs_dp_complexity": ["B", "C", "D"],
+    "greedy_vs_dp_complexity": [
+      "B",
+      "C",
+      "D"
+    ],
     "greedy_choice_property_verification": "true",
     "activity_selection_correctness": "true",
     "huffman_tree_property": "B",
-    "greedy_algorithm_applications": ["A", "C"],
+    "greedy_algorithm_applications": [
+      "A",
+      "C"
+    ],
     "greedy_limitation": "B"
   },
   "keyPoints": [

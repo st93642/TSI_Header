@@ -6,52 +6,75 @@
   "answerKey": [
     {
       "questionId": "uf_core_operations",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "find locates the representative of a set and union merges two sets; together they power dynamic connectivity."
     },
     {
       "questionId": "uf_path_compression_effect",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "Path compression shortens future traversals by pointing nodes directly at the representative."
     },
     {
       "questionId": "uf_union_by_rank",
-      "answers": ["option_a", "option_b"],
+      "answers": [
+        "option_a",
+        "option_b"
+      ],
       "rationale": "Union-by-rank attaches the shallower tree beneath the deeper tree and uses ranks (or sizes) to avoid tall structures."
     },
     {
       "questionId": "uf_amortized_complexity",
-      "answers": ["false"],
+      "answers": [
+        "false"
+      ],
       "rationale": "Operations run in amortised α(n) time, which is near-constant but not strictly O(1)."
     },
     {
       "questionId": "uf_component_size",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "The implementation caches component sizes on the representative, enabling constant-time lookups after path compression."
     },
     {
       "questionId": "uf_initialisation",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "Each node must start as its own parent so the structure represents n singleton sets before unions occur."
     },
     {
       "questionId": "uf_real_world",
-      "answers": ["option_a", "option_c", "option_d"],
+      "answers": [
+        "option_a",
+        "option_c",
+        "option_d"
+      ],
       "rationale": "Union-find solves dynamic connectivity, Kruskal's MST, and cycle detection; airline seat reservation ordering is unrelated."
     },
     {
       "questionId": "uf_find_semantics",
-      "answers": ["option_b"],
+      "answers": [
+        "option_b"
+      ],
       "rationale": "find returns the canonical representative for the set containing the queried element."
     },
     {
       "questionId": "uf_equal_ranks",
-      "answers": ["true"],
+      "answers": [
+        "true"
+      ],
       "rationale": "When ranks tie, union-by-rank may pick either root as parent but must raise its rank to reflect the new height."
     },
     {
       "questionId": "uf_component_count",
-      "answers": ["option_a"],
+      "answers": [
+        "option_a"
+      ],
       "rationale": "Tracking the number of components reveals when the structure has fully connected and supports MST stopping conditions."
     }
   ],

@@ -16,5 +16,10 @@
     "Remember that '\\n' is a newline character and std::endl both ends the line and flushes the buffer.",
     "Match the capitalization and punctuation in the expected lines exactly."
   ],
-  "tags": ["basics", "output", "beginner", "iostream"]
+  "tags": [
+    "basics",
+    "output",
+    "beginner",
+    "iostream"
+  ]
 }

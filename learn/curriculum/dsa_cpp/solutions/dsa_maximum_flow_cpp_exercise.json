@@ -10,10 +10,23 @@
       "type": "single",
       "prompt": "What is a flow network?",
       "options": [
-        { "id": "option_a", "text": "A graph where edges have weights but no direction" },
-        { "id": "option_b", "text": "A directed graph with capacities on edges and designated source/sink nodes", "correct": true },
-        { "id": "option_c", "text": "An undirected graph with flow values on vertices" },
-        { "id": "option_d", "text": "A tree structure with capacity constraints" }
+        {
+          "id": "option_a",
+          "text": "A graph where edges have weights but no direction"
+        },
+        {
+          "id": "option_b",
+          "text": "A directed graph with capacities on edges and designated source/sink nodes",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "An undirected graph with flow values on vertices"
+        },
+        {
+          "id": "option_d",
+          "text": "A tree structure with capacity constraints"
+        }
       ],
       "explanation": "A flow network is a directed graph where each edge has a capacity, and there are source and sink nodes for flow computation."
     },
@@ -22,10 +35,23 @@
       "type": "single",
       "prompt": "What is the primary purpose of a residual graph in maximum flow algorithms?",
       "options": [
-        { "id": "option_a", "text": "To store the original capacities" },
-        { "id": "option_b", "text": "To find augmenting paths with remaining capacity", "correct": true },
-        { "id": "option_c", "text": "To calculate the minimum cut" },
-        { "id": "option_d", "text": "To represent the current flow values" }
+        {
+          "id": "option_a",
+          "text": "To store the original capacities"
+        },
+        {
+          "id": "option_b",
+          "text": "To find augmenting paths with remaining capacity",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "To calculate the minimum cut"
+        },
+        {
+          "id": "option_d",
+          "text": "To represent the current flow values"
+        }
       ],
       "explanation": "Residual graphs contain edges with remaining capacity, enabling the discovery of paths along which flow can be increased."
     },
@@ -34,10 +60,23 @@
       "type": "single",
       "prompt": "What is the key difference between Ford-Fulkerson and Edmonds-Karp algorithms?",
       "options": [
-        { "id": "option_a", "text": "Ford-Fulkerson uses DFS, Edmonds-Karp uses BFS", "correct": true },
-        { "id": "option_b", "text": "Ford-Fulkerson is polynomial, Edmonds-Karp is not" },
-        { "id": "option_c", "text": "Ford-Fulkerson handles negative capacities" },
-        { "id": "option_d", "text": "Edmonds-Karp requires adjacency matrices" }
+        {
+          "id": "option_a",
+          "text": "Ford-Fulkerson uses DFS, Edmonds-Karp uses BFS",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Ford-Fulkerson is polynomial, Edmonds-Karp is not"
+        },
+        {
+          "id": "option_c",
+          "text": "Ford-Fulkerson handles negative capacities"
+        },
+        {
+          "id": "option_d",
+          "text": "Edmonds-Karp requires adjacency matrices"
+        }
       ],
       "explanation": "Edmonds-Karp is a specific implementation of Ford-Fulkerson that uses BFS to find shortest augmenting paths, ensuring polynomial time."
     },
@@ -46,12 +85,35 @@
       "type": "multiple",
       "prompt": "Which of the following are fundamental properties of flow in a flow network? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "Flow on each edge ≤ capacity", "correct": true },
-        { "id": "option_b", "text": "Flow into each node = flow out (except source/sink)", "correct": true },
-        { "id": "option_c", "text": "Total flow is always an integer", "correct": true },
-        { "id": "option_d", "text": "Flow can be negative on edges" },
-        { "id": "option_e", "text": "Source has no incoming flow", "correct": true },
-        { "id": "option_f", "text": "Sink has no outgoing flow", "correct": true }
+        {
+          "id": "option_a",
+          "text": "Flow on each edge ≤ capacity",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Flow into each node = flow out (except source/sink)",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Total flow is always an integer",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Flow can be negative on edges"
+        },
+        {
+          "id": "option_e",
+          "text": "Source has no incoming flow",
+          "correct": true
+        },
+        {
+          "id": "option_f",
+          "text": "Sink has no outgoing flow",
+          "correct": true
+        }
       ],
       "explanation": "Valid flows must respect capacity constraints, flow conservation, and the roles of source and sink nodes."
     },
@@ -60,10 +122,23 @@
       "type": "single",
       "prompt": "What is an augmenting path in the context of maximum flow algorithms?",
       "options": [
-        { "id": "option_a", "text": "A path from source to sink in the original graph" },
-        { "id": "option_b", "text": "A path from source to sink in the residual graph", "correct": true },
-        { "id": "option_c", "text": "A cycle in the flow network" },
-        { "id": "option_d", "text": "The minimum cut of the network" }
+        {
+          "id": "option_a",
+          "text": "A path from source to sink in the original graph"
+        },
+        {
+          "id": "option_b",
+          "text": "A path from source to sink in the residual graph",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "A cycle in the flow network"
+        },
+        {
+          "id": "option_d",
+          "text": "The minimum cut of the network"
+        }
       ],
       "explanation": "An augmenting path exists in the residual graph and allows increasing the total flow by its bottleneck capacity."
     },
@@ -72,10 +147,23 @@
       "type": "single",
       "prompt": "What is the time complexity of the Edmonds-Karp algorithm?",
       "options": [
-        { "id": "option_a", "text": "O(E)" },
-        { "id": "option_b", "text": "O(V E)" },
-        { "id": "option_c", "text": "O(V E²)", "correct": true },
-        { "id": "option_d", "text": "O(V² E)" }
+        {
+          "id": "option_a",
+          "text": "O(E)"
+        },
+        {
+          "id": "option_b",
+          "text": "O(V E)"
+        },
+        {
+          "id": "option_c",
+          "text": "O(V E²)",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "O(V² E)"
+        }
       ],
       "explanation": "Edmonds-Karp runs in O(V E²) time due to performing O(V E) BFS operations, each taking O(E) time."
     },
@@ -84,12 +172,34 @@
       "type": "multiple",
       "prompt": "Which of the following are applications of maximum flow algorithms? (Select all that apply)",
       "options": [
-        { "id": "option_a", "text": "Network routing and bandwidth allocation", "correct": true },
-        { "id": "option_b", "text": "Finding shortest paths in graphs" },
-        { "id": "option_c", "text": "Bipartite matching problems", "correct": true },
-        { "id": "option_d", "text": "Image segmentation in computer vision", "correct": true },
-        { "id": "option_e", "text": "Sorting algorithms" },
-        { "id": "option_f", "text": "Database query optimization", "correct": true }
+        {
+          "id": "option_a",
+          "text": "Network routing and bandwidth allocation",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Finding shortest paths in graphs"
+        },
+        {
+          "id": "option_c",
+          "text": "Bipartite matching problems",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Image segmentation in computer vision",
+          "correct": true
+        },
+        {
+          "id": "option_e",
+          "text": "Sorting algorithms"
+        },
+        {
+          "id": "option_f",
+          "text": "Database query optimization",
+          "correct": true
+        }
       ],
       "explanation": "Maximum flow algorithms are used for network optimization, matching, image processing, and various assignment problems."
     },
@@ -98,10 +208,23 @@
       "type": "single",
       "prompt": "In a residual graph, what does a backward edge from v to u represent?",
       "options": [
-        { "id": "option_a", "text": "Remaining capacity from u to v" },
-        { "id": "option_b", "text": "Current flow that can be reduced from u to v", "correct": true },
-        { "id": "option_c", "text": "A new edge added to the network" },
-        { "id": "option_d", "text": "The minimum cut capacity" }
+        {
+          "id": "option_a",
+          "text": "Remaining capacity from u to v"
+        },
+        {
+          "id": "option_b",
+          "text": "Current flow that can be reduced from u to v",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "A new edge added to the network"
+        },
+        {
+          "id": "option_d",
+          "text": "The minimum cut capacity"
+        }
       ],
       "explanation": "Backward edges in residual graphs allow reducing flow on existing edges, which can free up capacity elsewhere."
     },
@@ -110,10 +233,23 @@
       "type": "single",
       "prompt": "Under what condition is Ford-Fulkerson guaranteed to terminate?",
       "options": [
-        { "id": "option_a", "text": "When using DFS for path finding" },
-        { "id": "option_b", "text": "When all capacities are integers", "correct": true },
-        { "id": "option_c", "text": "When the graph is undirected" },
-        { "id": "option_d", "text": "When using adjacency lists" }
+        {
+          "id": "option_a",
+          "text": "When using DFS for path finding"
+        },
+        {
+          "id": "option_b",
+          "text": "When all capacities are integers",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "When the graph is undirected"
+        },
+        {
+          "id": "option_d",
+          "text": "When using adjacency lists"
+        }
       ],
       "explanation": "Ford-Fulkerson terminates when capacities are integers because each augmentation increases flow by at least 1."
     },
@@ -122,10 +258,23 @@
       "type": "single",
       "prompt": "What does the max-flow min-cut theorem state?",
       "options": [
-        { "id": "option_a", "text": "Maximum flow equals minimum cut capacity", "correct": true },
-        { "id": "option_b", "text": "Maximum flow is always greater than minimum cut" },
-        { "id": "option_c", "text": "Minimum cut equals the number of edges" },
-        { "id": "option_d", "text": "Max-flow algorithms always find the minimum cut" }
+        {
+          "id": "option_a",
+          "text": "Maximum flow equals minimum cut capacity",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Maximum flow is always greater than minimum cut"
+        },
+        {
+          "id": "option_c",
+          "text": "Minimum cut equals the number of edges"
+        },
+        {
+          "id": "option_d",
+          "text": "Max-flow algorithms always find the minimum cut"
+        }
       ],
       "explanation": "The theorem states that the maximum flow in a network equals the capacity of the minimum cut separating source from sink."
     }

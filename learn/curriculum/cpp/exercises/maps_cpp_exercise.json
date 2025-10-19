@@ -23,5 +23,10 @@
     "iterate with for (const auto &entry : inventory) to visit key/value pairs in sorted order;",
     "std::accumulate can fold over the map by adding entry.second to an integer seed."
   ],
-  "tags": ["maps", "associative", "stl", "intermediate"]
+  "tags": [
+    "maps",
+    "associative",
+    "stl",
+    "intermediate"
+  ]
 }

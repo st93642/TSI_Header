@@ -20,5 +20,11 @@
     "Create Song instances and add them to a Playlist",
     "Call methods using module paths"
   ],
-  "tags": ["modules", "pub", "use", "paths", "organization"]
+  "tags": [
+    "modules",
+    "pub",
+    "use",
+    "paths",
+    "organization"
+  ]
 }

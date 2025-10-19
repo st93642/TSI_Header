@@ -128,7 +128,11 @@
           "text": "DP can solve problems that greedy cannot"
         }
       ],
-      "answer": ["B", "C", "D"],
+      "answer": [
+        "B",
+        "C",
+        "D"
+      ],
       "explanation": "DP guarantees optimal solutions and can solve problems where greedy choice property doesn't hold. Greedy algorithms typically use less memory and are faster, but don't always guarantee optimality."
     },
     {
@@ -192,7 +196,10 @@
           "text": "Finding longest common subsequence"
         }
       ],
-      "answer": ["A", "C"],
+      "answer": [
+        "A",
+        "C"
+      ],
       "explanation": "Kruskal's algorithm for MST and single processor scheduling are greedy algorithms. TSP requires DP or approximation algorithms, and LCS uses DP."
     },
     {

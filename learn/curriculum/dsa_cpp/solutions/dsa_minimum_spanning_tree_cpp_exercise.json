@@ -6,11 +6,21 @@
     "mst_definition": 1,
     "prims_vs_kruskals": 1,
     "union_find_purpose": 1,
-    "mst_properties": [0, 1, 2, 4],
+    "mst_properties": [
+      0,
+      1,
+      2,
+      4
+    ],
     "prims_priority_queue": true,
     "kruskals_sorting": true,
     "negative_weights": 2,
-    "mst_applications": [0, 2, 4, 5],
+    "mst_applications": [
+      0,
+      2,
+      4,
+      5
+    ],
     "cycle_detection": 1,
     "mst_uniqueness": false
   },

@@ -4,7 +4,13 @@
   "description": "Test your understanding of plane equations through three points.",
   "difficulty": "intermediate",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "planes", "three points", "determinant form"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "planes",
+    "three points",
+    "determinant form"
+  ],
   "questions": [
     {
       "question": "To find a plane through three points, you need to:",

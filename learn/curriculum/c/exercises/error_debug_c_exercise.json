@@ -2,7 +2,11 @@
   "id": "error_debug_c_exercise",
   "title": "Error Handling and Debugging in C",
   "description": "Implement a program that demonstrates error handling and debugging techniques in C. The program should read an operation and two numbers from stdin, perform the operation with error checking, and log the result or error.\n\nSteps:\n1. Define an enum for error codes (SUCCESS, INVALID_INPUT, DIVISION_BY_ZERO, INVALID_OPERATION).\n2. Define a LOG macro to print messages with levels.\n3. Implement safe_atoi function using strtol to validate integer inputs.\n4. Implement perform_operation function that checks for valid operators and errors, logs, and returns error codes.\n5. In main, read inputs using scanf, validate with safe_atoi, perform operation, handle errors, and print result.\n\nExpected output/results: For valid operations, log success and print result. For errors, log error and exit with code 1.",
-  "tags": ["c", "error-handling", "debugging"],
+  "tags": [
+    "c",
+    "error-handling",
+    "debugging"
+  ],
   "starterCode": "#include <stdio.h>\n#include <stdlib.h>\n#include <errno.h>\n#include <assert.h>\n#include <string.h>\n\n// TODO: Define error codes enum\n// typedef enum {\n//     SUCCESS = 0,\n//     INVALID_INPUT,\n//     DIVISION_BY_ZERO\n// } ErrorCode;\n\n// TODO: Define LOG macro\n// #define LOG(level, msg) printf(\"[%s] %s\\n\", level, msg)\n\n// TODO: Implement safe input validation\n// int safe_atoi(const char *str, int *result) {\n//     // Use strtol to convert, check for errors\n// }\n\n// TODO: Implement operation function with error handling\n// ErrorCode perform_operation(char op, int a, int b, int *result) {\n//     // Check for division by zero, invalid op\n//     // Log the operation\n//     // Return appropriate error code\n// }\n\nint main(void) {\n    char op;\n    int a, b, res;\n    \n    // TODO: Read operation and numbers from stdin\n    // scanf(\"%c %d %d\", &op, &a, &b);\n    \n    // TODO: Validate inputs\n    // if (!safe_atoi(...)) { LOG(\"ERROR\", \"Invalid input\"); return 1; }\n    \n    // TODO: Perform operation\n    // ErrorCode err = perform_operation(op, a, b, &res);\n    // if (err != SUCCESS) {\n    //     LOG(\"ERROR\", \"Operation failed\");\n    //     return 1;\n    // }\n    \n    // TODO: Log success and print result\n    // LOG(\"INFO\", \"Operation successful\");\n    // printf(\"Result: %d\\n\", res);\n    \n    return 0;\n}",
   "tests": [
     {

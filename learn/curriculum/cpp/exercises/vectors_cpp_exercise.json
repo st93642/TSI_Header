@@ -23,5 +23,10 @@
     "std::accumulate(vec.begin(), vec.end(), 0) returns the integer sum.",
     "Average requires casting to double before dividing by vec.size()."
   ],
-  "tags": ["vectors", "stl", "intermediate", "containers"]
+  "tags": [
+    "vectors",
+    "stl",
+    "intermediate",
+    "containers"
+  ]
 }

@@ -15,5 +15,8 @@
     "Use `let mut x = 5;` to make x mutable.",
     "Use println!(\"The value of x is: {x}\"); to print the value."
   ],
-  "tags": ["variables", "mutability"]
+  "tags": [
+    "variables",
+    "mutability"
+  ]
 }

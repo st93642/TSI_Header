@@ -4,7 +4,13 @@
   "description": "Test your ability to determine if three vectors are coplanar.",
   "difficulty": "advanced",
   "workbook": "HELM Workbook 9 Vectors",
-  "tags": ["mathematics", "vectors", "coplanar", "scalar triple product", "linear dependence"],
+  "tags": [
+    "mathematics",
+    "vectors",
+    "coplanar",
+    "scalar triple product",
+    "linear dependence"
+  ],
   "questions": [
     {
       "question": "What is the condition for three vectors to be coplanar?",

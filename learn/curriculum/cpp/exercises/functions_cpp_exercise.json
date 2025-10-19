@@ -16,5 +16,9 @@
     "average should add the parameters and divide by 2.0 so you keep one decimal place.",
     "Replace the TODO placeholders in the output with actual function calls."
   ],
-  "tags": ["functions", "return-values", "beginner"]
+  "tags": [
+    "functions",
+    "return-values",
+    "beginner"
+  ]
 }
