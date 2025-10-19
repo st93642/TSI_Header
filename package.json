@@ -721,6 +721,21 @@
         "command": "tsiheader.refreshCommands",
         "when": "view == tsi-commands",
         "group": "navigation"
+      },
+      {
+        "command": "tsiheader.learnMathematics",
+        "when": "view == tsi-commands",
+        "group": "learning"
+      },
+      {
+        "command": "tsiheader.browseMathematicsWorkbooks",
+        "when": "view == tsi-commands",
+        "group": "learning"
+      },
+      {
+        "command": "tsiheader.viewMathematicsExercises",
+        "when": "view == tsi-commands",
+        "group": "learning"
       }
     ],
     "view/title:tsi-projects": [
@@ -778,21 +793,6 @@
         "command": "tsiheader.viewOdinCacheStats",
         "when": "view == tsi-projects",
         "group": "cached-lessons"
-      },
-      {
-        "command": "tsiheader.learnMathematics",
-        "when": "view == tsi-projects",
-        "group": "mathematics"
-      },
-      {
-        "command": "tsiheader.browseMathematicsWorkbooks",
-        "when": "view == tsi-projects",
-        "group": "mathematics"
-      },
-      {
-        "command": "tsiheader.viewMathematicsExercises",
-        "when": "view == tsi-projects",
-        "group": "mathematics"
       }
     ],
     "view/title:tsi-calendar-container": [
