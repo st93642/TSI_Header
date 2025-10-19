@@ -64,24 +64,15 @@ class MathematicsManager {
      */
     async openWorkbook(workbook) {
         try {
-            // Open PDF file directly in VS Code
-            const document = await this.vscode.workspace.openTextDocument(workbook.path);
-            await this.vscode.window.showTextDocument(document, {
-                viewColumn: this.vscode.ViewColumn.One,
-                preview: false
-            });
-
+            // Open PDF file using VS Code's default file opener
+            const uri = this.vscode.Uri.file(workbook.path);
+            await this.vscode.commands.executeCommand('vscode.open', uri);
         } catch (error) {
-            // If direct opening fails, try opening with system default application
-            try {
-                await this.vscode.commands.executeCommand('vscode.open', this.vscode.Uri.file(workbook.path));
-            } catch (fallbackError) {
-                this.vscode.window.showErrorMessage(
-                    `Failed to open workbook: ${error.message}`,
-                    { modal: true },
-                    'Got it!'
-                );
-            }
+            this.vscode.window.showErrorMessage(
+                `Failed to open workbook: ${error.message}`,
+                { modal: true },
+                'Got it!'
+            );
         }
     }
 
@@ -171,146 +162,6 @@ class MathematicsManager {
         return 'Mathematics Lesson';
     }
 
-    /**
-     * Generate HTML for lesson viewer
-     * @param {Object} lesson - Lesson object
-     * @returns {string} HTML string
-     */
-    getLessonHtml(lesson) {
-        // Simple markdown-like rendering (could be enhanced with a proper markdown parser)
-        const renderedContent = lesson.content
-            .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/`(.+?)`/g, '<code>$1</code>')
-            .replace(/\n\n/g, '</p><p>')
-            .replace(/\n/g, '<br>');
-
-        return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${lesson.title}</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: var(--vscode-font-family);
-            color: var(--vscode-foreground);
-            background-color: var(--vscode-editor-background);
-            padding: 20px;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            color: var(--vscode-textLink-foreground);
-            border-bottom: 2px solid var(--vscode-textLink-foreground);
-            padding-bottom: 10px;
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        h2 {
-            color: var(--vscode-textLink-foreground);
-            font-size: 24px;
-            font-weight: 600;
-            margin: 30px 0 15px 0;
-        }
-        h3 {
-            color: var(--vscode-textLink-foreground);
-            font-size: 20px;
-            font-weight: 600;
-            margin: 25px 0 10px 0;
-        }
-        p {
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-        code {
-            background-color: var(--vscode-textCodeBlock-background);
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-family: var(--vscode-editor-font-family);
-            font-size: 14px;
-        }
-        strong {
-            font-weight: 600;
-        }
-        em {
-            font-style: italic;
-        }
-        .math-expression {
-            background-color: var(--vscode-textBlockQuote-background);
-            border-left: 4px solid var(--vscode-textLink-foreground);
-            padding: 15px 20px;
-            margin: 20px 0;
-            font-family: 'Times New Roman', serif;
-        }
-        .navigation {
-            margin-top: 40px;
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid var(--vscode-textBlockQuote-border);
-        }
-        .nav-button {
-            background-color: var(--vscode-button-background);
-            color: var(--vscode-button-foreground);
-            border: none;
-            padding: 10px 20px;
-            margin: 0 5px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-        }
-        .nav-button:hover {
-            background-color: var(--vscode-button-hoverBackground);
-        }
-    </style>
-</head>
-<body>
-    <h1>📖 ${lesson.title}</h1>
-    <div class="content">
-        <p>${renderedContent}</p>
-    </div>
-
-    <div class="navigation">
-        <button class="nav-button" onclick="openWorkbook()">📚 View Workbook</button>
-        <button class="nav-button" onclick="startExercise()">📝 Practice Exercise</button>
-        <button class="nav-button" onclick="nextLesson()">Next Lesson →</button>
-    </div>
-
-    <script>
-        const vscode = acquireVsCodeApi();
-
-        function openWorkbook() {
-            vscode.postMessage({
-                command: 'openWorkbook'
-            });
-        }
-
-        function startExercise() {
-            vscode.postMessage({
-                command: 'startExercise'
-            });
-        }
-
-        function nextLesson() {
-            vscode.postMessage({
-                command: 'nextLesson'
-            });
-        }
-    </script>
-</body>
-</html>`;
-    }
     /**
      * Generate HTML for lesson viewer
      * @param {Object} lesson - Lesson object
