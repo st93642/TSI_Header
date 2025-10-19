@@ -1,0 +1,18 @@
+{
+  "id": "matrix_solution_linear_systems",
+  "title": "Matrix Solution of Systems of Linear Equations",
+  "description": "Solve systems of linear equations using matrix methods. Convert the system to matrix form and apply appropriate solution techniques.\n\n**Instructions:**\n1. Convert the system to matrix form AX = B\n2. Determine if the system has a unique solution, infinite solutions, or no solution\n3. Solve using appropriate method (inverse, Gauss elimination, or Cramer's rule)\n4. Verify your solution by substitution\n\n**System 1 (Unique Solution):**\n```\n2x + 3y = 8\nx - y = 1\n```\n\n**System 2 (Infinite Solutions):**\n```\nx + 2y = 4\n2x + 4y = 8\n```\n\n**System 3 (No Solution):**\n```\nx + y = 3\nx + y = 5\n```\n\n**Matrix Form:**\nFor a system of equations, write as AX = B where:\n- A is the coefficient matrix\n- X is the variable vector [x, y, z, ...]ᵀ\n- B is the constant vector\n\n**Solution Methods:**\n- If det(A) ≠ 0: Unique solution using X = A⁻¹B\n- If det(A) = 0: May have infinite solutions or no solution",
+  "difficulty": "advanced",
+  "type": "manual",
+  "tags": ["mathematics", "matrices", "linear algebra", "linear systems", "matrix equations"],
+  "hints": [
+    "Convert each equation to matrix form",
+    "The coefficient matrix A contains coefficients of variables",
+    "Check the determinant to determine solution type",
+    "For unique solutions, use matrix inverse",
+    "Verify solutions by substituting back into original equations"
+  ],
+  "solution": "**System 1 - Unique Solution:**\n\nMatrix form: AX = B\nA = [2 3; 1 -1], X = [x; y], B = [8; 1]\n\ndet(A) = (2×-1) - (3×1) = -2 - 3 = -5 ≠ 0 → Unique solution\n\nA⁻¹ = (1/-5) × [-1  -3; -1  2] = \n[ 1/5  3/5 ]\n[ 1/5  -2/5 ]\n\nX = A⁻¹B = \n[ 1/5×8 + 3/5×1 ]\n[ 1/5×8 + (-2/5)×1 ]\n= \n[ 8/5 + 3/5 ]\n[ 8/5 - 2/5 ]\n= \n[ 11/5 ]\n[ 6/5 ]\n\nSolution: x = 11/5 = 2.2, y = 6/5 = 1.2\n\nVerification: 2×2.2 + 3×1.2 = 4.4 + 3.6 = 8 ✓\n2.2 - 1.2 = 1 ✓\n\n**System 2 - Infinite Solutions:**\n\nMatrix form: A = [1 2; 2 4], B = [4; 8]\n\ndet(A) = (1×4) - (2×2) = 4 - 4 = 0\n\nRow reduce augmented matrix [A|B]:\n[1 2 | 4]\n[2 4 | 8]\n\nR2 = R2 - 2×R1: [1 2 | 4]\n[0 0 | 0]\n\nInfinite solutions: x + 2y = 4, or y = (4-x)/2\nParametric: x = t, y = 2 - t/2 for any t\n\n**System 3 - No Solution:**\n\nMatrix form: A = [1 1; 1 1], B = [3; 5]\n\ndet(A) = (1×1) - (1×1) = 1 - 1 = 0\n\nAugmented matrix: [1 1 | 3]\n[1 1 | 5]\n\nR2 = R2 - R1: [1 1 | 3]\n[0 0 | 2]\n\nContradiction: 0 = 2 is impossible → No solution",
+  "lessonId": "linear_systems",
+  "workbook": "HELM Workbook 7 Matrices"
+}

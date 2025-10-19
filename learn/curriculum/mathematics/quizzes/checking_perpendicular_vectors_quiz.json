@@ -1,0 +1,65 @@
+{
+  "id": "checking_perpendicular_vectors_quiz",
+  "title": "Checking Perpendicular Vectors Quiz",
+  "description": "Test your ability to determine if vectors are perpendicular.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": ["mathematics", "vectors", "perpendicular", "dot product", "orthogonal"],
+  "questions": [
+    {
+      "question": "What is the condition for two vectors to be perpendicular?",
+      "options": [
+        "a × b = 0",
+        "a · b = 0",
+        "|a| = |b|",
+        "a = b"
+      ],
+      "correct": 1,
+      "explanation": "Two vectors are perpendicular if their dot product is zero."
+    },
+    {
+      "question": "Are vectors a=(2,3,1) and b=(1,-2,4) perpendicular?",
+      "options": [
+        "Yes",
+        "No",
+        "Cannot determine",
+        "Only in 2D"
+      ],
+      "correct": 0,
+      "explanation": "a · b = 2*1 + 3*(-2) + 1*4 = 2 - 6 + 4 = 0, so they are perpendicular."
+    },
+    {
+      "question": "Which of these vectors is perpendicular to (1,2,3)?",
+      "options": [
+        "(2,4,6)",
+        "(1,-1,1)",
+        "(1,-2,1)",
+        "(3,2,1)"
+      ],
+      "correct": 2,
+      "explanation": "(1,2,3) · (1,-2,1) = 1*1 + 2*(-2) + 3*1 = 1 - 4 + 3 = 0, so they are perpendicular."
+    },
+    {
+      "question": "The zero vector is perpendicular to:",
+      "options": [
+        "No vectors",
+        "Only itself",
+        "All vectors",
+        "Only unit vectors"
+      ],
+      "correct": 2,
+      "explanation": "The dot product of the zero vector with any vector is always zero, so it is perpendicular to all vectors."
+    },
+    {
+      "question": "Can two parallel non-zero vectors be perpendicular?",
+      "options": [
+        "Yes, always",
+        "Yes, sometimes",
+        "No, never",
+        "Only in 2D space"
+      ],
+      "correct": 2,
+      "explanation": "Parallel non-zero vectors have a dot product equal to |a||b|, which is only zero if one vector is zero. So they are never perpendicular."
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "id": "inverse_matrix_method_linear_systems_quiz",
+  "title": "Inverse Matrix Method for Linear Systems Quiz",
+  "description": "Test your understanding of solving linear systems using matrix inversion.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is the solution to AX = B using the inverse method?",
+      "options": [
+        "X = B × A",
+        "X = A × B",
+        "X = A⁻¹ × B",
+        "X = B × A⁻¹"
+      ],
+      "correct": 2,
+      "explanation": "X = A⁻¹B is the matrix inverse method."
+    },
+    {
+      "question": "When can the inverse matrix method be used?",
+      "options": [
+        "Always",
+        "When A is square",
+        "When A is invertible",
+        "When B is a column vector"
+      ],
+      "correct": 2,
+      "explanation": "The method requires A to be invertible (square and det ≠ 0)."
+    },
+    {
+      "question": "What is the advantage of the inverse matrix method?",
+      "options": [
+        "Works for any system",
+        "Gives exact solutions",
+        "Is always faster than Gauss elimination",
+        "Doesn't require determinants"
+      ],
+      "correct": 1,
+      "explanation": "The method gives exact symbolic solutions."
+    },
+    {
+      "question": "How many equations and variables are needed?",
+      "options": [
+        "Any number",
+        "Equal number of equations and variables",
+        "More equations than variables",
+        "More variables than equations"
+      ],
+      "correct": 1,
+      "explanation": "The method requires a square coefficient matrix."
+    },
+    {
+      "question": "What should you check first?",
+      "options": [
+        "If B is non-zero",
+        "If A is square",
+        "If det(A) ≠ 0",
+        "If the system is consistent"
+      ],
+      "correct": 2,
+      "explanation": "First verify that the coefficient matrix is invertible."
+    }
+  ]
+}

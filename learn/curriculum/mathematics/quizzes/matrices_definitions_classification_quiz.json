@@ -1,0 +1,63 @@
+{
+  "id": "matrices_definitions_classification_quiz",
+  "title": "Matrices: Definitions, Examples, and Classification Quiz",
+  "description": "Test your understanding of matrix terminology, dimensions, and classification.",
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "question": "What are the dimensions of a matrix with 3 rows and 4 columns?",
+      "options": [
+        "3×4",
+        "4×3",
+        "7×1",
+        "1×12"
+      ],
+      "correct": 0,
+      "explanation": "Matrix dimensions are always written as rows × columns."
+    },
+    {
+      "question": "Which of the following is a square matrix?",
+      "options": [
+        "[1 2 3]",
+        "[1 2; 3 4]",
+        "[1 2 3; 4 5 6]",
+        "[1; 2; 3]"
+      ],
+      "correct": 1,
+      "explanation": "A square matrix has equal number of rows and columns. The matrix [1 2; 3 4] is 2×2."
+    },
+    {
+      "question": "What type of matrix is [0 0; 0 0]?",
+      "options": [
+        "Identity matrix",
+        "Zero matrix",
+        "Diagonal matrix",
+        "Scalar matrix"
+      ],
+      "correct": 1,
+      "explanation": "A zero matrix contains all zero elements."
+    },
+    {
+      "question": "Which matrix represents the identity matrix I₃?",
+      "options": [
+        "[1 0 0; 0 1 0; 0 0 1]",
+        "[0 0 0; 0 0 0; 0 0 0]",
+        "[1 1 1; 1 1 1; 1 1 1]",
+        "[2 0 0; 0 2 0; 0 0 2]"
+      ],
+      "correct": 0,
+      "explanation": "The identity matrix has 1s on the main diagonal and 0s elsewhere."
+    },
+    {
+      "question": "What is the difference between a row matrix and a column matrix?",
+      "options": [
+        "Row matrix has one row, column matrix has one column",
+        "Row matrix is horizontal, column matrix is vertical",
+        "Row matrix has more elements than column matrix",
+        "There is no difference"
+      ],
+      "correct": 0,
+      "explanation": "A row matrix has dimensions 1×n, while a column matrix has dimensions n×1."
+    }
+  ]
+}

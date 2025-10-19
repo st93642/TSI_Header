@@ -1,0 +1,65 @@
+{
+  "id": "general_equation_plane_quiz",
+  "title": "General Equation of a Plane Quiz",
+  "description": "Test your understanding of general equations of planes.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": ["mathematics", "vectors", "planes", "general equation", "cartesian form"],
+  "questions": [
+    {
+      "question": "What is the general equation of a plane?",
+      "options": [
+        "x² + y² + z² = r²",
+        "ax + by + cz = d",
+        "ax + by + cz + d = 0",
+        "x/a + y/b + z/c = 1"
+      ],
+      "correct": 2,
+      "explanation": "The general equation is ax + by + cz + d = 0."
+    },
+    {
+      "question": "In ax + by + cz + d = 0, what do a, b, c represent?",
+      "options": [
+        "Direction ratios",
+        "Components of normal vector",
+        "Coordinates of a point",
+        "Direction cosines"
+      ],
+      "correct": 1,
+      "explanation": "a, b, c are the components of the normal vector to the plane."
+    },
+    {
+      "question": "The distance from origin to plane ax + by + cz + d = 0 is:",
+      "options": [
+        "|d|",
+        "|d| / √(a² + b² + c²)",
+        "√(a² + b² + c²)",
+        "a² + b² + c² + d²"
+      ],
+      "correct": 1,
+      "explanation": "Distance = |d| / √(a² + b² + c²), where the normal vector has magnitude √(a² + b² + c²)."
+    },
+    {
+      "question": "A plane parallel to the xy-plane has equation:",
+      "options": [
+        "x = constant",
+        "y = constant",
+        "z = constant",
+        "x + y + z = constant"
+      ],
+      "correct": 2,
+      "explanation": "Parallel to xy-plane means normal vector (0,0,1), so equation is z = constant."
+    },
+    {
+      "question": "The intercept form represents a plane that:",
+      "options": [
+        "Passes through the origin",
+        "Is parallel to coordinate planes",
+        "Cuts coordinate axes at given points",
+        "Is perpendicular to coordinate planes"
+      ],
+      "correct": 2,
+      "explanation": "The intercept form x/a + y/b + z/c = 1 shows intercepts a, b, c on the axes."
+    }
+  ]
+}

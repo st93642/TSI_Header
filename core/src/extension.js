@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Oct 19 2025 15:36 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 19 2025 15:37 st93642                                       */
+/*  Updated: Oct 19 2025 16:23 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -2312,23 +2312,10 @@ extern "C" {
             const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
             const mathManager = new MathematicsManager(context, vscode);
             
-            // For now, show available exercises manually
-            const exercises = [
-                {
-                    id: 'matrix_operations_basics',
-                    title: 'Matrix Addition and Scalar Multiplication',
-                    description: 'Practice basic matrix operations'
-                },
-                {
-                    id: 'gaussian_elimination_practice',
-                    title: 'Solving Systems with Gaussian Elimination',
-                    description: 'Use Gaussian elimination to solve linear systems'
-                }
-            ];
-            
+            const exercises = await mathManager.getExercises();
             const exerciseItems = exercises.map(exercise => ({
                 label: `📝 ${exercise.title}`,
-                description: exercise.description,
+                description: 'Practice mathematics concepts',
                 exercise: exercise
             }));
             

@@ -1,0 +1,63 @@
+{
+  "id": "laplace_expansion_quiz",
+  "title": "Laplace Expansion Quiz",
+  "description": "Test your understanding of cofactor expansion for calculating determinants.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is the cofactor C₁₁ for matrix [1 2; 3 4]?",
+      "options": [
+        "4",
+        "(-1)^(1+1)×4 = 4",
+        "(-1)^(1+1)×1 = 1",
+        "(-1)^(1+2)×2 = -2"
+      ],
+      "correct": 1,
+      "explanation": "C₁₁ = (-1)^(1+1) × det([4]) = 1 × 4 = 4"
+    },
+    {
+      "question": "Laplace expansion can be performed along:",
+      "options": [
+        "Only the first row",
+        "Only the main diagonal",
+        "Any row or column",
+        "Only rows"
+      ],
+      "correct": 2,
+      "explanation": "Expansion can be done along any row or any column."
+    },
+    {
+      "question": "What is the sign pattern for cofactors?",
+      "options": [
+        "All positive",
+        "Alternating based on position",
+        "Depends on matrix elements",
+        "Always negative for even positions"
+      ],
+      "correct": 1,
+      "explanation": "Cofactor signs follow (-1)^(i+j) pattern."
+    },
+    {
+      "question": "When calculating a 4×4 determinant using Laplace expansion, how many 3×3 determinants do you need to calculate?",
+      "options": [
+        "1",
+        "4",
+        "16",
+        "24"
+      ],
+      "correct": 1,
+      "explanation": "Expanding along one row gives 4 cofactors, each requiring one 3×3 determinant."
+    },
+    {
+      "question": "What should you choose for efficient Laplace expansion?",
+      "options": [
+        "Row or column with most zeros",
+        "Row or column with largest elements",
+        "Main diagonal",
+        "Last row"
+      ],
+      "correct": 0,
+      "explanation": "Choose rows/columns with many zeros to minimize calculations."
+    }
+  ]
+}

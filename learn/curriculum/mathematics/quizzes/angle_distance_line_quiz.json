@@ -1,0 +1,65 @@
+{
+  "id": "angle_distance_line_quiz",
+  "title": "Angle Between Lines and Distance Quiz",
+  "description": "Test your understanding of angles between lines and point-to-line distances.",
+  "difficulty": "advanced",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": ["mathematics", "vectors", "lines", "angles", "distances", "geometry"],
+  "questions": [
+    {
+      "question": "How do you find the angle between two lines?",
+      "options": [
+        "Add their direction vectors",
+        "Take dot product of direction vectors",
+        "Take cross product of direction vectors",
+        "Subtract their position vectors"
+      ],
+      "correct": 1,
+      "explanation": "cos θ = |b₁ · b₂| / (|b₁| |b₂|), using the dot product of direction vectors."
+    },
+    {
+      "question": "The angle between lines is always:",
+      "options": [
+        "Acute",
+        "Obtuse",
+        "Right angle",
+        "Between 0° and 180°"
+      ],
+      "correct": 0,
+      "explanation": "The angle between lines is defined as the acute angle, so it's always between 0° and 90°."
+    },
+    {
+      "question": "What does distance = 0 indicate?",
+      "options": [
+        "Lines are parallel",
+        "Lines are perpendicular",
+        "Point lies on the line",
+        "Lines intersect"
+      ],
+      "correct": 2,
+      "explanation": "If the distance from a point to a line is zero, the point lies on the line."
+    },
+    {
+      "question": "The formula for distance from point to line uses:",
+      "options": [
+        "Dot product only",
+        "Cross product only",
+        "Both dot and cross products",
+        "Neither dot nor cross products"
+      ],
+      "correct": 1,
+      "explanation": "Distance = |(c - a) × b| / |b|, using the cross product."
+    },
+    {
+      "question": "For perpendicular lines, the angle θ satisfies:",
+      "options": [
+        "cos θ = 0",
+        "cos θ = 1",
+        "sin θ = 0",
+        "tan θ = 0"
+      ],
+      "correct": 0,
+      "explanation": "Perpendicular lines have direction vectors with dot product zero, so cos θ = 0."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "matrices_definitions_classification",
+  "title": "Matrices: Definitions, Examples, and Classification",
+  "description": "Practice identifying and classifying different types of matrices. Understand the basic concepts and terminology used in matrix algebra.\n\n**Instructions:**\n1. Identify the dimensions (rows × columns) of each matrix\n2. Classify each matrix by type (square, rectangular, row, column, etc.)\n3. Determine if matrices are equal where applicable\n4. Identify special matrix types (diagonal, identity, zero, etc.)\n\n**Matrix A:**\n```\n[ 1  2  3 ]\n[ 4  5  6 ]\n```\n\n**Matrix B:**\n```\n[ 1  0  0 ]\n[ 0  1  0 ]\n[ 0  0  1 ]\n```\n\n**Matrix C:**\n```\n[ 2  0  0 ]\n[ 0  2  0 ]\n[ 0  0  2 ]\n```\n\n**Matrix D:**\n```\n[ 0  0  0 ]\n[ 0  0  0 ]\n```\n\n**Matrix E:**\n```\n[ 5 ]\n[ 3 ]\n[ 1 ]\n```\n\n**Matrix F:**\n```\n[ 7  8  9 ]\n```\n\nFor each matrix, provide:\n- Dimensions\n- Classification (square/rectangular/row/column matrix)\n- Special type (if any)\n\nCompare matrices A and B for equality.",
+  "difficulty": "intermediate",
+  "type": "manual",
+  "tags": ["mathematics", "matrices", "linear algebra", "matrix classification"],
+  "hints": [
+    "Matrix dimensions are written as rows × columns",
+    "A square matrix has equal number of rows and columns",
+    "A row matrix has only one row, a column matrix has only one column",
+    "Two matrices are equal if they have the same dimensions and identical corresponding elements",
+    "Identity matrix has 1s on the main diagonal and 0s elsewhere",
+    "Zero matrix contains all zero elements"
+  ],
+  "solution": "**Matrix A:**\n- Dimensions: 2 × 3 (rectangular matrix)\n- Classification: Rectangular matrix\n- Special type: None\n\n**Matrix B:**\n- Dimensions: 3 × 3 (square matrix)\n- Classification: Square matrix\n- Special type: Identity matrix (I₃)\n\n**Matrix C:**\n- Dimensions: 3 × 3 (square matrix)\n- Classification: Square matrix\n- Special type: Scalar matrix (diagonal matrix with equal diagonal elements)\n\n**Matrix D:**\n- Dimensions: 2 × 3 (rectangular matrix)\n- Classification: Rectangular matrix\n- Special type: Zero matrix (all elements are zero)\n\n**Matrix E:**\n- Dimensions: 3 × 1 (column matrix)\n- Classification: Column matrix\n- Special type: None\n\n**Matrix F:**\n- Dimensions: 1 × 3 (row matrix)\n- Classification: Row matrix\n- Special type: None\n\n**Equality Comparison:**\nMatrices A and B are NOT equal because they have different dimensions (2×3 vs 3×3).",
+  "lessonId": "matrices_introduction",
+  "workbook": "HELM Workbook 7 Matrices"
+}

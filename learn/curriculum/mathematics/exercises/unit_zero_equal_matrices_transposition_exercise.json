@@ -1,0 +1,18 @@
+{
+  "id": "unit_zero_equal_matrices_transposition",
+  "title": "Unit, Zero, Equal Matrices and Transposition",
+  "description": "Work with special matrices (unit/identity, zero) and matrix transposition. Practice identifying these matrices and performing transposition operations.\n\n**Instructions:**\n1. Identify the unit (identity) matrix and zero matrix\n2. Perform matrix transposition on given matrices\n3. Compare matrices for equality\n4. Verify transposition properties\n\n**Matrix A (Identity Matrix):**\n```\n[ 1  0  0 ]\n[ 0  1  0 ]\n[ 0  0  1 ]\n```\n\n**Matrix B (Zero Matrix):**\n```\n[ 0  0 ]\n[ 0  0 ]\n```\n\n**Matrix C:**\n```\n[ 3  1  4 ]\n[ 2  5  6 ]\n```\n\n**Matrix D:**\n```\n[ 3  2 ]\n[ 1  5 ]\n[ 4  6 ]\n```\n\n**Tasks:**\n1. Confirm that Matrix A is the 3×3 identity matrix\n2. Confirm that Matrix B is the 2×2 zero matrix\n3. Find the transpose of Matrix C (Cᵀ)\n4. Find the transpose of Matrix D (Dᵀ)\n5. Verify that (Cᵀ)ᵀ = C\n6. Determine if C and D are equal\n\n**Note:** Matrix transposition swaps rows and columns: element (i,j) becomes element (j,i).",
+  "difficulty": "intermediate",
+  "type": "manual",
+  "tags": ["mathematics", "matrices", "linear algebra", "transposition", "identity matrix", "zero matrix"],
+  "hints": [
+    "The identity matrix Iₙ has 1s on the main diagonal and 0s elsewhere",
+    "The zero matrix contains all zero elements",
+    "Matrix transposition swaps rows and columns: (Aᵀ)[i][j] = A[j][i]",
+    "Double transposition returns the original matrix: (Aᵀ)ᵀ = A",
+    "Two matrices are equal if they have the same dimensions and identical elements"
+  ],
+  "solution": "**1. Identity Matrix Confirmation:**\nMatrix A is the 3×3 identity matrix I₃ ✓\n\n**2. Zero Matrix Confirmation:**\nMatrix B is the 2×2 zero matrix ✓\n\n**3. Transpose of Matrix C:**\nCᵀ = \n[ 3  2 ]\n[ 1  5 ]\n[ 4  6 ]\n\n**4. Transpose of Matrix D:**\nDᵀ = \n[ 3  1  4 ]\n[ 2  5  6 ]\n\n**5. Double Transposition Verification:**\n(Cᵀ)ᵀ = \n[ 3  1  4 ]\n[ 2  5  6 ]\n= C ✓\n\n**6. Equality Check:**\nMatrices C and D are NOT equal (different dimensions: 2×3 vs 3×2)",
+  "lessonId": "matrices_introduction",
+  "workbook": "HELM Workbook 7 Matrices"
+}

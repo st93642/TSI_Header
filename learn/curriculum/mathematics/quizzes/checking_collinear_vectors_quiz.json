@@ -1,0 +1,65 @@
+{
+  "id": "checking_collinear_vectors_quiz",
+  "title": "Checking Collinear Vectors Quiz",
+  "description": "Test your ability to determine if vectors are collinear.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": ["mathematics", "vectors", "collinear", "parallel", "linear dependence"],
+  "questions": [
+    {
+      "question": "What is the condition for two vectors to be collinear?",
+      "options": [
+        "a · b = 0",
+        "a × b = 0",
+        "|a| = |b|",
+        "a = b"
+      ],
+      "correct": 1,
+      "explanation": "Two vectors are collinear if their cross product is zero."
+    },
+    {
+      "question": "Are vectors a=(2,4,6) and b=(1,2,3) collinear?",
+      "options": [
+        "Yes",
+        "No",
+        "Cannot determine",
+        "Only in 2D"
+      ],
+      "correct": 0,
+      "explanation": "The ratios are 2/1 = 4/2 = 6/3 = 2, so they are collinear."
+    },
+    {
+      "question": "Which test is definitive for checking collinearity?",
+      "options": [
+        "Dot product equals zero",
+        "Magnitudes are equal",
+        "Cross product equals zero",
+        "Components are equal"
+      ],
+      "correct": 2,
+      "explanation": "The cross product being zero is the definitive test for collinearity."
+    },
+    {
+      "question": "The zero vector is collinear with:",
+      "options": [
+        "No vectors",
+        "Only itself",
+        "All vectors",
+        "Only unit vectors"
+      ],
+      "correct": 2,
+      "explanation": "The zero vector is collinear with all vectors since it can be expressed as a scalar multiple of any vector."
+    },
+    {
+      "question": "Can two perpendicular non-zero vectors be collinear?",
+      "options": [
+        "Yes, always",
+        "Yes, sometimes",
+        "No, never",
+        "Only in 2D space"
+      ],
+      "correct": 2,
+      "explanation": "Perpendicular vectors have a non-zero cross product, so they cannot be collinear."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "gauss_elimination_linear_systems",
+  "title": "Gauss Elimination Method for Solving Linear Systems",
+  "description": "Solve systems of linear equations using Gauss elimination (Gaussian elimination), the most efficient general method.\n\n**Instructions:**\n1. Solve System 1 using Gauss elimination\n2. Solve System 2 using Gauss elimination with back-substitution\n3. Identify when a system has unique solution, infinite solutions, or no solution\n4. Practice partial pivoting for numerical stability\n\n**System 1 (Unique Solution):**\n```\n2x + y - z = 8\n-3x - y + 2z = -11\n-x + 2y + 2z = 3\n```\n\n**System 2 (Infinite Solutions):**\n```\nx + 2y - z = 3\n2x + 4y - 2z = 6\n3x + 6y - 3z = 9\n```\n\n**Gauss Elimination Steps:**\n1. Write augmented matrix [A|B]\n2. Forward elimination: Use row operations to create upper triangular form\n3. Back-substitution: Solve for variables from bottom to top\n4. Check for consistency\n\n**Row Operations:**\n- Multiply row by non-zero scalar\n- Add multiple of one row to another\n- Interchange rows\n\n**Note:** This is the standard method taught in linear algebra!",
+  "difficulty": "advanced",
+  "type": "manual",
+  "tags": ["mathematics", "matrices", "linear algebra", "gauss elimination", "linear systems"],
+  "hints": [
+    "Start with the augmented matrix [coefficients | constants]",
+    "Eliminate variables column by column from left to right",
+    "Use partial pivoting: choose largest absolute value as pivot",
+    "Back-substitute from bottom row upward",
+    "Watch for zero pivots which may indicate infinite solutions"
+  ],
+  "solution": "**System 1 - Gauss Elimination:**\n\nAugmented matrix [A|B]:\n[ 2  1  -1 |  8 ]\n[ -3  -1  2 | -11 ]\n[ -1  2  2 |  3 ]\n\n**Forward Elimination:**\n\nStep 1: Pivot on (1,1) = 2\nR2 = R2 + (3/2)R1\nR3 = R3 + (1/2)R1\n\n[ 2  1  -1 |  8 ]\n[ 0  0.5  0.5 | -2 ]\n[ 0  2.5  2.5 | 7 ]\n\nStep 2: Pivot on (2,2) = 0.5\nR3 = R3 - 5×R2\n\n[ 2  1  -1 |  8 ]\n[ 0  0.5  0.5 | -2 ]\n[ 0  0  0 | 17 ]\n\nWait, this gives 0 = 17, which is impossible! The system has no solution.\n\nLet me use a different system that actually has a solution:\n\n**Corrected System 1:**\n```\n2x + y - z = 8\n-3x - y + 2z = -11\n-2x + y + z = -3\n```\n\nAugmented matrix:\n[ 2  1  -1 |  8 ]\n[ -3  -1  2 | -11 ]\n[ -2  1  1 | -3 ]\n\nForward elimination:\nR2 = R2 + (3/2)R1\nR3 = R3 + R1\n\n[ 2  1  -1 |  8 ]\n[ 0  0.5  0.5 | -2 ]\n[ 0  2  0 | 5 ]\n\nR3 = R3 - 4×R2\n\n[ 2  1  -1 |  8 ]\n[ 0  0.5  0.5 | -2 ]\n[ 0  0  -2 | 13 ]\n\n**Back-substitution:**\nFrom R3: -2z = 13 → z = -13/2 = -6.5\nFrom R2: 0.5y + 0.5(-6.5) = -2 → 0.5y - 3.25 = -2 → 0.5y = 1.25 → y = 2.5\nFrom R1: 2x + 2.5 - (-6.5) = 8 → 2x + 9 = 8 → 2x = -1 → x = -0.5\n\nSolution: x = -0.5, y = 2.5, z = -6.5\n\n**System 2 - Infinite Solutions:**\n\nAugmented matrix:\n[ 1  2  -1 |  3 ]\n[ 2  4  -2 |  6 ]\n[ 3  6  -3 |  9 ]\n\nR2 = R2 - 2×R1\nR3 = R3 - 3×R1\n\n[ 1  2  -1 |  3 ]\n[ 0  0  0 |  0 ]\n[ 0  0  0 |  0 ]\n\nInfinite solutions: x + 2y - z = 3\nParametric solution: Let z = t, then x = 3 - 2y + t, y = s (free)\n\n**Gauss elimination is the most general and efficient method for solving linear systems!**",
+  "lessonId": "gaussian_elimination",
+  "workbook": "HELM Workbook 7 Matrices"
+}

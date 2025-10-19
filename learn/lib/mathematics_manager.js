@@ -128,6 +128,27 @@ class MathematicsManager {
     }
 
     /**
+     * Get list of available exercises
+     * @returns {Promise<Array>} Array of exercise objects
+     */
+    async getExercises() {
+        try {
+            const exercisesPath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'exercises');
+            const files = await fs.readdir(exercisesPath);
+            const jsonFiles = files.filter(file => file.endsWith('_exercise.json'));
+
+            return jsonFiles.map(filename => ({
+                id: filename.replace('_exercise.json', ''),
+                title: filename.replace('_exercise.json', '').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                filename: filename,
+                path: path.join(exercisesPath, filename)
+            }));
+        } catch (error) {
+            throw new Error(`Failed to load exercises: ${error.message}`);
+        }
+    }
+
+    /**
      * Open an exercise in webview
      * @param {Object} exercise - Exercise object
      * @returns {Promise<void>}
@@ -145,6 +166,75 @@ class MathematicsManager {
             );
 
             panel.webview.html = this.getExerciseHtml(exercise);
+
+            // Handle messages from the webview
+            panel.webview.onDidReceiveMessage(async (message) => {
+                switch (message.command) {
+                    case 'openWorkbook':
+                        try {
+                            // Find the workbook based on the workbookId or exercise workbook reference
+                            const workbooks = await this.getWorkbooks();
+                            let workbookToOpen;
+
+                            if (message.workbookId) {
+                                // Find workbook by ID
+                                workbookToOpen = workbooks.find(wb =>
+                                    wb.id.includes(message.workbookId) ||
+                                    wb.title.toLowerCase().includes(message.workbookId.toLowerCase())
+                                );
+                            } else if (exercise.workbook) {
+                                // Find workbook by exercise's workbook reference
+                                workbookToOpen = workbooks.find(wb =>
+                                    wb.title.includes(exercise.workbook) ||
+                                    exercise.workbook.includes(wb.title)
+                                );
+                            }
+
+                            if (workbookToOpen) {
+                                await this.openWorkbook(workbookToOpen);
+                            } else {
+                                // Fallback: open first available workbook
+                                if (workbooks.length > 0) {
+                                    await this.openWorkbook(workbooks[0]);
+                                } else {
+                                    this.vscode.window.showErrorMessage('No workbooks available');
+                                }
+                            }
+                        } catch (error) {
+                            this.vscode.window.showErrorMessage(`Failed to open workbook: ${error.message}`);
+                        }
+                        break;
+
+                    case 'takeQuiz':
+                        try {
+                            // Find appropriate quiz based on exercise
+                            const quizzes = await this.getQuizzes();
+                            let quizToOpen;
+
+                            if (message.exerciseId) {
+                                // Try to find quiz that matches the exercise
+                                quizToOpen = quizzes.find(quiz =>
+                                    quiz.id.includes(message.exerciseId.replace('_exercise', '')) ||
+                                    message.exerciseId.includes(quiz.id)
+                                );
+                            }
+
+                            if (quizToOpen) {
+                                const quizData = await this.loadQuiz(quizToOpen.id);
+                                await this.openQuiz(quizData);
+                            } else if (quizzes.length > 0) {
+                                // Fallback: open first available quiz
+                                const quizData = await this.loadQuiz(quizzes[0].id);
+                                await this.openQuiz(quizData);
+                            } else {
+                                this.vscode.window.showErrorMessage('No quizzes available');
+                            }
+                        } catch (error) {
+                            this.vscode.window.showErrorMessage(`Failed to open quiz: ${error.message}`);
+                        }
+                        break;
+                }
+            });
 
         } catch (error) {
             this.vscode.window.showErrorMessage(
@@ -173,6 +263,38 @@ class MathematicsManager {
             );
 
             panel.webview.html = this.getQuizHtml(quiz);
+
+            // Handle messages from the webview
+            panel.webview.onDidReceiveMessage(async (message) => {
+                switch (message.command) {
+                    case 'openWorkbook':
+                        try {
+                            // Find the workbook based on the quiz's workbook reference
+                            const workbooks = await this.getWorkbooks();
+                            let workbookToOpen;
+
+                            if (quiz.workbook) {
+                                // Find workbook by quiz's workbook reference
+                                workbookToOpen = workbooks.find(wb =>
+                                    wb.title.includes(quiz.workbook) ||
+                                    quiz.workbook.includes(wb.title)
+                                );
+                            }
+
+                            if (workbookToOpen) {
+                                await this.openWorkbook(workbookToOpen);
+                            } else if (workbooks.length > 0) {
+                                // Fallback: open first available workbook
+                                await this.openWorkbook(workbooks[0]);
+                            } else {
+                                this.vscode.window.showErrorMessage('No workbooks available');
+                            }
+                        } catch (error) {
+                            this.vscode.window.showErrorMessage(`Failed to open workbook: ${error.message}`);
+                        }
+                        break;
+                }
+            });
 
         } catch (error) {
             this.vscode.window.showErrorMessage(
@@ -420,7 +542,7 @@ class MathematicsManager {
     getQuizHtml(quiz) {
         const questionsHtml = quiz.questions.map((question, index) => {
             const optionsHtml = question.options.map((option, optIndex) =>
-                `<label class="option">
+                `<label class="option" data-value="${optIndex}">
                     <input type="radio" name="q${index}" value="${optIndex}">
                     <span>${option}</span>
                 </label>`
@@ -432,6 +554,15 @@ class MathematicsManager {
                     <p>${question.question}</p>
                     <div class="options">
                         ${optionsHtml}
+                    </div>
+                    <div class="explanation" id="explanation-${index}" style="display: none;">
+                        <div class="explanation-content">
+                            <strong>Explanation:</strong> ${question.explanation || 'No explanation available.'}
+                        </div>
+                    </div>
+                    <div class="question-actions">
+                        <button class="btn check-btn" onclick="checkAnswer(${index})">Check Answer</button>
+                        <div class="feedback" id="feedback-${index}"></div>
                     </div>
                 </div>
             `;
@@ -525,10 +656,67 @@ class MathematicsManager {
         .option.correct {
             background-color: var(--vscode-charts-green);
             border-color: var(--vscode-charts-green);
+            color: white;
         }
         .option.incorrect {
             background-color: var(--vscode-charts-red);
             border-color: var(--vscode-charts-red);
+            color: white;
+        }
+        .option.correct.selected {
+            background-color: var(--vscode-charts-green);
+            border-color: var(--vscode-charts-green);
+            color: white;
+            font-weight: bold;
+        }
+        .option.incorrect.selected {
+            background-color: var(--vscode-charts-red);
+            border-color: var(--vscode-charts-red);
+            color: white;
+            font-weight: bold;
+        }
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: var(--vscode-textBlockQuote-background);
+            border: 1px solid var(--vscode-textBlockQuote-border);
+            border-radius: 6px;
+        }
+        .explanation-content {
+            color: var(--vscode-descriptionForeground);
+            line-height: 1.5;
+        }
+        .question-actions {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .check-btn {
+            background-color: var(--vscode-button-secondaryBackground);
+            color: var(--vscode-button-secondaryForeground);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .check-btn:hover {
+            background-color: var(--vscode-button-secondaryHoverBackground);
+        }
+        .check-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .feedback {
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        .feedback.correct {
+            color: var(--vscode-charts-green);
+        }
+        .feedback.incorrect {
+            color: var(--vscode-charts-red);
         }
         .actions {
             text-align: center;
@@ -613,6 +801,7 @@ class MathematicsManager {
         const quiz = ${JSON.stringify(quiz)};
         let currentQuestion = 0;
         let answers = new Array(quiz.questions.length).fill(null);
+        let checkedAnswers = new Array(quiz.questions.length).fill(false);
         let showResults = false;
 
         function updateUI() {
@@ -634,6 +823,56 @@ class MathematicsManager {
             document.getElementById('results').style.display = showResults ? 'block' : 'none';
             document.getElementById('quizContent').style.display = showResults ? 'none' : 'block';
             document.querySelector('.actions').style.display = showResults ? 'none' : 'block';
+        }
+
+        function checkAnswer(questionIndex) {
+            const question = quiz.questions[questionIndex];
+            const selectedOption = document.querySelector(\`input[name="q\${questionIndex}"]:checked\`);
+            
+            if (!selectedOption) {
+                document.getElementById(\`feedback-\${questionIndex}\`).textContent = 'Please select an answer first.';
+                document.getElementById(\`feedback-\${questionIndex}\`).className = 'feedback';
+                return;
+            }
+
+            const selectedValue = parseInt(selectedOption.value);
+            const isCorrect = selectedValue === question.correct;
+            
+            // Update answers array
+            answers[questionIndex] = selectedValue;
+            checkedAnswers[questionIndex] = true;
+            
+            // Highlight options
+            const options = document.querySelectorAll(\`input[name="q\${questionIndex}"]\`);
+            options.forEach((option, index) => {
+                const label = option.parentElement;
+                if (index === question.correct) {
+                    label.classList.add('correct');
+                    if (index === selectedValue) {
+                        label.classList.add('selected');
+                    }
+                } else if (index === selectedValue && !isCorrect) {
+                    label.classList.add('incorrect', 'selected');
+                }
+            });
+            
+            // Show explanation
+            document.getElementById(\`explanation-\${questionIndex}\`).style.display = 'block';
+            
+            // Show feedback
+            const feedback = document.getElementById(\`feedback-\${questionIndex}\`);
+            if (isCorrect) {
+                feedback.textContent = '✓ Correct!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = '✗ Incorrect. The correct answer is highlighted above.';
+                feedback.className = 'feedback incorrect';
+            }
+            
+            // Disable check button
+            const checkBtn = document.querySelector(\`.question[data-index="\${questionIndex}"] .check-btn\`);
+            checkBtn.disabled = true;
+            checkBtn.textContent = 'Answer Checked';
         }
 
         function nextQuestion() {
@@ -683,7 +922,28 @@ class MathematicsManager {
         function restartQuiz() {
             currentQuestion = 0;
             answers = new Array(quiz.questions.length).fill(null);
+            checkedAnswers = new Array(quiz.questions.length).fill(false);
             showResults = false;
+            
+            // Reset all UI elements
+            document.querySelectorAll('.option').forEach(option => {
+                option.className = 'option';
+            });
+            document.querySelectorAll('.explanation').forEach(explanation => {
+                explanation.style.display = 'none';
+            });
+            document.querySelectorAll('.feedback').forEach(feedback => {
+                feedback.textContent = '';
+                feedback.className = 'feedback';
+            });
+            document.querySelectorAll('.check-btn').forEach(btn => {
+                btn.disabled = false;
+                btn.textContent = 'Check Answer';
+            });
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            
             updateUI();
         }
 

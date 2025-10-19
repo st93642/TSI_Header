@@ -1,0 +1,65 @@
+{
+  "id": "angle_distance_plane_quiz",
+  "title": "Angle Between Planes and Distance Quiz",
+  "description": "Test your understanding of angles between planes and point-to-plane distances.",
+  "difficulty": "advanced",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": ["mathematics", "vectors", "planes", "angles", "distances", "geometry"],
+  "questions": [
+    {
+      "question": "How do you find the angle between two planes?",
+      "options": [
+        "Add their normal vectors",
+        "Take dot product of normal vectors",
+        "Take cross product of normal vectors",
+        "Subtract their constants"
+      ],
+      "correct": 1,
+      "explanation": "cos θ = |n₁ · n₂| / (|n₁| |n₂|), using the dot product of normal vectors."
+    },
+    {
+      "question": "The angle between planes is always:",
+      "options": [
+        "Acute",
+        "Obtuse",
+        "Right angle",
+        "Between 0° and 180°"
+      ],
+      "correct": 0,
+      "explanation": "The angle between planes is defined as the acute angle, so it's always between 0° and 90°."
+    },
+    {
+      "question": "What does distance = 0 indicate for point to plane?",
+      "options": [
+        "Planes are parallel",
+        "Planes are perpendicular",
+        "Point lies on the plane",
+        "Planes intersect"
+      ],
+      "correct": 2,
+      "explanation": "If the distance from a point to a plane is zero, the point lies on the plane."
+    },
+    {
+      "question": "The formula for distance from point to plane uses:",
+      "options": [
+        "Dot product only",
+        "Cross product only",
+        "Both dot and cross products",
+        "Neither dot nor cross products"
+      ],
+      "correct": 0,
+      "explanation": "Distance = |ax₀ + by₀ + cz₀ + d| / √(a² + b² + c²), using the dot product."
+    },
+    {
+      "question": "For perpendicular planes, the angle θ satisfies:",
+      "options": [
+        "cos θ = 0",
+        "cos θ = 1",
+        "sin θ = 0",
+        "tan θ = 0"
+      ],
+      "correct": 0,
+      "explanation": "Perpendicular planes have normal vectors with dot product zero, so cos θ = 0."
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "id": "vector_equation_line_quiz",
+  "title": "Vector Equation of a Line Quiz",
+  "description": "Test your understanding of vector equations of lines.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": ["mathematics", "vectors", "lines", "vector equation", "parametric equations"],
+  "questions": [
+    {
+      "question": "What is the vector equation of a line?",
+      "options": [
+        "r = a × b",
+        "r = a + t b",
+        "r · a = b",
+        "r = a · b"
+      ],
+      "correct": 1,
+      "explanation": "The vector equation is r = a + t b, where a is a point on the line and b is the direction vector."
+    },
+    {
+      "question": "In the equation r = a + t b, what does 't' represent?",
+      "options": [
+        "A fixed point",
+        "A direction vector",
+        "A scalar parameter",
+        "A position vector"
+      ],
+      "correct": 2,
+      "explanation": "t is a scalar parameter that varies to give different points on the line."
+    },
+    {
+      "question": "How do you find the direction vector between two points?",
+      "options": [
+        "Subtract the position vectors",
+        "Add the position vectors",
+        "Multiply the position vectors",
+        "Divide the position vectors"
+      ],
+      "correct": 0,
+      "explanation": "Direction vector b = B - A, where A and B are position vectors of points on the line."
+    },
+    {
+      "question": "Two lines are parallel if:",
+      "options": [
+        "Their position vectors are equal",
+        "Their direction vectors are parallel",
+        "Their parameters are equal",
+        "Their scalar products are zero"
+      ],
+      "correct": 1,
+      "explanation": "Parallel lines have direction vectors that are scalar multiples of each other."
+    },
+    {
+      "question": "The parametric equations corresponding to r = (1,2,3) + t(2,3,4) are:",
+      "options": [
+        "x=1+2t, y=2+3t, z=3+4t",
+        "x=2+t, y=3+2t, z=4+3t",
+        "x=1+t, y=2+t, z=3+t",
+        "x=2t, y=3t, z=4t"
+      ],
+      "correct": 0,
+      "explanation": "Each coordinate is the corresponding component of the position vector plus t times the direction component."
+    }
+  ]
+}

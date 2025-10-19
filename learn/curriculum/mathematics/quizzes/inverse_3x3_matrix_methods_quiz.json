@@ -1,0 +1,63 @@
+{
+  "id": "inverse_3x3_matrix_methods_quiz",
+  "title": "3×3 Matrix Inverse Methods Quiz",
+  "description": "Test your understanding of different methods for finding 3×3 matrix inverses.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "Which method transforms [A|I] to [I|A⁻¹]?",
+      "options": [
+        "Cramer's rule",
+        "Gauss elimination",
+        "Determinant method",
+        "Laplace expansion"
+      ],
+      "correct": 1,
+      "explanation": "Gauss elimination transforms the augmented matrix to find the inverse."
+    },
+    {
+      "question": "In the determinant method, what is A⁻¹ equal to?",
+      "options": [
+        "det(A) × adj(A)",
+        "adj(A) / det(A)",
+        "det(A) × cofactor matrix",
+        "cofactor matrix / det(A)"
+      ],
+      "correct": 1,
+      "explanation": "A⁻¹ = (1/det(A)) × adj(A), where adj(A) is the adjoint (transpose of cofactor matrix)."
+    },
+    {
+      "question": "What should you do first when finding a 3×3 inverse?",
+      "options": [
+        "Calculate the cofactor matrix",
+        "Check if det(A) ≠ 0",
+        "Find the transpose",
+        "Apply row operations"
+      ],
+      "correct": 1,
+      "explanation": "First verify the matrix is invertible by checking det ≠ 0."
+    },
+    {
+      "question": "Which method is generally more efficient for 3×3 matrices?",
+      "options": [
+        "Cramer's rule",
+        "Gauss elimination",
+        "Both are equally efficient",
+        "Determinant method"
+      ],
+      "correct": 1,
+      "explanation": "Gauss elimination is more efficient and numerically stable."
+    },
+    {
+      "question": "What is the adjoint matrix?",
+      "options": [
+        "The cofactor matrix",
+        "The transpose of the cofactor matrix",
+        "The determinant of the cofactor matrix",
+        "The inverse of the cofactor matrix"
+      ],
+      "correct": 1,
+      "explanation": "The adjoint is the transpose of the cofactor matrix."
+    }
+  ]
+}

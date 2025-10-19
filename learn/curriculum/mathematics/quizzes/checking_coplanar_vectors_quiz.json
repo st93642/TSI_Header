@@ -1,0 +1,65 @@
+{
+  "id": "checking_coplanar_vectors_quiz",
+  "title": "Checking Coplanar Vectors Quiz",
+  "description": "Test your ability to determine if three vectors are coplanar.",
+  "difficulty": "advanced",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": ["mathematics", "vectors", "coplanar", "scalar triple product", "linear dependence"],
+  "questions": [
+    {
+      "question": "What is the condition for three vectors to be coplanar?",
+      "options": [
+        "a · b = 0",
+        "a × b = 0",
+        "a · (b × c) = 0",
+        "|a| = |b| = |c|"
+      ],
+      "correct": 2,
+      "explanation": "Three vectors are coplanar if their scalar triple product is zero."
+    },
+    {
+      "question": "Are vectors a=(1,2,3), b=(4,5,6), c=(7,8,9) coplanar?",
+      "options": [
+        "Yes",
+        "No",
+        "Cannot determine",
+        "Only in 2D"
+      ],
+      "correct": 0,
+      "explanation": "The scalar triple product is zero, so they are coplanar."
+    },
+    {
+      "question": "Which of these indicates that three vectors are linearly dependent?",
+      "options": [
+        "Their dot products are zero",
+        "Their cross products are zero",
+        "Their scalar triple product is zero",
+        "Their magnitudes are equal"
+      ],
+      "correct": 2,
+      "explanation": "Linear dependence of three vectors is equivalent to their scalar triple product being zero."
+    },
+    {
+      "question": "Can any two vectors be coplanar?",
+      "options": [
+        "Yes, always",
+        "No, never",
+        "Only if they are parallel",
+        "Only if they are perpendicular"
+      ],
+      "correct": 0,
+      "explanation": "Any two vectors always lie in the same plane, so they are always coplanar."
+    },
+    {
+      "question": "What does a non-zero scalar triple product indicate?",
+      "options": [
+        "Vectors are parallel",
+        "Vectors are perpendicular",
+        "Vectors are coplanar",
+        "Vectors form a 3D basis"
+      ],
+      "correct": 3,
+      "explanation": "A non-zero scalar triple product means the vectors are linearly independent and span 3D space."
+    }
+  ]
+}

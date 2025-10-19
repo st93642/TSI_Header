@@ -1,0 +1,65 @@
+{
+  "id": "vector_equation_plane_quiz",
+  "title": "Vector Equation of a Plane Quiz",
+  "description": "Test your understanding of vector equations of planes.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": ["mathematics", "vectors", "planes", "vector equation", "normal vector"],
+  "questions": [
+    {
+      "question": "What is the vector equation of a plane?",
+      "options": [
+        "r = a + t b",
+        "r · n = d",
+        "r × n = d",
+        "r + n = d"
+      ],
+      "correct": 1,
+      "explanation": "The vector equation is r · n = d, where n is the normal vector and d is a constant."
+    },
+    {
+      "question": "In r · n = d, what does n represent?",
+      "options": [
+        "A point on the plane",
+        "The normal vector",
+        "A direction vector",
+        "The position vector"
+      ],
+      "correct": 1,
+      "explanation": "n is the normal vector, perpendicular to the plane."
+    },
+    {
+      "question": "How do you find the normal vector from three points?",
+      "options": [
+        "Add the position vectors",
+        "Cross product of vectors from one point to the others",
+        "Dot product of the vectors",
+        "Subtract the position vectors"
+      ],
+      "correct": 1,
+      "explanation": "Normal vector = (B - A) × (C - A), where A, B, C are points on the plane."
+    },
+    {
+      "question": "Two planes are parallel if:",
+      "options": [
+        "Their normal vectors are equal",
+        "Their normal vectors are parallel",
+        "Their constants are equal",
+        "Both A and C"
+      ],
+      "correct": 1,
+      "explanation": "Parallel planes have parallel normal vectors."
+    },
+    {
+      "question": "The constant d in r · n = d represents:",
+      "options": [
+        "Distance from origin to plane",
+        "Angle of the plane",
+        "Area of the plane",
+        "Perimeter of the plane"
+      ],
+      "correct": 0,
+      "explanation": "d = n · a, where a is any point on the plane, so |d|/|n| is the distance from origin."
+    }
+  ]
+}

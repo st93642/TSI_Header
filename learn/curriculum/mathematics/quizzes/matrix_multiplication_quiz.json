@@ -1,0 +1,63 @@
+{
+  "id": "matrix_multiplication_quiz",
+  "title": "Matrix Multiplication Quiz",
+  "description": "Test your understanding of matrix multiplication and its properties.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "For matrices A (m×n) and B (n×p) to be multiplied, what must be true?",
+      "options": [
+        "m = p",
+        "m = n",
+        "n = p",
+        "Columns of A = rows of B"
+      ],
+      "correct": 3,
+      "explanation": "The number of columns in A must equal the number of rows in B."
+    },
+    {
+      "question": "What are the dimensions of the product of a 2×3 matrix and a 3×4 matrix?",
+      "options": [
+        "2×3",
+        "3×4",
+        "2×4",
+        "4×2"
+      ],
+      "correct": 2,
+      "explanation": "(m×n) × (n×p) = (m×p)"
+    },
+    {
+      "question": "Which property does matrix multiplication have?",
+      "options": [
+        "Commutativity: AB = BA",
+        "Associativity: (AB)C = A(BC)",
+        "Distributivity: A(B+C) = AB + AC",
+        "Identity: A×I = I×A"
+      ],
+      "correct": 1,
+      "explanation": "Matrix multiplication is associative but not commutative."
+    },
+    {
+      "question": "What is the element in position (1,1) of the product [1 2; 3 4] × [5 6; 7 8]?",
+      "options": [
+        "5",
+        "19",
+        "22",
+        "43"
+      ],
+      "correct": 1,
+      "explanation": "C₁₁ = 1×5 + 2×7 = 5 + 14 = 19"
+    },
+    {
+      "question": "When is AB = BA for matrices A and B?",
+      "options": [
+        "Always",
+        "When A and B are square matrices",
+        "When A and B commute",
+        "Never"
+      ],
+      "correct": 2,
+      "explanation": "AB = BA only when the matrices commute, which is not guaranteed."
+    }
+  ]
+}

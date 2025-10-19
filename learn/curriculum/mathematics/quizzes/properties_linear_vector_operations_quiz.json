@@ -1,0 +1,64 @@
+{
+  "id": "properties_linear_vector_operations_quiz",
+  "title": "Properties of Linear Vector Operations Quiz",
+  "description": "Test your understanding of vector operation properties and their proofs.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "questions": [
+    {
+      "question": "Which property states that a + b = b + a?",
+      "options": [
+        "Associative",
+        "Commutative",
+        "Distributive",
+        "Identity"
+      ],
+      "correct": 1,
+      "explanation": "The commutative property states that vector addition is commutative."
+    },
+    {
+      "question": "What is the identity element for vector addition?",
+      "options": [
+        "The unit vector",
+        "The zero vector",
+        "Any vector",
+        "The negative vector"
+      ],
+      "correct": 1,
+      "explanation": "The zero vector (0,0,0) is the identity element for vector addition."
+    },
+    {
+      "question": "Which property is described by k(a + b) = ka + kb?",
+      "options": [
+        "Commutative",
+        "Associative",
+        "Distributive",
+        "Identity"
+      ],
+      "correct": 2,
+      "explanation": "This is the distributive property of scalar multiplication over vector addition."
+    },
+    {
+      "question": "What is the inverse element of vector a?",
+      "options": [
+        "a",
+        "-a",
+        "0",
+        "2a"
+      ],
+      "correct": 1,
+      "explanation": "The inverse element of vector a is -a, such that a + (-a) = 0."
+    },
+    {
+      "question": "Which property allows us to write (k + m)a = ka + ma?",
+      "options": [
+        "Commutative property",
+        "Associative property",
+        "Distributive property over scalars",
+        "Identity property"
+      ],
+      "correct": 2,
+      "explanation": "This is the distributive property of scalar multiplication over scalar addition."
+    }
+  ]
+}
