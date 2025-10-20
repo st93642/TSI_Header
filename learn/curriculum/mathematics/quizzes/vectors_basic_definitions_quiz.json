@@ -1,0 +1,64 @@
+{
+  "id": "vectors_basic_definitions_quiz",
+  "title": "Vectors - Basic Definitions Quiz",
+  "description": "Test your understanding of fundamental vector concepts and definitions.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "questions": [
+    {
+      "question": "What are the two essential properties that define a vector?",
+      "options": [
+        "Magnitude and position",
+        "Magnitude and direction",
+        "Direction and position",
+        "Position and orientation"
+      ],
+      "correct": 1,
+      "explanation": "A vector has both magnitude (size/length) and direction."
+    },
+    {
+      "question": "Which of the following is NOT a vector quantity?",
+      "options": [
+        "Velocity",
+        "Force",
+        "Temperature",
+        "Acceleration"
+      ],
+      "correct": 2,
+      "explanation": "Temperature is a scalar quantity (has magnitude only), while velocity, force, and acceleration are vector quantities."
+    },
+    {
+      "question": "What is the magnitude of the vector (3, 4, 0)?",
+      "options": [
+        "5",
+        "7",
+        "12",
+        "25"
+      ],
+      "correct": 0,
+      "explanation": "Magnitude = √(3² + 4² + 0²) = √(9 + 16 + 0) = √25 = 5"
+    },
+    {
+      "question": "What is a position vector?",
+      "options": [
+        "A vector with magnitude 1",
+        "A vector from the origin to a point",
+        "A vector with no direction",
+        "A vector in the xy-plane only"
+      ],
+      "correct": 1,
+      "explanation": "A position vector starts from the origin (0,0,0) and ends at a specific point in space."
+    },
+    {
+      "question": "When are two vectors considered equal?",
+      "options": [
+        "When they have the same starting point",
+        "When they have the same magnitude and direction",
+        "When they have the same magnitude only",
+        "When they are both unit vectors"
+      ],
+      "correct": 1,
+      "explanation": "Two vectors are equal if they have the same magnitude and the same direction, regardless of their starting points."
+    }
+  ]
+}

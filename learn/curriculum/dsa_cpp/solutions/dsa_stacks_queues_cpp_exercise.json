@@ -10,8 +10,16 @@
     "queue_array_limitation": "option_b",
     "circular_queue_benefit": "option_b",
     "std_stack_underlying": "option_b",
-    "stack_vs_queue_use_case": ["option_a", "option_b", "option_d"],
-    "queue_applications": ["option_a", "option_c", "option_e"],
+    "stack_vs_queue_use_case": [
+      "option_a",
+      "option_b",
+      "option_d"
+    ],
+    "queue_applications": [
+      "option_a",
+      "option_c",
+      "option_e"
+    ],
     "deque_advantage": "option_b",
     "implementation_choice": "option_c"
   },

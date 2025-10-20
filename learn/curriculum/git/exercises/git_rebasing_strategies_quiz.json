@@ -3,7 +3,13 @@
   "mode": "quiz",
   "title": "Quiz: Interactive Rebases, Autosquashing, and Rewrite Policies",
   "description": "Validate your fluency with rebase workflows, history rewriting safeguards, and policy enforcement.\n\nSteps:\n1. Revisit the lesson's diagrams on rebase decision trees and safety guidelines.\n2. Answer the questions, selecting all valid responses for multi-select prompts.\n3. Review explanations to reinforce when rebasing is appropriate and how to execute it safely.\n\nExpected results: Score 8/10 before advancing to collaboration modules.",
-  "tags": ["git", "rebase", "history", "policy", "quiz"],
+  "tags": [
+    "git",
+    "rebase",
+    "history",
+    "policy",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,117 +17,232 @@
       "type": "single",
       "prompt": "Which command launches an interactive rebase editing the last 5 commits?",
       "options": [
-        {"id": "a", "text": "git rebase -i HEAD~5", "correct": true},
-        {"id": "b", "text": "git rebase --merge"},
-        {"id": "c", "text": "git rebase --continue"},
-        {"id": "d", "text": "git rebase -p"}
+        {
+          "id": "a",
+          "text": "git rebase -i HEAD~5",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git rebase --merge"
+        },
+        {
+          "id": "c",
+          "text": "git rebase --continue"
+        },
+        {
+          "id": "d",
+          "text": "git rebase -p"
+        }
       ],
-      "explanation": "`git rebase -i HEAD~5` opens an interactive todo list for the last five commits." 
+      "explanation": "`git rebase -i HEAD~5` opens an interactive todo list for the last five commits."
     },
     {
       "id": "git-rebase-autosquash",
       "type": "truefalse",
       "prompt": "True or False: Using `--autosquash` pairs fixup!/squash! commits with their targets during interactive rebases.",
       "answer": "true",
-      "explanation": "Autosquash rearranges the todo list to match fixup/squash directives." 
+      "explanation": "Autosquash rearranges the todo list to match fixup/squash directives."
     },
     {
       "id": "git-rebase-when",
       "type": "multiple",
       "prompt": "When is it generally safe to rebase? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "On local feature branches that nobody else has pulled", "correct": true},
-        {"id": "b", "text": "On shared main branches after release"},
-        {"id": "c", "text": "On topic branches before opening a pull request", "correct": true},
-        {"id": "d", "text": "On published branches when the team has explicit agreements", "correct": true}
+        {
+          "id": "a",
+          "text": "On local feature branches that nobody else has pulled",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "On shared main branches after release"
+        },
+        {
+          "id": "c",
+          "text": "On topic branches before opening a pull request",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "On published branches when the team has explicit agreements",
+          "correct": true
+        }
       ],
-      "explanation": "Rebasing is safest on private branches, but teams may allow it on shared branches with explicit policy and coordination." 
+      "explanation": "Rebasing is safest on private branches, but teams may allow it on shared branches with explicit policy and coordination."
     },
     {
       "id": "git-rebase-policy",
       "type": "multiple",
       "prompt": "Which policies help prevent unsafe rebases? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Protect main/master branches with server-side settings", "correct": true},
-        {"id": "b", "text": "Educate developers about rebase vs. merge trade-offs", "correct": true},
-        {"id": "c", "text": "Disable git pull --rebase entirely"},
-        {"id": "d", "text": "Require force-with-lease instead of plain force pushes", "correct": true}
+        {
+          "id": "a",
+          "text": "Protect main/master branches with server-side settings",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Educate developers about rebase vs. merge trade-offs",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Disable git pull --rebase entirely"
+        },
+        {
+          "id": "d",
+          "text": "Require force-with-lease instead of plain force pushes",
+          "correct": true
+        }
       ],
-      "explanation": "Protection rules, education, and safer force pushes mitigate rebase risk on shared history." 
+      "explanation": "Protection rules, education, and safer force pushes mitigate rebase risk on shared history."
     },
     {
       "id": "git-rebase-continue",
       "type": "single",
       "prompt": "After fixing conflicts during a rebase, which command advances to the next commit in the todo list?",
       "options": [
-        {"id": "a", "text": "git rebase --continue", "correct": true},
-        {"id": "b", "text": "git rebase --skip"},
-        {"id": "c", "text": "git rebase --abort"},
-        {"id": "d", "text": "git reset --hard"}
+        {
+          "id": "a",
+          "text": "git rebase --continue",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git rebase --skip"
+        },
+        {
+          "id": "c",
+          "text": "git rebase --abort"
+        },
+        {
+          "id": "d",
+          "text": "git reset --hard"
+        }
       ],
-      "explanation": "`git rebase --continue` records the resolution and proceeds with the rebase sequence." 
+      "explanation": "`git rebase --continue` records the resolution and proceeds with the rebase sequence."
     },
     {
       "id": "git-rebase-rewrite-signoff",
       "type": "truefalse",
       "prompt": "True or False: When rewriting commits during rebase, you may need to reapply Signed-off-by trailers or signatures.",
       "answer": "true",
-      "explanation": "Rewriting commits changes commit IDs, so trailers and signatures may need reapplication to meet policies." 
+      "explanation": "Rewriting commits changes commit IDs, so trailers and signatures may need reapplication to meet policies."
     },
     {
       "id": "git-rebase-hooks",
       "type": "multiple",
       "prompt": "How can hooks support safe rebases? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Prepare-commit-msg hook can rehydrate metadata after squashes", "correct": true},
-        {"id": "b", "text": "Pre-push hook can block unsafe force pushes", "correct": true},
-        {"id": "c", "text": "Post-rewrite hook can notify services of rewritten history", "correct": true},
-        {"id": "d", "text": "Update hook can enforce signing policies on rewritten branches", "correct": true}
+        {
+          "id": "a",
+          "text": "Prepare-commit-msg hook can rehydrate metadata after squashes",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Pre-push hook can block unsafe force pushes",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Post-rewrite hook can notify services of rewritten history",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Update hook can enforce signing policies on rewritten branches",
+          "correct": true
+        }
       ],
-      "explanation": "Hooks automate metadata restoration, guard force pushes, and inform systems of rewritten history." 
+      "explanation": "Hooks automate metadata restoration, guard force pushes, and inform systems of rewritten history."
     },
     {
       "id": "git-rebase-squash",
       "type": "multiple",
       "prompt": "Why might teams autosquash commits before merging? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "To condense fixup commits into meaningful changes", "correct": true},
-        {"id": "b", "text": "To simplify review history", "correct": true},
-        {"id": "c", "text": "To erase audit trails entirely"},
-        {"id": "d", "text": "To align commit history with user-facing change logs", "correct": true}
+        {
+          "id": "a",
+          "text": "To condense fixup commits into meaningful changes",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "To simplify review history",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "To erase audit trails entirely"
+        },
+        {
+          "id": "d",
+          "text": "To align commit history with user-facing change logs",
+          "correct": true
+        }
       ],
-      "explanation": "Autosquashing tidies history, improves readability, and matches commits to release notes." 
+      "explanation": "Autosquashing tidies history, improves readability, and matches commits to release notes."
     },
     {
       "id": "git-rebase-dropped-commit",
       "type": "multiple",
       "prompt": "If a commit is accidentally dropped during rebase, which tools help recover it? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "git reflog", "correct": true},
-        {"id": "b", "text": "git fsck --lost-found", "correct": true},
-        {"id": "c", "text": "git prune"},
-        {"id": "d", "text": "Stash entries created before the rebase", "correct": true}
+        {
+          "id": "a",
+          "text": "git reflog",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git fsck --lost-found",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "git prune"
+        },
+        {
+          "id": "d",
+          "text": "Stash entries created before the rebase",
+          "correct": true
+        }
       ],
-      "explanation": "Reflog, lost-found, and stashes can surface orphaned commits after rewrite mistakes." 
+      "explanation": "Reflog, lost-found, and stashes can surface orphaned commits after rewrite mistakes."
     },
     {
       "id": "git-rebase-force-with-lease",
       "type": "truefalse",
       "prompt": "True or False: `git push --force-with-lease` ensures you only overwrite remote refs if they still point to commits you expect.",
       "answer": "true",
-      "explanation": "Force-with-lease prevents clobbering teammates' work by verifying remote state." 
+      "explanation": "Force-with-lease prevents clobbering teammates' work by verifying remote state."
     },
     {
       "id": "git-rebase-config",
       "type": "single",
       "prompt": "Which configuration encourages safer rebases by default when pulling?",
       "options": [
-        {"id": "a", "text": "git config --global pull.rebase true", "correct": true},
-        {"id": "b", "text": "git config --global push.default matching"},
-        {"id": "c", "text": "git config --global core.fileMode false"},
-        {"id": "d", "text": "git config --global alias.rebase safe"}
+        {
+          "id": "a",
+          "text": "git config --global pull.rebase true",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git config --global push.default matching"
+        },
+        {
+          "id": "c",
+          "text": "git config --global core.fileMode false"
+        },
+        {
+          "id": "d",
+          "text": "git config --global alias.rebase safe"
+        }
       ],
-      "explanation": "Setting pull.rebase true keeps local history linear when pulling, reducing merge commits on feature branches." 
+      "explanation": "Setting pull.rebase true keeps local history linear when pulling, reducing merge commits on feature branches."
     }
   ]
 }

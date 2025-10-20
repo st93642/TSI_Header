@@ -1,0 +1,63 @@
+{
+  "id": "matrix_inverse_properties_quiz",
+  "title": "Matrix Inverse Properties Quiz",
+  "description": "Test your understanding of matrix inverses and their properties.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "When does a square matrix have an inverse?",
+      "options": [
+        "Always",
+        "When it is diagonal",
+        "When det(A) ≠ 0",
+        "When it is symmetric"
+      ],
+      "correct": 2,
+      "explanation": "A matrix is invertible if and only if its determinant is non-zero."
+    },
+    {
+      "question": "What is (AB)⁻¹ in terms of A⁻¹ and B⁻¹?",
+      "options": [
+        "A⁻¹B⁻¹",
+        "B⁻¹A⁻¹",
+        "(A⁻¹)(B⁻¹)",
+        "None of the above"
+      ],
+      "correct": 1,
+      "explanation": "(AB)⁻¹ = B⁻¹A⁻¹"
+    },
+    {
+      "question": "What is (A⁻¹)⁻¹?",
+      "options": [
+        "A",
+        "-A",
+        "A²",
+        "Undefined"
+      ],
+      "correct": 0,
+      "explanation": "The inverse of the inverse is the original matrix."
+    },
+    {
+      "question": "What is det(A⁻¹) in terms of det(A)?",
+      "options": [
+        "det(A)",
+        "-det(A)",
+        "1/det(A)",
+        "det(A)²"
+      ],
+      "correct": 2,
+      "explanation": "det(A⁻¹) = 1/det(A)"
+    },
+    {
+      "question": "What is (Aᵀ)⁻¹?",
+      "options": [
+        "(A⁻¹)ᵀ",
+        "A⁻¹",
+        "(Aᵀ)²",
+        "Undefined"
+      ],
+      "correct": 0,
+      "explanation": "(Aᵀ)⁻¹ = (A⁻¹)ᵀ"
+    }
+  ]
+}

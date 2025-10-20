@@ -47,5 +47,12 @@
     "Document error responses comprehensively",
     "Use consistent JSON response formats"
   ],
-  "tags": ["api-design", "rest", "openapi", "documentation", "versioning", "pagination"]
+  "tags": [
+    "api-design",
+    "rest",
+    "openapi",
+    "documentation",
+    "versioning",
+    "pagination"
+  ]
 }

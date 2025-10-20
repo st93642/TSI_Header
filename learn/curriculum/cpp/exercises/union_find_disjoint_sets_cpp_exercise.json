@@ -3,7 +3,13 @@
   "mode": "quiz",
   "title": "Quiz: Union-Find and Disjoint Set Optimisation",
   "description": "Check your mastery of union-find internals, optimisation techniques, and the real-world scenarios discussed in the lesson.\n\nSteps:\n1. Review each prompt carefully and recall the lesson walk-throughs and visual aids.\n2. Choose the best answer or answers for every question. Some prompts accept multiple selections.\n3. Submit the quiz to reveal feedback and reinforce key union-find principles.\n\nExpected results: Earn at least the pass score to complete the lesson and unlock the next activity.",
-  "tags": ["cpp", "data-structures", "union-find", "disjoint-set", "quiz"],
+  "tags": [
+    "cpp",
+    "data-structures",
+    "union-find",
+    "disjoint-set",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,10 +17,23 @@
       "type": "single",
       "prompt": "Which pair of operations defines the core interface of a disjoint-set (union-find) data structure?",
       "options": [
-        { "id": "option_a", "text": "insert and delete" },
-        { "id": "option_b", "text": "find and union", "correct": true },
-        { "id": "option_c", "text": "push and pop" },
-        { "id": "option_d", "text": "enqueue and dequeue" }
+        {
+          "id": "option_a",
+          "text": "insert and delete"
+        },
+        {
+          "id": "option_b",
+          "text": "find and union",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "push and pop"
+        },
+        {
+          "id": "option_d",
+          "text": "enqueue and dequeue"
+        }
       ],
       "explanation": "Union-find maintains connectivity by locating representatives (find) and merging components (union)."
     },
@@ -23,10 +42,23 @@
       "type": "single",
       "prompt": "What is the primary effect of applying path compression during find?",
       "options": [
-        { "id": "option_a", "text": "It increases the tree height to preserve ranks." },
-        { "id": "option_b", "text": "It flattens the tree by redirecting nodes to the representative, speeding up future queries.", "correct": true },
-        { "id": "option_c", "text": "It swaps parents and children to maintain a balanced binary tree." },
-        { "id": "option_d", "text": "It prevents union-by-rank from executing." }
+        {
+          "id": "option_a",
+          "text": "It increases the tree height to preserve ranks."
+        },
+        {
+          "id": "option_b",
+          "text": "It flattens the tree by redirecting nodes to the representative, speeding up future queries.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "It swaps parents and children to maintain a balanced binary tree."
+        },
+        {
+          "id": "option_d",
+          "text": "It prevents union-by-rank from executing."
+        }
       ],
       "explanation": "Path compression rewrites parent pointers so subsequent finds travel directly to the leader, shrinking the tree."
     },
@@ -35,10 +67,24 @@
       "type": "multiple",
       "prompt": "Select the statements that describe union-by-rank (or union-by-size).",
       "options": [
-        { "id": "option_a", "text": "The shallower tree becomes a child of the deeper tree.", "correct": true },
-        { "id": "option_b", "text": "Ranks (or sizes) help avoid tall, skewed trees.", "correct": true },
-        { "id": "option_c", "text": "It requires an explicit rebalance step after every union." },
-        { "id": "option_d", "text": "It is unnecessary when path compression is used." }
+        {
+          "id": "option_a",
+          "text": "The shallower tree becomes a child of the deeper tree.",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Ranks (or sizes) help avoid tall, skewed trees.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "It requires an explicit rebalance step after every union."
+        },
+        {
+          "id": "option_d",
+          "text": "It is unnecessary when path compression is used."
+        }
       ],
       "explanation": "Union-by-rank attaches the smaller tree beneath the larger to keep depth minimal, complementing path compression."
     },
@@ -54,10 +100,23 @@
       "type": "single",
       "prompt": "How does the lesson's DisjointSetForest implementation answer SIZE queries in O(α(n)) time?",
       "options": [
-        { "id": "option_a", "text": "By scanning every node to count members of the component." },
-        { "id": "option_b", "text": "By storing component sizes on the representative and returning the cached value.", "correct": true },
-        { "id": "option_c", "text": "By maintaining a priority queue keyed by component size." },
-        { "id": "option_d", "text": "By using recursion to recompute the size from scratch each time." }
+        {
+          "id": "option_a",
+          "text": "By scanning every node to count members of the component."
+        },
+        {
+          "id": "option_b",
+          "text": "By storing component sizes on the representative and returning the cached value.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "By maintaining a priority queue keyed by component size."
+        },
+        {
+          "id": "option_d",
+          "text": "By using recursion to recompute the size from scratch each time."
+        }
       ],
       "explanation": "Component sizes are tracked on the leader node and updated on union, so SIZE queries simply read the cached value."
     },
@@ -66,10 +125,23 @@
       "type": "single",
       "prompt": "Which initialisation step is required before processing any unions?",
       "options": [
-        { "id": "option_a", "text": "Randomly assign parents to ensure balance." },
-        { "id": "option_b", "text": "Set parent[i] = i for every node so each element starts in its own set.", "correct": true },
-        { "id": "option_c", "text": "Run find on every node to pre-compress the structure." },
-        { "id": "option_d", "text": "Assign component_size to zero for all leaders." }
+        {
+          "id": "option_a",
+          "text": "Randomly assign parents to ensure balance."
+        },
+        {
+          "id": "option_b",
+          "text": "Set parent[i] = i for every node so each element starts in its own set.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Run find on every node to pre-compress the structure."
+        },
+        {
+          "id": "option_d",
+          "text": "Assign component_size to zero for all leaders."
+        }
       ],
       "explanation": "Each element must begin as a singleton set by pointing to itself; other metadata builds on that base state."
     },
@@ -78,10 +150,25 @@
       "type": "multiple",
       "prompt": "Which real-world scenarios from the lesson map naturally to union-find?",
       "options": [
-        { "id": "option_a", "text": "Tracking connected components in a network as links come online.", "correct": true },
-        { "id": "option_b", "text": "Managing airline seat reservations in sorted order." },
-        { "id": "option_c", "text": "Kruskal's algorithm for minimum spanning trees.", "correct": true },
-        { "id": "option_d", "text": "Detecting cycles while processing undirected edges.", "correct": true }
+        {
+          "id": "option_a",
+          "text": "Tracking connected components in a network as links come online.",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Managing airline seat reservations in sorted order."
+        },
+        {
+          "id": "option_c",
+          "text": "Kruskal's algorithm for minimum spanning trees.",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Detecting cycles while processing undirected edges.",
+          "correct": true
+        }
       ],
       "explanation": "Union-find shines in dynamic connectivity tasks such as Kruskal's algorithm, cycle detection, and evolving networks."
     },
@@ -90,10 +177,23 @@
       "type": "single",
       "prompt": "After calling find(x), what value is guaranteed to be returned?",
       "options": [
-        { "id": "option_a", "text": "The immediate parent of x before any compression." },
-        { "id": "option_b", "text": "The representative (root) of the set containing x.", "correct": true },
-        { "id": "option_c", "text": "The depth of x within its tree." },
-        { "id": "option_d", "text": "A newly allocated id representing the merged set." }
+        {
+          "id": "option_a",
+          "text": "The immediate parent of x before any compression."
+        },
+        {
+          "id": "option_b",
+          "text": "The representative (root) of the set containing x.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "The depth of x within its tree."
+        },
+        {
+          "id": "option_d",
+          "text": "A newly allocated id representing the merged set."
+        }
       ],
       "explanation": "find always returns the canonical representative used to identify the component that contains the queried element."
     },
@@ -109,10 +209,23 @@
       "type": "single",
       "prompt": "Why does the lesson's implementation track a components() counter?",
       "options": [
-        { "id": "option_a", "text": "To report how many disjoint sets remain after processing unions.", "correct": true },
-        { "id": "option_b", "text": "To enforce that every set has the same size." },
-        { "id": "option_c", "text": "To limit the number of union operations that may execute." },
-        { "id": "option_d", "text": "To support priority queue operations over components." }
+        {
+          "id": "option_a",
+          "text": "To report how many disjoint sets remain after processing unions.",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "To enforce that every set has the same size."
+        },
+        {
+          "id": "option_c",
+          "text": "To limit the number of union operations that may execute."
+        },
+        {
+          "id": "option_d",
+          "text": "To support priority queue operations over components."
+        }
       ],
       "explanation": "Tracking the component count lets algorithms know when the structure has consolidated and is used in MST and dynamic connectivity tasks."
     }

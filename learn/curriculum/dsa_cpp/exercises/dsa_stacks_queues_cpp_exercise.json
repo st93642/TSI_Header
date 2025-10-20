@@ -3,7 +3,15 @@
   "mode": "quiz",
   "title": "Quiz: Stacks, Queues, and Their C++ Implementations",
   "description": "Test your understanding of LIFO and FIFO data structures, their implementations, and applications in C++.\n\nSteps:\n1. Review the stack and queue implementations and their operations.\n2. Answer each question about stack/queue behavior and C++ standard library usage.\n3. Submit the quiz to validate your grasp of linear data structures.\n\nExpected results: Score at least 8 out of 10 to demonstrate solid understanding.",
-  "tags": ["cpp", "stacks", "queues", "lifo", "fifo", "data-structures", "quiz"],
+  "tags": [
+    "cpp",
+    "stacks",
+    "queues",
+    "lifo",
+    "fifo",
+    "data-structures",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,10 +19,23 @@
       "type": "single",
       "prompt": "What principle does a stack follow?",
       "options": [
-        { "id": "option_a", "text": "First-In-First-Out (FIFO)" },
-        { "id": "option_b", "text": "Last-In-First-Out (LIFO)", "correct": true },
-        { "id": "option_c", "text": "First-In-Last-Out (FILO)" },
-        { "id": "option_d", "text": "Last-In-Last-Out (LILO)" }
+        {
+          "id": "option_a",
+          "text": "First-In-First-Out (FIFO)"
+        },
+        {
+          "id": "option_b",
+          "text": "Last-In-First-Out (LIFO)",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "First-In-Last-Out (FILO)"
+        },
+        {
+          "id": "option_d",
+          "text": "Last-In-Last-Out (LILO)"
+        }
       ],
       "explanation": "Stacks follow LIFO - the last element pushed is the first one popped."
     },
@@ -23,10 +44,23 @@
       "type": "single",
       "prompt": "What principle does a queue follow?",
       "options": [
-        { "id": "option_a", "text": "First-In-First-Out (FIFO)", "correct": true },
-        { "id": "option_b", "text": "Last-In-First-Out (LIFO)" },
-        { "id": "option_c", "text": "First-In-Last-Out (FILO)" },
-        { "id": "option_d", "text": "Last-In-Last-Out (LILO)" }
+        {
+          "id": "option_a",
+          "text": "First-In-First-Out (FIFO)",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Last-In-First-Out (LIFO)"
+        },
+        {
+          "id": "option_c",
+          "text": "First-In-Last-Out (FILO)"
+        },
+        {
+          "id": "option_d",
+          "text": "Last-In-Last-Out (LILO)"
+        }
       ],
       "explanation": "Queues follow FIFO - the first element added is the first one removed."
     },
@@ -42,10 +76,23 @@
       "type": "single",
       "prompt": "What is a major limitation of a simple array-based queue implementation?",
       "options": [
-        { "id": "option_a", "text": "Cannot determine if queue is empty" },
-        { "id": "option_b", "text": "Front index keeps increasing, wasting space", "correct": true },
-        { "id": "option_c", "text": "Cannot add elements to the rear" },
-        { "id": "option_d", "text": "Pop operations are O(n)" }
+        {
+          "id": "option_a",
+          "text": "Cannot determine if queue is empty"
+        },
+        {
+          "id": "option_b",
+          "text": "Front index keeps increasing, wasting space",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Cannot add elements to the rear"
+        },
+        {
+          "id": "option_d",
+          "text": "Pop operations are O(n)"
+        }
       ],
       "explanation": "In a naive array queue, dequeued elements leave gaps, wasting array space."
     },
@@ -54,10 +101,23 @@
       "type": "single",
       "prompt": "What problem does a circular queue solve?",
       "options": [
-        { "id": "option_a", "text": "Reduces time complexity of operations" },
-        { "id": "option_b", "text": "Reuses dequeued space efficiently", "correct": true },
-        { "id": "option_c", "text": "Allows bidirectional operations" },
-        { "id": "option_d", "text": "Supports priority-based ordering" }
+        {
+          "id": "option_a",
+          "text": "Reduces time complexity of operations"
+        },
+        {
+          "id": "option_b",
+          "text": "Reuses dequeued space efficiently",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Allows bidirectional operations"
+        },
+        {
+          "id": "option_d",
+          "text": "Supports priority-based ordering"
+        }
       ],
       "explanation": "Circular queues wrap around the array, reusing space freed by dequeued elements."
     },
@@ -66,10 +126,23 @@
       "type": "single",
       "prompt": "What is the default underlying container for std::stack?",
       "options": [
-        { "id": "option_a", "text": "std::vector" },
-        { "id": "option_b", "text": "std::deque", "correct": true },
-        { "id": "option_c", "text": "std::list" },
-        { "id": "option_d", "text": "std::array" }
+        {
+          "id": "option_a",
+          "text": "std::vector"
+        },
+        {
+          "id": "option_b",
+          "text": "std::deque",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "std::list"
+        },
+        {
+          "id": "option_d",
+          "text": "std::array"
+        }
       ],
       "explanation": "std::stack uses std::deque by default for its balance of efficiency."
     },
@@ -78,11 +151,29 @@
       "type": "multiple",
       "prompt": "Which of these are typical stack use cases?",
       "options": [
-        { "id": "option_a", "text": "Function call stack", "correct": true },
-        { "id": "option_b", "text": "Undo operations", "correct": true },
-        { "id": "option_c", "text": "Print job queue" },
-        { "id": "option_d", "text": "Expression evaluation", "correct": true },
-        { "id": "option_e", "text": "Breadth-first search" }
+        {
+          "id": "option_a",
+          "text": "Function call stack",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Undo operations",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Print job queue"
+        },
+        {
+          "id": "option_d",
+          "text": "Expression evaluation",
+          "correct": true
+        },
+        {
+          "id": "option_e",
+          "text": "Breadth-first search"
+        }
       ],
       "explanation": "Stacks are used for LIFO scenarios like function calls, undo, and parsing."
     },
@@ -91,11 +182,29 @@
       "type": "multiple",
       "prompt": "Which of these are typical queue applications?",
       "options": [
-        { "id": "option_a", "text": "Task scheduling", "correct": true },
-        { "id": "option_b", "text": "Browser back button" },
-        { "id": "option_c", "text": "Breadth-first search", "correct": true },
-        { "id": "option_d", "text": "Syntax parsing" },
-        { "id": "option_e", "text": "Resource management", "correct": true }
+        {
+          "id": "option_a",
+          "text": "Task scheduling",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Browser back button"
+        },
+        {
+          "id": "option_c",
+          "text": "Breadth-first search",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Syntax parsing"
+        },
+        {
+          "id": "option_e",
+          "text": "Resource management",
+          "correct": true
+        }
       ],
       "explanation": "Queues handle FIFO scenarios like scheduling, BFS, and resource allocation."
     },
@@ -104,10 +213,23 @@
       "type": "single",
       "prompt": "What makes std::deque suitable for both stack and queue operations?",
       "options": [
-        { "id": "option_a", "text": "O(1) access to any element" },
-        { "id": "option_b", "text": "Efficient insertion/deletion at both ends", "correct": true },
-        { "id": "option_c", "text": "Automatic sorting of elements" },
-        { "id": "option_d", "text": "Memory compaction" }
+        {
+          "id": "option_a",
+          "text": "O(1) access to any element"
+        },
+        {
+          "id": "option_b",
+          "text": "Efficient insertion/deletion at both ends",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Automatic sorting of elements"
+        },
+        {
+          "id": "option_d",
+          "text": "Memory compaction"
+        }
       ],
       "explanation": "Deques provide O(1) operations at both front and back, supporting both stack and queue patterns."
     },
@@ -116,10 +238,23 @@
       "type": "single",
       "prompt": "When would you choose a linked list implementation over an array-based one?",
       "options": [
-        { "id": "option_a", "text": "When you need fast random access" },
-        { "id": "option_b", "text": "When the maximum size is known at compile time" },
-        { "id": "option_c", "text": "When you need dynamic sizing without reallocation", "correct": true },
-        { "id": "option_d", "text": "When memory is severely constrained" }
+        {
+          "id": "option_a",
+          "text": "When you need fast random access"
+        },
+        {
+          "id": "option_b",
+          "text": "When the maximum size is known at compile time"
+        },
+        {
+          "id": "option_c",
+          "text": "When you need dynamic sizing without reallocation",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "When memory is severely constrained"
+        }
       ],
       "explanation": "Linked implementations grow dynamically without the fixed size limitations of arrays."
     }

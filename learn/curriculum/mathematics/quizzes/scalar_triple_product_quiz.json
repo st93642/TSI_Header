@@ -1,0 +1,71 @@
+{
+  "id": "scalar_triple_product_quiz",
+  "title": "Scalar Triple Product Quiz",
+  "description": "Test your understanding of the scalar triple product and its properties.",
+  "difficulty": "advanced",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": [
+    "mathematics",
+    "vectors",
+    "triple product",
+    "scalar triple product",
+    "linear algebra"
+  ],
+  "questions": [
+    {
+      "question": "What is the scalar triple product of vectors a, b, and c?",
+      "options": [
+        "a × (b × c)",
+        "a · (b × c)",
+        "a × (b · c)",
+        "(a × b) × c"
+      ],
+      "correct": 1,
+      "explanation": "The scalar triple product is defined as a · (b × c), which is a scalar quantity."
+    },
+    {
+      "question": "Which property states that a · (b × c) = b · (c × a) = c · (a × b)?",
+      "options": [
+        "Anti-commutativity",
+        "Cyclic permutation",
+        "Distributivity",
+        "Associativity"
+      ],
+      "correct": 1,
+      "explanation": "The cyclic permutation property allows rearranging the vectors in the triple product while preserving the value."
+    },
+    {
+      "question": "What does the scalar triple product equal to zero indicate?",
+      "options": [
+        "Vectors are parallel",
+        "Vectors are perpendicular",
+        "Vectors are coplanar",
+        "Vectors form a right angle"
+      ],
+      "correct": 2,
+      "explanation": "If a · (b × c) = 0, the vectors a, b, and c are coplanar (lie in the same plane)."
+    },
+    {
+      "question": "What geometric interpretation does |a · (b × c)| represent?",
+      "options": [
+        "Area of triangle formed by two vectors",
+        "Volume of parallelepiped formed by three vectors",
+        "Length of the resultant vector",
+        "Angle between two vectors"
+      ],
+      "correct": 1,
+      "explanation": "The absolute value of the scalar triple product gives the volume of the parallelepiped formed by the three vectors."
+    },
+    {
+      "question": "Calculate a · (b × c) for a=(1,0,0), b=(0,1,0), c=(0,0,1).",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "correct": 1,
+      "explanation": "b × c = (0,1,0) × (0,0,1) = (1,0,0), so a · (1,0,0) = 1. This represents the volume of the unit cube."
+    }
+  ]
+}

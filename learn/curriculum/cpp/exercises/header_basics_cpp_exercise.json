@@ -16,5 +16,10 @@
     "Multiply kilometres by 1000.0 to obtain metres.",
     "Make sure the declarations (function signatures) match the definitions exactly."
   ],
-  "tags": ["headers", "functions", "beginner", "organization"]
+  "tags": [
+    "headers",
+    "functions",
+    "beginner",
+    "organization"
+  ]
 }

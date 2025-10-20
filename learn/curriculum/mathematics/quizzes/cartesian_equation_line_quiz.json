@@ -1,0 +1,71 @@
+{
+  "id": "cartesian_equation_line_quiz",
+  "title": "Cartesian Equation of a Line Quiz",
+  "description": "Test your understanding of Cartesian equations of lines.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": [
+    "mathematics",
+    "vectors",
+    "lines",
+    "cartesian equation",
+    "symmetric form"
+  ],
+  "questions": [
+    {
+      "question": "What is the Cartesian form of a line equation?",
+      "options": [
+        "x = a + t b",
+        "(x-x₁)/a = (y-y₁)/b = (z-z₁)/c",
+        "ax + by + cz = d",
+        "r = a + t b"
+      ],
+      "correct": 1,
+      "explanation": "The Cartesian form is the symmetric form with direction ratios in the denominators."
+    },
+    {
+      "question": "In the equation (x-1)/2 = (y-2)/3 = (z-3)/4, what do 2,3,4 represent?",
+      "options": [
+        "Coordinates of a point",
+        "Direction ratios",
+        "Position vector components",
+        "Parameter values"
+      ],
+      "correct": 1,
+      "explanation": "The numbers 2,3,4 are the direction ratios of the line."
+    },
+    {
+      "question": "What happens if a direction ratio is zero?",
+      "options": [
+        "The equation becomes undefined",
+        "That coordinate becomes constant",
+        "The line becomes parallel to an axis",
+        "Both B and C"
+      ],
+      "correct": 3,
+      "explanation": "Zero direction ratio means the coordinate doesn't change, making the line parallel to that axis."
+    },
+    {
+      "question": "How do you convert vector form r = a + t b to Cartesian form?",
+      "options": [
+        "Solve for t in each coordinate",
+        "Take cross product",
+        "Take dot product",
+        "Add the vectors"
+      ],
+      "correct": 0,
+      "explanation": "Set t = (x-a₁)/b₁ = (y-a₂)/b₂ = (z-a₃)/b₃"
+    },
+    {
+      "question": "The Cartesian equation represents:",
+      "options": [
+        "A line segment",
+        "A ray",
+        "The entire infinite line",
+        "A curve"
+      ],
+      "correct": 2,
+      "explanation": "The Cartesian equation represents all points on the infinite line."
+    }
+  ]
+}

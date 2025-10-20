@@ -89,6 +89,7 @@ class TSITreeDataProvider {
                 new TSITreeItem('C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-cpp'),
                 new TSITreeItem('DSA C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-dsa-cpp'),
                 new TSITreeItem('Git', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-git'),
+                new TSITreeItem('Mathematics', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-mathematics'),
                 new TSITreeItem('🚀 Odin Project', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-odin')
             ]);
         } else if (element.id === 'learn-ruby') {
@@ -183,20 +184,35 @@ class TSITreeDataProvider {
             ]);
         } else if (element.id === 'learn-git') {
             return Promise.resolve([
-                new TSITreeItem('Start Learning', vscode.TreeItemCollapsibleState.None, {
+                new TSITreeItem('Start Getting Started', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.learnGit',
-                    title: 'Start Learning Git',
-                    tooltip: 'Begin the Git mastery roadmap from fundamentals to advanced collaboration'
+                    title: 'Start Pro Git Book',
+                    tooltip: 'Begin learning Git with the official comprehensive guide'
                 }),
-                new TSITreeItem('Browse All Lessons', vscode.TreeItemCollapsibleState.None, {
+                new TSITreeItem('Browse All Chapters', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.browseLessonsGit',
-                    title: 'Browse Git Lessons',
-                    tooltip: 'Explore all Git lessons in the roadmap'
+                    title: 'Browse Git Chapters',
+                    tooltip: 'Explore all chapters from Pro Git Book'
                 }),
                 new TSITreeItem('View Progress', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.viewLearnProgressGit',
                     title: 'View Git Progress',
-                    tooltip: 'Review your Git learning progress and achievements'
+                    tooltip: 'Track your progress through Pro Git Book'
+                }),
+                new TSITreeItem('Take Quiz', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.takeGitQuiz',
+                    title: 'Take Git Quiz',
+                    tooltip: 'Test your Git knowledge with interactive quizzes'
+                }),
+                new TSITreeItem('Clear Cache', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.clearGitCache',
+                    title: 'Clear Cache',
+                    tooltip: 'Clear all cached Git Book lessons'
+                }),
+                new TSITreeItem('View Cache Stats', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewGitCacheStats',
+                    title: 'View Cache Stats',
+                    tooltip: 'View statistics about cached Git Book lessons'
                 })
             ]);
         }
@@ -251,6 +267,34 @@ class TSITreeDataProvider {
                     tooltip: 'View statistics about cached lessons'
                 })
             ]);
+        } else if (element.id === 'learn-mathematics') {
+            return Promise.resolve([
+                new TSITreeItem('Start Learning', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.learnMathematics',
+                    title: 'Start Learning Mathematics',
+                    tooltip: 'Begin higher mathematics learning with HELM workbooks'
+                }),
+                new TSITreeItem('Browse Workbooks', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.browseMathematicsWorkbooks',
+                    title: 'Browse Mathematics Workbooks',
+                    tooltip: 'View available mathematics workbooks and PDFs'
+                }),
+                new TSITreeItem('Take Quiz', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.takeMathematicsQuiz',
+                    title: 'Take Mathematics Quiz',
+                    tooltip: 'Test your knowledge with interactive mathematics quizzes'
+                }),
+                new TSITreeItem('View Cache Stats', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewMathematicsCacheStats',
+                    title: 'View Mathematics Cache Stats',
+                    tooltip: 'View statistics about cached mathematics workbooks'
+                }),
+                new TSITreeItem('Clear Cache', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.clearMathematicsCache',
+                    title: 'Clear Mathematics Cache',
+                    tooltip: 'Clear all cached mathematics workbooks'
+                })
+            ]);
         }
         return Promise.resolve([]);
     }
@@ -285,15 +329,25 @@ class TSIProjectDataProvider {
         } else if (element.label === '📋 Cached Lessons') {
             // Cached lessons section - show cache management commands
             return Promise.resolve([
-                new TSITreeItem('Clear Cache', vscode.TreeItemCollapsibleState.None, {
+                new TSITreeItem('Clear Odin Cache', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.clearOdinCache',
                     title: 'Clear Odin Project Cache',
                     tooltip: 'Clear all cached Odin Project lessons'
                 }),
-                new TSITreeItem('View Cache Stats', vscode.TreeItemCollapsibleState.None, {
+                new TSITreeItem('View Odin Cache Stats', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.viewOdinCacheStats',
                     title: 'View Odin Project Cache Stats',
-                    tooltip: 'View statistics about cached lessons'
+                    tooltip: 'View statistics about cached Odin Project lessons'
+                }),
+                new TSITreeItem('Clear Git Cache', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.clearGitCache',
+                    title: 'Clear Git Book Cache',
+                    tooltip: 'Clear all cached Git Book lessons'
+                }),
+                new TSITreeItem('View Git Cache Stats', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewGitCacheStats',
+                    title: 'View Git Book Cache Stats',
+                    tooltip: 'View statistics about cached Git Book lessons'
                 })
             ]);
         } else if (element.label === '⚙️ Project Templates') {
@@ -414,6 +468,8 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('graph');
         } else if (id === 'learn-git') {
             this.iconPath = new vscode.ThemeIcon('git-branch');
+        } else if (id === 'learn-mathematics') {
+            this.iconPath = new vscode.ThemeIcon('symbol-operator');
         } else if (id === 'learn-odin') {
             this.iconPath = new vscode.ThemeIcon('rocket');
         } else if (command?.command === 'tsiheader.learnRuby') {
@@ -468,6 +524,14 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('clear-all');
         } else if (command?.command === 'tsiheader.viewOdinCacheStats') {
             this.iconPath = new vscode.ThemeIcon('database');
+        } else if (command?.command === 'tsiheader.clearGitCache') {
+            this.iconPath = new vscode.ThemeIcon('clear-all');
+        } else if (command?.command === 'tsiheader.viewGitCacheStats') {
+            this.iconPath = new vscode.ThemeIcon('database');
+        } else if (command?.command === 'tsiheader.viewMathematicsCacheStats') {
+            this.iconPath = new vscode.ThemeIcon('database');
+        } else if (command?.command === 'tsiheader.clearMathematicsCache') {
+            this.iconPath = new vscode.ThemeIcon('clear-all');
         }
     }
 }

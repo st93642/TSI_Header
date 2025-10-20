@@ -2,7 +2,7 @@
   "name": "uni-header",
   "displayName": "University Header, Learn, Pomodoro & Calendar",
   "description": "Code generation and headers, learning modules (C/C++/Ruby/Rust/Git/Odin Project), Pomodoro timer for focused study sessions and calendar",
-  "version": "7.0.4",
+  "version": "7.0.8",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -453,6 +453,18 @@
         "icon": "$(graph)"
       },
       {
+        "command": "tsiheader.clearGitCache",
+        "title": "Clear Git Book Cache",
+        "category": "Uni Header",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "tsiheader.viewGitCacheStats",
+        "title": "View Git Book Cache Stats",
+        "category": "Uni Header",
+        "icon": "$(database)"
+      },
+      {
         "command": "tsiheader.learnOdin",
         "title": "Learn The Odin Project",
         "category": "Uni Header",
@@ -481,6 +493,36 @@
         "title": "View Odin Project Cache Stats",
         "category": "Uni Header",
         "icon": "$(database)"
+      },
+      {
+        "command": "tsiheader.learnMathematics",
+        "title": "Learn Higher Mathematics",
+        "category": "Uni Header",
+        "icon": "$(symbol-operator)"
+      },
+      {
+        "command": "tsiheader.browseMathematicsWorkbooks",
+        "title": "Browse Mathematics Workbooks",
+        "category": "Uni Header",
+        "icon": "$(book)"
+      },
+      {
+        "command": "tsiheader.takeMathematicsQuiz",
+        "title": "Take Mathematics Quiz",
+        "category": "Uni Header",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "tsiheader.viewMathematicsCacheStats",
+        "title": "View Mathematics Cache Stats",
+        "category": "Uni Header",
+        "icon": "$(database)"
+      },
+      {
+        "command": "tsiheader.clearMathematicsCache",
+        "title": "Clear Mathematics Cache",
+        "category": "Uni Header",
+        "icon": "$(clear-all)"
       },
       {
         "command": "tsiheader.showCalendar",
@@ -542,6 +584,22 @@
       },
       {
         "command": "tsiheader.viewOdinCacheStats",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.clearGitCache",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.viewGitCacheStats",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.viewMathematicsCacheStats",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.clearMathematicsCache",
         "when": "true"
       }
     ],
@@ -703,6 +761,31 @@
         "command": "tsiheader.refreshCommands",
         "when": "view == tsi-commands",
         "group": "navigation"
+      },
+      {
+        "command": "tsiheader.learnMathematics",
+        "when": "view == tsi-commands",
+        "group": "learning"
+      },
+      {
+        "command": "tsiheader.browseMathematicsWorkbooks",
+        "when": "view == tsi-commands",
+        "group": "learning"
+      },
+      {
+        "command": "tsiheader.takeMathematicsQuiz",
+        "when": "view == tsi-commands",
+        "group": "learning"
+      },
+      {
+        "command": "tsiheader.viewMathematicsCacheStats",
+        "when": "view == tsi-commands",
+        "group": "cache"
+      },
+      {
+        "command": "tsiheader.clearMathematicsCache",
+        "when": "view == tsi-commands",
+        "group": "cache"
       }
     ],
     "view/title:tsi-projects": [
@@ -758,6 +841,16 @@
       },
       {
         "command": "tsiheader.viewOdinCacheStats",
+        "when": "view == tsi-projects",
+        "group": "cached-lessons"
+      },
+      {
+        "command": "tsiheader.clearGitCache",
+        "when": "view == tsi-projects",
+        "group": "cached-lessons"
+      },
+      {
+        "command": "tsiheader.viewGitCacheStats",
         "when": "view == tsi-projects",
         "group": "cached-lessons"
       }

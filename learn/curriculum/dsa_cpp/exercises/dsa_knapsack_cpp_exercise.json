@@ -3,7 +3,14 @@
   "mode": "quiz",
   "title": "0/1 Knapsack Problem & Dynamic Programming",
   "description": "Test your understanding of the 0/1 knapsack problem, dynamic programming solutions, space optimization, and real-world applications.",
-  "tags": ["cpp", "knapsack", "dynamic-programming", "optimization", "algorithms", "quiz"],
+  "tags": [
+    "cpp",
+    "knapsack",
+    "dynamic-programming",
+    "optimization",
+    "algorithms",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {

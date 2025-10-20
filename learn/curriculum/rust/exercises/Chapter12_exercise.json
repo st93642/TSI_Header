@@ -21,5 +21,12 @@
     "Test different closure traits (Fn, FnMut, FnOnce)",
     "Use iterators for lazy evaluation and performance benefits"
   ],
-  "tags": ["functional-programming", "iterators", "closures", "higher-order-functions", "iterator-adapters", "performance"]
+  "tags": [
+    "functional-programming",
+    "iterators",
+    "closures",
+    "higher-order-functions",
+    "iterator-adapters",
+    "performance"
+  ]
 }

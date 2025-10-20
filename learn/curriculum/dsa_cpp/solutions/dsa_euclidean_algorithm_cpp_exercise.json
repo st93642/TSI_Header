@@ -5,14 +5,22 @@
   "mode": "quiz",
   "answerKey": {
     "euclidean_basic_gcd": "option_a",
-    "euclidean_properties": ["option_a", "option_c", "option_d"],
+    "euclidean_properties": [
+      "option_a",
+      "option_c",
+      "option_d"
+    ],
     "extended_euclidean_coefficients": "option_b",
     "modular_inverse_existence": "true",
     "binary_gcd_efficiency": "option_b",
     "rsa_euclidean_connection": "option_c",
     "lcm_gcd_relationship": "true",
     "euclidean_algorithm_complexity": "option_b",
-    "diophantine_equations": ["option_a", "option_b", "option_c"],
+    "diophantine_equations": [
+      "option_a",
+      "option_b",
+      "option_c"
+    ],
     "euclidean_real_world": "option_b"
   },
   "explanation": "These answers demonstrate understanding of the Euclidean algorithm's mathematical foundations, implementation variants, and real-world applications in cryptography, computer graphics, and number theory.",

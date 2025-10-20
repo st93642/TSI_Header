@@ -23,5 +23,10 @@
     "Call std::sort(numbers.begin(), numbers.end()) for ascending order.",
     "Use std::count_if with a lambda n % 2 == 0 and std::all_of with n > 0 to finish the summary."
   ],
-  "tags": ["algorithms", "sorting", "vectors", "intermediate"]
+  "tags": [
+    "algorithms",
+    "sorting",
+    "vectors",
+    "intermediate"
+  ]
 }

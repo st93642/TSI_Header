@@ -1,0 +1,64 @@
+{
+  "id": "vector_product_vectors_quiz",
+  "title": "Vector Product of Vectors Quiz",
+  "description": "Test your understanding of cross products, their properties, and geometric applications.",
+  "difficulty": "advanced",
+  "workbook": "HELM Workbook 9 Vectors",
+  "questions": [
+    {
+      "question": "What is the cross product of (1, 2, 3) and (4, 5, 6)?",
+      "options": [
+        "(-3, 6, -3)",
+        "(3, -6, 3)",
+        "(-3, -6, -3)",
+        "(3, 6, 3)"
+      ],
+      "correct": 0,
+      "explanation": "Cross product: i(2*6-3*5) - j(1*6-3*4) + k(1*5-2*4) = i(12-15) - j(6-12) + k(5-8) = (-3, 6, -3)"
+    },
+    {
+      "question": "Which property does the cross product NOT satisfy?",
+      "options": [
+        "Anti-commutative",
+        "Distributive over addition",
+        "Associative",
+        "Compatible with scalars"
+      ],
+      "correct": 2,
+      "explanation": "The cross product is not associative: (a×b)×c ≠ a×(b×c)"
+    },
+    {
+      "question": "What does |a × b| represent geometrically?",
+      "options": [
+        "Angle between vectors",
+        "Area of parallelogram formed by a and b",
+        "Volume of parallelepiped",
+        "Distance between vectors"
+      ],
+      "correct": 1,
+      "explanation": "The magnitude of the cross product gives the area of the parallelogram formed by the two vectors."
+    },
+    {
+      "question": "What is î × ĵ?",
+      "options": [
+        "0",
+        "î",
+        "ĵ",
+        "k̂"
+      ],
+      "correct": 3,
+      "explanation": "î × ĵ = k̂ (right-hand rule)"
+    },
+    {
+      "question": "When is a × b = 0?",
+      "options": [
+        "When vectors are perpendicular",
+        "When vectors are parallel",
+        "When vectors have same magnitude",
+        "When vectors are unit vectors"
+      ],
+      "correct": 1,
+      "explanation": "The cross product is zero when vectors are parallel (collinear)."
+    }
+  ]
+}

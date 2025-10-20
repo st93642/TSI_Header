@@ -47,5 +47,12 @@
     "Add event versioning for schema evolution",
     "Use optimistic concurrency for data integrity"
   ],
-  "tags": ["microservices", "event-driven", "cqrs", "event-sourcing", "distributed-tracing", "circuit-breaker"]
+  "tags": [
+    "microservices",
+    "event-driven",
+    "cqrs",
+    "event-sourcing",
+    "distributed-tracing",
+    "circuit-breaker"
+  ]
 }

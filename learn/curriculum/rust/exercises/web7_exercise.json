@@ -46,5 +46,12 @@
     "Implement proper cleanup of allocated memory",
     "Use typed functions for calling WASM exports"
   ],
-  "tags": ["wasm", "wasmtime", "memory-management", "ffi", "serialization", "runtime"]
+  "tags": [
+    "wasm",
+    "wasmtime",
+    "memory-management",
+    "ffi",
+    "serialization",
+    "runtime"
+  ]
 }

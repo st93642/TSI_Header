@@ -46,5 +46,12 @@
     "Implement proper error handling for auth failures",
     "Use secure random generation for tokens"
   ],
-  "tags": ["authentication", "jwt", "authorization", "bcrypt", "security", "sessions"]
+  "tags": [
+    "authentication",
+    "jwt",
+    "authorization",
+    "bcrypt",
+    "security",
+    "sessions"
+  ]
 }

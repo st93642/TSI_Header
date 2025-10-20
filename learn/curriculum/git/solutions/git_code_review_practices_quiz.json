@@ -4,16 +4,88 @@
   "mode": "quiz",
   "explanation": "Answer key for review scope discipline, feedback etiquette, and workflow automation.",
   "answerKey": [
-    {"questionId": "git-review-scope", "answers": ["a", "b", "d"], "rationale": "Well-scoped PRs cover a single change, include context, and share evidence such as tests or screenshots."},
-    {"questionId": "git-review-templates", "answers": ["a"], "rationale": "Pull request templates standardize the information authors provide."},
-    {"questionId": "git-review-feedback", "answers": ["a", "b", "d"], "rationale": "Constructive reviewers ask questions, link references, and mark non-blocking items clearly."},
-    {"questionId": "git-review-patches", "answers": ["true"], "rationale": "git format-patch produces email-friendly patch files."},
-    {"questionId": "git-review-signals", "answers": ["a", "b", "c"], "rationale": "Passing checks, approvals, and resolved blockers signal merge readiness."},
-    {"questionId": "git-review-codeowners", "answers": ["a"], "rationale": "CODEOWNERS auto-requests reviewers for specific paths."},
-    {"questionId": "git-review-checklists", "answers": ["a", "b", "c"], "rationale": "Authors should run tests, tidy commits, and update docs before review."},
-    {"questionId": "git-review-labels", "answers": ["true"], "rationale": "Labels trigger automation such as deploy previews or release bots."},
-    {"questionId": "git-review-discussion", "answers": ["a", "b", "c"], "rationale": "Response SLAs, synchronous escalations, and documented decisions keep reviews productive."},
-    {"questionId": "git-review-metrics", "answers": ["a", "b", "c"], "rationale": "Healthy review metrics measure responsiveness, unresolved conversations, and iteration cycles."}
+    {
+      "questionId": "git-review-scope",
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "rationale": "Well-scoped PRs cover a single change, include context, and share evidence such as tests or screenshots."
+    },
+    {
+      "questionId": "git-review-templates",
+      "answers": [
+        "a"
+      ],
+      "rationale": "Pull request templates standardize the information authors provide."
+    },
+    {
+      "questionId": "git-review-feedback",
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "rationale": "Constructive reviewers ask questions, link references, and mark non-blocking items clearly."
+    },
+    {
+      "questionId": "git-review-patches",
+      "answers": [
+        "true"
+      ],
+      "rationale": "git format-patch produces email-friendly patch files."
+    },
+    {
+      "questionId": "git-review-signals",
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "rationale": "Passing checks, approvals, and resolved blockers signal merge readiness."
+    },
+    {
+      "questionId": "git-review-codeowners",
+      "answers": [
+        "a"
+      ],
+      "rationale": "CODEOWNERS auto-requests reviewers for specific paths."
+    },
+    {
+      "questionId": "git-review-checklists",
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "rationale": "Authors should run tests, tidy commits, and update docs before review."
+    },
+    {
+      "questionId": "git-review-labels",
+      "answers": [
+        "true"
+      ],
+      "rationale": "Labels trigger automation such as deploy previews or release bots."
+    },
+    {
+      "questionId": "git-review-discussion",
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "rationale": "Response SLAs, synchronous escalations, and documented decisions keep reviews productive."
+    },
+    {
+      "questionId": "git-review-metrics",
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "rationale": "Healthy review metrics measure responsiveness, unresolved conversations, and iteration cycles."
+    }
   ],
   "keyPoints": [
     "Small, well-documented PRs accelerate reviews.",
@@ -25,6 +97,6 @@
     "Pre-review checklists reduce reviewer workload.",
     "Labels and automation streamline collaborative workflows.",
     "Documented decisions and response expectations keep reviews efficient.",
-    "Track review responsiveness and unresolved threads to improve process health." 
+    "Track review responsiveness and unresolved threads to improve process health."
   ]
 }

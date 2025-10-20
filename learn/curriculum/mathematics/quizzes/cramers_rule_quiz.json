@@ -1,0 +1,63 @@
+{
+  "id": "cramers_rule_quiz",
+  "title": "Cramer's Rule Quiz",
+  "description": "Test your knowledge of Cramer's rule for solving linear systems.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is Cramer's rule used for?",
+      "options": [
+        "Finding matrix inverses",
+        "Solving systems of linear equations",
+        "Calculating determinants",
+        "Matrix multiplication"
+      ],
+      "correct": 1,
+      "explanation": "Cramer's rule solves systems of linear equations using determinants."
+    },
+    {
+      "question": "In Cramer's rule, xᵢ = det(Aᵢ) / det(A). What is Aᵢ?",
+      "options": [
+        "A with row i removed",
+        "A with column i removed",
+        "A with column i replaced by the constant vector",
+        "A with row i replaced by the constant vector"
+      ],
+      "correct": 2,
+      "explanation": "Aᵢ is A with its i-th column replaced by the constant vector B."
+    },
+    {
+      "question": "When can Cramer's rule NOT be used?",
+      "options": [
+        "When the system is 2×2",
+        "When det(A) = 0",
+        "When the system is 3×3",
+        "When A is symmetric"
+      ],
+      "correct": 1,
+      "explanation": "Cramer's rule requires det(A) ≠ 0 (invertible coefficient matrix)."
+    },
+    {
+      "question": "What is the computational complexity of Cramer's rule for n×n systems?",
+      "options": [
+        "O(n)",
+        "O(n²)",
+        "O(n³)",
+        "O(2ⁿ)"
+      ],
+      "correct": 3,
+      "explanation": "Cramer's rule requires computing n+1 determinants of size n×n, each O(n!)."
+    },
+    {
+      "question": "Cramer's rule gives the same solution as which method?",
+      "options": [
+        "Gauss elimination only",
+        "Matrix inverse method only",
+        "Both Gauss elimination and matrix inverse method",
+        "Neither"
+      ],
+      "correct": 2,
+      "explanation": "Cramer's rule, Gauss elimination, and matrix inverse all give the same solution."
+    }
+  ]
+}

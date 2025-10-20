@@ -3,7 +3,13 @@
   "mode": "quiz",
   "title": "Quiz: Exploring History with Log, Show, Diff, and Bisect",
   "description": "Verify your ability to interrogate Git history, compare snapshots, and isolate regressions.\n\nSteps:\n1. Revisit the lesson's coverage of git log formatting, diff strategies, and bisect workflows.\n2. Answer all questions, taking note of multi-select prompts.\n3. Review explanations to strengthen your debugging toolkit.\n\nExpected results: Earn 8/10 to proceed confidently to branching models.",
-  "tags": ["git", "history", "inspection", "bisect", "quiz"],
+  "tags": [
+    "git",
+    "history",
+    "inspection",
+    "bisect",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,110 +17,224 @@
       "type": "multiple",
       "prompt": "Which flags customize git log output for compact timelines? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "--oneline", "correct": true},
-        {"id": "b", "text": "--graph", "correct": true},
-        {"id": "c", "text": "--stat"},
-        {"id": "d", "text": "--decorate", "correct": true}
+        {
+          "id": "a",
+          "text": "--oneline",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "--graph",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "--stat"
+        },
+        {
+          "id": "d",
+          "text": "--decorate",
+          "correct": true
+        }
       ],
-      "explanation": "Oneline, graph, and decorate condense history while showing topology and ref names." 
+      "explanation": "Oneline, graph, and decorate condense history while showing topology and ref names."
     },
     {
       "id": "git-history-show",
       "type": "single",
       "prompt": "Which command displays the details of a specific commit including metadata and diff?",
       "options": [
-        {"id": "a", "text": "git show <commit>", "correct": true},
-        {"id": "b", "text": "git status"},
-        {"id": "c", "text": "git reflog"},
-        {"id": "d", "text": "git shortlog"}
+        {
+          "id": "a",
+          "text": "git show <commit>",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git status"
+        },
+        {
+          "id": "c",
+          "text": "git reflog"
+        },
+        {
+          "id": "d",
+          "text": "git shortlog"
+        }
       ],
-      "explanation": "`git show` inspects a commit's metadata and patch." 
+      "explanation": "`git show` inspects a commit's metadata and patch."
     },
     {
       "id": "git-history-diff-range",
       "type": "multiple",
       "prompt": "How can you compare two points in history? (Select all commands that apply)",
       "options": [
-        {"id": "a", "text": "git diff HEAD~1 HEAD", "correct": true},
-        {"id": "b", "text": "git diff feature..main", "correct": true},
-        {"id": "c", "text": "git diff --cached origin/main"},
-        {"id": "d", "text": "git diff <commit> -- <path>", "correct": true}
+        {
+          "id": "a",
+          "text": "git diff HEAD~1 HEAD",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git diff feature..main",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "git diff --cached origin/main"
+        },
+        {
+          "id": "d",
+          "text": "git diff <commit> -- <path>",
+          "correct": true
+        }
       ],
-      "explanation": "Diff accepts commit ranges, double-dot syntax, and path limits to compare history snapshots." 
+      "explanation": "Diff accepts commit ranges, double-dot syntax, and path limits to compare history snapshots."
     },
     {
       "id": "git-history-bisect-start",
       "type": "truefalse",
       "prompt": "True or False: `git bisect start` marks the beginning of a binary search between known good and bad commits.",
       "answer": "true",
-      "explanation": "Bisect requires specifying bad and good commits to isolate the regression." 
+      "explanation": "Bisect requires specifying bad and good commits to isolate the regression."
     },
     {
       "id": "git-history-bisect-commands",
       "type": "multiple",
       "prompt": "Which steps form a standard bisect workflow? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "git bisect bad <commit>", "correct": true},
-        {"id": "b", "text": "git bisect good <commit>", "correct": true},
-        {"id": "c", "text": "Run the test suite at each checkout", "correct": true},
-        {"id": "d", "text": "git bisect abort when finished", "correct": true}
+        {
+          "id": "a",
+          "text": "git bisect bad <commit>",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git bisect good <commit>",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Run the test suite at each checkout",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "git bisect abort when finished",
+          "correct": true
+        }
       ],
-      "explanation": "Marking bad/good commits and running tests narrows the culprit; abort resets to the original HEAD." 
+      "explanation": "Marking bad/good commits and running tests narrows the culprit; abort resets to the original HEAD."
     },
     {
       "id": "git-history-reflog",
       "type": "single",
       "prompt": "What does git reflog provide?",
       "options": [
-        {"id": "a", "text": "A log of updates to local references", "correct": true},
-        {"id": "b", "text": "A list of remote branches"},
-        {"id": "c", "text": "A diff of staged changes"},
-        {"id": "d", "text": "A summary of file ownership"}
+        {
+          "id": "a",
+          "text": "A log of updates to local references",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "A list of remote branches"
+        },
+        {
+          "id": "c",
+          "text": "A diff of staged changes"
+        },
+        {
+          "id": "d",
+          "text": "A summary of file ownership"
+        }
       ],
-      "explanation": "Reflog tracks movements of refs like HEAD, enabling recovery from mistakes." 
+      "explanation": "Reflog tracks movements of refs like HEAD, enabling recovery from mistakes."
     },
     {
       "id": "git-history-blame",
       "type": "multiple",
       "prompt": "What insights can `git blame` reveal? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Which commit last modified each line", "correct": true},
-        {"id": "b", "text": "Author and timestamp for line changes", "correct": true},
-        {"id": "c", "text": "A performance profile of the code"},
-        {"id": "d", "text": "The current branch topology"}
+        {
+          "id": "a",
+          "text": "Which commit last modified each line",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Author and timestamp for line changes",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "A performance profile of the code"
+        },
+        {
+          "id": "d",
+          "text": "The current branch topology"
+        }
       ],
-      "explanation": "Blame attributes lines to commit IDs, authors, and dates." 
+      "explanation": "Blame attributes lines to commit IDs, authors, and dates."
     },
     {
       "id": "git-history-shortlog",
       "type": "single",
       "prompt": "Which command summarizes commits grouped by author for a release note draft?",
       "options": [
-        {"id": "a", "text": "git shortlog", "correct": true},
-        {"id": "b", "text": "git describe"},
-        {"id": "c", "text": "git cherry"},
-        {"id": "d", "text": "git rev-list"}
+        {
+          "id": "a",
+          "text": "git shortlog",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git describe"
+        },
+        {
+          "id": "c",
+          "text": "git cherry"
+        },
+        {
+          "id": "d",
+          "text": "git rev-list"
+        }
       ],
-      "explanation": "Shortlog groups commits by author, convenient for release summaries." 
+      "explanation": "Shortlog groups commits by author, convenient for release summaries."
     },
     {
       "id": "git-history-range-log",
       "type": "multiple",
       "prompt": "Which log expressions restrict history to specific ranges? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "git log feature..main", "correct": true},
-        {"id": "b", "text": "git log main..feature", "correct": true},
-        {"id": "c", "text": "git log --since=\"2 weeks ago\"", "correct": true},
-        {"id": "d", "text": "git log --format=raw"}
+        {
+          "id": "a",
+          "text": "git log feature..main",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git log main..feature",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "git log --since=\"2 weeks ago\"",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "git log --format=raw"
+        }
       ],
-      "explanation": "Double-dot ranges and time filters narrow log output to relevant commits." 
+      "explanation": "Double-dot ranges and time filters narrow log output to relevant commits."
     },
     {
       "id": "git-history-stat",
       "type": "truefalse",
       "prompt": "True or False: `git diff --stat` provides a condensed view of lines added and removed per file.",
       "answer": "true",
-      "explanation": "--stat summarises changes by file counts and total insertions/deletions." 
+      "explanation": "--stat summarises changes by file counts and total insertions/deletions."
     }
   ]
 }

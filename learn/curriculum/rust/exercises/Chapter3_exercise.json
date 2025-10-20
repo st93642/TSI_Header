@@ -17,5 +17,10 @@
     "For borrow_string, use s.len() as well",
     "In main, create strings with String::from and call the functions"
   ],
-  "tags": ["ownership", "borrowing", "basics", "beginner"]
+  "tags": [
+    "ownership",
+    "borrowing",
+    "basics",
+    "beginner"
+  ]
 }

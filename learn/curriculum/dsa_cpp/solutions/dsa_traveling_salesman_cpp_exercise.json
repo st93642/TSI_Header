@@ -4,7 +4,14 @@
   "mode": "quiz",
   "title": "Traveling Salesman Problem & NP-Completeness - Solutions",
   "description": "Complete solutions and explanations for TSP quiz questions.",
-  "tags": ["cpp", "tsp", "np-complete", "algorithms", "optimization", "solutions"],
+  "tags": [
+    "cpp",
+    "tsp",
+    "np-complete",
+    "algorithms",
+    "optimization",
+    "solutions"
+  ],
   "questions": [
     {
       "id": "tsp_definition",
@@ -232,9 +239,17 @@
     "dynamic_programming_tsp": "option_b",
     "christofides_algorithm": "option_c",
     "nearest_neighbor": "option_b",
-    "tsp_reductions": ["option_a", "option_b", "option_d"],
+    "tsp_reductions": [
+      "option_a",
+      "option_b",
+      "option_d"
+    ],
     "practical_tsp_range": "option_b",
-    "tsp_applications": ["option_a", "option_b", "option_d"],
+    "tsp_applications": [
+      "option_a",
+      "option_b",
+      "option_d"
+    ],
     "p_vs_np": "true"
   },
   "keyPoints": [

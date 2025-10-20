@@ -3,53 +3,83 @@
   "answerKey": [
     {
       "questionId": "git-release-branch-cut",
-      "answers": ["a"],
-      "explanation": "Release branches are cut from main (or trunk) to isolate stabilization work." 
+      "answers": [
+        "a"
+      ],
+      "explanation": "Release branches are cut from main (or trunk) to isolate stabilization work."
     },
     {
       "questionId": "git-release-freeze",
-      "answers": ["a", "b", "c"],
-      "explanation": "Stabilization prioritizes critical fixes, feature freezes, and release note prep." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Stabilization prioritizes critical fixes, feature freezes, and release note prep."
     },
     {
       "questionId": "git-release-tagging",
-      "answers": ["true"],
-      "explanation": "Annotated, signed tags record release metadata and support audit trails." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Annotated, signed tags record release metadata and support audit trails."
     },
     {
       "questionId": "git-release-artifacts",
-      "answers": ["a", "b", "c"],
-      "explanation": "Releases ship binaries, SBOMs, and changelogs; deleting history is never required." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Releases ship binaries, SBOMs, and changelogs; deleting history is never required."
     },
     {
       "questionId": "git-release-monitoring",
-      "answers": ["a"],
-      "explanation": "Monitoring KPIs during rollout validates release health." 
+      "answers": [
+        "a"
+      ],
+      "explanation": "Monitoring KPIs during rollout validates release health."
     },
     {
       "questionId": "git-release-backport",
-      "answers": ["a", "b", "d"],
-      "explanation": "Backports target release branches, apply patches, and run focused tests." 
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "Backports target release branches, apply patches, and run focused tests."
     },
     {
       "questionId": "git-release-communication",
-      "answers": ["true"],
-      "explanation": "Clear communication and postmortem windows ensure transparency." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Clear communication and postmortem windows ensure transparency."
     },
     {
       "questionId": "git-release-rollback",
-      "answers": ["a", "b", "d"],
-      "explanation": "Rollback strategies include redeploying prior tags, toggling flags, or shipping hotfixes." 
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "Rollback strategies include redeploying prior tags, toggling flags, or shipping hotfixes."
     },
     {
       "questionId": "git-release-governance",
-      "answers": ["a", "b", "d"],
-      "explanation": "Governance relies on signed commits/tags, restricted pushes, and secure artifact storage." 
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "Governance relies on signed commits/tags, restricted pushes, and secure artifact storage."
     },
     {
       "questionId": "git-release-retrospective",
-      "answers": ["true"],
-      "explanation": "Issue templates with go/no-go gates standardize release execution." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Issue templates with go/no-go gates standardize release execution."
     }
   ],
   "keyPoints": [

@@ -50,5 +50,12 @@
     "Use tokio::time::timeout for timeout functionality",
     "Remember to await all async operations"
   ],
-  "tags": ["async", "await", "futures", "streams", "tokio", "concurrency"]
+  "tags": [
+    "async",
+    "await",
+    "futures",
+    "streams",
+    "tokio",
+    "concurrency"
+  ]
 }

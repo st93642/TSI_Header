@@ -3,7 +3,14 @@
   "mode": "quiz",
   "title": "Quiz: Time Complexity Analysis",
   "description": "Test your understanding of algorithmic complexity analysis by answering ten questions covering Big O notation, complexity classes, and practical performance considerations.\n\nSteps:\n1. Review the complexity analysis concepts from the lesson.\n2. Answer each question carefully, selecting the best option(s).\n3. Submit to see detailed explanations and reinforce your learning.\n\nExpected results: Achieve at least the pass score to demonstrate mastery of time complexity analysis.",
-  "tags": ["cpp", "dsa", "complexity", "algorithms", "big-o", "quiz"],
+  "tags": [
+    "cpp",
+    "dsa",
+    "complexity",
+    "algorithms",
+    "big-o",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {

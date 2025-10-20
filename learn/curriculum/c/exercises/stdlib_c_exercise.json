@@ -2,7 +2,11 @@
   "id": "stdlib_c_exercise",
   "title": "Standard Library in C",
   "description": "Implement a program that demonstrates various standard library functions. The program should read commands from stdin and perform operations using stdlib.h, string.h, math.h, ctype.h, and time.h functions.\n\nSteps:\n1. Include necessary headers: stdlib.h, string.h, math.h, ctype.h, time.h.\n2. Read commands from stdin in a loop until 'quit'.\n3. Support commands: 'rand min max' (generate random int), 'sqrt num' (square root), 'upper str' (uppercase string), 'time' (current time), 'token str delim' (tokenize string).\n4. Use appropriate library functions for each operation.\n5. Print results or errors.\n\nExpected output/results: For each command, output the result or error message.",
-  "tags": ["c", "standard-library", "stdlib"],
+  "tags": [
+    "c",
+    "standard-library",
+    "stdlib"
+  ],
   "starterCode": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <math.h>\n#include <ctype.h>\n#include <time.h>\n\n// TODO: Implement command processing functions\n// int process_rand(int min, int max) {\n//     // Generate random int between min and max\n// }\n\n// double process_sqrt(double num) {\n//     // Return square root\n// }\n\n// void process_upper(char *str) {\n//     // Convert string to uppercase in place\n// }\n\n// void process_time(void) {\n//     // Print current time\n// }\n\n// void process_token(char *str, char *delim) {\n//     // Tokenize string and print tokens\n// }\n\nint main(void) {\n    char line[256];\n    \n    // TODO: Seed random number generator\n    // srand(time(NULL));\n    \n    while (fgets(line, sizeof(line), stdin)) {\n        // Remove newline\n        line[strcspn(line, \"\\n\")] = 0;\n        \n        // TODO: Parse command\n        char cmd[20];\n        if (sscanf(line, \"%s\", cmd) != 1) continue;\n        \n        if (strcmp(cmd, \"quit\") == 0) break;\n        \n        // TODO: Handle different commands\n        // if (strcmp(cmd, \"rand\") == 0) {\n        //     int min, max;\n        //     if (sscanf(line, \"%*s %d %d\", &min, &max) == 2) {\n        //         int r = process_rand(min, max);\n        //         printf(\"%d\\n\", r);\n        //     } else {\n        //         printf(\"Error: invalid rand args\\n\");\n        //     }\n        // } else if (strcmp(cmd, \"sqrt\") == 0) {\n        //     // similar for other commands\n        // }\n    }\n    \n    return 0;\n}",
   "tests": [
     {

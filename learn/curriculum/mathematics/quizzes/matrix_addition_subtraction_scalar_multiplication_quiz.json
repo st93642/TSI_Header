@@ -1,0 +1,63 @@
+{
+  "id": "matrix_addition_subtraction_scalar_multiplication_quiz",
+  "title": "Matrix Addition, Subtraction, and Scalar Multiplication Quiz",
+  "description": "Test your understanding of basic matrix arithmetic operations.",
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "question": "What is the result of [1 2; 3 4] + [5 6; 7 8]?",
+      "options": [
+        "[6 8; 10 12]",
+        "[4 4; 4 4]",
+        "[5 12; 21 32]",
+        "[1 2 5 6; 3 4 7 8]"
+      ],
+      "correct": 0,
+      "explanation": "Matrix addition is performed element-wise."
+    },
+    {
+      "question": "What are the requirements for matrix addition?",
+      "options": [
+        "Matrices must have the same number of rows",
+        "Matrices must have the same number of columns",
+        "Matrices must have the same dimensions",
+        "Matrices must be square"
+      ],
+      "correct": 2,
+      "explanation": "Addition requires matrices of identical dimensions."
+    },
+    {
+      "question": "What is 3 × [2 4; 1 3]?",
+      "options": [
+        "[6 12; 3 9]",
+        "[5 7; 4 6]",
+        "[2 4 3; 1 3 3]",
+        "[6 7; 12 13]"
+      ],
+      "correct": 0,
+      "explanation": "Scalar multiplication multiplies each element by the scalar."
+    },
+    {
+      "question": "Which operation is NOT commutative?",
+      "options": [
+        "Matrix addition",
+        "Scalar multiplication",
+        "Matrix multiplication",
+        "Matrix subtraction"
+      ],
+      "correct": 2,
+      "explanation": "Matrix multiplication is not commutative: AB ≠ BA in general."
+    },
+    {
+      "question": "What is the result of matrix subtraction A - B?",
+      "options": [
+        "A + (-1)×B",
+        "A + B",
+        "A × B",
+        "B - A"
+      ],
+      "correct": 0,
+      "explanation": "Matrix subtraction is equivalent to adding the negative of the second matrix."
+    }
+  ]
+}

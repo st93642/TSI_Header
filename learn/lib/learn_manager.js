@@ -624,6 +624,62 @@ class LearnManager {
             return `@@CODEBLOCK_${idx}@@`;
         });
 
+        // Convert tables
+        html = html.replace(/(\|.*\|\n\|[\s\-\|:]+\|\n(?:\|.*\|\n?)*)/g, (match) => {
+            const lines = match.trim().split('\n');
+            if (lines.length < 2) return match;
+
+            // Parse header row
+            const headerLine = lines[0];
+            const separatorLine = lines[1];
+            const dataLines = lines.slice(2);
+
+            // Check if this is a valid table (separator line should contain | and - or : characters)
+            if (!separatorLine.match(/\|[\s\-\|:]+\|/)) return match;
+
+            // Parse header cells
+            const headers = headerLine.split('|').slice(1, -1).map(cell => cell.trim());
+
+            // Parse data rows
+            const rows = dataLines.map(line => {
+                return line.split('|').slice(1, -1).map(cell => cell.trim());
+            });
+
+            // Generate HTML table
+            let tableHtml = '<table>\n';
+
+            // Add header row
+            tableHtml += '<thead>\n<tr>\n';
+            headers.forEach(header => {
+                tableHtml += `<th>${header}</th>\n`;
+            });
+            tableHtml += '</tr>\n</thead>\n';
+
+            // Add data rows
+            if (rows.length > 0) {
+                tableHtml += '<tbody>\n';
+                rows.forEach(row => {
+                    tableHtml += '<tr>\n';
+                    row.forEach(cell => {
+                        tableHtml += `<td>${cell}</td>\n`;
+                    });
+                    tableHtml += '</tr>\n';
+                });
+                tableHtml += '</tbody>\n';
+            }
+
+            tableHtml += '</table>';
+            return tableHtml;
+        });
+
+        // --- Protect table HTML from paragraph conversion ---
+        const tablePlaceholders = [];
+        html = html.replace(/<table[\s\S]*?<\/table>/g, (match) => {
+            const idx = tablePlaceholders.length;
+            tablePlaceholders.push(match);
+            return `@@TABLE_${idx}@@`;
+        });
+
         // Convert headers
         html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
         html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
@@ -658,6 +714,12 @@ class LearnManager {
         html = html.replace(/@@CODEBLOCK_(\d+)@@/g, (m, id) => {
             const i = parseInt(id, 10);
             return codeBlockPlaceholders[i] || '';
+        });
+
+        // Restore protected tables
+        html = html.replace(/@@TABLE_(\d+)@@/g, (m, id) => {
+            const i = parseInt(id, 10);
+            return tablePlaceholders[i] || '';
         });
 
         return html;

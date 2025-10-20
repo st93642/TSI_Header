@@ -1,0 +1,63 @@
+{
+  "id": "matrix_solution_linear_systems_quiz",
+  "title": "Matrix Solution of Linear Systems Quiz",
+  "description": "Test your understanding of solving linear systems using matrix methods.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What does AX = B represent in a system of equations?",
+      "options": [
+        "Matrix multiplication",
+        "A system of linear equations",
+        "Matrix addition",
+        "Scalar multiplication"
+      ],
+      "correct": 1,
+      "explanation": "AX = B represents a system of linear equations in matrix form."
+    },
+    {
+      "question": "When does a system AX = B have a unique solution?",
+      "options": [
+        "When A is square",
+        "When det(A) ≠ 0",
+        "When A has more rows than columns",
+        "Always"
+      ],
+      "correct": 1,
+      "explanation": "Unique solution exists when the coefficient matrix is invertible (det ≠ 0)."
+    },
+    {
+      "question": "What does det(A) = 0 indicate about the system AX = B?",
+      "options": [
+        "Unique solution",
+        "No solution or infinite solutions",
+        "Always infinite solutions",
+        "Always no solution"
+      ],
+      "correct": 1,
+      "explanation": "Singular systems may have no solution or infinite solutions."
+    },
+    {
+      "question": "Which method gives the solution X = A⁻¹B?",
+      "options": [
+        "Gauss elimination",
+        "Cramer's rule",
+        "Matrix inverse method",
+        "Laplace expansion"
+      ],
+      "correct": 2,
+      "explanation": "The matrix inverse method gives X = A⁻¹B."
+    },
+    {
+      "question": "What must be true for Cramer's rule to work?",
+      "options": [
+        "A must be upper triangular",
+        "A must be invertible",
+        "A must be symmetric",
+        "A must be diagonal"
+      ],
+      "correct": 1,
+      "explanation": "Cramer's rule requires the coefficient matrix to be invertible."
+    }
+  ]
+}

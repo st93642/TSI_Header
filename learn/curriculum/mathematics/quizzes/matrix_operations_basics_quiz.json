@@ -1,0 +1,63 @@
+{
+  "id": "matrix_operations_basics_quiz",
+  "title": "Matrix Operations Basics Quiz",
+  "description": "Test your understanding of basic matrix operations including addition, scalar multiplication, and matrix properties.",
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "question": "What is the result of adding matrices A and B where A = [1 2; 3 4] and B = [5 6; 7 8]?",
+      "options": [
+        "[6 8; 10 12]",
+        "[4 4; 4 4]",
+        "[5 12; 21 32]",
+        "[1 2 5 6; 3 4 7 8]"
+      ],
+      "correct": 0,
+      "explanation": "Matrix addition is performed element-wise: (A + B)[i][j] = A[i][j] + B[i][j]"
+    },
+    {
+      "question": "If matrix A has dimensions 2×3 and matrix B has dimensions 2×3, what are the dimensions of A + B?",
+      "options": [
+        "2×3",
+        "3×2",
+        "2×2",
+        "3×3"
+      ],
+      "correct": 0,
+      "explanation": "Matrix addition requires both matrices to have the same dimensions, and the result has the same dimensions."
+    },
+    {
+      "question": "What is the result of scalar multiplication 3 × [2 4; 1 3]?",
+      "options": [
+        "[6 12; 3 9]",
+        "[5 7; 4 6]",
+        "[2 4 3; 1 3 3]",
+        "[6 7; 12 13]"
+      ],
+      "correct": 0,
+      "explanation": "Scalar multiplication multiplies each element by the scalar: (k × A)[i][j] = k × A[i][j]"
+    },
+    {
+      "question": "Which of the following is NOT a property of matrix addition?",
+      "options": [
+        "Commutative: A + B = B + A",
+        "Associative: (A + B) + C = A + (B + C)",
+        "Distributive: A × (B + C) = A × B + A × C",
+        "Identity element exists: A + 0 = A"
+      ],
+      "correct": 2,
+      "explanation": "The distributive property applies to scalar multiplication over matrix addition, not matrix multiplication over matrix addition."
+    },
+    {
+      "question": "What are the dimensions of a matrix with 3 rows and 4 columns?",
+      "options": [
+        "3×4",
+        "4×3",
+        "7×1",
+        "1×12"
+      ],
+      "correct": 0,
+      "explanation": "Matrix dimensions are always written as rows × columns."
+    }
+  ]
+}

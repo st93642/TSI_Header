@@ -4,13 +4,20 @@
   "title": "Solution: Simple Algorithm Patterns in Modern C++",
   "mode": "quiz",
   "answerKey": {
-    "simple_patterns_archetypes": ["option_a", "option_b", "option_c"],
+    "simple_patterns_archetypes": [
+      "option_a",
+      "option_b",
+      "option_c"
+    ],
     "simple_patterns_guard_clauses": "option_a",
     "simple_patterns_tracer_role": "option_b",
     "simple_patterns_span_reason": "option_a",
     "simple_patterns_selection_sort_cost": "option_a",
     "simple_patterns_partition_goal": "option_a",
-    "simple_patterns_release_builds": ["option_a", "option_c"],
+    "simple_patterns_release_builds": [
+      "option_a",
+      "option_c"
+    ],
     "simple_patterns_swap_counter": "true",
     "simple_patterns_storytelling": "option_a",
     "simple_patterns_iteration_signal": "true"

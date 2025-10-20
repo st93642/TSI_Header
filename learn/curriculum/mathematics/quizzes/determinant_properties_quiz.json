@@ -1,0 +1,63 @@
+{
+  "id": "determinant_properties_quiz",
+  "title": "Determinant Properties Quiz",
+  "description": "Test your knowledge of determinant properties and their applications.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is det(A×B) in terms of det(A) and det(B)?",
+      "options": [
+        "det(A) + det(B)",
+        "det(A) × det(B)",
+        "det(A) - det(B)",
+        "det(A) / det(B)"
+      ],
+      "correct": 1,
+      "explanation": "det(AB) = det(A) × det(B) for square matrices."
+    },
+    {
+      "question": "What happens to det(A) when two rows are interchanged?",
+      "options": [
+        "Stays the same",
+        "Doubles",
+        "Changes sign",
+        "Becomes zero"
+      ],
+      "correct": 2,
+      "explanation": "Interchanging two rows changes the sign of the determinant."
+    },
+    {
+      "question": "What is det(Aᵀ)?",
+      "options": [
+        "-det(A)",
+        "det(A)",
+        "1/det(A)",
+        "0"
+      ],
+      "correct": 1,
+      "explanation": "det(Aᵀ) = det(A) - the transpose doesn't change the determinant."
+    },
+    {
+      "question": "What is det(kA) for scalar k and square matrix A?",
+      "options": [
+        "k × det(A)",
+        "kⁿ × det(A) where n is matrix size",
+        "k² × det(A)",
+        "det(A)/k"
+      ],
+      "correct": 1,
+      "explanation": "Scaling a matrix by k scales its determinant by k^n."
+    },
+    {
+      "question": "Which operation does NOT change the determinant?",
+      "options": [
+        "Adding a multiple of one row to another",
+        "Multiplying a row by a non-zero scalar",
+        "Interchanging two rows",
+        "Transposing the matrix"
+      ],
+      "correct": 0,
+      "explanation": "Adding a multiple of one row to another doesn't change the determinant."
+    }
+  ]
+}

@@ -3,7 +3,12 @@
   "mode": "quiz",
   "title": "Quiz: Accelerating Git for Large Repositories",
   "description": "Confirm you can diagnose and optimize Git performance using configuration, maintenance, and workflow strategies.",
-  "tags": ["git", "performance", "optimization", "large-repo"],
+  "tags": [
+    "git",
+    "performance",
+    "optimization",
+    "large-repo"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,112 +16,213 @@
       "type": "single",
       "prompt": "Which command surfaces repository health statistics like object counts and pack sizes?",
       "options": [
-        {"id": "a", "text": "git count-objects -v", "correct": true},
-        {"id": "b", "text": "git status"},
-        {"id": "c", "text": "git branch"},
-        {"id": "d", "text": "git cat-file"}
+        {
+          "id": "a",
+          "text": "git count-objects -v",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "git status"
+        },
+        {
+          "id": "c",
+          "text": "git branch"
+        },
+        {
+          "id": "d",
+          "text": "git cat-file"
+        }
       ],
-      "explanation": "`git count-objects -v` reports loose objects and packfile totals, guiding cleanup." 
+      "explanation": "`git count-objects -v` reports loose objects and packfile totals, guiding cleanup."
     },
     {
       "id": "git-perf-maintenance",
       "type": "multiple",
       "prompt": "Which tasks does `git maintenance run --task=<task>` automate? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Incremental garbage collection", "correct": true},
-        {"id": "b", "text": "Commit-graph updates", "correct": true},
-        {"id": "c", "text": "Prefetching remote objects", "correct": true},
-        {"id": "d", "text": "Editing README files"}
+        {
+          "id": "a",
+          "text": "Incremental garbage collection",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Commit-graph updates",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Prefetching remote objects",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Editing README files"
+        }
       ],
-      "explanation": "Scheduled maintenance automates GC, commit graphs, and prefetches to keep repos responsive." 
+      "explanation": "Scheduled maintenance automates GC, commit graphs, and prefetches to keep repos responsive."
     },
     {
       "id": "git-perf-commitgraph",
       "type": "truefalse",
       "prompt": "True or False: Commit-graph files accelerate operations like `git log --graph` and merges.",
       "answer": "true",
-      "explanation": "Commit-graph indexes skip expensive ancestry walks, speeding many commands." 
+      "explanation": "Commit-graph indexes skip expensive ancestry walks, speeding many commands."
     },
     {
       "id": "git-perf-partial",
       "type": "multiple",
       "prompt": "Which clone options reduce initial data transfer for massive repos? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "`git clone --filter=blob:none`", "correct": true},
-        {"id": "b", "text": "`git clone --depth=1`", "correct": true},
-        {"id": "c", "text": "`git clone --single-branch`", "correct": true},
-        {"id": "d", "text": "`git clone --no-local-cache`"}
+        {
+          "id": "a",
+          "text": "`git clone --filter=blob:none`",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "`git clone --depth=1`",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "`git clone --single-branch`",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "`git clone --no-local-cache`"
+        }
       ],
-      "explanation": "Partial, shallow, and single-branch clones limit transferred data." 
+      "explanation": "Partial, shallow, and single-branch clones limit transferred data."
     },
     {
       "id": "git-perf-multipack",
       "type": "single",
       "prompt": "What does enabling `core.multiPackIndex=true` accomplish?",
       "options": [
-        {"id": "a", "text": "It consolidates object lookups across multiple packfiles", "correct": true},
-        {"id": "b", "text": "It forces a full clone"},
-        {"id": "c", "text": "It disables delta compression"},
-        {"id": "d", "text": "It creates submodules automatically"}
+        {
+          "id": "a",
+          "text": "It consolidates object lookups across multiple packfiles",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "It forces a full clone"
+        },
+        {
+          "id": "c",
+          "text": "It disables delta compression"
+        },
+        {
+          "id": "d",
+          "text": "It creates submodules automatically"
+        }
       ],
-      "explanation": "Multi-pack indexes help Git locate objects faster without repacking everything immediately." 
+      "explanation": "Multi-pack indexes help Git locate objects faster without repacking everything immediately."
     },
     {
       "id": "git-perf-lfs",
       "type": "truefalse",
       "prompt": "True or False: Git LFS stores large binaries outside the main object database to keep operations lean.",
       "answer": "true",
-      "explanation": "LFS replaces large binaries with pointers, fetching actual content on demand." 
+      "explanation": "LFS replaces large binaries with pointers, fetching actual content on demand."
     },
     {
       "id": "git-perf-fetch",
       "type": "multiple",
       "prompt": "How can you keep local clones current without blocking developers? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Schedule background `git fetch --filter=blob:none` jobs", "correct": true},
-        {"id": "b", "text": "Enable maintenance prefetch", "correct": true},
-        {"id": "c", "text": "Force developers to reclone daily"},
-        {"id": "d", "text": "Use alternates or shared object directories", "correct": true}
+        {
+          "id": "a",
+          "text": "Schedule background `git fetch --filter=blob:none` jobs",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Enable maintenance prefetch",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Force developers to reclone daily"
+        },
+        {
+          "id": "d",
+          "text": "Use alternates or shared object directories",
+          "correct": true
+        }
       ],
-      "explanation": "Background fetches, maintenance prefetch, and shared object caches keep clones warm without downtime." 
+      "explanation": "Background fetches, maintenance prefetch, and shared object caches keep clones warm without downtime."
     },
     {
       "id": "git-perf-delta",
       "type": "multiple",
       "prompt": "Which configuration options improve packfile delta chains? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "`pack.window`", "correct": true},
-        {"id": "b", "text": "`pack.depth`", "correct": true},
-        {"id": "c", "text": "`pack.writeReverseIndex`", "correct": true},
-        {"id": "d", "text": "`diff.noprefix`"}
+        {
+          "id": "a",
+          "text": "`pack.window`",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "`pack.depth`",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "`pack.writeReverseIndex`",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "`diff.noprefix`"
+        }
       ],
-      "explanation": "Pack window, depth, and reverse indexes affect delta search efficiency and retrieval speed." 
+      "explanation": "Pack window, depth, and reverse indexes affect delta search efficiency and retrieval speed."
     },
     {
       "id": "git-perf-worktree",
       "type": "truefalse",
       "prompt": "True or False: Using worktrees avoids duplicating large `.git` directories when working on multiple branches.",
       "answer": "true",
-      "explanation": "Git worktrees share the object database, giving lightweight checkouts per branch." 
+      "explanation": "Git worktrees share the object database, giving lightweight checkouts per branch."
     },
     {
       "id": "git-perf-monitoring",
       "type": "multiple",
       "prompt": "Which metrics help monitor Git server performance? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Clone latency and throughput", "correct": true},
-        {"id": "b", "text": "Packfile creation time", "correct": true},
-        {"id": "c", "text": "Ref advertisement size", "correct": true},
-        {"id": "d", "text": "Number of README edits"}
+        {
+          "id": "a",
+          "text": "Clone latency and throughput",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Packfile creation time",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Ref advertisement size",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Number of README edits"
+        }
       ],
-      "explanation": "Latency, pack creation, and ref payload sizes signal scaling pressure on Git servers." 
+      "explanation": "Latency, pack creation, and ref payload sizes signal scaling pressure on Git servers."
     },
     {
       "id": "git-perf-cleanup",
       "type": "truefalse",
       "prompt": "True or False: Running `git gc --prune=now` on busy servers is discouraged because it can disrupt concurrent fetches.",
       "answer": "true",
-      "explanation": "Aggressive pruning during peak usage can block operations; schedule maintenance windows instead." 
+      "explanation": "Aggressive pruning during peak usage can block operations; schedule maintenance windows instead."
     }
   ]
 }

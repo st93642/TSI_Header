@@ -3,7 +3,12 @@
   "mode": "quiz",
   "title": "Quiz: Git in the Software Delivery Lifecycle",
   "description": "Assess how well you understand Git's role across modern delivery pipelines, from distributed collaboration to the three-tree architecture.\n\nSteps:\n1. Revisit the lesson diagrams that compare centralized and distributed workflows.\n2. Answer all questions, choosing every option that applies for multi-select items.\n3. Review the explanations to reinforce how Git enables reliable, auditable shipping.\n\nExpected results: Score at least 8/10 to demonstrate foundational Git mastery before continuing to Module 1 lesson 1.2.",
-  "tags": ["git", "foundations", "lifecycle", "quiz"],
+  "tags": [
+    "git",
+    "foundations",
+    "lifecycle",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,122 +16,247 @@
       "type": "single",
       "prompt": "What is the primary property of a Git commit that makes the history trustworthy across collaborators?",
       "options": [
-        {"id": "a", "text": "Commits reference centralized metadata servers"},
-        {"id": "b", "text": "Commits are immutable snapshots addressed by cryptographic hashes", "correct": true},
-        {"id": "c", "text": "Commits can be edited in place without new IDs"},
-        {"id": "d", "text": "Commits require online access to the origin remote"}
+        {
+          "id": "a",
+          "text": "Commits reference centralized metadata servers"
+        },
+        {
+          "id": "b",
+          "text": "Commits are immutable snapshots addressed by cryptographic hashes",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Commits can be edited in place without new IDs"
+        },
+        {
+          "id": "d",
+          "text": "Commits require online access to the origin remote"
+        }
       ],
-      "explanation": "Git commit objects are immutable snapshots whose identifiers are SHA-1/SHA-256 hashes over their content, enabling tamper detection and trust." 
+      "explanation": "Git commit objects are immutable snapshots whose identifiers are SHA-1/SHA-256 hashes over their content, enabling tamper detection and trust."
     },
     {
       "id": "git-intro-centralized-vs-distributed",
       "type": "multiple",
       "prompt": "Which advantages are unlocked by Git's distributed clone model compared with centralized VCS? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Developers can work entirely offline", "correct": true},
-        {"id": "b", "text": "Every clone contains the full history graph", "correct": true},
-        {"id": "c", "text": "Branch creation is a rare administrator-only operation"},
-        {"id": "d", "text": "Integrity stems from cryptographic commit IDs", "correct": true}
+        {
+          "id": "a",
+          "text": "Developers can work entirely offline",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Every clone contains the full history graph",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Branch creation is a rare administrator-only operation"
+        },
+        {
+          "id": "d",
+          "text": "Integrity stems from cryptographic commit IDs",
+          "correct": true
+        }
       ],
-      "explanation": "Git clones replicate the full repository DAG, enable offline workflows, and use cryptographic IDs; centralized systems often restrict branching and rely on server trust." 
+      "explanation": "Git clones replicate the full repository DAG, enable offline workflows, and use cryptographic IDs; centralized systems often restrict branching and rely on server trust."
     },
     {
       "id": "git-intro-three-trees",
       "type": "single",
       "prompt": "Which tree represents the snapshot you are preparing for the next commit?",
       "options": [
-        {"id": "a", "text": "Working tree"},
-        {"id": "b", "text": "Index (staging area)", "correct": true},
-        {"id": "c", "text": "HEAD commit"},
-        {"id": "d", "text": "Remote tracking branch"}
+        {
+          "id": "a",
+          "text": "Working tree"
+        },
+        {
+          "id": "b",
+          "text": "Index (staging area)",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "HEAD commit"
+        },
+        {
+          "id": "d",
+          "text": "Remote tracking branch"
+        }
       ],
-      "explanation": "The index (staging area) is the curated snapshot recorded on the next commit when `git commit` runs." 
+      "explanation": "The index (staging area) is the curated snapshot recorded on the next commit when `git commit` runs."
     },
     {
       "id": "git-intro-command-flows",
       "type": "multiple",
       "prompt": "Match Git commands to how they move data between the trees. (Select all correct mappings)",
       "options": [
-        {"id": "a", "text": "`git add` copies changes from the working tree into the index", "correct": true},
-        {"id": "b", "text": "`git commit` moves the HEAD tree into the working directory"},
-        {"id": "c", "text": "`git checkout <commit>` hydrates the working tree from a commit", "correct": true},
-        {"id": "d", "text": "`git restore --staged` removes paths from the index", "correct": true}
+        {
+          "id": "a",
+          "text": "`git add` copies changes from the working tree into the index",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "`git commit` moves the HEAD tree into the working directory"
+        },
+        {
+          "id": "c",
+          "text": "`git checkout <commit>` hydrates the working tree from a commit",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "`git restore --staged` removes paths from the index",
+          "correct": true
+        }
       ],
-      "explanation": "`git add` stages from the working tree, checkout populates the working tree, and restore --staged drops staged entries; `git commit` writes the index into a new HEAD." 
+      "explanation": "`git add` stages from the working tree, checkout populates the working tree, and restore --staged drops staged entries; `git commit` writes the index into a new HEAD."
     },
     {
       "id": "git-intro-offline",
       "type": "truefalse",
       "prompt": "True or False: Git requires a constant connection to the central server in order to record commits.",
       "answer": "false",
-      "explanation": "Git repositories are self-contained; commits can be authored offline and pushed later." 
+      "explanation": "Git repositories are self-contained; commits can be authored offline and pushed later."
     },
     {
       "id": "git-intro-integrity",
       "type": "single",
       "prompt": "When comparing Git to centralized systems, which feature ensures tamper detection on every commit?",
       "options": [
-        {"id": "a", "text": "File locking mechanisms"},
-        {"id": "b", "text": "Server-side history pruning"},
-        {"id": "c", "text": "Merkle tree of objects identified by hashes", "correct": true},
-        {"id": "d", "text": "Mandatory ticket numbers"}
+        {
+          "id": "a",
+          "text": "File locking mechanisms"
+        },
+        {
+          "id": "b",
+          "text": "Server-side history pruning"
+        },
+        {
+          "id": "c",
+          "text": "Merkle tree of objects identified by hashes",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Mandatory ticket numbers"
+        }
       ],
-      "explanation": "Git stores blobs, trees, and commits in a content-addressable Merkle graph, so any tampering changes the object IDs." 
+      "explanation": "Git stores blobs, trees, and commits in a content-addressable Merkle graph, so any tampering changes the object IDs."
     },
     {
       "id": "git-intro-collaboration",
       "type": "multiple",
       "prompt": "Which collaboration patterns are commonly enabled by Git's distributed topology? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Multiple remotes such as origin, upstream, and internal mirrors", "correct": true},
-        {"id": "b", "text": "Feature development without network connectivity", "correct": true},
-        {"id": "c", "text": "Server-enforced pessimistic locking"},
-        {"id": "d", "text": "Peer-to-peer sharing of the entire commit graph", "correct": true}
+        {
+          "id": "a",
+          "text": "Multiple remotes such as origin, upstream, and internal mirrors",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Feature development without network connectivity",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Server-enforced pessimistic locking"
+        },
+        {
+          "id": "d",
+          "text": "Peer-to-peer sharing of the entire commit graph",
+          "correct": true
+        }
       ],
-      "explanation": "Teams can host additional remotes, work offline, and share via peer pushes/pulls because Git's architecture is decentralized." 
+      "explanation": "Teams can host additional remotes, work offline, and share via peer pushes/pulls because Git's architecture is decentralized."
     },
     {
       "id": "git-intro-log-comparison",
       "type": "truefalse",
       "prompt": "True or False: In Git, the working tree always matches the contents of HEAD.",
       "answer": "false",
-      "explanation": "The working tree reflects your current file modifications, while HEAD points to the last committed snapshot; changes in the working tree are unstaged until added." 
+      "explanation": "The working tree reflects your current file modifications, while HEAD points to the last committed snapshot; changes in the working tree are unstaged until added."
     },
     {
       "id": "git-intro-object-model",
       "type": "single",
       "prompt": "Which statement best describes the relationship between blobs, trees, and commits in Git?",
       "options": [
-        {"id": "a", "text": "Commits reference trees, which in turn reference blobs representing file contents", "correct": true},
-        {"id": "b", "text": "Blobs reference commits, which reference trees"},
-        {"id": "c", "text": "Trees and blobs are interchangeable"},
-        {"id": "d", "text": "Commits store raw file contents without indirection"}
+        {
+          "id": "a",
+          "text": "Commits reference trees, which in turn reference blobs representing file contents",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Blobs reference commits, which reference trees"
+        },
+        {
+          "id": "c",
+          "text": "Trees and blobs are interchangeable"
+        },
+        {
+          "id": "d",
+          "text": "Commits store raw file contents without indirection"
+        }
       ],
-      "explanation": "Commits contain metadata and a pointer to a tree; trees index directories and reference blob objects that hold file contents." 
+      "explanation": "Commits contain metadata and a pointer to a tree; trees index directories and reference blob objects that hold file contents."
     },
     {
       "id": "git-intro-branch-benefits",
       "type": "multiple",
       "prompt": "Why are lightweight branches fundamental in Git workflows? (Select all reasons that apply)",
       "options": [
-        {"id": "a", "text": "Branches are cheap references to commit IDs", "correct": true},
-        {"id": "b", "text": "Branches allow parallel workstreams with little storage overhead", "correct": true},
-        {"id": "c", "text": "Branches require IT tickets and incur high server costs"},
-        {"id": "d", "text": "Branches can be merged or rebased to integrate work", "correct": true}
+        {
+          "id": "a",
+          "text": "Branches are cheap references to commit IDs",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Branches allow parallel workstreams with little storage overhead",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Branches require IT tickets and incur high server costs"
+        },
+        {
+          "id": "d",
+          "text": "Branches can be merged or rebased to integrate work",
+          "correct": true
+        }
       ],
-      "explanation": "Branches are refs pointing to commits, enabling parallel feature development and flexible integration patterns with minimal overhead." 
+      "explanation": "Branches are refs pointing to commits, enabling parallel feature development and flexible integration patterns with minimal overhead."
     },
     {
       "id": "git-intro-history-visibility",
       "type": "single",
       "prompt": "Which Git command provides a visual timeline containing author, date, and commit message metadata?",
       "options": [
-        {"id": "a", "text": "git status"},
-        {"id": "b", "text": "git log", "correct": true},
-        {"id": "c", "text": "git add"},
-        {"id": "d", "text": "git gc"}
+        {
+          "id": "a",
+          "text": "git status"
+        },
+        {
+          "id": "b",
+          "text": "git log",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "git add"
+        },
+        {
+          "id": "d",
+          "text": "git gc"
+        }
       ],
-      "explanation": "`git log` walks the commit DAG and surfaces author, timestamps, and commit messages." 
+      "explanation": "`git log` walks the commit DAG and surfaces author, timestamps, and commit messages."
     }
   ]
 }

@@ -38,5 +38,11 @@
     "Implement PhantomData for type-state pattern",
     "Test each component separately before combining them"
   ],
-  "tags": ["traits", "macros", "web-programming", "type-state", "permissions"]
+  "tags": [
+    "traits",
+    "macros",
+    "web-programming",
+    "type-state",
+    "permissions"
+  ]
 }

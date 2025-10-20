@@ -53,5 +53,14 @@
     "Call Rc::downgrade() to create weak references from strong ones",
     "Use Weak::upgrade() to safely access data that might have been dropped"
   ],
-  "tags": ["smart-pointers", "box", "rc", "refcell", "weak", "interior-mutability", "reference-counting", "memory-management"]
+  "tags": [
+    "smart-pointers",
+    "box",
+    "rc",
+    "refcell",
+    "weak",
+    "interior-mutability",
+    "reference-counting",
+    "memory-management"
+  ]
 }

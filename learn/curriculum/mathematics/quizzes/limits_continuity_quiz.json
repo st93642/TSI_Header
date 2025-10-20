@@ -1,0 +1,96 @@
+{
+  "id": "limits_continuity_quiz",
+  "title": "Limits and Continuity Quiz",
+  "description": "Test your understanding of limits, continuity, and related concepts.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is the limit of a function f(x) as x approaches a?",
+      "options": [
+        "The value of f(a)",
+        "The value that f(x) approaches as x gets closer to a",
+        "The derivative at x = a",
+        "The integral from 0 to a"
+      ],
+      "correct": 1,
+      "explanation": "A limit describes the behavior of a function near a point, not necessarily at the point."
+    },
+    {
+      "question": "What is the difference between left-hand and right-hand limits?",
+      "options": [
+        "Left from negative side, right from positive side",
+        "Left is always smaller, right is always larger",
+        "Left is for decreasing functions, right for increasing",
+        "There is no difference"
+      ],
+      "correct": 0,
+      "explanation": "Left-hand limit approaches from values less than a, right-hand from values greater than a."
+    },
+    {
+      "question": "A function is continuous at x = a if:",
+      "options": [
+        "f(a) exists",
+        "lim x→a f(x) exists",
+        "lim x→a f(x) = f(a)",
+        "All of the above"
+      ],
+      "correct": 3,
+      "explanation": "Continuity requires the function to be defined at a, the limit to exist, and them to be equal."
+    },
+    {
+      "question": "What is a discontinuity of the first kind?",
+      "options": [
+        "Removable discontinuity",
+        "Jump discontinuity",
+        "Infinite discontinuity",
+        "Oscillating discontinuity"
+      ],
+      "correct": 1,
+      "explanation": "First kind discontinuities have different left and right limits."
+    },
+    {
+      "question": "What is the first remarkable limit?",
+      "options": [
+        "lim x→0 (sin(x)/x) = 1",
+        "lim x→∞ (1 + 1/x)^x = e",
+        "lim x→0 (1 - cos(x))/x² = 1/2",
+        "lim x→0 (e^x - 1)/x = 1"
+      ],
+      "correct": 0,
+      "explanation": "The first remarkable limit is lim x→0 sin(x)/x = 1."
+    },
+    {
+      "question": "What is the second remarkable limit?",
+      "options": [
+        "lim x→0 sin(x)/x = 1",
+        "lim x→∞ (1 + 1/x)^x = e",
+        "lim x→0 (1 - cos(x))/x² = 1/2",
+        "lim x→0 (e^x - 1)/x = 1"
+      ],
+      "correct": 1,
+      "explanation": "The second remarkable limit is lim x→∞ (1 + 1/x)^x = e."
+    },
+    {
+      "question": "What are equivalent infinitesimals?",
+      "options": [
+        "Functions that approach the same limit",
+        "Functions whose ratio approaches 1",
+        "Functions that are both zero",
+        "Functions with the same derivative"
+      ],
+      "correct": 1,
+      "explanation": "Two infinitesimals α(x) and β(x) are equivalent if lim α(x)/β(x) = 1."
+    },
+    {
+      "question": "Which of the following is a property of limits?",
+      "options": [
+        "lim (f + g) = lim f + lim g",
+        "lim (f · g) = lim f · lim g",
+        "lim (f/g) = lim f / lim g (if lim g ≠ 0)",
+        "All of the above"
+      ],
+      "correct": 3,
+      "explanation": "Limits follow algebraic properties for sums, products, and quotients."
+    }
+  ]
+}

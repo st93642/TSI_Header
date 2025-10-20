@@ -1,0 +1,63 @@
+{
+  "id": "matrix_operations_properties_quiz",
+  "title": "Matrix Operations Properties Quiz",
+  "description": "Test your knowledge of algebraic properties of matrix operations.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "Which of these is NOT a property of matrix addition?",
+      "options": [
+        "Commutative: A + B = B + A",
+        "Associative: (A + B) + C = A + (B + C)",
+        "Distributive over multiplication: A(B + C) = AB + AC",
+        "Identity element exists"
+      ],
+      "correct": 2,
+      "explanation": "The distributive property applies to scalar multiplication, not matrix multiplication."
+    },
+    {
+      "question": "What is the identity element for matrix addition?",
+      "options": [
+        "Identity matrix I",
+        "Zero matrix 0",
+        "Any scalar matrix",
+        "Any diagonal matrix"
+      ],
+      "correct": 1,
+      "explanation": "A + 0 = A for any matrix A."
+    },
+    {
+      "question": "Which property states that k(A + B) = kA + kB?",
+      "options": [
+        "Commutativity",
+        "Associativity",
+        "Distributivity",
+        "Identity"
+      ],
+      "correct": 2,
+      "explanation": "This is the distributive property of scalar multiplication over matrix addition."
+    },
+    {
+      "question": "What is true about matrix multiplication?",
+      "options": [
+        "Always commutative",
+        "Associative but not commutative",
+        "Neither associative nor commutative",
+        "Commutative but not associative"
+      ],
+      "correct": 1,
+      "explanation": "Matrix multiplication is associative: (AB)C = A(BC), but not commutative: AB ≠ BA."
+    },
+    {
+      "question": "What is the result of A × I where I is the identity matrix?",
+      "options": [
+        "Zero matrix",
+        "A itself",
+        "I itself",
+        "Undefined"
+      ],
+      "correct": 1,
+      "explanation": "The identity matrix acts as the multiplicative identity: A × I = I × A = A."
+    }
+  ]
+}

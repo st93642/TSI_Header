@@ -1,0 +1,71 @@
+{
+  "id": "plane_three_points_quiz",
+  "title": "Plane Through Three Points Quiz",
+  "description": "Test your understanding of plane equations through three points.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "tags": [
+    "mathematics",
+    "vectors",
+    "planes",
+    "three points",
+    "determinant form"
+  ],
+  "questions": [
+    {
+      "question": "To find a plane through three points, you need to:",
+      "options": [
+        "Add their position vectors",
+        "Find two direction vectors and take their cross product",
+        "Take the dot product of the vectors",
+        "Find the midpoint of the points"
+      ],
+      "correct": 1,
+      "explanation": "Find vectors from one point to the others, then take their cross product for the normal vector."
+    },
+    {
+      "question": "The determinant method gives the equation:",
+      "options": [
+        "Of a line through the points",
+        "Of a plane through the points",
+        "Of a sphere through the points",
+        "Of a curve through the points"
+      ],
+      "correct": 1,
+      "explanation": "The determinant method gives the equation of the plane containing the three points."
+    },
+    {
+      "question": "If three points are collinear, then:",
+      "options": [
+        "There is no plane through them",
+        "There are infinitely many planes",
+        "There is exactly one plane",
+        "The determinant is undefined"
+      ],
+      "correct": 1,
+      "explanation": "Collinear points lie on infinitely many planes (any plane containing the line)."
+    },
+    {
+      "question": "The normal vector from three points A, B, C is:",
+      "options": [
+        "(B - A) + (C - A)",
+        "(B - A) × (C - A)",
+        "(B - A) · (C - A)",
+        "|B - A| + |C - A|"
+      ],
+      "correct": 1,
+      "explanation": "Normal vector = (B - A) × (C - A), the cross product of vectors from A to B and A to C."
+    },
+    {
+      "question": "Three non-collinear points determine:",
+      "options": [
+        "A unique line",
+        "A unique plane",
+        "Two parallel planes",
+        "A sphere"
+      ],
+      "correct": 1,
+      "explanation": "Three non-collinear points determine exactly one unique plane."
+    }
+  ]
+}

@@ -13,7 +13,11 @@
     "graph_representation_choice": "option_b",
     "connected_components": "option_c",
     "cycle_detection": "option_b",
-    "graph_applications": ["option_a", "option_b", "option_c"],
+    "graph_applications": [
+      "option_a",
+      "option_b",
+      "option_c"
+    ],
     "tree_properties": "option_b"
   },
   "keyPoints": [

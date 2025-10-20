@@ -1,0 +1,63 @@
+{
+  "id": "determinants_2x2_3x3_quiz",
+  "title": "Determinants of 2×2 and 3×3 Matrices Quiz",
+  "description": "Test your ability to calculate determinants of small matrices.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is det([2 3; 1 4])?",
+      "options": [
+        "5",
+        "8",
+        "11",
+        "5"
+      ],
+      "correct": 3,
+      "explanation": "det = (2×4) - (3×1) = 8 - 3 = 5"
+    },
+    {
+      "question": "What is det([1 2 3; 4 5 6; 7 8 9])?",
+      "options": [
+        "0",
+        "1",
+        "-1",
+        "10"
+      ],
+      "correct": 0,
+      "explanation": "This matrix is singular with determinant 0."
+    },
+    {
+      "question": "For which matrices is the determinant defined?",
+      "options": [
+        "All matrices",
+        "Only square matrices",
+        "Only rectangular matrices",
+        "Only diagonal matrices"
+      ],
+      "correct": 1,
+      "explanation": "Determinants are only defined for square matrices."
+    },
+    {
+      "question": "What is det(I₃) for the 3×3 identity matrix?",
+      "options": [
+        "0",
+        "1",
+        "3",
+        "-1"
+      ],
+      "correct": 1,
+      "explanation": "The determinant of any identity matrix is 1."
+    },
+    {
+      "question": "What does a determinant of 0 indicate?",
+      "options": [
+        "The matrix is identity",
+        "The matrix is singular (not invertible)",
+        "The matrix is diagonal",
+        "The matrix has all positive elements"
+      ],
+      "correct": 1,
+      "explanation": "A zero determinant means the matrix is singular and has no inverse."
+    }
+  ]
+}

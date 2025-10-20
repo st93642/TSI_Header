@@ -1,14 +1,14 @@
 /*****************************************************************************/
 /*                                                                           */
-/*  extension.js                                                             */
+/*  extension.js                                         TTTTTTTT SSSSSSS II */
+/*                                                          TT    SS      II */
+/*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
+/*                                                          TT         SS II */
+/*  Created: Oct 19 2025 15:36 st93642                      TT    SSSSSSS II */
+/*  Updated: Oct 20 2025 18:22 st93642                                       */
 /*                                                                           */
-/*  By: st93642@students.tsi.lv                                              */
-/*                                                                           */
-/*  Created: Sep 23 2025 11:39 st93642                                       */
-/*  Updated: Oct 16 2025 12:18 st93642                                       */
-/*                                                                           */
-/*   Transport Institute                                                     */
-/*                       https://tsi.example.com                             */
+/*   Transport and Telecommunication Institute - Riga, Latvia                */
+/*                       https://tsi.lv                                      */
 /*****************************************************************************/
 
 const vscode = require('vscode');
@@ -1850,33 +1850,51 @@ extern "C" {
 
     const learnGitCommand = vscode.commands.registerCommand('tsiheader.learnGit', async () => {
         try {
+            // Lazy load the Learn module to get progress tracker
             const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
             const learnInstance = new Learn(context, vscode);
 
-            const message = '🧭 Git Mastery Roadmap\n\n' +
-                'Level up your version-control workflow with a guided Git curriculum:\n' +
-                '• Foundations, branching strategies, collaboration, and automation\n' +
-                '• Each lesson delivers narrative walkthroughs, CLI transcripts, and diagrams\n' +
-                '• Quizzes reinforce command fluency, workflows, and troubleshooting\n\n' +
-                'How would you like to begin?';
+            // Lazy load the Git Book manager with progress tracker
+            const GitBookManager = require(path.join(__dirname, '..', '..', 'learn', 'git_manager.js'));
+            const gitManager = new GitBookManager(vscode, learnInstance.progressTracker);
+
+            const message = '📖 Pro Git Book - Complete Git Reference\n\n' +
+                'Master Git with the official comprehensive guide:\n' +
+                '• Getting Started: Installation, setup, and basics\n' +
+                '• Git Fundamentals: Repository management, commits, history\n' +
+                '• Branching & Merging: Workflows, rebasing, conflict resolution\n' +
+                '• Git Server: Hosting, collaboration, and remote management\n' +
+                '• Advanced Topics: Internals, customization, and automation\n\n' +
+                'Lessons are fetched live from git-scm.com/book.\n\n' +
+                'Ready to master Git?';
 
             const action = await vscode.window.showInformationMessage(
                 message,
                 { modal: true },
-                'Start Journey',
-                'Browse Lessons',
+                'Start Getting Started',
+                'Browse All Chapters',
                 'View Progress'
             );
 
-            if (action === 'Start Journey') {
-                await learnInstance.startLearning('git');
-            } else if (action === 'Browse Lessons') {
-                await learnInstance.browseLessons('git');
+            if (action === 'Start Getting Started') {
+                // Load curriculum and start with first lesson in Getting Started chapter
+                const fs = require('fs');
+                const curriculumPath = path.join(__dirname, '..', '..', 'learn', 'curriculum', 'git', 'curriculum.json');
+                const curriculum = JSON.parse(fs.readFileSync(curriculumPath, 'utf8'));
+                const gettingStartedChapter = curriculum.chapters.find(chapter => chapter.id === 'getting-started');
+                if (gettingStartedChapter && gettingStartedChapter.lessons && gettingStartedChapter.lessons.length > 0) {
+                    const firstLesson = gettingStartedChapter.lessons[0];
+                    await gitManager.openLesson(firstLesson, context);
+                } else {
+                    vscode.window.showErrorMessage('No lessons found in Getting Started chapter');
+                }
+            } else if (action === 'Browse All Chapters') {
+                await vscode.commands.executeCommand('tsiheader.browseLessonsGit');
             } else if (action === 'View Progress') {
                 await vscode.commands.executeCommand('tsiheader.viewLearnProgressGit');
             }
         } catch (error) {
-            vscode.window.showErrorMessage(`Error starting Git roadmap: ${error.message}`);
+            vscode.window.showErrorMessage(`Error starting Git Book: ${error.message}`);
         }
     });
 
@@ -1884,9 +1902,54 @@ extern "C" {
 
     const browseLessonsGitCommand = vscode.commands.registerCommand('tsiheader.browseLessonsGit', async () => {
         try {
+            // Lazy load the Learn module to get progress tracker
             const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
             const learnInstance = new Learn(context, vscode);
-            await learnInstance.browseLessons('git');
+
+            // Lazy load the Git Book manager with progress tracker
+            const GitBookManager = require(path.join(__dirname, '..', '..', 'learn', 'git_manager.js'));
+            const gitManager = new GitBookManager(vscode, learnInstance.progressTracker);
+
+            const fs = require('fs');
+            const curriculumPath = path.join(__dirname, '..', '..', 'learn', 'curriculum', 'git', 'curriculum.json');
+            const curriculum = JSON.parse(fs.readFileSync(curriculumPath, 'utf8'));
+
+            // Get progress to show completion status
+            const progress = await gitManager.getProgressStats();
+            const completedLessons = new Set(progress.completed || []);
+
+            // Create quick pick items for all lessons
+            const items = [];
+            curriculum.chapters.forEach(chapter => {
+                // Add chapter separator
+                items.push({
+                    label: `📚 ${chapter.title}`,
+                    kind: vscode.QuickPickItemKind.Separator
+                });
+
+                // Add lessons within the chapter
+                if (chapter.lessons && chapter.lessons.length > 0) {
+                    chapter.lessons.forEach(lesson => {
+                        const isCompleted = completedLessons.has(lesson.id);
+                        const icon = isCompleted ? '✅' : '○';
+                        items.push({
+                            label: `    ${icon} ${lesson.title}`,
+                            description: `${lesson.estimatedHours}h`,
+                            detail: isCompleted ? 'Completed' : 'Not started',
+                            lesson: lesson
+                        });
+                    });
+                }
+            });
+
+            const selected = await vscode.window.showQuickPick(items, {
+                placeHolder: 'Select a lesson from Pro Git Book',
+                matchOnDescription: true
+            });
+
+            if (selected && selected.lesson) {
+                await gitManager.openLesson(selected.lesson, context);
+            }
         } catch (error) {
             vscode.window.showErrorMessage(`Error browsing Git lessons: ${error.message}`);
         }
@@ -1896,66 +1959,62 @@ extern "C" {
 
     const viewLearnProgressGitCommand = vscode.commands.registerCommand('tsiheader.viewLearnProgressGit', async () => {
         try {
+            // Lazy load the Learn module to get progress tracker
             const Learn = require(path.join(__dirname, '..', '..', 'learn', 'index.js'));
             const learnInstance = new Learn(context, vscode);
 
-            const curriculum = await learnInstance.learnManager.loadCurriculum('git');
-            const modules = Array.isArray(curriculum.modules) ? curriculum.modules : [];
-            const allLessons = modules.flatMap(module => module.lessons || []);
+            // Lazy load the Git Book manager with progress tracker
+            const GitBookManager = require(path.join(__dirname, '..', '..', 'learn', 'git_manager.js'));
+            const gitManager = new GitBookManager(vscode, learnInstance.progressTracker);
 
-            if (allLessons.length === 0) {
-                vscode.window.showWarningMessage('No lessons were found in the Git roadmap.');
-                return;
-            }
+            // Get actual progress statistics
+            const stats = await gitManager.getProgressStats();
 
-            const progress = await learnInstance.progressTracker.getProgress('git');
-            const normalize = id => learnInstance.progressTracker.normalizeLessonId(id);
-            const completedLessons = new Set((progress.completed || [])
-                .map(id => normalize(id))
-                .filter(Boolean));
+            // Load curriculum to get total lesson count
+            const fs = require('fs');
+            const curriculumPath = path.join(__dirname, '..', '..', 'learn', 'curriculum', 'git', 'curriculum.json');
+            const curriculum = JSON.parse(fs.readFileSync(curriculumPath, 'utf8'));
 
-            const totalLessons = allLessons.length;
-            const completedCount = allLessons.reduce((count, lesson) => {
-                const normalizedId = normalize(lesson.id);
-                return normalizedId && completedLessons.has(normalizedId) ? count + 1 : count;
-            }, 0);
+            // Count total lessons in curriculum
+            let totalLessons = 0;
+            curriculum.chapters.forEach(chapter => {
+                if (chapter.lessons) {
+                    totalLessons += chapter.lessons.length;
+                }
+            });
 
-            const remainingCount = totalLessons - completedCount;
-            const completionRate = totalLessons === 0 ? 0 : Math.round((completedCount / totalLessons) * 100);
+            const completionRate = totalLessons > 0 ? Math.round((stats.lessonsCompleted / totalLessons) * 100) : 0;
 
-            const nextLesson = allLessons.find(lesson => {
-                const normalizedId = normalize(lesson.id);
-                return !(normalizedId && completedLessons.has(normalizedId));
-            }) || null;
+            const message = `📊 Pro Git Book Progress\n\n` +
+                `📚 Lessons Completed: ${stats.lessonsCompleted}/${totalLessons} (${completionRate}%)\n` +
+                `🔥 Current Streak: ${stats.currentStreak} days\n` +
+                `⏱️ Total Study Time: ${stats.totalStudyTime} minutes\n` +
+                `🏆 Achievements: ${stats.achievements}\n` +
+                `📅 Last Study Date: ${stats.lastStudyDate}\n\n` +
+                `Keep up the great work mastering Git! 🚀`;
 
-            const messageLines = [
-                '📊 Git Roadmap Progress',
-                '',
-                `Modules: ${modules.length}`,
-                `Lessons Completed: ${completedCount}/${totalLessons} (${completionRate}%)`,
-                `Remaining Lessons: ${remainingCount}`
-            ];
-
-            if (nextLesson) {
-                messageLines.push(`Next Recommended Lesson: ${nextLesson.title || nextLesson.id}`);
-            } else {
-                messageLines.push('🎉 You have completed every lesson in the Git roadmap!');
-            }
-
-            const buttons = nextLesson
-                ? ['Open Next Lesson', 'Browse Lessons', 'Close']
-                : ['Browse Lessons', 'Close'];
-
-            const selection = await vscode.window.showInformationMessage(
-                messageLines.join('\n'),
+            const action = await vscode.window.showInformationMessage(
+                message,
                 { modal: true },
-                ...buttons
+                'Continue Learning',
+                'Browse Chapters',
+                'Got it!'
             );
 
-            if (selection === 'Open Next Lesson' && nextLesson) {
-                await learnInstance.learnManager.openLesson('git', nextLesson);
-            } else if (selection === 'Browse Lessons') {
-                await learnInstance.browseLessons('git');
+            if (action === 'Continue Learning') {
+                // Start with Getting Started if no progress, otherwise continue from current progress
+                if (stats.lessonsCompleted === 0) {
+                    const gettingStartedChapter = curriculum.chapters.find(chapter => chapter.id === 'getting-started');
+                    if (gettingStartedChapter && gettingStartedChapter.lessons && gettingStartedChapter.lessons.length > 0) {
+                        const firstLesson = gettingStartedChapter.lessons[0];
+                        await gitManager.openLesson(firstLesson, context);
+                    }
+                } else {
+                    // For now, just open browse lessons - could be enhanced to find next lesson
+                    await vscode.commands.executeCommand('tsiheader.browseLessonsGit');
+                }
+            } else if (action === 'Browse Chapters') {
+                await vscode.commands.executeCommand('tsiheader.browseLessonsGit');
             }
         } catch (error) {
             vscode.window.showErrorMessage(`Error viewing Git progress: ${error.message}`);
@@ -1963,6 +2022,82 @@ extern "C" {
     });
 
     context.subscriptions.push(viewLearnProgressGitCommand);
+
+    // Git Book Cache Management Commands
+    const clearGitCacheCommand = vscode.commands.registerCommand('tsiheader.clearGitCache', async () => {
+        try {
+            // Lazy load the Git Book manager
+            const GitBookManager = require(path.join(__dirname, '..', '..', 'learn', 'git_manager.js'));
+            const gitManager = new GitBookManager(vscode);
+
+            const confirmed = await vscode.window.showWarningMessage(
+                'Clear Git Book Cache?\n\n' +
+                'This will delete all cached lessons. You will need to re-download lessons from git-scm.com next time you access them.\n\n' +
+                'Cached lessons allow offline access when you don\'t have internet connection.',
+                { modal: true },
+                'Clear Cache',
+                'Cancel'
+            );
+
+            if (confirmed === 'Clear Cache') {
+                const success = await gitManager.clearLessonCache();
+                if (success) {
+                    vscode.window.showInformationMessage('✅ Git Book cache cleared successfully!');
+                } else {
+                    vscode.window.showErrorMessage('❌ Failed to clear Git Book cache');
+                }
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error clearing cache: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(clearGitCacheCommand);
+
+    const viewGitCacheStatsCommand = vscode.commands.registerCommand('tsiheader.viewGitCacheStats', async () => {
+        try {
+            // Lazy load the Git Book manager
+            const GitBookManager = require(path.join(__dirname, '..', '..', 'learn', 'git_manager.js'));
+            const gitManager = new GitBookManager(vscode);
+
+            const stats = await gitManager.getCacheStats();
+
+            const formatSize = (bytes) => {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            };
+
+            const formatDate = (dateStr) => {
+                if (!dateStr) return 'Never';
+                return new Date(dateStr).toLocaleDateString();
+            };
+
+            const message = `📊 Git Book Cache Statistics\n\n` +
+                `📚 Cached Lessons: ${stats.totalLessons}\n` +
+                `💾 Cache Size: ${formatSize(stats.totalSize)}\n` +
+                `📅 Oldest Cache: ${formatDate(stats.oldestCache)}\n` +
+                `🆕 Newest Cache: ${formatDate(stats.newestCache)}\n\n` +
+                `Cache helps provide offline access to lessons you've previously viewed.`;
+
+            const action = await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                'Clear Cache',
+                'Got it!'
+            );
+
+            if (action === 'Clear Cache') {
+                await vscode.commands.executeCommand('tsiheader.clearGitCache');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing cache stats: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewGitCacheStatsCommand);
 
     // Odin Project Learning Commands
     const learnOdinCommand = vscode.commands.registerCommand('tsiheader.learnOdin', async () => {
@@ -2232,6 +2367,233 @@ extern "C" {
     });
 
     context.subscriptions.push(viewOdinCacheStatsCommand);
+
+    // Mathematics Learning Commands
+    const learnMathematicsCommand = vscode.commands.registerCommand('tsiheader.learnMathematics', async () => {
+        try {
+            // Lazy load the Mathematics manager
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+
+            const workbooks = await mathManager.getWorkbooks();
+            
+            vscode.window.showInformationMessage(
+                '🔢 Start Higher Mathematics Learning?\n\n' +
+                'Explore advanced mathematics with HELM workbooks:\n' +
+                '• Matrices fundamentals and operations\n' +
+                '• Matrix solution of equations\n' +
+                '• Interactive exercises and quizzes\n' +
+                '• PDF workbooks with detailed explanations\n\n' +
+                'Ready to begin your mathematics journey?',
+                { modal: true },
+                'Browse Workbooks',
+                'Cancel'
+            ).then(async selection => {
+                if (selection === 'Browse Workbooks') {
+                    // Show available workbooks
+                    const workbookItems = workbooks.map(workbook => ({
+                        label: `📚 ${workbook.title}`,
+                        description: 'Open PDF workbook',
+                        workbook: workbook
+                    }));
+                    
+                    const selected = await vscode.window.showQuickPick(workbookItems, {
+                        placeHolder: 'Select a mathematics workbook'
+                    });
+                    
+                    if (selected) {
+                        await mathManager.openWorkbook(selected.workbook);
+                    }
+                }
+            });
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error starting mathematics learning: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(learnMathematicsCommand);
+
+    const browseMathematicsWorkbooksCommand = vscode.commands.registerCommand('tsiheader.browseMathematicsWorkbooks', async () => {
+        try {
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+            
+            const workbooks = await mathManager.getWorkbooks();
+            const workbookItems = workbooks.map(workbook => ({
+                label: `📚 ${workbook.title}`,
+                description: 'Open PDF workbook',
+                workbook: workbook
+            }));
+            
+            const selected = await vscode.window.showQuickPick(workbookItems, {
+                placeHolder: 'Select a mathematics workbook to open'
+            });
+            
+            if (selected) {
+                await mathManager.openWorkbook(selected.workbook);
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error browsing mathematics workbooks: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(browseMathematicsWorkbooksCommand);
+
+    const takeMathematicsQuizCommand = vscode.commands.registerCommand('tsiheader.takeMathematicsQuiz', async () => {
+        try {
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+            
+            const quizzes = await mathManager.getQuizzes();
+            const quizItems = quizzes.map(quiz => ({
+                label: `🧠 ${quiz.title}`,
+                description: 'Test your knowledge',
+                quiz: quiz
+            }));
+            
+            const selected = await vscode.window.showQuickPick(quizItems, {
+                placeHolder: 'Select a mathematics quiz'
+            });
+            
+            if (selected) {
+                // Load and display the quiz in webview
+                const quizData = await mathManager.loadQuiz(selected.quiz.id);
+                await mathManager.openQuiz(quizData);
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error loading mathematics quiz: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(takeMathematicsQuizCommand);
+
+    // Git quizzes - list and open interactive quizzes defined under learn/curriculum/git/exercises
+    const takeGitQuizCommand = vscode.commands.registerCommand('tsiheader.takeGitQuiz', async () => {
+        try {
+            const fs = require('fs');
+            const path = require('path');
+
+            const quizzesDir = path.join(__dirname, '..', '..', 'learn', 'curriculum', 'git', 'exercises');
+
+            // Read available quiz files
+            let files = [];
+            try {
+                files = fs.readdirSync(quizzesDir).filter(f => f.endsWith('_quiz.json'));
+            } catch (e) {
+                // Directory missing or unreadable
+                files = [];
+            }
+
+            if (files.length === 0) {
+                vscode.window.showInformationMessage('No Git quizzes are available right now.');
+                return;
+            }
+
+            const quizItems = files.map(filename => {
+                const id = filename.replace('_quiz.json', '');
+                const title = id.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                return {
+                    label: `🧠 ${title}`,
+                    description: 'Test your Git knowledge',
+                    filename,
+                    id
+                };
+            });
+
+            const selected = await vscode.window.showQuickPick(quizItems, { placeHolder: 'Select a Git quiz' });
+
+            if (!selected) return;
+
+            // Load the selected quiz JSON
+            const quizPath = path.join(quizzesDir, selected.filename);
+            const raw = fs.readFileSync(quizPath, 'utf8');
+            const quizData = JSON.parse(raw);
+
+            // Reuse MathematicsManager's openQuiz UI since it provides a solid quiz viewer
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+
+            // Open the quiz using the quiz viewer
+            await mathManager.openQuiz(quizData);
+
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error loading Git quiz: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(takeGitQuizCommand);
+
+    const viewMathematicsCacheStatsCommand = vscode.commands.registerCommand('tsiheader.viewMathematicsCacheStats', async () => {
+        try {
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+            
+            const stats = await mathManager.getCacheStatistics();
+            
+            const message = `📊 Mathematics Cache Statistics\n\n` +
+                `Workbooks Cached: ${stats.workbooks}\n` +
+                `Cache Size: ${stats.size}\n` +
+                `Oldest Cache: ${stats.oldest || 'None'}\n` +
+                `Newest Cache: ${stats.newest || 'None'}\n\n` +
+                `Cache helps reduce download times and enables offline access.`;
+            
+            const action = await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                'Clear Cache',
+                'Close'
+            );
+            
+            if (action === 'Clear Cache') {
+                const confirm = await vscode.window.showWarningMessage(
+                    'Clear all cached mathematics workbooks?',
+                    { modal: true },
+                    'Yes, Clear Cache',
+                    'Cancel'
+                );
+                
+                if (confirm === 'Yes, Clear Cache') {
+                    const cleared = await mathManager.clearCache();
+                    if (cleared) {
+                        vscode.window.showInformationMessage('Mathematics cache cleared successfully!');
+                    } else {
+                        vscode.window.showErrorMessage('Failed to clear mathematics cache.');
+                    }
+                }
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing cache stats: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewMathematicsCacheStatsCommand);
+
+    const clearMathematicsCacheCommand = vscode.commands.registerCommand('tsiheader.clearMathematicsCache', async () => {
+        try {
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+            
+            const confirm = await vscode.window.showWarningMessage(
+                'Clear all cached mathematics workbooks?\n\nThis will remove all downloaded PDFs and require re-downloading them.',
+                { modal: true },
+                'Yes, Clear Cache',
+                'Cancel'
+            );
+            
+            if (confirm === 'Yes, Clear Cache') {
+                const cleared = await mathManager.clearCache();
+                if (cleared) {
+                    vscode.window.showInformationMessage('Mathematics cache cleared successfully!');
+                } else {
+                    vscode.window.showErrorMessage('Failed to clear mathematics cache.');
+                }
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error clearing cache: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(clearMathematicsCacheCommand);
 
     // Register feature module commands
     // Code quality enforcement module removed

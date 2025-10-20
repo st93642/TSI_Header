@@ -64,5 +64,12 @@
     "Use path dependencies for workspace crates",
     "Test both debug and release builds to verify profile differences"
   ],
-  "tags": ["cargo", "crates.io", "workspaces", "documentation", "publishing", "release-profiles"]
+  "tags": [
+    "cargo",
+    "crates.io",
+    "workspaces",
+    "documentation",
+    "publishing",
+    "release-profiles"
+  ]
 }

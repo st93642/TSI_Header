@@ -1,0 +1,64 @@
+{
+  "id": "scalar_product_vectors_quiz",
+  "title": "Scalar Product of Vectors Quiz",
+  "description": "Test your knowledge of dot products, their properties, and angle calculations.",
+  "difficulty": "intermediate",
+  "workbook": "HELM Workbook 9 Vectors",
+  "questions": [
+    {
+      "question": "What is the dot product of (2, 3, 1) and (1, -1, 4)?",
+      "options": [
+        "3",
+        "7",
+        "12",
+        "15"
+      ],
+      "correct": 0,
+      "explanation": "Dot product: 2*1 + 3*(-1) + 1*4 = 2 - 3 + 4 = 3"
+    },
+    {
+      "question": "Which property does NOT hold for the dot product?",
+      "options": [
+        "Commutative",
+        "Distributive over addition",
+        "Associative",
+        "Positive definite"
+      ],
+      "correct": 2,
+      "explanation": "The dot product is not associative: (a·b)·c is not defined."
+    },
+    {
+      "question": "What does the dot product a·b = 0 indicate?",
+      "options": [
+        "Vectors are equal",
+        "Vectors are parallel",
+        "Vectors are perpendicular",
+        "Vectors have same magnitude"
+      ],
+      "correct": 2,
+      "explanation": "When the dot product is zero, the vectors are perpendicular."
+    },
+    {
+      "question": "What is cosθ equal to for unit vectors a and b?",
+      "options": [
+        "|a||b|",
+        "a·b",
+        "a×b",
+        "|a+b|"
+      ],
+      "correct": 1,
+      "explanation": "For unit vectors, cosθ = a·b."
+    },
+    {
+      "question": "What is the angle between vectors (1,0,0) and (0,1,0)?",
+      "options": [
+        "0°",
+        "45°",
+        "90°",
+        "180°"
+      ],
+      "correct": 2,
+      "explanation": "Dot product: 1*0 + 0*1 + 0*0 = 0, so cosθ = 0, θ = 90°."
+    }
+  ]
+}

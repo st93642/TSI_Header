@@ -3,7 +3,13 @@
   "mode": "quiz",
   "title": "Quiz: Pull Requests, Patches, and Collaborative Etiquette",
   "description": "Evaluate your mastery of code review workflows, patch sharing, and team etiquette around Git-based collaboration.\n\nSteps:\n1. Revisit the lesson guidance on review scopes, feedback loops, and etiquette checklists.\n2. Complete each question, selecting all valid options on multi-select prompts.\n3. Review explanations to internalize review habits that scale across teams.\n\nExpected results: Score 8/10 before progressing to release management.",
-  "tags": ["git", "code review", "collaboration", "etiquette", "quiz"],
+  "tags": [
+    "git",
+    "code review",
+    "collaboration",
+    "etiquette",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,110 +17,226 @@
       "type": "multiple",
       "prompt": "What defines a healthy pull request scope? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Focused on a single logical change", "correct": true},
-        {"id": "b", "text": "Includes context in the description", "correct": true},
-        {"id": "c", "text": "Bundles unrelated refactors and features"},
-        {"id": "d", "text": "Includes test plans or screenshots when relevant", "correct": true}
+        {
+          "id": "a",
+          "text": "Focused on a single logical change",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Includes context in the description",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Bundles unrelated refactors and features"
+        },
+        {
+          "id": "d",
+          "text": "Includes test plans or screenshots when relevant",
+          "correct": true
+        }
       ],
-      "explanation": "Effective pull requests are scoped narrowly, well documented, and provide context for reviewers." 
+      "explanation": "Effective pull requests are scoped narrowly, well documented, and provide context for reviewers."
     },
     {
       "id": "git-review-templates",
       "type": "single",
       "prompt": "Which repository file helps standardize review information?",
       "options": [
-        {"id": "a", "text": ".github/pull_request_template.md", "correct": true},
-        {"id": "b", "text": "CODEOWNERS"},
-        {"id": "c", "text": "LICENSE"},
-        {"id": "d", "text": "README"}
+        {
+          "id": "a",
+          "text": ".github/pull_request_template.md",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "CODEOWNERS"
+        },
+        {
+          "id": "c",
+          "text": "LICENSE"
+        },
+        {
+          "id": "d",
+          "text": "README"
+        }
       ],
-      "explanation": "Pull request templates prompt authors to supply consistent context for reviewers." 
+      "explanation": "Pull request templates prompt authors to supply consistent context for reviewers."
     },
     {
       "id": "git-review-feedback",
       "type": "multiple",
       "prompt": "Which practices exemplify constructive review feedback? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Use question or suggestion tone instead of issuing commands", "correct": true},
-        {"id": "b", "text": "Link to documentation or code samples for alternatives", "correct": true},
-        {"id": "c", "text": "Nitpick unrelated style issues on large blocking comments"},
-        {"id": "d", "text": "Group non-blocking comments clearly", "correct": true}
+        {
+          "id": "a",
+          "text": "Use question or suggestion tone instead of issuing commands",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Link to documentation or code samples for alternatives",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Nitpick unrelated style issues on large blocking comments"
+        },
+        {
+          "id": "d",
+          "text": "Group non-blocking comments clearly",
+          "correct": true
+        }
       ],
-      "explanation": "Constructive feedback is empathetic, actionable, and distinguishes blocking from informational notes." 
+      "explanation": "Constructive feedback is empathetic, actionable, and distinguishes blocking from informational notes."
     },
     {
       "id": "git-review-patches",
       "type": "truefalse",
       "prompt": "True or False: `git format-patch` can generate email-friendly patches for teams that review outside of web UIs.",
       "answer": "true",
-      "explanation": "Format-patch creates mbox-formatted patches for email-driven workflows." 
+      "explanation": "Format-patch creates mbox-formatted patches for email-driven workflows."
     },
     {
       "id": "git-review-signals",
       "type": "multiple",
       "prompt": "Which signals indicate that a pull request is ready to merge? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "All required CI checks pass", "correct": true},
-        {"id": "b", "text": "Required reviewers have approved", "correct": true},
-        {"id": "c", "text": "Outstanding blocking comments resolved", "correct": true},
-        {"id": "d", "text": "Author has not run the test suite"}
+        {
+          "id": "a",
+          "text": "All required CI checks pass",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Required reviewers have approved",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Outstanding blocking comments resolved",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Author has not run the test suite"
+        }
       ],
-      "explanation": "Passing checks, approvals, and resolved blockers signal readiness for merge." 
+      "explanation": "Passing checks, approvals, and resolved blockers signal readiness for merge."
     },
     {
       "id": "git-review-codeowners",
       "type": "single",
       "prompt": "What does the CODEOWNERS file provide during reviews?",
       "options": [
-        {"id": "a", "text": "Auto-requested reviewers for specific paths", "correct": true},
-        {"id": "b", "text": "Automatic merge after approval"},
-        {"id": "c", "text": "Branch protection settings"},
-        {"id": "d", "text": "Release notes"}
+        {
+          "id": "a",
+          "text": "Auto-requested reviewers for specific paths",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Automatic merge after approval"
+        },
+        {
+          "id": "c",
+          "text": "Branch protection settings"
+        },
+        {
+          "id": "d",
+          "text": "Release notes"
+        }
       ],
-      "explanation": "CODEOWNERS assigns reviewers based on file patterns, ensuring domain experts are notified." 
+      "explanation": "CODEOWNERS assigns reviewers based on file patterns, ensuring domain experts are notified."
     },
     {
       "id": "git-review-checklists",
       "type": "multiple",
       "prompt": "What should authors validate before requesting review? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Tests and linters pass locally", "correct": true},
-        {"id": "b", "text": "Commits are tidy and messages meaningful", "correct": true},
-        {"id": "c", "text": "Documentation updates accompany behavior changes", "correct": true},
-        {"id": "d", "text": "Unrelated experimental code remains in the diff"}
+        {
+          "id": "a",
+          "text": "Tests and linters pass locally",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Commits are tidy and messages meaningful",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Documentation updates accompany behavior changes",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Unrelated experimental code remains in the diff"
+        }
       ],
-      "explanation": "Pre-review checklists reduce reviewer load and keep diffs focused." 
+      "explanation": "Pre-review checklists reduce reviewer load and keep diffs focused."
     },
     {
       "id": "git-review-labels",
       "type": "truefalse",
       "prompt": "True or False: Labels on pull requests can drive automation such as deploy previews or release notes ingestion.",
       "answer": "true",
-      "explanation": "Workflow automation often keys off PR labels to trigger actions." 
+      "explanation": "Workflow automation often keys off PR labels to trigger actions."
     },
     {
       "id": "git-review-discussion",
       "type": "multiple",
       "prompt": "How can teams keep review discussions productive? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Adopt response SLAs for acknowledgements", "correct": true},
-        {"id": "b", "text": "Escalate blocking disagreements to synchronous discussions", "correct": true},
-        {"id": "c", "text": "Use review threads to document decision outcomes", "correct": true},
-        {"id": "d", "text": "Ignore comments once you push new commits"}
+        {
+          "id": "a",
+          "text": "Adopt response SLAs for acknowledgements",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Escalate blocking disagreements to synchronous discussions",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Use review threads to document decision outcomes",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Ignore comments once you push new commits"
+        }
       ],
-      "explanation": "Clear expectations, synchronous escalations, and documented outcomes keep reviews moving." 
+      "explanation": "Clear expectations, synchronous escalations, and documented outcomes keep reviews moving."
     },
     {
       "id": "git-review-metrics",
       "type": "multiple",
       "prompt": "Which metrics help evaluate review process health? (Select all that apply)",
       "options": [
-        {"id": "a", "text": "Time to first review comment", "correct": true},
-        {"id": "b", "text": "Number of unresolved threads per PR", "correct": true},
-        {"id": "c", "text": "Frequency of re-requests after major changes", "correct": true},
-        {"id": "d", "text": "Lines of code written per developer"}
+        {
+          "id": "a",
+          "text": "Time to first review comment",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Number of unresolved threads per PR",
+          "correct": true
+        },
+        {
+          "id": "c",
+          "text": "Frequency of re-requests after major changes",
+          "correct": true
+        },
+        {
+          "id": "d",
+          "text": "Lines of code written per developer"
+        }
       ],
-      "explanation": "Review metrics focus on responsiveness, unresolved conversations, and iteration cycles rather than raw LOC." 
+      "explanation": "Review metrics focus on responsiveness, unresolved conversations, and iteration cycles rather than raw LOC."
     }
   ]
 }

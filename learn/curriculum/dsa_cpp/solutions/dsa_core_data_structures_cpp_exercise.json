@@ -7,11 +7,17 @@
     "contiguity_stride": "option_b",
     "list_random_access": "option_b",
     "stack_reserve": "option_c",
-    "queue_allocator": ["option_a", "option_c"],
+    "queue_allocator": [
+      "option_a",
+      "option_c"
+    ],
     "unordered_rehash": "option_c",
     "map_range_queries": "option_b",
     "span_role": "option_b",
-    "lifetime_metrics": ["option_a", "option_c"],
+    "lifetime_metrics": [
+      "option_a",
+      "option_c"
+    ],
     "storytelling_value": "option_b",
     "journal_practice": "true"
   },

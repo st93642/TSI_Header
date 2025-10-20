@@ -1,0 +1,63 @@
+{
+  "id": "gauss_elimination_linear_systems_quiz",
+  "title": "Gauss Elimination for Linear Systems Quiz",
+  "description": "Test your knowledge of Gauss elimination for solving linear systems.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is the main advantage of Gauss elimination?",
+      "options": [
+        "Always gives exact solutions",
+        "Works for any system size",
+        "Is numerically stable",
+        "Requires no computations"
+      ],
+      "correct": 1,
+      "explanation": "Gauss elimination works for systems of any size and type."
+    },
+    {
+      "question": "What does the augmented matrix [A|B] represent?",
+      "options": [
+        "Matrix multiplication",
+        "The system of equations",
+        "Matrix addition",
+        "The solution vector"
+      ],
+      "correct": 1,
+      "explanation": "[A|B] represents the system AX = B."
+    },
+    {
+      "question": "What is forward elimination?",
+      "options": [
+        "Solving for variables",
+        "Creating upper triangular form",
+        "Finding the inverse",
+        "Calculating determinants"
+      ],
+      "correct": 1,
+      "explanation": "Forward elimination creates an upper triangular system."
+    },
+    {
+      "question": "What does a zero pivot indicate?",
+      "options": [
+        "Unique solution",
+        "No solution",
+        "May need row interchange",
+        "System is inconsistent"
+      ],
+      "correct": 2,
+      "explanation": "Zero pivots may require row interchanges for numerical stability."
+    },
+    {
+      "question": "What is back-substitution?",
+      "options": [
+        "Creating the augmented matrix",
+        "Solving from bottom to top",
+        "Finding the determinant",
+        "Row reduction"
+      ],
+      "correct": 1,
+      "explanation": "Back-substitution solves variables starting from the last equation."
+    }
+  ]
+}

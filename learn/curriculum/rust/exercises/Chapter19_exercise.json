@@ -39,5 +39,11 @@
     "Declarative macros use macro_rules! and pattern matching on tokens",
     "Remember to handle edge cases in your implementations"
   ],
-  "tags": ["unsafe", "traits", "newtype", "macros", "advanced"]
+  "tags": [
+    "unsafe",
+    "traits",
+    "newtype",
+    "macros",
+    "advanced"
+  ]
 }

@@ -1,0 +1,68 @@
+{
+  "language": "mathematics",
+  "version": "0.1.0",
+  "description": "Higher Mathematics curriculum using HELM (Helping Engineers Learn Mathematics) workbooks with interactive exercises and quizzes",
+  "estimatedHours": 40,
+  "modules": [
+    {
+      "id": "matrices_fundamentals",
+      "title": "Module 1: Matrices Fundamentals",
+      "description": "Introduction to matrices, basic operations, and matrix algebra",
+      "lessons": [
+        {
+          "id": "matrices_introduction",
+          "title": "Lesson 1.1: Introduction to Matrices",
+          "duration": 60,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "matrix_operations",
+          "title": "Lesson 1.2: Matrix Operations",
+          "duration": 75,
+          "difficulty": "intermediate"
+        },
+        {
+          "id": "matrix_properties",
+          "title": "Lesson 1.3: Matrix Properties and Theorems",
+          "duration": 90,
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "matrix_equations",
+      "title": "Module 2: Matrix Solution of Equations",
+      "description": "Solving systems of linear equations using matrices and Gaussian elimination",
+      "lessons": [
+        {
+          "id": "gaussian_elimination",
+          "title": "Lesson 2.1: Gaussian Elimination",
+          "duration": 90,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "matrix_inverse",
+          "title": "Lesson 2.2: Matrix Inverse and Cramer's Rule",
+          "duration": 75,
+          "difficulty": "advanced"
+        },
+        {
+          "id": "linear_systems",
+          "title": "Lesson 2.3: Applications to Linear Systems",
+          "duration": 60,
+          "difficulty": "advanced"
+        }
+      ]
+    }
+  ],
+  "prerequisites": [
+    "Basic algebra and arithmetic",
+    "Familiarity with vectors and coordinate systems"
+  ],
+  "outcomes": [
+    "Understand matrix notation and basic operations",
+    "Apply Gaussian elimination to solve systems of equations",
+    "Work with matrix inverses and determinants",
+    "Solve real-world problems using matrix methods"
+  ]
+}

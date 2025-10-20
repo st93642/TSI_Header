@@ -2,7 +2,12 @@
   "id": "polymorphism_cpp_exercise",
   "title": "Polymorphism and Virtual Functions",
   "description": "Implement polymorphism with `Shape` abstract base class and derived `Circle`, `Rectangle`. Use virtual functions and demonstrate dynamic binding.\n\nSteps:\n1. Define abstract `Shape` with pure virtual `area()`.\n2. Implement `Circle` and `Rectangle` overriding `area()`.\n3. In main, create vector of `Shape*`, add derived objects, call `area()`.\n\nExpected output/results: Correct areas for each shape.",
-  "tags": ["cpp", "polymorphism", "virtual", "oop"],
+  "tags": [
+    "cpp",
+    "polymorphism",
+    "virtual",
+    "oop"
+  ],
   "starterCode": "#include <iostream>\n#include <vector>\n#include <memory>\n\n// TODO: Define Shape abstract class\n// class Shape {\n// public:\n//     virtual double area() const = 0;\n//     virtual ~Shape() {}\n// };\n\n// TODO: Define derived classes\n// class Circle : public Shape {\n// private:\n//     double radius;\n// public:\n//     Circle(double r) : radius(r) {}\n//     double area() const override { return 3.14159 * radius * radius; }\n// };\n\nint main() {\n    // TODO: Create vector of shapes\n    // std::vector<std::unique_ptr<Shape>> shapes;\n    // shapes.push_back(std::make_unique<Circle>(5));\n    // for (const auto& s : shapes) {\n    //     std::cout << s->area() << std::endl;\n    // }\n    \n    return 0;\n}",
   "tests": [
     {

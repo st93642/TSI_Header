@@ -47,5 +47,12 @@
     "Add request ID tracing across services",
     "Configure proper resource limits"
   ],
-  "tags": ["deployment", "docker", "scaling", "monitoring", "load-balancing", "production"]
+  "tags": [
+    "deployment",
+    "docker",
+    "scaling",
+    "monitoring",
+    "load-balancing",
+    "production"
+  ]
 }

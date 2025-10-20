@@ -4,16 +4,83 @@
   "mode": "quiz",
   "explanation": "Answers for repository initialization, cloning depth, remotes, and hygiene best practices.",
   "answerKey": [
-    {"questionId": "git-repo-init", "answers": ["b"], "rationale": "git init sets up a .git directory in the current path."},
-    {"questionId": "git-repo-clone-depth", "answers": ["a", "b", "d"], "rationale": "Shallow clones reduce data transfer for pipelines or temporary checkouts."},
-    {"questionId": "git-repo-bare", "answers": ["a"], "rationale": "Bare repositories omit a working tree and host only the Git database."},
-    {"questionId": "git-repo-remote-add", "answers": ["a", "c"], "rationale": "remote add and set-url --add associate extra remotes or push URLs."},
-    {"questionId": "git-repo-ignore", "answers": ["a", "b", "c"], "rationale": "Ignore patterns, global templates, and cleaning guard against accidental artifacts."},
-    {"questionId": "git-repo-structure", "answers": ["true"], "rationale": "Documented directory layouts and docs/ improve onboarding."},
-    {"questionId": "git-repo-hooks", "answers": ["a"], "rationale": "Hooks reside in .git/hooks/ by default."},
-    {"questionId": "git-repo-submodule", "answers": ["a", "b", "d"], "rationale": "Submodules pin commits; teammates must init/update them and URLs can be relative."},
-    {"questionId": "git-repo-template", "answers": ["a"], "rationale": "git init --template copies hooks and config from a template dir."},
-    {"questionId": "git-repo-creds", "answers": ["true"], "rationale": "Ignoring .env files protects secrets from version control."}
+    {
+      "questionId": "git-repo-init",
+      "answers": [
+        "b"
+      ],
+      "rationale": "git init sets up a .git directory in the current path."
+    },
+    {
+      "questionId": "git-repo-clone-depth",
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "rationale": "Shallow clones reduce data transfer for pipelines or temporary checkouts."
+    },
+    {
+      "questionId": "git-repo-bare",
+      "answers": [
+        "a"
+      ],
+      "rationale": "Bare repositories omit a working tree and host only the Git database."
+    },
+    {
+      "questionId": "git-repo-remote-add",
+      "answers": [
+        "a",
+        "c"
+      ],
+      "rationale": "remote add and set-url --add associate extra remotes or push URLs."
+    },
+    {
+      "questionId": "git-repo-ignore",
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "rationale": "Ignore patterns, global templates, and cleaning guard against accidental artifacts."
+    },
+    {
+      "questionId": "git-repo-structure",
+      "answers": [
+        "true"
+      ],
+      "rationale": "Documented directory layouts and docs/ improve onboarding."
+    },
+    {
+      "questionId": "git-repo-hooks",
+      "answers": [
+        "a"
+      ],
+      "rationale": "Hooks reside in .git/hooks/ by default."
+    },
+    {
+      "questionId": "git-repo-submodule",
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "rationale": "Submodules pin commits; teammates must init/update them and URLs can be relative."
+    },
+    {
+      "questionId": "git-repo-template",
+      "answers": [
+        "a"
+      ],
+      "rationale": "git init --template copies hooks and config from a template dir."
+    },
+    {
+      "questionId": "git-repo-creds",
+      "answers": [
+        "true"
+      ],
+      "rationale": "Ignoring .env files protects secrets from version control."
+    }
   ],
   "keyPoints": [
     "git init and clone are the launching points for repository work.",
@@ -25,6 +92,6 @@
     "Hooks can be centralized with templates and core.hooksPath.",
     "Submodules require initialization and lock to commit IDs.",
     "Templates seed consistent tooling across repos.",
-    "Secret management relies on ignoring credential files." 
+    "Secret management relies on ignoring credential files."
   ]
 }

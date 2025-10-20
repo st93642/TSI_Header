@@ -6,11 +6,18 @@
   "answerKey": {
     "linked_list_advantage": "option_b",
     "singly_linked_structure": "true",
-    "constant_time_operations": ["option_a", "option_c"],
+    "constant_time_operations": [
+      "option_a",
+      "option_c"
+    ],
     "memory_leak_consequence": "option_c",
     "doubly_linked_tradeoff": "true",
     "smart_pointers_benefit": "option_b",
-    "common_pitfalls": ["option_a", "option_b", "option_c"],
+    "common_pitfalls": [
+      "option_a",
+      "option_b",
+      "option_c"
+    ],
     "insertion_end_complexity": "option_c",
     "circular_list_benefit": "true",
     "doubly_vs_array_overhead": "option_c"

@@ -7,12 +7,20 @@
   "answerKey": {
     "hash_table_advantage": "option_b",
     "separate_chaining_structure": "option_c",
-    "hash_function_requirements": ["option_a", "option_b", "option_c"],
+    "hash_function_requirements": [
+      "option_a",
+      "option_b",
+      "option_c"
+    ],
     "load_factor_importance": "option_b",
     "open_addressing_cache_performance": "true",
     "rehashing_process": "option_c",
     "linear_probing_technique": "option_b",
-    "open_addressing_disadvantages": ["option_b", "option_c", "option_d"],
+    "open_addressing_disadvantages": [
+      "option_b",
+      "option_c",
+      "option_d"
+    ],
     "avalanche_effect_meaning": "option_b",
     "worst_case_complexity": "option_b"
   },

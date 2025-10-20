@@ -50,5 +50,12 @@
     "_ ignores single values, .. ignores multiple values",
     "Function parameters can destructure tuples directly"
   ],
-  "tags": ["patterns", "matching", "destructuring", "guards", "bindings", "refutability"]
+  "tags": [
+    "patterns",
+    "matching",
+    "destructuring",
+    "guards",
+    "bindings",
+    "refutability"
+  ]
 }

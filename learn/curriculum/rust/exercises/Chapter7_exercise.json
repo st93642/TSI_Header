@@ -20,5 +20,11 @@
     "Use vectors to collect vowels and consonants separately",
     "Print results showing word counts and character analysis"
   ],
-  "tags": ["vectors", "strings", "hashmaps", "collections", "text-processing"]
+  "tags": [
+    "vectors",
+    "strings",
+    "hashmaps",
+    "collections",
+    "text-processing"
+  ]
 }

@@ -3,7 +3,14 @@
   "mode": "quiz",
   "title": "Quiz: Arrays, Search Patterns, and Instrumented Sorting",
   "description": "Reinforce the lesson by connecting ledger observations to algorithm choices. Each question asks you to interpret diagnostics, justify strategy pivots, or recognise instrumentation guardrails.\n\nSteps:\n1. Review your lesson notes and ledger outputs.\n2. Answer each question, selecting all applicable options when prompted.\n3. Submit the quiz to verify that you can articulate the trade-offs behind each array workflow.\n\nExpected results: Score at least 8 out of 10 to continue along the roadmap.",
-  "tags": ["cpp", "arrays", "search", "sorting", "instrumentation", "quiz"],
+  "tags": [
+    "cpp",
+    "arrays",
+    "search",
+    "sorting",
+    "instrumentation",
+    "quiz"
+  ],
   "passScore": 8,
   "questions": [
     {
@@ -11,115 +18,235 @@
       "type": "single",
       "prompt": "When the trace ledger describes a span, which detail confirms the array respects contiguous stride assumptions?",
       "options": [
-        { "id": "option_a", "text": "The ledger logs a fallback note." },
-        { "id": "option_b", "text": "The span summary shows stride equal to sizeof(element).", "correct": true },
-        { "id": "option_c", "text": "The ledger notes include a branch counter." },
-        { "id": "option_d", "text": "The window method returned a tail slice." }
+        {
+          "id": "option_a",
+          "text": "The ledger logs a fallback note."
+        },
+        {
+          "id": "option_b",
+          "text": "The span summary shows stride equal to sizeof(element).",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "The ledger notes include a branch counter."
+        },
+        {
+          "id": "option_d",
+          "text": "The window method returned a tail slice."
+        }
       ],
-      "explanation": "Stride matching sizeof(T) ensures your contiguous storage behaves as expected for cache-friendly access." 
+      "explanation": "Stride matching sizeof(T) ensures your contiguous storage behaves as expected for cache-friendly access."
     },
     {
       "id": "span_hub_advantage",
       "type": "multiple",
       "prompt": "Select the reasons SpanHub improves data sharing in the lesson's array workflows.",
       "options": [
-        { "id": "option_a", "text": "It exposes safe windows without copying the backing store.", "correct": true },
-        { "id": "option_b", "text": "It forces all callers to own the data." },
-        { "id": "option_c", "text": "It centralises instrumentation annotations for reuse.", "correct": true },
-        { "id": "option_d", "text": "It converts std::vector into a linked list." }
+        {
+          "id": "option_a",
+          "text": "It exposes safe windows without copying the backing store.",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "It forces all callers to own the data."
+        },
+        {
+          "id": "option_c",
+          "text": "It centralises instrumentation annotations for reuse.",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "It converts std::vector into a linked list."
+        }
       ],
-      "explanation": "SpanHub hands out spans while retaining ownership context and instrumentation hooks." 
+      "explanation": "SpanHub hands out spans while retaining ownership context and instrumentation hooks."
     },
     {
       "id": "linear_search_story",
       "type": "single",
       "prompt": "According to the instrumentation narrative, when is linear search still the preferred option?",
       "options": [
-        { "id": "option_a", "text": "When the dataset is uniformly distributed across a large range." },
-        { "id": "option_b", "text": "When targets cluster near the front of tiny arrays and setup cost must stay minimal.", "correct": true },
-        { "id": "option_c", "text": "When branch prediction must be maximised." },
-        { "id": "option_d", "text": "When memory is fragmented across multiple allocations." }
+        {
+          "id": "option_a",
+          "text": "When the dataset is uniformly distributed across a large range."
+        },
+        {
+          "id": "option_b",
+          "text": "When targets cluster near the front of tiny arrays and setup cost must stay minimal.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "When branch prediction must be maximised."
+        },
+        {
+          "id": "option_d",
+          "text": "When memory is fragmented across multiple allocations."
+        }
       ],
-      "explanation": "Linear search thrives on small arrays or favourable locality; instrumentation confirms the choice." 
+      "explanation": "Linear search thrives on small arrays or favourable locality; instrumentation confirms the choice."
     },
     {
       "id": "galloping_search_bounds",
       "type": "single",
       "prompt": "What does the galloping phase measure to decide when to hand control to the binary search step?",
       "options": [
-        { "id": "option_a", "text": "The branch misprediction rate of the last run." },
-        { "id": "option_b", "text": "The exponential bound that surpasses the target value.", "correct": true },
-        { "id": "option_c", "text": "The cache line occupancy of the array." },
-        { "id": "option_d", "text": "The number of duplicates in the array." }
+        {
+          "id": "option_a",
+          "text": "The branch misprediction rate of the last run."
+        },
+        {
+          "id": "option_b",
+          "text": "The exponential bound that surpasses the target value.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "The cache line occupancy of the array."
+        },
+        {
+          "id": "option_d",
+          "text": "The number of duplicates in the array."
+        }
       ],
-      "explanation": "Galloping doubles the bound until the target or array end is crossed, then defers to binary search." 
+      "explanation": "Galloping doubles the bound until the target or array end is crossed, then defers to binary search."
     },
     {
       "id": "interpolation_guardrails",
       "type": "multiple",
       "prompt": "Which safeguards in the interpolation search implementation prevent runtime surprises?",
       "options": [
-        { "id": "option_a", "text": "Guarding against empty spans before entering the loop.", "correct": true },
-        { "id": "option_b", "text": "Resetting the random number generator on each iteration." },
-        { "id": "option_c", "text": "Checking for zero denominators before computing the probe offset.", "correct": true },
-        { "id": "option_d", "text": "Disabling ledger notes when probes exceed bounds." }
+        {
+          "id": "option_a",
+          "text": "Guarding against empty spans before entering the loop.",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Resetting the random number generator on each iteration."
+        },
+        {
+          "id": "option_c",
+          "text": "Checking for zero denominators before computing the probe offset.",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Disabling ledger notes when probes exceed bounds."
+        }
       ],
-      "explanation": "The lesson highlights empty span handling and denominator checks as essential guardrails for interpolation search." 
+      "explanation": "The lesson highlights empty span handling and denominator checks as essential guardrails for interpolation search."
     },
     {
       "id": "sorting_comparison_profile",
       "type": "single",
       "prompt": "What insight does the sorting pass chart communicate about bubble versus selection sort?",
       "options": [
-        { "id": "option_a", "text": "Bubble sort requires fewer comparisons but more swaps." },
-        { "id": "option_b", "text": "Selection sort maintains predictable comparisons while swaps stay minimal.", "correct": true },
-        { "id": "option_c", "text": "Both algorithms avoid ledger instrumentation." },
-        { "id": "option_d", "text": "Selection sort finishes earlier when data is nearly sorted." }
+        {
+          "id": "option_a",
+          "text": "Bubble sort requires fewer comparisons but more swaps."
+        },
+        {
+          "id": "option_b",
+          "text": "Selection sort maintains predictable comparisons while swaps stay minimal.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "Both algorithms avoid ledger instrumentation."
+        },
+        {
+          "id": "option_d",
+          "text": "Selection sort finishes earlier when data is nearly sorted."
+        }
       ],
-      "explanation": "The chart emphasises selection sort's steady comparison cost against bubble sort's volatile passes." 
+      "explanation": "The chart emphasises selection sort's steady comparison cost against bubble sort's volatile passes."
     },
     {
       "id": "insertion_sort_story",
       "type": "single",
       "prompt": "Why does the lesson recommend insertion sort for nearly sorted data segments?",
       "options": [
-        { "id": "option_a", "text": "It replaces moves with heap allocations." },
-        { "id": "option_b", "text": "Instrumentation shows the inner loop exits quickly when elements are close to position.", "correct": true },
-        { "id": "option_c", "text": "It eliminates all comparisons." },
-        { "id": "option_d", "text": "It requires no instrumentation setup." }
+        {
+          "id": "option_a",
+          "text": "It replaces moves with heap allocations."
+        },
+        {
+          "id": "option_b",
+          "text": "Instrumentation shows the inner loop exits quickly when elements are close to position.",
+          "correct": true
+        },
+        {
+          "id": "option_c",
+          "text": "It eliminates all comparisons."
+        },
+        {
+          "id": "option_d",
+          "text": "It requires no instrumentation setup."
+        }
       ],
-      "explanation": "Ledger counters reveal minimal shifts when data is nearly sorted, validating insertion sort as the right tool." 
+      "explanation": "Ledger counters reveal minimal shifts when data is nearly sorted, validating insertion sort as the right tool."
     },
     {
       "id": "dashboard_story",
       "type": "multiple",
       "prompt": "Which elements belong in the diagnostics narrative shared with stakeholders?",
       "options": [
-        { "id": "option_a", "text": "Context for the investigation and the observed ledger metrics.", "correct": true },
-        { "id": "option_b", "text": "Handwritten assembly listings." },
-        { "id": "option_c", "text": "Interpretations of the counters and next-step recommendations.", "correct": true },
-        { "id": "option_d", "text": "Raw heap dumps without commentary." }
+        {
+          "id": "option_a",
+          "text": "Context for the investigation and the observed ledger metrics.",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "Handwritten assembly listings."
+        },
+        {
+          "id": "option_c",
+          "text": "Interpretations of the counters and next-step recommendations.",
+          "correct": true
+        },
+        {
+          "id": "option_d",
+          "text": "Raw heap dumps without commentary."
+        }
       ],
-      "explanation": "The lesson insists on context, observations, and recommendations to keep diagnostics actionable." 
+      "explanation": "The lesson insists on context, observations, and recommendations to keep diagnostics actionable."
     },
     {
       "id": "practice_commitment",
       "type": "truefalse",
       "prompt": "True or False: The practice checklist includes committing the instrumentation harness alongside regression tests.",
       "answer": "true",
-      "explanation": "Preserving the harness in version control prevents future regressions and keeps insights reusable." 
+      "explanation": "Preserving the harness in version control prevents future regressions and keeps insights reusable."
     },
     {
       "id": "ledger_resets",
       "type": "single",
       "prompt": "Before running each playground experiment, why does the code reset the trace ledger?",
       "options": [
-        { "id": "option_a", "text": "To drop stale counters so each scenario has clean telemetry.", "correct": true },
-        { "id": "option_b", "text": "To randomise the search targets." },
-        { "id": "option_c", "text": "To force the compiler to inline functions." },
-        { "id": "option_d", "text": "To disable branch counting temporarily." }
+        {
+          "id": "option_a",
+          "text": "To drop stale counters so each scenario has clean telemetry.",
+          "correct": true
+        },
+        {
+          "id": "option_b",
+          "text": "To randomise the search targets."
+        },
+        {
+          "id": "option_c",
+          "text": "To force the compiler to inline functions."
+        },
+        {
+          "id": "option_d",
+          "text": "To disable branch counting temporarily."
+        }
       ],
-      "explanation": "Resetting ensures each run logs independent metrics that can be compared fairly." 
+      "explanation": "Resetting ensures each run logs independent metrics that can be compared fairly."
     }
   ]
 }

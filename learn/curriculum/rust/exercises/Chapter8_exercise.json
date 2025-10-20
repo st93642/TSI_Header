@@ -20,5 +20,11 @@
     "Handle the case where config file doesn't exist by providing defaults",
     "Use Box<dyn Error> as the error type to handle different error kinds"
   ],
-  "tags": ["error-handling", "result", "option", "file-io", "parsing"]
+  "tags": [
+    "error-handling",
+    "result",
+    "option",
+    "file-io",
+    "parsing"
+  ]
 }

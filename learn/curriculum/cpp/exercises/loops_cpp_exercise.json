@@ -23,5 +23,10 @@
     "Append a space after each number except perhaps the last—building a string can help.",
     "Consider using std::ostringstream if you want precise control, or handle the first element separately."
   ],
-  "tags": ["loops", "for", "accumulator", "beginner"]
+  "tags": [
+    "loops",
+    "for",
+    "accumulator",
+    "beginner"
+  ]
 }

@@ -3,64 +3,95 @@
   "answerKey": [
     {
       "questionId": "git-sec-identity",
-      "answers": ["a"],
-      "explanation": "`user.signingkey` selects the GPG or SSH identity for signing." 
+      "answers": [
+        "a"
+      ],
+      "explanation": "`user.signingkey` selects the GPG or SSH identity for signing."
     },
     {
       "questionId": "git-sec-gpg",
-      "answers": ["a", "b", "c"],
-      "explanation": "Generate keys, export them, and enable `commit.gpgsign` for automatic signing." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Generate keys, export them, and enable `commit.gpgsign` for automatic signing."
     },
     {
       "questionId": "git-sec-ssh",
-      "answers": ["true"],
-      "explanation": "SSH signing validates principals listed in `allowed_signers`." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "SSH signing validates principals listed in `allowed_signers`."
     },
     {
       "questionId": "git-sec-verify",
-      "answers": ["a", "b"],
-      "explanation": "Branch protection and server hooks enforce signed commits; manual review alone is insufficient." 
+      "answers": [
+        "a",
+        "b"
+      ],
+      "explanation": "Branch protection and server hooks enforce signed commits; manual review alone is insufficient."
     },
     {
       "questionId": "git-sec-slsa",
-      "answers": ["b"],
-      "explanation": "SLSA Level 3 requires scripted, ephemeral builders and provenance." 
+      "answers": [
+        "b"
+      ],
+      "explanation": "SLSA Level 3 requires scripted, ephemeral builders and provenance."
     },
     {
       "questionId": "git-sec-sbom",
-      "answers": ["a", "b", "c"],
-      "explanation": "Signed tags, SBOMs, and hash manifests secure releases; untracked binaries are red flags." 
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Signed tags, SBOMs, and hash manifests secure releases; untracked binaries are red flags."
     },
     {
       "questionId": "git-sec-secret-scan",
-      "answers": ["true"],
-      "explanation": "Scanning pushes and PRs stops secrets before they land in history." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "Scanning pushes and PRs stops secrets before they land in history."
     },
     {
       "questionId": "git-sec-audit",
-      "answers": ["a", "b", "d"],
-      "explanation": "`git log --show-signature`, `git verify-commit`, and GPG verification audit signatures." 
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "`git log --show-signature`, `git verify-commit`, and GPG verification audit signatures."
     },
     {
       "questionId": "git-sec-rotation",
-      "answers": ["a"],
-      "explanation": "Compromised keys must be revoked and replaced promptly." 
+      "answers": [
+        "a"
+      ],
+      "explanation": "Compromised keys must be revoked and replaced promptly."
     },
     {
       "questionId": "git-sec-attestation",
-      "answers": ["a", "b", "d"],
-      "explanation": "Cosign, in-toto, and SLSA attestations provide provenance; `git revert` doesn't." 
+      "answers": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "Cosign, in-toto, and SLSA attestations provide provenance; `git revert` doesn't."
     },
     {
       "questionId": "git-sec-policy",
-      "answers": ["true"],
-      "explanation": "CI should verify signatures before any deployment." 
+      "answers": [
+        "true"
+      ],
+      "explanation": "CI should verify signatures before any deployment."
     }
   ],
   "keyPoints": [
     "Configure signing keys and enforce policies through branch protections and hooks.",
     "Generate provenance artifacts—signed commits, tags, SBOMs, and attestations.",
     "Audit signatures regularly and rotate keys promptly when compromised.",
-    "Integrate signature verification and secret scanning into CI to protect the supply chain." 
+    "Integrate signature verification and secret scanning into CI to protect the supply chain."
   ]
 }

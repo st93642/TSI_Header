@@ -10,9 +10,17 @@
     "huffman_optimality": "true",
     "huffman_time_complexity": "option_c",
     "canonical_huffman": "option_b",
-    "huffman_applications": ["option_a", "option_b", "option_c"],
+    "huffman_applications": [
+      "option_a",
+      "option_b",
+      "option_c"
+    ],
     "adaptive_vs_static": "option_b",
-    "huffman_edge_cases": ["option_a", "option_b", "option_c"],
+    "huffman_edge_cases": [
+      "option_a",
+      "option_b",
+      "option_c"
+    ],
     "huffman_greedy_algorithm": "true"
   },
   "explanation": "These answers demonstrate understanding of Huffman coding algorithms, their implementation details, applications, and theoretical foundations in data compression.",

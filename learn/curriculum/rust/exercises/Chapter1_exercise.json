@@ -15,5 +15,8 @@
     "Use println!(\"Hello, world!\"); to print the message.",
     "Remember to include fn main() as the entry point."
   ],
-  "tags": ["hello", "chapter1"]
+  "tags": [
+    "hello",
+    "chapter1"
+  ]
 }

@@ -43,5 +43,12 @@
     "Use self: Box<Self> in trait methods to consume and transform state",
     "Remember to handle ownership properly when transitioning between states"
   ],
-  "tags": ["oop", "traits", "polymorphism", "encapsulation", "state-pattern", "trait-objects"]
+  "tags": [
+    "oop",
+    "traits",
+    "polymorphism",
+    "encapsulation",
+    "state-pattern",
+    "trait-objects"
+  ]
 }
