@@ -199,6 +199,11 @@ class TSITreeDataProvider {
                     title: 'View Git Progress',
                     tooltip: 'Track your progress through Pro Git Book'
                 }),
+                new TSITreeItem('Take Quiz', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.takeGitQuiz',
+                    title: 'Take Git Quiz',
+                    tooltip: 'Test your Git knowledge with interactive quizzes'
+                }),
                 new TSITreeItem('Clear Cache', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.clearGitCache',
                     title: 'Clear Cache',

@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Oct 19 2025 15:36 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 20 2025 16:04 st93642                                       */
+/*  Updated: Oct 20 2025 18:22 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -2466,6 +2466,62 @@ extern "C" {
     });
 
     context.subscriptions.push(takeMathematicsQuizCommand);
+
+    // Git quizzes - list and open interactive quizzes defined under learn/curriculum/git/exercises
+    const takeGitQuizCommand = vscode.commands.registerCommand('tsiheader.takeGitQuiz', async () => {
+        try {
+            const fs = require('fs');
+            const path = require('path');
+
+            const quizzesDir = path.join(__dirname, '..', '..', 'learn', 'curriculum', 'git', 'exercises');
+
+            // Read available quiz files
+            let files = [];
+            try {
+                files = fs.readdirSync(quizzesDir).filter(f => f.endsWith('_quiz.json'));
+            } catch (e) {
+                // Directory missing or unreadable
+                files = [];
+            }
+
+            if (files.length === 0) {
+                vscode.window.showInformationMessage('No Git quizzes are available right now.');
+                return;
+            }
+
+            const quizItems = files.map(filename => {
+                const id = filename.replace('_quiz.json', '');
+                const title = id.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                return {
+                    label: `🧠 ${title}`,
+                    description: 'Test your Git knowledge',
+                    filename,
+                    id
+                };
+            });
+
+            const selected = await vscode.window.showQuickPick(quizItems, { placeHolder: 'Select a Git quiz' });
+
+            if (!selected) return;
+
+            // Load the selected quiz JSON
+            const quizPath = path.join(quizzesDir, selected.filename);
+            const raw = fs.readFileSync(quizPath, 'utf8');
+            const quizData = JSON.parse(raw);
+
+            // Reuse MathematicsManager's openQuiz UI since it provides a solid quiz viewer
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+
+            // Open the quiz using the quiz viewer
+            await mathManager.openQuiz(quizData);
+
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error loading Git quiz: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(takeGitQuizCommand);
 
     const viewMathematicsCacheStatsCommand = vscode.commands.registerCommand('tsiheader.viewMathematicsCacheStats', async () => {
         try {

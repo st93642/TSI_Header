@@ -1053,18 +1053,81 @@ class MathematicsManager {
      */
     getQuizHtml(quiz, webview) {
         // Process quiz questions for math rendering
-        const processedQuestions = quiz.questions.map(question => ({
-            ...question,
-            question: this.markdownToHtml(this.processMathContent(question.question)),
-            options: question.options.map(option => {
+    const processedQuestions = (quiz.questions || []).map(question => {
+            // Ensure options is an array
+            const rawOptions = Array.isArray(question.options) ? question.options : [];
+
+            // If options are objects (e.g. {id, text, correct}), extract display text
+            const processedOpts = rawOptions.map(optRaw => {
+                let optionStr = '';
+
+                if (optRaw && typeof optRaw === 'object') {
+                    if (typeof optRaw.text === 'string' && optRaw.text.trim() !== '') {
+                        optionStr = optRaw.text;
+                    } else if (typeof optRaw.label === 'string' && optRaw.label.trim() !== '') {
+                        optionStr = optRaw.label;
+                    } else if (typeof optRaw.id === 'string') {
+                        optionStr = optRaw.id;
+                    } else {
+                        // Fallback to JSON representation for complex objects
+                        try {
+                            optionStr = JSON.stringify(optRaw);
+                        } catch (e) {
+                            optionStr = String(optRaw);
+                        }
+                    }
+                } else {
+                    optionStr = (optRaw === null || optRaw === undefined) ? '' : String(optRaw);
+                }
+
                 // Process math first, then markdown if needed
-                const mathProcessed = this.processMathContent(option);
-                return option.includes('*') || option.includes('`') || option.includes('\n') 
-                    ? this.markdownToHtml(mathProcessed) 
-                    : mathProcessed;
-            }),
-            explanation: question.explanation ? this.markdownToHtml(this.processMathContent(question.explanation)) : question.explanation
-        }));
+                const mathProcessed = this.processMathContent(optionStr);
+                const hasMarkdownCue = optionStr.includes('*') || optionStr.includes('`') || optionStr.includes('\n');
+                return hasMarkdownCue ? this.markdownToHtml(mathProcessed) : mathProcessed;
+            });
+
+            // Infer a single 'correct' index when quiz uses per-option correct flags
+            let correctIndex = question.correct;
+            if ((correctIndex === undefined || correctIndex === null) && rawOptions.some(o => o && typeof o === 'object' && ('correct' in o))) {
+                // For single-choice questions pick the first option marked correct
+                if (question.type === 'single' || question.type === 'truefalse') {
+                    const idx = rawOptions.findIndex(o => o && typeof o === 'object' && o.correct);
+                    correctIndex = idx >= 0 ? idx : 0;
+                } else if (question.type === 'multiple') {
+                    // For multiple-select quizzes, pick the first correct option as a best-effort fallback
+                    const idx = rawOptions.findIndex(o => o && typeof o === 'object' && o.correct);
+                    correctIndex = idx >= 0 ? idx : 0;
+                }
+            }
+
+            // Handle true/false questions: provide explicit options and determine correct index
+            let finalOptions = processedOpts;
+            let finalCorrect = (typeof correctIndex === 'number' ? correctIndex : 0);
+
+            if (question.type === 'truefalse') {
+                finalOptions = ['True', 'False'];
+                // quiz.answer may be 'true'/'false' or boolean
+                if (typeof question.answer === 'string') {
+                    finalCorrect = question.answer.toLowerCase() === 'true' ? 0 : 1;
+                } else if (typeof question.answer === 'boolean') {
+                    finalCorrect = question.answer ? 0 : 1;
+                } else {
+                    // fallback: default to True
+                    finalCorrect = 0;
+                }
+            }
+
+            const promptText = question.question || question.prompt || '';
+
+            return {
+                ...question,
+                question: this.markdownToHtml(this.processMathContent(promptText)),
+                options: finalOptions,
+                // Ensure a numeric correct index exists for the quiz UI
+                correct: (typeof finalCorrect === 'number' ? finalCorrect : 0),
+                explanation: question.explanation ? this.markdownToHtml(this.processMathContent(question.explanation)) : question.explanation
+            };
+        });
 
         const questionsHtml = processedQuestions.map((question, index) => {
             const optionsHtml = question.options.map((option, optIndex) =>
@@ -1328,23 +1391,28 @@ class MathematicsManager {
         ${questionsHtml}
     </div>
 
-    <div class="actions">
+        <div class="actions">
         <button class="btn" id="prevBtn" onclick="previousQuestion()" disabled>Previous</button>
         <button class="btn" id="nextBtn" onclick="nextQuestion()">Next</button>
         <button class="btn" id="submitBtn" onclick="submitQuiz()" style="display: none;">Submit Quiz</button>
+        ${ (quiz.workbook && !((quiz.id && String(quiz.id).toLowerCase().startsWith('git_')) || (Array.isArray(quiz.tags) && quiz.tags.includes('git')))) ? `<button class="btn" onclick="openWorkbook()">📚 View Workbook</button>` : '' }
     </div>
 
-    <div class="results" id="results">
+        <div class="results" id="results">
         <h2>Quiz Complete!</h2>
         <div class="score" id="score"></div>
         <p id="feedback"></p>
         <button class="btn" onclick="restartQuiz()">Try Again</button>
-        <button class="btn" onclick="openWorkbook()">📚 View Workbook</button>
+        ${ (quiz.workbook && !((quiz.id && String(quiz.id).toLowerCase().startsWith('git_')) || (Array.isArray(quiz.tags) && quiz.tags.includes('git')))) ? `<button class="btn" onclick="openWorkbook()">📚 View Workbook</button>` : '' }
     </div>
 
     <script>
         const vscode = acquireVsCodeApi();
-        const quiz = ${JSON.stringify(quiz)};
+    // Embed the processed questions into the client-side quiz object so the runtime logic
+    // (correct indices, generated true/false options, etc.) matches the rendered HTML.
+    const quiz = ${JSON.stringify(Object.assign({}, quiz, { questions: processedQuestions }))};
+    // Determine on the server whether to show workbook links (hide for Git quizzes)
+    const showWorkbookButton = ${JSON.stringify(Boolean(quiz.workbook && !((quiz.id && String(quiz.id).toLowerCase().startsWith('git_')) || (Array.isArray(quiz.tags) && quiz.tags.includes('git')))))};
         let currentQuestion = 0;
         let answers = new Array(quiz.questions.length).fill(null);
         let checkedAnswers = new Array(quiz.questions.length).fill(false);
@@ -1494,9 +1562,11 @@ class MathematicsManager {
         }
 
         function openWorkbook() {
-            vscode.postMessage({
-                command: 'openWorkbook'
-            });
+                if (showWorkbookButton) {
+                    vscode.postMessage({
+                        command: 'openWorkbook'
+                    });
+                }
         }
 
         // Handle radio button changes

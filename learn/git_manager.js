@@ -453,12 +453,12 @@ class GitBookManager {
         html += '.content-section{background:var(--card-bg);padding:20px;border-radius:10px;margin-bottom:10px;box-shadow:0 2px 10px var(--card-shadow);border:1px solid var(--border-color)}';
 
         // Typography styles
-        html += '.lesson-content h1{color:var(--text-color);margin-top:40px;margin-bottom:20px;font-weight:700;font-size:2.2em;border-bottom:2px solid var(--accent-border);padding-bottom:10px}';
-        html += '.lesson-content h2{color:var(--text-color);margin-top:35px;margin-bottom:18px;font-weight:600;font-size:1.9em;border-bottom:1px solid var(--accent-border);padding-bottom:8px}';
-        html += '.lesson-content h3{color:var(--text-color);margin-top:30px;margin-bottom:15px;font-weight:600;font-size:1.6em}';
-        html += '.lesson-content h4{color:var(--text-color);margin-top:25px;margin-bottom:12px;font-weight:600;font-size:1.4em}';
-        html += '.lesson-content h5{color:var(--text-color);margin-top:20px;margin-bottom:10px;font-weight:600;font-size:1.2em}';
-        html += '.lesson-content h6{color:var(--text-color);margin-top:18px;margin-bottom:8px;font-weight:600;font-size:1.1em}';
+        html += '.lesson-content h1{color:#f05133;margin-top:40px;margin-bottom:20px;font-weight:700;font-size:2.2em;border-bottom:2px solid #f05133;padding-bottom:10px}';
+        html += '.lesson-content h2{color:#d73a49;margin-top:35px;margin-bottom:18px;font-weight:600;font-size:1.9em;border-bottom:1px solid #d73a49;padding-bottom:8px}';
+        html += '.lesson-content h3{color:#b31d28;margin-top:30px;margin-bottom:15px;font-weight:600;font-size:1.6em}';
+        html += '.lesson-content h4{color:#8b1d1d;margin-top:25px;margin-bottom:12px;font-weight:600;font-size:1.4em}';
+        html += '.lesson-content h5{color:#6b1d1d;margin-top:20px;margin-bottom:10px;font-weight:600;font-size:1.2em}';
+        html += '.lesson-content h6{color:#4b1d1d;margin-top:18px;margin-bottom:8px;font-weight:600;font-size:1.1em}';
         html += '.lesson-content p{margin-bottom:15px;color:var(--text-color);font-size:1em;line-height:1.7}';
         html += '.lesson-content ul,.lesson-content ol{margin-bottom:15px;padding-left:30px}';
         html += '.lesson-content li{margin-bottom:5px;color:var(--text-color);font-size:1em;line-height:1.6}';
@@ -508,16 +508,49 @@ class GitBookManager {
         html += 'function goBack(){if(typeof acquireVsCodeApi!=="undefined"){const vscode=acquireVsCodeApi();vscode.postMessage({command:"goBack"})}}';
         html += 'function nextLesson(){if(typeof acquireVsCodeApi!=="undefined"){const vscode=acquireVsCodeApi();vscode.postMessage({command:"nextLesson"})}}';
         html += 'function openLesson(lessonId){if(typeof acquireVsCodeApi!=="undefined"){const vscode=acquireVsCodeApi();vscode.postMessage({command:"openLesson", lessonId: lessonId})}}';
-        html += '// Invoke highlight.js when the lesson DOM is ready';
-        html += 'document.addEventListener("DOMContentLoaded", () => {';
-        html += 'try {';
-        html += 'if (window.hljs && typeof hljs.highlightAll === "function") {';
-        html += 'hljs.highlightAll();';
-        html += '}';
-        html += '} catch (e) {';
-        html += '// ignore';
-        html += '}';
-        html += '});';
+    html += '// Invoke highlight.js when the lesson DOM is ready and sanitize unwanted footer content';
+    html += 'document.addEventListener("DOMContentLoaded", () => {';
+    html += 'try {';
+    html += '  if (window.hljs && typeof hljs.highlightAll === "function") {';
+    html += '    hljs.highlightAll();';
+    html += '  }';
+    html += '} catch (e) {';
+    html += '  // ignore';
+    html += '}';
+
+    // Sanitize leftover Git Book footer/navigation text (e.g. "prev | next", "About this site", etc.)
+    html += '(function sanitizeFooter(){';
+    html += '  try {';
+    // Remove common footer/navigation elements by selector
+    html += '    const selectors = ["footer", ".footer", "#footer", "#nav", ".pagination", ".breadcrumb", "nav", ".nav"];';
+    html += '    selectors.forEach(s => document.querySelectorAll(s).forEach(el => el.remove()));';
+
+    // Remove any element whose visible text matches known footer snippets
+    html += '    const footerPatterns = [/prev\s*\|\s*next/i, /about this site/i, /patches, suggestions/i, /software freedom conservancy/i];';
+    html += '    document.querySelectorAll("*", ":not(script):not(style)").forEach(el => {';
+    html += '      try {';
+    html += '        const txt = (el.innerText || "").trim();';
+    html += '        if (!txt) return;';
+    html += '        for (const re of footerPatterns) {';
+    html += '          if (re.test(txt)) { el.remove(); break; }';
+    html += '        }';
+    html += '      } catch(e) { /* ignore */ }';
+    html += '    });';
+
+    // Also remove isolated text nodes containing "prev | next"
+    html += '    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);';
+    html += '    const nodesToRemove = [];';
+    html += '    while(walker.nextNode()) {';
+    html += '      const v = walker.currentNode.nodeValue;';
+    html += '      if (v && /prev\s*\|\s*next/i.test(v)) nodesToRemove.push(walker.currentNode);';
+    html += '    }';
+    html += '    for (const n of nodesToRemove) { if (n.parentNode) n.parentNode.remove(); }';
+    html += '  } catch(e) {';
+    html += '    // ignore sanitation errors';
+    html += '  }';
+    html += '})();';
+
+    html += '});';
         html += '</script>';
         html += '</body>';
         html += '</html>';
@@ -1461,11 +1494,26 @@ class GitBookManager {
         // Remove common Git book navigation patterns
         const navPatterns = [
             /<nav[^>]*>.*?<\/nav>/gis,
+            /<div[^>]*id="nav"[^>]*>.*?<\/div>/gis,
             /<div[^>]*class="[^"]*nav[^"]*"[^>]*>.*?<\/div>/gis,
             /<div[^>]*class="[^"]*breadcrumb[^"]*"[^>]*>.*?<\/div>/gis,
             /<div[^>]*class="[^"]*pagination[^"]*"[^>]*>.*?<\/div>/gis,
             /<a[^>]*href="[^"]*prev[^"]*"[^>]*>.*?<\/a>/gis,
-            /<a[^>]*href="[^"]*next[^"]*"[^>]*>.*?<\/a>/gis
+            /<a[^>]*href="[^"]*next[^"]*"[^>]*>.*?<\/a>/gis,
+            // Remove footer content
+            /<footer[^>]*>.*?<\/footer>/gis,
+            /<div[^>]*class="[^"]*footer[^"]*"[^>]*>.*?<\/div>/gis,
+            /<div[^>]*id="[^"]*footer[^"]*"[^>]*>.*?<\/div>/gis,
+            // Remove specific footer text patterns
+            /prev\s*\|\s*next/gis,
+            /About this site/gis,
+            /Patches, suggestions, and comments are welcome/gis,
+            /Git is a member of Software Freedom Conservancy/gis,
+            // Remove any remaining footer-like content
+            /<div[^>]*>[\s\S]*?prev\s*\|\s*next[\s\S]*?<\/div>/gis,
+            /<p[^>]*>[\s\S]*?About this site[\s\S]*?<\/p>/gis,
+            /<p[^>]*>[\s\S]*?Patches, suggestions[\s\S]*?<\/p>/gis,
+            /<p[^>]*>[\s\S]*?Software Freedom Conservancy[\s\S]*?<\/p>/gis
         ];
 
         for (const pattern of navPatterns) {
