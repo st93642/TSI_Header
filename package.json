@@ -2,7 +2,7 @@
   "name": "uni-header",
   "displayName": "University Header, Learn, Pomodoro & Calendar",
   "description": "Code generation and headers, learning modules (C/C++/Ruby/Rust/Git/Odin Project), Pomodoro timer for focused study sessions and calendar",
-  "version": "7.0.5",
+  "version": "7.0.6",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -453,6 +453,18 @@
         "icon": "$(graph)"
       },
       {
+        "command": "tsiheader.clearGitCache",
+        "title": "Clear Git Book Cache",
+        "category": "Uni Header",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "tsiheader.viewGitCacheStats",
+        "title": "View Git Book Cache Stats",
+        "category": "Uni Header",
+        "icon": "$(database)"
+      },
+      {
         "command": "tsiheader.learnOdin",
         "title": "Learn The Odin Project",
         "category": "Uni Header",
@@ -572,6 +584,14 @@
       },
       {
         "command": "tsiheader.viewOdinCacheStats",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.clearGitCache",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.viewGitCacheStats",
         "when": "true"
       },
       {
@@ -821,6 +841,16 @@
       },
       {
         "command": "tsiheader.viewOdinCacheStats",
+        "when": "view == tsi-projects",
+        "group": "cached-lessons"
+      },
+      {
+        "command": "tsiheader.clearGitCache",
+        "when": "view == tsi-projects",
+        "group": "cached-lessons"
+      },
+      {
+        "command": "tsiheader.viewGitCacheStats",
         "when": "view == tsi-projects",
         "group": "cached-lessons"
       }

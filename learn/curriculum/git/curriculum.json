@@ -1,154 +1,524 @@
 {
-  "title": "Git Mastery Roadmap",
-  "description": "A comprehensive roadmap that transforms developers into confident Git collaborators, from fundamentals to large-scale automation workflows.",
-  "modules": [
+  "title": "Pro Git Book",
+  "description": "The official Git book by Scott Chacon and Ben Straub - comprehensive guide to Git version control",
+  "chapters": [
     {
-      "id": "git_foundations",
-      "title": "Module 1: Version Control Foundations",
-      "description": "Understand why version control exists, how Git differs from centralized tools, and how to build reliable local workflows.",
+      "id": "getting-started",
+      "title": "Chapter 1: Getting Started",
+      "description": "Introduction to version control systems and Git basics",
       "lessons": [
         {
-          "id": "git_introduction_foundations",
-          "title": "Lesson 1.1: Git in the Software Delivery Lifecycle",
-          "duration": 70,
-          "difficulty": "beginner"
+          "id": "about-version-control",
+          "title": "1.1 About Version Control",
+          "url": "https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control",
+          "estimatedHours": 0.5
         },
         {
-          "id": "git_installation_configuration",
-          "title": "Lesson 1.2: Installing Git and Establishing Identity",
-          "duration": 65,
-          "difficulty": "beginner"
+          "id": "brief-history-of-git",
+          "title": "1.2 A Short History of Git",
+          "url": "https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git",
+          "estimatedHours": 0.5
         },
         {
-          "id": "git_core_concepts",
-          "title": "Lesson 1.3: Snapshots, Objects, and the Three-Tree Architecture",
-          "duration": 85,
-          "difficulty": "beginner"
+          "id": "what-is-git",
+          "title": "1.3 What is Git?",
+          "url": "https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "command-line",
+          "title": "1.4 The Command Line",
+          "url": "https://git-scm.com/book/en/v2/Getting-Started-The-Command-Line",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "installing-git",
+          "title": "1.5 Installing Git",
+          "url": "https://git-scm.com/book/en/v2/Getting-Started-Installing-Git",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "first-time-git-setup",
+          "title": "1.6 First-Time Git Setup",
+          "url": "https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "getting-help",
+          "title": "1.7 Getting Help",
+          "url": "https://git-scm.com/book/en/v2/Getting-Started-Getting-Help",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "summary",
+          "title": "1.8 Summary",
+          "url": "https://git-scm.com/book/en/v2/Getting-Started-Summary",
+          "estimatedHours": 0.5
         }
       ]
     },
     {
-      "id": "git_repository_lifecycle",
-      "title": "Module 2: Repository Lifecycle and Daily Work",
-      "description": "Set up repositories, manage staging areas, record commits, and inspect history with confidence.",
+      "id": "git-basics",
+      "title": "Chapter 2: Git Basics",
+      "description": "Fundamental Git operations and concepts",
       "lessons": [
         {
-          "id": "git_repository_management",
-          "title": "Lesson 2.1: Initializing, Cloning, and Structuring Repositories",
-          "duration": 90,
-          "difficulty": "beginner"
+          "id": "getting-a-git-repository",
+          "title": "2.1 Getting a Git Repository",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository",
+          "estimatedHours": 0.75
         },
         {
-          "id": "git_staging_committing",
-          "title": "Lesson 2.2: Staging Strategies, Clean Commits, and Hooks",
-          "duration": 95,
-          "difficulty": "intermediate"
+          "id": "recording-changes-to-repository",
+          "title": "2.2 Recording Changes to the Repository",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository",
+          "estimatedHours": 1.0
         },
         {
-          "id": "git_inspecting_history",
-          "title": "Lesson 2.3: Exploring History with Log, Show, Diff, and Bisect",
-          "duration": 105,
-          "difficulty": "intermediate"
+          "id": "viewing-commit-history",
+          "title": "2.3 Viewing the Commit History",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "undoing-things",
+          "title": "2.4 Undoing Things",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Undoing-Things",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "working-with-remotes",
+          "title": "2.5 Working with Remotes",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "tagging",
+          "title": "2.6 Tagging",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Tagging",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "git-aliases",
+          "title": "2.7 Git Aliases",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "summary-git-basics",
+          "title": "2.8 Summary",
+          "url": "https://git-scm.com/book/en/v2/Git-Basics-Summary",
+          "estimatedHours": 0.5
         }
       ]
     },
     {
-      "id": "git_branching_merging",
-      "title": "Module 3: Branching Strategies and Merge Design",
-      "description": "Craft branching models, merge confidently, and reason about diverging timelines.",
+      "id": "git-branching",
+      "title": "Chapter 3: Git Branching",
+      "description": "Branching and merging in Git",
       "lessons": [
         {
-          "id": "git_branching_workflows",
-          "title": "Lesson 3.1: Feature Branching, Trunk-Based, and Gitflow",
-          "duration": 110,
-          "difficulty": "intermediate"
+          "id": "branches-in-a-nutshell",
+          "title": "3.1 Branches in a Nutshell",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell",
+          "estimatedHours": 1.0
         },
         {
-          "id": "git_merges_resolving_conflicts",
-          "title": "Lesson 3.2: Fast-Forward, Three-Way Merges, and Conflict Strategy",
-          "duration": 115,
-          "difficulty": "intermediate"
+          "id": "basic-branching-and-merging",
+          "title": "3.2 Basic Branching and Merging",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging",
+          "estimatedHours": 1.0
         },
         {
-          "id": "git_rebasing_strategies",
-          "title": "Lesson 3.3: Interactive Rebases, Autosquashing, and Rewrite Policies",
-          "duration": 125,
-          "difficulty": "advanced"
+          "id": "branch-management",
+          "title": "3.3 Branch Management",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Branch-Management",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "branching-workflows",
+          "title": "3.4 Branching Workflows",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Branching-Workflows",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "remote-branches",
+          "title": "3.5 Remote Branches",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "rebasing",
+          "title": "3.6 Rebasing",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Rebasing",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "summary-git-branching",
+          "title": "3.7 Summary",
+          "url": "https://git-scm.com/book/en/v2/Git-Branching-Summary",
+          "estimatedHours": 0.5
         }
       ]
     },
     {
-      "id": "git_collaboration",
-      "title": "Module 4: Collaboration, Reviews, and Release Cadence",
-      "description": "Coordinate across remotes, review contributions at scale, and ship production releases with confidence.",
+      "id": "git-on-the-server",
+      "title": "Chapter 4: Git on the Server",
+      "description": "Setting up and managing Git servers",
       "lessons": [
         {
-          "id": "git_remote_collaboration",
-          "title": "Lesson 4.1: Remotes, Fetching, Pulling, and Upstream Hygiene",
-          "duration": 110,
-          "difficulty": "intermediate"
+          "id": "protocols",
+          "title": "4.1 The Protocols",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols",
+          "estimatedHours": 0.75
         },
         {
-          "id": "git_code_review_practices",
-          "title": "Lesson 4.2: Pull Requests, Patches, and Collaborative Etiquette",
-          "duration": 120,
-          "difficulty": "intermediate"
+          "id": "getting-git-on-a-server",
+          "title": "4.2 Getting Git on a Server",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-Getting-Git-on-a-Server",
+          "estimatedHours": 0.75
         },
         {
-          "id": "git_release_management",
-          "title": "Lesson 4.3: Tags, Release Branches, and Backporting",
-          "duration": 130,
-          "difficulty": "advanced"
+          "id": "generating-ssh-public-key",
+          "title": "4.3 Generating Your SSH Public Key",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-Generating-Your-SSH-Public-Key",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "setting-up-the-server",
+          "title": "4.4 Setting Up the Server",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "git-daemon",
+          "title": "4.5 Git Daemon",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-Git-Daemon",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "smart-http",
+          "title": "4.6 Smart HTTP",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-Smart-HTTP",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "gitweb",
+          "title": "4.7 GitWeb",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-GitWeb",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "gitlab",
+          "title": "4.8 GitLab",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-GitLab",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "third-party-hosted-options",
+          "title": "4.9 Third Party Hosted Options",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-Third-Party-Hosted-Options",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "summary-git-server",
+          "title": "4.10 Summary",
+          "url": "https://git-scm.com/book/en/v2/Git-on-the-Server-Summary",
+          "estimatedHours": 0.5
         }
       ]
     },
     {
-      "id": "git_history_safety",
-      "title": "Module 5: History Rewrites, Recovery, and Security",
-      "description": "Master reflogs, cherry-picks, signing, and safeguarding history for resilient operations.",
+      "id": "distributed-git",
+      "title": "Chapter 5: Distributed Git",
+      "description": "Distributed workflows and collaboration",
       "lessons": [
         {
-          "id": "git_history_rewrite",
-          "title": "Lesson 5.1: Rewriting History with Filter-Repo and Filter-Branch",
-          "duration": 135,
-          "difficulty": "advanced"
+          "id": "distributed-workflows",
+          "title": "5.1 Distributed Workflows",
+          "url": "https://git-scm.com/book/en/v2/Distributed-Git-Distributed-Workflows",
+          "estimatedHours": 1.0
         },
         {
-          "id": "git_troubleshooting_recovery",
-          "title": "Lesson 5.2: Reflog, Stash, and Disaster Recovery Playbooks",
-          "duration": 125,
-          "difficulty": "advanced"
+          "id": "contributing-to-a-project",
+          "title": "5.2 Contributing to a Project",
+          "url": "https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project",
+          "estimatedHours": 1.0
         },
         {
-          "id": "git_security_signing",
-          "title": "Lesson 5.3: Commit Signing, Verified Releases, and Supply Chain Trust",
-          "duration": 115,
-          "difficulty": "advanced"
+          "id": "maintaining-a-project",
+          "title": "5.3 Maintaining a Project",
+          "url": "https://git-scm.com/book/en/v2/Distributed-Git-Maintaining-a-Project",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "summary-distributed-git",
+          "title": "5.4 Summary",
+          "url": "https://git-scm.com/book/en/v2/Distributed-Git-Summary",
+          "estimatedHours": 0.5
         }
       ]
     },
     {
-      "id": "git_automation_scaling",
-      "title": "Module 6: Automation, CI/CD, and Scaling Git",
-      "description": "Integrate Git with automation pipelines, manage monorepos, and tune for performance.",
+      "id": "github",
+      "title": "Chapter 6: GitHub",
+      "description": "Using Git with GitHub platform",
       "lessons": [
         {
-          "id": "git_ci_cd_integration",
-          "title": "Lesson 6.1: Automating Quality Gates with Git Hooks and CI",
-          "duration": 125,
-          "difficulty": "advanced"
+          "id": "account-setup-and-configuration",
+          "title": "6.1 Account Setup and Configuration",
+          "url": "https://git-scm.com/book/en/v2/GitHub-Account-Setup-and-Configuration",
+          "estimatedHours": 0.5
         },
         {
-          "id": "git_monorepo_management",
-          "title": "Lesson 6.2: Monorepo Strategies, Submodules, and Subtrees",
-          "duration": 130,
-          "difficulty": "advanced"
+          "id": "contributing-to-a-project-github",
+          "title": "6.2 Contributing to a Project",
+          "url": "https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project",
+          "estimatedHours": 1.0
         },
         {
-          "id": "git_performance_optimization",
-          "title": "Lesson 6.3: Scaling Git for Large Repositories and Distributed Teams",
-          "duration": 140,
-          "difficulty": "advanced"
+          "id": "maintaining-a-project-github",
+          "title": "6.3 Maintaining a Project",
+          "url": "https://git-scm.com/book/en/v2/GitHub-Maintaining-a-Project",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "managing-an-organization",
+          "title": "6.4 Managing an Organization",
+          "url": "https://git-scm.com/book/en/v2/GitHub-Managing-an-Organization",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "scripting-github",
+          "title": "6.5 Scripting GitHub",
+          "url": "https://git-scm.com/book/en/v2/GitHub-Scripting-GitHub",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "summary-github",
+          "title": "6.6 Summary",
+          "url": "https://git-scm.com/book/en/v2/GitHub-Summary",
+          "estimatedHours": 0.5
+        }
+      ]
+    },
+    {
+      "id": "git-tools",
+      "title": "Chapter 7: Git Tools",
+      "description": "Advanced Git tools and techniques",
+      "lessons": [
+        {
+          "id": "revision-selection",
+          "title": "7.1 Revision Selection",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "interactive-staging",
+          "title": "7.2 Interactive Staging",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Interactive-Staging",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "stashing-and-cleaning",
+          "title": "7.3 Stashing and Cleaning",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Stashing-and-Cleaning",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "signing-your-work",
+          "title": "7.4 Signing Your Work",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "searching",
+          "title": "7.5 Searching",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Searching",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "rewriting-history",
+          "title": "7.6 Rewriting History",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "reset-demystified",
+          "title": "7.7 Reset Demystified",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "advanced-merging",
+          "title": "7.8 Advanced Merging",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "rerere",
+          "title": "7.9 Rerere",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Rerere",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "debugging-with-git",
+          "title": "7.10 Debugging with Git",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Debugging-with-Git",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "submodules",
+          "title": "7.11 Submodules",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Submodules",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "bundling",
+          "title": "7.12 Bundling",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Bundling",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "replace",
+          "title": "7.13 Replace",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Replace",
+          "estimatedHours": 0.5
+        },
+        {
+          "id": "credential-storage",
+          "title": "7.14 Credential Storage",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "summary-git-tools",
+          "title": "7.15 Summary",
+          "url": "https://git-scm.com/book/en/v2/Git-Tools-Summary",
+          "estimatedHours": 0.5
+        }
+      ]
+    },
+    {
+      "id": "customizing-git",
+      "title": "Chapter 8: Customizing Git",
+      "description": "Configuring and customizing Git",
+      "lessons": [
+        {
+          "id": "git-configuration",
+          "title": "8.1 Git Configuration",
+          "url": "https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "git-attributes",
+          "title": "8.2 Git Attributes",
+          "url": "https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "git-hooks",
+          "title": "8.3 Git Hooks",
+          "url": "https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "an-example-git-enforced-policy",
+          "title": "8.4 An Example Git-Enforced Policy",
+          "url": "https://git-scm.com/book/en/v2/Customizing-Git-An-Example-Git-Enforced-Policy",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "summary-customizing-git",
+          "title": "8.5 Summary",
+          "url": "https://git-scm.com/book/en/v2/Customizing-Git-Summary",
+          "estimatedHours": 0.5
+        }
+      ]
+    },
+    {
+      "id": "git-and-other-systems",
+      "title": "Chapter 9: Git and Other Systems",
+      "description": "Integrating Git with other version control systems",
+      "lessons": [
+        {
+          "id": "git-as-a-client",
+          "title": "9.1 Git as a Client",
+          "url": "https://git-scm.com/book/en/v2/Git-and-Other-Systems-Git-as-a-Client",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "migrating-to-git",
+          "title": "9.2 Migrating to Git",
+          "url": "https://git-scm.com/book/en/v2/Git-and-Other-Systems-Migrating-to-Git",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "summary-git-other-systems",
+          "title": "9.3 Summary",
+          "url": "https://git-scm.com/book/en/v2/Git-and-Other-Systems-Summary",
+          "estimatedHours": 0.5
+        }
+      ]
+    },
+    {
+      "id": "git-internals",
+      "title": "Chapter 10: Git Internals",
+      "description": "Understanding how Git works under the hood",
+      "lessons": [
+        {
+          "id": "plumbing-and-porcelain",
+          "title": "10.1 Plumbing and Porcelain",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "git-objects",
+          "title": "10.2 Git Objects",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Git-Objects",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "git-references",
+          "title": "10.3 Git References",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Git-References",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "packfiles",
+          "title": "10.4 Packfiles",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Packfiles",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "the-refspec",
+          "title": "10.5 The Refspec",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-The-Refspec",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "transfer-protocols",
+          "title": "10.6 Transfer Protocols",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "maintenance-and-data-recovery",
+          "title": "10.7 Maintenance and Data Recovery",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Maintenance-and-Data-Recovery",
+          "estimatedHours": 1.0
+        },
+        {
+          "id": "environment-variables",
+          "title": "10.8 Environment Variables",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Environment-Variables",
+          "estimatedHours": 0.75
+        },
+        {
+          "id": "summary-git-internals",
+          "title": "10.9 Summary",
+          "url": "https://git-scm.com/book/en/v2/Git-Internals-Summary",
+          "estimatedHours": 0.5
         }
       ]
     }
