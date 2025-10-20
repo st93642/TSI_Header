@@ -1,0 +1,96 @@
+{
+  "id": "functions_basic_concepts_quiz",
+  "title": "Functions of One Variable: Basic Concepts and Definitions Quiz",
+  "description": "Test your understanding of functions, their properties, and basic types.",
+  "difficulty": "intermediate",
+  "questions": [
+    {
+      "question": "What is a function?",
+      "options": [
+        "A set of ordered pairs where each first element has exactly one second element",
+        "A collection of numbers",
+        "A mathematical equation",
+        "A sequence of operations"
+      ],
+      "correct": 0,
+      "explanation": "A function is a relation where each input has exactly one output."
+    },
+    {
+      "question": "What is the domain of a function?",
+      "options": [
+        "The set of all possible output values",
+        "The set of all possible input values",
+        "The range of the function",
+        "The graph of the function"
+      ],
+      "correct": 1,
+      "explanation": "The domain is the set of all x-values for which the function is defined."
+    },
+    {
+      "question": "Which of the following is a linear function?",
+      "options": [
+        "f(x) = x²",
+        "f(x) = 2x + 3",
+        "f(x) = e^x",
+        "f(x) = sin(x)"
+      ],
+      "correct": 1,
+      "explanation": "A linear function has the form f(x) = mx + b."
+    },
+    {
+      "question": "What is a quadratic function?",
+      "options": [
+        "f(x) = ax² + bx + c",
+        "f(x) = ax + b",
+        "f(x) = a^x",
+        "f(x) = log(x)"
+      ],
+      "correct": 0,
+      "explanation": "A quadratic function is a polynomial of degree 2."
+    },
+    {
+      "question": "Which function is exponential?",
+      "options": [
+        "f(x) = x²",
+        "f(x) = 2^x",
+        "f(x) = log(x)",
+        "f(x) = sin(x)"
+      ],
+      "correct": 1,
+      "explanation": "An exponential function has a variable in the exponent."
+    },
+    {
+      "question": "What is the inverse of the exponential function f(x) = e^x?",
+      "options": [
+        "f⁻¹(x) = ln(x)",
+        "f⁻¹(x) = log₁₀(x)",
+        "f⁻¹(x) = x²",
+        "f⁻¹(x) = 1/x"
+      ],
+      "correct": 0,
+      "explanation": "The natural logarithm is the inverse of the exponential function."
+    },
+    {
+      "question": "Which of the following is a trigonometric function?",
+      "options": [
+        "f(x) = e^x",
+        "f(x) = log(x)",
+        "f(x) = sin(x)",
+        "f(x) = x³"
+      ],
+      "correct": 2,
+      "explanation": "Trigonometric functions include sine, cosine, tangent, etc."
+    },
+    {
+      "question": "What is the range of the function f(x) = sin(x)?",
+      "options": [
+        "All real numbers",
+        "[-1, 1]",
+        "[0, ∞)",
+        "(-∞, 0]"
+      ],
+      "correct": 1,
+      "explanation": "The sine function oscillates between -1 and 1."
+    }
+  ]
+}

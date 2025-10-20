@@ -1,0 +1,63 @@
+{
+  "id": "matrices_introduction_quiz",
+  "title": "Introduction to Matrices Quiz",
+  "description": "Basic concepts and definitions of matrices",
+  "difficulty": "beginner",
+  "questions": [
+    {
+      "question": "What is a matrix?",
+      "options": [
+        "A single number",
+        "A rectangular array of numbers arranged in rows and columns",
+        "A sequence of numbers",
+        "A mathematical equation"
+      ],
+      "correct": 1,
+      "explanation": "A matrix is a rectangular array of numbers, symbols, or expressions arranged in rows and columns."
+    },
+    {
+      "question": "How are matrix dimensions denoted?",
+      "options": [
+        "Columns × Rows",
+        "Rows × Columns",
+        "Elements × Size",
+        "Length × Width"
+      ],
+      "correct": 1,
+      "explanation": "Matrix dimensions are written as m×n, where m is the number of rows and n is the number of columns."
+    },
+    {
+      "question": "What is the element in the 2nd row and 3rd column of matrix A called?",
+      "options": [
+        "a_{23}",
+        "a_{32}",
+        "a_{2,3}",
+        "a_{3,2}"
+      ],
+      "correct": 0,
+      "explanation": "Matrix elements are denoted as a_{ij} where i is the row number and j is the column number."
+    },
+    {
+      "question": "Which of the following is an example of a 2×3 matrix?",
+      "options": [
+        "[1 2; 3 4]",
+        "[1 2 3; 4 5 6]",
+        "[1 2 3 4]",
+        "[1; 2; 3]"
+      ],
+      "correct": 1,
+      "explanation": "A 2×3 matrix has 2 rows and 3 columns, like [1 2 3; 4 5 6]."
+    },
+    {
+      "question": "What does the notation m×n represent for a matrix?",
+      "options": [
+        "m rows and n columns",
+        "n rows and m columns",
+        "m elements in total",
+        "n elements in total"
+      ],
+      "correct": 0,
+      "explanation": "In m×n, m is the number of rows and n is the number of columns."
+    }
+  ]
+}

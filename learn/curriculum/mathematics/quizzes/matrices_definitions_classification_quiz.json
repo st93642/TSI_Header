@@ -58,6 +58,39 @@
       ],
       "correct": 0,
       "explanation": "A row matrix has dimensions 1×n, while a column matrix has dimensions n×1."
+    },
+    {
+      "question": "Which of the following matrices is symmetric?",
+      "options": [
+        "[1 2; 3 4]",
+        "[1 2; 2 1]",
+        "[1 0; 0 2]",
+        "[0 1; 1 0]"
+      ],
+      "correct": 1,
+      "explanation": "A symmetric matrix equals its transpose. The matrix [1 2; 2 1] is symmetric."
+    },
+    {
+      "question": "What is the order of a matrix that is both upper triangular and lower triangular?",
+      "options": [
+        "1×1",
+        "2×2",
+        "Any square matrix",
+        "Any rectangular matrix"
+      ],
+      "correct": 2,
+      "explanation": "A matrix that is both upper and lower triangular must be diagonal, and diagonal matrices can be of any square order."
+    },
+    {
+      "question": "Which matrix represents a skew-symmetric matrix?",
+      "options": [
+        "[0 1; -1 0]",
+        "[1 0; 0 1]",
+        "[1 2; 2 1]",
+        "[0 0; 0 0]"
+      ],
+      "correct": 0,
+      "explanation": "A skew-symmetric matrix A satisfies A^T = -A. The matrix [0 1; -1 0] is skew-symmetric."
     }
   ]
 }

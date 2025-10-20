@@ -1,0 +1,63 @@
+{
+  "id": "matrix_rank_quiz",
+  "title": "Matrix Rank Quiz",
+  "description": "Test your understanding of matrix rank and its properties.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is the rank of a matrix?",
+      "options": [
+        "The number of rows",
+        "The number of columns",
+        "The dimension of the column space",
+        "The number of non-zero elements"
+      ],
+      "correct": 2,
+      "explanation": "The rank is the dimension of the column space (or row space)."
+    },
+    {
+      "question": "For any matrix A, rank(A) ≤ min(m, n) where m×n is the size. This is:",
+      "options": [
+        "Rank-nullity theorem",
+        "Sylvester's inequality",
+        "Basic rank inequality",
+        "Matrix dimension theorem"
+      ],
+      "correct": 2,
+      "explanation": "The rank cannot exceed the smaller dimension."
+    },
+    {
+      "question": "What is the rank of a zero matrix?",
+      "options": [
+        "0",
+        "1",
+        "Equal to its size",
+        "Undefined"
+      ],
+      "correct": 0,
+      "explanation": "A zero matrix has rank 0."
+    },
+    {
+      "question": "If A is m×n and rank(A) = r, then:",
+      "options": [
+        "The nullity is n - r",
+        "The nullity is m - r",
+        "The nullity is m + n - r",
+        "The nullity is r"
+      ],
+      "correct": 0,
+      "explanation": "By rank-nullity theorem, rank + nullity = n."
+    },
+    {
+      "question": "For matrices A and B, rank(AB) ≤ min(rank(A), rank(B)). This is:",
+      "options": [
+        "Rank multiplication rule",
+        "Sylvester's inequality",
+        "Frobenius inequality",
+        "Basic rank property"
+      ],
+      "correct": 1,
+      "explanation": "Sylvester's inequality bounds the rank of a product."
+    }
+  ]
+}

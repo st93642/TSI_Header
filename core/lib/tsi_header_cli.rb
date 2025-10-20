@@ -15,6 +15,8 @@ def main
     handle_update(language_id, file_path)
   when 'remove'
     handle_remove(language_id, file_path)
+  when 'preprocess_math'
+    handle_preprocess_math
   else
     puts JSON.generate({ success: false, message: "Unknown command: #{command}" })
     exit 1
@@ -116,6 +118,24 @@ def handle_remove(language_id, file_path)
     puts JSON.generate({
       success: false,
       message: "No header support for language #{language_id}"
+    })
+  end
+end
+
+def handle_preprocess_math
+  begin
+    # Read content from stdin
+    content = $stdin.read
+    processed_content = TSIHeader::MathPreprocessor.process_math_content(content)
+    
+    puts JSON.generate({
+      success: true,
+      processed_content: processed_content
+    })
+  rescue => e
+    puts JSON.generate({
+      success: false,
+      message: "Math preprocessing failed: #{e.message}"
     })
   end
 end

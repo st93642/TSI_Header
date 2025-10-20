@@ -495,12 +495,6 @@
         "icon": "$(book)"
       },
       {
-        "command": "tsiheader.viewMathematicsExercises",
-        "title": "View Mathematics Exercises",
-        "category": "Uni Header",
-        "icon": "$(list-ordered)"
-      },
-      {
         "command": "tsiheader.takeMathematicsQuiz",
         "title": "Take Mathematics Quiz",
         "category": "Uni Header",
@@ -735,11 +729,6 @@
       },
       {
         "command": "tsiheader.browseMathematicsWorkbooks",
-        "when": "view == tsi-commands",
-        "group": "learning"
-      },
-      {
-        "command": "tsiheader.viewMathematicsExercises",
         "when": "view == tsi-commands",
         "group": "learning"
       },

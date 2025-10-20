@@ -1,0 +1,118 @@
+{
+  "id": "derivatives_differentiation_quiz",
+  "title": "Derivatives and Differentiation Quiz",
+  "description": "Test your knowledge of derivatives, differentiation rules, and related concepts.",
+  "difficulty": "advanced",
+  "questions": [
+    {
+      "question": "What is the derivative of a function?",
+      "options": [
+        "The integral of the function",
+        "The rate of change of the function",
+        "The area under the curve",
+        "The maximum value of the function"
+      ],
+      "correct": 1,
+      "explanation": "The derivative measures how the function changes with respect to its input."
+    },
+    {
+      "question": "What is the derivative of f(x) = x^n?",
+      "options": [
+        "n x^{n-1}",
+        "x^n / n",
+        "n x^n",
+        "x^{n+1}"
+      ],
+      "correct": 0,
+      "explanation": "The power rule: d/dx[x^n] = n x^{n-1}."
+    },
+    {
+      "question": "What is the derivative of f(x) = sin(x)?",
+      "options": [
+        "cos(x)",
+        "-sin(x)",
+        "tan(x)",
+        "sec(x)"
+      ],
+      "correct": 0,
+      "explanation": "d/dx[sin(x)] = cos(x)."
+    },
+    {
+      "question": "What is the product rule for derivatives?",
+      "options": [
+        "d/dx[f·g] = f'·g + f·g'",
+        "d/dx[f·g] = f'·g'",
+        "d/dx[f·g] = f/g",
+        "d/dx[f·g] = f' + g'"
+      ],
+      "correct": 0,
+      "explanation": "The product rule is d/dx[f·g] = f'·g + f·g'."
+    },
+    {
+      "question": "What is the chain rule?",
+      "options": [
+        "d/dx[f(g(x))] = f'(g(x)) · g'(x)",
+        "d/dx[f(g(x))] = f'(x) · g'(x)",
+        "d/dx[f(g(x))] = f(g(x))",
+        "d/dx[f(g(x))] = f'(x)"
+      ],
+      "correct": 0,
+      "explanation": "The chain rule for composite functions: derivative of outer times derivative of inner."
+    },
+    {
+      "question": "What is L'Hôpital's rule used for?",
+      "options": [
+        "Finding limits of indeterminate forms",
+        "Finding derivatives of complex functions",
+        "Solving differential equations",
+        "Finding maximum and minimum values"
+      ],
+      "correct": 0,
+      "explanation": "L'Hôpital's rule helps evaluate limits of 0/0 or ∞/∞ forms."
+    },
+    {
+      "question": "What is the derivative of f(x) = e^x?",
+      "options": [
+        "e^x",
+        "ln(x)",
+        "1/x",
+        "x e^{x-1}"
+      ],
+      "correct": 0,
+      "explanation": "d/dx[e^x] = e^x."
+    },
+    {
+      "question": "What is the Leibniz formula for higher-order derivatives?",
+      "options": [
+        "(f·g)^{(n)} = ∑_{k=0}^n C(n,k) f^{(k)} g^{(n-k)}",
+        "(f·g)^{(n)} = f^{(n)} · g^{(n)}",
+        "(f·g)^{(n)} = f' · g'",
+        "(f·g)^{(n)} = n! f g"
+      ],
+      "correct": 0,
+      "explanation": "Leibniz formula generalizes the product rule for nth derivatives."
+    },
+    {
+      "question": "How do you differentiate a function given parametrically?",
+      "options": [
+        "dy/dx = (dy/dt) / (dx/dt)",
+        "dy/dx = (dy/dt) · (dx/dt)",
+        "dy/dx = dy/dt + dx/dt",
+        "dy/dx = dy/dt - dx/dt"
+      ],
+      "correct": 0,
+      "explanation": "For parametric equations x(t), y(t), dy/dx = (dy/dt) / (dx/dt)."
+    },
+    {
+      "question": "What is the derivative of f(x) = ln(x)?",
+      "options": [
+        "1/x",
+        "x",
+        "e^x",
+        "1/x²"
+      ],
+      "correct": 0,
+      "explanation": "d/dx[ln(x)] = 1/x."
+    }
+  ]
+}

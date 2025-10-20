@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Oct 19 2025 15:36 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 19 2025 21:35 st93642                                       */
+/*  Updated: Oct 20 2025 13:54 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -2252,7 +2252,6 @@ extern "C" {
                 'Ready to begin your mathematics journey?',
                 { modal: true },
                 'Browse Workbooks',
-                'View Exercises',
                 'Cancel'
             ).then(async selection => {
                 if (selection === 'Browse Workbooks') {
@@ -2270,8 +2269,6 @@ extern "C" {
                     if (selected) {
                         await mathManager.openWorkbook(selected.workbook);
                     }
-                } else if (selection === 'View Exercises') {
-                    await vscode.commands.executeCommand('tsiheader.viewMathematicsExercises');
                 }
             });
         } catch (error) {
@@ -2306,34 +2303,6 @@ extern "C" {
     });
 
     context.subscriptions.push(browseMathematicsWorkbooksCommand);
-
-    const viewMathematicsExercisesCommand = vscode.commands.registerCommand('tsiheader.viewMathematicsExercises', async () => {
-        try {
-            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
-            const mathManager = new MathematicsManager(context, vscode);
-            
-            const exercises = await mathManager.getExercises();
-            const exerciseItems = exercises.map(exercise => ({
-                label: `📝 ${exercise.title}`,
-                description: 'Practice mathematics concepts',
-                exercise: exercise
-            }));
-            
-            const selected = await vscode.window.showQuickPick(exerciseItems, {
-                placeHolder: 'Select a mathematics exercise'
-            });
-            
-            if (selected) {
-                // Load and display the exercise in webview
-                const exerciseData = await mathManager.loadExercise(selected.exercise.id);
-                await mathManager.openExercise(exerciseData);
-            }
-        } catch (error) {
-            vscode.window.showErrorMessage(`Error viewing mathematics exercises: ${error.message}`);
-        }
-    });
-
-    context.subscriptions.push(viewMathematicsExercisesCommand);
 
     const takeMathematicsQuizCommand = vscode.commands.registerCommand('tsiheader.takeMathematicsQuiz', async () => {
         try {

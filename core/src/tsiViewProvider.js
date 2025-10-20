@@ -89,8 +89,8 @@ class TSITreeDataProvider {
                 new TSITreeItem('C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-cpp'),
                 new TSITreeItem('DSA C++', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-dsa-cpp'),
                 new TSITreeItem('Git', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-git'),
-                new TSITreeItem('� Mathematics', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-mathematics'),
-                new TSITreeItem('�🚀 Odin Project', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-odin')
+                new TSITreeItem('Mathematics', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-mathematics'),
+                new TSITreeItem('🚀 Odin Project', vscode.TreeItemCollapsibleState.Collapsed, null, 'learn-odin')
             ]);
         } else if (element.id === 'learn-ruby') {
             // Ruby learning section
@@ -263,11 +263,6 @@ class TSITreeDataProvider {
                     command: 'tsiheader.browseMathematicsWorkbooks',
                     title: 'Browse Mathematics Workbooks',
                     tooltip: 'View available mathematics workbooks and PDFs'
-                }),
-                new TSITreeItem('View Exercises', vscode.TreeItemCollapsibleState.None, {
-                    command: 'tsiheader.viewMathematicsExercises',
-                    title: 'View Mathematics Exercises',
-                    tooltip: 'Browse and complete mathematics exercises'
                 }),
                 new TSITreeItem('Take Quiz', vscode.TreeItemCollapsibleState.None, {
                     command: 'tsiheader.takeMathematicsQuiz',

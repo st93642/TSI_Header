@@ -68,6 +68,50 @@
       ],
       "correct": 2,
       "explanation": "A parabola is defined as the set of points where distance to focus equals distance to directrix."
+    },
+    {
+      "question": "What is the standard form of an ellipse centered at origin?",
+      "options": [
+        "x²/a² + y²/b² = 1",
+        "x²/a² - y²/b² = 1",
+        "y = ax²",
+        "x² + y² = r²"
+      ],
+      "correct": 0,
+      "explanation": "The standard equation for an ellipse is x²/a² + y²/b² = 1."
+    },
+    {
+      "question": "For a hyperbola, the eccentricity satisfies:",
+      "options": [
+        "e = 0",
+        "e < 1",
+        "e = 1",
+        "e > 1"
+      ],
+      "correct": 3,
+      "explanation": "A hyperbola has eccentricity e > 1."
+    },
+    {
+      "question": "The standard form of a parabola opening upwards is:",
+      "options": [
+        "y = ax²",
+        "x = ay²",
+        "x²/a² + y²/b² = 1",
+        "x²/a² - y²/b² = 1"
+      ],
+      "correct": 0,
+      "explanation": "A parabola opening upwards has equation y = ax²."
+    },
+    {
+      "question": "What are the asymptotes of a hyperbola?",
+      "options": [
+        "Lines that the hyperbola approaches but never touches",
+        "The axes of symmetry",
+        "The foci",
+        "The vertices"
+      ],
+      "correct": 0,
+      "explanation": "Asymptotes are lines that the hyperbola approaches at infinity."
     }
   ]
 }

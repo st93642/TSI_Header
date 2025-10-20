@@ -134,6 +134,15 @@ class MathematicsManager {
     async getExercises() {
         try {
             const exercisesPath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'exercises');
+            
+            // Check if exercises directory exists
+            try {
+                await fs.access(exercisesPath);
+            } catch (error) {
+                // Directory doesn't exist, return empty array
+                return [];
+            }
+            
             const files = await fs.readdir(exercisesPath);
             const jsonFiles = files.filter(file => file.endsWith('_exercise.json'));
 
@@ -144,7 +153,9 @@ class MathematicsManager {
                 path: path.join(exercisesPath, filename)
             }));
         } catch (error) {
-            throw new Error(`Failed to load exercises: ${error.message}`);
+            // Return empty array instead of throwing error
+            console.warn('Exercises directory not available:', error.message);
+            return [];
         }
     }
 
@@ -265,17 +276,30 @@ class MathematicsManager {
      */
     async openQuiz(quiz) {
         try {
+            // Configure webview options with local resource access
+            const resourceRoots = [];
+            if (this.vscode && this.vscode.Uri && typeof this.vscode.Uri.file === 'function') {
+                const resourcesRoot = path.join(__dirname, '..', '..', 'resources');
+                resourceRoots.push(this.vscode.Uri.file(resourcesRoot));
+            }
+
+            const webviewOptions = {
+                enableScripts: true,
+                retainContextWhenHidden: true
+            };
+
+            if (resourceRoots.length > 0) {
+                webviewOptions.localResourceRoots = resourceRoots;
+            }
+
             const panel = this.vscode.window.createWebviewPanel(
                 'tsiMathematicsQuiz',
                 `🧠 ${quiz.title}`,
                 this.vscode.ViewColumn.One,
-                {
-                    enableScripts: true,
-                    retainContextWhenHidden: true
-                }
+                webviewOptions
             );
 
-            panel.webview.html = this.getQuizHtml(quiz);
+            panel.webview.html = this.getQuizHtml(quiz, panel.webview);
 
             // Handle messages from the webview
             panel.webview.onDidReceiveMessage(async (message) => {
@@ -338,13 +362,13 @@ class MathematicsManager {
         const descriptionText = Array.isArray(exercise.description) 
             ? exercise.description.join('\n') 
             : exercise.description;
-        const formattedDescription = this.markdownToHtml(descriptionText);
+        const formattedDescription = this.processMathContent(this.markdownToHtml(descriptionText));
 
         // Handle solution as string or array
         const solutionText = Array.isArray(exercise.solution) 
             ? exercise.solution.join('\n') 
             : (exercise.solution || 'Solution not available yet.');
-        const formattedSolution = this.markdownToHtml(solutionText);
+        const formattedSolution = this.processMathContent(this.markdownToHtml(solutionText));
 
         const hintsHtml = exercise.hints ? exercise.hints.map(hint =>
             `<li>${this.markdownToHtml(hint)}</li>`
@@ -654,10 +678,25 @@ class MathematicsManager {
     /**
      * Generate HTML for quiz viewer
      * @param {Object} quiz - Quiz object
+     * @param {Object} webview - Webview instance for URI conversion
      * @returns {string} HTML string
      */
-    getQuizHtml(quiz) {
-        const questionsHtml = quiz.questions.map((question, index) => {
+    getQuizHtml(quiz, webview) {
+        // Process quiz questions for math rendering
+        const processedQuestions = quiz.questions.map(question => ({
+            ...question,
+            question: this.processMathContent(this.markdownToHtml(question.question)),
+            options: question.options.map(option => {
+                // Only apply markdown processing if the option contains markdown syntax
+                const processedOption = option.includes('*') || option.includes('`') || option.includes('\n') 
+                    ? this.markdownToHtml(option) 
+                    : option;
+                return this.processMathContent(processedOption);
+            }),
+            explanation: question.explanation ? this.processMathContent(this.markdownToHtml(question.explanation)) : question.explanation
+        }));
+
+        const questionsHtml = processedQuestions.map((question, index) => {
             const optionsHtml = question.options.map((option, optIndex) =>
                 `<label class="option" data-value="${optIndex}">
                     <input type="radio" name="q${index}" value="${optIndex}">
@@ -685,12 +724,32 @@ class MathematicsManager {
             `;
         }).join('');
 
+        // Prepare URIs for KaTeX assets. If a webview is provided, use local extension resources
+        let katexCss = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
+        let katexJs = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';
+        let autoRenderJs = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js';
+        if (webview && this.vscode && this.vscode.Uri) {
+            try {
+                const cssPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'katex.min.css');
+                const jsPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'katex.min.js');
+                const autoRenderPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'auto-render.min.js');
+                katexCss = webview.asWebviewUri(this.vscode.Uri.file(cssPath));
+                katexJs = webview.asWebviewUri(this.vscode.Uri.file(jsPath));
+                autoRenderJs = webview.asWebviewUri(this.vscode.Uri.file(autoRenderPath));
+            } catch (e) {
+                // fallback to CDN if anything goes wrong
+            }
+        }
+
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${quiz.title}</title>
+    <link rel="stylesheet" href="${katexCss}">
+    <script src="${katexJs}"></script>
+    <script src="${autoRenderJs}"></script>
     <style>
         * {
             margin: 0;
@@ -921,6 +980,30 @@ class MathematicsManager {
         let checkedAnswers = new Array(quiz.questions.length).fill(false);
         let showResults = false;
 
+        // Render LaTeX math expressions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to render math in the entire document
+            function renderMath() {
+                if (typeof renderMathInElement !== 'undefined') {
+                    renderMathInElement(document.body, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\\\(', right: '\\\\)', display: false},
+                            {left: '\\\\[', right: '\\\\]', display: true}
+                        ],
+                        throwOnError: false
+                    });
+                }
+            }
+            
+            // Initial render
+            renderMath();
+            
+            // Make renderMath available globally for dynamic content
+            window.renderMath = renderMath;
+        });
+
         function updateUI() {
             const progress = ((currentQuestion + 1) / quiz.questions.length) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
@@ -1085,10 +1168,65 @@ class MathematicsManager {
     }
 
     /**
-     * Clear curriculum cache
+     * Process mathematical content to make it KaTeX-compatible
+     * @param {string} content - HTML content with math expressions
+     * @returns {string} Processed content with LaTeX delimiters
      */
-    clearCurriculumCache() {
-        this.curriculumCache.clear();
+    processMathContent(content) {
+        // Use Ruby CLI for math preprocessing (better regex support)
+        try {
+            const { execSync } = require('child_process');
+            const rubyScript = `ruby ${__dirname}/../../core/lib/tsi_header_cli.rb preprocess_math`;
+            const result = execSync(rubyScript, {
+                input: content,
+                encoding: 'utf8',
+                timeout: 5000
+            });
+
+            const parsed = JSON.parse(result);
+            if (parsed.success) {
+                return parsed.processed_content;
+            } else {
+                console.warn('Ruby math preprocessing failed:', parsed.message);
+                return content; // Fallback to original content
+            }
+        } catch (error) {
+            console.warn('Failed to use Ruby math preprocessor, falling back to JavaScript:', error.message);
+            // Fallback to basic JavaScript processing
+            return this.fallbackMathProcessing(content);
+        }
+    }
+
+    /**
+     * Fallback math processing in JavaScript (simplified version)
+     * @param {string} content - Content to process
+     * @returns {string} Processed content
+     */
+    fallbackMathProcessing(content) {
+        let processed = content;
+
+        // Basic Unicode replacements
+        const unicodeReplacements = {
+            '√': '\\sqrt',
+            'π': '\\pi',
+            '∞': '\\infty',
+            '≤': '\\leq',
+            '≥': '\\geq',
+            '≠': '\\neq'
+        };
+
+        for (const [unicode, latex] of Object.entries(unicodeReplacements)) {
+            processed = processed.replace(new RegExp(unicode, 'g'), latex);
+        }
+
+        // Basic superscript conversion
+        processed = processed.replace(/([a-zA-Z0-9]+)\^([a-zA-Z0-9\-+]+)(?![}\]])/g, '$1^{$2}');
+
+        // Basic math expression wrapping
+        processed = processed.replace(/\b(dy\/dx|dx\/dt)\b/g, '$$$1$$');
+        processed = processed.replace(/\b([xy]\s*=\s*[^,\n]+(?:,\s*[xy]\s*=\s*[^,\n]+)*)/g, '$$$1$$');
+
+        return processed;
     }
 
     /**
@@ -1098,7 +1236,7 @@ class MathematicsManager {
      */
     markdownToHtml(markdown) {
         let html = markdown;
-        
+
         // Convert code blocks first (before other replacements)
         // Preserve language class for highlight.js and avoid wrapping individual lines so the highlighter can parse them
         html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
@@ -1117,7 +1255,7 @@ class MathematicsManager {
             const safeSource = this.escapeHtml(rawSource);
             return `<img src="${safeSource}" alt="${safeAlt}" data-tsi-src="${safeSource}">`;
         });
-        
+
         // --- Protect fenced code blocks from downstream replacements ---
         // Extract any generated <pre><code>...</code></pre> blocks and replace
         // them with stable placeholders so subsequent regexes don't alter
@@ -1190,29 +1328,29 @@ class MathematicsManager {
         html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
         html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
         html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-        
+
         // Convert lists
         html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
-        
+        html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+
         // Convert bold and italic (before inline code to avoid conflicts)
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
         html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
-        
+
         // Convert inline code
         html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-        
+
         // Convert blockquotes
         html = html.replace(/^> (.+)$/gm, '<div class="tip">$1</div>');
-        
+
         // Convert paragraphs (avoid converting already tagged content)
         html = html.replace(/\n\n+/g, '</p><p>');
         html = html.replace(/^(?!<[hupldi])(.+)$/gm, '<p>$1</p>');
-        
+
         // Clean up extra paragraph tags around block elements
         html = html.replace(/<p>(<(?:h\d|pre|ul|div))/g, '$1');
         html = html.replace(/(<\/(?:h\d|pre|ul|div)>)<\/p>/g, '$1');
-        
+
         // Remove empty paragraphs
         html = html.replace(/<p>\s*<\/p>/g, '');
 
