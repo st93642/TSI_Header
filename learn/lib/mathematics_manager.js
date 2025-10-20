@@ -990,198 +990,6 @@ class MathematicsManager {
         }
     </style>
 </head>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: var(--vscode-font-family);
-            color: var(--vscode-foreground);
-            background-color: var(--vscode-editor-background);
-            padding: 20px;
-            line-height: 1.6;
-            max-width: 900px;
-            margin: 0 auto;
-            font-size: 16px;
-        }
-        .header {
-            background-color: var(--vscode-titleBar-activeBackground);
-            color: var(--vscode-titleBar-activeForeground);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid var(--vscode-titleBar-border);
-        }
-        .header h1 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        .difficulty {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-        .difficulty.intermediate {
-            background-color: var(--vscode-charts-orange);
-            color: white;
-        }
-        .difficulty.advanced {
-            background-color: var(--vscode-charts-red);
-            color: white;
-        }
-        .exercise-content {
-            background-color: var(--vscode-editorWidget-background);
-            border: 1px solid var(--vscode-editorWidget-border);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .exercise-content h2 {
-            color: var(--vscode-textLink-foreground);
-            font-size: 20px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--vscode-textLink-foreground);
-            padding-bottom: 5px;
-        }
-        .exercise-content p {
-            margin-bottom: 15px;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        .math-expression {
-            background-color: var(--vscode-textBlockQuote-background);
-            border-left: 4px solid var(--vscode-textLink-foreground);
-            padding: 15px 20px;
-            margin: 20px 0;
-            font-family: 'Times New Roman', serif;
-            font-size: 16px;
-            white-space: pre-wrap;
-            line-height: 1.6;
-        }
-        .hints-section {
-            background-color: var(--vscode-textBlockQuote-background);
-            border: 1px solid var(--vscode-textBlockQuote-border);
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .hints-section h3 {
-            color: var(--vscode-textLink-foreground);
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .hints-section ul {
-            margin-left: 20px;
-        }
-        .hints-section li {
-            margin-bottom: 8px;
-            color: var(--vscode-descriptionForeground);
-        }
-        .actions {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid var(--vscode-textBlockQuote-border);
-        }
-        .btn {
-            background-color: var(--vscode-button-background);
-            color: var(--vscode-button-foreground);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            margin: 0 10px;
-            transition: background-color 0.2s;
-        }
-        .btn:hover {
-            background-color: var(--vscode-button-hoverBackground);
-        }
-        .btn.secondary {
-            background-color: var(--vscode-button-secondaryBackground);
-            color: var(--vscode-button-secondaryForeground);
-        }
-        .btn.secondary:hover {
-            background-color: var(--vscode-button-secondaryHoverBackground);
-        }
-        .solution-section {
-            background-color: var(--vscode-textBlockQuote-background);
-            border: 1px solid var(--vscode-textBlockQuote-border);
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 20px;
-            display: none;
-        }
-        .solution-section.show {
-            display: block;
-        }
-        .solution-section h3 {
-            color: var(--vscode-textLink-foreground);
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .solution-content {
-            background-color: var(--vscode-editor-background);
-            border: 1px solid var(--vscode-editorWidget-border);
-            border-radius: 4px;
-            padding: 15px;
-            color: var(--vscode-foreground);
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        .solution-content p {
-            margin-bottom: 15px;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        .solution-content strong {
-            font-weight: bold;
-        }
-        .solution-content code {
-            background-color: var(--vscode-textCodeBlock-background);
-            color: var(--vscode-textCodeBlock-foreground);
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-family: var(--vscode-editor-font-family);
-        }
-        .solution-content h1,
-        .solution-content h2,
-        .solution-content h3,
-        .solution-content h4,
-        .solution-content h5,
-        .solution-content h6 {
-            color: var(--vscode-textLink-foreground);
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        .solution-content h1 {
-            font-size: 24px;
-            border-bottom: 2px solid var(--vscode-textLink-foreground);
-            padding-bottom: 5px;
-        }
-        .solution-content h2 {
-            font-size: 20px;
-            border-bottom: 2px solid var(--vscode-textLink-foreground);
-            padding-bottom: 5px;
-        }
-        .solution-content h3 {
-            font-size: 18px;
-        }
-        .solution-content ul,
-        .solution-content ol {
-            margin: 10px 0;
-            padding-left: 25px;
-        }
-        .solution-content li {
-            margin: 5px 0;
-        }
-    </style>
-</head>
 <body>
     <div class="header">
         <h1>📝 ${exercise.title}</h1>
@@ -1706,32 +1514,38 @@ class MathematicsManager {
     }
 
     /**
-     * Process mathematical content to make it KaTeX-compatible
+     * Process mathematical content to make it HTML-compatible
      * @param {string} content - HTML content with math expressions
-     * @returns {string} Processed content with LaTeX delimiters
+     * @returns {string} Processed content with HTML tags
      */
     processMathContent(content) {
-        // Use Ruby CLI for math preprocessing (better regex support)
+        // Use JavaScript processing by default for better performance
+        // Only fall back to Ruby if JavaScript processing fails
         try {
-            const { execSync } = require('child_process');
-            const rubyScript = `ruby ${__dirname}/../../core/lib/tsi_header_cli.rb preprocess_math`;
-            const result = execSync(rubyScript, {
-                input: content,
-                encoding: 'utf8',
-                timeout: 5000
-            });
-
-            const parsed = JSON.parse(result);
-            if (parsed.success) {
-                return parsed.processed_content;
-            } else {
-                console.warn('Ruby math preprocessing failed:', parsed.message);
-                return content; // Fallback to original content
-            }
-        } catch (error) {
-            console.warn('Failed to use Ruby math preprocessor, falling back to JavaScript:', error.message);
-            // Fallback to basic JavaScript processing
             return this.fallbackMathProcessing(content);
+        } catch (error) {
+            console.warn('JavaScript math processing failed, trying Ruby fallback:', error.message);
+            // Fallback to Ruby CLI if JavaScript fails
+            try {
+                const { execSync } = require('child_process');
+                const rubyScript = `ruby ${__dirname}/../../core/lib/tsi_header_cli.rb preprocess_math`;
+                const result = execSync(rubyScript, {
+                    input: content,
+                    encoding: 'utf8',
+                    timeout: 5000
+                });
+
+                const parsed = JSON.parse(result);
+                if (parsed.success) {
+                    return parsed.processed_content;
+                } else {
+                    console.warn('Ruby math preprocessing failed:', parsed.message);
+                    return content; // Fallback to original content
+                }
+            } catch (rubyError) {
+                console.warn('Failed to use Ruby math preprocessor:', rubyError.message);
+                return content; // Final fallback to original content
+            }
         }
     }
 
