@@ -268,6 +268,16 @@ class TSITreeDataProvider {
                     command: 'tsiheader.takeMathematicsQuiz',
                     title: 'Take Mathematics Quiz',
                     tooltip: 'Test your knowledge with interactive mathematics quizzes'
+                }),
+                new TSITreeItem('View Cache Stats', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.viewMathematicsCacheStats',
+                    title: 'View Mathematics Cache Stats',
+                    tooltip: 'View statistics about cached mathematics workbooks'
+                }),
+                new TSITreeItem('Clear Cache', vscode.TreeItemCollapsibleState.None, {
+                    command: 'tsiheader.clearMathematicsCache',
+                    title: 'Clear Mathematics Cache',
+                    tooltip: 'Clear all cached mathematics workbooks'
                 })
             ]);
         }
@@ -489,6 +499,10 @@ class TSITreeItem extends vscode.TreeItem {
             this.iconPath = new vscode.ThemeIcon('clear-all');
         } else if (command?.command === 'tsiheader.viewOdinCacheStats') {
             this.iconPath = new vscode.ThemeIcon('database');
+        } else if (command?.command === 'tsiheader.viewMathematicsCacheStats') {
+            this.iconPath = new vscode.ThemeIcon('database');
+        } else if (command?.command === 'tsiheader.clearMathematicsCache') {
+            this.iconPath = new vscode.ThemeIcon('clear-all');
         }
     }
 }

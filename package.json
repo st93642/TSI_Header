@@ -2,7 +2,7 @@
   "name": "uni-header",
   "displayName": "University Header, Learn, Pomodoro & Calendar",
   "description": "Code generation and headers, learning modules (C/C++/Ruby/Rust/Git/Odin Project), Pomodoro timer for focused study sessions and calendar",
-  "version": "7.0.4",
+  "version": "7.0.5",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -501,6 +501,18 @@
         "icon": "$(checklist)"
       },
       {
+        "command": "tsiheader.viewMathematicsCacheStats",
+        "title": "View Mathematics Cache Stats",
+        "category": "Uni Header",
+        "icon": "$(database)"
+      },
+      {
+        "command": "tsiheader.clearMathematicsCache",
+        "title": "Clear Mathematics Cache",
+        "category": "Uni Header",
+        "icon": "$(clear-all)"
+      },
+      {
         "command": "tsiheader.showCalendar",
         "title": "Show Study Calendar",
         "category": "Uni Header",
@@ -560,6 +572,14 @@
       },
       {
         "command": "tsiheader.viewOdinCacheStats",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.viewMathematicsCacheStats",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.clearMathematicsCache",
         "when": "true"
       }
     ],
@@ -736,6 +756,16 @@
         "command": "tsiheader.takeMathematicsQuiz",
         "when": "view == tsi-commands",
         "group": "learning"
+      },
+      {
+        "command": "tsiheader.viewMathematicsCacheStats",
+        "when": "view == tsi-commands",
+        "group": "cache"
+      },
+      {
+        "command": "tsiheader.clearMathematicsCache",
+        "when": "view == tsi-commands",
+        "group": "cache"
       }
     ],
     "view/title:tsi-projects": [

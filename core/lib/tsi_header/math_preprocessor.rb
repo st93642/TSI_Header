@@ -5,7 +5,7 @@
 #  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
 #                                                            TT         SS II #
 #  Created: Oct 20 2025 12:00 st93642                        TT    SSSSSSS II #
-#  Updated: Oct 20 2025 14:01 st93642                                         #
+#  Updated: Oct 20 2025 14:36 st93642                                         #
 #                                                                             #
 #   Transport and Telecommunication Institute - Riga, Latvia                  #
 #                       https://tsi.lv                                        #
@@ -52,6 +52,9 @@ module TSIHeader
       '°' => '\\degree',
       '′' => '\\prime',
       '″' => '\\doubleprime',
+      '·' => '\\cdot',
+      '⋅' => '\\cdot',
+      '×' => '\\times',
       'α' => '\\alpha',
       'β' => '\\beta',
       'γ' => '\\gamma',
@@ -168,10 +171,30 @@ module TSIHeader
         "@@MATHBLOCK_#{idx}@@"
       end
 
-      # Wrap expressions containing LaTeX elements (superscripts, subscripts, commands)
-      processed.gsub!(/([^$\n]*(?:\\[^\s]+|[\^_]\{[^}]+\}|[\^_][a-zA-Z0-9]+)[^$\n]*)/) do |match|
+      # Wrap expressions containing \cdot or \times
+      processed.gsub!(/\b\w*\\(?:times|cdot)\w*\b/) do |match|
+        # Only wrap if it contains LaTeX multiplication and isn't already wrapped
+        if (match.include?('\\times') || match.include?('\\cdot')) && !match.include?('@@') && !match.include?('$')
+          "$$#{match}$$"
+        else
+          match
+        end
+      end
+
+      # Wrap expressions with superscripts/subscripts
+      processed.gsub!(/\b([a-zA-Z]\w*(?:[\^_]\{[^}]+\}|[\^_][a-zA-Z0-9]+))\b/) do |match|
         # Only wrap if it contains LaTeX elements and isn't already wrapped
         if (match.include?('\\') || match.include?('{') || match.include?('^') || match.include?('_')) && !match.include?('@@')
+          "$$#{match}$$"
+        else
+          match
+        end
+      end
+
+      # Wrap expressions containing Greek letters or math symbols
+      processed.gsub!(/\b([α-ωΑ-Ω√∫∂∇∞∑∏∧∨¬⊕⊗⊥∠]+\w*)\b/) do |match|
+        # Only wrap if it contains LaTeX elements and isn't already wrapped
+        if (match.include?('\\') || match.include?('⋅') || match.include?('×')) && !match.include?('@@')
           "$$#{match}$$"
         else
           match

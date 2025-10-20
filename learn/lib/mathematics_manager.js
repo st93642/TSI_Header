@@ -14,6 +14,283 @@ class MathematicsManager {
         this.context = context;
         this.vscode = vscode;
         this.curriculumCache = new Map();
+        this.cacheDir = null;
+    }
+
+    /**
+     * Get the cache directory path for mathematics workbooks
+     * @returns {Promise<string>} Path to cache directory
+     */
+    async getCacheDir() {
+        if (this.cacheDir) return this.cacheDir;
+
+        try {
+            // Use VS Code's global storage path for caching
+            const globalStoragePath = this.vscode.env.globalStorageUri;
+
+            if (globalStoragePath) {
+                this.cacheDir = this.vscode.Uri.joinPath(globalStoragePath, 'math-cache').fsPath;
+            } else {
+                // Fallback to workspace directory if global storage not available
+                const workspaceFolder = this.vscode.workspace.workspaceFolders?.[0];
+                if (workspaceFolder) {
+                    this.cacheDir = this.vscode.Uri.joinPath(workspaceFolder.uri, '.vscode', 'math-cache').fsPath;
+                } else {
+                    // Last resort: use temp directory
+                    const os = require('os');
+                    const path = require('path');
+                    this.cacheDir = path.join(os.tmpdir(), 'vscode-math-cache');
+                }
+            }
+
+            // Ensure cache directory exists
+            const fs = require('fs').promises;
+            await fs.mkdir(this.cacheDir, { recursive: true });
+            return this.cacheDir;
+        } catch (error) {
+            console.error('Failed to create cache directory:', error);
+            return null;
+        }
+    }
+
+    /**
+     * Generate a cache key for a workbook URL
+     * @param {string} url - Workbook URL
+     * @returns {string} Cache key
+     */
+    getCacheKey(url) {
+        const crypto = require('crypto');
+        return crypto.createHash('md5').update(url).digest('hex');
+    }
+
+    /**
+     * Get cache file path for a workbook
+     * @param {string} url - Workbook URL
+     * @returns {Promise<string>} Path to cache file
+     */
+    async getCacheFilePath(url) {
+        const cacheDir = await this.getCacheDir();
+        if (!cacheDir) return null;
+
+        const cacheKey = this.getCacheKey(url);
+        return path.join(cacheDir, `${cacheKey}.pdf`);
+    }
+
+    /**
+     * Get cache metadata file path
+     * @param {string} url - Workbook URL
+     * @returns {Promise<string>} Path to metadata file
+     */
+    async getCacheMetadataPath(url) {
+        const cacheDir = await this.getCacheDir();
+        if (!cacheDir) return null;
+
+        const cacheKey = this.getCacheKey(url);
+        return path.join(cacheDir, `${cacheKey}.json`);
+    }
+
+    /**
+     * Save workbook to cache with metadata
+     * @param {string} url - Workbook URL
+     * @param {string} title - Workbook title
+     * @param {string} filePath - Local file path
+     * @returns {Promise<boolean>} Success status
+     */
+    async saveWorkbookToCache(url, title, filePath) {
+        try {
+            const metadataPath = await this.getCacheMetadataPath(url);
+            if (!metadataPath) return false;
+
+            const metadata = {
+                url: url,
+                title: title,
+                cachedAt: new Date().toISOString(),
+                fileSize: await this.getFileSize(filePath),
+                version: '1.0'
+            };
+
+            const fs = require('fs').promises;
+            await fs.writeFile(metadataPath, JSON.stringify(metadata, null, 2), 'utf8');
+            return true;
+        } catch (error) {
+            console.error('Failed to save workbook to cache:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Load workbook from cache
+     * @param {string} url - Workbook URL
+     * @param {number} maxAgeHours - Maximum age of cache in hours (default: 168 = 1 week)
+     * @returns {Promise<Object|null>} Cache metadata or null if not found/expired
+     */
+    async loadWorkbookFromCache(url, maxAgeHours = 168) {
+        try {
+            const metadataPath = await this.getCacheMetadataPath(url);
+            if (!metadataPath) return null;
+
+            const fs = require('fs').promises;
+            const metadata = JSON.parse(await fs.readFile(metadataPath, 'utf8'));
+
+            // Check if cache is expired
+            const cachedAt = new Date(metadata.cachedAt);
+            const now = new Date();
+            const ageHours = (now - cachedAt) / (1000 * 60 * 60);
+
+            if (ageHours > maxAgeHours) {
+                // Cache is too old, remove it
+                await this.removeCachedWorkbook(url);
+                return null;
+            }
+
+            // Check if file still exists
+            const filePath = await this.getCacheFilePath(url);
+            try {
+                await fs.access(filePath);
+                return metadata;
+            } catch (error) {
+                // File doesn't exist, remove metadata
+                await fs.unlink(metadataPath).catch(() => {});
+                return null;
+            }
+        } catch (error) {
+            // Cache file doesn't exist or is corrupted
+            return null;
+        }
+    }
+
+    /**
+     * Remove cached workbook and metadata
+     * @param {string} url - Workbook URL
+     * @returns {Promise<boolean>} Success status
+     */
+    async removeCachedWorkbook(url) {
+        try {
+            const fs = require('fs').promises;
+            const filePath = await this.getCacheFilePath(url);
+            const metadataPath = await this.getCacheMetadataPath(url);
+
+            if (filePath) {
+                await fs.unlink(filePath).catch(() => {});
+            }
+            if (metadataPath) {
+                await fs.unlink(metadataPath).catch(() => {});
+            }
+
+            return true;
+        } catch (error) {
+            console.error('Failed to remove cached workbook:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Clear all cached workbooks
+     * @returns {Promise<boolean>} Success status
+     */
+    async clearWorkbookCache() {
+        try {
+            const cacheDir = await this.getCacheDir();
+            if (!cacheDir) return false;
+
+            const fs = require('fs').promises;
+            const files = await fs.readdir(cacheDir);
+            await Promise.all(
+                files.map(file => fs.unlink(path.join(cacheDir, file)))
+            );
+
+            return true;
+        } catch (error) {
+            console.error('Failed to clear workbook cache:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Get cache statistics
+     * @returns {Promise<Object>} Cache statistics
+     */
+    async getCacheStats() {
+        try {
+            const cacheDir = await this.getCacheDir();
+            if (!cacheDir) return { totalWorkbooks: 0, totalSize: 0, oldestCache: null, newestCache: null };
+
+            const fs = require('fs').promises;
+            const files = await fs.readdir(cacheDir);
+            const pdfFiles = files.filter(file => file.endsWith('.pdf'));
+
+            let totalSize = 0;
+            let oldestCache = null;
+            let newestCache = null;
+
+            for (const file of pdfFiles) {
+                const filePath = path.join(cacheDir, file);
+                const stats = await fs.stat(filePath);
+                totalSize += stats.size;
+
+                // Get metadata for timestamps
+                const metadataFile = file.replace('.pdf', '.json');
+                try {
+                    const metadataPath = path.join(cacheDir, metadataFile);
+                    const metadata = JSON.parse(await fs.readFile(metadataPath, 'utf8'));
+                    const cachedAt = new Date(metadata.cachedAt);
+
+                    if (!oldestCache || cachedAt < oldestCache) oldestCache = cachedAt;
+                    if (!newestCache || cachedAt > newestCache) newestCache = cachedAt;
+                } catch (error) {
+                    // Metadata missing, use file modification time
+                    if (!oldestCache || stats.mtime < oldestCache) oldestCache = stats.mtime;
+                    if (!newestCache || stats.mtime > newestCache) newestCache = stats.mtime;
+                }
+            }
+
+            return {
+                totalWorkbooks: pdfFiles.length,
+                totalSize: totalSize,
+                oldestCache: oldestCache ? oldestCache.toISOString() : null,
+                newestCache: newestCache ? newestCache.toISOString() : null
+            };
+        } catch (error) {
+            console.error('Failed to get cache stats:', error);
+            return { totalWorkbooks: 0, totalSize: 0, oldestCache: null, newestCache: null };
+        }
+    }
+
+    /**
+     * Get cache statistics for display
+     * @returns {Promise<Object>} Cache statistics
+     */
+    async getCacheStatistics() {
+        const stats = await this.getCacheStats();
+        return {
+            workbooks: stats.totalWorkbooks,
+            size: this.formatFileSize(stats.totalSize),
+            oldest: stats.oldestCache,
+            newest: stats.newestCache
+        };
+    }
+
+    /**
+     * Clear all cached mathematics workbooks
+     * @returns {Promise<boolean>} Success status
+     */
+    async clearCache() {
+        return await this.clearWorkbookCache();
+    }
+
+    /**
+     * Format file size for display
+     * @param {number} bytes - Size in bytes
+     * @returns {string} Formatted size string
+     */
+    formatFileSize(bytes) {
+        if (bytes === 0) return '0 B';
+
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
     /**
@@ -42,15 +319,67 @@ class MathematicsManager {
      */
     async getWorkbooks() {
         try {
-            const workbooksPath = path.join(__dirname, '..', 'curriculum', 'mathematics', 'workbooks');
-            const files = await fs.readdir(workbooksPath);
-            const pdfFiles = files.filter(file => file.endsWith('.pdf'));
+            // HELM workbooks from Loughborough University
+            const baseUrl = 'https://www.lboro.ac.uk';
+            const workbooks = [
+                { number: 1, title: 'Basic Algebra', filename: 'Basic Algebra.pdf' },
+                { number: 2, title: 'Basic Functions', filename: 'Basic Functions.pdf' },
+                { number: 3, title: 'Equations, Inequalities and Partial Fractions', filename: 'Equations Inequalities and Partial Fractions.pdf' },
+                { number: 4, title: 'Trigonometry', filename: 'HELM Workbook 4 Trigonometry.pdf' },
+                { number: 5, title: 'Functions and Modelling', filename: 'HELM Workbook 5 Functions and Modelling.pdf' },
+                { number: 6, title: 'Exponential and Logarithmic Functions', filename: 'HELM Workbook 6 Exponential and Logarithmic Functions.pdf' },
+                { number: 7, title: 'Matrices', filename: 'HELM Workbook 7 Matrices.pdf' },
+                { number: 8, title: 'Matrix Solution of Equations', filename: 'HELM Workbook 8 Matrix solution of Equations.pdf' },
+                { number: 9, title: 'Vectors', filename: 'HELM Workbook 9 Vectors.pdf' },
+                { number: 10, title: 'Complex Numbers', filename: 'HELM Workbook 10 Complex Numbers.pdf' },
+                { number: 11, title: 'Differentiation', filename: 'HELM Workbook 11 Differentiation.pdf' },
+                { number: 12, title: 'Applications of Differentiation', filename: 'HELM Workbook 12 Applications of Differentiation.pdf' },
+                { number: 13, title: 'Integration', filename: 'HELM Workbook 13 Integration.pdf' },
+                { number: 14, title: 'Applications of Integration 1', filename: 'HELM Workbook 14 Applications of Integration 1.pdf' },
+                { number: 15, title: 'Applications of Integration 2', filename: 'HELM Workbook 15 Applications of Integration 2.pdf' },
+                { number: 16, title: 'Sequences and Series', filename: 'HELM Workbook 16 Sequences and Series.pdf' },
+                { number: 17, title: 'Conics and Polar Coordinates', filename: 'HELM Workbook 17 Conics and Polar Coordinates.pdf' },
+                { number: 18, title: 'Functions of Several Variables', filename: 'HELM Workbook 18 Functions of Several Variables.pdf' },
+                { number: 19, title: 'Differential Equations', filename: 'HELM Workbook 19 Differential Equations.pdf' },
+                { number: 20, title: 'Laplace Transforms', filename: 'HELM Workbook 20 Laplace Transforms.pdf' },
+                { number: 21, title: 'z-Transforms', filename: 'HELM Workbook 21 z-Transforms.pdf' },
+                { number: 22, title: 'Eigenvalues and Eigenvectors', filename: 'HELM Workbook 22 Eigenvalues and Eigenvectors.pdf' },
+                { number: 23, title: 'Fourier Series', filename: 'HELM Workbook 23 Fourier Series.pdf' },
+                { number: 24, title: 'Fourier Transforms', filename: 'HELM Workbook 24 Fourier Transforms.pdf' },
+                { number: 25, title: 'Partial Differential Equations', filename: 'HELM Workbook 25 Partial Differential Equations.pdf' },
+                { number: 26, title: 'Functions of a Complex Variable', filename: 'HELM Workbook 26 Functions of a Complex Variable.pdf' },
+                { number: 27, title: 'Multiple Integration', filename: 'HELM Workbook 27 Multiple Integration.pdf' },
+                { number: 28, title: 'Differential Vector Calculus', filename: 'HELM Workbook 28 Differential Vector Calculus.pdf' },
+                { number: 29, title: 'Integral Vector Calculus', filename: 'HELM Workbook 29 Integral Vector Calculus.pdf' },
+                { number: 30, title: 'Introduction to Numerical Methods', filename: 'HELM Workbook 30 Introduction to Numerical Methods.pdf' },
+                { number: 31, title: 'Numerical Methods of Approximation', filename: 'HELM Workbook 31 Numerical Methods of Approximation.pdf' },
+                { number: 32, title: 'Numerical Initial Value Problems', filename: 'HELM Workbook 32 Numerical Initial Value Problems.pdf' },
+                { number: 33, title: 'Numerical Boundary Value Problems', filename: 'HELM Workbook 33 Numerical Boundary Value Problems.pdf' },
+                { number: 34, title: 'Modelling Motion', filename: 'HELM Workbook 34 Modelling Motion.pdf' },
+                { number: 35, title: 'Sets and Probability', filename: 'HELM Workbook 35 Sets and Probability.pdf' },
+                { number: 36, title: 'Descriptive Statistics', filename: 'HELM Workbook 36 Descriptive Statistics.pdf' },
+                { number: 37, title: 'Discrete Probability Distributions', filename: 'HELM Workbook 37 Discrete Probability Distributions.pdf' },
+                { number: 38, title: 'Continuous Probability Distributions', filename: 'HELM Workbook 38 Continuous Probability Distributions.pdf' },
+                { number: 39, title: 'The Normal Distribution', filename: 'HELM Workbook 39 The Normal Distribution.pdf' },
+                { number: 40, title: 'Sampling Distributions and Estimation', filename: 'HELM Workbook 40 Sampling Distributions and Estimation.pdf' },
+                { number: 41, title: 'Hypothesis Testing', filename: 'HELM Workbook 41 Hypothesis Testing.pdf' },
+                { number: 42, title: 'Goodness of Fit and Contingency Tables', filename: 'HELM Workbook 42 Goodness of Fit and Contingency Tables.pdf' },
+                { number: 43, title: 'Regression and Correlation', filename: 'HELM Workbook 43 Regression and Correlation.pdf' },
+                { number: 44, title: 'Analysis of Variance', filename: 'HELM Workbook 44 Analysis of Variance.pdf' },
+                { number: 45, title: 'Non-parametric Statistics', filename: 'HELM Workbook 45 Non-parametric Statistics.pdf' },
+                { number: 46, title: 'Reliability and Quality Control', filename: 'HELM Workbook 46 Reliability and Quality Control.pdf' },
+                { number: 47, title: 'Mathematics and Physics Miscellany', filename: 'HELM Workbook 47 Mathematics and Physics Miscellany.pdf' },
+                { number: 48, title: 'Engineering Case Studies', filename: 'HELM Workbook 48 Engineering Case Studies.pdf' },
+                { number: 49, title: 'Student\'s Guide', filename: 'HELM Workbook 49 Student\'s Guide.pdf' },
+                { number: 50, title: 'Tutor\'s Guide', filename: 'HELM Workbook 50 Tutor\'s Guide.pdf' }
+            ];
 
-            return pdfFiles.map(filename => ({
-                id: filename.replace('.pdf', '').toLowerCase().replace(/\s+/g, '_'),
-                title: filename.replace('.pdf', ''),
-                filename: filename,
-                path: path.join(workbooksPath, filename)
+            return workbooks.map(workbook => ({
+                id: `helm_${workbook.number}`,
+                title: `HELM ${workbook.number}: ${workbook.title}`,
+                filename: workbook.filename,
+                url: `${baseUrl}/media/media/schoolanddepartments/mlsc/downloads/${encodeURIComponent(workbook.filename)}`,
+                number: workbook.number
             }));
         } catch (error) {
             throw new Error(`Failed to load workbooks: ${error.message}`);
@@ -64,15 +393,78 @@ class MathematicsManager {
      */
     async openWorkbook(workbook) {
         try {
-            // Open PDF file using VS Code's default file opener
-            const uri = this.vscode.Uri.file(workbook.path);
+            // Check if workbook is cached
+            const cachedMetadata = await this.loadWorkbookFromCache(workbook.url);
+
+            if (cachedMetadata) {
+                // Use cached file
+                const cacheFilePath = await this.getCacheFilePath(workbook.url);
+                const uri = this.vscode.Uri.file(cacheFilePath);
+                await this.vscode.commands.executeCommand('vscode.open', uri);
+                return;
+            }
+
+            // Not cached or expired, download and cache
+            const https = require('https');
+            const http = require('http');
+            const fs = require('fs').promises;
+
+            // Get cache file path
+            const cacheFilePath = await this.getCacheFilePath(workbook.url);
+
+            // Download the PDF
+            const url = new URL(workbook.url);
+            const protocol = url.protocol === 'https:' ? https : http;
+
+            const response = await new Promise((resolve, reject) => {
+                const request = protocol.get(workbook.url, (res) => {
+                    if (res.statusCode !== 200) {
+                        reject(new Error(`Failed to download PDF: HTTP ${res.statusCode}`));
+                        return;
+                    }
+
+                    if (!res.headers['content-type']?.includes('application/pdf')) {
+                        reject(new Error('URL does not point to a PDF file'));
+                        return;
+                    }
+
+                    resolve(res);
+                });
+
+                request.on('error', reject);
+                request.setTimeout(30000, () => {
+                    request.destroy();
+                    reject(new Error('Download timeout'));
+                });
+            });
+
+            // Save the PDF to cache
+            const fileStream = require('fs').createWriteStream(cacheFilePath);
+            response.pipe(fileStream);
+
+            await new Promise((resolve, reject) => {
+                fileStream.on('finish', resolve);
+                fileStream.on('error', reject);
+            });
+
+            // Save cache metadata
+            await this.saveWorkbookToCache(workbook.url, workbook.title, cacheFilePath);
+
+            // Open the cached PDF in VS Code
+            const uri = this.vscode.Uri.file(cacheFilePath);
             await this.vscode.commands.executeCommand('vscode.open', uri);
+
         } catch (error) {
-            this.vscode.window.showErrorMessage(
-                `Failed to open workbook: ${error.message}`,
-                { modal: true },
-                'Got it!'
-            );
+            // Fallback: try to open externally
+            try {
+                await this.vscode.env.openExternal(this.vscode.Uri.parse(workbook.url));
+            } catch (externalError) {
+                this.vscode.window.showErrorMessage(
+                    `Failed to open workbook: ${error.message}`,
+                    { modal: true },
+                    'Got it!'
+                );
+            }
         }
     }
 
@@ -306,25 +698,30 @@ class MathematicsManager {
                 switch (message.command) {
                     case 'openWorkbook':
                         try {
-                            // Find the workbook based on the quiz's workbook reference
-                            const workbooks = await this.getWorkbooks();
-                            let workbookToOpen;
-
-                            if (quiz.workbook) {
-                                // Find workbook by quiz's workbook reference
-                                workbookToOpen = workbooks.find(wb =>
-                                    wb.title.includes(quiz.workbook) ||
-                                    quiz.workbook.includes(wb.title)
-                                );
-                            }
-
-                            if (workbookToOpen) {
-                                await this.openWorkbook(workbookToOpen);
-                            } else if (workbooks.length > 0) {
-                                // Fallback: open first available workbook
-                                await this.openWorkbook(workbooks[0]);
+                            // Use intelligent workbook matching based on quiz theme
+                            const matchedWorkbook = await this.findWorkbookForQuiz(quiz);
+                            if (matchedWorkbook) {
+                                await this.openWorkbook(matchedWorkbook);
                             } else {
-                                this.vscode.window.showErrorMessage('No workbooks available');
+                                // Fallback: try basic string matching with quiz workbook reference
+                                const workbooks = await this.getWorkbooks();
+                                let workbookToOpen;
+
+                                if (quiz.workbook) {
+                                    workbookToOpen = workbooks.find(wb =>
+                                        wb.title.includes(quiz.workbook) ||
+                                        quiz.workbook.includes(wb.title)
+                                    );
+                                }
+
+                                if (workbookToOpen) {
+                                    await this.openWorkbook(workbookToOpen);
+                                } else if (workbooks.length > 0) {
+                                    // Final fallback: open first available workbook
+                                    await this.openWorkbook(workbooks[0]);
+                                } else {
+                                    this.vscode.window.showErrorMessage('No workbooks available');
+                                }
                             }
                         } catch (error) {
                             this.vscode.window.showErrorMessage(`Failed to open workbook: ${error.message}`);
@@ -685,15 +1082,15 @@ class MathematicsManager {
         // Process quiz questions for math rendering
         const processedQuestions = quiz.questions.map(question => ({
             ...question,
-            question: this.processMathContent(this.markdownToHtml(question.question)),
+            question: this.markdownToHtml(this.processMathContent(question.question)),
             options: question.options.map(option => {
-                // Only apply markdown processing if the option contains markdown syntax
-                const processedOption = option.includes('*') || option.includes('`') || option.includes('\n') 
-                    ? this.markdownToHtml(option) 
-                    : option;
-                return this.processMathContent(processedOption);
+                // Process math first, then markdown if needed
+                const mathProcessed = this.processMathContent(option);
+                return option.includes('*') || option.includes('`') || option.includes('\n') 
+                    ? this.markdownToHtml(mathProcessed) 
+                    : mathProcessed;
             }),
-            explanation: question.explanation ? this.processMathContent(this.markdownToHtml(question.explanation)) : question.explanation
+            explanation: question.explanation ? this.markdownToHtml(this.processMathContent(question.explanation)) : question.explanation
         }));
 
         const questionsHtml = processedQuestions.map((question, index) => {
@@ -1381,6 +1778,263 @@ class MathematicsManager {
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
+    }
+
+    /**
+     * Find the appropriate workbook for a quiz based on its topic/theme
+     * @param {Object} quiz - Quiz object
+     * @returns {Promise<Object|null>} Matching workbook or null
+     */
+    async findWorkbookForQuiz(quiz) {
+        const workbooks = await this.getWorkbooks();
+        const quizTitle = quiz.title.toLowerCase();
+        const quizId = quiz.id.toLowerCase();
+
+        // First, check if quiz has explicit workbook reference
+        if (quiz.workbook) {
+            const explicitMatch = workbooks.find(wb =>
+                wb.title.toLowerCase().includes(quiz.workbook.toLowerCase()) ||
+                quiz.workbook.toLowerCase().includes(wb.title.toLowerCase())
+            );
+            if (explicitMatch) return explicitMatch;
+        }
+
+        // Topic-based mapping using keywords and patterns
+        const topicMappings = [
+            // Workbook 1: Basic Algebra
+            {
+                workbookNum: 1,
+                keywords: ['basic algebra', 'algebra fundamentals', 'algebra basics'],
+                patterns: []
+            },
+            // Workbook 2: Basic Functions
+            {
+                workbookNum: 2,
+                keywords: ['basic functions', 'functions basics', 'function concepts'],
+                patterns: [/function/i]
+            },
+            // Workbook 3: Equations, Inequalities and Partial Fractions
+            {
+                workbookNum: 3,
+                keywords: ['equations', 'inequalities', 'partial fractions'],
+                patterns: [/equation/i, /inequality/i, /fraction/i]
+            },
+            // Workbook 4: Trigonometry
+            {
+                workbookNum: 4,
+                keywords: ['trigonometry', 'trig', 'sine', 'cosine', 'tangent'],
+                patterns: [/trig/i, /sin|cos|tan/i]
+            },
+            // Workbook 5: Functions and Modelling
+            {
+                workbookNum: 5,
+                keywords: ['functions and modelling', 'modelling', 'modeling'],
+                patterns: [/model/i]
+            },
+            // Workbook 6: Exponential and Logarithmic Functions
+            {
+                workbookNum: 6,
+                keywords: ['exponential', 'logarithmic', 'exp', 'log'],
+                patterns: [/exp/i, /log/i]
+            },
+            // Workbook 7: Matrices
+            {
+                workbookNum: 7,
+                keywords: ['matrices introduction', 'matrix introduction', 'matrices definitions'],
+                patterns: [/matrices?.*introduction|matrix.*introduction/i]
+            },
+            // Workbook 8: Matrix Solution of Equations
+            {
+                workbookNum: 8,
+                keywords: ['matrix solution', 'cramers rule', 'gaussian elimination', 'gauss elimination'],
+                patterns: [/matrix.*solution|cramer|gauss/i]
+            },
+            // Workbook 9: Vectors
+            {
+                workbookNum: 9,
+                keywords: ['vectors', 'vector', 'position vector', 'direction', 'magnitude'],
+                patterns: [/vector/i, /direction|cosine|ratio/i]
+            },
+            // Workbook 10: Complex Numbers
+            {
+                workbookNum: 10,
+                keywords: ['complex numbers', 'complex'],
+                patterns: [/complex/i]
+            },
+            // Workbook 11: Differentiation
+            {
+                workbookNum: 11,
+                keywords: ['differentiation', 'derivatives', 'derivative'],
+                patterns: [/differenti|deriv/i]
+            },
+            // Workbook 12: Applications of Differentiation
+            {
+                workbookNum: 12,
+                keywords: ['applications of differentiation', 'differentiation applications'],
+                patterns: [/application.*differenti|differenti.*application/i]
+            },
+            // Workbook 13: Integration
+            {
+                workbookNum: 13,
+                keywords: ['integration', 'integral'],
+                patterns: [/integr/i]
+            },
+            // Workbook 14: Applications of Integration 1
+            {
+                workbookNum: 14,
+                keywords: ['applications of integration', 'integration applications'],
+                patterns: [/application.*integr|integr.*application/i]
+            },
+            // Workbook 15: Applications of Integration 2
+            {
+                workbookNum: 15,
+                keywords: ['applications of integration 2', 'integration applications 2'],
+                patterns: []
+            },
+            // Workbook 16: Sequences and Series
+            {
+                workbookNum: 16,
+                keywords: ['sequences', 'series', 'sequence', 'serie'],
+                patterns: [/sequence|serie/i]
+            },
+            // Workbook 17: Conics and Polar Coordinates
+            {
+                workbookNum: 17,
+                keywords: ['conics', 'polar coordinates', 'polar', 'conic'],
+                patterns: [/conic|polar/i]
+            },
+            // Workbook 18: Functions of Several Variables
+            {
+                workbookNum: 18,
+                keywords: ['several variables', 'multiple variables', 'multivariable'],
+                patterns: [/several.*variable|multiple.*variable|multivariable/i]
+            },
+            // Workbook 19: Differential Equations
+            {
+                workbookNum: 19,
+                keywords: ['differential equations', 'diff eq'],
+                patterns: [/differential.*equation/i]
+            },
+            // Workbook 20: Laplace Transforms
+            {
+                workbookNum: 20,
+                keywords: ['laplace', 'laplace transforms'],
+                patterns: [/laplace/i]
+            },
+            // Workbook 21: z-Transforms
+            {
+                workbookNum: 21,
+                keywords: ['z-transforms', 'z transform'],
+                patterns: [/z.transform/i]
+            },
+            // Workbook 22: Eigenvalues and Eigenvectors
+            {
+                workbookNum: 22,
+                keywords: ['eigenvalues', 'eigenvectors', 'eigen'],
+                patterns: [/eigen/i]
+            },
+            // Workbook 23: Fourier Series
+            {
+                workbookNum: 23,
+                keywords: ['fourier series', 'fourier'],
+                patterns: [/fourier/i]
+            },
+            // Workbook 24: Fourier Transforms
+            {
+                workbookNum: 24,
+                keywords: ['fourier transforms', 'fourier transform'],
+                patterns: [/fourier.*transform/i]
+            },
+            // Workbook 25: Partial Differential Equations
+            {
+                workbookNum: 25,
+                keywords: ['partial differential equations', 'pde'],
+                patterns: [/partial.*differential/i]
+            },
+            // Workbook 26: Functions of a Complex Variable
+            {
+                workbookNum: 26,
+                keywords: ['complex variable', 'complex variables'],
+                patterns: [/complex.*variable/i]
+            },
+            // Workbook 27: Multiple Integration
+            {
+                workbookNum: 27,
+                keywords: ['multiple integration', 'double integral', 'triple integral'],
+                patterns: [/multiple.*integr|double.*integr|triple.*integr/i]
+            },
+            // Workbook 28: Differential Vector Calculus
+            {
+                workbookNum: 28,
+                keywords: ['differential vector calculus', 'vector calculus'],
+                patterns: [/vector.*calculus/i]
+            },
+            // Workbook 29: Integral Vector Calculus
+            {
+                workbookNum: 29,
+                keywords: ['integral vector calculus'],
+                patterns: [/integral.*vector/i]
+            },
+            // Workbook 30: Introduction to Numerical Methods
+            {
+                workbookNum: 30,
+                keywords: ['numerical methods', 'numerical'],
+                patterns: [/numerical/i]
+            }
+        ];
+
+        // Check for matches based on title and ID
+        for (const mapping of topicMappings) {
+            // Check keywords
+            for (const keyword of mapping.keywords) {
+                if (quizTitle.includes(keyword) || quizId.includes(keyword.replace(/\s+/g, '_'))) {
+                    const workbook = workbooks.find(wb => wb.number === mapping.workbookNum);
+                    if (workbook) return workbook;
+                }
+            }
+
+            // Check patterns
+            for (const pattern of mapping.patterns) {
+                if (pattern.test(quizTitle) || pattern.test(quizId)) {
+                    const workbook = workbooks.find(wb => wb.number === mapping.workbookNum);
+                    if (workbook) return workbook;
+                }
+            }
+        }
+
+        // Special handling for matrix-related quizzes that might not have explicit workbook refs
+        if (quizTitle.includes('matrix') || quizTitle.includes('matrices') || quizId.includes('matrix')) {
+            // Try to determine specific matrix workbook based on content
+            if (quizTitle.includes('multiplication') || quizId.includes('multiplication')) {
+                return workbooks.find(wb => wb.number === 7); // Matrices workbook
+            }
+            if (quizTitle.includes('determinant') || quizId.includes('determinant')) {
+                return workbooks.find(wb => wb.number === 7); // Matrices workbook
+            }
+            if (quizTitle.includes('inverse') || quizId.includes('inverse')) {
+                return workbooks.find(wb => wb.number === 7); // Matrices workbook
+            }
+            if (quizTitle.includes('gaussian') || quizId.includes('gaussian') ||
+                quizTitle.includes('elimination') || quizId.includes('elimination')) {
+                return workbooks.find(wb => wb.number === 8); // Matrix Solution workbook
+            }
+            // Default to matrices workbook
+            return workbooks.find(wb => wb.number === 7);
+        }
+
+        // Special handling for vector-related quizzes
+        if (quizTitle.includes('vector') || quizId.includes('vector')) {
+            return workbooks.find(wb => wb.number === 9); // Vectors workbook
+        }
+
+        // Special handling for calculus-related quizzes
+        if (quizTitle.includes('limit') || quizId.includes('limit') ||
+            quizTitle.includes('continuity') || quizId.includes('continuity')) {
+            return workbooks.find(wb => wb.number === 11); // Differentiation workbook
+        }
+
+        // If no specific match found, return null to allow fallback
+        return null;
     }
 }
 

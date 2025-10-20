@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Oct 19 2025 15:36 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 20 2025 13:54 st93642                                       */
+/*  Updated: Oct 20 2025 15:00 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -2331,6 +2331,78 @@ extern "C" {
     });
 
     context.subscriptions.push(takeMathematicsQuizCommand);
+
+    const viewMathematicsCacheStatsCommand = vscode.commands.registerCommand('tsiheader.viewMathematicsCacheStats', async () => {
+        try {
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+            
+            const stats = await mathManager.getCacheStatistics();
+            
+            const message = `📊 Mathematics Cache Statistics\n\n` +
+                `Workbooks Cached: ${stats.workbooks}\n` +
+                `Cache Size: ${stats.size}\n` +
+                `Oldest Cache: ${stats.oldest || 'None'}\n` +
+                `Newest Cache: ${stats.newest || 'None'}\n\n` +
+                `Cache helps reduce download times and enables offline access.`;
+            
+            const action = await vscode.window.showInformationMessage(
+                message,
+                { modal: true },
+                'Clear Cache',
+                'Close'
+            );
+            
+            if (action === 'Clear Cache') {
+                const confirm = await vscode.window.showWarningMessage(
+                    'Clear all cached mathematics workbooks?',
+                    { modal: true },
+                    'Yes, Clear Cache',
+                    'Cancel'
+                );
+                
+                if (confirm === 'Yes, Clear Cache') {
+                    const cleared = await mathManager.clearCache();
+                    if (cleared) {
+                        vscode.window.showInformationMessage('Mathematics cache cleared successfully!');
+                    } else {
+                        vscode.window.showErrorMessage('Failed to clear mathematics cache.');
+                    }
+                }
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error viewing cache stats: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(viewMathematicsCacheStatsCommand);
+
+    const clearMathematicsCacheCommand = vscode.commands.registerCommand('tsiheader.clearMathematicsCache', async () => {
+        try {
+            const MathematicsManager = require(path.join(__dirname, '..', '..', 'learn', 'lib', 'mathematics_manager.js'));
+            const mathManager = new MathematicsManager(context, vscode);
+            
+            const confirm = await vscode.window.showWarningMessage(
+                'Clear all cached mathematics workbooks?\n\nThis will remove all downloaded PDFs and require re-downloading them.',
+                { modal: true },
+                'Yes, Clear Cache',
+                'Cancel'
+            );
+            
+            if (confirm === 'Yes, Clear Cache') {
+                const cleared = await mathManager.clearCache();
+                if (cleared) {
+                    vscode.window.showInformationMessage('Mathematics cache cleared successfully!');
+                } else {
+                    vscode.window.showErrorMessage('Failed to clear mathematics cache.');
+                }
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error clearing cache: ${error.message}`);
+        }
+    });
+
+    context.subscriptions.push(clearMathematicsCacheCommand);
 
     // Register feature module commands
     // Code quality enforcement module removed
