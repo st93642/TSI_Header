@@ -5,7 +5,7 @@
 #  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
 #                                                            TT         SS II #
 #  Created: Oct 20 2025 12:00 st93642                        TT    SSSSSSS II #
-#  Updated: Oct 20 2025 14:36 st93642                                         #
+#  Updated: Oct 20 2025 15:31 st93642                                         #
 #                                                                             #
 #   Transport and Telecommunication Institute - Riga, Latvia                  #
 #                       https://tsi.lv                                        #
@@ -130,81 +130,71 @@ module TSIHeader
 
       processed = content.dup
 
-      # Apply Unicode symbol replacements
-      UNICODE_REPLACEMENTS.each do |unicode, latex|
-        processed.gsub!(unicode, latex)
+      # Simple HTML-based math rendering - much simpler than KaTeX
+
+      # Convert superscript notation (x^2 to x<sup>2</sup>)
+      processed.gsub!(/([a-zA-Z0-9]+)\^([a-zA-Z0-9\-+]+)(?![>\]])/, '\\1<sup>\\2</sup>')
+
+      # Convert subscript notation (x_2 to x<sub>2</sub>)
+      processed.gsub!(/([a-zA-Z0-9]+)_([a-zA-Z0-9\-+]+)(?![>\]])/, '\\1<sub>\\2</sub>')
+
+      # Convert Unicode superscript digits to HTML
+      {
+        '⁰' => '<sup>0</sup>',
+        '¹' => '<sup>1</sup>',
+        '²' => '<sup>2</sup>',
+        '³' => '<sup>3</sup>',
+        '⁴' => '<sup>4</sup>',
+        '⁵' => '<sup>5</sup>',
+        '⁶' => '<sup>6</sup>',
+        '⁷' => '<sup>7</sup>',
+        '⁸' => '<sup>8</sup>',
+        '⁹' => '<sup>9</sup>'
+      }.each do |unicode, html|
+        processed.gsub!(unicode, html)
       end
 
-      # Convert superscript notation (x^2 to x^{2})
-      processed.gsub!(/([a-zA-Z0-9]+)\^([a-zA-Z0-9\-+]+)(?![}\]])/, '\\1^{\\2}')
-
-      # Convert subscript notation (if any)
-      processed.gsub!(/([a-zA-Z0-9]+)_([a-zA-Z0-9\-+]+)(?![}\]])/, '\\1_{\\2}')
-
-      # Fix sqrt expressions to have proper braces
-      processed.gsub!(/\\sqrt([^{])/, '\\\\sqrt{\\1}')
-      processed.gsub!(/\\sqrt\[(\d+)\]\[}3\]x/, '\\\\sqrt[3]{x}') # Fix cube root specifically
-      processed.gsub!(/\\sqrt\[(\d+)\]([^{])/, '\\\\sqrt[\\1]{\\2}')
-
-      # Handle logarithmic expressions (log_a x, log_{a} x)
-      processed.gsub!(/log_\{1\}_\{0\}/, 'log_{10}')
-      processed.gsub!(/log_\{([^}]+)\}\s*\(([^)]+)\)/, '\\\\log_{\\1}{\\2}')
-      processed.gsub!(/log_([a-zA-Z0-9]+)\s+([a-zA-Z0-9]+)/, '\\\\log_{\\1}{\\2}')
-      processed.gsub!(/log_\{([^}]+)\}\s*([a-zA-Z0-9]+)/, '\\\\log_{\\1}{\\2}')
-
-      # Handle natural log
-      processed.gsub!(/ln\s*\(([^)]+)\)/, '\\\\ln(\\1)')
-
-      # Fix $1/x$ notation
-      processed.gsub!(/\$1\/x\$/, '1/x')
-
-      # Convert derivative notation to fractions
-      processed.gsub!(/d(\^\{\d+\})?y\/dx(\^\{\d+\})?/, '\\frac{d\\1y}{dx\\2}')
-
-      # Wrap mathematical expressions in KaTeX delimiters
-
-      # First, protect already wrapped expressions
-      protected_blocks = []
-      processed.gsub!(/\$\$[\s\S]*?\$\$/) do |match|
-        idx = protected_blocks.length
-        protected_blocks << match
-        "@@MATHBLOCK_#{idx}@@"
+      # Convert Unicode subscript digits to HTML
+      {
+        '₀' => '<sub>0</sub>',
+        '₁' => '<sub>1</sub>',
+        '₂' => '<sub>2</sub>',
+        '₃' => '<sub>3</sub>',
+        '₄' => '<sub>4</sub>',
+        '₅' => '<sub>5</sub>',
+        '₆' => '<sub>6</sub>',
+        '₇' => '<sub>7</sub>',
+        '₈' => '<sub>8</sub>',
+        '₉' => '<sub>9</sub>'
+      }.each do |unicode, html|
+        processed.gsub!(unicode, html)
       end
 
-      # Wrap expressions containing \cdot or \times
-      processed.gsub!(/\b\w*\\(?:times|cdot)\w*\b/) do |match|
-        # Only wrap if it contains LaTeX multiplication and isn't already wrapped
-        if (match.include?('\\times') || match.include?('\\cdot')) && !match.include?('@@') && !match.include?('$')
-          "$$#{match}$$"
-        else
-          match
-        end
-      end
-
-      # Wrap expressions with superscripts/subscripts
-      processed.gsub!(/\b([a-zA-Z]\w*(?:[\^_]\{[^}]+\}|[\^_][a-zA-Z0-9]+))\b/) do |match|
-        # Only wrap if it contains LaTeX elements and isn't already wrapped
-        if (match.include?('\\') || match.include?('{') || match.include?('^') || match.include?('_')) && !match.include?('@@')
-          "$$#{match}$$"
-        else
-          match
-        end
-      end
-
-      # Wrap expressions containing Greek letters or math symbols
-      processed.gsub!(/\b([α-ωΑ-Ω√∫∂∇∞∑∏∧∨¬⊕⊗⊥∠]+\w*)\b/) do |match|
-        # Only wrap if it contains LaTeX elements and isn't already wrapped
-        if (match.include?('\\') || match.include?('⋅') || match.include?('×')) && !match.include?('@@')
-          "$$#{match}$$"
-        else
-          match
-        end
-      end
-
-      # Restore protected blocks
-      processed.gsub!(/@@MATHBLOCK_(\d+)@@/) do |match|
-        idx = $1.to_i
-        protected_blocks[idx] || ''
+      # Convert basic math symbols to HTML entities
+      {
+        '×' => '×',
+        '⋅' => '⋅',
+        '√' => '√',
+        '∑' => '∑',
+        '∏' => '∏',
+        '∫' => '∫',
+        '∂' => '∂',
+        '∞' => '∞',
+        '≤' => '≤',
+        '≥' => '≥',
+        '≠' => '≠',
+        '≈' => '≈',
+        'α' => 'α',
+        'β' => 'β',
+        'γ' => 'γ',
+        'δ' => 'δ',
+        'π' => 'π',
+        'σ' => 'σ',
+        'μ' => 'μ',
+        'θ' => 'θ',
+        'λ' => 'λ'
+      }.each do |unicode, html|
+        processed.gsub!(unicode, html)
       end
 
       processed

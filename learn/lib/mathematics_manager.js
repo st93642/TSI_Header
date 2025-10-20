@@ -771,20 +771,14 @@ class MathematicsManager {
             `<li>${this.markdownToHtml(hint)}</li>`
         ).join('') : '';
 
-        // Prepare URIs for KaTeX assets. If a webview is provided, use local extension resources
-        let katexCss = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
-        let katexJs = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';
-        let autoRenderJs = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js';
+        // Prepare URIs for basic styling (no KaTeX needed)
+        let cssUri = '';
         if (webview && this.vscode && this.vscode.Uri) {
             try {
-                const cssPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'katex.min.css');
-                const jsPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'katex.min.js');
-                const autoRenderPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'auto-render.min.js');
-                katexCss = webview.asWebviewUri(this.vscode.Uri.file(cssPath));
-                katexJs = webview.asWebviewUri(this.vscode.Uri.file(jsPath));
-                autoRenderJs = webview.asWebviewUri(this.vscode.Uri.file(autoRenderPath));
+                // We could add a basic math CSS file if needed, but for now just use inline styles
+                cssUri = '';
             } catch (e) {
-                // fallback to CDN if anything goes wrong
+                // fallback to no external CSS
             }
         }
 
@@ -794,10 +788,208 @@ class MathematicsManager {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${exercise.title}</title>
-    <link rel="stylesheet" href="${katexCss}">
-    <script src="${katexJs}"></script>
-    <script src="${autoRenderJs}"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: var(--vscode-font-family);
+            color: var(--vscode-foreground);
+            background-color: var(--vscode-editor-background);
+            padding: 20px;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 16px;
+        }
+        .header {
+            background-color: var(--vscode-titleBar-activeBackground);
+            color: var(--vscode-titleBar-activeForeground);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--vscode-titleBar-border);
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .difficulty {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        .difficulty.intermediate {
+            background-color: var(--vscode-charts-orange);
+            color: white;
+        }
+        .difficulty.advanced {
+            background-color: var(--vscode-charts-red);
+            color: white;
+        }
+        .exercise-content {
+            background-color: var(--vscode-editorWidget-background);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .exercise-content h2 {
+            color: var(--vscode-textLink-foreground);
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--vscode-textLink-foreground);
+            padding-bottom: 5px;
+        }
+        .exercise-content p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .math-expression {
+            background-color: var(--vscode-textBlockQuote-background);
+            border-left: 4px solid var(--vscode-textLink-foreground);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+        .hints-section {
+            background-color: var(--vscode-textBlockQuote-background);
+            border: 1px solid var(--vscode-textBlockQuote-border);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .hints-section h3 {
+            color: var(--vscode-textLink-foreground);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .hints-section ul {
+            margin-left: 20px;
+        }
+        .hints-section li {
+            margin-bottom: 8px;
+            color: var(--vscode-descriptionForeground);
+        }
+        .actions {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--vscode-textBlockQuote-border);
+        }
+        .btn {
+            background-color: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: var(--vscode-button-hoverBackground);
+        }
+        .btn.secondary {
+            background-color: var(--vscode-button-secondaryBackground);
+            color: var(--vscode-button-secondaryForeground);
+        }
+        .btn.secondary:hover {
+            background-color: var(--vscode-button-secondaryHoverBackground);
+        }
+        .solution-section {
+            background-color: var(--vscode-textBlockQuote-background);
+            border: 1px solid var(--vscode-textBlockQuote-border);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        .solution-section.show {
+            display: block;
+        }
+        .solution-section h3 {
+            color: var(--vscode-textLink-foreground);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .solution-content {
+            background-color: var(--vscode-editor-background);
+            border: 1px solid var(--vscode-editorWidget-border);
+            border-radius: 4px;
+            padding: 15px;
+            color: var(--vscode-foreground);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .solution-content p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .solution-content strong {
+            font-weight: bold;
+        }
+        .solution-content code {
+            background-color: var(--vscode-textCodeBlock-background);
+            color: var(--vscode-textCodeBlock-foreground);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: var(--vscode-editor-font-family);
+        }
+        .solution-content h1,
+        .solution-content h2,
+        .solution-content h3,
+        .solution-content h4,
+        .solution-content h5,
+        .solution-content h6 {
+            color: var(--vscode-textLink-foreground);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .solution-content h1 {
+            font-size: 24px;
+            border-bottom: 2px solid var(--vscode-textLink-foreground);
+            padding-bottom: 5px;
+        }
+        .solution-content h2 {
+            font-size: 20px;
+            border-bottom: 2px solid var(--vscode-textLink-foreground);
+            padding-bottom: 5px;
+        }
+        .solution-content h3 {
+            font-size: 18px;
+        }
+        .solution-content ul,
+        .solution-content ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        .solution-content li {
+            margin: 5px 0;
+        }
+        /* Math styling */
+        sup, sub {
+            font-size: 0.8em;
+            line-height: 0;
+        }
+        .math-inline {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+    </style>
+</head>
         * {
             margin: 0;
             padding: 0;
@@ -1024,10 +1216,7 @@ class MathematicsManager {
 
         function showSolution() {
             document.getElementById('solution').classList.add('show');
-            // Re-render math expressions in the newly shown solution
-            if (typeof window.renderMath === 'function') {
-                window.renderMath();
-            }
+            // No need to re-render math since we're using HTML
         }
 
         function openWorkbook() {
@@ -1043,30 +1232,6 @@ class MathematicsManager {
                 exerciseId: '${exercise.id}'
             });
         }
-
-        // Render LaTeX math expressions
-        document.addEventListener('DOMContentLoaded', function() {
-            // Function to render math in the entire document
-            function renderMath() {
-                if (typeof renderMathInElement !== 'undefined') {
-                    renderMathInElement(document.body, {
-                        delimiters: [
-                            {left: '$$', right: '$$', display: true},
-                            {left: '$', right: '$', display: false},
-                            {left: '\\\\(', right: '\\\\)', display: false},
-                            {left: '\\\\[', right: '\\\\]', display: true}
-                        ],
-                        throwOnError: false
-                    });
-                }
-            }
-            
-            // Initial render
-            renderMath();
-            
-            // Make renderMath available globally for dynamic content
-            window.renderMath = renderMath;
-        });
     </script>
 </body>
 </html>`;
@@ -1121,20 +1286,14 @@ class MathematicsManager {
             `;
         }).join('');
 
-        // Prepare URIs for KaTeX assets. If a webview is provided, use local extension resources
-        let katexCss = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
-        let katexJs = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';
-        let autoRenderJs = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js';
+        // Prepare URIs for basic styling (no KaTeX needed)
+        let cssUri = '';
         if (webview && this.vscode && this.vscode.Uri) {
             try {
-                const cssPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'katex.min.css');
-                const jsPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'katex.min.js');
-                const autoRenderPath = path.join(__dirname, '..', '..', 'resources', 'katex', 'auto-render.min.js');
-                katexCss = webview.asWebviewUri(this.vscode.Uri.file(cssPath));
-                katexJs = webview.asWebviewUri(this.vscode.Uri.file(jsPath));
-                autoRenderJs = webview.asWebviewUri(this.vscode.Uri.file(autoRenderPath));
+                // We could add a basic math CSS file if needed, but for now just use inline styles
+                cssUri = '';
             } catch (e) {
-                // fallback to CDN if anything goes wrong
+                // fallback to no external CSS
             }
         }
 
@@ -1144,9 +1303,6 @@ class MathematicsManager {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${quiz.title}</title>
-    <link rel="stylesheet" href="${katexCss}">
-    <script src="${katexJs}"></script>
-    <script src="${autoRenderJs}"></script>
     <style>
         * {
             margin: 0;
@@ -1340,6 +1496,15 @@ class MathematicsManager {
         .score.excellent { color: var(--vscode-charts-green); }
         .score.good { color: var(--vscode-charts-yellow); }
         .score.needs-work { color: var(--vscode-charts-red); }
+        /* Math styling */
+        sup, sub {
+            font-size: 0.8em;
+            line-height: 0;
+        }
+        .math-inline {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -1376,30 +1541,6 @@ class MathematicsManager {
         let answers = new Array(quiz.questions.length).fill(null);
         let checkedAnswers = new Array(quiz.questions.length).fill(false);
         let showResults = false;
-
-        // Render LaTeX math expressions
-        document.addEventListener('DOMContentLoaded', function() {
-            // Function to render math in the entire document
-            function renderMath() {
-                if (typeof renderMathInElement !== 'undefined') {
-                    renderMathInElement(document.body, {
-                        delimiters: [
-                            {left: '$$', right: '$$', display: true},
-                            {left: '$', right: '$', display: false},
-                            {left: '\\\\(', right: '\\\\)', display: false},
-                            {left: '\\\\[', right: '\\\\]', display: true}
-                        ],
-                        throwOnError: false
-                    });
-                }
-            }
-            
-            // Initial render
-            renderMath();
-            
-            // Make renderMath available globally for dynamic content
-            window.renderMath = renderMath;
-        });
 
         function updateUI() {
             const progress = ((currentQuestion + 1) / quiz.questions.length) * 100;
@@ -1595,33 +1736,80 @@ class MathematicsManager {
     }
 
     /**
-     * Fallback math processing in JavaScript (simplified version)
+     * Fallback math processing in JavaScript (simplified HTML version)
      * @param {string} content - Content to process
      * @returns {string} Processed content
      */
     fallbackMathProcessing(content) {
         let processed = content;
 
-        // Basic Unicode replacements
-        const unicodeReplacements = {
-            '√': '\\sqrt',
-            'π': '\\pi',
-            '∞': '\\infty',
-            '≤': '\\leq',
-            '≥': '\\geq',
-            '≠': '\\neq'
-        };
+        // Convert superscript notation (x^2 to x<sup>2</sup>)
+        processed = processed.replace(/([a-zA-Z0-9]+)\^([a-zA-Z0-9\-+]+)(?![>\]])/g, '$1<sup>$2</sup>');
 
-        for (const [unicode, latex] of Object.entries(unicodeReplacements)) {
-            processed = processed.replace(new RegExp(unicode, 'g'), latex);
+        // Convert subscript notation (x_2 to x<sub>2</sub>)
+        processed = processed.replace(/([a-zA-Z0-9]+)_([a-zA-Z0-9\-+]+)(?![>\]])/g, '$1<sub>$2</sub>');
+
+        // Convert Unicode superscript digits to HTML
+        const superscriptMap = {
+            '⁰': '<sup>0</sup>',
+            '¹': '<sup>1</sup>',
+            '²': '<sup>2</sup>',
+            '³': '<sup>3</sup>',
+            '⁴': '<sup>4</sup>',
+            '⁵': '<sup>5</sup>',
+            '⁶': '<sup>6</sup>',
+            '⁷': '<sup>7</sup>',
+            '⁸': '<sup>8</sup>',
+            '⁹': '<sup>9</sup>'
+        };
+        for (const [unicode, html] of Object.entries(superscriptMap)) {
+            processed = processed.replace(new RegExp(unicode, 'g'), html);
         }
 
-        // Basic superscript conversion
-        processed = processed.replace(/([a-zA-Z0-9]+)\^([a-zA-Z0-9\-+]+)(?![}\]])/g, '$1^{$2}');
+        // Convert Unicode subscript digits to HTML
+        const subscriptMap = {
+            '₀': '<sub>0</sub>',
+            '₁': '<sub>1</sub>',
+            '₂': '<sub>2</sub>',
+            '₃': '<sub>3</sub>',
+            '₄': '<sub>4</sub>',
+            '₅': '<sub>5</sub>',
+            '₆': '<sub>6</sub>',
+            '₇': '<sub>7</sub>',
+            '₈': '<sub>8</sub>',
+            '₉': '<sub>9</sub>'
+        };
+        for (const [unicode, html] of Object.entries(subscriptMap)) {
+            processed = processed.replace(new RegExp(unicode, 'g'), html);
+        }
 
-        // Basic math expression wrapping
-        processed = processed.replace(/\b(dy\/dx|dx\/dt)\b/g, '$$$1$$');
-        processed = processed.replace(/\b([xy]\s*=\s*[^,\n]+(?:,\s*[xy]\s*=\s*[^,\n]+)*)/g, '$$$1$$');
+        // Convert basic math symbols to HTML entities
+        const symbolMap = {
+            '×': '×',
+            '⋅': '⋅',
+            '√': '√',
+            '∑': '∑',
+            '∏': '∏',
+            '∫': '∫',
+            '∂': '∂',
+            '∞': '∞',
+            '≤': '≤',
+            '≥': '≥',
+            '≠': '≠',
+            '≈': '≈',
+            'α': 'α',
+            'β': 'β',
+            'γ': 'γ',
+            'δ': 'δ',
+            'π': 'π',
+            'σ': 'σ',
+            'μ': 'μ',
+            'θ': 'θ',
+            'λ': 'λ'
+        };
+        for (const [unicode, html] of Object.entries(symbolMap)) {
+            processed = processed.replace(new RegExp(unicode, 'g'), html);
+        }
 
         return processed;
     }
