@@ -7,12 +7,14 @@ This guide will help you set up a development environment for the Uni Header ext
 ## Prerequisites
 
 ### Required Software
+
 - **Node.js**: Version 16 or later
 - **VS Code**: Version 1.74.0 or later
 - **Ruby**: Version 2.7 or later (for header generation)
 - **Git**: For version control
 
 ### Optional Dependencies
+
 - **GCC/Clang**: For C/C++ learning exercises
 - **Rust Compiler**: For Rust learning exercises
 - **Python**: For Python learning exercises
@@ -20,17 +22,20 @@ This guide will help you set up a development environment for the Uni Header ext
 ## Development Setup
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/st93642/TSI_Header.git
 cd TSI_Header
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Install Ruby Dependencies
+
 ```bash
 # Install required Ruby gems
 gem install bundler
@@ -38,6 +43,7 @@ bundle install
 ```
 
 ### 4. Build the Extension
+
 ```bash
 # Compile the extension
 npm run compile
@@ -47,6 +53,7 @@ npm run watch
 ```
 
 ### 5. Run Tests
+
 ```bash
 # Run all tests
 npm test
@@ -136,26 +143,31 @@ ruby spec/unified_test.rb
 ### 1. Making Changes
 
 #### Core Functionality
+
 - Edit files in `/core/src/` for main extension logic
 - Update generators in `/core/generators/` for code templates
 - Modify utilities in `/core/utils/` for helper functions
 
 #### Learning Module
+
 - Add curricula in `/learn/curriculum/[language]/`
 - Update learning logic in `/learn/lib/`
 - Add tests in `/learn/tests/`
 
 #### Calendar Module
+
 - Modify calendar logic in `/calendar/src/`
 - Update UI assets in `/calendar/resources/`
 
 #### Study Mode
+
 - Edit timer logic in `/studyMode/timer.js`
 - Update tests in `/studyMode/timer.test.js`
 
 ### 2. Testing Changes
 
 #### Unit Tests
+
 ```bash
 # Test study mode timer
 node studyMode/timer.test.js
@@ -165,6 +177,7 @@ node learn/tests/no_md_tables.js
 ```
 
 #### Integration Tests
+
 ```bash
 # Run Ruby test suite
 ruby spec/unified_test.rb
@@ -174,6 +187,7 @@ ruby TEST_Suite/full_test_suite.rb
 ```
 
 #### Manual Testing
+
 1. Open VS Code
 2. Press `F5` to launch extension in debug mode
 3. Test functionality in the new VS Code window
@@ -182,11 +196,13 @@ ruby TEST_Suite/full_test_suite.rb
 ### 3. Building and Packaging
 
 #### Development Build
+
 ```bash
 npm run compile
 ```
 
 #### Production Build
+
 ```bash
 # Install vsce (VS Code Extension Manager)
 npm install -g vsce
@@ -198,6 +214,7 @@ vsce package
 ## Code Style Guidelines
 
 ### JavaScript/Node.js
+
 - Use ES6+ features
 - Follow async/await patterns
 - Use meaningful variable names
@@ -223,6 +240,7 @@ async generateHeader(languageId, fileName, env = {}) {
 ```
 
 ### Ruby
+
 - Follow Ruby style guidelines
 - Use meaningful method names
 - Add comments for complex logic
@@ -248,6 +266,7 @@ end
 ### 1. New Language Support
 
 #### Add Language Template
+
 1. Create template file in `/core/generators/languages/[language].js`
 2. Define language-specific header format
 3. Add to language detection logic
@@ -264,6 +283,7 @@ module.exports = {
 ```
 
 #### Update Language Detection
+
 ```javascript
 // core/index.js
 detectLanguageFromExtension(languageId, fileName) {
@@ -278,6 +298,7 @@ detectLanguageFromExtension(languageId, fileName) {
 ### 2. New Learning Curriculum
 
 #### Create Curriculum Structure
+
 ```
 /learn/curriculum/new_language/
 ├── lessons/
@@ -292,6 +313,7 @@ detectLanguageFromExtension(languageId, fileName) {
 ```
 
 #### Curriculum File Format
+
 ```json
 {
     "id": "lesson1",
@@ -314,6 +336,7 @@ detectLanguageFromExtension(languageId, fileName) {
 ### 3. New Calendar Features
 
 #### Add New Event Type
+
 1. Update `CalendarEventManager` class
 2. Add UI components in webview
 3. Update data persistence logic
@@ -337,6 +360,7 @@ async addCustomEventType(eventData) {
 ## Debugging
 
 ### VS Code Debugging
+
 1. Open the project in VS Code
 2. Go to Run and Debug view (Ctrl+Shift+D)
 3. Select "Launch Extension" configuration
@@ -344,6 +368,7 @@ async addCustomEventType(eventData) {
 5. Press F5 to start debugging
 
 ### Console Logging
+
 ```javascript
 // Use console.log for debugging
 console.log('Debug info:', debugData);
@@ -354,6 +379,7 @@ outputChannel.appendLine('Debug message');
 ```
 
 ### Error Handling
+
 ```javascript
 try {
     // Risky operation
@@ -367,12 +393,15 @@ try {
 ## Performance Optimization
 
 ### Large File Handling
+
 The main extension file (`core/src/extension.js`) is very large (122k+ lines). Consider:
+
 1. Breaking it into smaller modules
 2. Using lazy loading for features
 3. Implementing code splitting
 
 ### Memory Management
+
 ```javascript
 // Properly dispose of resources
 dispose() {
@@ -386,6 +415,7 @@ dispose() {
 ```
 
 ### Caching
+
 ```javascript
 // Implement caching for expensive operations
 const cache = new Map();
@@ -404,6 +434,7 @@ async getCachedData(key) {
 ## Testing Strategies
 
 ### Unit Testing
+
 ```javascript
 // studyMode/timer.test.js
 const { StudyModeTimer } = require('./timer.js');
@@ -418,6 +449,7 @@ describe('StudyModeTimer', () => {
 ```
 
 ### Integration Testing
+
 ```javascript
 // Test complete workflows
 test('complete learning workflow', async () => {
@@ -432,6 +464,7 @@ test('complete learning workflow', async () => {
 ```
 
 ### End-to-End Testing
+
 ```javascript
 // Test user interactions
 test('user can create project', async () => {
@@ -447,6 +480,7 @@ test('user can create project', async () => {
 ## Contributing
 
 ### Pull Request Process
+
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
@@ -455,6 +489,7 @@ test('user can create project', async () => {
 6. Submit a pull request
 
 ### Code Review Checklist
+
 - [ ] Code follows style guidelines
 - [ ] Tests are included and passing
 - [ ] Documentation is updated
@@ -462,7 +497,9 @@ test('user can create project', async () => {
 - [ ] Performance impact is considered
 
 ### Issue Reporting
+
 When reporting issues, include:
+
 - VS Code version
 - Extension version
 - Steps to reproduce
@@ -472,12 +509,14 @@ When reporting issues, include:
 ## Deployment
 
 ### Version Management
+
 1. Update version in `package.json`
 2. Update changelog
 3. Tag the release
 4. Publish to VS Code Marketplace
 
 ### Release Process
+
 ```bash
 # Update version
 npm version patch  # or minor, major
@@ -495,26 +534,31 @@ vsce publish
 ### Common Issues
 
 #### Extension Not Activating
+
 - Check VS Code version compatibility
 - Verify all dependencies are installed
 - Check console for error messages
 
 #### Ruby CLI Errors
+
 - Ensure Ruby 2.7+ is installed
 - Verify Ruby gems are installed
 - Check file permissions
 
 #### Learning Module Issues
+
 - Verify curriculum files exist
 - Check file permissions
 - Ensure compilers are installed for exercises
 
 #### Calendar Import/Export Issues
+
 - Check file format compatibility
 - Verify network connectivity for URL imports
 - Check SMTP configuration for email notifications
 
 ### Getting Help
+
 - Check existing issues on GitHub
 - Review the documentation
 - Ask questions in discussions
@@ -523,18 +567,21 @@ vsce publish
 ## Resources
 
 ### Documentation
+
 - [VS Code Extension API](https://code.visualstudio.com/api)
 - [VS Code Extension Guidelines](https://code.visualstudio.com/api/extension-guides/overview)
 - [Node.js Documentation](https://nodejs.org/docs/)
 - [Ruby Documentation](https://ruby-doc.org/)
 
 ### Tools
+
 - [VS Code Extension Generator](https://code.visualstudio.com/api/get-started/your-first-extension)
 - [VS Code Extension Manager (vsce)](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
 - [Node.js Testing Framework (Jest)](https://jestjs.io/)
 - [Ruby Testing Framework (RSpec)](https://rspec.info/)
 
 ### Community
+
 - [VS Code Extension Community](https://github.com/microsoft/vscode-extension-samples)
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode-extensions)
 - [VS Code Discord](https://discord.gg/vscode)

@@ -16,18 +16,23 @@ const core = new TSICore(extensionPath);
 ```
 
 #### Constructor
+
 ```javascript
 constructor(extensionPath)
 ```
+
 - `extensionPath` (string): Path to the extension directory
 
 #### Methods
 
 ##### Header Management
+
 ```javascript
 async generateHeader(languageId, fileName, env)
 ```
+
 Generates a TSI header for a file.
+
 - **Parameters**:
   - `languageId` (string): VS Code language ID
   - `fileName` (string): Name of the file
@@ -37,24 +42,31 @@ Generates a TSI header for a file.
 ```javascript
 async updateHeader(languageId, fileName, env)
 ```
+
 Updates an existing TSI header.
+
 - **Parameters**: Same as `generateHeader`
 - **Returns**: `Promise<Object>` - `{success: boolean, message?: string}`
 
 ```javascript
 async generateTSIHeaderContent(fileName, vscode)
 ```
+
 Generates TSI header content for a file.
+
 - **Parameters**:
   - `fileName` (string): Name of the file
   - `vscode` (Object): VS Code API object
 - **Returns**: `Promise<string>` - Generated header content
 
 ##### Code Generation
+
 ```javascript
 generateClass(languageId, className, fileName, env)
 ```
+
 Generates a class template.
+
 - **Parameters**:
   - `languageId` (string): VS Code language ID
   - `className` (string): Name of the class
@@ -65,17 +77,22 @@ Generates a class template.
 ```javascript
 generateCodeBase(languageId, fileName)
 ```
+
 Generates code base structure.
+
 - **Parameters**:
   - `languageId` (string): VS Code language ID
   - `fileName` (string): Name of the file
 - **Returns**: `Object` - `{success: boolean, content?: string, message?: string}`
 
 ##### Project Management
+
 ```javascript
 async createProject(language, projectName, workspaceUri, vscode)
 ```
+
 Creates a TSI project structure.
+
 - **Parameters**:
   - `language` (string): Programming language
   - `projectName` (string): Name of the project
@@ -84,24 +101,31 @@ Creates a TSI project structure.
 - **Returns**: `Promise<Object>` - `{success: boolean, message?: string}`
 
 ##### Utility Methods
+
 ```javascript
 hasSubstantialContent(content)
 ```
+
 Checks if file content has substantial content beyond header.
+
 - **Parameters**: `content` (string): File content
 - **Returns**: `boolean`
 
 ```javascript
 findHeaderEndLine(content)
 ```
+
 Finds the line where header ends.
+
 - **Parameters**: `content` (string): File content
 - **Returns**: `number` - Line number where header ends
 
 ```javascript
 detectLanguageFromExtension(languageId, fileName)
 ```
+
 Detects language from file extension.
+
 - **Parameters**:
   - `languageId` (string): VS Code language ID
   - `fileName` (string): Name of the file
@@ -110,7 +134,9 @@ Detects language from file extension.
 ```javascript
 getUserConfig(vscode)
 ```
+
 Gets user configuration with fallbacks.
+
 - **Parameters**: `vscode` (Object): VS Code API
 - **Returns**: `Object` - `{username, email, hasCredentials}`
 
@@ -126,26 +152,33 @@ const learn = new Learn(context, vscode);
 ```
 
 #### Constructor
+
 ```javascript
 constructor(context, vscode)
 ```
+
 - `context` (Object): VS Code extension context
 - `vscode` (Object): VS Code API object
 
 #### Methods
 
 ##### Learning Management
+
 ```javascript
 async startLearning(language)
 ```
+
 Starts a learning session for a specific language.
+
 - **Parameters**: `language` (string): Programming language to learn
 - **Returns**: `Promise<void>`
 
 ```javascript
 async runExercise(language, exercise)
 ```
+
 Runs an exercise.
+
 - **Parameters**:
   - `language` (string): Programming language
   - `exercise` (Object): Exercise object
@@ -154,30 +187,40 @@ Runs an exercise.
 ```javascript
 async browseLessons(language)
 ```
+
 Browses and jumps to any lesson in the curriculum.
+
 - **Parameters**: `language` (string): Programming language
 - **Returns**: `Promise<void>`
 
 ```javascript
 async reviewLessons(language)
 ```
+
 Reviews completed lessons.
+
 - **Parameters**: `language` (string): Programming language
 - **Returns**: `Promise<void>`
 
 ##### Progress and Statistics
+
 ```javascript
 async getStats(language)
 ```
+
 Gets learning statistics.
+
 - **Parameters**: `language` (string): Programming language
 - **Returns**: `Promise<Object>` - Statistics object
 
 ##### Solution Management
+
 ```javascript
 async showSolution(language, exercise)
 ```
+
 Shows the solution for an exercise.
+
 - **Parameters**:
   - `language` (string): Programming language
   - `exercise` (Object): Exercise object
@@ -186,7 +229,9 @@ Shows the solution for an exercise.
 ```javascript
 async showHint(exercise)
 ```
+
 Shows a hint for an exercise.
+
 - **Parameters**: `exercise` (Object): Exercise object
 - **Returns**: `Promise<void>`
 
@@ -202,55 +247,73 @@ const calendar = new CalendarManager(context);
 ```
 
 #### Constructor
+
 ```javascript
 constructor(context)
 ```
+
 - `context` (Object): VS Code extension context
 
 #### Methods
 
 ##### Calendar Management
+
 ```javascript
 async initialize()
 ```
+
 Initializes the calendar module.
+
 - **Returns**: `Promise<void>`
 
 ```javascript
 async showDeadlineDialog()
 ```
+
 Shows dialog to add a deadline.
+
 - **Returns**: `Promise<Object|null>` - Deadline object or null
 
 ```javascript
 async showEventDialog()
 ```
+
 Shows dialog to add a custom event.
+
 - **Returns**: `Promise<Object|null>` - Event object or null
 
 ```javascript
 async showScheduleDialog()
 ```
+
 Shows dialog to add a daily schedule.
+
 - **Returns**: `Promise<Object|null>` - Schedule object or null
 
 ##### Import/Export
+
 ```javascript
 async exportCalendar()
 ```
+
 Exports calendar data.
+
 - **Returns**: `Promise<void>`
 
 ```javascript
 async importCalendar()
 ```
+
 Imports calendar data from file.
+
 - **Returns**: `Promise<void>`
 
 ```javascript
 async importCalendarFromUrl()
 ```
+
 Imports calendar data from URL.
+
 - **Returns**: `Promise<void>`
 
 ## Study Mode API
@@ -265,15 +328,18 @@ const timer = new StudyModeTimer(vscode, context, config, onStateChange);
 ```
 
 #### Constructor
+
 ```javascript
 constructor(vscode, context, config = {}, onStateChange = null)
 ```
+
 - `vscode` (Object): VS Code API object
 - `context` (Object): VS Code extension context
 - `config` (Object): Timer configuration
 - `onStateChange` (Function): Callback for state persistence
 
 #### Configuration Object
+
 ```javascript
 {
     workDuration: 25,           // Work session duration in minutes
@@ -286,56 +352,72 @@ constructor(vscode, context, config = {}, onStateChange = null)
 #### Methods
 
 ##### Timer Control
+
 ```javascript
 start()
 ```
+
 Starts the timer.
 
 ```javascript
 pause()
 ```
+
 Pauses the timer.
 
 ```javascript
 resume()
 ```
+
 Resumes the timer.
 
 ```javascript
 stop()
 ```
+
 Stops the timer.
 
 ```javascript
 reset()
 ```
+
 Resets the timer to initial state.
 
 ##### State Management
+
 ```javascript
 getRemainingTime()
 ```
+
 Gets remaining time in current phase.
+
 - **Returns**: `number` - Remaining time in milliseconds
 
 ```javascript
 formatTime(milliseconds)
 ```
+
 Formats time in MM:SS format.
+
 - **Parameters**: `milliseconds` (number): Time in milliseconds
 - **Returns**: `string` - Formatted time string
 
 ```javascript
 updateConfiguration(config)
 ```
+
 Updates timer configuration.
+
 - **Parameters**: `config` (Object): New configuration object
 
 ##### Session Logging
+
 ```javascript
 logSession(completed)
 ```
+
 Logs a session.
+
 - **Parameters**: `completed` (boolean): Whether session was completed
 
 ## Configuration API
@@ -345,6 +427,7 @@ Logs a session.
 The extension uses VS Code's configuration system with the following settings:
 
 #### Header Settings
+
 ```json
 {
     "tsiheader.username": "string",
@@ -356,6 +439,7 @@ The extension uses VS Code's configuration system with the following settings:
 ```
 
 #### Study Mode Settings
+
 ```json
 {
     "tsiheader.studyMode.enableSounds": "boolean",
@@ -367,6 +451,7 @@ The extension uses VS Code's configuration system with the following settings:
 ```
 
 #### Calendar Settings
+
 ```json
 {
     "tsiheader.calendar.importUrl": "string",
@@ -388,6 +473,7 @@ The extension uses VS Code's configuration system with the following settings:
 The extension registers the following commands:
 
 #### Header Commands
+
 - `tsiheader.insertHeader` - Insert TSI header
 - `tsiheader.updateHeader` - Update existing header
 - `tsiheader.removeHeader` - Remove header
@@ -395,6 +481,7 @@ The extension registers the following commands:
 - `tsiheader.addCodeBase` - Add code base template
 
 #### Project Commands
+
 - `tsiheader.createTSIProject` - Create generic project
 - `tsiheader.createCProject` - Create C project
 - `tsiheader.createCppProject` - Create C++ project
@@ -406,6 +493,7 @@ The extension registers the following commands:
 - `tsiheader.createHtmlProject` - Create HTML project
 
 #### Learning Commands
+
 - `tsiheader.learnRuby` - Start Ruby learning
 - `tsiheader.learnRust` - Start Rust learning
 - `tsiheader.learnC` - Start C learning
@@ -416,6 +504,7 @@ The extension registers the following commands:
 - `tsiheader.learnMathematics` - Start Mathematics learning
 
 #### Study Mode Commands
+
 - `tsiheader.startStudySession` - Start study session
 - `tsiheader.pauseStudyTimer` - Pause/resume timer
 - `tsiheader.stopStudySession` - Stop study session
@@ -424,6 +513,7 @@ The extension registers the following commands:
 - `tsiheader.resetStudyProgress` - Reset study progress
 
 #### Calendar Commands
+
 - `tsiheader.showCalendar` - Show calendar
 - `tsiheader.addCalendarDeadline` - Add deadline
 - `tsiheader.addCalendarEvent` - Add custom event
@@ -440,26 +530,33 @@ The extension registers the following commands:
 The extension provides several event listeners:
 
 #### Document Events
+
 ```javascript
 vscode.workspace.onWillSaveTextDocument(callback)
 ```
+
 Triggered before a document is saved.
 
 ```javascript
 vscode.workspace.onDidCloseTextDocument(callback)
 ```
+
 Triggered when a document is closed.
 
 #### Tree View Events
+
 ```javascript
 vscode.window.registerTreeDataProvider(viewId, provider)
 ```
+
 Registers a tree data provider for a view.
 
 #### Webview Events
+
 ```javascript
 panel.webview.onDidReceiveMessage(callback)
 ```
+
 Handles messages from webview panels.
 
 ## Error Handling
@@ -469,16 +566,19 @@ Handles messages from webview panels.
 The extension defines several error types:
 
 #### Header Generation Errors
+
 - `Ruby CLI not available` - Ruby CLI failed to execute
 - `Invalid language ID` - Unsupported language
 - `File access denied` - Permission issues
 
 #### Learning Errors
+
 - `Curriculum not found` - Language curriculum missing
 - `Exercise execution failed` - Compiler or runtime errors
 - `Progress tracking failed` - Storage issues
 
 #### Calendar Errors
+
 - `Import failed` - Invalid calendar data
 - `SMTP connection failed` - Email notification issues
 - `Storage access denied` - File system permissions
@@ -501,6 +601,7 @@ try {
 ## Data Structures
 
 ### Exercise Object
+
 ```javascript
 {
     id: "string",
@@ -516,6 +617,7 @@ try {
 ```
 
 ### Calendar Event Object
+
 ```javascript
 {
     id: "string",
@@ -529,6 +631,7 @@ try {
 ```
 
 ### Study Session Object
+
 ```javascript
 {
     type: "work|shortBreak|longBreak",
@@ -543,6 +646,7 @@ try {
 ## Integration Examples
 
 ### Basic Header Generation
+
 ```javascript
 const { TSICore } = require('./core/index.js');
 const core = new TSICore(extensionPath);
@@ -561,6 +665,7 @@ if (result.success) {
 ```
 
 ### Learning Module Integration
+
 ```javascript
 const Learn = require('./learn/index.js');
 const learn = new Learn(context, vscode);
@@ -581,6 +686,7 @@ console.log('Exercise result:', result);
 ```
 
 ### Calendar Integration
+
 ```javascript
 const { CalendarManager } = require('./calendar/src/calendarManager.js');
 const calendar = new CalendarManager(context);
@@ -594,6 +700,7 @@ if (deadline) {
 ```
 
 ### Study Timer Integration
+
 ```javascript
 const { StudyModeTimer } = require('./studyMode/timer.js');
 
@@ -615,24 +722,28 @@ timer.start();
 ## Best Practices
 
 ### Error Handling
+
 1. Always wrap async operations in try-catch blocks
 2. Provide meaningful error messages to users
 3. Log errors for debugging purposes
 4. Gracefully handle missing dependencies
 
 ### Performance
+
 1. Use lazy loading for large datasets
 2. Implement proper cleanup in dispose methods
 3. Cache frequently accessed data
 4. Avoid blocking the main thread
 
 ### User Experience
+
 1. Provide clear feedback for long-running operations
 2. Use progress indicators for multi-step processes
 3. Validate user input before processing
 4. Maintain consistent UI patterns
 
 ### Security
+
 1. Validate all user inputs
 2. Sanitize data before storage
 3. Use secure communication for external APIs

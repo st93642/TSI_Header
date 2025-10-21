@@ -27,6 +27,7 @@ The Uni Header extension is a comprehensive VS Code extension that provides mult
 **Purpose**: Code generation, header management, and project scaffolding
 
 **Key Files**:
+
 - `index.js` - Core interface and API definitions
 - `src/extension.js` - Main extension logic (very large file)
 - `generators/` - Code generation templates for 122+ languages
@@ -34,6 +35,7 @@ The Uni Header extension is a comprehensive VS Code extension that provides mult
 - `utils/` - Content analysis utilities
 
 **Features**:
+
 - TSI header generation for 122+ programming languages
 - Class and code base generation
 - Project scaffolding for C/C++/Java/Python/Ruby/Rust/PHP/HTML
@@ -41,6 +43,7 @@ The Uni Header extension is a comprehensive VS Code extension that provides mult
 - Header detection and updates
 
 **Architecture**:
+
 ```javascript
 class TSICore {
     constructor(extensionPath) {
@@ -57,6 +60,7 @@ class TSICore {
 **Purpose**: Interactive learning platform with structured curricula
 
 **Key Files**:
+
 - `index.js` - Main learning interface
 - `lib/learn_manager.js` - Curriculum management
 - `lib/progress_tracker.js` - Learning progress tracking
@@ -64,6 +68,7 @@ class TSICore {
 - `curriculum/` - Language-specific curricula
 
 **Supported Languages**:
+
 - C (41 files)
 - C++ (79 files)
 - C++ DSA (61 files)
@@ -73,6 +78,7 @@ class TSICore {
 - Mathematics (42 files)
 
 **Features**:
+
 - Structured lesson progression
 - Interactive exercises with automated testing
 - Progress tracking and statistics
@@ -80,6 +86,7 @@ class TSICore {
 - Offline curriculum caching
 
 **Architecture**:
+
 ```javascript
 class Learn {
     constructor(context, vscode) {
@@ -95,6 +102,7 @@ class Learn {
 **Purpose**: Study calendar, deadline tracking, and event management
 
 **Key Files**:
+
 - `src/calendarManager.js` - Main calendar logic
 - `src/calendarDataManager.js` - Data persistence
 - `src/calendarEventManager.js` - Event operations
@@ -102,6 +110,7 @@ class Learn {
 - `resources/` - Calendar UI assets
 
 **Features**:
+
 - Deadline tracking with priority levels
 - Custom event scheduling
 - Daily schedule management
@@ -110,6 +119,7 @@ class Learn {
 - Full calendar webview
 
 **Architecture**:
+
 ```javascript
 class CalendarManager {
     constructor(context) {
@@ -126,11 +136,13 @@ class CalendarManager {
 **Purpose**: Pomodoro timer and study session management
 
 **Key Files**:
+
 - `timer.js` - Core timer logic
 - `timer.test.js` - Unit tests
 - `package.json` - Study mode dependencies
 
 **Features**:
+
 - Configurable Pomodoro timer (work/break cycles)
 - Visual countdown with emoji indicators
 - Session logging and analytics
@@ -138,6 +150,7 @@ class CalendarManager {
 - Status bar integration
 
 **Architecture**:
+
 ```javascript
 class StudyModeTimer {
     constructor(vscode, context, config = {}, onStateChange = null) {
@@ -154,10 +167,12 @@ class StudyModeTimer {
 **Purpose**: The Odin Project curriculum integration
 
 **Key Files**:
+
 - `curriculum.json` - Complete Odin Project curriculum (2,400+ lines)
 - `odin_manager.js` - Odin Project specific management
 
 **Features**:
+
 - Complete Odin Project curriculum mapping
 - 800+ estimated hours of content
 - Foundations and Full Stack JavaScript paths
@@ -166,26 +181,31 @@ class StudyModeTimer {
 ## Data Flow
 
 ### 1. Extension Activation
+
 ```
 VS Code → extension.js → Module Initialization → Command Registration
 ```
 
 ### 2. Header Generation
+
 ```
 User Command → TSICore → TSIHeaderManager → Ruby CLI → Generated Header
 ```
 
 ### 3. Learning Flow
+
 ```
 User Command → Learn Module → Curriculum Loading → Exercise Execution → Progress Update
 ```
 
 ### 4. Calendar Operations
+
 ```
 User Command → CalendarManager → EventManager → DataManager → Storage
 ```
 
 ### 5. Study Timer
+
 ```
 User Command → StudyModeTimer → State Management → Status Bar Update → Notifications
 ```
@@ -195,17 +215,20 @@ User Command → StudyModeTimer → State Management → Status Bar Update → N
 The extension uses VS Code's configuration system with the following categories:
 
 ### Header Configuration
+
 - `tsiheader.username` - User name for headers
 - `tsiheader.email` - User email for headers
 - `tsiheader.customHeader.*` - Custom institution branding
 
 ### Study Mode Configuration
+
 - `tsiheader.studyMode.workDuration` - Work session duration
 - `tsiheader.studyMode.shortBreakDuration` - Short break duration
 - `tsiheader.studyMode.longBreakDuration` - Long break duration
 - `tsiheader.studyMode.sessionsBeforeLongBreak` - Sessions before long break
 
 ### Calendar Configuration
+
 - `tsiheader.calendar.importUrl` - Calendar import URL
 - `tsiheader.notifications.*` - Email notification settings
 
@@ -214,6 +237,7 @@ The extension uses VS Code's configuration system with the following categories:
 The extension registers 50+ commands across different categories:
 
 ### Header Commands
+
 - `tsiheader.insertHeader` - Insert TSI header
 - `tsiheader.updateHeader` - Update existing header
 - `tsiheader.removeHeader` - Remove header
@@ -221,6 +245,7 @@ The extension registers 50+ commands across different categories:
 - `tsiheader.addCodeBase` - Add code base template
 
 ### Project Commands
+
 - `tsiheader.createTSIProject` - Create generic project
 - `tsiheader.createCProject` - Create C project
 - `tsiheader.createCppProject` - Create C++ project
@@ -232,6 +257,7 @@ The extension registers 50+ commands across different categories:
 - `tsiheader.createHtmlProject` - Create HTML project
 
 ### Learning Commands
+
 - `tsiheader.learnRuby` - Start Ruby learning
 - `tsiheader.learnRust` - Start Rust learning
 - `tsiheader.learnC` - Start C learning
@@ -242,12 +268,14 @@ The extension registers 50+ commands across different categories:
 - `tsiheader.learnMathematics` - Start Mathematics learning
 
 ### Study Mode Commands
+
 - `tsiheader.startStudySession` - Start study session
 - `tsiheader.pauseStudyTimer` - Pause/resume timer
 - `tsiheader.stopStudySession` - Stop study session
 - `tsiheader.viewStudyStats` - View study statistics
 
 ### Calendar Commands
+
 - `tsiheader.showCalendar` - Show calendar
 - `tsiheader.addCalendarDeadline` - Add deadline
 - `tsiheader.addCalendarEvent` - Add custom event
@@ -258,6 +286,7 @@ The extension registers 50+ commands across different categories:
 ## View Structure
 
 ### Activity Bar Panels
+
 1. **Uni Header Explorer** (`tsi-header-explorer`)
    - Uni Commands view
    - Cached Lessons view
@@ -266,6 +295,7 @@ The extension registers 50+ commands across different categories:
    - Calendar view
 
 ### Tree Views
+
 - **tsi-commands** - Main command interface
 - **tsi-projects** - Project creation interface
 - **tsi-calendar** - Calendar event management
@@ -273,12 +303,14 @@ The extension registers 50+ commands across different categories:
 ## Dependencies
 
 ### Runtime Dependencies
+
 - VS Code API (^1.74.0)
 - Ruby (2.7+) for header generation
 - Git (optional) for user identity resolution
 - Compilers (optional) for Learn Mode exercises
 
 ### Development Dependencies
+
 - @types/vscode (^1.74.0)
 - @xmldom/xmldom (^0.8.10)
 
@@ -309,11 +341,13 @@ The extension registers 50+ commands across different categories:
 ## Testing
 
 ### Test Structure
+
 - **Unit Tests**: Individual module testing
 - **Integration Tests**: Cross-module functionality
 - **End-to-End Tests**: Complete user workflows
 
 ### Test Files
+
 - `studyMode/timer.test.js` - Timer unit tests
 - `learn/tests/no_md_tables.js` - Learning module tests
 - `spec/unified_test.rb` - Ruby test suite
@@ -322,15 +356,18 @@ The extension registers 50+ commands across different categories:
 ## Performance Considerations
 
 ### Large Files
+
 - `core/src/extension.js` (122,138 characters) - Consider refactoring
 - `top/curriculum.json` (2,400+ lines) - Curriculum data
 
 ### Caching
+
 - Offline curriculum caching for Learn Mode
 - Calendar data persistence
 - Progress tracking storage
 
 ### Memory Management
+
 - Proper disposal of event listeners
 - Cleanup of webview panels
 - Timer interval management
@@ -338,11 +375,13 @@ The extension registers 50+ commands across different categories:
 ## Security Considerations
 
 ### User Data
+
 - Local storage for progress and calendar data
 - No external data transmission without user consent
 - SMTP credentials stored in VS Code settings
 
 ### Code Execution
+
 - Sandboxed exercise execution
 - Safe file operations
 - Input validation for user inputs
@@ -350,18 +389,21 @@ The extension registers 50+ commands across different categories:
 ## Future Improvements
 
 ### Architecture
+
 1. **Modularization**: Break down large files into smaller modules
 2. **Plugin System**: Allow third-party curriculum additions
 3. **API Layer**: Create REST API for external integrations
 4. **Database**: Consider SQLite for complex data relationships
 
 ### Features
+
 1. **Collaboration**: Multi-user study sessions
 2. **Analytics**: Advanced learning analytics
 3. **Integration**: More external calendar services
 4. **Mobile**: Companion mobile app
 
 ### Performance
+
 1. **Lazy Loading**: Load curricula on demand
 2. **Background Processing**: Move heavy operations to background
 3. **Caching**: Implement intelligent caching strategies
@@ -370,12 +412,14 @@ The extension registers 50+ commands across different categories:
 ## Maintenance
 
 ### Regular Tasks
+
 1. **Dependency Updates**: Keep VS Code API and dependencies current
 2. **Curriculum Updates**: Update learning materials regularly
 3. **Bug Fixes**: Address user-reported issues
 4. **Performance Monitoring**: Monitor extension performance
 
 ### Code Quality
+
 1. **Linting**: Maintain consistent code style
 2. **Testing**: Ensure comprehensive test coverage
 3. **Documentation**: Keep documentation current
