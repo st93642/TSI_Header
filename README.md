@@ -18,6 +18,7 @@ The extension is now live and available for download from the [VS Code marketpla
 - **🆕 Study Calendar** with deadline tracking, custom events, daily schedules, and **SMTP email notifications**.
 - **🆕 Custom Institution Headers** - Configure your own institution name and URL for personalized headers.
 - **🆕 Enhanced Header Detection** - Automatically detects and updates headers across all supported languages.
+- **🆕 AI Chat Assistant** - Integrated chatbot using locally-hosted Ollama LLM for real-time coding and study assistance.
 
 ## Requirements
 
@@ -29,12 +30,28 @@ The extension is now live and available for download from the [VS Code marketpla
   - **Ruby**: Ruby runtime for Ruby exercises
   - **Rust**: Rust compiler for Rust exercises
 - **Email Server** (optional): SMTP server for calendar email notifications.
+- **Ollama** (optional, for Chat Assistant): Download from [ollama.com](https://ollama.com/) and run locally for AI-powered chat assistance.
+
+## Chat Assistant Setup
+
+To use the integrated AI Chat Assistant:
+
+1. **Install Ollama**: Download and install from [ollama.com](https://ollama.com/)
+2. **Run Ollama locally**: Start the Ollama server (default: `http://localhost:11434`)
+3. **Pull a model**: Run `ollama pull mistral` or your preferred model in terminal
+4. **Configure in VS Code Settings**:
+   - `tsiheader.chat.ollamaUrl`: Ollama server URL (default: `http://localhost:11434`)
+   - `tsiheader.chat.defaultModel`: Model to use (e.g., `mistral`, `llama2`, `neural-chat`)
+   - Optional: `tsiheader.chat.temperature`, `maxTokens`, `historyLimit`
+
+5. **Access Chat**: Click the "Chat Assistant" icon in the Activity Bar or use commands `Uni Header: Open Chat`, `New Chat Conversation`, or `Clear Chat History`
 
 ## Configuration quick hints
 
 - User identity resolves in this order: VS Code settings → Git config → `TSI_USERNAME` / `TSI_EMAIL` env vars.
 - Calendar notifications: Configure SMTP settings for email reminders.
 - **Custom Headers**: Enable `tsiheader.customHeader.enableCustomHeader` to use your institution's branding instead of default TSI headers.
+- **Chat Assistant**: Configure Ollama URL and model selection in VS Code settings under `tsiheader.chat.*`
 
 ## Custom Header Configuration
 
@@ -56,6 +73,7 @@ Use Activity Bar panels:
 - **Uni Projects** for language scaffolds.
 - **📚 Learn** (Ruby, C, C++, Rust, Git, **Odin Project**) and **Study Mode** commands for curriculum + Pomodoro.
 - **📅 Study Calendar** for scheduling deadlines, events, and automated email notifications.
+- **💬 Chat Assistant** for AI-powered coding and study assistance using locally-hosted Ollama.
 
 ## Calendar Features
 
