@@ -146,6 +146,17 @@ test('ChatService - Error Normalization', async (t) => {
         assert(normalized.message.includes('Invalid Ollama URL'));
     });
 
+    await t.test('should normalize abort error', () => {
+        const service = new ChatService(mockVSCode);
+        const error = new Error('The user aborted a request.');
+        error.name = 'AbortError';
+
+        const normalized = service.normalizeError(error);
+
+        assert.equal(normalized.code, 'REQUEST_CANCELLED');
+        assert(normalized.message.includes('cancelled'));
+    });
+
     await t.test('should normalize unknown error', () => {
         const service = new ChatService(mockVSCode);
         const error = new Error('Some unexpected error');
