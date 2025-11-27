@@ -8,9 +8,10 @@
 4. [Learning Platform](#learning-platform)
 5. [Study Mode](#study-mode)
 6. [Calendar System](#calendar-system)
-7. [Configuration](#configuration)
-8. [Troubleshooting](#troubleshooting)
-9. [Tips and Tricks](#tips-and-tricks)
+7. [Chat Assistant](#chat-assistant)
+8. [Configuration](#configuration)
+9. [Troubleshooting](#troubleshooting)
+10. [Tips and Tricks](#tips-and-tricks)
 
 ## Installation
 
@@ -387,6 +388,103 @@ Set recurring time blocks for consistent study routines.
 2. Type "Test Email Notification"
 3. Press Enter
 4. Check your email for the test message
+
+## Chat Assistant
+
+### Overview
+
+The integrated AI Chat Assistant provides real-time coding and study assistance through a locally-hosted Ollama LLM. The chat interface is accessible via the **Chat Assistant** panel in the Activity Bar.
+
+### Getting Started with Chat
+
+#### Step 1: Install Ollama
+
+1. Download Ollama from [ollama.com](https://ollama.com/)
+2. Follow installation instructions for your operating system
+3. Complete the installation
+
+#### Step 2: Run Ollama Server
+
+1. Launch Ollama (from applications menu or terminal)
+2. The server will start on `http://localhost:11434` by default
+3. Verify it's running by visiting the URL in your browser
+
+#### Step 3: Pull an LLM Model
+
+Open your terminal and run:
+
+```bash
+ollama pull mistral
+```
+
+Available models include:
+- `mistral` - Fast and efficient
+- `llama2` - Larger, more capable
+- `neural-chat` - Optimized for conversations
+- `dolphin-mixtral` - For coding assistance
+- And many more available on [ollama.com/library](https://ollama.com/library)
+
+#### Step 4: Configure VS Code Settings
+
+1. Open VS Code Settings (Ctrl+,)
+2. Search for "tsiheader.chat"
+3. Configure the following:
+   - `tsiheader.chat.ollamaUrl`: Ollama server URL (default: `http://localhost:11434`)
+   - `tsiheader.chat.defaultModel`: Model name (e.g., `mistral`)
+   - Optional tuning parameters:
+     - `temperature`: Response creativity (0-2, default 0.7)
+     - `maxTokens`: Maximum response length (default 2048)
+     - `historyLimit`: Previous messages to consider (default 10)
+
+### Using the Chat Assistant
+
+**Opening Chat**
+
+1. Click the **Chat Assistant** (💬) icon in the Activity Bar
+2. Or use command palette: Press Ctrl+Shift+P and select "Uni Header: Open Chat"
+
+**Starting a Conversation**
+
+1. Type your question or code-related query in the message input
+2. Press Enter or click Send
+3. The AI assistant will respond using your configured model
+
+**Managing Conversations**
+
+- **New Conversation**: Use "Uni Header: New Chat Conversation" command to clear the current chat and start fresh
+- **Clear History**: Use "Uni Header: Clear Chat History" command to reset all saved conversations
+
+### Chat Configuration Settings
+
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `tsiheader.chat.ollamaUrl` | string | `http://localhost:11434` | URL for your local Ollama server |
+| `tsiheader.chat.defaultModel` | string | `mistral` | LLM model to use (must be pulled via ollama pull) |
+| `tsiheader.chat.temperature` | number | 0.7 | Response creativity (0=deterministic, 2=creative) |
+| `tsiheader.chat.maxTokens` | number | 2048 | Maximum tokens in each response |
+| `tsiheader.chat.historyLimit` | number | 10 | Number of previous messages to maintain |
+
+### Troubleshooting Chat
+
+**"Unable to connect to Ollama server"**
+- Ensure Ollama is running (check taskbar or run `ollama serve` in terminal)
+- Verify `tsiheader.chat.ollamaUrl` matches your Ollama server address
+- On Windows, try using `http://localhost:11434` explicitly
+
+**"Model not found"**
+- Download the model first: `ollama pull <model-name>`
+- Verify model name matches exactly (case-sensitive)
+- List available models: `ollama list`
+
+**Slow responses**
+- Reduce `maxTokens` for faster completions
+- Lower `temperature` for simpler, more focused responses
+- Use a faster model like `mistral` or `neural-chat`
+
+**High memory usage**
+- Use smaller models like `mistral` instead of larger ones
+- Close other applications
+- Reduce `historyLimit` to maintain less chat history
 
 ## Configuration
 

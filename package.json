@@ -164,6 +164,37 @@
           "default": "https://tsi.lv",
           "description": "Your institution/university website URL to display in custom headers",
           "scope": "resource"
+        },
+        "tsiheader.chat.ollamaUrl": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "URL for connecting to the Ollama server. Ensure Ollama is running locally on this address. Download Ollama from https://ollama.com/",
+          "scope": "resource"
+        },
+        "tsiheader.chat.defaultModel": {
+          "type": "string",
+          "default": "mistral",
+          "description": "Default LLM model to use for chat. Must be available on your Ollama instance (e.g., 'mistral', 'llama2', 'neural-chat')",
+          "scope": "resource"
+        },
+        "tsiheader.chat.temperature": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Sampling temperature for model responses (0-2). Lower values = more deterministic, higher = more creative"
+        },
+        "tsiheader.chat.maxTokens": {
+          "type": "number",
+          "default": 2048,
+          "minimum": 1,
+          "description": "Maximum number of tokens in model responses"
+        },
+        "tsiheader.chat.historyLimit": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "description": "Maximum number of previous messages to include in chat context"
         }
       }
     },
@@ -178,6 +209,11 @@
           "id": "tsi-calendar-container",
           "title": "Study Calendar",
           "icon": "$(calendar)"
+        },
+        {
+          "id": "tsi-chat-container",
+          "title": "Chat Assistant",
+          "icon": "$(comment-discussion)"
         }
       ]
     },
@@ -201,6 +237,14 @@
           "id": "tsi-calendar",
           "name": "Calendar",
           "icon": "$(calendar)",
+          "when": "true"
+        }
+      ],
+      "tsi-chat-container": [
+        {
+          "id": "tsi-chat-view",
+          "name": "Chat",
+          "icon": "$(comment-discussion)",
           "when": "true"
         }
       ]
@@ -571,6 +615,24 @@
         "title": "Test Email Notification",
         "category": "Uni Header",
         "icon": "$(bell)"
+      },
+      {
+        "command": "tsiheader.openChat",
+        "title": "Open Chat",
+        "category": "Uni Header",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "tsiheader.newChatConversation",
+        "title": "New Chat Conversation",
+        "category": "Uni Header",
+        "icon": "$(comment-blank)"
+      },
+      {
+        "command": "tsiheader.clearChatHistory",
+        "title": "Clear Chat History",
+        "category": "Uni Header",
+        "icon": "$(clear-all)"
       }
     ],
     "commandPalette": [
@@ -600,6 +662,18 @@
       },
       {
         "command": "tsiheader.clearMathematicsCache",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.openChat",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.newChatConversation",
+        "when": "true"
+      },
+      {
+        "command": "tsiheader.clearChatHistory",
         "when": "true"
       }
     ],
@@ -889,6 +963,23 @@
       {
         "command": "tsiheader.importCalendarFromUrl",
         "when": "view == tsi-calendar",
+        "group": "navigation"
+      }
+    ],
+    "view/title:tsi-chat-view": [
+      {
+        "command": "tsiheader.openChat",
+        "when": "view == tsi-chat-view",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.newChatConversation",
+        "when": "view == tsi-chat-view",
+        "group": "navigation"
+      },
+      {
+        "command": "tsiheader.clearChatHistory",
+        "when": "view == tsi-chat-view",
         "group": "navigation"
       }
     ]
