@@ -2,7 +2,7 @@
   "name": "uni-header",
   "displayName": "University Header, Learn, Pomodoro & Calendar",
   "description": "Code generation and headers, learning modules (C/C++/Ruby/Rust/Git/Odin Project), Pomodoro timer for focused study sessions and calendar",
-  "version": "7.0.8",
+  "version": "8.0.0",
   "publisher": "st93642",
   "author": {
     "name": "st93642",
@@ -213,7 +213,7 @@
         {
           "id": "tsi-chat-container",
           "title": "Chat Assistant",
-          "icon": "$(comment-discussion)"
+          "icon": "$(comment)"
         }
       ]
     },
@@ -243,8 +243,9 @@
       "tsi-chat-container": [
         {
           "id": "tsi-chat-view",
+          "type": "webview",
           "name": "Chat",
-          "icon": "$(comment-discussion)",
+          "icon": "$(comment)",
           "when": "true"
         }
       ]
