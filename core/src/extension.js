@@ -17,6 +17,7 @@ const path = require('path');
 
 // Import the core interface
 const { TSICore } = require('../index');
+const { ChatWebviewProvider } = require(path.join(__dirname, '..', '..', 'chat', 'src'));
 // Import feature modules
 // Code quality enforcement module removed
 // Import project creator
@@ -56,6 +57,15 @@ function activate(context) {
         console.log('Calendar module initialized successfully');
     } catch (error) {
         console.error('Failed to initialize calendar module:', error);
+    }
+
+    // Initialize Chat webview provider
+    try {
+        const chatWebviewProvider = new ChatWebviewProvider(context);
+        const chatViewDisposable = vscode.window.registerWebviewViewProvider('tsi-chat-view', chatWebviewProvider);
+        context.subscriptions.push(chatWebviewProvider, chatViewDisposable);
+    } catch (error) {
+        console.error('Failed to initialize chat webview provider:', error);
     }
 
     // Register test notification command (available even if calendar fails to initialize)

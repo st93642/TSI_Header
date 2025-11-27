@@ -60,6 +60,14 @@ class ChatService {
             };
         }
 
+        if (error.name === 'AbortError') {
+            return {
+                message: 'Request cancelled.',
+                detail: 'The request was cancelled before it completed.',
+                code: 'REQUEST_CANCELLED'
+            };
+        }
+
         if (error.message.includes('404')) {
             return {
                 message: 'Model not found.',
@@ -123,10 +131,19 @@ class ChatService {
      * Send a chat message to Ollama
      */
     async sendMessage(messages, model = null, options = {}) {
+        const selectedModel = model || this.config.model;
+        const abortController = options.abortController || new AbortController();
+        const timeoutMs = typeof options.timeout === 'number' ? options.timeout : this.timeout;
+        let timeoutId;
+
         try {
-            const selectedModel = model || this.config.model;
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), options.timeout || this.timeout);
+            if (timeoutMs > 0) {
+                timeoutId = setTimeout(() => {
+                    if (!abortController.signal.aborted) {
+                        abortController.abort();
+                    }
+                }, timeoutMs);
+            }
 
             const requestBody = {
                 model: selectedModel,
@@ -144,10 +161,8 @@ class ChatService {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(requestBody),
-                signal: controller.signal
+                signal: abortController.signal
             });
-
-            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 if (response.status === 404) {
@@ -171,6 +186,10 @@ class ChatService {
                 success: false,
                 error: normalized
             };
+        } finally {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
         }
     }
 
@@ -178,10 +197,19 @@ class ChatService {
      * Send a streaming chat message to Ollama (for future implementation)
      */
     async sendStreamingMessage(messages, model = null, onChunk, options = {}) {
+        const selectedModel = model || this.config.model;
+        const abortController = options.abortController || new AbortController();
+        const timeoutMs = typeof options.timeout === 'number' ? options.timeout : this.timeout;
+        let timeoutId;
+
         try {
-            const selectedModel = model || this.config.model;
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), options.timeout || this.timeout);
+            if (timeoutMs > 0) {
+                timeoutId = setTimeout(() => {
+                    if (!abortController.signal.aborted) {
+                        abortController.abort();
+                    }
+                }, timeoutMs);
+            }
 
             const requestBody = {
                 model: selectedModel,
@@ -199,10 +227,8 @@ class ChatService {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(requestBody),
-                signal: controller.signal
+                signal: abortController.signal
             });
-
-            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 if (response.status === 404) {
@@ -249,6 +275,10 @@ class ChatService {
                 success: false,
                 error: normalized
             };
+        } finally {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
         }
     }
 
