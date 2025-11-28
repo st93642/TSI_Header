@@ -1,3 +1,16 @@
+#*****************************************************************************#
+#                                                                             #
+#  tsi_header_cli.rb                                      TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Nov 28 2025 17:04 st93642                        TT    SSSSSSS II #
+#  Updated: Nov 28 2025 17:04 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
 #!/usr/bin/env ruby
 
 require_relative 'tsi_header'
