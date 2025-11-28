@@ -8,53 +8,24 @@ process.env.NODE_ENV = 'test';
 
 const test = require('node:test');
 const assert = require('node:assert');
+const { createVSCodeMock } = require('../../test/utils/vscodeMock');
+const { createMockExtensionContext } = require('../../test/utils/globalStateMock');
 
 // Mock vscode before requiring ChatManager
-global.vscode = {
-    window: {
-        registerWebviewViewProvider: () => ({ dispose: () => {} }),
-        showWarningMessage: async () => null,
-        showInformationMessage: async () => null,
-        showErrorMessage: async () => null
-    },
-    commands: {
-        registerCommand: () => ({ dispose: () => {} }),
-        executeCommand: async () => {}
-    },
-    workspace: {
-        onDidChangeConfiguration: () => ({ dispose: () => {} }),
-        getConfiguration: () => ({
-            get: () => 'http://localhost:11434',
-            update: async () => {}
-        })
-    },
-    Uri: {
-        joinPath: () => ({ fsPath: '/mock/path' })
+global.vscode = createVSCodeMock({
+    configuration: {
+        tsiheader: {
+            chatTimeout: 30000,
+            ollamaUrl: 'http://localhost:11434'
+        }
     }
-};
+});
 
 const { ChatManager } = require('./chatManager');
 
-const createMockContext = () => {
-    const storage = new Map();
-    const subscriptions = [];
-    return {
-        globalState: {
-            get: (key, defaultValue) => {
-                return storage.has(key) ? storage.get(key) : defaultValue;
-            },
-            update: async (key, value) => {
-                if (value === null || value === undefined) {
-                    storage.delete(key);
-                } else {
-                    storage.set(key, value);
-                }
-            }
-        },
-        subscriptions,
-        extensionUri: { fsPath: '/mock/path' }
-    };
-};
+const createMockContext = () => createMockExtensionContext({
+    extensionUri: { fsPath: '/mock/path' }
+});
 
 test('ChatManager - Lifecycle Pattern', async (t) => {
     await t.test('should implement BaseManager lifecycle methods', async () => {
@@ -182,13 +153,13 @@ test('ChatManager - Lifecycle Pattern', async (t) => {
     });
 
     await t.test('should handle errors in view registration gracefully', async () => {
-        const brokenVSCode = {
+        const brokenVSCode = createVSCodeMock({
             window: {
                 registerWebviewViewProvider: () => {
                     throw new Error('Registration failed');
                 }
             }
-        };
+        });
         global.vscode = brokenVSCode;
 
         const mockContext = createMockContext();
@@ -202,18 +173,23 @@ test('ChatManager - Lifecycle Pattern', async (t) => {
 
 test('ChatManager - Integration', async (t) => {
     await t.test('should have all required chat commands', async () => {
+        // Reset vscode mock for this test
+        global.vscode = createVSCodeMock({
+            configuration: {
+                tsiheader: {
+                    chatTimeout: 30000,
+                    ollamaUrl: 'http://localhost:11434'
+                }
+            }
+        });
 
         const mockContext = createMockContext();
         const manager = new ChatManager(mockContext);
 
-        const registeredCommands = [];
-        global.vscode.commands.registerCommand = (name) => {
-            registeredCommands.push(name);
-            return { dispose: () => {} };
-        };
-
         manager.registerViews(mockContext);
         manager.registerCommands(mockContext);
+
+        const registeredCommands = global.vscode._getRegisteredCommands();
 
         const expectedCommands = [
             'tsiheader.openChat',
@@ -222,11 +198,20 @@ test('ChatManager - Integration', async (t) => {
         ];
 
         expectedCommands.forEach(cmd => {
-            assert(registeredCommands.includes(cmd), `Command ${cmd} should be registered`);
+            assert(registeredCommands.has(cmd), `Command ${cmd} should be registered`);
         });
     });
 
     await t.test('should properly chain lifecycle phases', async () => {
+        // Reset vscode mock for this test
+        global.vscode = createVSCodeMock({
+            configuration: {
+                tsiheader: {
+                    chatTimeout: 30000,
+                    ollamaUrl: 'http://localhost:11434'
+                }
+            }
+        });
 
         const mockContext = createMockContext();
         const manager = new ChatManager(mockContext);
@@ -258,14 +243,23 @@ test('ChatManager - Integration', async (t) => {
     });
 
     await t.test('configuration listener should be tracked as disposable', async () => {
-
-        const mockContext = createMockContext();
-        const manager = new ChatManager(mockContext);
+        // Reset vscode mock for this test
+        global.vscode = createVSCodeMock({
+            configuration: {
+                tsiheader: {
+                    chatTimeout: 30000,
+                    ollamaUrl: 'http://localhost:11434'
+                }
+            }
+        });
 
         let configListenerDisposed = false;
         global.vscode.workspace.onDidChangeConfiguration = () => ({
             dispose: () => { configListenerDisposed = true; }
         });
+
+        const mockContext = createMockContext();
+        const manager = new ChatManager(mockContext);
 
         manager.registerViews(mockContext);
         manager.registerCommands(mockContext);

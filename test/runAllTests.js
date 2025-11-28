@@ -35,11 +35,24 @@ const runTestFile = (relativePath) => {
             cwd: projectRoot
         });
 
+        const timeout = setTimeout(() => {
+            console.log(`\n⏰ Timeout: Killing ${relativePath} after 30 seconds`);
+            child.kill('SIGTERM');
+            setTimeout(() => {
+                if (!child.killed) {
+                    child.kill('SIGKILL');
+                }
+            }, 5000);
+            resolve({ file: relativePath, code: 1, timedOut: true });
+        }, 30000); // 30 second timeout
+
         child.on('exit', (code) => {
+            clearTimeout(timeout);
             resolve({ file: relativePath, code });
         });
 
         child.on('error', (error) => {
+            clearTimeout(timeout);
             reject(error);
         });
     });
@@ -77,7 +90,8 @@ const runTestFile = (relativePath) => {
             console.log(`✅ ${file} passed`);
         } else {
             failures++;
-            console.log(`❌ ${file} failed (exit code ${result.code})`);
+            const reason = result.timedOut ? 'timed out' : `exit code ${result.code}`;
+            console.log(`❌ ${file} failed (${reason})`);
         }
     }
 

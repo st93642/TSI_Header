@@ -8,34 +8,11 @@ process.env.NODE_ENV = 'test';
 
 const test = require('node:test');
 const assert = require('node:assert');
+const { createVSCodeMock } = require('../../test/utils/vscodeMock');
+const { createMockExtensionContext } = require('../../test/utils/globalStateMock');
 
 // Mock vscode before requiring CalendarManager
-global.vscode = {
-    window: {
-        registerTreeDataProvider: () => ({ dispose: () => {} }),
-        showInputBox: async () => null,
-        showQuickPick: async () => null,
-        showSaveDialog: async () => null,
-        showOpenDialog: async () => null,
-        showWarningMessage: async () => null,
-        showInformationMessage: async () => null,
-        showErrorMessage: async () => null
-    },
-    commands: {
-        registerCommand: () => ({ dispose: () => {} }),
-        executeCommand: async () => {}
-    },
-    workspace: {
-        onDidChangeConfiguration: () => ({ dispose: () => {} }),
-        getConfiguration: () => ({
-            get: () => {},
-            update: async () => {}
-        }),
-        fs: {
-            writeFile: async () => {},
-            readFile: async () => Buffer.from('{}')
-        }
-    },
+global.vscode = createVSCodeMock({
     TreeItem: class TreeItem {},
     TreeItemCollapsibleState: {
         None: 0,
@@ -56,30 +33,13 @@ global.vscode = {
     Uri: {
         file: (path) => ({ fsPath: path })
     }
-};
+});
 
 const { CalendarManager } = require('./calendarManager');
 
-const createMockContext = () => {
-    const storage = new Map();
-    const subscriptions = [];
-    return {
-        globalState: {
-            get: (key, defaultValue) => {
-                return storage.has(key) ? storage.get(key) : defaultValue;
-            },
-            update: async (key, value) => {
-                if (value === null || value === undefined) {
-                    storage.delete(key);
-                } else {
-                    storage.set(key, value);
-                }
-            }
-        },
-        subscriptions,
-        extensionUri: { fsPath: '/mock/path' }
-    };
-};
+const createMockContext = () => createMockExtensionContext({
+    extensionUri: { fsPath: '/mock/path' }
+});
 
 test('CalendarManager - Lifecycle Pattern', async (t) => {
     await t.test('should implement BaseManager lifecycle methods', async () => {

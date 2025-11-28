@@ -11,6 +11,9 @@ try {
     // In test environment, use global mock
     vscode = global.vscode || {};
 }
+
+// In test environment, use dynamic global.vscode to allow test overrides
+const getVSCode = () => process.env.NODE_ENV === 'test' ? global.vscode || vscode : vscode;
 const { BaseManager } = require('../../core/src/baseManager');
 const { ChatDataManager } = require('./chatDataManager');
 const { ChatService } = require('./chatService');
@@ -38,7 +41,7 @@ class ChatManager extends BaseManager {
         this._initialized.views = true;
 
         try {
-            const webviewViewDisposable = vscode.window.registerWebviewViewProvider(
+            const webviewViewDisposable = getVSCode().window.registerWebviewViewProvider(
                 'tsi-chat-view',
                 this.webviewProvider
             );
@@ -81,7 +84,7 @@ class ChatManager extends BaseManager {
         this._initialized.listeners = true;
 
         try {
-            const configListener = vscode.workspace.onDidChangeConfiguration((event) => {
+            const configListener = getVSCode().workspace.onDidChangeConfiguration((event) => {
                 if (event.affectsConfiguration('tsiheader.chat')) {
                     this.chatService.refreshConfig();
                     if (this.webviewProvider.view) {
@@ -104,20 +107,20 @@ class ChatManager extends BaseManager {
      */
     _registerAllCommands(context) {
         // Open chat command - reveals the activity bar container
-        const openChatCmd = vscode.commands.registerCommand('tsiheader.openChat', async () => {
+        const openChatCmd = getVSCode().commands.registerCommand('tsiheader.openChat', async () => {
             try {
-                await vscode.commands.executeCommand('workbench.view.extension.tsi-chat-container');
+                await getVSCode().commands.executeCommand('workbench.view.extension.tsi-chat-container');
             } catch (error) {
                 console.error('Error opening chat:', error);
-                vscode.window.showErrorMessage('Failed to open chat');
+                getVSCode().window.showErrorMessage('Failed to open chat');
             }
         });
 
         // New chat conversation command
-        const newConversationCmd = vscode.commands.registerCommand('tsiheader.newChatConversation', async () => {
+        const newConversationCmd = getVSCode().commands.registerCommand('tsiheader.newChatConversation', async () => {
             try {
                 if (!this.webviewProvider.view) {
-                    await vscode.commands.executeCommand('workbench.view.extension.tsi-chat-container');
+                    await getVSCode().commands.executeCommand('workbench.view.extension.tsi-chat-container');
                     // Wait for view to be ready
                     await new Promise(resolve => setTimeout(resolve, 100));
                 }
@@ -128,14 +131,14 @@ class ChatManager extends BaseManager {
                 }
             } catch (error) {
                 console.error('Error creating new conversation:', error);
-                vscode.window.showErrorMessage('Failed to create new conversation');
+                getVSCode().window.showErrorMessage('Failed to create new conversation');
             }
         });
 
         // Clear chat history command
-        const clearHistoryCmd = vscode.commands.registerCommand('tsiheader.clearChatHistory', async () => {
+        const clearHistoryCmd = getVSCode().commands.registerCommand('tsiheader.clearChatHistory', async () => {
             try {
-                const result = await vscode.window.showWarningMessage(
+                const result = await getVSCode().window.showWarningMessage(
                     'Are you sure you want to clear all chat history? This cannot be undone.',
                     'Clear',
                     'Cancel'
@@ -146,11 +149,11 @@ class ChatManager extends BaseManager {
                     if (this.webviewProvider.view) {
                         await this.webviewProvider._handleInitialize();
                     }
-                    vscode.window.showInformationMessage('Chat history cleared');
+                    getVSCode().window.showInformationMessage('Chat history cleared');
                 }
             } catch (error) {
                 console.error('Error clearing chat history:', error);
-                vscode.window.showErrorMessage('Failed to clear chat history');
+                getVSCode().window.showErrorMessage('Failed to clear chat history');
             }
         });
 

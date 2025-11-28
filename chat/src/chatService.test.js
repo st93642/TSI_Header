@@ -6,6 +6,11 @@
 
 process.env.NODE_ENV = 'test';
 
+// Mock fetch to simulate network failures for testing
+globalThis.fetch = async () => {
+    throw new Error('Network error: Connection refused');
+};
+
 const test = require('node:test');
 const assert = require('node:assert');
 const { ChatService } = require('./chatService');

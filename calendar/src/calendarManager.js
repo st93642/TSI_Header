@@ -5,6 +5,9 @@ try {
     // In test environment, use global mock
     vscode = global.vscode || {};
 }
+
+// In test environment, use dynamic global.vscode to allow test overrides
+const getVSCode = () => process.env.NODE_ENV === 'test' ? global.vscode || vscode : vscode;
 const path = require('path');
 const { BaseManager } = require('../../core/src/baseManager');
 const { CalendarDataManager } = require('./calendarDataManager');
@@ -281,7 +284,7 @@ class CalendarManager extends BaseManager {
 
         try {
             this.treeDataProvider = new CalendarTreeDataProvider(this.eventManager);
-            const treeDisposable = vscode.window.registerTreeDataProvider('tsi-calendar', this.treeDataProvider);
+            const treeDisposable = getVSCode().window.registerTreeDataProvider('tsi-calendar', this.treeDataProvider);
             this._addDisposable(treeDisposable);
             context.subscriptions.push(treeDisposable);
             console.log('CalendarManager: Tree provider registered successfully');
@@ -336,12 +339,12 @@ class CalendarManager extends BaseManager {
      */
     _registerAllCommands(context) {
         // Show calendar command - opens full calendar webview
-        const showCalendarCmd = vscode.commands.registerCommand('tsiheader.showCalendar', async () => {
+        const showCalendarCmd = getVSCode().commands.registerCommand('tsiheader.showCalendar', async () => {
             await this.webviewProvider.createCalendarPanel();
         });
 
         // Add deadline command
-        const addDeadlineCmd = vscode.commands.registerCommand('tsiheader.addCalendarDeadline', async () => {
+        const addDeadlineCmd = getVSCode().commands.registerCommand('tsiheader.addCalendarDeadline', async () => {
             const deadline = await this.showDeadlineDialog();
             if (deadline) {
                 await this.eventManager.addDeadline(deadline);
@@ -350,7 +353,7 @@ class CalendarManager extends BaseManager {
         });
 
         // Add custom event command
-        const addEventCmd = vscode.commands.registerCommand('tsiheader.addCalendarEvent', async () => {
+        const addEventCmd = getVSCode().commands.registerCommand('tsiheader.addCalendarEvent', async () => {
             const event = await this.showEventDialog();
             if (event) {
                 await this.eventManager.addCustomEvent(event);
@@ -359,7 +362,7 @@ class CalendarManager extends BaseManager {
         });
 
         // Add daily schedule command
-        const addScheduleCmd = vscode.commands.registerCommand('tsiheader.addCalendarSchedule', async () => {
+        const addScheduleCmd = getVSCode().commands.registerCommand('tsiheader.addCalendarSchedule', async () => {
             const schedule = await this.showScheduleDialog();
             if (schedule) {
                 await this.eventManager.addDailySchedule(schedule);
@@ -368,18 +371,18 @@ class CalendarManager extends BaseManager {
         });
 
         // Export calendar command
-        const exportCmd = vscode.commands.registerCommand('tsiheader.exportCalendar', async () => {
+        const exportCmd = getVSCode().commands.registerCommand('tsiheader.exportCalendar', async () => {
             await this.exportCalendar();
         });
 
         // Import calendar command
-        const importCmd = vscode.commands.registerCommand('tsiheader.importCalendar', async () => {
+        const importCmd = getVSCode().commands.registerCommand('tsiheader.importCalendar', async () => {
             await this.importCalendar();
             this.treeDataProvider.refresh();
         });
 
         // Import calendar from URL command
-        const importFromUrlCmd = vscode.commands.registerCommand('tsiheader.importCalendarFromUrl', async () => {
+        const importFromUrlCmd = getVSCode().commands.registerCommand('tsiheader.importCalendarFromUrl', async () => {
             await this.importCalendarFromUrl();
             this.treeDataProvider.refresh();
         });

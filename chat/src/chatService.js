@@ -15,6 +15,11 @@ try {
     fetch = globalThis.fetch;
 }
 
+// In test environment, use globalThis.fetch to allow mocking
+if (process.env.NODE_ENV === 'test') {
+    fetch = globalThis.fetch;
+}
+
 class ChatService {
     constructor(vscode) {
         this.vscode = vscode;
