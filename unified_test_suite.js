@@ -21,7 +21,8 @@ const testFiles = [
     'chat/src/chatService.test.js',
     'studyMode/timer.test.js',
     'studyMode/extension.test.js',
-    'core/generators/project/projectcreators/htmlProjectCreator.test.js'
+    'core/generators/project/projectcreators/htmlProjectCreator.test.js',
+    'core/src/projects/projectHelpers.test.js'
 ];
 
 const projectRoot = __dirname;

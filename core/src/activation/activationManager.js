@@ -290,6 +290,20 @@ class ActivationManager {
     }
 
     /**
+     * Get the TSI commands provider (for dependency injection)
+     */
+    getTSICommandsProvider() {
+        return this.tsiCommandsProvider;
+    }
+
+    /**
+     * Get the TSI projects provider (for dependency injection)
+     */
+    getTSIProjectsProvider() {
+        return this.tsiProjectsProvider;
+    }
+
+    /**
      * Get registration statistics
      */
     getStats() {
