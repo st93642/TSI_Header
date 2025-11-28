@@ -15,6 +15,9 @@ const vscode = require('vscode');
 const { execSync } = require('child_process');
 const path = require('path');
 
+// Import the activation manager
+const { ActivationManager } = require('./activation/activationManager');
+
 // Import the core interface
 const { TSICore } = require('../index');
 // ChatManager is lazy-loaded to prevent extension load failures
@@ -37,116 +40,50 @@ const { StudyModeExtension } = require('./studyModeExtension');
 // Import tree data providers
 const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvider');
 
-function activate(context) {
-    // CRITICAL: Register ALL view providers FIRST before anything else
-    // This prevents "no data provider registered" errors
+/**
+ * Show configuration instructions for missing user settings
+ */
+function showConfigurationInstructions(type) {
+    const message = type === 'username' 
+        ? '🔧 TSI Header Setup: Please configure your username to get started!\n\n' +
+          '📝 Choose one option:\n' +
+          '• VS Code Settings: Search "tsiheader.username"\n' +
+          '• Git config: git config --global user.name "YourUsername"\n' +
+          '• Environment: Set TSI_USERNAME variable'
+        : '🔧 TSI Header Setup: Please configure your email to get started!\n\n' +
+          '📝 Choose one option:\n' +
+          '• VS Code Settings: Search "tsiheader.email"\n' +
+          '• Git config: git config --global user.email "your.email@example.com"\n' +
+          '• Environment: Set TSI_EMAIL variable';
     
-    // 1. Register TSI Tree View Providers immediately
-    const tsiCommandsProvider = new TSITreeDataProvider();
-    const tsiProjectsProvider = new TSIProjectDataProvider();
-    vscode.window.registerTreeDataProvider('tsi-commands', tsiCommandsProvider);
-    vscode.window.registerTreeDataProvider('tsi-projects', tsiProjectsProvider);
-
-    // 2. Register Calendar tree provider immediately
-    let calendarManager = null;
-    try {
-        const { CalendarManager } = require(path.join(__dirname, '..', '..', 'calendar', 'src'));
-        calendarManager = new CalendarManager(context);
-        calendarManager.registerTreeProvider();
-    } catch (error) {
-        console.error('Failed to register calendar tree provider:', error);
-    }
-
-    // 3. Register Chat webview provider immediately
-    let chatManager = null;
-    let ChatWebviewProvider = null;
-    try {
-        // Load modules separately to identify which one fails
-        const chatPath = path.join(__dirname, '..', '..', 'chat', 'src');
-        const { ChatDataManager } = require(path.join(chatPath, 'chatDataManager'));
-        const { ChatService } = require(path.join(chatPath, 'chatService'));
-        ChatWebviewProvider = require(path.join(chatPath, 'chatWebviewProvider')).ChatWebviewProvider;
-        
-        // Create the webview provider directly
-        const chatDataManager = new ChatDataManager(context);
-        const chatService = new ChatService(vscode);
-        const chatWebviewProvider = new ChatWebviewProvider(context, {
-            dataManager: chatDataManager,
-            chatService: chatService
+    vscode.window.showInformationMessage(message, 'Open Settings', 'Git Config Help')
+        .then(selection => {
+            if (selection === 'Open Settings') {
+                vscode.commands.executeCommand('workbench.action.openSettings', `@ext:st93642.uni-header`);
+            } else if (selection === 'Git Config Help') {
+                vscode.env.openExternal(vscode.Uri.parse('https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup'));
+            }
         });
-        
-        const webviewViewDisposable = vscode.window.registerWebviewViewProvider(
-            'tsi-chat-view',
-            chatWebviewProvider
-        );
-        context.subscriptions.push(webviewViewDisposable);
-        
-        // Store for later command registration
-        chatManager = {
-            webviewProvider: chatWebviewProvider,
-            dataManager: chatDataManager,
-            chatService: chatService
-        };
-        console.log('Chat webview provider registered successfully');
-    } catch (error) {
-        console.error('Failed to register chat webview provider:', error);
-        vscode.window.showErrorMessage('Chat module failed to load: ' + error.message);
-    }
+}
 
-    // NOW initialize everything else (after all providers are registered)
+function activate(context) {
+    // Initialize the ActivationManager to handle views and module initialization
+    const activationManager = new ActivationManager(context);
     
-    // Initialize core interface
-    const core = new TSICore(context.extensionPath);
-
-    // Initialize Study Mode extension
-    const studyModeExtension = new StudyModeExtension(vscode, context);
-    studyModeExtension.activate();
-
-    // Initialize Calendar commands (provider already registered above)
-    if (calendarManager) {
-        try {
-            calendarManager.initializeCommands();
-            console.log('Calendar module initialized successfully');
-        } catch (error) {
-            console.error('Failed to initialize calendar commands:', error);
-        }
-    }
-
-    // Initialize Chat commands (provider already registered above)
-    if (chatManager && chatManager.webviewProvider) {
-        try {
-            // Register chat commands manually since we didn't use ChatManager
-            const openChatCmd = vscode.commands.registerCommand('tsiheader.openChat', async () => {
-                await vscode.commands.executeCommand('workbench.view.extension.tsi-chat-container');
-            });
-            
-            const newConversationCmd = vscode.commands.registerCommand('tsiheader.newChatConversation', async () => {
-                const config = chatManager.chatService.getConfig();
-                await chatManager.dataManager.createConversation('New Conversation', config.model);
-                if (chatManager.webviewProvider.view) {
-                    await chatManager.webviewProvider._postState({ reason: 'newConversation' });
-                }
-            });
-            
-            const clearHistoryCmd = vscode.commands.registerCommand('tsiheader.clearChatHistory', async () => {
-                const result = await vscode.window.showWarningMessage(
-                    'Are you sure you want to clear all chat history?',
-                    'Clear', 'Cancel'
-                );
-                if (result === 'Clear') {
-                    await chatManager.dataManager.clearAllData();
-                    if (chatManager.webviewProvider.view) {
-                        await chatManager.webviewProvider._handleInitialize();
-                    }
-                }
-            });
-            
-            context.subscriptions.push(openChatCmd, newConversationCmd, clearHistoryCmd);
-            console.log('Chat commands registered successfully');
-        } catch (error) {
-            console.error('Failed to initialize chat commands:', error);
-        }
-    }
+    // Phase 1: Register all views (tree providers, webview providers)
+    console.log('TSI Header: Activating extension');
+    activationManager.registerViews();
+    
+    // Phase 2: Initialize modules (core, study mode, managers)
+    activationManager.initializeModules().catch(error => {
+        console.error('Error during module initialization:', error);
+    });
+    
+    // Get references to managers from the activation manager for command registration
+    const calendarManager = activationManager.getCalendarManager();
+    const chatManager = activationManager.getChatManager();
+    const core = activationManager.getCore();
+    const studyModeExtension = activationManager.getStudyModeExtension();
 
     // Register test notification command (available even if calendar fails to initialize)
     const testNotificationCommand = vscode.commands.registerCommand('tsiheader.testNotification', async () => {
@@ -217,30 +154,6 @@ function activate(context) {
     });
     
     context.subscriptions.push(testNotificationCommand);
-
-    // Helper function to show configuration instructions
-    function showConfigurationInstructions(type) {
-        const message = type === 'username' 
-            ? '🔧 TSI Header Setup: Please configure your username to get started!\n\n' +
-              '📝 Choose one option:\n' +
-              '• VS Code Settings: Search "tsiheader.username"\n' +
-              '• Git config: git config --global user.name "YourUsername"\n' +
-              '• Environment: Set TSI_USERNAME variable'
-            : '🔧 TSI Header Setup: Please configure your email to get started!\n\n' +
-              '📝 Choose one option:\n' +
-              '• VS Code Settings: Search "tsiheader.email"\n' +
-              '• Git config: git config --global user.email "your.email@example.com"\n' +
-              '• Environment: Set TSI_EMAIL variable';
-        
-        vscode.window.showInformationMessage(message, 'Open Settings', 'Git Config Help')
-            .then(selection => {
-                if (selection === 'Open Settings') {
-                    vscode.commands.executeCommand('workbench.action.openSettings', `@ext:st93642.uni-header`);
-                } else if (selection === 'Git Config Help') {
-                    vscode.env.openExternal(vscode.Uri.parse('https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup'));
-                }
-            });
-    }
 
     // Register insert header command
     const insertHeaderCommand = vscode.commands.registerCommand('tsiheader.insertHeader', async () => {
