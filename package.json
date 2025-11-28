@@ -195,6 +195,13 @@
           "default": 10,
           "minimum": 1,
           "description": "Maximum number of previous messages to include in chat context"
+        },
+        "tsiheader.chat.timeout": {
+          "type": "number",
+          "default": 180000,
+          "minimum": 10000,
+          "maximum": 600000,
+          "description": "Timeout for chat requests in milliseconds (default: 180000 = 3 minutes). Increase for slower local models."
         }
       }
     },

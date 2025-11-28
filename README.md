@@ -42,6 +42,7 @@ To use the integrated AI Chat Assistant:
 4. **Configure in VS Code Settings**:
    - `tsiheader.chat.ollamaUrl`: Ollama server URL (default: `http://localhost:11434`)
    - `tsiheader.chat.defaultModel`: Model to use (e.g., `mistral`, `llama2`, `neural-chat`)
+   - `tsiheader.chat.timeout`: Request timeout in milliseconds (default: 180000 = 3 minutes)
    - Optional: `tsiheader.chat.temperature`, `maxTokens`, `historyLimit`
 
 5. **Access Chat**: Click the "Chat Assistant" icon in the Activity Bar or use commands `Uni Header: Open Chat`, `New Chat Conversation`, or `Clear Chat History`

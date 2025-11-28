@@ -20,7 +20,8 @@ const mockVSCode = {
                         defaultModel: 'mistral',
                         temperature: 0.7,
                         maxTokens: 2048,
-                        historyLimit: 10
+                        historyLimit: 10,
+                        timeout: 180000
                     };
                     return config[key] !== undefined ? config[key] : defaultValue;
                 }
@@ -39,6 +40,7 @@ test('ChatService - Initialization', async (t) => {
         assert.equal(service.config.temperature, 0.7);
         assert.equal(service.config.maxTokens, 2048);
         assert.equal(service.config.historyLimit, 10);
+        assert.equal(service.config.timeout, 180000);
     });
 
     await t.test('should have default timeout', () => {

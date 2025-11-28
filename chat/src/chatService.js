@@ -19,7 +19,7 @@ class ChatService {
     constructor(vscode) {
         this.vscode = vscode;
         this.config = this.loadConfig();
-        this.timeout = 180000; // 3 minutes default timeout for local models
+        this.timeout = this.config.timeout;
     }
 
     /**
@@ -32,7 +32,8 @@ class ChatService {
             model: config.get('defaultModel', 'mistral'),
             temperature: config.get('temperature', 0.7),
             maxTokens: config.get('maxTokens', 2048),
-            historyLimit: config.get('historyLimit', 10)
+            historyLimit: config.get('historyLimit', 10),
+            timeout: config.get('timeout', 180000)
         };
     }
 
@@ -41,6 +42,7 @@ class ChatService {
      */
     refreshConfig() {
         this.config = this.loadConfig();
+        this.timeout = this.config.timeout;
     }
 
     /**
