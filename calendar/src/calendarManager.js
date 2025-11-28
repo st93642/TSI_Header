@@ -261,18 +261,39 @@ class CalendarManager {
     }
 
     /**
-     * Initialize the calendar module
+     * Register tree data provider synchronously (must be called during extension activation)
      */
-    async initialize() {
-        // Register tree data provider for the calendar view
+    registerTreeProvider() {
         this.treeDataProvider = new CalendarTreeDataProvider(this.eventManager);
-
         this.context.subscriptions.push(
             vscode.window.registerTreeDataProvider('tsi-calendar', this.treeDataProvider)
         );
+    }
 
+    /**
+     * Initialize commands (can be called after tree provider is registered)
+     */
+    initializeCommands() {
         // Register webview provider for the full calendar modal
         this.webviewProvider = new CalendarWebviewProvider(this.context.extensionUri, this.eventManager, this.treeDataProvider, this.context);
+
+        // Register commands
+        this.registerCommands();
+    }
+
+    /**
+     * Initialize the calendar module (legacy - kept for backwards compatibility)
+     */
+    async initialize() {
+        // Register tree data provider for the calendar view
+        if (!this.treeDataProvider) {
+            this.registerTreeProvider();
+        }
+
+        // Register webview provider for the full calendar modal
+        if (!this.webviewProvider) {
+            this.webviewProvider = new CalendarWebviewProvider(this.context.extensionUri, this.eventManager, this.treeDataProvider, this.context);
+        }
 
         // Register commands
         this.registerCommands();

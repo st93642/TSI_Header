@@ -3,13 +3,23 @@
  * Handles HTTP communication with Ollama server
  */
 
-const fetch = require('node-fetch');
+// Use native fetch (available in Node.js 18+) or fallback to node-fetch
+let fetch;
+try {
+    fetch = globalThis.fetch;
+    if (!fetch) {
+        fetch = require('node-fetch');
+    }
+} catch (e) {
+    // If node-fetch is not available, we'll use native fetch
+    fetch = globalThis.fetch;
+}
 
 class ChatService {
     constructor(vscode) {
         this.vscode = vscode;
         this.config = this.loadConfig();
-        this.timeout = 30000; // 30 seconds default timeout
+        this.timeout = 180000; // 3 minutes default timeout for local models
     }
 
     /**

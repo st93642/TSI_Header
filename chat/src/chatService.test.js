@@ -44,7 +44,7 @@ test('ChatService - Initialization', async (t) => {
     await t.test('should have default timeout', () => {
         const service = new ChatService(mockVSCode);
 
-        assert.equal(service.timeout, 30000);
+        assert.equal(service.timeout, 180000);
     });
 });
 

@@ -47,6 +47,17 @@ class ChatManager {
     }
 
     /**
+     * Initialize commands and config listener only (called when webview is registered externally)
+     */
+    initializeCommands() {
+        // Register commands
+        this.registerCommands();
+
+        // Register configuration change listener
+        this.setupConfigListener();
+    }
+
+    /**
      * Register chat commands
      */
     registerCommands() {

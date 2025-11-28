@@ -5,7 +5,7 @@
 /*  By: st93642@students.tsi.lv                             TT    SSSSSSS II */
 /*                                                          TT         SS II */
 /*  Created: Oct 19 2025 15:36 st93642                      TT    SSSSSSS II */
-/*  Updated: Oct 20 2025 18:22 st93642                                       */
+/*  Updated: Nov 28 2025 01:41 st93642                                       */
 /*                                                                           */
 /*   Transport and Telecommunication Institute - Riga, Latvia                */
 /*                       https://tsi.lv                                      */
@@ -17,7 +17,7 @@ const path = require('path');
 
 // Import the core interface
 const { TSICore } = require('../index');
-const { ChatManager } = require(path.join(__dirname, '..', '..', 'chat', 'src'));
+// ChatManager is lazy-loaded to prevent extension load failures
 // Import feature modules
 // Code quality enforcement module removed
 // Import project creator
@@ -38,35 +38,114 @@ const { StudyModeExtension } = require('./studyModeExtension');
 const { TSITreeDataProvider, TSIProjectDataProvider } = require('./tsiViewProvider');
 
 function activate(context) {
+    // CRITICAL: Register ALL view providers FIRST before anything else
+    // This prevents "no data provider registered" errors
+    
+    // 1. Register TSI Tree View Providers immediately
+    const tsiCommandsProvider = new TSITreeDataProvider();
+    const tsiProjectsProvider = new TSIProjectDataProvider();
+    vscode.window.registerTreeDataProvider('tsi-commands', tsiCommandsProvider);
+    vscode.window.registerTreeDataProvider('tsi-projects', tsiProjectsProvider);
+
+    // 2. Register Calendar tree provider immediately
+    let calendarManager = null;
+    try {
+        const { CalendarManager } = require(path.join(__dirname, '..', '..', 'calendar', 'src'));
+        calendarManager = new CalendarManager(context);
+        calendarManager.registerTreeProvider();
+    } catch (error) {
+        console.error('Failed to register calendar tree provider:', error);
+    }
+
+    // 3. Register Chat webview provider immediately
+    let chatManager = null;
+    let ChatWebviewProvider = null;
+    try {
+        // Load modules separately to identify which one fails
+        const chatPath = path.join(__dirname, '..', '..', 'chat', 'src');
+        const { ChatDataManager } = require(path.join(chatPath, 'chatDataManager'));
+        const { ChatService } = require(path.join(chatPath, 'chatService'));
+        ChatWebviewProvider = require(path.join(chatPath, 'chatWebviewProvider')).ChatWebviewProvider;
+        
+        // Create the webview provider directly
+        const chatDataManager = new ChatDataManager(context);
+        const chatService = new ChatService(vscode);
+        const chatWebviewProvider = new ChatWebviewProvider(context, {
+            dataManager: chatDataManager,
+            chatService: chatService
+        });
+        
+        const webviewViewDisposable = vscode.window.registerWebviewViewProvider(
+            'tsi-chat-view',
+            chatWebviewProvider
+        );
+        context.subscriptions.push(webviewViewDisposable);
+        
+        // Store for later command registration
+        chatManager = {
+            webviewProvider: chatWebviewProvider,
+            dataManager: chatDataManager,
+            chatService: chatService
+        };
+        console.log('Chat webview provider registered successfully');
+    } catch (error) {
+        console.error('Failed to register chat webview provider:', error);
+        vscode.window.showErrorMessage('Chat module failed to load: ' + error.message);
+    }
+
+    // NOW initialize everything else (after all providers are registered)
+    
     // Initialize core interface
     const core = new TSICore(context.extensionPath);
-
-    // Initialize feature modules
-    // Code quality enforcement module removed
 
     // Initialize Study Mode extension
     const studyModeExtension = new StudyModeExtension(vscode, context);
     studyModeExtension.activate();
 
-    // Initialize Calendar module (lazy-loaded)
-    let calendarManager = null;
-    try {
-        const { CalendarManager } = require(path.join(__dirname, '..', '..', 'calendar', 'src'));
-        calendarManager = new CalendarManager(context);
-        calendarManager.initialize();
-        console.log('Calendar module initialized successfully');
-    } catch (error) {
-        console.error('Failed to initialize calendar module:', error);
+    // Initialize Calendar commands (provider already registered above)
+    if (calendarManager) {
+        try {
+            calendarManager.initializeCommands();
+            console.log('Calendar module initialized successfully');
+        } catch (error) {
+            console.error('Failed to initialize calendar commands:', error);
+        }
     }
 
-    // Initialize Chat manager
-    let chatManager = null;
-    try {
-        chatManager = new ChatManager(context);
-        chatManager.initialize();
-        console.log('Chat manager initialized successfully');
-    } catch (error) {
-        console.error('Failed to initialize chat manager:', error);
+    // Initialize Chat commands (provider already registered above)
+    if (chatManager && chatManager.webviewProvider) {
+        try {
+            // Register chat commands manually since we didn't use ChatManager
+            const openChatCmd = vscode.commands.registerCommand('tsiheader.openChat', async () => {
+                await vscode.commands.executeCommand('workbench.view.extension.tsi-chat-container');
+            });
+            
+            const newConversationCmd = vscode.commands.registerCommand('tsiheader.newChatConversation', async () => {
+                const config = chatManager.chatService.getConfig();
+                await chatManager.dataManager.createConversation('New Conversation', config.model);
+                if (chatManager.webviewProvider.view) {
+                    await chatManager.webviewProvider._postState({ reason: 'newConversation' });
+                }
+            });
+            
+            const clearHistoryCmd = vscode.commands.registerCommand('tsiheader.clearChatHistory', async () => {
+                const result = await vscode.window.showWarningMessage(
+                    'Are you sure you want to clear all chat history?',
+                    'Clear', 'Cancel'
+                );
+                if (result === 'Clear') {
+                    await chatManager.dataManager.clearAllData();
+                    if (chatManager.webviewProvider.view) {
+                        await chatManager.webviewProvider._handleInitialize();
+                    }
+                }
+            });
+            
+            context.subscriptions.push(openChatCmd, newConversationCmd, clearHistoryCmd);
+            console.log('Chat commands registered successfully');
+        } catch (error) {
+            console.error('Failed to initialize chat commands:', error);
+        }
     }
 
     // Register test notification command (available even if calendar fails to initialize)
@@ -1122,14 +1201,7 @@ extern "C" {
     context.subscriptions.push(createPhpProjectCommand);
     context.subscriptions.push(createHtmlProjectCommand);
 
-    // Register TSI Tree View Providers
-    const tsiCommandsProvider = new TSITreeDataProvider();
-    const tsiProjectsProvider = new TSIProjectDataProvider();
-    
-    vscode.window.registerTreeDataProvider('tsi-commands', tsiCommandsProvider);
-    vscode.window.registerTreeDataProvider('tsi-projects', tsiProjectsProvider);
-    
-    // Add refresh commands for the views
+    // Add refresh commands for the views (providers already registered at start of activate)
     const refreshCommandsCommand = vscode.commands.registerCommand('tsiheader.refreshCommands', () => {
         tsiCommandsProvider.refresh();
     });
