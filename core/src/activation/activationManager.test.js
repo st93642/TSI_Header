@@ -8,61 +8,17 @@ process.env.NODE_ENV = 'test';
 
 const test = require('node:test');
 const assert = require('node:assert');
+const { createVSCodeMock } = require('../../../test/utils/vscodeMock');
+const { createMockExtensionContext } = require('../../../test/utils/globalStateMock');
+
+global.vscode = createVSCodeMock();
+
 const { ActivationManager } = require('./activationManager');
 
-/**
- * Create a mock VS Code API
- */
-const createMockVSCode = () => {
-    const registeredProviders = new Map();
-    const registeredCommands = new Map();
-    
-    return {
-        window: {
-            registerTreeDataProvider: (viewId, provider) => {
-                registeredProviders.set(viewId, provider);
-                return { dispose: () => registeredProviders.delete(viewId) };
-            },
-            registerWebviewViewProvider: (viewId, provider) => {
-                registeredProviders.set(viewId, provider);
-                return { dispose: () => registeredProviders.delete(viewId) };
-            },
-            showWarningMessage: () => Promise.resolve(undefined),
-            showInformationMessage: () => Promise.resolve(undefined),
-            showErrorMessage: () => Promise.resolve(undefined)
-        },
-        commands: {
-            registerCommand: (commandId, callback) => {
-                registeredCommands.set(commandId, callback);
-                return { dispose: () => registeredCommands.delete(commandId) };
-            },
-            executeCommand: () => Promise.resolve(undefined)
-        },
-        workspace: {
-            getConfiguration: (section) => ({
-                get: (key, defaultValue) => defaultValue
-            })
-        },
-        env: {
-            openExternal: () => Promise.resolve(true)
-        },
-        _getRegisteredProviders: () => registeredProviders,
-        _getRegisteredCommands: () => registeredCommands
-    };
-};
-
-/**
- * Create a mock context
- */
 const createMockContext = () => {
-    return {
-        subscriptions: [],
-        extensionPath: '/test/path',
-        globalState: {
-            get: (key, defaultValue) => defaultValue,
-            update: async (key, value) => {}
-        }
-    };
+    return createMockExtensionContext({
+        extensionPath: '/test/path'
+    });
 };
 
 test('ActivationManager - Initialization', { timeout: 5000 }, async (t) => {

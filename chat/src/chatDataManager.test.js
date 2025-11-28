@@ -9,24 +9,12 @@ process.env.NODE_ENV = 'test';
 const test = require('node:test');
 const assert = require('node:assert');
 const { ChatDataManager } = require('./chatDataManager');
+const { createMockExtensionContext } = require('../../test/utils/globalStateMock');
 
-const createMockContext = () => {
-    const storage = new Map();
-    return {
-        globalState: {
-            get: (key, defaultValue) => {
-                return storage.has(key) ? storage.get(key) : defaultValue;
-            },
-            update: async (key, value) => {
-                if (value === null || value === undefined) {
-                    storage.delete(key);
-                } else {
-                    storage.set(key, value);
-                }
-            }
-        }
-    };
-};
+const createMockContext = (initialState = {}) => createMockExtensionContext({
+    initialState,
+    extensionPath: '/test/path'
+});
 
 test('ChatDataManager - Initialization', async (t) => {
     await t.test('should initialize with default data structure', async () => {

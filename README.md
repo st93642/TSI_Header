@@ -32,6 +32,11 @@ The extension is now live and available for download from the [VS Code marketpla
 - **Email Server** (optional): SMTP server for calendar email notifications.
 - **Ollama** (optional, for Chat Assistant): Download from [ollama.com](https://ollama.com/) and run locally for AI-powered chat assistance.
 
+## Development & Testing
+
+- Run `npm test` to execute all Node-based suites. The command runs `test/runAllTests.js`, which auto-discovers every `*.test.js` file and executes them sequentially.
+- Continuous integration uses the same `npm test` command, so make sure it passes locally before opening a pull request.
+
 ## Chat Assistant Setup
 
 To use the integrated AI Chat Assistant:

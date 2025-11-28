@@ -996,7 +996,7 @@
     "vscode:prepublish": "npm run compile",
     "compile": "ruby scripts/compile.rb",
     "watch": "ruby scripts/watch.rb",
-    "test": "node unified_test_suite.js"
+    "test": "node test/runAllTests.js"
   },
   "dependencies": {
     "node-fetch": "^2.6.7"

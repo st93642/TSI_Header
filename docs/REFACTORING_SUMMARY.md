@@ -92,9 +92,9 @@ Created comprehensive test suites for the lifecycle pattern:
 - Tests verify all 3 chat commands are registered
 - Tests verify config listener setup and disposal
 
-#### Unified Test Suite (`unified_test_suite.js`)
-- Updated to include new manager tests
-- Runs all tests in proper order
+#### Node Test Runner (`test/runAllTests.js`)
+- Automatically discovers every `.test.js` file
+- Runs all suites sequentially via `npm test`
 
 ### 6. Documentation
 

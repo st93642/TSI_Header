@@ -7,58 +7,19 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const { StudyModeExtension } = require('../core/src/studyModeExtension');
+const { createVSCodeMock } = require('../test/utils/vscodeMock');
+const { createMockExtensionContext } = require('../test/utils/globalStateMock');
 
-// Mock VS Code API for testing
-const createMockVSCode = () => ({
-    commands: {
-        registerCommand: (command, handler) => ({
-            command,
-            handler,
-            dispose: () => {}
-        }),
-        executeCommand: (command, ...args) => Promise.resolve()
-    },
-    window: {
-        showInformationMessage: (message, ...options) => Promise.resolve(),
-        showWarningMessage: (message, ...options) => Promise.resolve(),
-        createOutputChannel: (name) => ({
-            name,
-            append: () => {},
-            appendLine: () => {},
-            clear: () => {},
-            show: () => {},
-            hide: () => {},
-            dispose: () => {}
-        }),
-        registerTreeDataProvider: (viewId, provider) => ({
-            dispose: () => {}
-        })
-    },
-    workspace: {
-        getConfiguration: (section) => ({
-            get: (key, defaultValue) => {
-                const config = {
-                    'tsiheader.studyMode.workDuration': 25,
-                    'tsiheader.studyMode.shortBreakDuration': 5,
-                    'tsiheader.studyMode.longBreakDuration': 15,
-                    'tsiheader.studyMode.sessionsBeforeLongBreak': 4
-                };
-                return config[`${section}.${key}`] || defaultValue;
-            },
-            update: (key, value, global) => Promise.resolve()
-        }),
-        onDidChangeConfiguration: () => ({ dispose: () => {} })
-    },
-    StatusBarAlignment: { Right: 1, Left: 2 },
-    StatusBarItem: class {
-        constructor() {
-            this.text = '';
-            this.tooltip = '';
-            this.command = '';
-            this.show = () => {};
-            this.hide = () => {};
-            this.dispose = () => {};
-        }
+const defaultStudyModeConfiguration = {
+    workDuration: 25,
+    shortBreakDuration: 5,
+    longBreakDuration: 15,
+    sessionsBeforeLongBreak: 4
+};
+
+const createStudyModeVSCode = () => createVSCodeMock({
+    configuration: {
+        'tsiheader.studyMode': { ...defaultStudyModeConfiguration }
     }
 });
 
@@ -67,19 +28,8 @@ test('StudyModeExtension - State Persistence', async (t) => {
     let mockContext;
 
     t.beforeEach(() => {
-        const mockVSCode = createMockVSCode();
-        mockContext = {
-            subscriptions: [],
-            globalState: {
-                get: (key) => undefined,
-                update: (key, value) => Promise.resolve()
-            },
-            workspaceState: {
-                get: () => undefined,
-                update: () => Promise.resolve()
-            },
-            extensionPath: '/test/path'
-        };
+        const mockVSCode = createStudyModeVSCode();
+        mockContext = createMockExtensionContext();
         extension = new StudyModeExtension(mockVSCode, mockContext);
     });
 
@@ -162,19 +112,8 @@ test('StudyModeExtension - Productivity Analytics', async (t) => {
     let mockContext;
 
     t.beforeEach(() => {
-        const mockVSCode = createMockVSCode();
-        mockContext = {
-            subscriptions: [],
-            globalState: {
-                get: () => undefined,
-                update: () => Promise.resolve()
-            },
-            workspaceState: {
-                get: () => undefined,
-                update: () => Promise.resolve()
-            },
-            extensionPath: '/test/path'
-        };
+        const mockVSCode = createStudyModeVSCode();
+        mockContext = createMockExtensionContext();
         extension = new StudyModeExtension(mockVSCode, mockContext);
         extension.activate();
     });
@@ -253,19 +192,8 @@ test('StudyModeExtension - Reset Functionality', async (t) => {
     let mockContext;
 
     t.beforeEach(() => {
-        const mockVSCode = createMockVSCode();
-        mockContext = {
-            subscriptions: [],
-            globalState: {
-                get: () => undefined,
-                update: (key, value) => Promise.resolve()
-            },
-            workspaceState: {
-                get: () => undefined,
-                update: () => Promise.resolve()
-            },
-            extensionPath: '/test/path'
-        };
+        const mockVSCode = createStudyModeVSCode();
+        mockContext = createMockExtensionContext();
         extension = new StudyModeExtension(mockVSCode, mockContext);
         extension.activate();
 
@@ -363,7 +291,7 @@ test('StudyModeExtension - Reset Functionality', async (t) => {
 
         // Mock vscode.window.showInformationMessage to capture the call
         let shownMessage = null;
-        const mockVSCode = createMockVSCode();
+        const mockVSCode = createStudyModeVSCode();
         mockVSCode.window.showInformationMessage = (message, options, ...buttons) => {
             shownMessage = message;
             return Promise.resolve('Got it!');

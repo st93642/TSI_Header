@@ -12,7 +12,7 @@ try {
     vscode = require('vscode');
 } catch (error) {
     // In test environment, vscode may not be available
-    vscode = {};
+    vscode = global.vscode || {};
 }
 
 const path = require('path');

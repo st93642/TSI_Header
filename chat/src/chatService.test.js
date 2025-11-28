@@ -9,31 +9,29 @@ process.env.NODE_ENV = 'test';
 const test = require('node:test');
 const assert = require('node:assert');
 const { ChatService } = require('./chatService');
+const { createVSCodeMock } = require('../../test/utils/vscodeMock');
 
-const mockVSCode = {
-    workspace: {
-        getConfiguration: (section) => ({
-            get: (key, defaultValue) => {
-                if (section === 'tsiheader.chat') {
-                    const config = {
-                        ollamaUrl: 'http://localhost:11434',
-                        defaultModel: 'mistral',
-                        temperature: 0.7,
-                        maxTokens: 2048,
-                        historyLimit: 10,
-                        timeout: 180000
-                    };
-                    return config[key] !== undefined ? config[key] : defaultValue;
-                }
-                return defaultValue;
-            }
-        })
-    }
+const defaultChatConfiguration = {
+    ollamaUrl: 'http://localhost:11434',
+    defaultModel: 'mistral',
+    temperature: 0.7,
+    maxTokens: 2048,
+    historyLimit: 10,
+    timeout: 180000
 };
+
+const createChatVSCode = (overrides = {}) => createVSCodeMock({
+    configuration: {
+        'tsiheader.chat': {
+            ...defaultChatConfiguration,
+            ...overrides
+        }
+    }
+});
 
 test('ChatService - Initialization', async (t) => {
     await t.test('should initialize with default configuration', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
 
         assert.equal(service.config.url, 'http://localhost:11434');
         assert.equal(service.config.model, 'mistral');
@@ -44,7 +42,7 @@ test('ChatService - Initialization', async (t) => {
     });
 
     await t.test('should have default timeout', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
 
         assert.equal(service.timeout, 180000);
     });
@@ -52,7 +50,7 @@ test('ChatService - Initialization', async (t) => {
 
 test('ChatService - Configuration', async (t) => {
     await t.test('should get current configuration', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         const config = service.getConfig();
 
         assert.equal(config.url, 'http://localhost:11434');
@@ -61,28 +59,14 @@ test('ChatService - Configuration', async (t) => {
     });
 
     await t.test('should refresh configuration', () => {
-        const customMockVSCode = {
-            workspace: {
-                getConfiguration: (section) => ({
-                    get: (key, defaultValue) => {
-                        if (section === 'tsiheader.chat') {
-                            const config = {
-                                ollamaUrl: 'http://custom-url:11434',
-                                defaultModel: 'llama2',
-                                temperature: 0.8,
-                                maxTokens: 4096,
-                                historyLimit: 20
-                            };
-                            return config[key] !== undefined ? config[key] : defaultValue;
-                        }
-                        return defaultValue;
-                    }
-                })
-            }
-        };
-
-        const service = new ChatService(mockVSCode);
-        service.vscode = customMockVSCode;
+        const service = new ChatService(createChatVSCode());
+        service.vscode = createChatVSCode({
+            ollamaUrl: 'http://custom-url:11434',
+            defaultModel: 'llama2',
+            temperature: 0.8,
+            maxTokens: 4096,
+            historyLimit: 20
+        });
         service.refreshConfig();
 
         assert.equal(service.config.url, 'http://custom-url:11434');
@@ -95,7 +79,7 @@ test('ChatService - Configuration', async (t) => {
 
 test('ChatService - Error Normalization', async (t) => {
     await t.test('should normalize ECONNREFUSED error', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         const error = new Error('Connection refused');
         error.code = 'ECONNREFUSED';
 
@@ -107,7 +91,7 @@ test('ChatService - Error Normalization', async (t) => {
     });
 
     await t.test('should normalize ETIMEDOUT error', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         const error = new Error('Request timeout');
         error.code = 'ETIMEDOUT';
 
@@ -118,7 +102,7 @@ test('ChatService - Error Normalization', async (t) => {
     });
 
     await t.test('should normalize timeout by message', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         const error = new Error('Request timeout exceeded');
 
         const normalized = service.normalizeError(error);
@@ -128,7 +112,7 @@ test('ChatService - Error Normalization', async (t) => {
     });
 
     await t.test('should normalize 404 error', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         const error = new Error('HTTP 404: Not Found');
 
         const normalized = service.normalizeError(error);
@@ -139,7 +123,7 @@ test('ChatService - Error Normalization', async (t) => {
     });
 
     await t.test('should normalize ENOTFOUND error', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         const error = new Error('getaddrinfo ENOTFOUND');
 
         const normalized = service.normalizeError(error);
@@ -149,7 +133,7 @@ test('ChatService - Error Normalization', async (t) => {
     });
 
     await t.test('should normalize abort error', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         const error = new Error('The user aborted a request.');
         error.name = 'AbortError';
 
@@ -160,7 +144,7 @@ test('ChatService - Error Normalization', async (t) => {
     });
 
     await t.test('should normalize unknown error', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         const error = new Error('Some unexpected error');
 
         const normalized = service.normalizeError(error);
@@ -173,25 +157,25 @@ test('ChatService - Error Normalization', async (t) => {
 
 test('ChatService - API Methods Structure', async (t) => {
     await t.test('should have listModels method', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
 
         assert.equal(typeof service.listModels, 'function');
     });
 
     await t.test('should have sendMessage method', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
 
         assert.equal(typeof service.sendMessage, 'function');
     });
 
     await t.test('should have sendStreamingMessage method', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
 
         assert.equal(typeof service.sendStreamingMessage, 'function');
     });
 
     await t.test('should have checkConnection method', () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
 
         assert.equal(typeof service.checkConnection, 'function');
     });
@@ -199,7 +183,7 @@ test('ChatService - API Methods Structure', async (t) => {
 
 test('ChatService - Request Structure', async (t) => {
     await t.test('listModels should return failure when Ollama not running', { timeout: 10000 }, async () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         service.timeout = 2000;
 
         const result = await service.listModels();
@@ -210,7 +194,7 @@ test('ChatService - Request Structure', async (t) => {
     });
 
     await t.test('sendMessage should return failure when Ollama not running', { timeout: 10000 }, async () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
         service.timeout = 2000;
 
         const messages = [{ role: 'user', content: 'Hello' }];
@@ -222,7 +206,7 @@ test('ChatService - Request Structure', async (t) => {
     });
 
     await t.test('checkConnection should return failure when Ollama not running', { timeout: 10000 }, async () => {
-        const service = new ChatService(mockVSCode);
+        const service = new ChatService(createChatVSCode());
 
         const result = await service.checkConnection();
 

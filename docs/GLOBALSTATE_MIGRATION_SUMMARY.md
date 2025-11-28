@@ -64,9 +64,9 @@ Updated three data managers to use GlobalStateStore:
   - Testing guide
 
 ### 5. Test Suite Integration
-- **File:** `unified_test_suite.js`
-- GlobalStateStore tests added as first test in suite
-- Runs before other tests to ensure storage layer is solid
+- **File:** `test/runAllTests.js`
+- Automatically runs all `.test.js` files, including the GlobalStateStore suite
+- Ensures storage tests execute before dependent suites
 
 ## Data Backward Compatibility
 
@@ -144,7 +144,7 @@ await store.updateState('myKey', updatedData);
 - `chat/src/chatDataManager.js` - Added GlobalStateStore integration
 - `calendar/src/calendarDataManager.js` - Added GlobalStateStore integration
 - `core/src/studyModeExtension.js` - Added GlobalStateStore with namespacing
-- `unified_test_suite.js` - Added GlobalStateStore tests to suite
+- `test/runAllTests.js` - Runs the aggregated Node test suites (including storage)
 
 ## Verification
 

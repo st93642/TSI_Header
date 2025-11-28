@@ -7,24 +7,12 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const { GlobalStateStore } = require('./globalStateStore');
+const { createMockExtensionContext } = require('../../../test/utils/globalStateMock');
 
-const createMockContext = () => {
-    const storage = new Map();
-    return {
-        globalState: {
-            get: (key, defaultValue) => {
-                return storage.has(key) ? storage.get(key) : defaultValue;
-            },
-            update: async (key, value) => {
-                if (value === null || value === undefined) {
-                    storage.delete(key);
-                } else {
-                    storage.set(key, value);
-                }
-            }
-        }
-    };
-};
+const createMockContext = (initialState = {}) => createMockExtensionContext({
+    initialState,
+    extensionPath: '/test/path'
+});
 
 test('GlobalStateStore - Basic Operations', async (t) => {
     await t.test('should initialize with default options', async () => {
