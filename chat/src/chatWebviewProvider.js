@@ -372,6 +372,15 @@ class ChatWebviewProvider {
         const styleUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this.extensionUri, 'chat', 'resources', 'chat.css')
         );
+        const highlightCssUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this.extensionUri, 'chat', 'resources', 'highlight-github-dark.min.css')
+        );
+        const markedUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this.extensionUri, 'chat', 'resources', 'marked.min.js')
+        );
+        const highlightUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this.extensionUri, 'chat', 'resources', 'highlight.min.js')
+        );
         const scriptUri = webview.asWebviewUri(
             vscode.Uri.joinPath(this.extensionUri, 'chat', 'resources', 'chat.js')
         );
@@ -383,6 +392,7 @@ class ChatWebviewProvider {
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource} https: data:; style-src ${webview.cspSource}; script-src 'nonce-${nonce}'; font-src ${webview.cspSource} https: data:;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${styleUri}">
+    <link rel="stylesheet" href="${highlightCssUri}">
     <title>Chat Assistant</title>
 </head>
 <body>
@@ -425,6 +435,8 @@ class ChatWebviewProvider {
         </section>
     </div>
     <div id="chat-notifications" class="chat-notifications"></div>
+    <script nonce="${nonce}" src="${markedUri}"></script>
+    <script nonce="${nonce}" src="${highlightUri}"></script>
     <script nonce="${nonce}" src="${scriptUri}"></script>
 </body>
 </html>`;

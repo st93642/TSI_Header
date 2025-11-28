@@ -25,6 +25,11 @@
     }, 120);
 
     document.addEventListener('DOMContentLoaded', () => {
+        // Initialize highlight.js
+        hljs.configure({
+            ignoreUnescapedHTML: true
+        });
+
         cacheElements();
         attachEventListeners();
         updateComposerHint();
@@ -319,6 +324,25 @@
         elements.modelSelect.value = fallbackModel;
     }
 
+    function renderMarkdown(text) {
+        if (!text) return '';
+
+        // Configure marked to use highlight.js for code blocks
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(code, { language: lang }).value;
+                } else {
+                    return hljs.highlightAuto(code).value;
+                }
+            },
+            breaks: true,
+            gfm: true
+        });
+
+        return marked.parse(text);
+    }
+
     function renderTranscript() {
         if (!elements.transcript) {
             return;
@@ -352,7 +376,11 @@
 
                 const content = document.createElement('div');
                 content.className = 'message-content';
-                content.textContent = message.content || '';
+                if (role === 'assistant') {
+                    content.innerHTML = renderMarkdown(message.content || '');
+                } else {
+                    content.textContent = message.content || '';
+                }
 
                 const timestamp = document.createElement('div');
                 timestamp.className = 'message-timestamp';
