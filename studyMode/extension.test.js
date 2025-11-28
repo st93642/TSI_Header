@@ -39,7 +39,7 @@ test('StudyModeExtension - State Persistence', async (t) => {
         }
     });
 
-    await t.test('should load persisted state on activation', () => {
+    await t.test('should load persisted state on activation', async () => {
         // Mock persisted state
         const persistedState = {
             currentPhase: 'work',
@@ -62,7 +62,7 @@ test('StudyModeExtension - State Persistence', async (t) => {
             return undefined;
         };
 
-        extension.activate();
+        await extension.activate();
 
         // Check that state was restored (but timer should not auto-start after restart)
         assert.equal(extension.timer.currentPhase, 'work');

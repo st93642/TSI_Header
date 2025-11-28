@@ -29,7 +29,7 @@ class StudyModeExtension {
         });
     }
 
-    activate() {
+    async activate() {
         try {
             // Read configuration
             const config = this.vscode.workspace.getConfiguration('tsiheader.studyMode');
@@ -46,7 +46,7 @@ class StudyModeExtension {
             });
 
             // Load persisted state
-            this.loadPersistedState();
+            await this.loadPersistedState();
 
             // Register commands
             this.registerCommands();

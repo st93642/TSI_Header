@@ -223,22 +223,25 @@ class StudyModeTimer {
 
         switch (this.currentPhase) {
             case 'work':
-                icon = this.isRunning ? '' : '❄️';
+                icon = this.isRunning ? '🍅' : '⏸️';
                 visualCountdown = this.generateTomatoCountdown();
                 const workTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
-                tooltip = `Work Session ${this.currentSession + 1}/${this.sessionsBeforeLongBreak} - ${this.formatTime(workTime)} remaining`;
+                const workTimeStr = this.formatTime(workTime);
+                tooltip = `Work Session ${this.currentSession + 1}/${this.sessionsBeforeLongBreak} - ${workTimeStr} remaining`;
                 break;
             case 'shortBreak':
-                icon = this.isRunning ? '' : '❄️';
+                icon = this.isRunning ? '☕' : '⏸️';
                 visualCountdown = this.generateCoffeeCountdown();
                 const shortBreakTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
-                tooltip = this.isRunning ? `Short Break - ${this.formatTime(shortBreakTime)} remaining` : 'Short Break - Choose Take Break or Skip Break';
+                const shortBreakTimeStr = this.formatTime(shortBreakTime);
+                tooltip = this.isRunning ? `Short Break - ${shortBreakTimeStr} remaining` : 'Short Break - Choose Take Break or Skip Break';
                 break;
             case 'longBreak':
-                icon = this.isRunning ? '' : '❄️';
+                icon = this.isRunning ? '☕' : '⏸️';
                 visualCountdown = this.generateCoffeeCountdown();
                 const longBreakTime = this.isRunning ? this.getRemainingTime() : this.remainingTime;
-                tooltip = this.isRunning ? `Long Break - ${this.formatTime(longBreakTime)} remaining` : 'Long Break - Choose Take Break or Skip Break';
+                const longBreakTimeStr = this.formatTime(longBreakTime);
+                tooltip = this.isRunning ? `Long Break - ${longBreakTimeStr} remaining` : 'Long Break - Choose Take Break or Skip Break';
                 break;
             case 'stopped':
                 icon = '⏹️';
@@ -247,7 +250,13 @@ class StudyModeTimer {
                 break;
         }
 
-        this.statusBarItem.text = icon ? `${icon} ${visualCountdown}` : visualCountdown;
+        let timeStr = '';
+        if (this.currentPhase !== 'stopped') {
+            const time = this.isRunning ? this.getRemainingTime() : this.remainingTime;
+            timeStr = ' ' + this.formatTime(time);
+        }
+
+        this.statusBarItem.text = `${icon}${visualCountdown}${timeStr}`;
         this.statusBarItem.tooltip = tooltip;
 
         if (this.currentPhase !== 'stopped') {

@@ -1,3 +1,16 @@
+#*****************************************************************************#
+#                                                                             #
+#  full_test_suite.rb                                     TTTTTTTT SSSSSSS II #
+#                                                            TT    SS      II #
+#  By: st93642@students.tsi.lv                               TT    SSSSSSS II #
+#                                                            TT         SS II #
+#  Created: Nov 28 2025 19:52 st93642                        TT    SSSSSSS II #
+#  Updated: Nov 28 2025 19:52 st93642                                         #
+#                                                                             #
+#   Transport and Telecommunication Institute - Riga, Latvia                  #
+#                       https://tsi.lv                                        #
+#*****************************************************************************#
+
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
