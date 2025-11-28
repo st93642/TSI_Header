@@ -3,7 +3,13 @@
  * Handles email notifications for calendar events and deadlines
  */
 
-const vscode = require('vscode');
+let vscode;
+try {
+    vscode = require('vscode');
+} catch (error) {
+    // In test environment, use global mock
+    vscode = global.vscode || {};
+}
 const https = require('https');
 const http = require('http');
 

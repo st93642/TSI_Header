@@ -1,4 +1,10 @@
-const vscode = require('vscode');
+let vscode;
+try {
+    vscode = require('vscode');
+} catch (error) {
+    // In test environment, use global mock
+    vscode = global.vscode || {};
+}
 const { ChatDataManager } = require('./chatDataManager');
 const { ChatService } = require('./chatService');
 

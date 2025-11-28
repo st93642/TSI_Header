@@ -4,63 +4,105 @@
  * Handles commands, configuration changes, and message protocols
  */
 
-const vscode = require('vscode');
+let vscode;
+try {
+    vscode = require('vscode');
+} catch (error) {
+    // In test environment, use global mock
+    vscode = global.vscode || {};
+}
+const { BaseManager } = require('../../core/src/baseManager');
 const { ChatDataManager } = require('./chatDataManager');
 const { ChatService } = require('./chatService');
 const { ChatWebviewProvider } = require('./chatWebviewProvider');
 
-class ChatManager {
+class ChatManager extends BaseManager {
     constructor(context) {
-        this.context = context;
+        super(context);
         this.dataManager = new ChatDataManager(context);
         this.chatService = new ChatService(vscode);
         this.webviewProvider = new ChatWebviewProvider(context, {
             dataManager: this.dataManager,
             chatService: this.chatService
         });
-        this.configListener = null;
     }
 
     /**
-     * Initialize the chat manager
+     * Phase 1: Register views (webview provider)
      */
-    async initialize() {
+    registerViews(context) {
+        if (this._initialized.views) {
+            console.warn('ChatManager: registerViews called multiple times, skipping');
+            return;
+        }
+        this._initialized.views = true;
+
         try {
-            // Register the webview view provider
             const webviewViewDisposable = vscode.window.registerWebviewViewProvider(
                 'tsi-chat-view',
                 this.webviewProvider
             );
-            this.context.subscriptions.push(webviewViewDisposable);
-
-            // Register commands
-            this.registerCommands();
-
-            // Register configuration change listener
-            this.setupConfigListener();
-
-            console.log('Chat manager initialized successfully');
+            this._addDisposable(webviewViewDisposable);
+            context.subscriptions.push(webviewViewDisposable);
+            console.log('ChatManager: Webview provider registered successfully');
         } catch (error) {
-            console.error('Failed to initialize chat manager:', error);
+            console.error('ChatManager: Failed to register webview provider:', error);
             throw error;
         }
     }
 
     /**
-     * Initialize commands and config listener only (called when webview is registered externally)
+     * Phase 2: Register commands
      */
-    initializeCommands() {
-        // Register commands
-        this.registerCommands();
+    registerCommands(context) {
+        if (this._initialized.commands) {
+            console.warn('ChatManager: registerCommands called multiple times, skipping');
+            return;
+        }
+        this._initialized.commands = true;
 
-        // Register configuration change listener
-        this.setupConfigListener();
+        try {
+            this._registerAllCommands(context);
+            console.log('ChatManager: Commands registered successfully');
+        } catch (error) {
+            console.error('ChatManager: Failed to register commands:', error);
+            throw error;
+        }
     }
 
     /**
-     * Register chat commands
+     * Phase 3: Setup listeners (configuration change listener)
      */
-    registerCommands() {
+    setupListeners(context) {
+        if (this._initialized.listeners) {
+            console.warn('ChatManager: setupListeners called multiple times, skipping');
+            return;
+        }
+        this._initialized.listeners = true;
+
+        try {
+            const configListener = vscode.workspace.onDidChangeConfiguration((event) => {
+                if (event.affectsConfiguration('tsiheader.chat')) {
+                    this.chatService.refreshConfig();
+                    if (this.webviewProvider.view) {
+                        this.webviewProvider.refreshModels();
+                    }
+                }
+            });
+
+            this._addDisposable(configListener);
+            context.subscriptions.push(configListener);
+            console.log('ChatManager: Configuration listener setup successfully');
+        } catch (error) {
+            console.error('ChatManager: Failed to setup listeners:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Register all chat commands
+     */
+    _registerAllCommands(context) {
         // Open chat command - reveals the activity bar container
         const openChatCmd = vscode.commands.registerCommand('tsiheader.openChat', async () => {
             try {
@@ -112,40 +154,31 @@ class ChatManager {
             }
         });
 
-        // Add commands to subscriptions
-        this.context.subscriptions.push(
+        // Track all commands for disposal
+        const commands = [
             openChatCmd,
             newConversationCmd,
             clearHistoryCmd
-        );
-    }
+        ];
 
-    /**
-     * Setup configuration change listener
-     */
-    setupConfigListener() {
-        this.configListener = vscode.workspace.onDidChangeConfiguration((event) => {
-            if (event.affectsConfiguration('tsiheader.chat')) {
-                this.chatService.refreshConfig();
-                if (this.webviewProvider.view) {
-                    this.webviewProvider.refreshModels();
-                }
-            }
+        commands.forEach(cmd => {
+            this._addDisposable(cmd);
+            context.subscriptions.push(cmd);
         });
-
-        this.context.subscriptions.push(this.configListener);
     }
 
     /**
      * Dispose of resources
      */
     dispose() {
-        if (this.configListener) {
-            this.configListener.dispose();
-        }
         if (this.webviewProvider) {
-            this.webviewProvider.dispose();
+            try {
+                this.webviewProvider.dispose();
+            } catch (error) {
+                console.error('ChatManager: Error disposing webview provider:', error);
+            }
         }
+        super.dispose();
     }
 }
 

@@ -1,5 +1,12 @@
-const vscode = require('vscode');
+let vscode;
+try {
+    vscode = require('vscode');
+} catch (error) {
+    // In test environment, use global mock
+    vscode = global.vscode || {};
+}
 const path = require('path');
+const { BaseManager } = require('../../core/src/baseManager');
 const { CalendarDataManager } = require('./calendarDataManager');
 const { CalendarEventManager } = require('./calendarEventManager');
 const { CalendarWebviewProvider } = require('./calendarWebviewProvider');
@@ -182,9 +189,11 @@ class CalendarTreeDataProvider {
     }
 }
 
-class CalendarTreeItem extends vscode.TreeItem {
+class CalendarTreeItem extends (vscode.TreeItem || class {}) {
     constructor(label, collapsibleState, contextValue) {
-        super(label, collapsibleState);
+        if (vscode.TreeItem) {
+            super(label, collapsibleState);
+        }
         this.contextValue = contextValue;
         
         // Add command for open calendar item
@@ -251,9 +260,9 @@ class CalendarTreeItem extends vscode.TreeItem {
     }
 }
 
-class CalendarManager {
+class CalendarManager extends BaseManager {
     constructor(context) {
-        this.context = context;
+        super(context);
         this.treeDataProvider = null;
         this.webviewProvider = null;
         this.dataManager = new CalendarDataManager(context);
@@ -261,50 +270,71 @@ class CalendarManager {
     }
 
     /**
-     * Register tree data provider synchronously (must be called during extension activation)
+     * Phase 1: Register views (tree provider and webview provider)
      */
-    registerTreeProvider() {
-        this.treeDataProvider = new CalendarTreeDataProvider(this.eventManager);
-        this.context.subscriptions.push(
-            vscode.window.registerTreeDataProvider('tsi-calendar', this.treeDataProvider)
-        );
-    }
-
-    /**
-     * Initialize commands (can be called after tree provider is registered)
-     */
-    initializeCommands() {
-        // Register webview provider for the full calendar modal
-        this.webviewProvider = new CalendarWebviewProvider(this.context.extensionUri, this.eventManager, this.treeDataProvider, this.context);
-
-        // Register commands
-        this.registerCommands();
-    }
-
-    /**
-     * Initialize the calendar module (legacy - kept for backwards compatibility)
-     */
-    async initialize() {
-        // Register tree data provider for the calendar view
-        if (!this.treeDataProvider) {
-            this.registerTreeProvider();
+    registerViews(context) {
+        if (this._initialized.views) {
+            console.warn('CalendarManager: registerViews called multiple times, skipping');
+            return;
         }
+        this._initialized.views = true;
 
-        // Register webview provider for the full calendar modal
-        if (!this.webviewProvider) {
-            this.webviewProvider = new CalendarWebviewProvider(this.context.extensionUri, this.eventManager, this.treeDataProvider, this.context);
+        try {
+            this.treeDataProvider = new CalendarTreeDataProvider(this.eventManager);
+            const treeDisposable = vscode.window.registerTreeDataProvider('tsi-calendar', this.treeDataProvider);
+            this._addDisposable(treeDisposable);
+            context.subscriptions.push(treeDisposable);
+            console.log('CalendarManager: Tree provider registered successfully');
+        } catch (error) {
+            console.error('CalendarManager: Failed to register tree provider:', error);
+            throw error;
         }
-
-        // Register commands
-        this.registerCommands();
-
-        // Sample data initialization removed - users should add their own events
     }
 
     /**
-     * Register calendar commands
+     * Phase 2: Register commands
      */
-    registerCommands() {
+    registerCommands(context) {
+        if (this._initialized.commands) {
+            console.warn('CalendarManager: registerCommands called multiple times, skipping');
+            return;
+        }
+        this._initialized.commands = true;
+
+        try {
+            if (!this.webviewProvider) {
+                this.webviewProvider = new CalendarWebviewProvider(
+                    context.extensionUri, 
+                    this.eventManager, 
+                    this.treeDataProvider, 
+                    context
+                );
+            }
+
+            this._registerAllCommands(context);
+            console.log('CalendarManager: Commands registered successfully');
+        } catch (error) {
+            console.error('CalendarManager: Failed to register commands:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Phase 3: Setup listeners
+     */
+    setupListeners(context) {
+        if (this._initialized.listeners) {
+            console.warn('CalendarManager: setupListeners called multiple times, skipping');
+            return;
+        }
+        this._initialized.listeners = true;
+        console.log('CalendarManager: Listeners setup complete (no listeners needed)');
+    }
+
+    /**
+     * Register all calendar commands
+     */
+    _registerAllCommands(context) {
         // Show calendar command - opens full calendar webview
         const showCalendarCmd = vscode.commands.registerCommand('tsiheader.showCalendar', async () => {
             await this.webviewProvider.createCalendarPanel();
@@ -354,8 +384,8 @@ class CalendarManager {
             this.treeDataProvider.refresh();
         });
 
-        // Add to subscriptions
-        this.context.subscriptions.push(
+        // Track all commands for disposal
+        const commands = [
             showCalendarCmd,
             addDeadlineCmd,
             addEventCmd,
@@ -363,7 +393,12 @@ class CalendarManager {
             exportCmd,
             importCmd,
             importFromUrlCmd
-        );
+        ];
+
+        commands.forEach(cmd => {
+            this._addDisposable(cmd);
+            context.subscriptions.push(cmd);
+        });
     }
 
     /**

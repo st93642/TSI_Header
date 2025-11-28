@@ -102,6 +102,14 @@ class ActivationManager {
             }
         }
         
+        if (this.chatManager) {
+            try {
+                this.chatManager.dispose?.();
+            } catch (error) {
+                console.error('Error disposing chat manager:', error);
+            }
+        }
+        
         if (this.studyModeExtension) {
             try {
                 this.studyModeExtension.dispose?.();
@@ -141,7 +149,7 @@ class ActivationManager {
             const { CalendarManager } = require(path.join(__dirname, '..', '..', '..', 'calendar', 'src'));
             
             this.calendarManager = new CalendarManager(this.context);
-            this.calendarManager.registerTreeProvider();
+            this.calendarManager.registerViews(this.context);
             
             this.registrations.treeProviders.push('tsi-calendar');
             console.log('ActivationManager: Calendar tree provider registered successfully');
@@ -155,29 +163,10 @@ class ActivationManager {
      */
     _registerChatWebviewProvider() {
         try {
-            const chatPath = path.join(__dirname, '..', '..', '..', 'chat', 'src');
-            const { ChatDataManager } = require(path.join(chatPath, 'chatDataManager'));
-            const { ChatService } = require(path.join(chatPath, 'chatService'));
-            const { ChatWebviewProvider } = require(path.join(chatPath, 'chatWebviewProvider'));
+            const { ChatManager } = require(path.join(__dirname, '..', '..', '..', 'chat', 'src', 'chatManager'));
             
-            const chatDataManager = new ChatDataManager(this.context);
-            const chatService = new ChatService(vscode);
-            const chatWebviewProvider = new ChatWebviewProvider(this.context, {
-                dataManager: chatDataManager,
-                chatService: chatService
-            });
-            
-            const webviewViewDisposable = vscode.window.registerWebviewViewProvider(
-                'tsi-chat-view',
-                chatWebviewProvider
-            );
-            this.context.subscriptions.push(webviewViewDisposable);
-            
-            this.chatManager = {
-                webviewProvider: chatWebviewProvider,
-                dataManager: chatDataManager,
-                chatService: chatService
-            };
+            this.chatManager = new ChatManager(this.context);
+            this.chatManager.registerViews(this.context);
             
             this.registrations.webviewProviders.push('tsi-chat-view');
             console.log('ActivationManager: Chat webview provider registered successfully');
@@ -214,7 +203,7 @@ class ActivationManager {
     }
 
     /**
-     * Initialize calendar commands
+     * Initialize calendar commands and listeners
      */
     async _initializeCalendarCommands() {
         if (!this.calendarManager) {
@@ -222,7 +211,17 @@ class ActivationManager {
         }
         
         try {
-            this.calendarManager.initializeCommands();
+            this.calendarManager.registerCommands(this.context);
+            this.calendarManager.setupListeners(this.context);
+            this.registrations.commands.push(
+                'tsiheader.showCalendar',
+                'tsiheader.addCalendarDeadline',
+                'tsiheader.addCalendarEvent',
+                'tsiheader.addCalendarSchedule',
+                'tsiheader.exportCalendar',
+                'tsiheader.importCalendar',
+                'tsiheader.importCalendarFromUrl'
+            );
             console.log('ActivationManager: Calendar commands initialized successfully');
         } catch (error) {
             this._logFailure('Calendar commands initialization', error);
@@ -230,42 +229,21 @@ class ActivationManager {
     }
 
     /**
-     * Initialize chat commands
+     * Initialize chat commands and listeners
      */
     async _initializeChatCommands() {
-        if (!this.chatManager || !this.chatManager.webviewProvider) {
+        if (!this.chatManager) {
             return;
         }
         
         try {
-            const openChatCmd = vscode.commands.registerCommand('tsiheader.openChat', async () => {
-                await vscode.commands.executeCommand('workbench.view.extension.tsi-chat-container');
-            });
-            
-            const newConversationCmd = vscode.commands.registerCommand('tsiheader.newChatConversation', async () => {
-                const config = this.chatManager.chatService.getConfig();
-                await this.chatManager.dataManager.createConversation('New Conversation', config.model);
-                if (this.chatManager.webviewProvider.view) {
-                    await this.chatManager.webviewProvider._postState({ reason: 'newConversation' });
-                }
-            });
-            
-            const clearHistoryCmd = vscode.commands.registerCommand('tsiheader.clearChatHistory', async () => {
-                const result = await vscode.window.showWarningMessage(
-                    'Are you sure you want to clear all chat history?',
-                    'Clear', 'Cancel'
-                );
-                if (result === 'Clear') {
-                    await this.chatManager.dataManager.clearAllData();
-                    if (this.chatManager.webviewProvider.view) {
-                        await this.chatManager.webviewProvider._handleInitialize();
-                    }
-                }
-            });
-            
-            this.context.subscriptions.push(openChatCmd, newConversationCmd, clearHistoryCmd);
-            this.registrations.commands.push('tsiheader.openChat', 'tsiheader.newChatConversation', 'tsiheader.clearChatHistory');
-            
+            this.chatManager.registerCommands(this.context);
+            this.chatManager.setupListeners(this.context);
+            this.registrations.commands.push(
+                'tsiheader.openChat',
+                'tsiheader.newChatConversation',
+                'tsiheader.clearChatHistory'
+            );
             console.log('ActivationManager: Chat commands initialized successfully');
         } catch (error) {
             this._logFailure('Chat commands initialization', error);

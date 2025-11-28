@@ -14,10 +14,12 @@ const { spawn } = require('child_process');
 // List of test files to run
 const testFiles = [
     'core/src/activation/activationManager.test.js',
-    'studyMode/timer.test.js',
-    'studyMode/extension.test.js',
+    'calendar/src/calendarManager.test.js',
+    'chat/src/chatManager.test.js',
     'chat/src/chatDataManager.test.js',
     'chat/src/chatService.test.js',
+    'studyMode/timer.test.js',
+    'studyMode/extension.test.js',
     'core/generators/project/projectcreators/htmlProjectCreator.test.js'
 ];
 
