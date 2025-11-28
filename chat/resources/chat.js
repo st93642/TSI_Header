@@ -424,31 +424,17 @@
     }
 
     function renameConversation(conversation) {
-        const currentTitle = conversation.title || 'Conversation';
-        const result = prompt('Rename conversation', currentTitle);
-        if (result === null) {
-            return;
-        }
-        const trimmed = result.trim();
-        if (!trimmed) {
-            showNotification('Conversation title cannot be empty', 'error');
-            return;
-        }
         vscode.postMessage({
             type: 'chat:renameConversation',
-            conversationId: conversation.id,
-            title: trimmed
+            conversationId: conversation.id
         });
     }
 
     function deleteConversation(conversation) {
-        const confirmed = confirm(`Delete "${conversation.title || 'Conversation'}"? This cannot be undone.`);
-        if (!confirmed) {
-            return;
-        }
-        delete state.drafts[conversation.id];
-        persistDrafts();
-        vscode.postMessage({ type: 'chat:deleteConversation', conversationId: conversation.id });
+        vscode.postMessage({
+            type: 'chat:deleteConversation',
+            conversationId: conversation.id
+        });
     }
 
     function handleModelChange(event) {

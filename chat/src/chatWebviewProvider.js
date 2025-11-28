@@ -72,7 +72,7 @@ class ChatWebviewProvider {
                     await this._handleCreateConversation(message.title);
                     break;
                 case 'chat:renameConversation':
-                    await this._handleRenameConversation(message.conversationId, message.title);
+                    await this._handleRenameConversation(message.conversationId);
                     break;
                 case 'chat:deleteConversation':
                     await this._handleDeleteConversation(message.conversationId);
@@ -118,16 +118,46 @@ class ChatWebviewProvider {
         await this._postState({ reason: 'createConversation' });
     }
 
-    async _handleRenameConversation(conversationId, title) {
-        if (!conversationId || !title || !title.trim()) {
+    async _handleRenameConversation(conversationId) {
+        if (!conversationId) {
             return;
         }
-        await this.chatDataManager.renameConversation(conversationId, title.trim());
+
+        const conversation = await this.chatDataManager.getConversation(conversationId);
+        if (!conversation) {
+            return;
+        }
+
+        const currentTitle = conversation.title || 'Conversation';
+        const newTitle = await vscode.window.showInputBox({
+            prompt: 'Rename conversation',
+            value: currentTitle,
+            placeHolder: 'Enter new conversation title'
+        });
+
+        if (!newTitle || !newTitle.trim()) {
+            return;
+        }
+
+        await this.chatDataManager.renameConversation(conversationId, newTitle.trim());
         await this._postState({ reason: 'renameConversation' });
     }
 
     async _handleDeleteConversation(conversationId) {
         if (!conversationId) {
+            return;
+        }
+
+        const conversation = await this.chatDataManager.getConversation(conversationId);
+        const title = conversation ? (conversation.title || 'Conversation') : 'Conversation';
+
+        const result = await vscode.window.showWarningMessage(
+            `Delete "${title}"? This cannot be undone.`,
+            { modal: true },
+            'Delete'
+        );
+
+        if (result !== 'Delete') {
             return;
         }
 
