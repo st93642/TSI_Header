@@ -3,17 +3,31 @@
  * Handles persistence of chat conversations using VS Code global state
  */
 
+const { GlobalStateStore } = require('../../core/src/storage/globalStateStore');
+
 class ChatDataManager {
     constructor(context) {
         this.context = context;
         this.STORAGE_KEY = 'tsi.chat.data';
+        this.store = new GlobalStateStore(context, {
+            namespace: '',
+            version: '1.0.0',
+            defaults: {
+                [this.STORAGE_KEY]: {
+                    conversations: [],
+                    activeConversationId: null,
+                    version: '1.0.0'
+                }
+            },
+            migrations: {}
+        });
     }
 
     /**
      * Get all chat data
      */
     async getData() {
-        const data = this.context.globalState.get(this.STORAGE_KEY, {
+        const data = await this.store.getState(this.STORAGE_KEY, {
             conversations: [],
             activeConversationId: null,
             version: '1.0.0'
@@ -26,7 +40,7 @@ class ChatDataManager {
      * Save chat data
      */
     async saveData(data) {
-        await this.context.globalState.update(this.STORAGE_KEY, data);
+        await this.store.updateState(this.STORAGE_KEY, data);
     }
 
     /**

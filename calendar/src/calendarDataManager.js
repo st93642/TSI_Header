@@ -3,17 +3,32 @@
  * Handles persistence of calendar data using VS Code global state
  */
 
+const { GlobalStateStore } = require('../../core/src/storage/globalStateStore');
+
 class CalendarDataManager {
     constructor(context) {
         this.context = context;
         this.STORAGE_KEY = 'tsi.calendar.data';
+        this.store = new GlobalStateStore(context, {
+            namespace: '',
+            version: '1.0.0',
+            defaults: {
+                [this.STORAGE_KEY]: {
+                    deadlines: [],
+                    customEvents: [],
+                    dailySchedules: [],
+                    version: '1.0.0'
+                }
+            },
+            migrations: {}
+        });
     }
 
     /**
      * Get all calendar data
      */
     async getData() {
-        const data = this.context.globalState.get(this.STORAGE_KEY, {
+        const data = await this.store.getState(this.STORAGE_KEY, {
             deadlines: [],
             customEvents: [],
             dailySchedules: [],
@@ -28,7 +43,7 @@ class CalendarDataManager {
      * Save calendar data
      */
     async saveData(data) {
-        await this.context.globalState.update(this.STORAGE_KEY, data);
+        await this.store.updateState(this.STORAGE_KEY, data);
     }
 
     /**

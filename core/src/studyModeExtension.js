@@ -4,6 +4,7 @@
  */
 
 const { StudyModeTimer } = require('../../studyMode/timer');
+const { GlobalStateStore } = require('./storage/globalStateStore');
 
 class StudyModeExtension {
     constructor(vscode, context) {
@@ -11,6 +12,21 @@ class StudyModeExtension {
         this.context = context;
         this.timer = null;
         this.isEnabled = false;
+        this.store = new GlobalStateStore(context, {
+            namespace: 'studyMode',
+            version: '1.0.0',
+            defaults: {
+                state: {
+                    currentPhase: 'stopped',
+                    currentSession: 0,
+                    isRunning: false,
+                    elapsedTime: 0,
+                    phaseStartTimestamp: null,
+                    sessionLog: [],
+                    lastSaved: new Date().toISOString()
+                }
+            }
+        });
     }
 
     activate() {
@@ -288,9 +304,9 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
         this.context.subscriptions.push(...subscriptions);
     }
 
-    loadPersistedState() {
+    async loadPersistedState() {
         try {
-            const persistedState = this.context.globalState.get('studyMode.state');
+            const persistedState = await this.store.getState('state');
             if (persistedState && this.timer) {
                 // Restore timer state
                 this.timer.currentPhase = persistedState.currentPhase || 'stopped';
@@ -334,7 +350,7 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
         }
     }
 
-    savePersistedState() {
+    async savePersistedState() {
         try {
             if (this.timer) {
                 // Update elapsed time if running before saving
@@ -352,7 +368,7 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
                     lastSaved: new Date().toISOString()
                 };
 
-                this.context.globalState.update('studyMode.state', stateToSave);
+                await this.store.updateState('state', stateToSave);
             }
         } catch (error) {
             console.warn('Failed to save Study Mode state:', error.message);
@@ -421,7 +437,7 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
         });
     }
 
-    performFullReset() {
+    async performFullReset() {
         if (this.timer) {
             // Stop any running timer
             this.timer.stop();
@@ -437,7 +453,7 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
             this.timer.phaseStartTimestamp = null;
 
             // Clear persisted state
-            this.context.globalState.update('studyMode.state', undefined);
+            await this.store.clear('state');
 
             // Update status bar
             this.timer.updateStatusBar();
@@ -450,7 +466,7 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
         }
     }
 
-    resetTodayProgress() {
+    async resetTodayProgress() {
         if (this.timer) {
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -466,7 +482,7 @@ Session Progress: ${this.timer.currentSession}/${config.get('sessionsBeforeLongB
             }
 
             // Save updated state
-            this.savePersistedState();
+            await this.savePersistedState();
 
             this.vscode.window.showInformationMessage(
                 '🔄 Today\'s Progress Reset\n\nToday\'s study sessions have been cleared. Previous progress remains intact.',
