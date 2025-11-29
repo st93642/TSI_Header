@@ -219,7 +219,7 @@ function register(context, deps) {
             const languageId = document.languageId;
             const fileName = document.fileName;
             
-            const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
+            const detectedLanguageId = detectLanguageId(languageId, fileName);
             
             const credentials = getCredentials(vscode);
             

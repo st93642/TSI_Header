@@ -1,5 +1,21 @@
 const { execSync } = require('child_process');
 const path = require('path');
+const { generateClass } = require('../../generators/classGenerators');
+const { generateCodeBase } = require('../../generators/codeBaseGenerators');
+const { hasSubstantialContent, findHeaderEndLine } = require('../../utils/contentAnalyzer');
+
+function detectLanguageId(languageId, fileName) {
+    let detectedLanguageId = languageId;
+    const fileExtension = fileName.split('.').pop().toLowerCase();
+    if (fileExtension === 'erb') {
+        detectedLanguageId = 'erb';
+    } else if (fileExtension === 'vue') {
+        detectedLanguageId = 'vue';
+    } else if (fileExtension === 'ejs') {
+        detectedLanguageId = 'ejs';
+    }
+    return detectedLanguageId;
+}
 
 function getCredentials(vscode) {
     const config = vscode.workspace.getConfiguration('tsiheader');
@@ -50,7 +66,7 @@ function register(context, deps) {
         const languageId = document.languageId;
         const fileName = document.fileName;
 
-        const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
+        const detectedLanguageId = detectLanguageId(languageId, fileName);
 
         const credentials = getCredentials(vscode);
 
@@ -81,7 +97,7 @@ function register(context, deps) {
                 return;
             }
 
-            const classResult = core.codeGenerator.generateClass(detectedLanguageId, className, fileName, env);
+            const classResult = generateClass(detectedLanguageId, className, fileName, extensionPath, cliPath, env);
             if (!classResult.success) {
                 vscode.window.showErrorMessage(classResult.message);
                 return;
@@ -95,7 +111,7 @@ function register(context, deps) {
             }
 
             const currentText = document.getText();
-            const hasSubstantialContentFlag = core.hasSubstantialContent(currentText);
+            const hasSubstantialContentFlag = hasSubstantialContent(currentText);
             
             if (hasSubstantialContentFlag) {
                 const choice = await vscode.window.showWarningMessage(
@@ -115,7 +131,7 @@ function register(context, deps) {
                     editBuilder.insert(position, '\n' + fullContent);
                 });
             } else {
-                const headerEndLine = core.findHeaderEndLine(currentText);
+                const headerEndLine = findHeaderEndLine(currentText);
                 const range = new vscode.Range(
                     new vscode.Position(headerEndLine, 0),
                     new vscode.Position(document.lineCount, 0)
@@ -143,7 +159,7 @@ function register(context, deps) {
         const languageId = document.languageId;
         const fileName = document.fileName;
 
-        const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
+        const detectedLanguageId = detectLanguageId(languageId, fileName);
 
         const credentials = getCredentials(vscode);
 
@@ -165,7 +181,7 @@ function register(context, deps) {
             
             let fullContent = headerResponse.header;
             
-            const codeBaseResult = core.codeGenerator.generateCodeBase(detectedLanguageId, fileName);
+            const codeBaseResult = generateCodeBase(detectedLanguageId, fileName);
             if (!codeBaseResult.success) {
                 vscode.window.showErrorMessage(codeBaseResult.message);
                 return;
