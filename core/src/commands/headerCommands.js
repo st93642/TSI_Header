@@ -321,7 +321,7 @@ function register(context, deps) {
             const languageId = document.languageId;
             const fileName = document.fileName;
             
-            const detectedLanguageId = core.utils.detectLanguageFromExtension(languageId, fileName);
+            const detectedLanguageId = detectLanguageId(languageId, fileName);
             
             const extensionPath = context.extensionPath;
             const cliPath = path.join(extensionPath, 'core', 'lib', 'tsi_header_cli.rb');
